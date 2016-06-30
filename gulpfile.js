@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var args = require('yargs').argv;
 var colors = require('colors');
 var exec = require('child_process').exec;
+var fs = require('fs');
 
 var mappings = {
     'compute': {
@@ -12,23 +13,18 @@ var mappings = {
     },
     'storage': {
         'dir': 'azure-mgmt-storage',
-        'source': 'arm-storage/2015-06-15/swagger/storage.json',
+        'source': 'arm-storage/2016-01-01/swagger/storage.json',
         'package': 'com.microsoft.azure.management.storage',
         'args': '-FT 2'
     },
     'resources': {
         'dir': 'azure-mgmt-resources',
-        'source': 'arm-resources/resources/2015-11-01/swagger/resources.json',
+        'source': 'arm-resources/resources/2016-02-01/swagger/resources.json',
         'package': 'com.microsoft.azure.management.resources'
     },
     'subscriptions': {
         'dir': 'azure-mgmt-resources',
         'source': 'arm-resources/subscriptions/2015-11-01/swagger/subscriptions.json',
-        'package': 'com.microsoft.azure.management.resources'
-    },
-    'authorization': {
-        'dir': 'azure-mgmt-resources',
-        'source': 'arm-resources/authorization/2015-01-01/swagger/authorization.json',
         'package': 'com.microsoft.azure.management.resources'
     },
     'features': {
@@ -47,6 +43,43 @@ var mappings = {
         'source': 'arm-web/2015-08-01/swagger/service.json',
         'package': 'com.microsoft.azure.management.website',
         'args': '-FT 1'
+    },
+    'datalake.store.filesystem': {
+        'dir': 'azure-mgmt-datalake-store',
+        'source': 'arm-datalake-store/filesystem/2015-10-01-preview/swagger/filesystem.json',
+        'package': 'com.microsoft.azure.management.datalake.store',
+        'fluent': false
+    },
+    'datalake.store.account': {
+        'dir': 'azure-mgmt-datalake-store',
+        'source': 'arm-datalake-store/account/2015-10-01-preview/swagger/account.json',
+        'package': 'com.microsoft.azure.management.datalake.store',
+        'fluent': false
+    },
+    'datalake.analytics.account': {
+        'dir': 'azure-mgmt-datalake-analytics',
+        'source': 'arm-datalake-analytics/account/2015-10-01-preview/swagger/account.json',
+        'package': 'com.microsoft.azure.management.datalake.analytics',
+        'fluent': false
+    },
+    'datalake.analytics.job': {
+        'dir': 'azure-mgmt-datalake-analytics',
+        'source': 'arm-datalake-analytics/job/2016-03-20-preview/swagger/job.json',
+        'package': 'com.microsoft.azure.management.datalake.analytics',
+        'fluent': false
+    },
+    'datalake.analytics.catalog': {
+        'dir': 'azure-mgmt-datalake-analytics',
+        'source': 'arm-datalake-analytics/catalog/2015-10-01-preview/swagger/catalog.json',
+        'package': 'com.microsoft.azure.management.datalake.analytics',
+        'fluent': false
+    },
+    'batchService': {
+        'dir': 'azure-batch',
+        'source': 'batch/2016-02-01.3.0/swagger/BatchService.json',
+        'package': 'com.microsoft.azure.batch.protocol',
+        'fluent': false,
+        'args': '-FT 1'
     }
 };
 
@@ -63,7 +96,7 @@ gulp.task('default', function() {
 
 var specRoot = args['spec-root'] || "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master";
 var projects = args['projects'];
-var autoRestVersion = '0.13.0-Nightly20151029'; // default
+var autoRestVersion = '0.16.0-Nightly20160413'; // default
 if (args['autorest'] !== undefined) {
     autoRestVersion = args['autorest'];
 }
@@ -80,6 +113,9 @@ gulp.task('codegen', function(cb) {
         });
     } else {
         autoRestExe = autoRestVersion + "/binaries/net45/AutoRest.exe";
+        if (process.platform !== 'win32') {
+            autoRestExe = "mono " + autoRestExe;
+        }
         handleInput(projects, cb);
     }
 
@@ -103,9 +139,15 @@ var handleInput = function(projects, cb) {
 }
 
 var codegen = function(project, cb) {
+    var outputDir = mappings[project].dir + '/src/main/java/' + mappings[project].package.replace(/\./g, '/');
+    deleteFolderRecursive(outputDir);
     console.log('Generating "' + project + '" from spec file ' + specRoot + '/' + mappings[project].source);
-    cmd = autoRestExe + ' -Modeler Swagger -CodeGenerator Azure.Java -Namespace ' + mappings[project].package + ' -Input ' + specRoot + '/' + mappings[project].source + 
-            ' -outputDirectory ' + mappings[project].dir + '/src/main/java/' + mappings[project].package.replace(/\./g, '/') + ' -Header MICROSOFT_MIT';
+    var generator = 'Azure.Java.Fluent';
+    if (mappings[project].fluent !== null && mappings[project].fluent === false) {
+        generator = 'Azure.Java';
+    }
+    cmd = autoRestExe + ' -Modeler Swagger -CodeGenerator ' + generator + ' -Namespace ' + mappings[project].package + ' -Input ' + specRoot + '/' + mappings[project].source + 
+            ' -outputDirectory ' + mappings[project].dir + '/src/main/java/' + mappings[project].package.replace(/\./g, '/') + ' -Header MICROSOFT_MIT_NO_CODEGEN';
     if (mappings[project].args !== undefined) {
         cmd = cmd + ' ' + mappings[project].args;
     }
@@ -114,4 +156,21 @@ var codegen = function(project, cb) {
         console.log(stdout);
         console.error(stderr);
     });
+};
+
+var deleteFolderRecursive = function(path) {
+    var header = "Code generated by Microsoft (R) AutoRest Code Generator";
+    if(fs.existsSync(path)) {
+        fs.readdirSync(path).forEach(function(file, index) {
+            var curPath = path + "/" + file;
+            if(fs.lstatSync(curPath).isDirectory()) { // recurse
+                deleteFolderRecursive(curPath);
+            } else { // delete file
+                var content = fs.readFileSync(curPath).toString('utf8');
+                if (content.indexOf(header) > -1) {
+                    fs.unlinkSync(curPath);
+                }
+            }
+        });
+    }
 };

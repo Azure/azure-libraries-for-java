@@ -6,18 +6,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.microsoft.azure</groupId>
-  <artifactId>azure-bom</artifactId>
-  <version>1.0.0-beta1</version>
+  <version>1.0.0-beta2</version>
+  <artifactId>azure-parent</artifactId>
   <packaging>pom</packaging>
 
-  <name>Microsoft Azure SDK</name>
-  <description>This package contains Microsoft Azure SDK for Java.</description>
+  <name>Microsoft Azure SDK Parent</name>
+  <description>This package contains the parent module of Microsoft Azure SDK.</description>
   <url>https://github.com/Azure/azure-sdk-for-java</url>
 
   <licenses>
     <license>
-      <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <name>The MIT License (MIT)</name>
+      <url>http://opensource.org/licenses/MIT</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -25,11 +25,13 @@
   <scm>
     <url>scm:git:https://github.com/Azure/azure-sdk-for-java</url>
     <connection>scm:git:git@github.com:Azure/azure-sdk-for-java.git</connection>
-    <tag>v1.0.0-beta1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>
-    <projectVersion>1.0.0-SNAPSHOT</projectVersion>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <legal><![CDATA[[INFO] Any downloads listed may be third party software.  Microsoft grants you no rights for third party software.]]></legal>
+    <testMode>playback</testMode>
   </properties>
 
   <developers>
@@ -39,35 +41,208 @@
     </developer>
   </developers>
 
+  <repositories>
+    <repository>
+      <id>ossrh</id>
+      <name>Sonatype Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <layout>default</layout>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+
   <distributionManagement>
     <snapshotRepository>
-      <id>adx-snapshots</id>
-      <name>Azure ADX Snapshots</name>
-      <url>ftp://waws-prod-bay-005.ftp.azurewebsites.windows.net/site/wwwroot/</url>
+      <id>ossrh</id>
+      <name>Maven Central Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
       <uniqueVersion>true</uniqueVersion>
       <layout>default</layout>
     </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <name>Maven Central</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
   </distributionManagement>
 
-  <modules>
-    <module>azure</module>
-  </modules>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>2.6.3</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.6.3</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>1.10</version>
+      </dependency>
+      <!-- Test dependencies -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <build>
-  	<pluginManagement>
-  		<plugins>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.17</version>
+        <dependencies>
+          <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>autorest-build-tools</artifactId>
+            <version>1.0.0-beta2</version>
+          </dependency>
+          <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>6.18</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <configLocation>checkstyle.xml</configLocation>
+          <propertyExpansion>samedir=runtimes/build-tools/src/main/resources</propertyExpansion>
+          <suppressionsLocation>suppressions.xml</suppressionsLocation>
+          <consoleOutput>true</consoleOutput>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+          <showWarnings>true</showWarnings>
+          <showDeprecation>true</showDeprecation>
+          <compilerArgument>-Xlint:unchecked</compilerArgument>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.8</version>
+        <configuration>
+          <excludePackageNames>*.implementation.*;*.utils.*;com.microsoft.schemas._2003._10.serialization;*.blob.core.storage</excludePackageNames>
+          <bottom><![CDATA[<code>/**
+<br />* Copyright (c) Microsoft Corporation. All rights reserved.
+<br />* Licensed under the MIT License. See License.txt in the project root for
+<br />* license information.
+<br />*/</code>]]></bottom>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.4.3</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.18.1</version>
+          <configuration>
+            <includes>
+              <include>**/Test*.java</include>
+              <include>**/*Test.java</include>
+              <include>**/*Tests.java</include>
+              <include>**/*TestCase.java</include>
+            </includes>
+            <environmentVariables>
+              <test.mode>${testMode}</test.mode>
+            </environmentVariables>
+          </configuration>
+        </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
-          <version>2.5.3</version>
+          <version>2.5.2</version>
         </plugin>
-  		</plugins>
-  	</pluginManagement>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ftp</artifactId>
-        <version>2.10</version>
-      </extension>
-    </extensions>
+      </plugins>
+    </pluginManagement>
   </build>
+  <profiles>
+    <profile>
+      <id>run-shade-plugin</id>
+      <activation>
+        <property><name>runShadePlugin</name></property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>2.4.1</version>
+            <configuration>
+            </configuration>
+            <executions>
+              <execution>
+                <id>shade-plugin</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>shade</goal>
+                </goals>
+                <configuration>
+                  <filters>
+                    <filter>
+                      <artifact>*:*</artifact>
+                      <excludes>
+                        <exclude>META-INF/*.SF</exclude>
+                        <exclude>META-INF/*.DSA</exclude>
+                        <exclude>META-INF/*.RSA</exclude>
+                      </excludes>
+                    </filter>
+                  </filters>
+                  <transformers>
+                    <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                  </transformers>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  <modules>
+    <module>./runtimes</module>
+    <module>./azure</module>
+    <module>./azure-batch</module>
+    <module>./azure-mgmt-compute</module>
+    <module>./azure-mgmt-resources</module>
+    <module>./azure-mgmt-storage</module>
+    <module>./azure-mgmt-network</module>
+    <module>./azure-mgmt-website</module>
+    <module>./azure-mgmt-datalake-analytics</module>
+    <module>./azure-mgmt-datalake-store</module>
+    <module>./azure-mgmt-datalake-store-uploader</module>
+    <module>./azure-samples</module>
+  </modules>
 </project>

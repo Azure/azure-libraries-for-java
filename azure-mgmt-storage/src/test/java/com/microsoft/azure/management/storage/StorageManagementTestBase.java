@@ -1,25 +1,42 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+
 package com.microsoft.azure.management.storage;
 
-import com.microsoft.azure.management.resources.ResourceManagementClient;
-import com.microsoft.azure.management.resources.ResourceManagementClientImpl;
+import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
+import com.microsoft.azure.management.resources.implementation.ResourceManager;
+import com.microsoft.azure.management.storage.implementation.StorageManager;
+import com.microsoft.azure.RestClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
+/**
+ * The base for storage manager tests.
+ */
 public abstract class StorageManagementTestBase {
-    protected static ResourceManagementClient resourceManagementClient;
-    protected static StorageManagementClient storageManagementClient;
+    protected static ResourceManager resourceManager;
+    protected static StorageManager storageManager;
 
-    public static void createClients() {
+    protected static void createClients() {
         ApplicationTokenCredentials credentials = new ApplicationTokenCredentials(
-                System.getenv("arm.clientid"),
-                System.getenv("arm.domain"),
-                System.getenv("arm.secret"),
+                System.getenv("client-id"),
+                System.getenv("domain"),
+                System.getenv("secret"),
                 null);
-        resourceManagementClient = new ResourceManagementClientImpl(credentials);
-        resourceManagementClient.setSubscriptionId(System.getenv("arm.subscriptionid"));
-        resourceManagementClient.setLogLevel(HttpLoggingInterceptor.Level.BODY);
-        storageManagementClient = new StorageManagementClientImpl(credentials);
-        storageManagementClient.setSubscriptionId(System.getenv("arm.subscriptionid"));
-        storageManagementClient.setLogLevel(HttpLoggingInterceptor.Level.BODY);
+
+        RestClient restClient = AzureEnvironment.AZURE.newRestClientBuilder()
+                .withCredentials(credentials)
+                .withLogLevel(HttpLoggingInterceptor.Level.BODY)
+                .build();
+
+        resourceManager = ResourceManager
+                .authenticate(restClient)
+                .withSubscription(System.getenv("subscription-id"));
+
+        storageManager = StorageManager
+                .authenticate(restClient, System.getenv("subscription-id"));
     }
 }

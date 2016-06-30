@@ -7,9 +7,9 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.microsoft.azure</groupId>
-    <artifactId>azure</artifactId>
-    <version>1.0.0-beta1</version>
-    <relativePath>../azure/pom.xml</relativePath>
+    <artifactId>azure-parent</artifactId>
+    <version>1.0.0-beta2</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>azure-mgmt-compute</artifactId>
@@ -21,8 +21,8 @@
 
   <licenses>
     <license>
-      <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <name>The MIT License (MIT)</name>
+      <url>http://opensource.org/licenses/MIT</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -30,7 +30,7 @@
   <scm>
     <url>scm:git:https://github.com/Azure/azure-sdk-for-java</url>
     <connection>scm:git:git@github.com:Azure/azure-sdk-for-java.git</connection>
-    <tag>v1.0.0-beta1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>
@@ -49,24 +49,22 @@
     <dependency>
       <groupId>com.microsoft.azure</groupId>
       <artifactId>azure-client-runtime</artifactId>
+      <version>1.0.0-beta2</version>
     </dependency>
     <dependency>
-      <groupId>${project.groupId}</groupId>
+      <groupId>com.microsoft.azure</groupId>
       <artifactId>azure-mgmt-resources</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
+      <version>1.0.0-beta2</version>
     </dependency>
     <dependency>
-      <groupId>${project.groupId}</groupId>
+      <groupId>com.microsoft.azure</groupId>
       <artifactId>azure-mgmt-storage</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
+      <version>1.0.0-beta2</version>
     </dependency>
     <dependency>
-      <groupId>${project.groupId}</groupId>
+      <groupId>com.microsoft.azure</groupId>
       <artifactId>azure-mgmt-network</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
+      <version>1.0.0-beta2</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -76,11 +74,24 @@
     <dependency>
       <groupId>com.microsoft.azure</groupId>
       <artifactId>azure-client-authentication</artifactId>
+      <version>1.0.0-beta1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -89,6 +100,10 @@
           <source>1.7</source>
           <target>1.7</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
       </plugin>
 
       <plugin>
@@ -104,7 +119,6 @@
 <br />*/</code>]]></bottom>
         </configuration>
       </plugin>
-
     </plugins>
   </build>
 </project>

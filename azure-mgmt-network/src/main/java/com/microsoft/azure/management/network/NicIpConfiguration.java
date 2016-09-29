@@ -1,69 +1,49 @@
 package com.microsoft.azure.management.network;
 
-import com.microsoft.azure.CloudException;
+import java.util.List;
+
+import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.network.implementation.NetworkInterfaceIPConfigurationInner;
+import com.microsoft.azure.management.network.model.HasPrivateIpAddress;
+import com.microsoft.azure.management.network.model.HasPublicIpAddress;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasSubnet;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 import com.microsoft.azure.management.resources.fluentcore.model.Wrapper;
 
-import java.io.IOException;
-
 /**
  * An IP configuration in a network interface.
  */
+@Fluent()
 public interface NicIpConfiguration extends
-        Wrapper<NetworkInterfaceIPConfiguration>,
-        ChildResource {
+        Wrapper<NetworkInterfaceIPConfigurationInner>,
+        ChildResource<NetworkInterface>,
+        HasPrivateIpAddress,
+        HasPublicIpAddress,
+        HasSubnet {
     // Getters
 
     /**
-     * Gets the resource id of the public IP address associated with this IP configuration.
-     *
-     * @return public IP resource ID or null if there is no public IP associated
+     * @return the virtual network associated with this IP configuration
      */
-    String publicIpAddressId();
+    Network getNetwork();
 
     /**
-     * Gets the public IP address associated with this IP configuration.
-     * <p>
-     * This method makes a rest API call to fetch the public IP.
-     *
-     * @return the public IP associated with this IP configuration or null if there is no public IP associated
-     * @throws CloudException exceptions thrown from the cloud.
-     * @throws IOException exceptions thrown from serialization/deserialization.
+     * @return private IP address version
      */
-    PublicIpAddress publicIpAddress() throws CloudException, IOException;
+    IPVersion privateIpAddressVersion();
 
     /**
-     * @return the resource id of the virtual network subnet associated with this IP configuration.
+     * @return the load balancer backends associated with this network interface IP configuration
      */
-    String subnetId();
+    List<Backend> listAssociatedLoadBalancerBackends();
 
     /**
-     * Gets the virtual network associated with this IP configuration.
-     * <p>
-     * This method makes a rest API call to fetch the public IP.
-     *
-     * @return the virtual network associated with this this IP configuration.
-     * @throws CloudException exceptions thrown from the cloud.
-     * @throws IOException exceptions thrown from serialization/deserialization.
+     * @return the load balancer inbound NAT rules associated with this network interface IP configuration
      */
-    Network network() throws CloudException, IOException;
-
-    /**
-     * Gets the private IP address allocated to this IP configuration.
-     * <p>
-     * The private IP will be within the virtual network subnet of this IP configuration.
-     *
-     * @return the private IP addresses
-     */
-    String privateIp();
-
-    /**
-     * @return the private IP allocation method (Dynamic, Static)
-     */
-    String privateIpAllocationMethod();
+    List<InboundNatRule> listAssociatedLoadBalancerInboundNatRules();
 
     // Setters (fluent)
 
@@ -147,24 +127,13 @@ public interface NicIpConfiguration extends
          *
          * @param <ParentT> the return type of the final {@link Attachable#attach()}
          */
-        interface WithPrivateIp<ParentT> {
+        interface WithPrivateIp<ParentT> extends HasPrivateIpAddress.DefinitionStages.WithPrivateIpAddress<WithAttach<ParentT>> {
             /**
-             * Enables dynamic private IP address allocation within the specified existing virtual network
-             * subnet for the network interface IP configuration.
-             *
-             * @return the next stage of network interface IP configuration definition
+             * Specifies the IP version for the private IP address.
+             * @param ipVersion an IP version
+             * @return the next stage of the definition
              */
-            WithAttach<ParentT> withPrivateIpAddressDynamic();
-
-            /**
-             * Assigns the specified static private IP address within the specified existing virtual network
-             * subnet to the network interface IP configuration.
-             *
-             * @param staticPrivateIpAddress the static IP address within the specified subnet to assign to
-             *                               the network interface
-             * @return the next stage of network interface IP configuration definition
-             */
-            WithAttach<ParentT> withPrivateIpAddressStatic(String staticPrivateIpAddress);
+            WithAttach<ParentT> withPrivateIpVersion(IPVersion ipVersion);
         }
 
         /**
@@ -188,44 +157,31 @@ public interface NicIpConfiguration extends
          *
          * @param <ParentT> the return type of the final {@link Attachable#attach()}
          */
-        interface WithPublicIpAddress<ParentT> {
+        interface WithPublicIpAddress<ParentT> extends HasPublicIpAddress.DefinitionStages.WithPublicIpAddress<WithAttach<ParentT>> {
+        }
+
+        /**
+         * The stage of the network interface IP configuration definition allowing to specify the load balancer
+         * to associate this IP configuration with.
+         *
+         * @param <ParentT> the return type of the final {@link Attachable#attach()}
+         */
+        interface WithLoadBalancer<ParentT> {
             /**
-             * Create a new public IP address to associate with the network interface IP configuration,
-             * based on the provided definition.
-             *
-             * @param creatable a creatable definition for a new public IP
-             * @return the next stage of the network interface IP configuration definition
+             * Specifies the load balancer backend to associate this IP configuration with.
+             * @param loadBalancer an existing load balancer
+             * @param backendName the name of an existing backend on that load balancer
+             * @return the next stage of the update
              */
-            WithAttach<ParentT> withNewPublicIpAddress(Creatable<PublicIpAddress> creatable);
+            WithAttach<ParentT> withExistingLoadBalancerBackend(LoadBalancer loadBalancer, String backendName);
 
             /**
-             * Creates a new public IP address in the same region and group as the resource and associate it
-             * with with the network interface IP configuration.
-             * <p>
-             * The internal name and DNS label for the public IP address will be derived from the network interface name.
-             *
-             * @return the next stage of the network interface IP configuration definition
+             * Specifies the load balancer inbound NAT rule to associate this IP configuration with.
+             * @param loadBalancer an existing load balancer
+             * @param inboundNatRuleName the name of an existing inbound NAT rule on the selected load balancer
+             * @return the next stage of the update
              */
-            WithAttach<ParentT> withNewPublicIpAddress();
-
-            /**
-             * Creates a new public IP address in the same region and group as the resource, with the specified DNS label
-             * and associate it with the network interface IP configuration.
-             * <p>
-             * The internal name for the public IP address will be derived from the DNS label.
-             *
-             * @param leafDnsLabel the leaf domain label
-             * @return tthe next stage of the IP configuration definition
-             */
-            WithAttach<ParentT> withNewPublicIpAddress(String leafDnsLabel);
-
-            /**
-             * Associates an existing public IP address with the network interface IP configuration.
-             *
-             * @param publicIpAddress an existing public IP address
-             * @return the next stage of the IP configuration definition
-             */
-            WithAttach<ParentT> withExistingPublicIpAddress(PublicIpAddress publicIpAddress);
+            WithAttach<ParentT> withExistingLoadBalancerInboundNatRule(LoadBalancer loadBalancer, String inboundNatRuleName);
         }
 
         /**
@@ -239,7 +195,8 @@ public interface NicIpConfiguration extends
         interface WithAttach<ParentT>
                 extends
                 Attachable.InDefinition<ParentT>,
-                WithPublicIpAddress<ParentT> {
+                WithPublicIpAddress<ParentT>,
+                WithLoadBalancer<ParentT> {
         }
     }
 
@@ -322,24 +279,13 @@ public interface NicIpConfiguration extends
          *
          * @param <ParentT> the return type of the final {@link Attachable#attach()}
          */
-        interface WithPrivateIp<ParentT> {
+        interface WithPrivateIp<ParentT> extends HasPrivateIpAddress.UpdateDefinitionStages.WithPrivateIpAddress<WithAttach<ParentT>> {
             /**
-             * Enables dynamic private IP address allocation within the specified existing virtual network
-             * subnet for the network interface IP configuration.
-             *
-             * @return the next stage of network interface IP configuration definition
+             * Specifies the IP version for the private IP address.
+             * @param ipVersion an IP version
+             * @return the next stage of the definition
              */
-            WithAttach<ParentT> withPrivateIpAddressDynamic();
-
-            /**
-             * Assigns the specified static private IP address within the specified existing virtual network
-             * subnet to the network interface IP configuration.
-             *
-             * @param staticPrivateIpAddress the static IP address within the specified subnet to assign to
-             *                               the network interface
-             * @return the next stage of network interface IP configuration definition
-             */
-            WithAttach<ParentT> withPrivateIpAddressStatic(String staticPrivateIpAddress);
+            WithAttach<ParentT> withPrivateIpVersion(IPVersion ipVersion);
         }
 
         /**
@@ -363,44 +309,31 @@ public interface NicIpConfiguration extends
          *
          * @param <ParentT> the return type of the final {@link Attachable#attach()}
          */
-        interface WithPublicIpAddress<ParentT> {
+        interface WithPublicIpAddress<ParentT> extends HasPublicIpAddress.UpdateDefinitionStages.WithPublicIpAddress<WithAttach<ParentT>> {
+        }
+
+        /**
+         * The stage of the network interface IP configuration definition allowing to specify the load balancer
+         * to associate this IP configuration with.
+         *
+         * @param <ParentT> the return type of the final {@link Attachable#attach()}
+         */
+        interface WithLoadBalancer<ParentT> {
             /**
-             * Create a new public IP address to associate with the network interface IP configuration,
-             * based on the provided definition.
-             *
-             * @param creatable a creatable definition for a new public IP
-             * @return the next stage of the network interface IP configuration definition
+             * Specifies the load balancer to associate this IP configuration with.
+             * @param loadBalancer an existing load balancer
+             * @param backendName the name of an existing backend on that load balancer
+             * @return the next stage of the update
              */
-            WithAttach<ParentT> withNewPublicIpAddress(Creatable<PublicIpAddress> creatable);
+            WithAttach<ParentT> withExistingLoadBalancerBackend(LoadBalancer loadBalancer, String backendName);
 
             /**
-             * Creates a new public IP address in the same region and group as the resource and associate it
-             * with with the network interface IP configuration.
-             * <p>
-             * The internal name and DNS label for the public IP address will be derived from the network interface name.
-             *
-             * @return the next stage of the network interface IP configuration definition
+             * Specifies the load balancer inbound NAT rule to associate this IP configuration with.
+             * @param loadBalancer an existing load balancer
+             * @param inboundNatRuleName the name of an existing inbound NAT rule on the selected load balancer
+             * @return the next stage of the update
              */
-            WithAttach<ParentT> withNewPublicIpAddress();
-
-            /**
-             * Creates a new public IP address in the same region and group as the resource, with the specified DNS label
-             * and associate it with the network interface IP configuration.
-             * <p>
-             * The internal name for the public IP address will be derived from the DNS label.
-             *
-             * @param leafDnsLabel the leaf domain label
-             * @return tthe next stage of the IP configuration definition
-             */
-            WithAttach<ParentT> withNewPublicIpAddress(String leafDnsLabel);
-
-            /**
-             * Associates an existing public IP address with the network interface IP configuration.
-             *
-             * @param publicIpAddress an existing public IP address
-             * @return the next stage of the IP configuration definition
-             */
-            WithAttach<ParentT> withExistingPublicIpAddress(PublicIpAddress publicIpAddress);
+            WithAttach<ParentT> withExistingLoadBalancerInboundNatRule(LoadBalancer loadBalancer, String inboundNatRuleName);
         }
 
         /**
@@ -425,7 +358,8 @@ public interface NicIpConfiguration extends
         Settable<NetworkInterface.Update>,
         UpdateStages.WithSubnet,
         UpdateStages.WithPrivateIp,
-        UpdateStages.WithPublicIpAddress {
+        UpdateStages.WithPublicIpAddress,
+        UpdateStages.WithLoadBalancer {
     }
 
     /**
@@ -448,71 +382,53 @@ public interface NicIpConfiguration extends
         /**
          * The stage of the network interface IP configuration update allowing to specify private IP.
          */
-        interface WithPrivateIp {
+        interface WithPrivateIp extends HasPrivateIpAddress.UpdateStages.WithPrivateIpAddress<Update> {
             /**
-             * Enables dynamic private IP address allocation within the specified existing virtual network
-             * subnet to the network interface IP configuration.
-             *
-             * @return the next stage of the network interface IP configuration update
+             * Specifies the IP version for the private IP address.
+             * @param ipVersion an IP version
+             * @return the next stage of the update
              */
-            Update withPrivateIpAddressDynamic();
-
-            /**
-             * Assigns the specified static private IP address within the specified existing virtual network
-             * subnet to the network interface IP configuration.
-             *
-             * @param staticPrivateIpAddress the static IP address within the specified subnet to assign to
-             *                               the  IP configuration
-             * @return the next stage of the network interface IP configuration update
-             */
-            Update withPrivateIpAddressStatic(String staticPrivateIpAddress);
+            Update withPrivateIpVersion(IPVersion ipVersion);
         }
 
         /**
          * The stage of the network interface IP configuration update allowing to specify public IP address.
          */
-        interface WithPublicIpAddress {
+        interface WithPublicIpAddress extends HasPublicIpAddress.UpdateStages.WithPublicIpAddress<Update> {
+        }
+
+        /**
+         * The stage of the network interface's IP configuration allowing to specify the load balancer
+         * to associate this IP configuration with.
+         */
+        interface WithLoadBalancer {
             /**
-             * Create a new public IP address to associate the network interface IP configuration with,
-             * based on the provided definition.
-             * <p>
-             * If there is public IP associated with the IP configuration then that will be removed in
-             * favour of this.
-             *
-             * @param creatable a creatable definition for a new public IP
-             * @return the next stage of the network interface IP configuration update
+             * Specifies the load balancer to associate this IP configuration with.
+             * @param loadBalancer an existing load balancer
+             * @param backendName the name of an existing backend on that load balancer
+             * @return the next stage of the update
              */
-            Update withNewPublicIpAddress(Creatable<PublicIpAddress> creatable);
+            Update withExistingLoadBalancerBackend(LoadBalancer loadBalancer, String backendName);
 
             /**
-             * Creates a new public IP address in the same region and group as the resource and associate it
-             * with the IP configuration.
-             * <p>
-             * The internal name and DNS label for the public IP address will be derived from the network interface
-             * name, if there is an existing public IP association then that will be removed in favour of this.
-             *
-             * @return the next stage of the network interface IP configuration update
+             * Specifies the load balancer inbound NAT rule to associate this IP configuration with.
+             * @param loadBalancer an existing load balancer
+             * @param inboundNatRuleName the name of an existing inbound NAT rule on the selected load balancer
+             * @return the next stage of the update
              */
-            Update withNewPublicIpAddress();
+            Update withExistingLoadBalancerInboundNatRule(LoadBalancer loadBalancer, String inboundNatRuleName);
 
             /**
-             * Creates a new public IP address in the same region and group as the resource, with the specified DNS
-             * label and associate it with the IP configuration.
-             * <p>
-             * The internal name for the public IP address will be derived from the DNS label, if there is an existing
-             * public IP association then that will be removed in favour of this
-             *
-             * @param leafDnsLabel the leaf domain label
-             * @return the next stage of the network interface IP configuration update
+             * Removes all the existing associations with load balancer backends.
+             * @return the next stage of the update
              */
-            Update withNewPublicIpAddress(String leafDnsLabel);
+            Update withoutLoadBalancerBackends();
 
             /**
-             * Specifies that remove any public IP associated with the IP configuration.
-             *
-             * @return the next stage of the network interface IP configuration update
+             * Removes all the existing associations with load balancer inbound NAT rules.
+             * @return the next stage of the update
              */
-            Update withoutPublicIpAddress();
+            Update withoutLoadBalancerInboundNatRules();
         }
     }
 }

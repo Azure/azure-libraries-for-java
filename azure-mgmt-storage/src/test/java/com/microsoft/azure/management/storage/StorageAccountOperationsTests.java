@@ -18,8 +18,8 @@ import java.util.List;
 import static org.junit.Assert.fail;
 
 public class StorageAccountOperationsTests extends StorageManagementTestBase {
-    private static final String RG_NAME = "javacsmrg9";
-    private static final String SA_NAME = "javacsmsa4";
+    private static final String RG_NAME = "javacsmrg385";
+    private static final String SA_NAME = "javacsmsa385";
     private static ResourceGroup resourceGroup;
 
     @BeforeClass
@@ -43,7 +43,8 @@ public class StorageAccountOperationsTests extends StorageManagementTestBase {
                 .define(SA_NAME)
                 .withRegion(Region.ASIA_EAST)
                 .withNewResourceGroup(RG_NAME)
-                .create();
+                .createAsync()
+                .toBlocking().last();
         Assert.assertEquals(RG_NAME, storageAccount.resourceGroupName());
         Assert.assertEquals(SkuName.STANDARD_GRS, storageAccount.sku().name());
         // List
@@ -60,7 +61,7 @@ public class StorageAccountOperationsTests extends StorageManagementTestBase {
         Assert.assertNotNull(storageAccount);
 
         // Get Keys
-        List<StorageAccountKey> keys = storageAccount.keys();
+        List<StorageAccountKey> keys = storageAccount.getKeys();
         Assert.assertTrue(keys.size() > 0);
 
         // Regen key

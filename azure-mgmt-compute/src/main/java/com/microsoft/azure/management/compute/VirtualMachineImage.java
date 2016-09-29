@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineImageInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.Wrapper;
@@ -14,6 +15,7 @@ import java.util.List;
 /**
  * An immutable client-side representation of an Azure virtual machine image.
  */
+@Fluent
 public interface VirtualMachineImage extends
         Wrapper<VirtualMachineImageInner> {
     /**
@@ -42,22 +44,22 @@ public interface VirtualMachineImage extends
     String version();
 
     /**
-     * @return the image reference representing publisher, offer, sku and version of the virtual machine image
+     * @return the image reference representing the publisher, offer, SKU and version of the virtual machine image
      */
     ImageReference imageReference();
 
     /**
-     * @return the purchase plan for the virtual machine image.
+     * @return the purchase plan for the virtual machine image
      */
     PurchasePlan plan();
 
     /**
-     * @return description of the OS Disk image in the virtual machine image.
+     * @return OS disk image in the virtual machine image
      */
     OSDiskImage osDiskImage();
 
     /**
-     * @return description of the Data disk images in the virtual machine.
+     * @return data disk images in the virtual machine image
      */
     List<DataDiskImage> dataDiskImages();
 }

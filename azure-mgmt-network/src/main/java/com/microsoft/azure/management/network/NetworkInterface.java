@@ -6,22 +6,23 @@
 
 package com.microsoft.azure.management.network;
 
-import com.microsoft.azure.CloudException;
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.network.implementation.NetworkInterfaceInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Wrapper;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.microsoft.azure.management.resources.fluentcore.model.Wrapper;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Network interface.
  */
+@Fluent()
 public interface NetworkInterface extends
         GroupableResource,
         Refreshable<NetworkInterface>,
@@ -32,11 +33,6 @@ public interface NetworkInterface extends
      * @return <tt>true</tt> if IP forwarding is enabled in this network interface
      */
     boolean isIpForwardingEnabled();
-
-    /**
-     * @return <tt>true</tt> if this is primary network interface in a virtual machine
-     */
-    boolean isPrimary();
 
     /**
      * @return the MAC Address of the network interface
@@ -59,36 +55,19 @@ public interface NetworkInterface extends
     String internalFqdn();
 
     /**
+     * @return the internal domain name suffix
+     */
+    String internalDomainNameSuffix();
+
+    /**
      * @return IP addresses of this network interface's DNS servers
      */
     List<String> dnsServers();
 
     /**
-     * Gets the public IP address associated with this network interface.
-     * <p>
-     * This method makes a rest API call to fetch the public IP.
-     *
-     * @return the public IP associated with this network interface
-     * @throws CloudException exceptions thrown from the cloud.
-     * @throws IOException exceptions thrown from serialization/deserialization.
+     * @return applied DNS servers
      */
-    PublicIpAddress primaryPublicIpAddress() throws CloudException, IOException;
-
-    /**
-     * @return the resource id of the virtual network subnet associated with this network interface.
-     */
-    String primarySubnetId();
-
-    /**
-     * Gets the virtual network associated this network interface's primary IP configuration.
-     * <p>
-     * This method makes a rest API call to fetch the virtual network.
-     *
-     * @return the virtual network associated with this network interface.
-     * @throws CloudException exceptions thrown from the cloud.
-     * @throws IOException exceptions thrown from serialization/deserialization.
-     */
-    Network primaryNetwork() throws CloudException, IOException;
+    List<String> appliedDnsServers();
 
     /**
      * Gets the private IP address allocated to this network interface's primary IP configuration.
@@ -103,12 +82,17 @@ public interface NetworkInterface extends
      * @return the private IP allocation method (Dynamic, Static) of this network interface's
      * primary IP configuration.
      */
-    String primaryPrivateIpAllocationMethod();
+    IPAllocationMethod primaryPrivateIpAllocationMethod();
 
     /**
-     * @return the IP configurations of this network interface
+     * @return the IP configurations of this network interface, indexed by their names
      */
-    List<NicIpConfiguration> ipConfigurations();
+    Map<String, NicIpConfiguration> ipConfigurations();
+
+    /**
+     * @return the primary IP configuration of this network interface
+     */
+    NicIpConfiguration primaryIpConfiguration();
 
     /**
      * @return the network security group resource id or null if there is no network security group
@@ -122,10 +106,13 @@ public interface NetworkInterface extends
      * This method makes a rest API call to fetch the Network Security Group resource.
      *
      * @return the network security group associated with this network interface.
-     * @throws CloudException exceptions thrown from the cloud.
-     * @throws IOException exceptions thrown from serialization/deserialization.
      */
-    NetworkSecurityGroup networkSecurityGroup() throws CloudException, IOException;
+    NetworkSecurityGroup getNetworkSecurityGroup();
+
+    /**
+     * @return the resource ID of the associated virtual machine, or null if none.
+     */
+    String virtualMachineId();
 
     // Setters (fluent)
 
@@ -145,6 +132,27 @@ public interface NetworkInterface extends
      * Grouping of network interface definition stages.
      */
     interface DefinitionStages {
+        /**
+         * The stage of the network interface definition allowing to associate it with a load balancer.
+         */
+        interface WithLoadBalancer {
+            /**
+             * Associates the network interface's primary IP configuration with a backend of an existing load balancer.
+             * @param loadBalancer an existing load balancer
+             * @param backendName the name of an existing backend on that load balancer
+             * @return the next stage of the definition
+             */
+            WithCreate withExistingLoadBalancerBackend(LoadBalancer loadBalancer, String backendName);
+
+            /**
+             * Associates the network interface's primary IP configuration with an inbound NAT rule of an existing load balancer.
+             * @param loadBalancer an existing load balancer
+             * @param inboundNatRuleName the name of an existing inbound NAT rule on the selected load balancer
+             * @return the next stage of the definition
+             */
+            WithCreate withExistingLoadBalancerInboundNatRule(LoadBalancer loadBalancer, String inboundNatRuleName);
+        }
+
         /**
          * The first stage of the network interface.
          */
@@ -332,7 +340,8 @@ public interface NetworkInterface extends
                 Resource.DefinitionWithTags<WithCreate>,
                 WithPrimaryPublicIpAddress,
                 WithNetworkSecurityGroup,
-                WithSecondaryIpConfiguration {
+                WithSecondaryIpConfiguration,
+                WithLoadBalancer {
             /**
              * Enable IP forwarding in the network interface.
              *
@@ -559,6 +568,39 @@ public interface NetworkInterface extends
              */
             NicIpConfiguration.Update updateIpConfiguration(String name);
         }
+
+        /**
+         * The stage of the network interface update allowing to associate it with a load balancer.
+         */
+        interface WithLoadBalancer {
+            /**
+             * Associates the network interface's primary IP configuration with a backend of an existing load balancer.
+             * @param loadBalancer an existing load balancer
+             * @param backendName the name of an existing backend on that load balancer
+             * @return the next stage of the update
+             */
+            Update withExistingLoadBalancerBackend(LoadBalancer loadBalancer, String backendName);
+
+            /**
+             * Associates the network interface's primary IP configuration with an inbound NAT rule of an existing load balancer.
+             * @param loadBalancer an existing load balancer
+             * @param inboundNatRuleName the name of an existing inbound NAT rule on the selected load balancer
+             * @return the next stage of the update
+             */
+            Update withExistingLoadBalancerInboundNatRule(LoadBalancer loadBalancer, String inboundNatRuleName);
+
+            /**
+             * Removes all the existing associations with any load balancer backends.
+             * @return the next stage of the update
+             */
+            Update withoutLoadBalancerBackends();
+
+            /**
+             * Removes all the existing associations with any load balancer inbound NAT rules.
+             * @return the next stage of the update
+             */
+            Update withoutLoadBalancerInboundNatRules();
+        }
     }
 
     /**
@@ -569,13 +611,14 @@ public interface NetworkInterface extends
      */
     interface Update extends
             Appliable<NetworkInterface>,
-           Resource.UpdateWithTags<Update>,
+            Resource.UpdateWithTags<Update>,
             UpdateStages.WithPrimaryNetworkSubnet,
             UpdateStages.WithPrimaryPrivateIp,
             UpdateStages.WithPrimaryPublicIpAddress,
             UpdateStages.WithNetworkSecurityGroup,
             UpdateStages.WithIpForwarding,
             UpdateStages.WithDnsServer,
-            UpdateStages.WithIpConfiguration {
+            UpdateStages.WithIpConfiguration,
+            UpdateStages.WithLoadBalancer {
     }
 }

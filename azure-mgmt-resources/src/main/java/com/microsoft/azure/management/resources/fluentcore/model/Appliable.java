@@ -6,22 +6,34 @@
 
 package com.microsoft.azure.management.resources.fluentcore.model;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.rest.ServiceCall;
 import com.microsoft.rest.ServiceCallback;
+import rx.Observable;
 
 /**
  * The base interface for all template interfaces that support update operations.
  *
  * @param <T> the type of the resource returned from the update.
  */
+@LangDefinition(ContainerName = "ResourceActions", CreateAsyncMultiThreadMethodParam = true)
 public interface Appliable<T> extends Indexable {
     /**
      * Execute the update request.
      *
      * @return the updated resource
-     * @throws Exception exceptions from Azure
      */
-    T apply() throws Exception;
+    @Method
+    T apply();
+
+    /**
+     * Execute the update request asynchronously.
+     *
+     * @return the handle to the REST call
+     */
+    @Method
+    Observable<T> applyAsync();
 
     /**
      * Execute the update request asynchronously.
@@ -29,5 +41,5 @@ public interface Appliable<T> extends Indexable {
      * @param callback the callback for success and failure
      * @return the handle to the REST call
      */
-    ServiceCall applyAsync(ServiceCallback<T> callback);
+    ServiceCall<T> applyAsync(final ServiceCallback<T> callback);
 }

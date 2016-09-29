@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.management.storage;
 
-import com.microsoft.azure.CloudException;
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -18,12 +18,12 @@ import com.microsoft.azure.management.storage.implementation.AccountStatuses;
 import com.microsoft.azure.management.storage.implementation.StorageAccountInner;
 import org.joda.time.DateTime;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
  * An immutable client-side representation of an Azure storage account.
  */
+@Fluent
 public interface StorageAccount extends
         GroupableResource,
         Refreshable<StorageAccount>,
@@ -97,36 +97,19 @@ public interface StorageAccount extends
     AccessTier accessTier();
 
     /**
-     * @return the access keys for this storage account
-     *
-     * @throws CloudException exception thrown from REST call
-     * @throws IOException exception thrown from serialization/deserialization
-     */
-    List<StorageAccountKey> keys() throws CloudException, IOException;
-
-    /**
      * Fetch the up-to-date access keys from Azure for this storage account.
      *
      * @return the access keys for this storage account
-     *
-     * @throws CloudException exception thrown from REST call
-     * @throws IOException exception thrown from serialization/deserialization
      */
-    List<StorageAccountKey> refreshKeys() throws CloudException, IOException;
+    List<StorageAccountKey> getKeys();
 
     /**
      * Regenerates the access keys for this storage account.
      *
      * @param keyName if the key name
      * @return the generated access keys for this storage account
-     * @throws CloudException exception thrown from REST call
-     * @throws IOException exception thrown from serialization/deserialization
      */
-    List<StorageAccountKey> regenerateKey(String keyName) throws CloudException, IOException;
-
-    /**************************************************************
-     * Fluent interfaces to provision a StorageAccount
-     **************************************************************/
+    List<StorageAccountKey> regenerateKey(String keyName);
 
     /**
      * Container interface for all the definitions that need to be implemented.
@@ -249,7 +232,8 @@ public interface StorageAccount extends
             DefinitionStages.WithBlobStorageAccountKind,
             DefinitionStages.WithGeneralPurposeAccountKind,
             DefinitionStages.WithEncryption,
-            DefinitionStages.WithCustomDomain {
+            DefinitionStages.WithCustomDomain,
+            Resource.DefinitionWithTags<WithCreate> {
         }
 
         /**

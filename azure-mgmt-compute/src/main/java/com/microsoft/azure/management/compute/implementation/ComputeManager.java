@@ -1,16 +1,17 @@
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.AzureEnvironment;
+import com.microsoft.azure.RestClient;
+import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.compute.AvailabilitySets;
+import com.microsoft.azure.management.compute.VirtualMachineExtensionImages;
 import com.microsoft.azure.management.compute.VirtualMachineImages;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSets;
 import com.microsoft.azure.management.compute.VirtualMachines;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
-import com.microsoft.azure.RestClient;
-import com.microsoft.rest.credentials.ServiceClientCredentials;
 
 /**
  * Entry point to Azure compute resource management.
@@ -23,6 +24,8 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     private AvailabilitySets availabilitySets;
     private VirtualMachines virtualMachines;
     private VirtualMachineImages virtualMachineImages;
+    private VirtualMachineExtensionImages virtualMachineExtensionImages;
+    private VirtualMachineScaleSets virtualMachineScaleSets;
 
     /**
      * Get a Configurable instance that can be used to create ComputeManager with optional configuration.
@@ -40,8 +43,8 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      * @param subscriptionId the subscription
      * @return the ComputeManager
      */
-    public static ComputeManager authenticate(ServiceClientCredentials credentials, String subscriptionId) {
-        return new ComputeManager(AzureEnvironment.AZURE.newRestClientBuilder()
+    public static ComputeManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
+        return new ComputeManager(credentials.getEnvironment().newRestClientBuilder()
                 .withCredentials(credentials)
                 .build(), subscriptionId);
     }
@@ -68,7 +71,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
          * @param subscriptionId the subscription
          * @return the ComputeManager
          */
-        ComputeManager authenticate(ServiceClientCredentials credentials, String subscriptionId);
+        ComputeManager authenticate(AzureTokenCredentials credentials, String subscriptionId);
     }
 
     /**
@@ -76,7 +79,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      */
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements  Configurable {
         @Override
-        public ComputeManager authenticate(ServiceClientCredentials credentials, String subscriptionId) {
+        public ComputeManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
             return ComputeManager.authenticate(buildRestClient(credentials), subscriptionId);
         }
     }
@@ -108,6 +111,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     public VirtualMachines virtualMachines() {
         if (virtualMachines == null) {
             virtualMachines = new VirtualMachinesImpl(super.innerManagementClient.virtualMachines(),
+                    super.innerManagementClient.virtualMachineExtensions(),
                     super.innerManagementClient.virtualMachineSizes(),
                     this,
                     storageManager,
@@ -121,8 +125,33 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      */
     public VirtualMachineImages virtualMachineImages() {
         if (virtualMachineImages == null) {
-            virtualMachineImages = new VirtualMachineImagesImpl(super.innerManagementClient.virtualMachineImages());
+            virtualMachineImages = new VirtualMachineImagesImpl(new VirtualMachinePublishersImpl(super.innerManagementClient.virtualMachineImages(),
+                    super.innerManagementClient.virtualMachineExtensionImages()));
         }
         return virtualMachineImages;
+    }
+
+    /**
+     * @return the virtual machine extension image resource management API entry point
+     */
+    public VirtualMachineExtensionImages virtualMachineExtensionImages() {
+        if (virtualMachineExtensionImages == null) {
+            virtualMachineExtensionImages = new VirtualMachineExtensionImagesImpl(new VirtualMachinePublishersImpl(super.innerManagementClient.virtualMachineImages(),
+                    super.innerManagementClient.virtualMachineExtensionImages()));
+        }
+        return virtualMachineExtensionImages;
+    }
+
+    /**
+     * @return the virtual machine scale set resource management API entry point
+     */
+    public VirtualMachineScaleSets virtualMachineScaleSets() {
+        if (virtualMachineScaleSets == null) {
+            virtualMachineScaleSets = new VirtualMachineScaleSetsImpl(super.innerManagementClient.virtualMachineScaleSets(),
+                    this,
+                    storageManager,
+                    networkManager);
+        }
+        return virtualMachineScaleSets;
     }
 }

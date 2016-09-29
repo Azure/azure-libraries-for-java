@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources;
 
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Wrapper;
 import com.microsoft.azure.management.resources.implementation.TenantIdDescriptionInner;
@@ -13,6 +14,7 @@ import com.microsoft.azure.management.resources.implementation.TenantIdDescripti
 /**
  * An immutable client-side representation of an Azure tenant.
  */
+@Fluent
 public interface Tenant extends
         Indexable,
         Wrapper<TenantIdDescriptionInner> {

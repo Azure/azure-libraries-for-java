@@ -16,33 +16,33 @@ public class DetailLevelInterceptor extends RequestInterceptor {
 
     public DetailLevelInterceptor(final DetailLevel detailLevel) {
         this.detailLevel = detailLevel;
-        this.setHandler(new BatchRequestInterceptHandler() {
+        this.withHandler(new BatchRequestInterceptHandler() {
             @Override
             public void modify(Object request) {
                 if (detailLevel != null) {
                     Class<?> c = request.getClass();
                     try {
-                        Method selectMethod = c.getMethod("setSelect", new Class[]{String.class});
+                        Method selectMethod = c.getMethod("withSelect", new Class[]{String.class});
                         if (selectMethod != null) {
-                            selectMethod.invoke(request, detailLevel.getSelectClause());
+                            selectMethod.invoke(request, detailLevel.selectClause());
                         }
                     }
                     catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ex) {
                     }
 
                     try {
-                        Method filterMethod = c.getMethod("setFilter", new Class[]{String.class});
+                        Method filterMethod = c.getMethod("withFilter", new Class[]{String.class});
                         if (filterMethod != null) {
-                            filterMethod.invoke(request, detailLevel.getFilterClause());
+                            filterMethod.invoke(request, detailLevel.filterClause());
                         }
                     }
                     catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ex) {
                     }
 
                     try {
-                        Method expandMethod = c.getMethod("setExpand", new Class[]{String.class});
+                        Method expandMethod = c.getMethod("withExpand", new Class[]{String.class});
                         if (expandMethod != null) {
-                            expandMethod.invoke(request, detailLevel.getExpandClause());
+                            expandMethod.invoke(request, detailLevel.expandClause());
                         }
                     }
                     catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ex) {

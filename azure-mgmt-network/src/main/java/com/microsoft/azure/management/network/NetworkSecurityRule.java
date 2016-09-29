@@ -5,6 +5,8 @@
  */
 package com.microsoft.azure.management.network;
 
+import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.network.implementation.SecurityRuleInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
@@ -14,116 +16,20 @@ import com.microsoft.azure.management.resources.fluentcore.model.Wrapper;
 /**
  * A network security rule in a network security group.
  */
+@Fluent
 public interface NetworkSecurityRule extends
     Wrapper<SecurityRuleInner>,
-    ChildResource {
+    ChildResource<NetworkSecurityGroup> {
 
     /**
-     * The possible directions of the network traffic supported by a network security rule.
+     * @return the direction of the network traffic that the network security rule applies to.
      */
-    enum Direction {
-        INBOUND(SecurityRuleDirection.INBOUND),
-        OUTBOUND(SecurityRuleDirection.OUTBOUND);
-
-        private final String name;
-        Direction(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return this.name;
-        }
-
-        /**
-         * Converts the string used by Azure into the corresponding constant, if any.
-         * @param s the string used by Azure to convert to a constant
-         * @return the identified constant, or null if not supported
-         */
-        public static Direction fromString(String s) {
-            for (Direction e : Direction.values()) {
-                if (e.name.equalsIgnoreCase(s)) {
-                    return e;
-                }
-            }
-            return null;
-        }
-    }
-
-    /**
-     * The possible access types supported by a network security rule.
-     */
-    enum Access {
-        ALLOW(SecurityRuleAccess.ALLOW),
-        DENY(SecurityRuleAccess.DENY);
-
-        private final String name;
-        Access(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return this.name;
-        }
-
-        /**
-         * Converts the string used by Azure into the corresponding constant, if any.
-         * @param s the string used by Azure to convert to a constant
-         * @return the identified constant, or null if not supported
-         */
-        public static Access fromString(String s) {
-            for (Access e : Access.values()) {
-                if (e.name.equalsIgnoreCase(s)) {
-                    return e;
-                }
-            }
-            return null;
-        }
-    }
-
-    /**
-     * The possible Azure network protocols supported by a network security rule.
-     */
-    enum Protocol {
-        TCP(SecurityRuleProtocol.TCP),
-        UDP(SecurityRuleProtocol.UDP),
-        ANY(SecurityRuleProtocol.ASTERISK);
-
-        public final String name;
-        Protocol(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return this.name;
-        }
-
-        /**
-         * Converts the string used by Azure into the corresponding constant, if any.
-         * @param s the string used by Azure to convert to a constant
-         * @return the identified constant, or null if not supported
-         */
-        public static Protocol fromString(String s) {
-            for (Protocol protocol : Protocol.values()) {
-                if (protocol.name.equalsIgnoreCase(s)) {
-                    return protocol;
-                }
-            }
-            return null;
-        }
-    }
-
-    /**
-     * @return the network traffic direction the rule applies to
-     */
-    Direction direction();
+    SecurityRuleDirection direction();
 
     /**
      * @return the network protocol the rule applies to
      */
-    Protocol protocol();
+    SecurityRuleProtocol protocol();
 
     /**
      * @return the user-defined description of the security rule
@@ -133,7 +39,7 @@ public interface NetworkSecurityRule extends
     /**
      * @return the type of access the rule enforces
      */
-    Access access();
+    SecurityRuleAccess access();
 
     /**
      * @return the source address prefix the rule applies to, expressed using the CIDR notation in the format: "###.###.###.###/##",
@@ -199,7 +105,7 @@ public interface NetworkSecurityRule extends
              * @param protocol one of the supported protocols
              * @return the next stage of the security rule definition
              */
-            WithAttach<ParentT> withProtocol(Protocol protocol);
+            WithAttach<ParentT> withProtocol(SecurityRuleProtocol protocol);
 
             /**
              * Makes this rule apply to any supported protocol.
@@ -224,6 +130,7 @@ public interface NetworkSecurityRule extends
              * Makes this rule apply to any destination port.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithProtocol<ParentT> toAnyPort();
 
             /**
@@ -251,6 +158,7 @@ public interface NetworkSecurityRule extends
              * Makes the rule apply to any traffic destination address.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithDestinationPort<ParentT> toAnyAddress();
         }
 
@@ -270,6 +178,7 @@ public interface NetworkSecurityRule extends
              * Makes this rule apply to any source port.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithDestinationAddress<ParentT> fromAnyPort();
 
             /**
@@ -291,12 +200,14 @@ public interface NetworkSecurityRule extends
              * @param cidr an IP address prefix expressed in the CIDR notation
              * @return the next stage of the security rule definition
              */
+            @Method
             WithSourcePort<ParentT> fromAddress(String cidr);
 
             /**
              * Specifies that the rule applies to any traffic source address.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithSourcePort<ParentT> fromAnyAddress();
         }
 
@@ -309,24 +220,28 @@ public interface NetworkSecurityRule extends
              * Allows inbound traffic.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithSourceAddress<ParentT> allowInbound();
 
             /**
              * Allows outbound traffic.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithSourceAddress<ParentT> allowOutbound();
 
             /**
              * Blocks inbound traffic.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithSourceAddress<ParentT> denyInbound();
 
             /**
              * Blocks outbound traffic.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithSourceAddress<ParentT> denyOutbound();
         }
 
@@ -405,24 +320,28 @@ public interface NetworkSecurityRule extends
              * Allows inbound traffic.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithSourceAddress<ParentT> allowInbound();
 
             /**
              * Allows outbound traffic.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithSourceAddress<ParentT> allowOutbound();
 
             /**
              * Blocks inbound traffic.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithSourceAddress<ParentT> denyInbound();
 
             /**
              * Blocks outbound traffic.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithSourceAddress<ParentT> denyOutbound();
         }
 
@@ -436,12 +355,14 @@ public interface NetworkSecurityRule extends
              * @param cidr an IP address prefix expressed in the CIDR notation
              * @return the next stage of the security rule definition
              */
+            @Method
             WithSourcePort<ParentT> fromAddress(String cidr);
 
             /**
              * Specifies that the rule applies to any traffic source address.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithSourcePort<ParentT> fromAnyAddress();
         }
 
@@ -461,6 +382,7 @@ public interface NetworkSecurityRule extends
              * Makes this rule apply to any source port.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithDestinationAddress<ParentT> fromAnyPort();
 
             /**
@@ -488,6 +410,7 @@ public interface NetworkSecurityRule extends
              * Makes the rule apply to any traffic destination address.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithDestinationPort<ParentT> toAnyAddress();
         }
 
@@ -507,6 +430,7 @@ public interface NetworkSecurityRule extends
              * Makes this rule apply to any destination port.
              * @return the next stage of the security rule definition
              */
+            @Method
             WithProtocol<ParentT> toAnyPort();
 
             /**
@@ -528,7 +452,7 @@ public interface NetworkSecurityRule extends
              * @param protocol one of the supported protocols
              * @return the next stage of the security rule definition
              */
-            WithAttach<ParentT> withProtocol(Protocol protocol);
+            WithAttach<ParentT> withProtocol(SecurityRuleProtocol protocol);
 
             /**
              * Makes this rule apply to any supported protocol.
@@ -603,24 +527,28 @@ public interface NetworkSecurityRule extends
              * Allows inbound traffic.
              * @return the next stage of the security rule definition
              */
+            @Method
             Update allowInbound();
 
             /**
              * Allows outbound traffic.
              * @return the next stage of the security rule definition
              */
+            @Method
             Update allowOutbound();
 
             /**
              * Blocks inbound traffic.
              * @return the next stage of the security rule definition
              */
+            @Method
             Update denyInbound();
 
             /**
              * Blocks outbound traffic.
              * @return the next stage of the security rule definition
              */
+            @Method
             Update denyOutbound();
         }
 
@@ -633,12 +561,14 @@ public interface NetworkSecurityRule extends
              * @param cidr an IP address prefix expressed in the CIDR notation
              * @return the next stage of the security rule definition
              */
+            @Method
             Update fromAddress(String cidr);
 
             /**
              * Specifies that the rule applies to any traffic source address.
              * @return the next stage of the security rule definition
              */
+            @Method
             Update fromAnyAddress();
         }
 
@@ -657,6 +587,7 @@ public interface NetworkSecurityRule extends
              * Makes this rule apply to any source port.
              * @return the next stage of the security rule definition
              */
+            @Method
             Update fromAnyPort();
 
             /**
@@ -683,6 +614,7 @@ public interface NetworkSecurityRule extends
              * Makes the rule apply to any traffic destination address.
              * @return the next stage of the security rule definition
              */
+            @Method
             Update toAnyAddress();
         }
 
@@ -701,6 +633,7 @@ public interface NetworkSecurityRule extends
              * Makes this rule apply to any destination port.
              * @return the next stage of the security rule definition
              */
+            @Method
             Update toAnyPort();
 
             /**
@@ -721,7 +654,7 @@ public interface NetworkSecurityRule extends
              * @param protocol one of the supported protocols
              * @return the next stage of the security rule definition
              */
-            Update withProtocol(Protocol protocol);
+            Update withProtocol(SecurityRuleProtocol protocol);
 
             /**
              * Makes this rule apply to any supported protocol.

@@ -6,7 +6,10 @@
 
 package com.microsoft.azure.management.resources;
 
-import com.microsoft.azure.CloudException;
+import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
+import com.microsoft.azure.management.apigeneration.LangMethodDefinition.LangMethodType;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -23,6 +26,7 @@ import java.util.List;
 /**
  * An immutable client-side representation of an Azure deployment.
  */
+@Fluent
 public interface Deployment extends
         Refreshable<Deployment>,
         Updatable<Deployment.Update>,
@@ -97,24 +101,21 @@ public interface Deployment extends
     /**
      * @return the operations related to this deployment
      */
+    @LangMethodDefinition(AsType = LangMethodType.Property)
     DeploymentOperations deploymentOperations();
 
     /**
      * Cancel a currently running template deployment.
-     *
-     * @throws CloudException exception thrown from REST call
-     * @throws IOException exception thrown from serialization/deserialization
      */
-    void cancel() throws CloudException, IOException;
+    void cancel();
 
     /**
      * Exports a deployment template.
      *
-     * @throws CloudException exception thrown from REST call
-     * @throws IOException exception thrown from serialization/deserialization
      * @return the export result
      */
-    DeploymentExportResult exportTemplate() throws CloudException, IOException;
+    @Method
+    DeploymentExportResult exportTemplate();
 
     /**
      * Container interface for all the deployment definitions.
@@ -237,7 +238,8 @@ public interface Deployment extends
          * deployment in the cloud, but exposing additional optional inputs to specify.
          */
         interface WithCreate extends Creatable<Deployment> {
-            Deployment beginCreate() throws Exception;
+            @Method
+            Deployment beginCreate();
         }
     }
 

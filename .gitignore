@@ -1,8 +1,14 @@
 *.class
 
-# Auth filed
+#External libs
+extlib/
+
+# Auth files
 *.auth
 *.azureauth
+
+# Local checkstyle
+*.checkstyle
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -48,3 +54,6 @@ Thumbs.db
 
 # reduced pom files should not be included
 dependency-reduced-pom.xml
+
+# the translation file should not included
+translation.properties

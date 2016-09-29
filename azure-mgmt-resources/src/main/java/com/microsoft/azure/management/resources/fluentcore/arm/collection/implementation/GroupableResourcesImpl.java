@@ -5,15 +5,18 @@
  */
 package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
 
-import java.io.IOException;
-
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.Resource;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.rest.ServiceCall;
+import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceResponse;
+import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * Base class for resource collection classes.
@@ -30,10 +33,11 @@ public abstract class GroupableResourcesImpl<
         InnerT extends Resource,
         InnerCollectionT,
         ManagerT extends ManagerBase>
-    extends CreatableWrappersImpl<T, ImplT, InnerT>
+    extends CreatableResourcesImpl<T, ImplT, InnerT>
     implements
         SupportsGettingById<T>,
-        SupportsGettingByGroup<T> {
+        SupportsGettingByGroup<T>,
+        SupportsDeletingByGroup {
 
     protected final InnerCollectionT innerCollection;
     protected final ManagerT myManager;
@@ -45,12 +49,32 @@ public abstract class GroupableResourcesImpl<
     }
 
     @Override
-    public abstract T getByGroup(String groupName, String name) throws CloudException, IOException;
+    public abstract T getByGroup(String groupName, String name);
 
     @Override
-    public final T getById(String id) throws CloudException, IOException {
+    public T getById(String id) {
         return this.getByGroup(
                 ResourceUtils.groupFromResourceId(id),
                 ResourceUtils.nameFromResourceId(id));
+    }
+
+    @Override
+    public void delete(String groupName, String name) {
+        deleteAsync(groupName, name).toBlocking().subscribe();
+    }
+
+    @Override
+    public ServiceCall<Void> deleteAsync(String groupName, String name, ServiceCallback<Void> callback) {
+        return ServiceCall.create(deleteAsync(groupName, name).map(new Func1<Void, ServiceResponse<Void>>() {
+            @Override
+            public ServiceResponse<Void> call(Void aVoid) {
+                return new ServiceResponse<>(aVoid, null);
+            }
+        }), callback);
+    }
+
+    @Override
+    public Observable<Void> deleteAsync(String id) {
+        return deleteAsync(ResourceUtils.groupFromResourceId(id), ResourceUtils.nameFromResourceId(id));
     }
 }

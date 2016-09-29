@@ -7,7 +7,7 @@
 
 package com.microsoft.azure.management.storage.samples;
 
-import com.microsoft.azure.Azure;
+import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.azure.management.storage.StorageAccount;
@@ -73,7 +73,7 @@ public final class ManageStorageAccount {
 
                 System.out.println("Getting storage account access keys");
 
-                List<StorageAccountKey> storageAccountKeys = storageAccount.keys();
+                List<StorageAccountKey> storageAccountKeys = storageAccount.getKeys();
 
                 Utils.print(storageAccountKeys);
 
@@ -105,7 +105,7 @@ public final class ManageStorageAccount {
 
                 StorageAccounts storageAccounts = azure.storageAccounts();
 
-                List accounts = storageAccounts.listByGroup(rgName);
+                List<StorageAccount> accounts = storageAccounts.listByGroup(rgName);
                 StorageAccount sa;
                 for (int i = 0; i < accounts.size(); i++) {
                     sa = (StorageAccount) accounts.get(i);
@@ -127,11 +127,12 @@ public final class ManageStorageAccount {
                 System.out.println(f.getMessage());
                 f.printStackTrace();
             } finally {
-                if (azure.resourceGroups().getByName(rgName) != null) {
+                try {
                     System.out.println("Deleting Resource Group: " + rgName);
                     azure.resourceGroups().delete(rgName);
                     System.out.println("Deleted Resource Group: " + rgName);
-                } else {
+                }
+                catch (Exception e) {
                     System.out.println("Did not create any resources in Azure. No clean up is necessary");
                 }
             }

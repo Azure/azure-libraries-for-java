@@ -6,10 +6,12 @@
 
 package com.microsoft.azure.management.storage;
 
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
 
 /**
  * Entry point for storage resource usage management API.
  */
+@Fluent
 public interface Usages extends SupportsListing<StorageUsage> {
 }

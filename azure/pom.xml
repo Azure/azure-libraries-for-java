@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure-parent</artifactId>
-    <version>1.0.0-beta2</version>
+    <version>1.0.0-beta3</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -49,32 +49,47 @@
     <dependency>
       <groupId>com.microsoft.azure</groupId>
       <artifactId>azure-client-runtime</artifactId>
-      <version>1.0.0-beta2</version>
+      <version>1.0.0-beta3</version>
     </dependency>
     <dependency>
       <groupId>com.microsoft.azure</groupId>
       <artifactId>azure-client-authentication</artifactId>
-      <version>1.0.0-beta2</version>
+      <version>1.0.0-beta3</version>
     </dependency>
     <dependency>
       <groupId>com.microsoft.azure</groupId>
       <artifactId>azure-mgmt-resources</artifactId>
-      <version>1.0.0-beta2</version>
+      <version>1.0.0-beta3</version>
     </dependency>
     <dependency>
       <groupId>com.microsoft.azure</groupId>
       <artifactId>azure-mgmt-storage</artifactId>
-      <version>1.0.0-beta2</version>
+      <version>1.0.0-beta3</version>
     </dependency>
     <dependency>
       <groupId>com.microsoft.azure</groupId>
       <artifactId>azure-mgmt-network</artifactId>
-      <version>1.0.0-beta2</version>
+      <version>1.0.0-beta3</version>
     </dependency>
     <dependency>
       <groupId>com.microsoft.azure</groupId>
       <artifactId>azure-mgmt-compute</artifactId>
-      <version>1.0.0-beta2</version>
+      <version>1.0.0-beta3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.microsoft.azure</groupId>
+      <artifactId>azure-mgmt-graph-rbac</artifactId>
+      <version>1.0.0-beta3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.microsoft.azure</groupId>
+      <artifactId>azure-mgmt-keyvault</artifactId>
+      <version>1.0.0-beta3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.microsoft.azure</groupId>
+      <artifactId>azure-mgmt-batch</artifactId>
+      <version>1.0.0-beta3</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -93,6 +108,12 @@
       <version>0.1.53</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.microsoft.azure</groupId>
+      <artifactId>api-annotations</artifactId>
+      <version>0.0.1</version>
+    </dependency>
+
   </dependencies>
   <build>
     <plugins>
@@ -115,6 +136,15 @@
         <configuration>
           <source>1.7</source>
           <target>1.7</target>
+          <annotationProcessors>
+            <annotationProcessor>com.microsoft.azure.management.apigeneration.LangDefinitionProcessor</annotationProcessor>
+          </annotationProcessors>
+          <debug>true</debug>
+          <optimize>true</optimize>
+          <compilerArguments>
+            <AaddGeneratedAnnotation>true</AaddGeneratedAnnotation>
+            <Adebug>true</Adebug>
+          </compilerArguments>
         </configuration>
       </plugin>
 
@@ -141,7 +171,7 @@
 <br />*/</code>]]></bottom>
         </configuration>
       </plugin>
-
+      
     </plugins>
   </build>
 </project>

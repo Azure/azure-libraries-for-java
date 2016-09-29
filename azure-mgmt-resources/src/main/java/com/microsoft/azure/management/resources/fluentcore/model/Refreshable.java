@@ -6,17 +6,21 @@
 
 package com.microsoft.azure.management.resources.fluentcore.model;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.apigeneration.Method;
+
 /**
  * Base class for resources that can be refreshed to get the latest state.
  *
  * @param <T> the fluent type of the resource
  */
+@LangDefinition(ContainerName = "ResourceActions")
 public interface Refreshable<T> {
     /**
      * Refreshes the resource to sync with Azure.
      *
      * @return the refreshed resource
-     * @throws Exception exceptions thrown from Azure
      */
-    T refresh() throws Exception;
+    @Method
+    T refresh();
 }

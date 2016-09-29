@@ -7,7 +7,7 @@
 
 package com.microsoft.azure.management.network.samples;
 
-import com.microsoft.azure.Azure;
+import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
@@ -110,7 +110,7 @@ public final class ManageIPAddress {
 
                 System.out.println("Public IP address associated with the VM's primary NIC [After create]");
                 // Print the public IP address details
-                Utils.print(vm.primaryPublicIpAddress());
+                Utils.print(vm.getPrimaryPublicIpAddress());
 
 
                 //============================================================
@@ -129,7 +129,7 @@ public final class ManageIPAddress {
 
                 System.out.println("Updating the VM's primary NIC with new public IP address");
 
-                NetworkInterface primaryNetworkInterface = vm.primaryNetworkInterface();
+                NetworkInterface primaryNetworkInterface = vm.getPrimaryNetworkInterface();
                 primaryNetworkInterface
                         .update()
                         .withExistingPrimaryPublicIpAddress(publicIpAddress2)
@@ -142,7 +142,7 @@ public final class ManageIPAddress {
                 // Get the associated public IP address for a virtual machine
                 System.out.println("Public IP address associated with the VM's primary NIC [After Update]");
                 vm.refresh();
-                Utils.print(vm.primaryPublicIpAddress());
+                Utils.print(vm.getPrimaryPublicIpAddress());
 
 
                 //============================================================
@@ -150,8 +150,8 @@ public final class ManageIPAddress {
 
                 System.out.println("Removing public IP address associated with the VM");
                 vm.refresh();
-                primaryNetworkInterface = vm.primaryNetworkInterface();
-                publicIpAddress = primaryNetworkInterface.primaryPublicIpAddress();
+                primaryNetworkInterface = vm.getPrimaryNetworkInterface();
+                publicIpAddress = primaryNetworkInterface.primaryIpConfiguration().getPublicIpAddress();
                 primaryNetworkInterface.update()
                         .withoutPrimaryPublicIpAddress()
                         .apply();

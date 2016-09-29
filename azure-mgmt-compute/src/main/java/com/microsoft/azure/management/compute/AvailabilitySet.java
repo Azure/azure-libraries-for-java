@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.compute.implementation.AvailabilitySetInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
@@ -13,58 +14,44 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Wrapper;
+
 import java.util.List;
 
 /**
  * An immutable client-side representation of an Azure availability set.
  */
+@Fluent()
 public interface AvailabilitySet extends
         GroupableResource,
         Refreshable<AvailabilitySet>,
         Wrapper<AvailabilitySetInner>,
         Updatable<AvailabilitySet.Update> {
 
+
     /**
-     * Returns the update domain count of an availability set.
-     * <p>
-     * An update domain represents the group of virtual
-     * machines and underlying physical hardware that can be rebooted at the same time.
-     *
-     * @return the update domain count
+     * @return the update domain count of this availability set
      */
     int updateDomainCount();
 
     /**
-     * Returns the fault domain count of availability set.
-     * <p>
-     * A fault domain represents the group of virtual
-     * machines that shares common power source and network switch.
-     *
-     * @return the fault domain count
+     * @return the fault domain count of this availability set
      */
     int faultDomainCount();
 
     /**
-     * Lists the resource IDs of the virtual machines in the availability set.
-     *
-     * @return list of resource ID strings
+     * @return the resource IDs of the virtual machines in the availability set
      */
     List<String> virtualMachineIds();
 
     /**
-     * Lists the statuses of the existing virtual machines in the availability set.
-     *
-     * @return list of virtual machine statuses
+     * @return the statuses of the existing virtual machines in the availability set
      */
     List<InstanceViewStatus> statuses();
 
-
-    /**************************************************************
-     * Fluent interfaces to create an AvailabilitySet
-     **************************************************************/
+    // Fluent interfaces
 
     /**
-     * Container interface for all the definitions.
+     * Container interface for all the definitions related to an availability set.
      */
     interface Definition extends
         DefinitionStages.Blank,
@@ -95,7 +82,7 @@ public interface AvailabilitySet extends
             /**
              * Specifies the update domain count for the availability set.
              * @param updateDomainCount update domain count
-             * @return the next stage of the resource definition
+             * @return the next stage of the definition
              */
             WithCreate withUpdateDomainCount(int updateDomainCount);
         }
@@ -106,8 +93,8 @@ public interface AvailabilitySet extends
         interface WithFaultDomainCount {
             /**
              * Specifies the fault domain count for the availability set.
-             * @param faultDomainCount fault domain count
-             * @return the next stage of the resource definition
+             * @param faultDomainCount the fault domain count
+             * @return the next stage of the definition
              */
             WithCreate withFaultDomainCount(int faultDomainCount);
         }

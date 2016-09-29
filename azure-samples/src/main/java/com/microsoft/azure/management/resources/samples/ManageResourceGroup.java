@@ -9,7 +9,7 @@ package com.microsoft.azure.management.resources.samples;
 
 import java.io.File;
 
-import com.microsoft.azure.Azure;
+import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.ResourceNamer;
@@ -86,7 +86,7 @@ public final class ManageResourceGroup {
 
                     System.out.println("Creating another resource group with name: " + rgName2);
 
-                    ResourceGroup resourceGroup2 = azure.resourceGroups()
+                    azure.resourceGroups()
                         .define(rgName)
                         .withRegion(Region.US_WEST)
                         .create();

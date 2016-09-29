@@ -6,12 +6,14 @@
 
 package com.microsoft.azure.management.resources;
 
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.model.Wrapper;
 import com.microsoft.azure.management.resources.implementation.DeploymentExportResultInner;
 
 /**
  * An immutable client-side representation of an Azure deployment template export result.
  */
+@Fluent
 public interface DeploymentExportResult extends
         Wrapper<DeploymentExportResultInner> {
 

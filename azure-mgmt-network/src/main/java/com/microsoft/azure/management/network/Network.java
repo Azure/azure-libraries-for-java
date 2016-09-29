@@ -8,6 +8,7 @@ package com.microsoft.azure.management.network;
 import java.util.List;
 import java.util.Map;
 
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.network.implementation.VirtualNetworkInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
@@ -20,6 +21,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Wrapper;
 /**
  * Entry point for Virtual Network management API in Azure.
  */
+@Fluent()
 public interface Network extends
         GroupableResource,
         Refreshable<Network>,
@@ -37,7 +39,7 @@ public interface Network extends
     /**
      * @return list of DNS server IP addresses associated with this virtual network
      */
-    List<String> dnsServerIPs();
+    List<String> dnsServerIps();
 
     /**
      * @return subnets of this virtual network as a map indexed by subnet name
@@ -241,7 +243,7 @@ public interface Network extends
     }
 
     /**
-     * The template for a public IP address update operation, containing all the settings that
+     * The template for a virtual network update operation, containing all the settings that
      * can be modified.
      * <p>
      * Call {@link Update#apply()} to apply the changes to the resource in Azure.

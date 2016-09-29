@@ -5,14 +5,11 @@
  */
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.compute.VirtualMachineOffer;
 import com.microsoft.azure.management.compute.VirtualMachineSkus;
 import com.microsoft.azure.management.compute.VirtualMachineSku;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-
-import java.io.IOException;
 
 /**
  * The implementation for {@link VirtualMachineSkus}.
@@ -30,11 +27,11 @@ class VirtualMachineSkusImpl
     }
 
     @Override
-    public PagedList<VirtualMachineSku> list() throws CloudException, IOException {
+    public PagedList<VirtualMachineSku> list() {
         return wrapList(innerCollection.listSkus(
                 offer.region().toString(),
                 offer.publisher().name(),
-                offer.name()).getBody());
+                offer.name()));
     }
 
     @Override

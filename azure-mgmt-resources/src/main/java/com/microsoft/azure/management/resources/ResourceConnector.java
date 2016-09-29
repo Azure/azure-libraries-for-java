@@ -7,12 +7,14 @@
 package com.microsoft.azure.management.resources;
 
 import com.microsoft.azure.RestClient;
+import com.microsoft.azure.management.apigeneration.Fluent;
 
 /**
  * Defines a connector that connects other resources to a resource group.
  * Implementations of this class can let users browse resources inside a
  * specific resource group.
  */
+@Fluent
 public interface ResourceConnector {
     /**
      * Implementations of this interface defines how to create a connector.

@@ -5,11 +5,13 @@
  */
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 
 /**
  * Represents a virtual machine image offer.
  */
+@Fluent
 public interface VirtualMachineOffer {
     /**
      * @return the region where this virtual machine image offer is available
@@ -27,7 +29,7 @@ public interface VirtualMachineOffer {
     String name();
 
     /**
-     * @return Virtual machine image SKUs available in this offer.
+     * @return virtual machine image SKUs available in this offer
      */
     VirtualMachineSkus skus();
 }

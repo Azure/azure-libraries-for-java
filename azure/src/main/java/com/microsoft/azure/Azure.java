@@ -7,10 +7,17 @@
 package com.microsoft.azure;
 
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
+import com.microsoft.azure.credentials.AzureTokenCredentials;
+import com.microsoft.azure.management.batch.BatchAccounts;
+import com.microsoft.azure.management.batch.implementation.BatchManager;
 import com.microsoft.azure.management.compute.AvailabilitySets;
 import com.microsoft.azure.management.compute.VirtualMachineImages;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSets;
 import com.microsoft.azure.management.compute.VirtualMachines;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
+import com.microsoft.azure.management.keyvault.Vaults;
+import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
+import com.microsoft.azure.management.network.LoadBalancers;
 import com.microsoft.azure.management.network.NetworkInterfaces;
 import com.microsoft.azure.management.network.NetworkSecurityGroups;
 import com.microsoft.azure.management.network.Networks;
@@ -26,8 +33,8 @@ import com.microsoft.azure.management.resources.Subscriptions;
 import com.microsoft.azure.management.resources.Tenants;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.azure.management.resources.implementation.ResourceManagementClientImpl;
+import com.microsoft.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.azure.management.storage.StorageAccounts;
 import com.microsoft.azure.management.storage.Usages;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
@@ -44,19 +51,35 @@ public final class Azure {
     private final StorageManager storageManager;
     private final ComputeManager computeManager;
     private final NetworkManager networkManager;
+    private final KeyVaultManager keyVaultManager;
+    private final BatchManager batchManager;
     private final String subscriptionId;
 
     /**
      * Authenticate to Azure using a credentials object.
      *
      * @param credentials the credentials object
+     * @param tenantId the tenantId in Active Directory
      * @return the authenticated Azure client
      */
-    public static Authenticated authenticate(ServiceClientCredentials credentials) {
+    public static Authenticated authenticate(ServiceClientCredentials credentials, String tenantId) {
         return new AuthenticatedImpl(
                 AzureEnvironment.AZURE.newRestClientBuilder()
-                .withCredentials(credentials)
-                .build());
+                        .withCredentials(credentials)
+                        .build(), tenantId);
+    }
+
+    /**
+     * Authenticate to Azure using an Azure credentials object.
+     *
+     * @param credentials the credentials object
+     * @return the authenticated Azure client
+     */
+    public static Authenticated authenticate(AzureTokenCredentials credentials) {
+        return new AuthenticatedImpl(
+                AzureEnvironment.AZURE.newRestClientBuilder()
+                        .withCredentials(credentials)
+                        .build(), credentials.getDomain());
     }
 
     /**
@@ -79,20 +102,21 @@ public final class Azure {
         ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(credentialsFile);
         return new AuthenticatedImpl(AzureEnvironment.AZURE.newRestClientBuilder()
                 .withCredentials(credentials)
-                .build()).withDefaultSubscription(credentials.defaultSubscriptionId());
+                .build(), credentials.getDomain()).withDefaultSubscription(credentials.defaultSubscriptionId());
     }
 
     /**
      * Authenticates API access using a {@link RestClient} instance.
      * @param restClient the {@link RestClient} configured with Azure authentication credentials
+     * @param tenantId the tenantId in Active Directory
      * @return authenticated Azure client
      */
-    public static Authenticated authenticate(RestClient restClient) {
-        return new AuthenticatedImpl(restClient);
+    public static Authenticated authenticate(RestClient restClient, String tenantId) {
+        return new AuthenticatedImpl(restClient, tenantId);
     }
 
-    private static Authenticated authenticate(RestClient restClient, String subscriptionId) throws IOException {
-        return new AuthenticatedImpl(restClient).withDefaultSubscription(subscriptionId);
+    private static Authenticated authenticate(RestClient restClient, String tenantId, String subscriptionId) throws IOException {
+        return new AuthenticatedImpl(restClient, tenantId).withDefaultSubscription(subscriptionId);
     }
 
     /**
@@ -110,9 +134,18 @@ public final class Azure {
          * Authenticates API access based on the provided credentials.
          *
          * @param credentials The credentials to authenticate API access with
+         * @param tenantId the tenantId in Active Directory
          * @return the authenticated Azure client
          */
-        Authenticated authenticate(ServiceClientCredentials credentials);
+        Authenticated authenticate(ServiceClientCredentials credentials, String tenantId);
+
+        /**
+         * Authenticates API access based on the provided credentials.
+         *
+         * @param credentials The credentials to authenticate API access with
+         * @return the authenticated Azure client
+         */
+        Authenticated authenticate(AzureTokenCredentials credentials);
 
         /**
          * Authenticates API access using a properties file containing the required credentials.
@@ -130,14 +163,19 @@ public final class Azure {
      */
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
         @Override
-        public Authenticated authenticate(ServiceClientCredentials credentials) {
-            return Azure.authenticate(buildRestClient(credentials));
+        public Authenticated authenticate(ServiceClientCredentials credentials, String tenantId) {
+            return Azure.authenticate(buildRestClient(credentials), tenantId);
+        }
+
+        @Override
+        public Authenticated authenticate(AzureTokenCredentials credentials) {
+            return Azure.authenticate(buildRestClient(credentials), credentials.getDomain());
         }
 
         @Override
         public Authenticated authenticate(File credentialsFile) throws IOException {
             ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(credentialsFile);
-            return Azure.authenticate(buildRestClient(credentials), credentials.defaultSubscriptionId());
+            return Azure.authenticate(buildRestClient(credentials), credentials.getDomain(), credentials.defaultSubscriptionId());
         }
     }
 
@@ -193,10 +231,12 @@ public final class Azure {
         private final RestClient restClient;
         private final ResourceManager.Authenticated resourceManagerAuthenticated;
         private String defaultSubscription;
+        private String tenantId;
 
-        private AuthenticatedImpl(RestClient restClient) {
+        private AuthenticatedImpl(RestClient restClient, String tenantId) {
             this.resourceManagerAuthenticated = ResourceManager.authenticate(restClient);
             this.restClient = restClient;
+            this.tenantId = tenantId;
         }
 
         private AuthenticatedImpl withDefaultSubscription(String subscriptionId) throws IOException {
@@ -216,7 +256,7 @@ public final class Azure {
 
         @Override
         public Azure withSubscription(String subscriptionId) {
-            return new Azure(restClient, subscriptionId);
+            return new Azure(restClient, subscriptionId, tenantId);
         }
 
         @Override
@@ -234,13 +274,15 @@ public final class Azure {
         }
     }
 
-    private Azure(RestClient restClient, String subscriptionId) {
+    private Azure(RestClient restClient, String subscriptionId, String tenantId) {
         ResourceManagementClientImpl resourceManagementClient = new ResourceManagementClientImpl(restClient);
         resourceManagementClient.withSubscriptionId(subscriptionId);
         this.resourceManager = ResourceManager.authenticate(restClient).withSubscription(subscriptionId);
         this.storageManager = StorageManager.authenticate(restClient, subscriptionId);
         this.computeManager = ComputeManager.authenticate(restClient, subscriptionId);
         this.networkManager = NetworkManager.authenticate(restClient, subscriptionId);
+        this.keyVaultManager = KeyVaultManager.authenticate(restClient, tenantId, subscriptionId);
+        this.batchManager = BatchManager.authenticate(restClient, subscriptionId);
         this.subscriptionId = subscriptionId;
     }
 
@@ -315,6 +357,13 @@ public final class Azure {
     }
 
     /**
+     * @return entry point to managing load balancers
+     */
+    public LoadBalancers loadBalancers() {
+        return networkManager.loadBalancers();
+    }
+
+    /**
      * @return entry point to managing network security groups
      */
     public NetworkSecurityGroups networkSecurityGroups() {
@@ -326,6 +375,13 @@ public final class Azure {
      */
     public VirtualMachines virtualMachines() {
         return computeManager.virtualMachines();
+    }
+
+    /**
+     * @return entry point to managing virtual machine scale sets.
+     */
+    public VirtualMachineScaleSets virtualMachineScaleSets() {
+        return computeManager.virtualMachineScaleSets();
     }
 
     /**
@@ -348,4 +404,19 @@ public final class Azure {
     public NetworkInterfaces networkInterfaces() {
         return this.networkManager.networkInterfaces();
     }
+
+    /**
+     * @return entry point to managing key vaults
+     */
+    public Vaults vaults() {
+        return this.keyVaultManager.vaults();
+    }
+
+    /**
+     * @return entry point to managing batch accounts.
+     */
+    public BatchAccounts batchAccounts() {
+        return batchManager.batchAccounts();
+    }
+
 }

@@ -5,14 +5,11 @@
  */
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.compute.VirtualMachineSize;
 import com.microsoft.azure.management.compute.VirtualMachineSizes;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-
-import java.io.IOException;
 
 /**
  * The implementation for {@link VirtualMachineSizes}.
@@ -27,7 +24,7 @@ class VirtualMachineSizesImpl
     }
 
     @Override
-    public PagedList<VirtualMachineSize> listByRegion(Region region) throws CloudException, IOException {
+    public PagedList<VirtualMachineSize> listByRegion(Region region) {
         return listByRegion(region.toString());
     }
 
@@ -37,7 +34,7 @@ class VirtualMachineSizesImpl
     }
 
     @Override
-    public PagedList<VirtualMachineSize> listByRegion(String regionName) throws CloudException, IOException {
-        return wrapList(innerCollection.list(regionName).getBody());
+    public PagedList<VirtualMachineSize> listByRegion(String regionName) {
+        return wrapList(innerCollection.list(regionName));
     }
 }

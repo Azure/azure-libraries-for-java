@@ -12,8 +12,10 @@ import com.microsoft.azure.management.apigeneration.LangMethodDefinition.LangMet
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Wrapper;
@@ -28,19 +30,16 @@ import java.util.List;
  */
 @Fluent
 public interface Deployment extends
+        Indexable,
         Refreshable<Deployment>,
         Updatable<Deployment.Update>,
-        Wrapper<DeploymentExtendedInner> {
+        Wrapper<DeploymentExtendedInner>,
+        HasName {
 
     /**
      * @return the name of this deployment's resource group
      */
     String resourceGroupName();
-
-    /**
-     * @return the name of the deployment
-     */
-    String name();
 
     /**
      * @return the state of the provisioning process of the resources being deployed

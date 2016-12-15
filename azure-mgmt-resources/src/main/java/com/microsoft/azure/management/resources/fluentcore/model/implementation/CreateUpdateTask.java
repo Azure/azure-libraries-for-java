@@ -1,6 +1,6 @@
 package com.microsoft.azure.management.resources.fluentcore.model.implementation;
 
-import com.microsoft.azure.TaskItem;
+import com.microsoft.azure.management.resources.fluentcore.dag.TaskItem;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -26,6 +26,11 @@ public class CreateUpdateTask<ResourceT> implements TaskItem<ResourceT> {
     @Override
     public ResourceT result() {
         return resource;
+    }
+
+    @Override
+    public void prepare() {
+        this.resourceCreatorUpdator.prepare();
     }
 
     @Override

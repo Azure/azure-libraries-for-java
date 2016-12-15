@@ -1,6 +1,6 @@
 package com.microsoft.azure.management.resources.fluentcore.model.implementation;
 
-import com.microsoft.azure.TaskGroupBase;
+import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroupBase;
 import rx.Observable;
 
 /**
@@ -15,6 +15,10 @@ public class CreateUpdateTaskGroup<ResourceT> extends TaskGroupBase<ResourceT, C
      * @param <T> the type of the resource that this creatorUpdator can create or update
      */
     interface ResourceCreatorUpdator<T> {
+        /**
+         * prepare for create or update.
+         */
+        void prepare();
         /**
          * Creates the resource asynchronously.
          *

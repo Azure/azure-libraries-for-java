@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.management.compute;
 
-import java.util.List;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineScaleSetExtensionInner;
+
+import java.util.List;
 
 /**
  * Describes a virtual machine scale set extension profile.
  */
 public class VirtualMachineScaleSetExtensionProfile {
     /**
-     * the virtual machine scale set child extension resources.
+     * The virtual machine scale set child extension resources.
      */
     private List<VirtualMachineScaleSetExtensionInner> extensions;
 

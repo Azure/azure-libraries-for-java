@@ -5,12 +5,15 @@
  */
 package com.microsoft.azure.management.network.implementation;
 
+import java.util.List;
+
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.NetworkSecurityGroups;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
-import rx.Observable;
+import rx.Completable;
 
 /**
  *  Implementation for {@link NetworkSecurityGroups}.
@@ -47,8 +50,26 @@ class NetworkSecurityGroupsImpl
     }
 
     @Override
-    public Observable<Void> deleteByGroupAsync(String groupName, String name) {
-        return this.innerCollection.deleteAsync(groupName, name);
+    public Completable deleteByGroupAsync(String groupName, String name) {
+        // Clear NIC references if any
+        NetworkSecurityGroupImpl nsg = getByGroup(groupName, name);
+        if (nsg != null) {
+            List<String> nicIds = nsg.networkInterfaceIds();
+            if (nicIds != null) {
+                for (String nicRef : nsg.networkInterfaceIds()) {
+                    NetworkInterface nic = this.manager().networkInterfaces().getById(nicRef);
+                    if (nic == null) {
+                        continue;
+                    } else if (!nsg.id().equalsIgnoreCase(nic.networkSecurityGroupId())) {
+                        continue;
+                    } else {
+                        nic.update().withoutNetworkSecurityGroup().apply();
+                    }
+                }
+            }
+        }
+
+        return this.innerCollection.deleteAsync(groupName, name).toCompletable();
     }
 
     @Override

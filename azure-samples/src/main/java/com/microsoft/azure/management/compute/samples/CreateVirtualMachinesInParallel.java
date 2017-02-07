@@ -17,17 +17,18 @@ import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceNamer;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerProfile;
-import okhttp3.logging.HttpLoggingInterceptor;
+import com.microsoft.rest.LogLevel;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.time.StopWatch;
 
 /**
  * Azure compute sample for creating multiple virtual machines in parallel.
@@ -35,22 +36,22 @@ import java.util.Map;
 public final class CreateVirtualMachinesInParallel {
 
     /**
-     * Main entry point.
-     * @param args the parameters
+     * Main function which runs the actual sample.
+     * @param azure instance of the azure client
+     * @return true if sample runs successfully
      */
-    public static void main(String[] args) {
-
-        final String rgName = ResourceNamer.randomResourceName("rgCOPD", 24);
+    public static boolean runSample(Azure azure) {
+        final String rgName = SdkContext.randomResourceName("rgCOPD", 24);
         final String userName = "tirekicker";
         final String sshKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCfSPC2K7LZcFKEO+/t3dzmQYtrJFZNxOsbVgOVKietqHyvmYGHEC0J2wPdAqQ/63g/hhAEFRoyehM+rbeDri4txB3YFfnOK58jqdkyXzupWqXzOrlKY4Wz9SKjjN765+dqUITjKRIaAip1Ri137szRg71WnrmdP3SphTRlCx1Bk2nXqWPsclbRDCiZeF8QOTi4JqbmJyK5+0UqhqYRduun8ylAwKKQJ1NJt85sYIHn9f1Rfr6Tq2zS0wZ7DHbZL+zB5rSlAr8QyUdg/GQD+cmSs6LvPJKL78d6hMGk84ARtFo4A79ovwX/Fj01znDQkU6nJildfkaolH2rWFG/qttD azjava@javalib.com";
 
         Map<Region, Integer> virtualMachinesByLocation = new HashMap<Region, Integer>();
-        
+
         // debug target
         /**
-        virtualMachinesByLocation.put(Region.US_EAST, 5);
-        virtualMachinesByLocation.put(Region.US_SOUTH_CENTRAL, 5);
-        */
+         virtualMachinesByLocation.put(Region.US_EAST, 5);
+         virtualMachinesByLocation.put(Region.US_SOUTH_CENTRAL, 5);
+         */
 
         // final demo target
         virtualMachinesByLocation.put(Region.US_EAST, 12);
@@ -67,77 +68,61 @@ public final class CreateVirtualMachinesInParallel {
         // virtualMachinesByLocation.put(Region.JAPAN_WEST, 5);
 
         try {
+
             //=============================================================
-            // Authenticate
+            // Create a resource group (Where all resources gets created)
             //
-            System.out.println("AZURE_AUTH_LOCATION_2=" + System.getenv("AZURE_AUTH_LOCATION_2"));
-            final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION_2"));
+            ResourceGroup resourceGroup = azure.resourceGroups().define(rgName)
+                    .withRegion(Region.US_EAST)
+                    .create();
 
-            Azure azure = Azure
-                    .configure()
-                    .withLogLevel(HttpLoggingInterceptor.Level.NONE)
-                    .authenticate(credFile)
-                    .withDefaultSubscription();
+            System.out.println("Created a new resource group - " + resourceGroup.id());
 
-            // Print selected subscription
-            System.out.println("Selected subscription: " + azure.subscriptionId());
+            List<String> publicIpCreatableKeys = new ArrayList<>();
+            // Prepare a batch of Creatable definitions
+            //
+            List<Creatable<VirtualMachine>> creatableVirtualMachines = new ArrayList<>();
 
-            try {
+            for (Map.Entry<Region, Integer> entry : virtualMachinesByLocation.entrySet()) {
+                Region region = entry.getKey();
+                Integer vmCount = entry.getValue();
+
                 //=============================================================
-                // Create a resource group (Where all resources gets created)
+                // Create 1 network creatable per region
+                // Prepare Creatable Network definition (Where all the virtual machines get added to)
                 //
-                ResourceGroup resourceGroup = azure.resourceGroups()
-                        .define(rgName)
-                        .withRegion(Region.US_EAST)
-                        .create();
+                String networkName = SdkContext.randomResourceName("vnetCOPD-", 20);
+                Creatable<Network> networkCreatable = azure.networks().define(networkName)
+                        .withRegion(region)
+                        .withExistingResourceGroup(resourceGroup)
+                        .withAddressSpace("172.16.0.0/16");
 
-                System.out.println("Created a new resource group - " + resourceGroup.id());
-
-                List<String> publicIpCreatableKeys = new ArrayList<>();
-                // Prepare a batch of Creatable definitions
+                //=============================================================
+                // Create 1 storage creatable per region (For storing VMs disk)
                 //
-                List<Creatable<VirtualMachine>> creatableVirtualMachines = new ArrayList<>();
+                String storageAccountName = SdkContext.randomResourceName("stgcopd", 20);
+                Creatable<StorageAccount> storageAccountCreatable = azure.storageAccounts().define(storageAccountName)
+                        .withRegion(region)
+                        .withExistingResourceGroup(resourceGroup);
 
-                for (Map.Entry<Region, Integer> entry : virtualMachinesByLocation.entrySet()) {
-                    Region region = entry.getKey();
-                    Integer vmCount = entry.getValue();
-                    //=============================================================
-                    // Create 1 network creatable per region
-                    // Prepare Creatable Network definition (Where all the virtual machines get added to)
-                    //
-                    String networkName = ResourceNamer.randomResourceName("vnetCOPD-", 20);
-                    Creatable<Network> networkCreatable = azure.networks()
-                            .define(networkName)
-                            .withRegion(region)
-                            .withExistingResourceGroup(resourceGroup)
-                            .withAddressSpace("172.16.0.0/16");
-
+                String linuxVMNamePrefix = SdkContext.randomResourceName("vm-", 15);
+                for (int i = 1; i <= vmCount; i++) {
 
                     //=============================================================
-                    // Create 1 storage creatable per region (For storing VMs disk)
+                    // Create 1 public IP address creatable
                     //
-                    String storageAccountName = ResourceNamer.randomResourceName("stgcopd", 20);
-                    Creatable<StorageAccount> storageAccountCreatable = azure.storageAccounts()
-                            .define(storageAccountName)
-                            .withRegion(region)
-                            .withExistingResourceGroup(resourceGroup);
-
-                    String linuxVMNamePrefix = ResourceNamer.randomResourceName("vm-", 15);
-                    for (int i = 1; i <= vmCount; i++) {
-                        //=============================================================
-                        // Create 1 public IP address creatable
-                        //
-                        Creatable<PublicIpAddress> publicIpAddressCreatable = azure.publicIpAddresses()
-                                .define(String.format("%s-%d", linuxVMNamePrefix, i))
+                    Creatable<PublicIpAddress> publicIpAddressCreatable = azure.publicIpAddresses()
+                            .define(String.format("%s-%d", linuxVMNamePrefix, i))
                                 .withRegion(region)
-                                .withExistingResourceGroup(resourceGroup);
+                                .withExistingResourceGroup(resourceGroup)
+                                .withLeafDomainLabel(SdkContext.randomResourceName("pip", 10));
 
-                        publicIpCreatableKeys.add(publicIpAddressCreatable.key());
+                    publicIpCreatableKeys.add(publicIpAddressCreatable.key());
 
-                        //=============================================================
-                        // Create 1 virtual machine creatable
-                        Creatable<VirtualMachine> virtualMachineCreatable = azure.virtualMachines()
-                                .define(String.format("%s-%d", linuxVMNamePrefix, i))
+                    //=============================================================
+                    // Create 1 virtual machine creatable
+                    Creatable<VirtualMachine> virtualMachineCreatable = azure.virtualMachines()
+                            .define(String.format("%s-%d", linuxVMNamePrefix, i))
                                 .withRegion(region)
                                 .withExistingResourceGroup(resourceGroup)
                                 .withNewPrimaryNetwork(networkCreatable)
@@ -148,81 +133,114 @@ public final class CreateVirtualMachinesInParallel {
                                 .withSsh(sshKey)
                                 .withSize(VirtualMachineSizeTypes.STANDARD_DS3_V2)
                                 .withNewStorageAccount(storageAccountCreatable);
-                        creatableVirtualMachines.add(virtualMachineCreatable);
-                    }
+                    creatableVirtualMachines.add(virtualMachineCreatable);
                 }
+            }
 
 
-                //=============================================================
-                // Create !!
+            //=============================================================
+            // Create !!
 
-                Date t1 = new Date();
-                System.out.println("Creating the virtual machines");
+            StopWatch stopwatch = new StopWatch();
+            System.out.println("Creating the virtual machines");
+            stopwatch.start();
 
-                CreatedResources<VirtualMachine> virtualMachines = azure.virtualMachines().create(creatableVirtualMachines);
+            CreatedResources<VirtualMachine> virtualMachines = azure.virtualMachines().create(creatableVirtualMachines);
 
-                Date t2 = new Date();
-                System.out.println("Created virtual machines");
+            stopwatch.stop();
+            System.out.println("Created virtual machines");
 
-                for (VirtualMachine virtualMachine : virtualMachines) {
-                    System.out.println(virtualMachine.id());
+            for (VirtualMachine virtualMachine : virtualMachines.values()) {
+                System.out.println(virtualMachine.id());
+            }
+
+            System.out.println("Virtual Machines created: (took " + (stopwatch.getTime() / 1000) + " seconds to create) == " + virtualMachines.size() + " == virtual machines");
+
+            List<String> publicIpResourceIds = new ArrayList<>();
+            for (String publicIpCreatableKey : publicIpCreatableKeys) {
+                PublicIpAddress pip = (PublicIpAddress) virtualMachines.createdRelatedResource(publicIpCreatableKey);
+                publicIpResourceIds.add(pip.id());
+            }
+
+            //=============================================================
+            // Create 1 Traffic Manager Profile
+            //
+            String trafficManagerName = SdkContext.randomResourceName("tra", 15);
+            TrafficManagerProfile.DefinitionStages.WithEndpoint profileWithEndpoint = azure.trafficManagerProfiles().define(trafficManagerName)
+                    .withExistingResourceGroup(resourceGroup)
+                    .withLeafDomainLabel(trafficManagerName)
+                    .withPerformanceBasedRouting();
+
+            int endpointPriority = 1;
+            TrafficManagerProfile.DefinitionStages.WithCreate profileWithCreate = null;
+            for (String publicIpResourceId : publicIpResourceIds) {
+                String endpointName = String.format("azendpoint-%d", endpointPriority);
+                if (endpointPriority == 1) {
+                    profileWithCreate = profileWithEndpoint.defineAzureTargetEndpoint(endpointName)
+                            .toResourceId(publicIpResourceId)
+                            .withRoutingPriority(endpointPriority)
+                            .attach();
+                } else {
+                    profileWithCreate = profileWithCreate.defineAzureTargetEndpoint(endpointName)
+                            .toResourceId(publicIpResourceId)
+                            .withRoutingPriority(endpointPriority)
+                            .attach();
                 }
+                endpointPriority++;
+            }
 
-                System.out.println("Virtual Machines created: (took " + ((t2.getTime() - t1.getTime()) / 1000) + " seconds) to create == " + virtualMachines.size() + " == virtual machines");
+            System.out.println("Creating a traffic manager profile for the VMs");
+            stopwatch.reset();
+            stopwatch.start();
 
-                List<String> publicIpResourceIds = new ArrayList<>();
-                for (String publicIpCreatableKey : publicIpCreatableKeys) {
-                    PublicIpAddress pip = (PublicIpAddress) virtualMachines.createdRelatedResource(publicIpCreatableKey);
-                    publicIpResourceIds.add(pip.id());
-                }
+            TrafficManagerProfile trafficManagerProfile = profileWithCreate.create();
 
-                //=============================================================
-                // Create 1 Traffic Manager Profile
-                //
-                String trafficManagerName = ResourceNamer.randomResourceName("tra", 15);
-                TrafficManagerProfile.DefinitionStages.WithEndpoint profileWithEndpoint = azure.trafficManagerProfiles().define(trafficManagerName)
-                        .withExistingResourceGroup(resourceGroup)
-                        .withLeafDomainLabel(trafficManagerName)
-                        .withPerformanceBasedRouting();
-
-                int endpointPriority = 1;
-                TrafficManagerProfile.DefinitionStages.WithCreate profileWithCreate = null;
-                for (String publicIpResourceId : publicIpResourceIds) {
-                    String endpointName = String.format("azendpoint-%d", endpointPriority);
-                    if (endpointPriority == 1) {
-                        profileWithCreate = profileWithEndpoint.defineAzureTargetEndpoint(endpointName)
-                                .toResourceId(publicIpResourceId)
-                                .withRoutingPriority(endpointPriority)
-                                .attach();
-                    } else {
-                        profileWithCreate = profileWithCreate.defineAzureTargetEndpoint(endpointName)
-                                .toResourceId(publicIpResourceId)
-                                .withRoutingPriority(endpointPriority)
-                                .attach();
-                    }
-                    endpointPriority++;
-                }
-
-                TrafficManagerProfile trafficManagerProfile = profileWithCreate.create();
-                System.out.println("Created a traffic manager profile - " + trafficManagerProfile.id());
-            } catch (Exception f) {
+            stopwatch.stop();
+            System.out.println("Created a traffic manager profile (took " + (stopwatch.getTime() / 1000) + " seconds to create): " + trafficManagerProfile.id());
+            return true;
+        } catch (Exception f) {
 
             System.out.println(f.getMessage());
             f.printStackTrace();
 
-            } finally {
+        } finally {
 
-                try {
-                    System.out.println("Deleting Resource Group: " + rgName);
-                    azure.resourceGroups().deleteByName(rgName);
-                    System.out.println("Deleted Resource Group: " + rgName);
-                } catch (NullPointerException npe) {
-                    System.out.println("Did not create any resources in Azure. No clean up is necessary");
-                } catch (Exception g) {
-                    g.printStackTrace();
-                }
-
+            try {
+                System.out.println("Deleting Resource Group: " + rgName);
+                azure.resourceGroups().deleteByName(rgName);
+                System.out.println("Deleted Resource Group: " + rgName);
+            } catch (NullPointerException npe) {
+                System.out.println("Did not create any resources in Azure. No clean up is necessary");
+            } catch (Exception g) {
+                g.printStackTrace();
             }
+
+        }
+        return false;
+    }
+    /**
+     * Main entry point.
+     * @param args the parameters
+     */
+    public static void main(String[] args) {
+        try {
+
+            //=============================================================
+            // Authenticate
+            //
+            System.out.println("AZURE_AUTH_LOCATION_2=" + System.getenv("AZURE_AUTH_LOCATION_2"));
+            final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION_2"));
+
+            Azure azure = Azure
+                    .configure()
+                    .withLogLevel(LogLevel.NONE)
+                    .authenticate(credFile)
+                    .withDefaultSubscription();
+
+            // Print selected subscription
+            System.out.println("Selected subscription: " + azure.subscriptionId());
+
+            runSample(azure);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

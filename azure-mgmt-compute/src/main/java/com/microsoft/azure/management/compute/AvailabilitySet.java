@@ -7,6 +7,7 @@ package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.compute.implementation.AvailabilitySetInner;
+import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -22,11 +23,10 @@ import java.util.List;
  */
 @Fluent()
 public interface AvailabilitySet extends
-        GroupableResource,
+        GroupableResource<ComputeManager>,
         Refreshable<AvailabilitySet>,
         Wrapper<AvailabilitySetInner>,
         Updatable<AvailabilitySet.Update> {
-
 
     /**
      * @return the update domain count of this availability set
@@ -37,6 +37,11 @@ public interface AvailabilitySet extends
      * @return the fault domain count of this availability set
      */
     int faultDomainCount();
+
+    /**
+     * @return the availability set sku
+     */
+    AvailabilitySetSkuTypes sku();
 
     /**
      * @return the resource IDs of the virtual machines in the availability set
@@ -100,18 +105,49 @@ public interface AvailabilitySet extends
         }
 
         /**
+         * The stage of the availability set definition allowing enable or disable for managed disk.
+         */
+        interface WithSku {
+            /**
+             * Specifies the sku type for the availability set.
+             *
+             * @param skuType the sku type
+             * @return the next stage of the definition
+             */
+            WithCreate withSku(AvailabilitySetSkuTypes skuType);
+        }
+
+        /**
          * The stage of an availability set definition which contains all the minimum required inputs for
          * the resource to be created (via {@link WithCreate#create()}), but also allows
          * for any other optional settings to be specified.
          */
         interface WithCreate extends
-            Creatable<AvailabilitySet>,
-            Resource.DefinitionWithTags<WithCreate>,
-            WithUpdateDomainCount,
-            WithFaultDomainCount {
+                Creatable<AvailabilitySet>,
+                Resource.DefinitionWithTags<WithCreate>,
+                WithUpdateDomainCount,
+                WithFaultDomainCount,
+                WithSku {
         }
     }
 
+    /**
+     * Grouping of availability set update stages.
+     */
+    interface UpdateStages {
+        /**
+         * The stage of the availability set definition allowing to specify sku.
+         */
+        interface WithSku {
+            /**
+             * Specifies the sku type for the availability set.
+             *
+             * @param skuType the sku type
+             * @return the next stage of the definition
+             */
+            Update withSku(AvailabilitySetSkuTypes skuType);
+        }
+    }
     /**
      * The template for an availability set update operation, containing all the settings that
      * can be modified.
@@ -119,7 +155,8 @@ public interface AvailabilitySet extends
      * Call {@link Update#apply()} to apply the changes to the resource in Azure.
      */
     interface Update extends
-        Appliable<AvailabilitySet>,
-        Resource.UpdateWithTags<Update> {
+            Appliable<AvailabilitySet>,
+            Resource.UpdateWithTags<Update>,
+            UpdateStages.WithSku {
     }
 }

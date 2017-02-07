@@ -21,8 +21,9 @@ import com.microsoft.azure.management.compute.VirtualMachines;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
-import rx.Observable;
+import rx.Completable;
 import rx.exceptions.Exceptions;
+import rx.functions.Func1;
 
 import java.util.ArrayList;
 
@@ -74,8 +75,8 @@ class VirtualMachinesImpl
     }
 
     @Override
-    public Observable<Void> deleteByGroupAsync(String groupName, String name) {
-        return this.innerCollection.deleteAsync(groupName, name);
+    public Completable deleteByGroupAsync(String groupName, String name) {
+        return this.innerCollection.deleteAsync(groupName, name).toCompletable();
     }
 
     @Override
@@ -132,6 +133,10 @@ class VirtualMachinesImpl
         }
     }
 
+    @Override
+    public void migrateToManaged(String groupName, String name) {
+        this.innerCollection.convertToManagedDisks(groupName, name);
+    }
 
     // Getters
     @Override

@@ -13,6 +13,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.collection.Suppor
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 
 import java.io.IOException;
@@ -23,13 +24,17 @@ import java.io.IOException;
  * @param <C> Type representing the collection of the top level resources
  */
 public abstract class TestTemplate<
-    T extends GroupableResource,
+    T extends GroupableResource<?>,
     C extends SupportsListing<T> & SupportsGettingByGroup<T> & SupportsDeletingById & SupportsGettingById<T>> {
 
-    protected String testId = String.valueOf(System.currentTimeMillis() % 100000L);
+    protected String testId = "";
     private T resource;
     private C collection;
     private ResourceGroups resourceGroups;
+
+    protected TestTemplate() {
+        testId = SdkContext.randomResourceName("", 8);
+    }
 
     /**
      * Resource creation logic.
@@ -118,17 +123,30 @@ public abstract class TestTemplate<
         System.out.println("\n------------\nRetrieved resource:\n");
         print(this.resource);
 
+        boolean failedUpdate = false;
+        String message = "Update Failed";
         // Verify update
         try {
             this.resource = updateResource(this.resource);
             Assert.assertTrue(this.resource != null);
             System.out.println("\n------------\nUpdated resource:\n");
+            message = "Print failed";
             print(this.resource);
         } catch (Exception e) {
             e.printStackTrace();
+            failedUpdate = true;
         }
 
         // Verify deletion
-        verifyDeleting();
+        boolean failedDelete = false;
+        try {
+            message = "Delete failed";
+            verifyDeleting();
+        } catch (Exception e) {
+            e.printStackTrace();
+            failedDelete = true;
+        }
+        Assert.assertFalse(message, failedUpdate);
+        Assert.assertFalse(message,  failedDelete);
     }
 }

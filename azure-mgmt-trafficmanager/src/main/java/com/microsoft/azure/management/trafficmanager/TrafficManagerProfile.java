@@ -14,6 +14,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Wrapper;
 import com.microsoft.azure.management.trafficmanager.implementation.ProfileInner;
+import com.microsoft.azure.management.trafficmanager.implementation.TrafficManager;
 
 import java.util.Map;
 
@@ -22,7 +23,7 @@ import java.util.Map;
  */
 @Fluent
 public interface TrafficManagerProfile extends
-        GroupableResource,
+        GroupableResource<TrafficManager>,
         Refreshable<TrafficManagerProfile>,
         Wrapper<ProfileInner>,
         Updatable<TrafficManagerProfile.Update> {
@@ -127,7 +128,7 @@ public interface TrafficManagerProfile extends
          */
         interface WithTrafficRoutingMethod {
             /**
-             * Specify that end user traffic should be routed to the endpoint based on its priority
+             * Specifies that end user traffic should be routed to the endpoint based on its priority
              * i.e. use the endpoint with highest priority and if it is not available fallback to next highest
              * priority endpoint.
              *
@@ -136,7 +137,7 @@ public interface TrafficManagerProfile extends
             WithEndpoint withPriorityBasedRouting();
 
             /**
-             * Specify that end user traffic should be distributed to the endpoints based on the weight assigned
+             * Specifies that end user traffic should be distributed to the endpoints based on the weight assigned
              * to the endpoint.
              *
              * @return the next stage of the traffic manager profile definition
@@ -144,7 +145,7 @@ public interface TrafficManagerProfile extends
             WithEndpoint withWeightBasedRouting();
 
             /**
-             * Specify that end user traffic should be routed based on the geographic location of the endpoint
+             * Specifies that end user traffic should be routed based on the geographic location of the endpoint
              * close to user.
              *
              * @return the next stage of the traffic manager profile definition
@@ -281,7 +282,7 @@ public interface TrafficManagerProfile extends
          */
         interface WithTrafficRoutingMethod {
             /**
-             * Specify that end user traffic should be routed to the endpoint based on its priority
+             * Specifies that end user traffic should be routed to the endpoint based on its priority
              * i.e. use the endpoint with highest priority and if it is not available fallback to next highest
              * priority endpoint.
              *
@@ -290,7 +291,7 @@ public interface TrafficManagerProfile extends
             Update withPriorityBasedRouting();
 
             /**
-             * Specify that end user traffic should be distributed to the endpoints based on the weight assigned
+             * Specifies that end user traffic should be distributed to the endpoints based on the weight assigned
              * to the endpoint.
              *
              * @return the next stage of the traffic manager profile update
@@ -298,7 +299,7 @@ public interface TrafficManagerProfile extends
             Update withWeightBasedRouting();
 
             /**
-             * Specify that end user traffic should be routed based on the geographic location of the endpoint
+             * Specifies that end user traffic should be routed based on the geographic location of the endpoint
              * close to user.
              *
              * @return the next stage of the traffic manager profile update
@@ -306,7 +307,7 @@ public interface TrafficManagerProfile extends
             Update withPerformanceBasedRouting();
 
             /**
-             * Specify the traffic routing method for the profile.
+             * Specifies the traffic routing method for the profile.
              *
              * @param routingMethod the traffic routing method for the profile
              * @return the next stage of the traffic manager profile update
@@ -360,7 +361,7 @@ public interface TrafficManagerProfile extends
          */
         interface WithEndpoint {
             /**
-             * Specifies definition of an Azure endpoint to be attached to the traffic manager profile.
+             * Begins the definition of an Azure endpoint to be attached to the traffic manager profile.
              *
              * @param name the name for the endpoint
              * @return the stage representing configuration for the endpoint
@@ -368,7 +369,7 @@ public interface TrafficManagerProfile extends
             TrafficManagerEndpoint.UpdateDefinitionStages.AzureTargetEndpointBlank<Update> defineAzureTargetEndpoint(String name);
 
             /**
-             * Specifies definition of an external endpoint to be attached to the traffic manager profile.
+             * Begins the definition of an external endpoint to be attached to the traffic manager profile.
              *
              * @param name the name for the endpoint
              * @return the stage representing configuration for the endpoint
@@ -376,7 +377,7 @@ public interface TrafficManagerProfile extends
             TrafficManagerEndpoint.UpdateDefinitionStages.ExternalTargetEndpointBlank<Update> defineExternalTargetEndpoint(String name);
 
             /**
-             * Specifies definition of an nested profile endpoint to be attached to the traffic manager profile.
+             * Begins the definition of a nested profile endpoint to be attached to the traffic manager profile.
              *
              * @param name the name for the endpoint
              * @return the stage representing configuration for the endpoint

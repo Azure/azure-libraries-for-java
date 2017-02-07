@@ -16,40 +16,44 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class VirtualMachineScaleSetOSDisk {
     /**
-     * the disk name.
+     * The disk name.
      */
-    @JsonProperty(required = true)
     private String name;
 
     /**
-     * the caching type. Possible values include: 'None', 'ReadOnly',
+     * The caching type. Possible values include: 'None', 'ReadOnly',
      * 'ReadWrite'.
      */
     private CachingTypes caching;
 
     /**
-     * the create option. Possible values include: 'fromImage', 'empty',
+     * The create option. Possible values include: 'fromImage', 'empty',
      * 'attach'.
      */
     @JsonProperty(required = true)
     private DiskCreateOptionTypes createOption;
 
     /**
-     * the Operating System type. Possible values include: 'Windows', 'Linux'.
+     * The Operating System type. Possible values include: 'Windows', 'Linux'.
      */
     private OperatingSystemTypes osType;
 
     /**
-     * the Source User Image VirtualHardDisk. This VirtualHardDisk will be
-     * copied before using it to attach to the Virtual Machine.If SourceImage
+     * The Source User Image VirtualHardDisk. This VirtualHardDisk will be
+     * copied before using it to attach to the Virtual Machine. If SourceImage
      * is provided, the destination VirtualHardDisk should not exist.
      */
     private VirtualHardDisk image;
 
     /**
-     * the list of virtual hard disk container uris.
+     * The list of virtual hard disk container uris.
      */
     private List<String> vhdContainers;
+
+    /**
+     * The managed disk parameters.
+     */
+    private VirtualMachineScaleSetManagedDiskParameters managedDisk;
 
     /**
      * Get the name value.
@@ -168,6 +172,26 @@ public class VirtualMachineScaleSetOSDisk {
      */
     public VirtualMachineScaleSetOSDisk withVhdContainers(List<String> vhdContainers) {
         this.vhdContainers = vhdContainers;
+        return this;
+    }
+
+    /**
+     * Get the managedDisk value.
+     *
+     * @return the managedDisk value
+     */
+    public VirtualMachineScaleSetManagedDiskParameters managedDisk() {
+        return this.managedDisk;
+    }
+
+    /**
+     * Set the managedDisk value.
+     *
+     * @param managedDisk the managedDisk value to set
+     * @return the VirtualMachineScaleSetOSDisk object itself.
+     */
+    public VirtualMachineScaleSetOSDisk withManagedDisk(VirtualMachineScaleSetManagedDiskParameters managedDisk) {
+        this.managedDisk = managedDisk;
         return this;
     }
 

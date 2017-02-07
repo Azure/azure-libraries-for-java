@@ -6,9 +6,13 @@
 
 package com.microsoft.azure.management;
 
+import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.RestClient;
+import com.microsoft.azure.management.compute.Disks;
+import com.microsoft.azure.management.compute.Snapshots;
+import com.microsoft.azure.management.compute.VirtualMachineCustomImages;
+import com.microsoft.rest.RestClient;
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.batch.BatchAccounts;
@@ -80,6 +84,7 @@ public final class Azure {
     private final AppServiceManager appServiceManager;
     private final SqlServerManager sqlServerManager;
     private final String subscriptionId;
+    private final Authenticated authenticated;
 
     /**
      * Authenticate to Azure using an Azure credentials object.
@@ -88,10 +93,10 @@ public final class Azure {
      * @return the authenticated Azure client
      */
     public static Authenticated authenticate(AzureTokenCredentials credentials) {
-        return new AuthenticatedImpl(
-                credentials.getEnvironment().newRestClientBuilder()
-                        .withCredentials(credentials)
-                        .build(), credentials.getDomain());
+        return new AuthenticatedImpl(new RestClient.Builder()
+                .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
+                .withCredentials(credentials)
+                .build(), credentials.domain());
     }
 
     /**
@@ -112,9 +117,10 @@ public final class Azure {
      */
     public static Authenticated authenticate(File credentialsFile) throws IOException {
         ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(credentialsFile);
-        return new AuthenticatedImpl(credentials.getEnvironment().newRestClientBuilder()
+        return new AuthenticatedImpl(new RestClient.Builder()
+                .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withCredentials(credentials)
-                .build(), credentials.getDomain()).withDefaultSubscription(credentials.defaultSubscriptionId());
+                .build(), credentials.domain()).withDefaultSubscription(credentials.defaultSubscriptionId());
     }
 
     /**
@@ -127,7 +133,14 @@ public final class Azure {
         return new AuthenticatedImpl(restClient, tenantId);
     }
 
-    private static Authenticated authenticate(RestClient restClient, String tenantId, String subscriptionId) throws IOException {
+    /**
+     * Authenticates API access using a {@link RestClient} instance.
+     * @param restClient the {@link RestClient} configured with Azure authentication credentials
+     * @param tenantId the tenantId in Active Directory
+     * @param subscriptionId the ID of the subscription
+     * @return authenticated Azure client
+     */
+    public static Authenticated authenticate(RestClient restClient, String tenantId, String subscriptionId) {
         return new AuthenticatedImpl(restClient, tenantId).withDefaultSubscription(subscriptionId);
     }
 
@@ -167,13 +180,13 @@ public final class Azure {
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
         @Override
         public Authenticated authenticate(AzureTokenCredentials credentials) {
-            return Azure.authenticate(buildRestClient(credentials), credentials.getDomain());
+            return Azure.authenticate(buildRestClient(credentials), credentials.domain());
         }
 
         @Override
         public Authenticated authenticate(File credentialsFile) throws IOException {
             ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(credentialsFile);
-            return Azure.authenticate(buildRestClient(credentials), credentials.getDomain(), credentials.defaultSubscriptionId());
+            return Azure.authenticate(buildRestClient(credentials), credentials.domain(), credentials.defaultSubscriptionId());
         }
     }
 
@@ -237,7 +250,7 @@ public final class Azure {
             this.tenantId = tenantId;
         }
 
-        private AuthenticatedImpl withDefaultSubscription(String subscriptionId) throws IOException {
+        private AuthenticatedImpl withDefaultSubscription(String subscriptionId) {
             this.defaultSubscription = subscriptionId;
             return this;
         }
@@ -254,7 +267,7 @@ public final class Azure {
 
         @Override
         public Azure withSubscription(String subscriptionId) {
-            return new Azure(restClient, subscriptionId, tenantId);
+            return new Azure(restClient, subscriptionId, tenantId, this);
         }
 
         @Override
@@ -272,7 +285,7 @@ public final class Azure {
         }
     }
 
-    private Azure(RestClient restClient, String subscriptionId, String tenantId) {
+    private Azure(RestClient restClient, String subscriptionId, String tenantId, Authenticated authenticated) {
         ResourceManagementClientImpl resourceManagementClient = new ResourceManagementClientImpl(restClient);
         resourceManagementClient.withSubscriptionId(subscriptionId);
         this.resourceManager = ResourceManager.authenticate(restClient).withSubscription(subscriptionId);
@@ -288,13 +301,28 @@ public final class Azure {
         this.appServiceManager = AppServiceManager.authenticate(restClient, tenantId, subscriptionId);
         this.sqlServerManager = SqlServerManager.authenticate(restClient, subscriptionId);
         this.subscriptionId = subscriptionId;
+        this.authenticated = authenticated;
     }
 
     /**
-     * @return the currently selected subscription ID this client is configured to work with
+     * @return the currently selected subscription ID this client is authenticated to work with
      */
     public String subscriptionId() {
         return this.subscriptionId;
+    }
+
+    /**
+     * @return the currently selected subscription this client is authenticated to work with
+     */
+    public Subscription getCurrentSubscription() {
+        return this.subscriptions().getById(this.subscriptionId());
+    }
+
+    /**
+     * @return subscriptions that this authenticated client has access to
+     */
+    public Subscriptions subscriptions() {
+        return this.authenticated.subscriptions();
     }
 
     /**
@@ -428,6 +456,27 @@ public final class Azure {
      */
     public VirtualMachineImages virtualMachineImages() {
         return computeManager.virtualMachineImages();
+    }
+
+    /**
+     * @return entry point to managing virtual machine custom images
+     */
+    public VirtualMachineCustomImages virtualMachineCustomImages() {
+        return computeManager.virtualMachineCustomImages();
+    }
+
+    /**
+     * @return entry point to managing managed disks
+     */
+    public Disks disks() {
+        return computeManager.disks();
+    }
+
+    /**
+     * @return entry point to managing managed snapshots
+     */
+    public Snapshots snapshots() {
+        return computeManager.snapshots();
     }
 
     /**

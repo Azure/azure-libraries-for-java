@@ -1,11 +1,19 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByGroup;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
@@ -25,7 +33,8 @@ public interface VirtualMachineScaleSets extends
         SupportsCreating<VirtualMachineScaleSet.DefinitionStages.Blank>,
         SupportsDeletingById,
         SupportsDeletingByGroup,
-        SupportsBatchCreation<VirtualMachineScaleSet> {
+        SupportsBatchCreation<VirtualMachineScaleSet>,
+        HasManager<ComputeManager> {
     /**
      * Shuts down the virtual machine in the scale set and releases the compute resources.
      *

@@ -15,7 +15,7 @@ import com.microsoft.azure.management.compute.VirtualMachines;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import okhttp3.logging.HttpLoggingInterceptor;
+import com.microsoft.rest.LogLevel;
 import org.junit.Test;
 import rx.Observable;
 import rx.functions.Action1;
@@ -62,20 +62,5 @@ public class TestVirtualMachine extends TestTemplate<VirtualMachine, VirtualMach
     @Override
     public void print(VirtualMachine virtualMachine) {
         TestUtils.print(virtualMachine);
-    }
-
-    @Test
-    public void run() throws Exception {
-        ApplicationTokenCredentials credentials = new ApplicationTokenCredentials(
-                System.getenv("client-id"),
-                System.getenv("domain"),
-                System.getenv("secret"),
-                null);
-
-        Azure azure = Azure.configure()
-                .withLogLevel(HttpLoggingInterceptor.Level.NONE)
-                .authenticate(credentials)
-                .withDefaultSubscription();
-        runTest(azure.virtualMachines(), azure.resourceGroups());
     }
 }

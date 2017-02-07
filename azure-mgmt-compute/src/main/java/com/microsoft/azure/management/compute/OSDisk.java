@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.management.compute.implementation.ManagedDiskParametersInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -15,52 +16,55 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class OSDisk {
     /**
-     * the Operating System type. Possible values include: 'Windows', 'Linux'.
+     * The Operating System type. Possible values include: 'Windows', 'Linux'.
      */
     private OperatingSystemTypes osType;
 
     /**
-     * the disk encryption settings.
+     * The disk encryption settings.
      */
     private DiskEncryptionSettings encryptionSettings;
 
     /**
-     * the disk name.
+     * The disk name.
      */
-    @JsonProperty(required = true)
     private String name;
 
     /**
-     * the Virtual Hard Disk.
+     * The virtual hard disk.
      */
-    @JsonProperty(required = true)
     private VirtualHardDisk vhd;
 
     /**
-     * the Source User Image VirtualHardDisk. This VirtualHardDisk will be
-     * copied before using it to attach to the Virtual Machine.If SourceImage
-     * is provided, the destination VirtualHardDisk should not exist.
+     * The source user image virtual hard disk. The virtual hard disk will be
+     * copied before using it to attach to the virtual machine. If SourceImage
+     * is provided, the destination virtual hard disk must not exist.
      */
     private VirtualHardDisk image;
 
     /**
-     * the caching type. Possible values include: 'None', 'ReadOnly',
+     * The caching type. Possible values include: 'None', 'ReadOnly',
      * 'ReadWrite'.
      */
     private CachingTypes caching;
 
     /**
-     * the create option. Possible values include: 'fromImage', 'empty',
+     * The create option. Possible values include: 'fromImage', 'empty',
      * 'attach'.
      */
     @JsonProperty(required = true)
     private DiskCreateOptionTypes createOption;
 
     /**
-     * the initial disk size in GB for blank data disks, and the new desired
-     * size for existing OS and Data disks.
+     * The initial disk size, in GB, for blank data disks, and the new desired
+     * size for resizing existing OS and data disks.
      */
     private Integer diskSizeGB;
+
+    /**
+     * The managed disk parameters.
+     */
+    private ManagedDiskParametersInner managedDisk;
 
     /**
      * Get the osType value.
@@ -219,6 +223,26 @@ public class OSDisk {
      */
     public OSDisk withDiskSizeGB(Integer diskSizeGB) {
         this.diskSizeGB = diskSizeGB;
+        return this;
+    }
+
+    /**
+     * Get the managedDisk value.
+     *
+     * @return the managedDisk value
+     */
+    public ManagedDiskParametersInner managedDisk() {
+        return this.managedDisk;
+    }
+
+    /**
+     * Set the managedDisk value.
+     *
+     * @param managedDisk the managedDisk value to set
+     * @return the OSDisk object itself.
+     */
+    public OSDisk withManagedDisk(ManagedDiskParametersInner managedDisk) {
+        this.managedDisk = managedDisk;
         return this;
     }
 

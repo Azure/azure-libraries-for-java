@@ -17,17 +17,16 @@ import com.microsoft.azure.management.keyvault.SkuName;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.keyvault.VaultProperties;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.FuncN;
-import rx.schedulers.Schedulers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 /**
  * Implementation for Vault and its parent interfaces.
@@ -205,20 +204,20 @@ class VaultImpl
             if (accessPolicy.objectId() == null) {
                 if (accessPolicy.userPrincipalName() != null) {
                     observables.add(graphRbacManager.users().getByUserPrincipalNameAsync(accessPolicy.userPrincipalName())
-                            .subscribeOn(Schedulers.io())
+                            .subscribeOn(SdkContext.getRxScheduler())
                             .doOnNext(new Action1<User>() {
                                 @Override
                                 public void call(User user) {
-                                    accessPolicy.forObjectId(UUID.fromString(user.objectId()));
+                                    accessPolicy.forObjectId(user.objectId());
                                 }
                             }));
                 } else if (accessPolicy.servicePrincipalName() != null) {
                     observables.add(graphRbacManager.servicePrincipals().getByServicePrincipalNameAsync(accessPolicy.servicePrincipalName())
-                            .subscribeOn(Schedulers.io())
+                            .subscribeOn(SdkContext.getRxScheduler())
                             .doOnNext(new Action1<ServicePrincipal>() {
                                 @Override
                                 public void call(ServicePrincipal sp) {
-                                    accessPolicy.forObjectId(UUID.fromString(sp.objectId()));
+                                    accessPolicy.forObjectId(sp.objectId());
                                 }
                             }));
                 } else {

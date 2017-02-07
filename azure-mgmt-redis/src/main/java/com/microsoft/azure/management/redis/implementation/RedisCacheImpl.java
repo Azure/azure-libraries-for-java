@@ -18,8 +18,9 @@ import com.microsoft.azure.management.redis.ScheduleEntry;
 import com.microsoft.azure.management.redis.Sku;
 import com.microsoft.azure.management.redis.SkuFamily;
 import com.microsoft.azure.management.redis.SkuName;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.Period;
 import rx.Observable;
@@ -277,7 +278,7 @@ class RedisCacheImpl
     }
 
     @Override
-    public RedisCacheImpl withSubnet(GroupableResource networkResource, String subnetName) {
+    public RedisCacheImpl withSubnet(HasId networkResource, String subnetName) {
         if (networkResource != null) {
             String subnetId = networkResource.id() + "/subnets/" + subnetName;
             if (isInCreateMode()) {
@@ -452,7 +453,7 @@ class RedisCacheImpl
             for (ScheduleEntry entry : this.scheduleEntries.values()) {
                 parameters.scheduleEntries().add(entry);
             }
-            this.patchSchedulesInner.createOrUpdate(resourceGroupName(), name(), parameters);
+            this.patchSchedulesInner.createOrUpdate(resourceGroupName(), name(), parameters.scheduleEntries());
         }
     }
 
@@ -465,11 +466,19 @@ class RedisCacheImpl
 
     @Override
     public Observable<RedisCache> updateResourceAsync() {
+        final RedisCacheImpl self = this;
         return client.updateAsync(resourceGroupName(), name(), updateParameters)
                 .map(innerToFluentMap(this))
                 .doOnNext(new Action1<RedisCache>() {
                     @Override
                     public void call(RedisCache redisCache) {
+                        while (!redisCache.provisioningState().equalsIgnoreCase("Succeeded")) {
+                            SdkContext.sleep(30 * 1000);
+
+                            RedisResourceInner innerResource = client.get(resourceGroupName(), name());
+                            ((RedisCacheImpl) redisCache).setInner(innerResource);
+                            self.setInner(innerResource);
+                        }
                         updatePatchSchedules();
                     }
                 });

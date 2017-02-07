@@ -21,6 +21,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.ResourceNamer;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
 
@@ -44,23 +45,37 @@ class NetworkInterfaceImpl
         NetworkInterface,
         NetworkInterface.Definition,
         NetworkInterface.Update {
-    // Clients
+    /**
+     * the inner collection.
+     */
     private final NetworkInterfacesInner innerCollection;
-    // the name of the network interface
+    /**
+     * the name of the network interface.
+     */
     private final String nicName;
-    // used to generate unique name for any dependency resources
+    /**
+     * used to generate unique name for any dependency resources.
+     */
     protected final ResourceNamer namer;
-    // reference to the primary ip configuration
+    /**
+     * reference to the primary ip configuration.
+     */
     private NicIpConfigurationImpl nicPrimaryIpConfiguration;
-
-    // references to all ip configuration
+    /**
+     * references to all ip configuration.
+     */
     private Map<String, NicIpConfiguration> nicIpConfigurations;
-
-    // unique key of a creatable network security group to be associated with the network interface
+    /**
+     * unique key of a creatable network security group to be associated with the network interface.
+     */
     private String creatableNetworkSecurityGroupKey;
-    // reference to an network security group to be associated with the network interface
+    /**
+     * reference to an network security group to be associated with the network interface.
+     */
     private NetworkSecurityGroup existingNetworkSecurityGroupToAssociate;
-    // Cached related resources.
+    /**
+     * cached related resources.
+     */
     private NetworkSecurityGroup networkSecurityGroup;
 
     NetworkInterfaceImpl(String name,
@@ -70,7 +85,7 @@ class NetworkInterfaceImpl
         super(name, innerModel, networkManager);
         this.innerCollection = client;
         this.nicName = name;
-        this.namer = new ResourceNamer(this.nicName);
+        this.namer = SdkContext.getResourceNamerFactory().createResourceNamer(this.nicName);
         initializeChildrenFromInner();
     }
 
@@ -441,10 +456,6 @@ class NetworkInterfaceImpl
     @Override
     protected void afterCreating() {
         clearCachedRelatedResources();
-    }
-
-    NetworkManager manager() {
-        return this.myManager;
     }
 
     @Override

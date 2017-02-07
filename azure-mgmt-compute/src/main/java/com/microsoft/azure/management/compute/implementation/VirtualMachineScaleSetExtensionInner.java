@@ -9,39 +9,39 @@
 package com.microsoft.azure.management.compute.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.compute.SubResourceReadOnly;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.SubResource;
 
 /**
  * Describes a Virtual Machine Scale Set Extension.
  */
 @JsonFlatten
-public class VirtualMachineScaleSetExtensionInner extends SubResource {
+public class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
     /**
-     * the name of the extension.
+     * The name of the extension.
      */
     private String name;
 
     /**
-     * the name of the extension handler publisher.
+     * The name of the extension handler publisher.
      */
     @JsonProperty(value = "properties.publisher")
     private String publisher;
 
     /**
-     * the type of the extension handler.
+     * The type of the extension handler.
      */
     @JsonProperty(value = "properties.type")
     private String type;
 
     /**
-     * the type version of the extension handler.
+     * The type version of the extension handler.
      */
     @JsonProperty(value = "properties.typeHandlerVersion")
     private String typeHandlerVersion;
 
     /**
-     * whether the extension handler should be automatically upgraded across
+     * Whether the extension handler should be automatically upgraded across
      * minor versions.
      */
     @JsonProperty(value = "properties.autoUpgradeMinorVersion")
@@ -60,7 +60,7 @@ public class VirtualMachineScaleSetExtensionInner extends SubResource {
     private Object protectedSettings;
 
     /**
-     * the provisioning state, which only appears in the response.
+     * The provisioning state, which only appears in the response.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
@@ -78,7 +78,7 @@ public class VirtualMachineScaleSetExtensionInner extends SubResource {
      * Set the name value.
      *
      * @param name the name value to set
-     * @return the VirtualMachineScaleSetExtensionInner object itself.
+     * @return the VirtualMachineScaleSetExtension object itself.
      */
     public VirtualMachineScaleSetExtensionInner withName(String name) {
         this.name = name;
@@ -98,7 +98,7 @@ public class VirtualMachineScaleSetExtensionInner extends SubResource {
      * Set the publisher value.
      *
      * @param publisher the publisher value to set
-     * @return the VirtualMachineScaleSetExtensionInner object itself.
+     * @return the VirtualMachineScaleSetExtension object itself.
      */
     public VirtualMachineScaleSetExtensionInner withPublisher(String publisher) {
         this.publisher = publisher;
@@ -118,7 +118,7 @@ public class VirtualMachineScaleSetExtensionInner extends SubResource {
      * Set the type value.
      *
      * @param type the type value to set
-     * @return the VirtualMachineScaleSetExtensionInner object itself.
+     * @return the VirtualMachineScaleSetExtension object itself.
      */
     public VirtualMachineScaleSetExtensionInner withType(String type) {
         this.type = type;
@@ -138,7 +138,7 @@ public class VirtualMachineScaleSetExtensionInner extends SubResource {
      * Set the typeHandlerVersion value.
      *
      * @param typeHandlerVersion the typeHandlerVersion value to set
-     * @return the VirtualMachineScaleSetExtensionInner object itself.
+     * @return the VirtualMachineScaleSetExtension object itself.
      */
     public VirtualMachineScaleSetExtensionInner withTypeHandlerVersion(String typeHandlerVersion) {
         this.typeHandlerVersion = typeHandlerVersion;
@@ -158,7 +158,7 @@ public class VirtualMachineScaleSetExtensionInner extends SubResource {
      * Set the autoUpgradeMinorVersion value.
      *
      * @param autoUpgradeMinorVersion the autoUpgradeMinorVersion value to set
-     * @return the VirtualMachineScaleSetExtensionInner object itself.
+     * @return the VirtualMachineScaleSetExtension object itself.
      */
     public VirtualMachineScaleSetExtensionInner withAutoUpgradeMinorVersion(Boolean autoUpgradeMinorVersion) {
         this.autoUpgradeMinorVersion = autoUpgradeMinorVersion;
@@ -178,7 +178,7 @@ public class VirtualMachineScaleSetExtensionInner extends SubResource {
      * Set the settings value.
      *
      * @param settings the settings value to set
-     * @return the VirtualMachineScaleSetExtensionInner object itself.
+     * @return the VirtualMachineScaleSetExtension object itself.
      */
     public VirtualMachineScaleSetExtensionInner withSettings(Object settings) {
         this.settings = settings;
@@ -198,7 +198,7 @@ public class VirtualMachineScaleSetExtensionInner extends SubResource {
      * Set the protectedSettings value.
      *
      * @param protectedSettings the protectedSettings value to set
-     * @return the VirtualMachineScaleSetExtensionInner object itself.
+     * @return the VirtualMachineScaleSetExtension object itself.
      */
     public VirtualMachineScaleSetExtensionInner withProtectedSettings(Object protectedSettings) {
         this.protectedSettings = protectedSettings;

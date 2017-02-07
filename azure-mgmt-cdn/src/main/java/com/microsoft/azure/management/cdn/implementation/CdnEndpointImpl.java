@@ -19,7 +19,7 @@ import com.microsoft.azure.management.cdn.GeoFilterActions;
 import com.microsoft.azure.management.cdn.QueryStringCachingBehavior;
 import com.microsoft.azure.management.resources.fluentcore.arm.CountryISOCode;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceNamer;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -95,7 +95,7 @@ class CdnEndpointImpl extends ExternalChildResourceImpl<CdnEndpoint,
                                     self.parent().resourceGroupName(),
                                     self.parent().name(),
                                     self.name(),
-                                    ResourceNamer.randomResourceName("CustomDomain", 50),
+                                    SdkContext.randomResourceName("CustomDomain", 50),
                                     itemToCreate.hostName());
                         }
                         self.customDomainList.clear();
@@ -286,7 +286,8 @@ class CdnEndpointImpl extends ExternalChildResourceImpl<CdnEndpoint,
     @Override
     public int httpPort() {
         if (this.inner().origins() != null && !this.inner().origins().isEmpty()) {
-            return this.inner().origins().get(0).httpPort();
+            Integer httpPort = this.inner().origins().get(0).httpPort();
+            return (httpPort != null) ? httpPort : 0;
         }
         return 0;
     }
@@ -294,7 +295,8 @@ class CdnEndpointImpl extends ExternalChildResourceImpl<CdnEndpoint,
     @Override
     public int httpsPort() {
         if (this.inner().origins() != null && !this.inner().origins().isEmpty()) {
-            return this.inner().origins().get(0).httpsPort();
+            Integer httpsPort = this.inner().origins().get(0).httpsPort();
+            return (httpsPort != null) ? httpsPort : 0;
         }
         return 0;
     }

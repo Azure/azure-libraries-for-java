@@ -43,9 +43,12 @@ class SqlDatabaseImpl
                             SqlDatabase,
                             SqlServer,
                             DatabaseInner,
-                            SqlDatabaseImpl>
+                            SqlDatabaseImpl,
+                            SqlServerManager>
         implements SqlDatabase,
             SqlDatabase.Definition,
+            SqlDatabase.DefinitionStages.WithCreateWithElasticPoolOptions,
+            SqlDatabase.DefinitionStages.WithExistingDatabase,
             SqlDatabase.Update,
         IndependentChild.DefinitionStages.WithParentResource<SqlDatabase, SqlServer> {
     protected final DatabasesInner innerCollection;
@@ -53,8 +56,9 @@ class SqlDatabaseImpl
 
     protected SqlDatabaseImpl(String name,
                             DatabaseInner innerObject,
-                            DatabasesInner innerCollection) {
-        super(name, innerObject);
+                            DatabasesInner innerCollection,
+                            SqlServerManager manager) {
+        super(name, innerObject, manager);
         this.innerCollection = innerCollection;
     }
 
@@ -145,7 +149,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public SqlWarehouse castToWarehouse() {
+    public SqlWarehouse asWarehouse() {
         if (this.isDataWarehouse()) {
             return (SqlWarehouse) this;
         }
@@ -255,6 +259,7 @@ class SqlDatabaseImpl
     @Override
     protected Observable<SqlDatabase> createChildResourceAsync() {
         final SqlDatabaseImpl self = this;
+
         if (this.elasticPoolCreatableKey != null) {
             SqlElasticPool sqlElasticPool = (SqlElasticPool) this.createdResource(this.elasticPoolCreatableKey);
             withExistingElasticPool(sqlElasticPool);
@@ -330,11 +335,6 @@ class SqlDatabaseImpl
     @Override
     public SqlDatabaseImpl withMode(CreateMode createMode) {
         this.inner().withCreateMode(createMode);
-        return this;
-    }
-
-    @Override
-    public SqlDatabaseImpl withoutSourceDatabaseId() {
         return this;
     }
 

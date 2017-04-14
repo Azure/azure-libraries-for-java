@@ -7,7 +7,7 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.resources.Deployments;
 import com.microsoft.azure.management.resources.Features;
@@ -21,11 +21,14 @@ import com.microsoft.azure.management.resources.Tenants;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.serializer.AzureJacksonAdapter;
+import com.microsoft.rest.RestClient;
 
 /**
  * Entry point to Azure resource management.
  */
-public final class ResourceManager extends ManagerBase {
+public final class ResourceManager extends ManagerBase implements HasInner<ResourceManagementClientImpl> {
     // The sdk clients
     private final ResourceManagementClientImpl resourceManagementClient;
     private final FeatureClientImpl featureClient;
@@ -49,6 +52,8 @@ public final class ResourceManager extends ManagerBase {
         return new AuthenticatedImpl(new RestClient.Builder()
                 .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withCredentials(credentials)
+                .withSerializerAdapter(new AzureJacksonAdapter())
+                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
                 .build());
     }
 
@@ -177,7 +182,7 @@ public final class ResourceManager extends ManagerBase {
      */
     public GenericResources genericResources() {
         if (genericResources == null) {
-            genericResources = new GenericResourcesImpl(resourceManagementClient, this);
+            genericResources = new GenericResourcesImpl(this);
         }
         return genericResources;
     }
@@ -187,10 +192,7 @@ public final class ResourceManager extends ManagerBase {
      */
     public Deployments deployments() {
         if (deployments == null) {
-            deployments = new DeploymentsImpl(
-                    resourceManagementClient.deployments(),
-                    resourceManagementClient.deploymentOperations(),
-                    this);
+            deployments = new DeploymentsImpl(this);
         }
         return deployments;
     }
@@ -233,5 +235,10 @@ public final class ResourceManager extends ManagerBase {
             policyAssignments = new PolicyAssignmentsImpl(policyClient.policyAssignments());
         }
         return policyAssignments;
+    }
+
+    @Override
+    public ResourceManagementClientImpl inner() {
+        return this.resourceManagementClient;
     }
 }

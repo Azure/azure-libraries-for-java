@@ -16,7 +16,7 @@ import com.microsoft.rest.RestClient;
 /**
  * Initializes a new instance of the SqlManagementClientImpl class.
  */
-public final class SqlManagementClientImpl extends AzureServiceClient {
+public class SqlManagementClientImpl extends AzureServiceClient {
     /** the {@link AzureClient} used for long running operations. */
     private AzureClient azureClient;
 
@@ -220,8 +220,6 @@ public final class SqlManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("Azure-SDK-For-Java/%s (%s)",
-                getClass().getPackage().getImplementationVersion(),
-                "SqlManagementClient, ");
+        return String.format("%s (%s)", super.userAgent(), "SqlManagementClient");
     }
 }

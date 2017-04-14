@@ -16,7 +16,7 @@ import com.microsoft.rest.RestClient;
 /**
  * Initializes a new instance of the RedisManagementClientImpl class.
  */
-public final class RedisManagementClientImpl extends AzureServiceClient {
+public class RedisManagementClientImpl extends AzureServiceClient {
     /** the {@link AzureClient} used for long running operations. */
     private AzureClient azureClient;
 
@@ -205,8 +205,6 @@ public final class RedisManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("Azure-SDK-For-Java/%s (%s)",
-                getClass().getPackage().getImplementationVersion(),
-                "RedisManagementClient, 2016-04-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "RedisManagementClient", "2016-04-01");
     }
 }

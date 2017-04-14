@@ -10,12 +10,12 @@ package com.microsoft.azure.management.resources.implementation;
 
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceCall;
+import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCall;
+import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import java.io.IOException;
 import java.util.List;
@@ -33,7 +33,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in Tenants.
  */
-public final class TenantsInner {
+public class TenantsInner {
     /** The Retrofit service to perform REST calls. */
     private TenantsService service;
     /** The service client containing this operation class. */
@@ -68,6 +68,9 @@ public final class TenantsInner {
     /**
      * Gets the tenants for your account.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;TenantIdDescriptionInner&gt; object if successful.
      */
     public PagedList<TenantIdDescriptionInner> list() {
@@ -84,10 +87,11 @@ public final class TenantsInner {
      * Gets the tenants for your account.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<TenantIdDescriptionInner>> listAsync(final ListOperationCallback<TenantIdDescriptionInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<TenantIdDescriptionInner>> listAsync(final ListOperationCallback<TenantIdDescriptionInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listSinglePageAsync(),
             new Func1<String, Observable<ServiceResponse<Page<TenantIdDescriptionInner>>>>() {
                 @Override
@@ -101,6 +105,7 @@ public final class TenantsInner {
     /**
      * Gets the tenants for your account.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TenantIdDescriptionInner&gt; object
      */
     public Observable<Page<TenantIdDescriptionInner>> listAsync() {
@@ -116,6 +121,7 @@ public final class TenantsInner {
     /**
      * Gets the tenants for your account.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TenantIdDescriptionInner&gt; object
      */
     public Observable<ServiceResponse<Page<TenantIdDescriptionInner>>> listWithServiceResponseAsync() {
@@ -135,6 +141,7 @@ public final class TenantsInner {
     /**
      * Gets the tenants for your account.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;TenantIdDescriptionInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<TenantIdDescriptionInner>>> listSinglePageAsync() {
@@ -166,6 +173,9 @@ public final class TenantsInner {
      * Gets the tenants for your account.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;TenantIdDescriptionInner&gt; object if successful.
      */
     public PagedList<TenantIdDescriptionInner> listNext(final String nextPageLink) {
@@ -182,12 +192,13 @@ public final class TenantsInner {
      * Gets the tenants for your account.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceCall the ServiceCall object tracking the Retrofit calls
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<TenantIdDescriptionInner>> listNextAsync(final String nextPageLink, final ServiceCall<List<TenantIdDescriptionInner>> serviceCall, final ListOperationCallback<TenantIdDescriptionInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<TenantIdDescriptionInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<TenantIdDescriptionInner>> serviceFuture, final ListOperationCallback<TenantIdDescriptionInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<TenantIdDescriptionInner>>>>() {
                 @Override
@@ -202,6 +213,7 @@ public final class TenantsInner {
      * Gets the tenants for your account.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TenantIdDescriptionInner&gt; object
      */
     public Observable<Page<TenantIdDescriptionInner>> listNextAsync(final String nextPageLink) {
@@ -218,6 +230,7 @@ public final class TenantsInner {
      * Gets the tenants for your account.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TenantIdDescriptionInner&gt; object
      */
     public Observable<ServiceResponse<Page<TenantIdDescriptionInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
@@ -238,6 +251,7 @@ public final class TenantsInner {
      * Gets the tenants for your account.
      *
     ServiceResponse<PageImpl1<TenantIdDescriptionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;TenantIdDescriptionInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<TenantIdDescriptionInner>>> listNextSinglePageAsync(final String nextPageLink) {

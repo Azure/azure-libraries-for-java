@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+
 package com.microsoft.azure.management.compute;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,8 +51,8 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .withRegion(REGION)
                 .withExistingResourceGroup(RG_NAME)
                 .withNewPrimaryNetwork("10.0.0.0/28")
-                .withPrimaryPrivateIpAddressDynamic()
-                .withoutPrimaryPublicIpAddress()
+                .withPrimaryPrivateIPAddressDynamic()
+                .withoutPrimaryPublicIPAddress()
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_14_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("BaR@12abc!")
@@ -85,8 +91,8 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .withRegion(REGION)
                 .withNewResourceGroup(RG_NAME)
                 .withNewPrimaryNetwork("10.0.0.0/28")
-                .withPrimaryPrivateIpAddressDynamic()
-                .withoutPrimaryPublicIpAddress()
+                .withPrimaryPrivateIPAddressDynamic()
+                .withoutPrimaryPublicIPAddress()
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_14_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("BaR@12abc!")
@@ -107,8 +113,8 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .attach()
                 .apply();
 
-        Assert.assertTrue(vm.extensions().size() > 0);
-        Assert.assertTrue(vm.extensions().containsKey("VMAccessForLinux"));
+        Assert.assertTrue(vm.listExtensions().size() > 0);
+        Assert.assertTrue(vm.listExtensions().containsKey("VMAccessForLinux"));
 
         // Update the VMAccess Linux extension to reset password again for the user 'Foo12'
         //
@@ -137,8 +143,8 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .withRegion(REGION)
                 .withNewResourceGroup(RG_NAME)
                 .withNewPrimaryNetwork("10.0.0.0/28")
-                .withPrimaryPrivateIpAddressDynamic()
-                .withoutPrimaryPublicIpAddress()
+                .withPrimaryPrivateIPAddressDynamic()
+                .withoutPrimaryPublicIPAddress()
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_14_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("BaR@12abc!")
@@ -153,9 +159,9 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .attach()
                 .create();
 
-        Assert.assertTrue(vm.extensions().size() > 0);
-        Assert.assertTrue(vm.extensions().containsKey("CustomScriptForLinux"));
-        VirtualMachineExtension customScriptExtension = vm.extensions().get("CustomScriptForLinux");
+        Assert.assertTrue(vm.listExtensions().size() > 0);
+        Assert.assertTrue(vm.listExtensions().containsKey("CustomScriptForLinux"));
+        VirtualMachineExtension customScriptExtension = vm.listExtensions().get("CustomScriptForLinux");
         Assert.assertEquals(customScriptExtension.publisherName(), "Microsoft.OSTCExtensions");
         Assert.assertEquals(customScriptExtension.typeName(), "CustomScriptForLinux");
         Assert.assertEquals(customScriptExtension.autoUpgradeMinorVersionEnabled(), true);
@@ -166,7 +172,7 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .withoutExtension("CustomScriptForLinux")
                 .apply();
 
-        Assert.assertTrue(vm.extensions().size() == 0);
+        Assert.assertTrue(vm.listExtensions().size() == 0);
     }
 
     @Test
@@ -180,8 +186,8 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .withRegion(REGION)
                 .withNewResourceGroup(RG_NAME)
                 .withNewPrimaryNetwork("10.0.0.0/28")
-                .withPrimaryPrivateIpAddressDynamic()
-                .withoutPrimaryPublicIpAddress()
+                .withPrimaryPrivateIPAddressDynamic()
+                .withoutPrimaryPublicIPAddress()
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_14_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("BaR@12abc!")
@@ -196,11 +202,11 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .attach()
                 .create();
 
-        Assert.assertTrue(vm.extensions().size() > 0);
+        Assert.assertTrue(vm.listExtensions().size() > 0);
 
         // Get the created virtual machine via VM List not by VM GET
         List<VirtualMachine> virtualMachines = computeManager.virtualMachines()
-                .listByGroup(RG_NAME);
+                .listByResourceGroup(RG_NAME);
         VirtualMachine vmWithExtensionReference = null;
         for (VirtualMachine virtualMachine : virtualMachines) {
             if (virtualMachine.name().equalsIgnoreCase(VMNAME)) {
@@ -222,7 +228,7 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
 
         // Again getting VM with extension reference
         virtualMachines = computeManager.virtualMachines()
-                .listByGroup(RG_NAME);
+                .listByResourceGroup(RG_NAME);
         vmWithExtensionReference = null;
         for (VirtualMachine virtualMachine : virtualMachines) {
             vmWithExtensionReference = virtualMachine;
@@ -230,13 +236,13 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
         Assert.assertNotNull(vmWithExtensionReference);
 
         VirtualMachineExtension accessExtension = null;
-        for (VirtualMachineExtension extension : vmWithExtensionReference.extensions().values()) {
+        for (VirtualMachineExtension extension : vmWithExtensionReference.listExtensions().values()) {
             if (extension.name().equalsIgnoreCase("VMAccessForLinux")) {
                 accessExtension = extension;
                 break;
             }
         }
-        // Even though VM's inner contain just extension reference VirtualMachine::extensions()
+        // Even though VM's inner contain just extension reference VirtualMachine::getExtensions()
         // should resolve the reference and get full extension.
         Assert.assertNotNull(accessExtension);
         Assert.assertNotNull(accessExtension.publisherName());

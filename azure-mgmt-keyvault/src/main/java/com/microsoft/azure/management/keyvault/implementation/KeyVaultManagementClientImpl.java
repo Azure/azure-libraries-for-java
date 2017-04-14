@@ -16,7 +16,7 @@ import com.microsoft.rest.RestClient;
 /**
  * Initializes a new instance of the KeyVaultManagementClientImpl class.
  */
-public final class KeyVaultManagementClientImpl extends AzureServiceClient {
+public class KeyVaultManagementClientImpl extends AzureServiceClient {
     /** the {@link AzureClient} used for long running operations. */
     private AzureClient azureClient;
 
@@ -191,8 +191,6 @@ public final class KeyVaultManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("Azure-SDK-For-Java/%s (%s)",
-                getClass().getPackage().getImplementationVersion(),
-                "KeyVaultManagementClient, 2015-06-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "KeyVaultManagementClient", "2015-06-01");
     }
 }

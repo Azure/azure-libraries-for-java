@@ -22,6 +22,11 @@ import com.microsoft.azure.Resource;
 @JsonFlatten
 public class AppServicePlanInner extends Resource {
     /**
+     * Kind of resource.
+     */
+    private String kind;
+
+    /**
      * Name for the App Service plan.
      */
     @JsonProperty(value = "properties.name")
@@ -93,6 +98,12 @@ public class AppServicePlanInner extends Resource {
     private String resourceGroup;
 
     /**
+     * Reserved.
+     */
+    @JsonProperty(value = "properties.reserved")
+    private Boolean reserved;
+
+    /**
      * Scaling worker count.
      */
     @JsonProperty(value = "properties.targetWorkerCount")
@@ -114,7 +125,28 @@ public class AppServicePlanInner extends Resource {
     /**
      * The sku property.
      */
+    @JsonProperty(value = "sku")
     private SkuDescription sku;
+
+    /**
+     * Get the kind value.
+     *
+     * @return the kind value
+     */
+    public String kind() {
+        return kind;
+    }
+
+    /**
+     * Set the kind value.
+     *
+     * @param kind the kind value to set
+     * @return the SiteInner object itself
+     */
+    public AppServicePlanInner withKind(String kind) {
+        this.kind = kind;
+        return this;
+    }
 
     /**
      * Get the appServicePlanName value.
@@ -268,6 +300,26 @@ public class AppServicePlanInner extends Resource {
      */
     public String resourceGroup() {
         return this.resourceGroup;
+    }
+
+    /**
+     * Get the reserved value.
+     *
+     * @return the reserved value
+     */
+    public Boolean reserved() {
+        return this.reserved;
+    }
+
+    /**
+     * Set the reserved value.
+     *
+     * @param reserved the reserved value to set
+     * @return the AppServicePlanInner object itself.
+     */
+    public AppServicePlanInner withReserved(Boolean reserved) {
+        this.reserved = reserved;
+        return this;
     }
 
     /**

@@ -7,20 +7,23 @@
 package com.microsoft.azure.management;
 
 import com.microsoft.azure.AzureEnvironment;
+import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.compute.Disks;
-import com.microsoft.azure.management.compute.Snapshots;
-import com.microsoft.azure.management.compute.VirtualMachineCustomImages;
-import com.microsoft.rest.RestClient;
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
+import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.appservice.WebApps;
+import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
 import com.microsoft.azure.management.batch.BatchAccounts;
 import com.microsoft.azure.management.batch.implementation.BatchManager;
 import com.microsoft.azure.management.cdn.CdnProfiles;
 import com.microsoft.azure.management.cdn.implementation.CdnManager;
 import com.microsoft.azure.management.compute.AvailabilitySets;
 import com.microsoft.azure.management.compute.ComputeUsages;
+import com.microsoft.azure.management.compute.Disks;
+import com.microsoft.azure.management.compute.Snapshots;
+import com.microsoft.azure.management.compute.VirtualMachineCustomImages;
 import com.microsoft.azure.management.compute.VirtualMachineImages;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSets;
 import com.microsoft.azure.management.compute.VirtualMachines;
@@ -35,7 +38,7 @@ import com.microsoft.azure.management.network.NetworkInterfaces;
 import com.microsoft.azure.management.network.NetworkSecurityGroups;
 import com.microsoft.azure.management.network.NetworkUsages;
 import com.microsoft.azure.management.network.Networks;
-import com.microsoft.azure.management.network.PublicIpAddresses;
+import com.microsoft.azure.management.network.PublicIPAddresses;
 import com.microsoft.azure.management.network.RouteTables;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.redis.RedisCaches;
@@ -54,6 +57,8 @@ import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.implementation.ResourceManagementClientImpl;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
+import com.microsoft.azure.management.servicebus.ServiceBusNamespaces;
+import com.microsoft.azure.management.servicebus.implementation.ServiceBusManager;
 import com.microsoft.azure.management.sql.SqlServers;
 import com.microsoft.azure.management.sql.implementation.SqlServerManager;
 import com.microsoft.azure.management.storage.StorageAccounts;
@@ -61,8 +66,8 @@ import com.microsoft.azure.management.storage.Usages;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerProfiles;
 import com.microsoft.azure.management.trafficmanager.implementation.TrafficManager;
-import com.microsoft.azure.management.appservice.WebApps;
-import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
+import com.microsoft.azure.serializer.AzureJacksonAdapter;
+import com.microsoft.rest.RestClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -83,6 +88,7 @@ public final class Azure {
     private final DnsZoneManager dnsZoneManager;
     private final AppServiceManager appServiceManager;
     private final SqlServerManager sqlServerManager;
+    private final ServiceBusManager serviceBusManager;
     private final String subscriptionId;
     private final Authenticated authenticated;
 
@@ -96,6 +102,8 @@ public final class Azure {
         return new AuthenticatedImpl(new RestClient.Builder()
                 .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withCredentials(credentials)
+                .withSerializerAdapter(new AzureJacksonAdapter())
+                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
                 .build(), credentials.domain());
     }
 
@@ -120,6 +128,8 @@ public final class Azure {
         return new AuthenticatedImpl(new RestClient.Builder()
                 .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withCredentials(credentials)
+                .withSerializerAdapter(new AzureJacksonAdapter())
+                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
                 .build(), credentials.domain()).withDefaultSubscription(credentials.defaultSubscriptionId());
     }
 
@@ -300,6 +310,7 @@ public final class Azure {
         this.dnsZoneManager = DnsZoneManager.authenticate(restClient, subscriptionId);
         this.appServiceManager = AppServiceManager.authenticate(restClient, tenantId, subscriptionId);
         this.sqlServerManager = SqlServerManager.authenticate(restClient, subscriptionId);
+        this.serviceBusManager = ServiceBusManager.authenticate(restClient, subscriptionId);
         this.subscriptionId = subscriptionId;
         this.authenticated = authenticated;
     }
@@ -419,6 +430,7 @@ public final class Azure {
     /**
      * @return entry point to managing application gateways
      */
+    @Beta
     public ApplicationGateways applicationGateways() {
         return networkManager.applicationGateways();
     }
@@ -482,8 +494,8 @@ public final class Azure {
     /**
      * @return entry point to managing public IP addresses
      */
-    public PublicIpAddresses publicIpAddresses() {
-        return this.networkManager.publicIpAddresses();
+    public PublicIPAddresses publicIPAddresses() {
+        return this.networkManager.publicIPAddresses();
     }
 
     /**
@@ -536,7 +548,7 @@ public final class Azure {
     }
 
     /**
-     * @return entry point to managing Dns zones.
+     * @return entry point to managing DNS zones.
      */
     public DnsZones dnsZones() {
         return dnsZoneManager.zones();
@@ -545,6 +557,7 @@ public final class Azure {
     /**
      * @return entry point to managing web apps.
      */
+    @Beta
     public WebApps webApps() {
         return appServiceManager.webApps();
     }
@@ -552,6 +565,7 @@ public final class Azure {
     /**
      * @return entry point to managing app services.
      */
+    @Beta
     public AppServiceManager appServices() {
         return appServiceManager;
     }
@@ -561,5 +575,12 @@ public final class Azure {
      */
     public SqlServers sqlServers() {
         return sqlServerManager.sqlServers();
+    }
+
+    /**
+     * @return entry point to managing Service Bus.
+     */
+    public ServiceBusNamespaces serviceBusNamespaces() {
+        return serviceBusManager.namespaces();
     }
 }

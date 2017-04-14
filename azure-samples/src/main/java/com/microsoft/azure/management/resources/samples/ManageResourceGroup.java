@@ -1,8 +1,7 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.resources.samples;
@@ -89,9 +88,7 @@ public final class ManageResourceGroup {
 
             System.out.println("Deleting resource group: " + rgName2);
 
-            azure.resourceGroups().deleteByName(rgName2);
-
-            System.out.println("Deleted resource group: " + rgName2);
+            azure.resourceGroups().beginDeleteByName(rgName2);
             return true;
         } catch (Exception f) {
 
@@ -102,8 +99,7 @@ public final class ManageResourceGroup {
 
             try {
                 System.out.println("Deleting Resource Group: " + rgName);
-                azure.resourceGroups().deleteByName(rgName);
-                System.out.println("Deleted Resource Group: " + rgName);
+                azure.resourceGroups().beginDeleteByName(rgName);
             } catch (NullPointerException npe) {
                 System.out.println("Did not create any resources in Azure. No clean up is necessary");
             } catch (Exception g) {

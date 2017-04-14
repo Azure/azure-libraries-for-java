@@ -5,23 +5,26 @@
  */
 package com.microsoft.azure.management.compute.implementation;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.AvailabilitySet;
 import com.microsoft.azure.management.compute.AvailabilitySetSkuTypes;
 import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.microsoft.azure.management.compute.Sku;
+import com.microsoft.azure.management.compute.VirtualMachineSize;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
 import rx.functions.Func1;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
- * The implementation for {@link AvailabilitySet} and its create and update interfaces.
+ * The implementation for AvailabilitySet and its create and update interfaces.
  */
 @LangDefinition
 class AvailabilitySetImpl
@@ -36,16 +39,10 @@ class AvailabilitySetImpl
         AvailabilitySet.Definition,
         AvailabilitySet.Update {
 
-    private List<String> idOfVMsInSet;
+    private Set<String> idOfVMsInSet;
 
-    // The client to make AvailabilitySet Management API calls
-    private final AvailabilitySetsInner client;
-
-    AvailabilitySetImpl(String name, AvailabilitySetInner innerModel,
-                               final AvailabilitySetsInner client,
-                               final ComputeManager computeManager) {
+    AvailabilitySetImpl(String name, AvailabilitySetInner innerModel, final ComputeManager computeManager) {
         super(name, innerModel, computeManager);
-        this.client = client;
     }
 
     @Override
@@ -67,14 +64,14 @@ class AvailabilitySetImpl
     }
 
     @Override
-    public List<String> virtualMachineIds() {
+    public Set<String> virtualMachineIds() {
         if (idOfVMsInSet == null) {
-            idOfVMsInSet = new ArrayList<>();
+            idOfVMsInSet = new HashSet<>();
             for (SubResource resource : this.inner().virtualMachines()) {
                 idOfVMsInSet.add(resource.id());
             }
         }
-        return Collections.unmodifiableList(idOfVMsInSet);
+        return Collections.unmodifiableSet(idOfVMsInSet);
     }
 
     @Override
@@ -83,11 +80,34 @@ class AvailabilitySetImpl
     }
 
     @Override
-    public AvailabilitySet refresh() {
-        AvailabilitySetInner response = client.get(this.resourceGroupName(), this.name());
-        this.setInner(response);
-        this.idOfVMsInSet = null;
-        return this;
+    public PagedList<VirtualMachineSize> listVirtualMachineSizes() {
+        return Utils.toPagedList(this.manager()
+                        .inner()
+                        .availabilitySets()
+                        .listAvailableSizes(this.resourceGroupName(), this.name()),
+                new Func1<VirtualMachineSizeInner, VirtualMachineSize>() {
+                    @Override
+                    public VirtualMachineSize call(VirtualMachineSizeInner inner) {
+                        return new VirtualMachineSizeImpl(inner);
+                    }
+                });
+    }
+
+    @Override
+    public Observable<AvailabilitySet> refreshAsync() {
+        return super.refreshAsync().map(new Func1<AvailabilitySet, AvailabilitySet>() {
+            @Override
+            public AvailabilitySet call(AvailabilitySet availabilitySet) {
+                AvailabilitySetImpl impl = (AvailabilitySetImpl) availabilitySet;
+                impl.idOfVMsInSet = null;
+                return impl;
+            }
+        });
+    }
+
+    @Override
+    protected Observable<AvailabilitySetInner> getInnerAsync() {
+        return this.manager().inner().availabilitySets().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
@@ -122,7 +142,7 @@ class AvailabilitySetImpl
         if (this.inner().platformUpdateDomainCount() == null) {
             this.inner().withPlatformUpdateDomainCount(5);
         }
-        return this.client.createOrUpdateAsync(resourceGroupName(), name(), inner())
+        return this.manager().inner().availabilitySets().createOrUpdateAsync(resourceGroupName(), name(), inner())
                 .map(new Func1<AvailabilitySetInner, AvailabilitySet>() {
                     @Override
                     public AvailabilitySet call(AvailabilitySetInner availabilitySetInner) {

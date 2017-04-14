@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.keyvault.implementation;
 
+import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.graphrbac.User;
@@ -42,13 +43,11 @@ class VaultImpl
         Vault,
         Vault.Definition,
         Vault.Update {
-    private VaultsInner client;
     private GraphRbacManager graphRbacManager;
     private List<AccessPolicyImpl> accessPolicies;
 
-    VaultImpl(String key, VaultInner innerObject, VaultsInner client, KeyVaultManager manager, GraphRbacManager graphRbacManager) {
+    VaultImpl(String key, VaultInner innerObject, KeyVaultManager manager, GraphRbacManager graphRbacManager) {
         super(key, innerObject, manager);
-        this.client = client;
         this.graphRbacManager = graphRbacManager;
         this.accessPolicies = new ArrayList<>();
         if (innerObject != null && innerObject.properties() != null && innerObject.properties().accessPolicies() != null) {
@@ -208,6 +207,10 @@ class VaultImpl
                             .doOnNext(new Action1<User>() {
                                 @Override
                                 public void call(User user) {
+                                    if (user == null) {
+                                        throw new CloudException(String.format("User principal name %s is not found in tenant %s",
+                                                accessPolicy.userPrincipalName(), graphRbacManager.tenantId()), null);
+                                    }
                                     accessPolicy.forObjectId(user.objectId());
                                 }
                             }));
@@ -217,6 +220,10 @@ class VaultImpl
                             .doOnNext(new Action1<ServicePrincipal>() {
                                 @Override
                                 public void call(ServicePrincipal sp) {
+                                    if (sp == null) {
+                                        throw new CloudException(String.format("User principal name %s is not found in tenant %s",
+                                                accessPolicy.userPrincipalName(), graphRbacManager.tenantId()), null);
+                                    }
                                     accessPolicy.forObjectId(sp.objectId());
                                 }
                             }));
@@ -239,6 +246,7 @@ class VaultImpl
 
     @Override
     public Observable<Vault> createResourceAsync() {
+        final VaultsInner client = this.manager().inner().vaults();
         return populateAccessPolicies()
                 .flatMap(new Func1<Object, Observable<VaultInner>>() {
                     @Override
@@ -258,8 +266,7 @@ class VaultImpl
     }
 
     @Override
-    public VaultImpl refresh() {
-        setInner(client.get(resourceGroupName(), name()));
-        return this;
+    protected Observable<VaultInner> getInnerAsync() {
+        return this.manager().inner().vaults().getByResourceGroupAsync(resourceGroupName(), name());
     }
 }

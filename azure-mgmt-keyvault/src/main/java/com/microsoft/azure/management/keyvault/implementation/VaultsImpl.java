@@ -15,6 +15,7 @@ import com.microsoft.azure.management.keyvault.VaultProperties;
 import com.microsoft.azure.management.keyvault.Vaults;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
 import rx.Completable;
+import rx.Observable;
 
 import java.util.UUID;
 
@@ -34,28 +35,32 @@ class VaultsImpl
     private final String tenantId;
 
     VaultsImpl(
-            final VaultsInner client,
             final KeyVaultManager keyVaultManager,
             final GraphRbacManager graphRbacManager,
             final String tenantId) {
-        super(client, keyVaultManager);
+        super(keyVaultManager.inner().vaults(), keyVaultManager);
         this.graphRbacManager = graphRbacManager;
         this.tenantId = tenantId;
     }
 
     @Override
-    public PagedList<Vault> listByGroup(String groupName) {
-        return wrapList(this.innerCollection.listByResourceGroup(groupName));
+    public PagedList<Vault> listByResourceGroup(String groupName) {
+        return wrapList(this.inner().listByResourceGroup(groupName));
     }
 
     @Override
-    public Vault getByGroup(String groupName, String name) {
-        return wrapModel(this.innerCollection.get(groupName, name));
+    protected Observable<VaultInner> getInnerAsync(String resourceGroupName, String name) {
+        return this.inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
     @Override
-    public Completable deleteByGroupAsync(String groupName, String name) {
-        return this.innerCollection.deleteAsync(groupName, name).toCompletable();
+    protected Completable deleteInnerAsync(String resourceGroupName, String name) {
+        return this.inner().deleteAsync(resourceGroupName, name).toCompletable();
+    }
+
+    @Override
+    public Completable deleteByResourceGroupAsync(String groupName, String name) {
+        return this.inner().deleteAsync(groupName, name).toCompletable();
     }
 
     @Override
@@ -72,8 +77,7 @@ class VaultsImpl
         return new VaultImpl(
                 name,
                 inner,
-                this.innerCollection,
-                super.myManager,
+                this.manager(),
                 graphRbacManager);
     }
 
@@ -85,8 +89,12 @@ class VaultsImpl
         return new VaultImpl(
                 vaultInner.name(),
                 vaultInner,
-                this.innerCollection,
-                super.myManager,
+                super.manager(),
                 graphRbacManager);
+    }
+
+    @Override
+    public Observable<Vault> listByResourceGroupAsync(String resourceGroupName) {
+        return wrapPageAsync(this.inner().listByResourceGroupAsync(resourceGroupName));
     }
 }

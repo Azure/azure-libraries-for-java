@@ -1,8 +1,7 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.compute.samples;
@@ -39,7 +38,7 @@ public final class ManageVirtualMachinesInParallel {
      */
     public static boolean runSample(Azure azure) {
         final int vmCount = 10;
-        final Region region = Region.US_WEST_CENTRAL;
+        final Region region = Region.US_EAST;
         final String rgName = SdkContext.randomResourceName("rgCOPP", 24);
         final String networkName = SdkContext.randomResourceName("vnetCOMV", 24);
         final String storageAccountName = SdkContext.randomResourceName("stgCOMV", 20);
@@ -71,8 +70,8 @@ public final class ManageVirtualMachinesInParallel {
                         .withRegion(region)
                         .withExistingResourceGroup(resourceGroup)
                         .withNewPrimaryNetwork(creatableNetwork)
-                        .withPrimaryPrivateIpAddressDynamic()
-                        .withoutPrimaryPublicIpAddress()
+                        .withPrimaryPrivateIPAddressDynamic()
+                        .withoutPrimaryPublicIPAddress()
                         .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                         .withRootUsername(userName)
                         .withRootPassword(password)
@@ -105,8 +104,7 @@ public final class ManageVirtualMachinesInParallel {
 
             try {
                 System.out.println("Deleting Resource Group: " + rgName);
-                azure.resourceGroups().deleteByName(rgName);
-                System.out.println("Deleted Resource Group: " + rgName);
+                azure.resourceGroups().beginDeleteByName(rgName);
             } catch (NullPointerException npe) {
                 System.out.println("Did not create any resources in Azure. No clean up is necessary");
             } catch (Exception g) {

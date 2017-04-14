@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.compute.implementation.AvailabilitySetInner;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
@@ -14,18 +15,17 @@ import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Wrapper;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * An immutable client-side representation of an Azure availability set.
  */
 @Fluent()
 public interface AvailabilitySet extends
-        GroupableResource<ComputeManager>,
+        GroupableResource<ComputeManager, AvailabilitySetInner>,
         Refreshable<AvailabilitySet>,
-        Wrapper<AvailabilitySetInner>,
         Updatable<AvailabilitySet.Update> {
 
     /**
@@ -39,19 +39,25 @@ public interface AvailabilitySet extends
     int faultDomainCount();
 
     /**
-     * @return the availability set sku
+     * @return the availability set SKU
      */
     AvailabilitySetSkuTypes sku();
 
     /**
      * @return the resource IDs of the virtual machines in the availability set
      */
-    List<String> virtualMachineIds();
+    Set<String> virtualMachineIds();
 
     /**
      * @return the statuses of the existing virtual machines in the availability set
      */
     List<InstanceViewStatus> statuses();
+
+    /**
+     * @return the virtual machine sizes supported in the availability set
+     */
+    PagedList<VirtualMachineSize> listVirtualMachineSizes();
+
 
     // Fluent interfaces
 
@@ -109,7 +115,7 @@ public interface AvailabilitySet extends
          */
         interface WithSku {
             /**
-             * Specifies the sku type for the availability set.
+             * Specifies the SKU type for the availability set.
              *
              * @param skuType the sku type
              * @return the next stage of the definition
@@ -119,7 +125,7 @@ public interface AvailabilitySet extends
 
         /**
          * The stage of an availability set definition which contains all the minimum required inputs for
-         * the resource to be created (via {@link WithCreate#create()}), but also allows
+         * the resource to be created but also allows
          * for any other optional settings to be specified.
          */
         interface WithCreate extends
@@ -136,13 +142,13 @@ public interface AvailabilitySet extends
      */
     interface UpdateStages {
         /**
-         * The stage of the availability set definition allowing to specify sku.
+         * The stage of the availability set definition allowing to specify SKU.
          */
         interface WithSku {
             /**
-             * Specifies the sku type for the availability set.
+             * Specifies the SKU type for the availability set.
              *
-             * @param skuType the sku type
+             * @param skuType the SKU type
              * @return the next stage of the definition
              */
             Update withSku(AvailabilitySetSkuTypes skuType);
@@ -151,8 +157,6 @@ public interface AvailabilitySet extends
     /**
      * The template for an availability set update operation, containing all the settings that
      * can be modified.
-     * <p>
-     * Call {@link Update#apply()} to apply the changes to the resource in Azure.
      */
     interface Update extends
             Appliable<AvailabilitySet>,

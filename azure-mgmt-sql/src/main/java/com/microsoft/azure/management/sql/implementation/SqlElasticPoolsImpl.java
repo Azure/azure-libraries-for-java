@@ -17,6 +17,8 @@ import com.microsoft.azure.management.sql.SqlElasticPools;
 import com.microsoft.azure.management.sql.SqlServer;
 
 import rx.Completable;
+import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.List;
 
@@ -34,12 +36,10 @@ class SqlElasticPoolsImpl extends IndependentChildResourcesImpl<
         implements SqlElasticPools.SqlElasticPoolsCreatable,
         SupportsGettingByParent<SqlElasticPool, SqlServer, SqlServerManager>,
         SupportsListingByParent<SqlElasticPool, SqlServer, SqlServerManager> {
-    private final DatabasesInner databasesInner;
     private final DatabasesImpl databasesImpl;
 
-    protected SqlElasticPoolsImpl(ElasticPoolsInner innerCollection, SqlServerManager manager, DatabasesInner databasesInner, DatabasesImpl databasesImpl) {
-        super(innerCollection, manager);
-        this.databasesInner = databasesInner;
+    protected SqlElasticPoolsImpl(SqlServerManager manager, DatabasesImpl databasesImpl) {
+        super(manager.inner().elasticPools(), manager);
         this.databasesImpl = databasesImpl;
     }
 
@@ -49,15 +49,18 @@ class SqlElasticPoolsImpl extends IndependentChildResourcesImpl<
         return new SqlElasticPoolImpl(
                 name,
                 inner,
-                this.innerCollection,
-                this.databasesInner,
                 this.databasesImpl,
                 this.manager());
     }
 
     @Override
-    public SqlElasticPool getByParent(String resourceGroup, String parentName, String name) {
-        return wrapModel(this.innerCollection.get(resourceGroup, parentName, name));
+    public Observable<SqlElasticPool> getByParentAsync(String resourceGroup, String parentName, String name) {
+        return this.innerCollection.getAsync(resourceGroup, parentName, name).map(new Func1<ElasticPoolInner, SqlElasticPool>() {
+            @Override
+            public SqlElasticPool call(ElasticPoolInner elasticPoolInner) {
+                return wrapModel(elasticPoolInner);
+            }
+        });
     }
 
     @Override
@@ -74,8 +77,6 @@ class SqlElasticPoolsImpl extends IndependentChildResourcesImpl<
         return new SqlElasticPoolImpl(
                 inner.name(),
                 inner,
-                this.innerCollection,
-                this.databasesInner,
                 this.databasesImpl,
                 this.manager());
     }
@@ -118,8 +119,6 @@ class SqlElasticPoolsImpl extends IndependentChildResourcesImpl<
         return new SqlElasticPoolImpl(
                 elasticPoolName,
                 inner,
-                this.innerCollection,
-                this.databasesInner,
                 this.databasesImpl,
                 this.manager()).withExistingParentResource(resourceGroupName, sqlServerName);
     }

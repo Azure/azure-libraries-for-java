@@ -1,8 +1,7 @@
- /**
- *
+/**
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.compute.samples;
@@ -90,8 +89,8 @@ public final class ManageAvailabilitySet {
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
                     .withNewPrimaryNetwork(networkDefinition)
-                    .withPrimaryPrivateIpAddressDynamic()
-                    .withoutPrimaryPublicIpAddress()
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withoutPrimaryPublicIPAddress()
                     .withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_SERVER_2012_R2_DATACENTER)
                     .withAdminUsername(userName)
                     .withAdminPassword(password)
@@ -113,8 +112,8 @@ public final class ManageAvailabilitySet {
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
                     .withNewPrimaryNetwork(networkDefinition)
-                    .withPrimaryPrivateIpAddressDynamic()
-                    .withoutPrimaryPublicIpAddress()
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withoutPrimaryPublicIPAddress()
                     .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                     .withRootUsername(userName)
                     .withRootPassword(password)
@@ -159,7 +158,7 @@ public final class ManageAvailabilitySet {
 
             System.out.println("Printing list of availability sets  =======");
 
-            for (AvailabilitySet availabilitySet : azure.availabilitySets().listByGroup(resourceGroupName)) {
+            for (AvailabilitySet availabilitySet : azure.availabilitySets().listByResourceGroup(resourceGroupName)) {
                 Utils.print(availabilitySet);
             }
 

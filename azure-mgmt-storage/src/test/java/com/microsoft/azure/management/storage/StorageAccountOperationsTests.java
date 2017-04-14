@@ -16,8 +16,6 @@ import rx.Observable;
 
 import java.util.List;
 
-import static org.junit.Assert.fail;
-
 public class StorageAccountOperationsTests extends StorageManagementTest {
     private static String RG_NAME = "";
     private static String SA_NAME = "";
@@ -45,13 +43,14 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
                 .define(SA_NAME)
                 .withRegion(Region.ASIA_EAST)
                 .withNewResourceGroup(RG_NAME)
+                .withTag("tag1", "value1")
                 .createAsync();
         StorageAccount storageAccount = Utils.<StorageAccount>rootResource(resourceStream)
                 .toBlocking().last();
         Assert.assertEquals(RG_NAME, storageAccount.resourceGroupName());
         Assert.assertEquals(SkuName.STANDARD_GRS, storageAccount.sku().name());
         // List
-        List<StorageAccount> accounts = storageManager.storageAccounts().listByGroup(RG_NAME);
+        List<StorageAccount> accounts = storageManager.storageAccounts().listByResourceGroup(RG_NAME);
         boolean found = false;
         for (StorageAccount account : accounts) {
             if (account.name().equals(SA_NAME)) {
@@ -59,8 +58,10 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
             }
         }
         Assert.assertTrue(found);
+        Assert.assertEquals(1, storageAccount.tags().size());
+
         // Get
-        storageAccount = storageManager.storageAccounts().getByGroup(RG_NAME, SA_NAME);
+        storageAccount = storageManager.storageAccounts().getByResourceGroup(RG_NAME, SA_NAME);
         Assert.assertNotNull(storageAccount);
 
         // Get Keys
@@ -79,17 +80,11 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
         }
 
         // Update
-        try {
-            storageAccount.update()
-                    .withAccessTier(AccessTier.COOL)
-                    .apply();
-            fail();
-        } catch (UnsupportedOperationException e) {
-            // expected
-        }
         storageAccount = storageAccount.update()
                 .withSku(SkuName.STANDARD_LRS)
+                .withTag("tag2", "value2")
                 .apply();
         Assert.assertEquals(SkuName.STANDARD_LRS, storageAccount.sku().name());
+        Assert.assertEquals(2, storageAccount.tags().size());
     }
 }

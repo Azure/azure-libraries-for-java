@@ -1,8 +1,7 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.compute.samples;
@@ -45,9 +44,9 @@ public final class ManageVirtualMachineWithDisk {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String linuxVmName1 = Utils.createRandomName("VM1");
+        final String linuxVMName1 = Utils.createRandomName("VM1");
         final String rgName = Utils.createRandomName("rgCOMV");
-        final String publicIpDnsLabel = Utils.createRandomName("pip");
+        final String publicIPDnsLabel = Utils.createRandomName("pip");
         final String userName = "tirekicker";
         final String password = "12NewPA$$w0rd!";
         final Region region = Region.US_WEST_CENTRAL;
@@ -88,12 +87,12 @@ public final class ManageVirtualMachineWithDisk {
 
             System.out.println("Creating a managed Linux VM");
 
-            VirtualMachine linuxVM = azure.virtualMachines().define(linuxVmName1)
+            VirtualMachine linuxVM = azure.virtualMachines().define(linuxVMName1)
                     .withRegion(region)
                     .withNewResourceGroup(rgName)
                     .withNewPrimaryNetwork("10.0.0.0/28")
-                    .withPrimaryPrivateIpAddressDynamic()
-                    .withNewPrimaryPublicIpAddress(publicIpDnsLabel)
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withNewPrimaryPublicIPAddress(publicIPDnsLabel)
                     .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                     .withRootUsername(userName)
                     .withRootPassword(password)
@@ -134,7 +133,7 @@ public final class ManageVirtualMachineWithDisk {
             Disk disk = azure.disks().getById(lun3DiskId);
             System.out.println("Delete managed disk: " + disk.id());
 
-            azure.disks().deleteByGroup(disk.resourceGroupName(), disk.name());
+            azure.disks().deleteByResourceGroup(disk.resourceGroupName(), disk.name());
 
             System.out.println("Deleted managed disk");
 
@@ -192,7 +191,7 @@ public final class ManageVirtualMachineWithDisk {
         } finally {
             try {
                 System.out.println("Deleting Resource Group: " + rgName);
-                azure.resourceGroups().deleteByName(rgName);
+                azure.resourceGroups().beginDeleteByName(rgName);
                 System.out.println("Deleted Resource Group: " + rgName);
             } catch (NullPointerException npe) {
                 System.out.println("Did not create any resources in Azure. No clean up is necessary");

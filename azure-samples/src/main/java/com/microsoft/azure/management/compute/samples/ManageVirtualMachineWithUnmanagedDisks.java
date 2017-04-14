@@ -1,8 +1,7 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.compute.samples;
@@ -45,8 +44,8 @@ public final class ManageVirtualMachineWithUnmanagedDisks {
      */
     public static boolean runSample(Azure azure) {
         final Region region = Region.US_WEST_CENTRAL;
-        final String windowsVmName = Utils.createRandomName("wVM");
-        final String linuxVmName = Utils.createRandomName("lVM");
+        final String windowsVMName = Utils.createRandomName("wVM");
+        final String linuxVMName = Utils.createRandomName("lVM");
         final String rgName = Utils.createRandomName("rgCOMV");
         final String userName = "tirekicker";
         final String password = "12NewPA$$w0rd!";
@@ -61,12 +60,12 @@ public final class ManageVirtualMachineWithUnmanagedDisks {
 
             Date t1 = new Date();
 
-            VirtualMachine windowsVM = azure.virtualMachines().define(windowsVmName)
+            VirtualMachine windowsVM = azure.virtualMachines().define(windowsVMName)
                     .withRegion(region)
                     .withNewResourceGroup(rgName)
                     .withNewPrimaryNetwork("10.0.0.0/28")
-                    .withPrimaryPrivateIpAddressDynamic()
-                    .withoutPrimaryPublicIpAddress()
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withoutPrimaryPublicIPAddress()
                     .withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_SERVER_2012_R2_DATACENTER)
                     .withAdminUsername(userName)
                     .withAdminPassword(password)
@@ -186,7 +185,7 @@ public final class ManageVirtualMachineWithUnmanagedDisks {
             System.out.println("Powered OFF VM: " + windowsVM.id() + "; state = " + windowsVM.powerState());
 
             // Get the network where Windows VM is hosted
-            Network network = windowsVM.getPrimaryNetworkInterface().primaryIpConfiguration().getNetwork();
+            Network network = windowsVM.getPrimaryNetworkInterface().primaryIPConfiguration().getNetwork();
 
 
             //=============================================================
@@ -194,13 +193,13 @@ public final class ManageVirtualMachineWithUnmanagedDisks {
 
             System.out.println("Creating a Linux VM in the network");
 
-            VirtualMachine linuxVM = azure.virtualMachines().define(linuxVmName)
+            VirtualMachine linuxVM = azure.virtualMachines().define(linuxVMName)
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
                     .withExistingPrimaryNetwork(network)
                     .withSubnet("subnet1") // Referencing the default subnet name when no name specified at creation
-                    .withPrimaryPrivateIpAddressDynamic()
-                    .withoutPrimaryPublicIpAddress()
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withoutPrimaryPublicIPAddress()
                     .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                     .withRootUsername(userName)
                     .withRootPassword(password)
@@ -218,7 +217,7 @@ public final class ManageVirtualMachineWithUnmanagedDisks {
 
             System.out.println("Printing list of VMs =======");
 
-            for (VirtualMachine virtualMachine : azure.virtualMachines().listByGroup(resourceGroupName)) {
+            for (VirtualMachine virtualMachine : azure.virtualMachines().listByResourceGroup(resourceGroupName)) {
                 Utils.print(virtualMachine);
             }
 

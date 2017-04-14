@@ -1,15 +1,24 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.samples;
 
+import com.microsoft.azure.management.appservice.samples.ManageFunctionAppBasic;
+import com.microsoft.azure.management.appservice.samples.ManageFunctionAppSourceControl;
+import com.microsoft.azure.management.appservice.samples.ManageFunctionAppWithDomainSsl;
+import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppBasic;
+import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppSourceControl;
+import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppSqlConnection;
+import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppStorageAccountConnection;
+import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppWithDomainSsl;
+import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppWithTrafficManager;
 import com.microsoft.azure.management.appservice.samples.ManageWebAppBasic;
 import com.microsoft.azure.management.appservice.samples.ManageWebAppSlots;
 import com.microsoft.azure.management.appservice.samples.ManageWebAppSourceControl;
+import com.microsoft.azure.management.appservice.samples.ManageWebAppSourceControlAsync;
 import com.microsoft.azure.management.appservice.samples.ManageWebAppSqlConnection;
 import com.microsoft.azure.management.appservice.samples.ManageWebAppStorageAccountConnection;
 import com.microsoft.azure.management.appservice.samples.ManageWebAppWithDomainSsl;
@@ -36,6 +45,12 @@ public class AppServiceSampleTests extends SamplesTestBase {
     }
 
     @Test
+    @Ignore("Failing in playback - dependent on git")
+    public void testManageWebAppSourceControlAsync() {
+        Assert.assertTrue(ManageWebAppSourceControlAsync.runSample(azure));
+    }
+
+    @Test
     @Ignore("Stops in between for user input")
     public void testManageWebAppSqlConnection() {
         Assert.assertTrue(ManageWebAppSqlConnection.runSample(azure));
@@ -48,14 +63,61 @@ public class AppServiceSampleTests extends SamplesTestBase {
     }
 
     @Test
-    @Ignore("The subscription is not registered to use namespace 'Microsoft.DomainRegistration'")
     public void testManageWebAppWithDomainSsl() {
         Assert.assertTrue(ManageWebAppWithDomainSsl.runSample(azure));
     }
 
     @Test
-    @Ignore("Failing - needs a subscription with Microsoft.DomainRegistration permissions")
     public void testManageWebAppWithTrafficManager() {
         Assert.assertTrue(ManageWebAppWithTrafficManager.runSample(azure));
+    }
+
+    @Test
+    public void testManageLinuxWebAppBasic() {
+        Assert.assertTrue(ManageLinuxWebAppBasic.runSample(azure));
+    }
+
+    @Test
+    @Ignore("Failing in playback - dependent on git")
+    public void testManageLinuxWebAppSourceControl() {
+        Assert.assertTrue(ManageLinuxWebAppSourceControl.runSample(azure));
+    }
+
+    @Test
+    @Ignore("Stops in between for user input")
+    public void testManageLinuxWebAppSqlConnection() {
+        Assert.assertTrue(ManageLinuxWebAppSqlConnection.runSample(azure));
+    }
+
+    @Test
+    @Ignore("Failing in Playback - Using storage data plan APIs")
+    public void testManageLinuxWebAppStorageAccountConnection() {
+        Assert.assertTrue(ManageLinuxWebAppStorageAccountConnection.runSample(azure));
+    }
+
+    @Test
+    public void testManageLinuxWebAppWithDomainSsl() {
+        Assert.assertTrue(ManageLinuxWebAppWithDomainSsl.runSample(azure));
+    }
+
+    @Test
+    public void testManageLinuxWebAppWithTrafficManager() {
+        Assert.assertTrue(ManageLinuxWebAppWithTrafficManager.runSample(azure));
+    }
+
+    @Test
+    public void testManageFunctionAppBasic() {
+        Assert.assertTrue(ManageFunctionAppBasic.runSample(azure));
+    }
+
+    @Test
+    public void testManageFunctionAppWithDomainSsl() {
+        Assert.assertTrue(ManageFunctionAppWithDomainSsl.runSample(azure));
+    }
+
+    @Test
+    @Ignore("Failing in playback - dependent on git")
+    public void testManageFunctionAppSourceControl() {
+        Assert.assertTrue(ManageFunctionAppSourceControl.runSample(azure));
     }
 }

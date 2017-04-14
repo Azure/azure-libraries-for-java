@@ -1,18 +1,18 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.appservice.samples;
 
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.appservice.AppServiceDomain;
+import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.AppServicePlan;
-import com.microsoft.azure.management.appservice.AppServicePricingTier;
+import com.microsoft.azure.management.appservice.PricingTier;
 import com.microsoft.azure.management.appservice.WebApp;
-import com.microsoft.azure.management.resources.fluentcore.arm.CountryISOCode;
+import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
 import com.microsoft.azure.management.resources.fluentcore.arm.CountryPhoneCode;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
@@ -52,6 +52,10 @@ public final class ManageWebAppWithTrafficManager {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
+        if (ManageWebAppWithTrafficManager.azure == null) {
+            ManageWebAppWithTrafficManager.azure = azure;
+        }
+
         // New resources
         final String app1Name       = SdkContext.randomResourceName("webapp1-", 20);
         final String app2Name       = SdkContext.randomResourceName("webapp2-", 20);
@@ -84,7 +88,7 @@ public final class ManageWebAppWithTrafficManager {
                         .withAddressLine1("123 4th Ave")
                         .withCity("Redmond")
                         .withStateOrProvince("WA")
-                        .withCountry(CountryISOCode.UNITED_STATES)
+                        .withCountry(CountryIsoCode.UNITED_STATES)
                         .withPostalCode("98052")
                         .withPhoneCountryCode(CountryPhoneCode.UNITED_STATES)
                         .withPhoneNumber("4258828080")
@@ -269,14 +273,15 @@ public final class ManageWebAppWithTrafficManager {
         return azure.appServices().appServicePlans().define(name)
                 .withRegion(region)
                 .withExistingResourceGroup(RG_NAME)
-                .withPricingTier(AppServicePricingTier.BASIC_B1)
+                .withPricingTier(PricingTier.BASIC_B1)
+                .withOperatingSystem(OperatingSystem.WINDOWS)
                 .create();
     }
 
     private static WebApp createWebApp(String name, AppServicePlan plan) {
         return azure.webApps().define(name)
+                .withExistingWindowsPlan(plan)
                 .withExistingResourceGroup(RG_NAME)
-                .withExistingAppServicePlan(plan)
                 .withManagedHostnameBindings(domain, name)
                 .defineSslBinding()
                     .forHostname(name + "." + domain.name())

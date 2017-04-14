@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.graphrbac.implementation;
 
 import com.microsoft.azure.management.graphrbac.PasswordProfile;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Request parameters for updating an existing work or school account user.
@@ -17,21 +18,25 @@ public class UserUpdateParametersInner {
     /**
      * Whether the account is enabled.
      */
+    @JsonProperty(value = "accountEnabled")
     private Boolean accountEnabled;
 
     /**
      * The display name of the user.
      */
+    @JsonProperty(value = "displayName")
     private String displayName;
 
     /**
      * The password profile of the user.
      */
+    @JsonProperty(value = "passwordProfile")
     private PasswordProfile passwordProfile;
 
     /**
      * The mail alias for the user.
      */
+    @JsonProperty(value = "mailNickname")
     private String mailNickname;
 
     /**

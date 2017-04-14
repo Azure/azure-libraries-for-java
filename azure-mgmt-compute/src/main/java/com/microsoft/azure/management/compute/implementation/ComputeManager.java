@@ -1,13 +1,19 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+
 package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.management.compute.Disks;
-import com.microsoft.azure.management.compute.Snapshots;
-import com.microsoft.azure.management.compute.VirtualMachineCustomImages;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.compute.AvailabilitySets;
 import com.microsoft.azure.management.compute.ComputeUsages;
+import com.microsoft.azure.management.compute.Disks;
+import com.microsoft.azure.management.compute.Snapshots;
+import com.microsoft.azure.management.compute.VirtualMachineCustomImages;
 import com.microsoft.azure.management.compute.VirtualMachineExtensionImages;
 import com.microsoft.azure.management.compute.VirtualMachineImages;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSets;
@@ -17,6 +23,8 @@ import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
+import com.microsoft.azure.serializer.AzureJacksonAdapter;
+import com.microsoft.rest.RestClient;
 
 /**
  * Entry point to Azure compute resource management.
@@ -56,6 +64,8 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
         return new ComputeManager(new RestClient.Builder()
                 .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withCredentials(credentials)
+                .withSerializerAdapter(new AzureJacksonAdapter())
+                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
                 .build(), subscriptionId);
     }
 
@@ -108,9 +118,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      */
     public AvailabilitySets availabilitySets() {
         if (availabilitySets == null) {
-            availabilitySets = new AvailabilitySetsImpl(
-                    super.innerManagementClient.availabilitySets(),
-                    this);
+            availabilitySets = new AvailabilitySetsImpl(this);
         }
         return availabilitySets;
     }
@@ -120,9 +128,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      */
     public VirtualMachines virtualMachines() {
         if (virtualMachines == null) {
-            virtualMachines = new VirtualMachinesImpl(super.innerManagementClient.virtualMachines(),
-                    super.innerManagementClient.virtualMachineExtensions(),
-                    super.innerManagementClient.virtualMachineSizes(),
+            virtualMachines = new VirtualMachinesImpl(
                     this,
                     storageManager,
                     networkManager);
@@ -158,8 +164,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      */
     public VirtualMachineScaleSets virtualMachineScaleSets() {
         if (virtualMachineScaleSets == null) {
-            virtualMachineScaleSets = new VirtualMachineScaleSetsImpl(super.innerManagementClient.virtualMachineScaleSets(),
-                    this.innerManagementClient.virtualMachineScaleSetVMs(),
+            virtualMachineScaleSets = new VirtualMachineScaleSetsImpl(
                     this,
                     storageManager,
                     networkManager);
@@ -182,8 +187,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      */
     public VirtualMachineCustomImages virtualMachineCustomImages() {
         if (virtualMachineCustomImages == null) {
-            virtualMachineCustomImages = new VirtualMachineCustomImagesImpl(super.innerManagementClient.images(),
-                    this);
+            virtualMachineCustomImages = new VirtualMachineCustomImagesImpl(this);
         }
         return virtualMachineCustomImages;
     }
@@ -193,8 +197,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      */
     public Disks disks() {
         if (disks == null) {
-            disks = new DisksImpl(super.innerManagementClient.disks(),
-                    this);
+            disks = new DisksImpl(this);
         }
         return disks;
     }
@@ -204,8 +207,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      */
     public Snapshots snapshots() {
         if (snapshots == null) {
-            snapshots = new SnapshotsImpl(super.innerManagementClient.snapshots(),
-                    this);
+            snapshots = new SnapshotsImpl(this);
         }
         return snapshots;
     }

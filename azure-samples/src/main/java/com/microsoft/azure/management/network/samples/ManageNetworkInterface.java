@@ -1,8 +1,7 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.network.samples;
@@ -43,8 +42,8 @@ public final class ManageNetworkInterface {
         final String networkInterfaceName1 = SdkContext.randomResourceName("nic1", 24);
         final String networkInterfaceName2 = SdkContext.randomResourceName("nic2", 24);
         final String networkInterfaceName3 = SdkContext.randomResourceName("nic3", 24);
-        final String publicIpAddressLeafDNS1 = SdkContext.randomResourceName("pip1", 24);
-        final String publicIpAddressLeafDNS2 = SdkContext.randomResourceName("pip2", 24);
+        final String publicIPAddressLeafDNS1 = SdkContext.randomResourceName("pip1", 24);
+        final String publicIPAddressLeafDNS2 = SdkContext.randomResourceName("pip2", 24);
 
         // TODO adjust the length of vm name from 8 to 24
         final String vmName = SdkContext.randomResourceName("vm", 8);
@@ -86,9 +85,9 @@ public final class ManageNetworkInterface {
                     .withExistingResourceGroup(rgName)
                     .withExistingPrimaryNetwork(network)
                     .withSubnet("Front-end")
-                    .withPrimaryPrivateIpAddressDynamic()
-                    .withNewPrimaryPublicIpAddress(publicIpAddressLeafDNS1)
-                    .withIpForwarding()
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withNewPrimaryPublicIPAddress(publicIPAddressLeafDNS1)
+                    .withIPForwarding()
                     .create();
 
             System.out.println("Created network interface 1");
@@ -100,7 +99,7 @@ public final class ManageNetworkInterface {
                     .withExistingResourceGroup(rgName)
                     .withExistingPrimaryNetwork(network)
                     .withSubnet("Mid-tier")
-                    .withPrimaryPrivateIpAddressDynamic()
+                    .withPrimaryPrivateIPAddressDynamic()
                     .create();
 
             System.out.println("Created network interface 2");
@@ -113,7 +112,7 @@ public final class ManageNetworkInterface {
                     .withExistingResourceGroup(rgName)
                     .withExistingPrimaryNetwork(network)
                     .withSubnet("Back-end")
-                    .withPrimaryPrivateIpAddressDynamic()
+                    .withPrimaryPrivateIPAddressDynamic()
                     .create();
 
             System.out.println("Created network interface 3");
@@ -150,7 +149,7 @@ public final class ManageNetworkInterface {
             // Configure a network interface
             System.out.println("Updating the first network interface");
             networkInterface1.update()
-                    .withNewPrimaryPublicIpAddress(publicIpAddressLeafDNS2)
+                    .withNewPrimaryPublicIPAddress(publicIPAddressLeafDNS2)
                     .apply();
 
             System.out.println("Updated the first network interface");
@@ -162,7 +161,7 @@ public final class ManageNetworkInterface {
             // List network interfaces
 
             System.out.println("Walking through network inter4faces in resource group: " + rgName);
-            PagedList<NetworkInterface> networkInterfaces = azure.networkInterfaces().listByGroup(rgName);
+            PagedList<NetworkInterface> networkInterfaces = azure.networkInterfaces().listByResourceGroup(rgName);
             for (NetworkInterface networkinterface : networkInterfaces) {
                 Utils.print(networkinterface);
             }
@@ -180,7 +179,7 @@ public final class ManageNetworkInterface {
 
             System.out.println("============================================================");
             System.out.println("Remaining network interfaces are ...");
-            networkInterfaces = azure.networkInterfaces().listByGroup(rgName);
+            networkInterfaces = azure.networkInterfaces().listByResourceGroup(rgName);
             for (NetworkInterface networkinterface : networkInterfaces) {
                 Utils.print(networkinterface);
             }

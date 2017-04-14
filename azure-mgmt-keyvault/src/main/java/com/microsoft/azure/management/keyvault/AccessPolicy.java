@@ -14,7 +14,7 @@ import com.microsoft.azure.management.graphrbac.User;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-import com.microsoft.azure.management.resources.fluentcore.model.Wrapper;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import java.util.List;
 @Fluent(ContainerName = "/Microsoft.Azure.Management.Fluent.KeyVault")
 public interface AccessPolicy extends
         ChildResource<Vault>,
-        Wrapper<AccessPolicyEntry> {
+        HasInner<AccessPolicyEntry> {
     /**
      * @return The Azure Active Directory tenant ID that should be used for
      * authenticating requests to the key vault.
@@ -67,14 +67,14 @@ public interface AccessPolicy extends
         /**
          * The first stage of an access policy definition.
          *
-         * @param <ParentT> the return type of the final {@link WithAttach#attach()}
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface Blank<ParentT> extends WithIdentity<ParentT> {
         }
 
         /**
          * The access policy definition stage allowing the Active Directory identity to be specified.
-         * @param <ParentT> the return type of the final {@link WithAttach#attach()}
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithIdentity<ParentT> {
             /**
@@ -128,7 +128,7 @@ public interface AccessPolicy extends
 
         /**
          * The access policy definition stage allowing permissions to be added.
-         * @param <ParentT> the return type of the final {@link WithAttach#attach()}
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithPermissions<ParentT> {
             /**
@@ -209,14 +209,14 @@ public interface AccessPolicy extends
         /**
          * The first stage of an access policy definition.
          *
-         * @param <ParentT> the return type of the final {@link WithAttach#attach()}
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface Blank<ParentT> extends WithIdentity<ParentT> {
         }
 
         /**
          * The access policy definition stage allowing the Active Directory identity to be specified.
-         * @param <ParentT> the return type of the final {@link WithAttach#attach()}
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithIdentity<ParentT> {
             /**
@@ -270,7 +270,7 @@ public interface AccessPolicy extends
 
         /**
          * The access policy definition stage allowing permissions to be added.
-         * @param <ParentT> the return type of the final {@link WithAttach#attach()}
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithPermissions<ParentT> {
             /**

@@ -10,13 +10,13 @@ package com.microsoft.azure.management.resources.implementation;
 
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceCall;
+import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCall;
 import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import java.io.IOException;
 import java.util.List;
@@ -37,7 +37,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in Tags.
  */
-public final class TagsInner {
+public class TagsInner {
     /** The Retrofit service to perform REST calls. */
     private TagsService service;
     /** The service client containing this operation class. */
@@ -90,6 +90,9 @@ public final class TagsInner {
      *
      * @param tagName The name of the tag.
      * @param tagValue The value of the tag to delete.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void deleteValue(String tagName, String tagValue) {
         deleteValueWithServiceResponseAsync(tagName, tagValue).toBlocking().single().body();
@@ -101,10 +104,11 @@ public final class TagsInner {
      * @param tagName The name of the tag.
      * @param tagValue The value of the tag to delete.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> deleteValueAsync(String tagName, String tagValue, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(deleteValueWithServiceResponseAsync(tagName, tagValue), serviceCallback);
+    public ServiceFuture<Void> deleteValueAsync(String tagName, String tagValue, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteValueWithServiceResponseAsync(tagName, tagValue), serviceCallback);
     }
 
     /**
@@ -112,6 +116,7 @@ public final class TagsInner {
      *
      * @param tagName The name of the tag.
      * @param tagValue The value of the tag to delete.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<Void> deleteValueAsync(String tagName, String tagValue) {
@@ -128,6 +133,7 @@ public final class TagsInner {
      *
      * @param tagName The name of the tag.
      * @param tagValue The value of the tag to delete.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<ServiceResponse<Void>> deleteValueWithServiceResponseAsync(String tagName, String tagValue) {
@@ -161,6 +167,7 @@ public final class TagsInner {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -169,6 +176,9 @@ public final class TagsInner {
      *
      * @param tagName The name of the tag.
      * @param tagValue The value of the tag to create.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the TagValueInner object if successful.
      */
     public TagValueInner createOrUpdateValue(String tagName, String tagValue) {
@@ -181,10 +191,11 @@ public final class TagsInner {
      * @param tagName The name of the tag.
      * @param tagValue The value of the tag to create.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<TagValueInner> createOrUpdateValueAsync(String tagName, String tagValue, final ServiceCallback<TagValueInner> serviceCallback) {
-        return ServiceCall.fromResponse(createOrUpdateValueWithServiceResponseAsync(tagName, tagValue), serviceCallback);
+    public ServiceFuture<TagValueInner> createOrUpdateValueAsync(String tagName, String tagValue, final ServiceCallback<TagValueInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateValueWithServiceResponseAsync(tagName, tagValue), serviceCallback);
     }
 
     /**
@@ -192,6 +203,7 @@ public final class TagsInner {
      *
      * @param tagName The name of the tag.
      * @param tagValue The value of the tag to create.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the TagValueInner object
      */
     public Observable<TagValueInner> createOrUpdateValueAsync(String tagName, String tagValue) {
@@ -208,6 +220,7 @@ public final class TagsInner {
      *
      * @param tagName The name of the tag.
      * @param tagValue The value of the tag to create.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the TagValueInner object
      */
     public Observable<ServiceResponse<TagValueInner>> createOrUpdateValueWithServiceResponseAsync(String tagName, String tagValue) {
@@ -250,6 +263,9 @@ public final class TagsInner {
      * The tag name can have a maximum of 512 characters and is case insensitive. Tag names created by Azure have prefixes of microsoft, azure, or windows. You cannot create tags with one of these prefixes.
      *
      * @param tagName The name of the tag to create.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the TagDetailsInner object if successful.
      */
     public TagDetailsInner createOrUpdate(String tagName) {
@@ -262,10 +278,11 @@ public final class TagsInner {
      *
      * @param tagName The name of the tag to create.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<TagDetailsInner> createOrUpdateAsync(String tagName, final ServiceCallback<TagDetailsInner> serviceCallback) {
-        return ServiceCall.fromResponse(createOrUpdateWithServiceResponseAsync(tagName), serviceCallback);
+    public ServiceFuture<TagDetailsInner> createOrUpdateAsync(String tagName, final ServiceCallback<TagDetailsInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(tagName), serviceCallback);
     }
 
     /**
@@ -273,6 +290,7 @@ public final class TagsInner {
      * The tag name can have a maximum of 512 characters and is case insensitive. Tag names created by Azure have prefixes of microsoft, azure, or windows. You cannot create tags with one of these prefixes.
      *
      * @param tagName The name of the tag to create.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the TagDetailsInner object
      */
     public Observable<TagDetailsInner> createOrUpdateAsync(String tagName) {
@@ -289,6 +307,7 @@ public final class TagsInner {
      * The tag name can have a maximum of 512 characters and is case insensitive. Tag names created by Azure have prefixes of microsoft, azure, or windows. You cannot create tags with one of these prefixes.
      *
      * @param tagName The name of the tag to create.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the TagDetailsInner object
      */
     public Observable<ServiceResponse<TagDetailsInner>> createOrUpdateWithServiceResponseAsync(String tagName) {
@@ -328,6 +347,9 @@ public final class TagsInner {
      * You must remove all values from a resource tag before you can delete it.
      *
      * @param tagName The name of the tag.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String tagName) {
         deleteWithServiceResponseAsync(tagName).toBlocking().single().body();
@@ -339,10 +361,11 @@ public final class TagsInner {
      *
      * @param tagName The name of the tag.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> deleteAsync(String tagName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(deleteWithServiceResponseAsync(tagName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(String tagName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(tagName), serviceCallback);
     }
 
     /**
@@ -350,6 +373,7 @@ public final class TagsInner {
      * You must remove all values from a resource tag before you can delete it.
      *
      * @param tagName The name of the tag.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<Void> deleteAsync(String tagName) {
@@ -366,6 +390,7 @@ public final class TagsInner {
      * You must remove all values from a resource tag before you can delete it.
      *
      * @param tagName The name of the tag.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String tagName) {
@@ -396,12 +421,16 @@ public final class TagsInner {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
                 .build(response);
     }
 
     /**
      * Gets the names and values of all resource tags that are defined in a subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;TagDetailsInner&gt; object if successful.
      */
     public PagedList<TagDetailsInner> list() {
@@ -418,10 +447,11 @@ public final class TagsInner {
      * Gets the names and values of all resource tags that are defined in a subscription.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<TagDetailsInner>> listAsync(final ListOperationCallback<TagDetailsInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<TagDetailsInner>> listAsync(final ListOperationCallback<TagDetailsInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listSinglePageAsync(),
             new Func1<String, Observable<ServiceResponse<Page<TagDetailsInner>>>>() {
                 @Override
@@ -435,6 +465,7 @@ public final class TagsInner {
     /**
      * Gets the names and values of all resource tags that are defined in a subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TagDetailsInner&gt; object
      */
     public Observable<Page<TagDetailsInner>> listAsync() {
@@ -450,6 +481,7 @@ public final class TagsInner {
     /**
      * Gets the names and values of all resource tags that are defined in a subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TagDetailsInner&gt; object
      */
     public Observable<ServiceResponse<Page<TagDetailsInner>>> listWithServiceResponseAsync() {
@@ -469,6 +501,7 @@ public final class TagsInner {
     /**
      * Gets the names and values of all resource tags that are defined in a subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;TagDetailsInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<TagDetailsInner>>> listSinglePageAsync() {
@@ -503,6 +536,9 @@ public final class TagsInner {
      * Gets the names and values of all resource tags that are defined in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;TagDetailsInner&gt; object if successful.
      */
     public PagedList<TagDetailsInner> listNext(final String nextPageLink) {
@@ -519,12 +555,13 @@ public final class TagsInner {
      * Gets the names and values of all resource tags that are defined in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceCall the ServiceCall object tracking the Retrofit calls
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<TagDetailsInner>> listNextAsync(final String nextPageLink, final ServiceCall<List<TagDetailsInner>> serviceCall, final ListOperationCallback<TagDetailsInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<TagDetailsInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<TagDetailsInner>> serviceFuture, final ListOperationCallback<TagDetailsInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<TagDetailsInner>>>>() {
                 @Override
@@ -539,6 +576,7 @@ public final class TagsInner {
      * Gets the names and values of all resource tags that are defined in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TagDetailsInner&gt; object
      */
     public Observable<Page<TagDetailsInner>> listNextAsync(final String nextPageLink) {
@@ -555,6 +593,7 @@ public final class TagsInner {
      * Gets the names and values of all resource tags that are defined in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TagDetailsInner&gt; object
      */
     public Observable<ServiceResponse<Page<TagDetailsInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
@@ -575,6 +614,7 @@ public final class TagsInner {
      * Gets the names and values of all resource tags that are defined in a subscription.
      *
     ServiceResponse<PageImpl<TagDetailsInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;TagDetailsInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<TagDetailsInner>>> listNextSinglePageAsync(final String nextPageLink) {

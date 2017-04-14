@@ -1,8 +1,7 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.keyvault.samples;
@@ -118,7 +117,7 @@ public final class ManageKeyVault {
 
             System.out.println("Listing key vaults...");
 
-            for (Vault vault : azure.vaults().listByGroup(rgName)) {
+            for (Vault vault : azure.vaults().listByResourceGroup(rgName)) {
                 Utils.print(vault);
             }
 
@@ -166,7 +165,7 @@ public final class ManageKeyVault {
             // Print selected subscription
             System.out.println("Selected subscription: " + azure.subscriptionId());
 
-            runSample(azure, ApplicationTokenCredentials.fromFile(credFile).getClientId());
+            runSample(azure, ApplicationTokenCredentials.fromFile(credFile).clientId());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

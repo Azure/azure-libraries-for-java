@@ -1,8 +1,7 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.samples;
@@ -18,15 +17,16 @@ import com.microsoft.azure.management.compute.samples.ListVirtualMachineImages;
 import com.microsoft.azure.management.compute.samples.ManageAvailabilitySet;
 import com.microsoft.azure.management.compute.samples.ManageManagedDisks;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachine;
+import com.microsoft.azure.management.compute.samples.ManageVirtualMachineAsync;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachineExtension;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachineScaleSet;
+import com.microsoft.azure.management.compute.samples.ManageVirtualMachineScaleSetAsync;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachineScaleSetWithUnmanagedDisks;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachineWithDisk;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachineWithUnmanagedDisks;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachinesInParallel;
 import com.microsoft.azure.management.compute.samples.ConvertVirtualMachineToManagedDisks;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class ComputeSampleTests extends SamplesTestBase {
@@ -87,6 +87,11 @@ public class ComputeSampleTests extends SamplesTestBase {
     }
 
     @Test
+    public void testManageVirtualMachineAsync() {
+        Assert.assertTrue(ManageVirtualMachineAsync.runSample(azure));
+    }
+
+    @Test
     public void testManageVirtualMachineExtension() {
         Assert.assertTrue(ManageVirtualMachineExtension.runSample(azure));
     }
@@ -94,6 +99,11 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Test
     public void testManageVirtualMachineScaleSet() {
         Assert.assertTrue(ManageVirtualMachineScaleSet.runSample(azure));
+    }
+
+    @Test
+    public void testManageVirtualMachineScaleSetAsync() {
+        Assert.assertTrue(ManageVirtualMachineScaleSetAsync.runSample(azure));
     }
 
     @Test
@@ -107,7 +117,6 @@ public class ComputeSampleTests extends SamplesTestBase {
     }
 
     @Test
-    @Ignore("Server bug: disk size cannot be resized down [This sample will not be published]")
     public void testManageVirtualMachineWithDisk() {
         Assert.assertTrue(ManageVirtualMachineWithDisk.runSample(azure));
     }

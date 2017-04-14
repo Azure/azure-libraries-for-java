@@ -1,9 +1,21 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.network.*;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.management.storage.StorageAccountKey;
+import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.blob.CloudBlobClient;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
+import com.microsoft.azure.storage.blob.CloudBlockBlob;
 import com.microsoft.rest.RestClient;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -11,6 +23,9 @@ import okhttp3.Response;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +44,138 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         resourceManager.resourceGroups().deleteByName(RG_NAME);
     }
 
+    @Test
+    public void canUpdateVirtualMachineScaleSetWithExtensionProtectedSettings() throws Exception {
+        final String vmssName = generateRandomResourceName("vmss", 10);
+        final String uname = "jvuser";
+        final String password = "123OData!@#123";
+
+        ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
+                .define(RG_NAME)
+                .withRegion(REGION)
+                .create();
+
+        StorageAccount storageAccount = this.storageManager.storageAccounts()
+                .define(generateRandomResourceName("stg", 15))
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .create();
+
+        List<StorageAccountKey> keys = storageAccount.getKeys();
+        Assert.assertNotNull(keys);
+        Assert.assertTrue(keys.size() > 0);
+        String storageAccountKey = keys.get(0).value();
+
+        final String storageConnectionString = String.format("DefaultEndpointsProtocol=http;AccountName=%s;AccountKey=%s",
+                storageAccount.name(),
+                storageAccountKey);
+        // Get the script to upload
+        //
+        InputStream scriptFileAsStream = VirtualMachineScaleSetOperationsTests
+                .class
+                .getResourceAsStream("/install_apache.sh");
+        // Get the size of the stream
+        //
+        int fileSize;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[256];
+        int bytesRead;
+        while ((bytesRead = scriptFileAsStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+        fileSize = outputStream.size();
+        outputStream.close();
+        // Upload the script file as block blob
+        //
+        URI fileUri;
+        if (IS_MOCKED) {
+            fileUri = new URI("http://nonexisting.blob.core.windows.net/scripts/install_apache.sh");
+        } else {
+            CloudStorageAccount account = CloudStorageAccount.parse(storageConnectionString);
+            CloudBlobClient cloudBlobClient = account.createCloudBlobClient();
+            CloudBlobContainer container = cloudBlobClient.getContainerReference("scripts");
+            container.createIfNotExists();
+            CloudBlockBlob blob = container.getBlockBlobReference("install_apache.sh");
+            blob.upload(scriptFileAsStream, fileSize);
+            fileUri = blob.getUri();
+        }
+        List<String> fileUris = new ArrayList<>();
+        fileUris.add(fileUri.toString());
+
+        Network network = this.networkManager
+                .networks()
+                .define(generateRandomResourceName("vmssvnet", 15))
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withAddressSpace("10.0.0.0/28")
+                .withSubnet("subnet1", "10.0.0.0/28")
+                .create();
+
+        VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets().define(vmssName)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withSku(VirtualMachineScaleSetSkuTypes.STANDARD_A0)
+                .withExistingPrimaryNetworkSubnet(network, "subnet1")
+                .withoutPrimaryInternetFacingLoadBalancer()
+                .withoutPrimaryInternalLoadBalancer()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername(uname)
+                .withRootPassword(password)
+                .withUnmanagedDisks()
+                .withNewStorageAccount(generateRandomResourceName("stg", 15))
+                .withExistingStorageAccount(storageAccount)
+                .defineNewExtension("CustomScriptForLinux")
+                    .withPublisher("Microsoft.OSTCExtensions")
+                    .withType("CustomScriptForLinux")
+                    .withVersion("1.4")
+                    .withMinorVersionAutoUpgrade()
+                    .withPublicSetting("fileUris",fileUris)
+                    .withProtectedSetting("commandToExecute", "bash install_apache.sh")
+                    .withProtectedSetting("storageAccountName", storageAccount.name())
+                    .withProtectedSetting("storageAccountKey", storageAccountKey)
+                    .attach()
+                .create();
+        // Validate extensions after create
+        //
+        Map<String, VirtualMachineScaleSetExtension> extensions = virtualMachineScaleSet.extensions();
+        Assert.assertNotNull(extensions);
+        Assert.assertEquals(1, extensions.size());
+        Assert.assertTrue(extensions.containsKey("CustomScriptForLinux"));
+        VirtualMachineScaleSetExtension extension = extensions.get("CustomScriptForLinux");
+        Assert.assertNotNull(extension.publicSettings());
+        Assert.assertEquals(1, extension.publicSettings().size());
+        Assert.assertNotNull(extension.publicSettingsAsJsonString());
+        // Retrieve scale set
+        VirtualMachineScaleSet scaleSet = this.computeManager
+                .virtualMachineScaleSets()
+                .getById(virtualMachineScaleSet.id());
+        // Validate extensions after get
+        //
+        extensions = virtualMachineScaleSet.extensions();
+        Assert.assertNotNull(extensions);
+        Assert.assertEquals(1, extensions.size());
+        Assert.assertTrue(extensions.containsKey("CustomScriptForLinux"));
+        extension = extensions.get("CustomScriptForLinux");
+        Assert.assertNotNull(extension.publicSettings());
+        Assert.assertEquals(1, extension.publicSettings().size());
+        Assert.assertNotNull(extension.publicSettingsAsJsonString());
+        // Update VMSS capacity
+        //
+        int newCapacity = (int) (scaleSet.capacity() + 1);
+        virtualMachineScaleSet.update()
+                .withCapacity(newCapacity)
+                .apply();
+        // Validate extensions after update
+        //
+        extensions = virtualMachineScaleSet.extensions();
+        Assert.assertNotNull(extensions);
+        Assert.assertEquals(1, extensions.size());
+        Assert.assertTrue(extensions.containsKey("CustomScriptForLinux"));
+        extension = extensions.get("CustomScriptForLinux");
+        Assert.assertNotNull(extension.publicSettings());
+        Assert.assertEquals(1, extension.publicSettings().size());
+        Assert.assertNotNull(extension.publicSettingsAsJsonString());
+    }
 
     @Test
     public void canCreateVirtualMachineScaleSetWithCustomScriptExtension() throws Exception {
@@ -80,11 +227,11 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
 
         checkVMInstances(virtualMachineScaleSet);
 
-        List<String> publicIpAddressIds = virtualMachineScaleSet.primaryPublicIpAddressIds();
-        PublicIpAddress publicIpAddress = this.networkManager.publicIpAddresses()
-                .getById(publicIpAddressIds.get(0));
+        List<String> publicIPAddressIds = virtualMachineScaleSet.primaryPublicIPAddressIds();
+        PublicIPAddress publicIPAddress = this.networkManager.publicIPAddresses()
+                .getById(publicIPAddressIds.get(0));
 
-        String fqdn = publicIpAddress.fqdn();
+        String fqdn = publicIPAddress.fqdn();
         // Assert public load balancing connection
         if (!IS_MOCKED) {
             OkHttpClient client = new OkHttpClient();
@@ -101,8 +248,8 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
             PagedList<VirtualMachineScaleSetNetworkInterface> networkInterfaces = vm.listNetworkInterfaces();
             Assert.assertEquals(networkInterfaces.size(), 1);
             VirtualMachineScaleSetNetworkInterface networkInterface = networkInterfaces.get(0);
-            VirtualMachineScaleSetNicIpConfiguration primaryIpConfig = null;
-            primaryIpConfig = networkInterface.primaryIpConfiguration();
+            VirtualMachineScaleSetNicIPConfiguration primaryIpConfig = null;
+            primaryIpConfig = networkInterface.primaryIPConfiguration();
             Assert.assertNotNull(primaryIpConfig);
             Integer sshFrontendPort = null;
             List<LoadBalancerInboundNatRule> natRules = primaryIpConfig.listAssociatedLoadBalancerInboundNatRules();
@@ -184,17 +331,17 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
             Assert.assertNotNull(nic.macAddress());
             Assert.assertNotNull(nic.dnsServers());
             Assert.assertNotNull(nic.appliedDnsServers());
-            Map<String, VirtualMachineScaleSetNicIpConfiguration> ipConfigs =  nic.ipConfigurations();
+            Map<String, VirtualMachineScaleSetNicIPConfiguration> ipConfigs =  nic.ipConfigurations();
             Assert.assertEquals(ipConfigs.size(), 1);
-            for (Map.Entry<String, VirtualMachineScaleSetNicIpConfiguration> entry :ipConfigs.entrySet()) {
-                VirtualMachineScaleSetNicIpConfiguration ipConfig = entry.getValue();
+            for (Map.Entry<String, VirtualMachineScaleSetNicIPConfiguration> entry :ipConfigs.entrySet()) {
+                VirtualMachineScaleSetNicIPConfiguration ipConfig = entry.getValue();
                 Assert.assertNotNull(ipConfig);
                 Assert.assertTrue(ipConfig.isPrimary());
                 Assert.assertNotNull(ipConfig.subnetName());
                 Assert.assertTrue(primaryNetwork.id().toLowerCase().equalsIgnoreCase(ipConfig.networkId()));
-                Assert.assertNotNull(ipConfig.privateIpAddress());
-                Assert.assertNotNull(ipConfig.privateIpAddressVersion());
-                Assert.assertNotNull(ipConfig.privateIpAllocationMethod());
+                Assert.assertNotNull(ipConfig.privateIPAddress());
+                Assert.assertNotNull(ipConfig.privateIPAddressVersion());
+                Assert.assertNotNull(ipConfig.privateIPAllocationMethod());
                 List<LoadBalancerBackend> lbBackends = ipConfig.listAssociatedLoadBalancerBackends();
                 // VMSS is created with a internet facing LB with two Backend pools so there will be two
                 // backends in ip-config as well
@@ -252,7 +399,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
 
         virtualMachineScaleSet = this.computeManager
                 .virtualMachineScaleSets()
-                .getByGroup(RG_NAME, vmss_name);
+                .getByResourceGroup(RG_NAME, vmss_name);
 
         // Check LB after update
         //
@@ -270,10 +417,10 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         nicCount = 0;
         for (VirtualMachineScaleSetNetworkInterface nic : nics) {
             nicCount++;
-            Map<String, VirtualMachineScaleSetNicIpConfiguration> ipConfigs =  nic.ipConfigurations();
+            Map<String, VirtualMachineScaleSetNicIPConfiguration> ipConfigs =  nic.ipConfigurations();
             Assert.assertEquals(ipConfigs.size(), 1);
-            for (Map.Entry<String, VirtualMachineScaleSetNicIpConfiguration> entry :ipConfigs.entrySet()) {
-                VirtualMachineScaleSetNicIpConfiguration ipConfig = entry.getValue();
+            for (Map.Entry<String, VirtualMachineScaleSetNicIPConfiguration> entry :ipConfigs.entrySet()) {
+                VirtualMachineScaleSetNicIPConfiguration ipConfig = entry.getValue();
                 Assert.assertNotNull(ipConfig);
                 List<LoadBalancerBackend> lbBackends = ipConfig.listAssociatedLoadBalancerBackends();
                 Assert.assertNotNull(lbBackends);
@@ -333,7 +480,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
             Assert.assertNotNull(vm.osUnmanagedDiskVhdUri());   // VMSS is un-managed, so osVhd should not be null
             Assert.assertNull(vm.storedImageUnmanagedVhdUri());
             Assert.assertFalse(vm.isWindowsAutoUpdateEnabled());
-            Assert.assertFalse(vm.isWindowsVmAgentProvisioned());
+            Assert.assertFalse(vm.isWindowsVMAgentProvisioned());
             Assert.assertTrue(vm.administratorUserName().equalsIgnoreCase("jvuser"));
             VirtualMachineImage vmImage = vm.getOSPlatformImage();
             Assert.assertNotNull(vmImage);

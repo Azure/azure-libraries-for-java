@@ -7,15 +7,16 @@
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineScaleSetVMInner;
 import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Wrapper;
-import rx.Observable;
+import rx.Completable;
 
 import java.util.List;
 import java.util.Map;
@@ -28,14 +29,14 @@ public interface VirtualMachineScaleSetVM extends
         Resource,
         ChildResource<VirtualMachineScaleSet>,
         Refreshable<VirtualMachineScaleSetVM>,
-        Wrapper<VirtualMachineScaleSetVMInner> {
+        HasInner<VirtualMachineScaleSetVMInner> {
     /**
-     * @return the instance id assigned to this virtual machine instance
+     * @return the instance ID assigned to this virtual machine instance
      */
     String instanceId();
 
     /**
-     * @return the sku of the virtual machine instance, this will be sku used while creating the parent
+     * @return the SKU of the virtual machine instance, this will be SKU used while creating the parent
      * virtual machine scale set
      */
     Sku sku();
@@ -84,7 +85,7 @@ public interface VirtualMachineScaleSetVM extends
     VirtualMachineCustomImage getOSCustomImage();
 
     /**
-     * @return vhd uri of the custom image that the virtual machine instance operating system is based on,
+     * @return VHD URI of the custom image that the virtual machine instance operating system is based on,
      * null will be returned if the operating system is based on platform image
      */
     String storedImageUnmanagedVhdUri();
@@ -95,22 +96,22 @@ public interface VirtualMachineScaleSetVM extends
     String osDiskName();
 
     /**
-     * @return vhd uri to the operating system disk
+     * @return VHD URI to the operating system disk
      */
     String osUnmanagedDiskVhdUri();
 
     /**
-     * @return resource id of the managed disk backing OS disk
+     * @return resource ID of the managed disk backing OS disk
      */
     String osDiskId();
 
     /**
-     * @return the unmanaged data disks associated with this virtual machine instance, indexed by lun
+     * @return the unmanaged data disks associated with this virtual machine instance, indexed by LUN
      */
     Map<Integer, VirtualMachineUnmanagedDataDisk> unmanagedDataDisks();
 
     /**
-     * @return the managed data disks associated with this virtual machine instance, indexed by lun
+     * @return the managed data disks associated with this virtual machine instance, indexed by LUN
      */
     Map<Integer, VirtualMachineDataDisk> dataDisks();
 
@@ -125,7 +126,7 @@ public interface VirtualMachineScaleSetVM extends
     int osDiskSizeInGB();
 
     /**
-     * @return the virtual machine instance computer name with prefix {@link VirtualMachineScaleSet#computerNamePrefix()}
+     * @return the virtual machine instance computer name with the VM scale set prefix.
      */
     String computerName();
 
@@ -145,9 +146,9 @@ public interface VirtualMachineScaleSetVM extends
     boolean isLinuxPasswordAuthenticationEnabled();
 
     /**
-     * @return true if this is a Windows virtual machine and Vm agent is provisioned, false otherwise
+     * @return true if this is a Windows virtual machine and VM agent is provisioned, false otherwise
      */
-    boolean isWindowsVmAgentProvisioned();
+    boolean isWindowsVMAgentProvisioned();
 
     /**
      * @return true if this is a Windows virtual machine and automatic update is turned on, false otherwise
@@ -165,22 +166,22 @@ public interface VirtualMachineScaleSetVM extends
     boolean bootDiagnosticEnabled();
 
     /**
-     * @return the uri to the storage account storing boot diagnostics log
+     * @return the URI to the storage account storing boot diagnostics log
      */
     String bootDiagnosticStorageAccountUri();
 
     /**
-     * @return the resource id of the availability set that this virtual machine instance belongs to
+     * @return the resource ID of the availability set that this virtual machine instance belongs to
      */
     String availabilitySetId();
 
     /**
-     * @return the list of resource id of network interface associated with the virtual machine instance
+     * @return the list of resource ID of network interface associated with the virtual machine instance
      */
     List<String> networkInterfaceIds();
 
     /**
-     * @return resource id of primary network interface associated with virtual machine instance
+     * @return resource ID of primary network interface associated with virtual machine instance
      */
     String primaryNetworkInterfaceId();
 
@@ -220,7 +221,8 @@ public interface VirtualMachineScaleSetVM extends
      * @return the observable to the reimage action
      */
     @Method
-    Observable<Void> reimageAsync();
+    @Beta
+    Completable reimageAsync();
 
     /**
      * Shuts down the virtual machine instance and releases the associated compute resources.
@@ -233,7 +235,8 @@ public interface VirtualMachineScaleSetVM extends
      * @return the observable to the deallocate action
      */
     @Method
-    Observable<Void> deallocateAsync();
+    @Beta
+    Completable deallocateAsync();
 
     /**
      * Stops the virtual machine instance.
@@ -246,7 +249,8 @@ public interface VirtualMachineScaleSetVM extends
      * @return the observable to the poweroff action
      */
     @Method
-    Observable<Void> powerOffAsync();
+    @Beta
+    Completable powerOffAsync();
 
     /**
      * Starts the virtual machine instance.
@@ -259,7 +263,8 @@ public interface VirtualMachineScaleSetVM extends
      * @return the observable to the start action
      */
     @Method
-    Observable<Void> startAsync();
+    @Beta
+    Completable startAsync();
 
     /**
      * Restarts the virtual machine instance.
@@ -272,7 +277,8 @@ public interface VirtualMachineScaleSetVM extends
      * @return the observable to the restart action
      */
     @Method
-    Observable<Void> restartAsync();
+    @Beta
+    Completable restartAsync();
 
     /**
      * Deletes the virtual machine instance.
@@ -285,12 +291,13 @@ public interface VirtualMachineScaleSetVM extends
      * @return the observable to the delete action
      */
     @Method
-    Observable<Void> deleteAsync();
+    @Beta
+    Completable deleteAsync();
 
     /**
      * Gets the instance view of the virtual machine instance.
      * <p>
-     * To get the latest instance view use {@link VirtualMachineScaleSetVM#refreshInstanceView()}.
+     * To get the latest instance view use <code>refreshInstanceView()</code>.
      *
      * @return the instance view
      */

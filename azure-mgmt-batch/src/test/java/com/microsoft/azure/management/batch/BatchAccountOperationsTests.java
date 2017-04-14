@@ -15,7 +15,10 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BatchAccountOperationsTests extends BatchManagementTest {
@@ -33,7 +36,7 @@ public class BatchAccountOperationsTests extends BatchManagementTest {
         Assert.assertEquals(RG_NAME, batchAccount.resourceGroupName());
         Assert.assertNull(batchAccount.autoStorage());
         // List
-        List<BatchAccount> accounts = batchManager.batchAccounts().listByGroup(RG_NAME);
+        List<BatchAccount> accounts = batchManager.batchAccounts().listByResourceGroup(RG_NAME);
         boolean found = false;
         for (BatchAccount account : accounts) {
             if (account.name().equals(BATCH_NAME)) {
@@ -42,7 +45,7 @@ public class BatchAccountOperationsTests extends BatchManagementTest {
         }
         Assert.assertTrue(found);
         // Get
-        batchAccount = batchManager.batchAccounts().getByGroup(RG_NAME, BATCH_NAME);
+        batchAccount = batchManager.batchAccounts().getByResourceGroup(RG_NAME, BATCH_NAME);
         Assert.assertNotNull(batchAccount);
 
         // Get Keys
@@ -152,7 +155,7 @@ public class BatchAccountOperationsTests extends BatchManagementTest {
                     .withoutApplicationPackage(applicationPackage1Name)
                 .parent()
                 .apply();
-        batchManager.batchAccounts().deleteByGroup(batchAccount.resourceGroupName(), batchAccount.name());
+        batchManager.batchAccounts().deleteByResourceGroup(batchAccount.resourceGroupName(), batchAccount.name());
 
         batchAccount = batchManager.batchAccounts().getById(batchAccount.id());
         Assert.assertNull(batchAccount);
@@ -183,7 +186,7 @@ public class BatchAccountOperationsTests extends BatchManagementTest {
         Assert.assertEquals(ResourceUtils.nameFromResourceId(batchAccount.autoStorage().storageAccountId()), SA_NAME);
 
         // List
-        List<BatchAccount> accounts = batchManager.batchAccounts().listByGroup(RG_NAME);
+        List<BatchAccount> accounts = batchManager.batchAccounts().listByResourceGroup(RG_NAME);
         boolean found = false;
         for (BatchAccount account : accounts) {
             if (account.name().equals(BATCH_NAME)) {
@@ -192,7 +195,7 @@ public class BatchAccountOperationsTests extends BatchManagementTest {
         }
         Assert.assertTrue(found);
         // Get
-        batchAccount = batchManager.batchAccounts().getByGroup(RG_NAME, BATCH_NAME);
+        batchAccount = batchManager.batchAccounts().getByResourceGroup(RG_NAME, BATCH_NAME);
         Assert.assertNotNull(batchAccount);
 
         Assert.assertTrue(batchAccount.applications().containsKey(applicationId));
@@ -202,8 +205,46 @@ public class BatchAccountOperationsTests extends BatchManagementTest {
         Assert.assertEquals(application.displayName(), applicationDisplayName);
         Assert.assertEquals(application.updatesAllowed(), allowUpdates);
 
-        batchManager.batchAccounts().deleteByGroup(batchAccount.resourceGroupName(), batchAccount.name());
+        batchManager.batchAccounts().deleteByResourceGroup(batchAccount.resourceGroupName(), batchAccount.name());
         batchAccount = batchManager.batchAccounts().getById(batchAccount.id());
         Assert.assertNull(batchAccount);
+    }
+
+    @Test
+    public void batchAccountListAsyncTest() throws Exception {
+        // Create
+        Observable<Indexable> resourceStream = batchManager.batchAccounts()
+                .define(BATCH_NAME)
+                .withRegion(Region.US_CENTRAL)
+                .withNewResourceGroup(RG_NAME)
+                .createAsync();
+
+        final List<BatchAccount> batchAccounts = new ArrayList<>();
+        final List<BatchAccount> createdBatchAccounts  = new ArrayList<>();
+        final Action1<BatchAccount> onListBatchAccount = new Action1<BatchAccount>() {
+            @Override
+            public void call(BatchAccount batchAccountInList) {
+                batchAccounts.add(batchAccountInList);
+            }
+        };
+
+        final Func1<BatchAccount, Observable<BatchAccount>> onCreateBatchAccount = new Func1<BatchAccount, Observable<BatchAccount>>() {
+            @Override
+            public Observable<BatchAccount> call(final BatchAccount createdBatchAccount) {
+                createdBatchAccounts.add(createdBatchAccount);
+                return batchManager.batchAccounts().listAsync().doOnNext(onListBatchAccount);
+            }
+        };
+
+        Utils.<BatchAccount>rootResource(resourceStream).flatMap(onCreateBatchAccount).toBlocking().last();
+        Assert.assertEquals(1, createdBatchAccounts.size());
+        boolean accountExists = false;
+        for (BatchAccount batchAccountInList: batchAccounts) {
+            if (createdBatchAccounts.get(0).id().equalsIgnoreCase(batchAccountInList.id())) {
+                accountExists = true;
+            }
+            Assert.assertNotNull(batchAccountInList.id());
+        }
+        Assert.assertTrue(accountExists);
     }
 }

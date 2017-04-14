@@ -8,15 +8,17 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
+import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceCall;
+import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCall;
 import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
 import java.io.IOException;
@@ -40,7 +42,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in Certificates.
  */
-public final class CertificatesInner {
+public class CertificatesInner implements InnerSupportsDelete<Void>, InnerSupportsListing<CertificateInner> {
     /** The Retrofit service to perform REST calls. */
     private CertificatesService service;
     /** The service client containing this operation class. */
@@ -124,6 +126,9 @@ public final class CertificatesInner {
      * Get all certificates for a subscription.
      * Get all certificates for a subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;CertificateInner&gt; object if successful.
      */
     public PagedList<CertificateInner> list() {
@@ -141,10 +146,11 @@ public final class CertificatesInner {
      * Get all certificates for a subscription.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<CertificateInner>> listAsync(final ListOperationCallback<CertificateInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<CertificateInner>> listAsync(final ListOperationCallback<CertificateInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listSinglePageAsync(),
             new Func1<String, Observable<ServiceResponse<Page<CertificateInner>>>>() {
                 @Override
@@ -159,6 +165,7 @@ public final class CertificatesInner {
      * Get all certificates for a subscription.
      * Get all certificates for a subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CertificateInner&gt; object
      */
     public Observable<Page<CertificateInner>> listAsync() {
@@ -175,6 +182,7 @@ public final class CertificatesInner {
      * Get all certificates for a subscription.
      * Get all certificates for a subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CertificateInner&gt; object
      */
     public Observable<ServiceResponse<Page<CertificateInner>>> listWithServiceResponseAsync() {
@@ -195,6 +203,7 @@ public final class CertificatesInner {
      * Get all certificates for a subscription.
      * Get all certificates for a subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;CertificateInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<CertificateInner>>> listSinglePageAsync() {
@@ -228,6 +237,9 @@ public final class CertificatesInner {
      * Get all certificates in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;CertificateInner&gt; object if successful.
      */
     public PagedList<CertificateInner> listByResourceGroup(final String resourceGroupName) {
@@ -246,10 +258,11 @@ public final class CertificatesInner {
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<CertificateInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<CertificateInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<CertificateInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<CertificateInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listByResourceGroupSinglePageAsync(resourceGroupName),
             new Func1<String, Observable<ServiceResponse<Page<CertificateInner>>>>() {
                 @Override
@@ -265,6 +278,7 @@ public final class CertificatesInner {
      * Get all certificates in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CertificateInner&gt; object
      */
     public Observable<Page<CertificateInner>> listByResourceGroupAsync(final String resourceGroupName) {
@@ -282,6 +296,7 @@ public final class CertificatesInner {
      * Get all certificates in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CertificateInner&gt; object
      */
     public Observable<ServiceResponse<Page<CertificateInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName) {
@@ -303,6 +318,7 @@ public final class CertificatesInner {
      * Get all certificates in a resource group.
      *
     ServiceResponse<PageImpl<CertificateInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;CertificateInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<CertificateInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName) {
@@ -340,6 +356,9 @@ public final class CertificatesInner {
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CertificateInner object if successful.
      */
     public CertificateInner get(String resourceGroupName, String name) {
@@ -353,10 +372,11 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<CertificateInner> getAsync(String resourceGroupName, String name, final ServiceCallback<CertificateInner> serviceCallback) {
-        return ServiceCall.fromResponse(getWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    public ServiceFuture<CertificateInner> getAsync(String resourceGroupName, String name, final ServiceCallback<CertificateInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
     }
 
     /**
@@ -365,6 +385,7 @@ public final class CertificatesInner {
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
     public Observable<CertificateInner> getAsync(String resourceGroupName, String name) {
@@ -382,6 +403,7 @@ public final class CertificatesInner {
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
     public Observable<ServiceResponse<CertificateInner>> getWithServiceResponseAsync(String resourceGroupName, String name) {
@@ -423,6 +445,9 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
      * @param certificateEnvelope Details of certificate, if it exists already.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CertificateInner object if successful.
      */
     public CertificateInner createOrUpdate(String resourceGroupName, String name, CertificateInner certificateEnvelope) {
@@ -437,10 +462,11 @@ public final class CertificatesInner {
      * @param name Name of the certificate.
      * @param certificateEnvelope Details of certificate, if it exists already.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<CertificateInner> createOrUpdateAsync(String resourceGroupName, String name, CertificateInner certificateEnvelope, final ServiceCallback<CertificateInner> serviceCallback) {
-        return ServiceCall.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, name, certificateEnvelope), serviceCallback);
+    public ServiceFuture<CertificateInner> createOrUpdateAsync(String resourceGroupName, String name, CertificateInner certificateEnvelope, final ServiceCallback<CertificateInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, name, certificateEnvelope), serviceCallback);
     }
 
     /**
@@ -450,6 +476,7 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
      * @param certificateEnvelope Details of certificate, if it exists already.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
     public Observable<CertificateInner> createOrUpdateAsync(String resourceGroupName, String name, CertificateInner certificateEnvelope) {
@@ -468,6 +495,7 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
      * @param certificateEnvelope Details of certificate, if it exists already.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
     public Observable<ServiceResponse<CertificateInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String name, CertificateInner certificateEnvelope) {
@@ -512,6 +540,9 @@ public final class CertificatesInner {
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String resourceGroupName, String name) {
         deleteWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
@@ -524,10 +555,11 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> deleteAsync(String resourceGroupName, String name, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String name, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
     }
 
     /**
@@ -536,6 +568,7 @@ public final class CertificatesInner {
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<Void> deleteAsync(String resourceGroupName, String name) {
@@ -553,6 +586,7 @@ public final class CertificatesInner {
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String name) {
@@ -584,6 +618,7 @@ public final class CertificatesInner {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -594,6 +629,9 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
      * @param certificateEnvelope Details of certificate, if it exists already.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CertificateInner object if successful.
      */
     public CertificateInner update(String resourceGroupName, String name, CertificateInner certificateEnvelope) {
@@ -608,10 +646,11 @@ public final class CertificatesInner {
      * @param name Name of the certificate.
      * @param certificateEnvelope Details of certificate, if it exists already.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<CertificateInner> updateAsync(String resourceGroupName, String name, CertificateInner certificateEnvelope, final ServiceCallback<CertificateInner> serviceCallback) {
-        return ServiceCall.fromResponse(updateWithServiceResponseAsync(resourceGroupName, name, certificateEnvelope), serviceCallback);
+    public ServiceFuture<CertificateInner> updateAsync(String resourceGroupName, String name, CertificateInner certificateEnvelope, final ServiceCallback<CertificateInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, name, certificateEnvelope), serviceCallback);
     }
 
     /**
@@ -621,6 +660,7 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
      * @param certificateEnvelope Details of certificate, if it exists already.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
     public Observable<CertificateInner> updateAsync(String resourceGroupName, String name, CertificateInner certificateEnvelope) {
@@ -639,6 +679,7 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
      * @param certificateEnvelope Details of certificate, if it exists already.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
     public Observable<ServiceResponse<CertificateInner>> updateWithServiceResponseAsync(String resourceGroupName, String name, CertificateInner certificateEnvelope) {
@@ -682,6 +723,9 @@ public final class CertificatesInner {
      * Get all certificate signing requests in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;CsrInner&gt; object if successful.
      */
     public PagedList<CsrInner> listSigningRequestByResourceGroup(final String resourceGroupName) {
@@ -700,10 +744,11 @@ public final class CertificatesInner {
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<CsrInner>> listSigningRequestByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<CsrInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<CsrInner>> listSigningRequestByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<CsrInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listSigningRequestByResourceGroupSinglePageAsync(resourceGroupName),
             new Func1<String, Observable<ServiceResponse<Page<CsrInner>>>>() {
                 @Override
@@ -719,6 +764,7 @@ public final class CertificatesInner {
      * Get all certificate signing requests in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CsrInner&gt; object
      */
     public Observable<Page<CsrInner>> listSigningRequestByResourceGroupAsync(final String resourceGroupName) {
@@ -736,6 +782,7 @@ public final class CertificatesInner {
      * Get all certificate signing requests in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CsrInner&gt; object
      */
     public Observable<ServiceResponse<Page<CsrInner>>> listSigningRequestByResourceGroupWithServiceResponseAsync(final String resourceGroupName) {
@@ -757,6 +804,7 @@ public final class CertificatesInner {
      * Get all certificate signing requests in a resource group.
      *
     ServiceResponse<PageImpl<CsrInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;CsrInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<CsrInner>>> listSigningRequestByResourceGroupSinglePageAsync(final String resourceGroupName) {
@@ -794,6 +842,9 @@ public final class CertificatesInner {
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate signing request.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CsrInner object if successful.
      */
     public CsrInner getSigningRequest(String resourceGroupName, String name) {
@@ -807,10 +858,11 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate signing request.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<CsrInner> getSigningRequestAsync(String resourceGroupName, String name, final ServiceCallback<CsrInner> serviceCallback) {
-        return ServiceCall.fromResponse(getSigningRequestWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    public ServiceFuture<CsrInner> getSigningRequestAsync(String resourceGroupName, String name, final ServiceCallback<CsrInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getSigningRequestWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
     }
 
     /**
@@ -819,6 +871,7 @@ public final class CertificatesInner {
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate signing request.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CsrInner object
      */
     public Observable<CsrInner> getSigningRequestAsync(String resourceGroupName, String name) {
@@ -836,6 +889,7 @@ public final class CertificatesInner {
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate signing request.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CsrInner object
      */
     public Observable<ServiceResponse<CsrInner>> getSigningRequestWithServiceResponseAsync(String resourceGroupName, String name) {
@@ -877,6 +931,9 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate signing request.
      * @param csrEnvelope Details of certificate signing request, if it exists already.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CsrInner object if successful.
      */
     public CsrInner createOrUpdateSigningRequest(String resourceGroupName, String name, CsrInner csrEnvelope) {
@@ -891,10 +948,11 @@ public final class CertificatesInner {
      * @param name Name of the certificate signing request.
      * @param csrEnvelope Details of certificate signing request, if it exists already.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<CsrInner> createOrUpdateSigningRequestAsync(String resourceGroupName, String name, CsrInner csrEnvelope, final ServiceCallback<CsrInner> serviceCallback) {
-        return ServiceCall.fromResponse(createOrUpdateSigningRequestWithServiceResponseAsync(resourceGroupName, name, csrEnvelope), serviceCallback);
+    public ServiceFuture<CsrInner> createOrUpdateSigningRequestAsync(String resourceGroupName, String name, CsrInner csrEnvelope, final ServiceCallback<CsrInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateSigningRequestWithServiceResponseAsync(resourceGroupName, name, csrEnvelope), serviceCallback);
     }
 
     /**
@@ -904,6 +962,7 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate signing request.
      * @param csrEnvelope Details of certificate signing request, if it exists already.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CsrInner object
      */
     public Observable<CsrInner> createOrUpdateSigningRequestAsync(String resourceGroupName, String name, CsrInner csrEnvelope) {
@@ -922,6 +981,7 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate signing request.
      * @param csrEnvelope Details of certificate signing request, if it exists already.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CsrInner object
      */
     public Observable<ServiceResponse<CsrInner>> createOrUpdateSigningRequestWithServiceResponseAsync(String resourceGroupName, String name, CsrInner csrEnvelope) {
@@ -966,6 +1026,9 @@ public final class CertificatesInner {
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate signing request.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void deleteSigningRequest(String resourceGroupName, String name) {
         deleteSigningRequestWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
@@ -978,10 +1041,11 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate signing request.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> deleteSigningRequestAsync(String resourceGroupName, String name, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(deleteSigningRequestWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    public ServiceFuture<Void> deleteSigningRequestAsync(String resourceGroupName, String name, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteSigningRequestWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
     }
 
     /**
@@ -990,6 +1054,7 @@ public final class CertificatesInner {
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate signing request.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<Void> deleteSigningRequestAsync(String resourceGroupName, String name) {
@@ -1007,6 +1072,7 @@ public final class CertificatesInner {
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate signing request.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<ServiceResponse<Void>> deleteSigningRequestWithServiceResponseAsync(String resourceGroupName, String name) {
@@ -1038,6 +1104,7 @@ public final class CertificatesInner {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1048,6 +1115,9 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate signing request.
      * @param csrEnvelope Details of certificate signing request, if it exists already.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CsrInner object if successful.
      */
     public CsrInner updateSigningRequest(String resourceGroupName, String name, CsrInner csrEnvelope) {
@@ -1062,10 +1132,11 @@ public final class CertificatesInner {
      * @param name Name of the certificate signing request.
      * @param csrEnvelope Details of certificate signing request, if it exists already.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<CsrInner> updateSigningRequestAsync(String resourceGroupName, String name, CsrInner csrEnvelope, final ServiceCallback<CsrInner> serviceCallback) {
-        return ServiceCall.fromResponse(updateSigningRequestWithServiceResponseAsync(resourceGroupName, name, csrEnvelope), serviceCallback);
+    public ServiceFuture<CsrInner> updateSigningRequestAsync(String resourceGroupName, String name, CsrInner csrEnvelope, final ServiceCallback<CsrInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateSigningRequestWithServiceResponseAsync(resourceGroupName, name, csrEnvelope), serviceCallback);
     }
 
     /**
@@ -1075,6 +1146,7 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate signing request.
      * @param csrEnvelope Details of certificate signing request, if it exists already.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CsrInner object
      */
     public Observable<CsrInner> updateSigningRequestAsync(String resourceGroupName, String name, CsrInner csrEnvelope) {
@@ -1093,6 +1165,7 @@ public final class CertificatesInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate signing request.
      * @param csrEnvelope Details of certificate signing request, if it exists already.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CsrInner object
      */
     public Observable<ServiceResponse<CsrInner>> updateSigningRequestWithServiceResponseAsync(String resourceGroupName, String name, CsrInner csrEnvelope) {
@@ -1136,6 +1209,9 @@ public final class CertificatesInner {
      * Get all certificates for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;CertificateInner&gt; object if successful.
      */
     public PagedList<CertificateInner> listNext(final String nextPageLink) {
@@ -1153,12 +1229,13 @@ public final class CertificatesInner {
      * Get all certificates for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceCall the ServiceCall object tracking the Retrofit calls
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<CertificateInner>> listNextAsync(final String nextPageLink, final ServiceCall<List<CertificateInner>> serviceCall, final ListOperationCallback<CertificateInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<CertificateInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<CertificateInner>> serviceFuture, final ListOperationCallback<CertificateInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<CertificateInner>>>>() {
                 @Override
@@ -1174,6 +1251,7 @@ public final class CertificatesInner {
      * Get all certificates for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CertificateInner&gt; object
      */
     public Observable<Page<CertificateInner>> listNextAsync(final String nextPageLink) {
@@ -1191,6 +1269,7 @@ public final class CertificatesInner {
      * Get all certificates for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CertificateInner&gt; object
      */
     public Observable<ServiceResponse<Page<CertificateInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
@@ -1212,6 +1291,7 @@ public final class CertificatesInner {
      * Get all certificates for a subscription.
      *
     ServiceResponse<PageImpl<CertificateInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;CertificateInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<CertificateInner>>> listNextSinglePageAsync(final String nextPageLink) {
@@ -1245,6 +1325,9 @@ public final class CertificatesInner {
      * Get all certificates in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;CertificateInner&gt; object if successful.
      */
     public PagedList<CertificateInner> listByResourceGroupNext(final String nextPageLink) {
@@ -1262,12 +1345,13 @@ public final class CertificatesInner {
      * Get all certificates in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceCall the ServiceCall object tracking the Retrofit calls
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<CertificateInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceCall<List<CertificateInner>> serviceCall, final ListOperationCallback<CertificateInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<CertificateInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<CertificateInner>> serviceFuture, final ListOperationCallback<CertificateInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listByResourceGroupNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<CertificateInner>>>>() {
                 @Override
@@ -1283,6 +1367,7 @@ public final class CertificatesInner {
      * Get all certificates in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CertificateInner&gt; object
      */
     public Observable<Page<CertificateInner>> listByResourceGroupNextAsync(final String nextPageLink) {
@@ -1300,6 +1385,7 @@ public final class CertificatesInner {
      * Get all certificates in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CertificateInner&gt; object
      */
     public Observable<ServiceResponse<Page<CertificateInner>>> listByResourceGroupNextWithServiceResponseAsync(final String nextPageLink) {
@@ -1321,6 +1407,7 @@ public final class CertificatesInner {
      * Get all certificates in a resource group.
      *
     ServiceResponse<PageImpl<CertificateInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;CertificateInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<CertificateInner>>> listByResourceGroupNextSinglePageAsync(final String nextPageLink) {
@@ -1354,6 +1441,9 @@ public final class CertificatesInner {
      * Get all certificate signing requests in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;CsrInner&gt; object if successful.
      */
     public PagedList<CsrInner> listSigningRequestByResourceGroupNext(final String nextPageLink) {
@@ -1371,12 +1461,13 @@ public final class CertificatesInner {
      * Get all certificate signing requests in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceCall the ServiceCall object tracking the Retrofit calls
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<CsrInner>> listSigningRequestByResourceGroupNextAsync(final String nextPageLink, final ServiceCall<List<CsrInner>> serviceCall, final ListOperationCallback<CsrInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<CsrInner>> listSigningRequestByResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<CsrInner>> serviceFuture, final ListOperationCallback<CsrInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listSigningRequestByResourceGroupNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<CsrInner>>>>() {
                 @Override
@@ -1392,6 +1483,7 @@ public final class CertificatesInner {
      * Get all certificate signing requests in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CsrInner&gt; object
      */
     public Observable<Page<CsrInner>> listSigningRequestByResourceGroupNextAsync(final String nextPageLink) {
@@ -1409,6 +1501,7 @@ public final class CertificatesInner {
      * Get all certificate signing requests in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CsrInner&gt; object
      */
     public Observable<ServiceResponse<Page<CsrInner>>> listSigningRequestByResourceGroupNextWithServiceResponseAsync(final String nextPageLink) {
@@ -1430,6 +1523,7 @@ public final class CertificatesInner {
      * Get all certificate signing requests in a resource group.
      *
     ServiceResponse<PageImpl<CsrInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;CsrInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<CsrInner>>> listSigningRequestByResourceGroupNextSinglePageAsync(final String nextPageLink) {

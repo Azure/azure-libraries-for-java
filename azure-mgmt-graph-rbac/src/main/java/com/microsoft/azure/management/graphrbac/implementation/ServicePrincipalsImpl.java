@@ -14,7 +14,8 @@ import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.graphrbac.ServicePrincipals;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.rest.ServiceCall;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceResponse;
 import rx.Observable;
@@ -33,7 +34,8 @@ class ServicePrincipalsImpl
                     ServicePrincipalInner>
         implements
             ServicePrincipals,
-            HasManager<GraphRbacManager> {
+            HasManager<GraphRbacManager>,
+            HasInner<ServicePrincipalsInner> {
     private ServicePrincipalsInner innerCollection;
     private GraphRbacManager manager;
 
@@ -47,6 +49,11 @@ class ServicePrincipalsImpl
     @Override
     public PagedList<ServicePrincipal> list() {
         return wrapList(this.innerCollection.list());
+    }
+
+    @Override
+    public Observable<ServicePrincipal> listAsync() {
+        return wrapPageAsync(this.inner().listAsync());
     }
 
     @Override
@@ -78,8 +85,8 @@ class ServicePrincipalsImpl
     }
 
     @Override
-    public ServiceCall<ServicePrincipal> getByServicePrincipalNameAsync(final String spn, final ServiceCallback<ServicePrincipal> callback) {
-        return ServiceCall.fromBody(getByServicePrincipalNameAsync(spn), callback);
+    public ServiceFuture<ServicePrincipal> getByServicePrincipalNameAsync(final String spn, final ServiceCallback<ServicePrincipal> callback) {
+        return ServiceFuture.fromBody(getByServicePrincipalNameAsync(spn), callback);
     }
 
     @Override
@@ -99,5 +106,10 @@ class ServicePrincipalsImpl
     @Override
     public GraphRbacManager manager() {
         return this.manager;
+    }
+
+    @Override
+    public ServicePrincipalsInner inner() {
+        return this.innerCollection;
     }
 }

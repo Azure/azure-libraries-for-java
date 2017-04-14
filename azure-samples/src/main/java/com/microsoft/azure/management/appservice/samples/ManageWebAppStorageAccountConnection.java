@@ -1,17 +1,15 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.appservice.samples;
 
 import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.AppServicePricingTier;
 import com.microsoft.azure.management.appservice.ConnectionStringType;
 import com.microsoft.azure.management.appservice.JavaVersion;
-import com.microsoft.azure.management.appservice.PublishingProfile;
+import com.microsoft.azure.management.appservice.PricingTier;
 import com.microsoft.azure.management.appservice.WebApp;
 import com.microsoft.azure.management.appservice.WebContainer;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
@@ -28,12 +26,9 @@ import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.rest.LogLevel;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.util.concurrent.TimeUnit;
@@ -61,7 +56,6 @@ public final class ManageWebAppStorageAccountConnection {
         final String app1Url        = app1Name + suffix;
         final String storageName    = SdkContext.randomResourceName("jsdkstore", 20);
         final String containerName  = SdkContext.randomResourceName("jcontainer", 20);
-        final String planName       = SdkContext.randomResourceName("jplan_", 15);
         final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
 
         try {
@@ -100,10 +94,9 @@ public final class ManageWebAppStorageAccountConnection {
             System.out.println("Creating web app " + app1Name + "...");
 
             WebApp app1 = azure.webApps().define(app1Name)
-                    .withExistingResourceGroup(rgName)
-                    .withNewAppServicePlan(planName)
                     .withRegion(Region.US_WEST)
-                    .withPricingTier(AppServicePricingTier.STANDARD_S1)
+                    .withExistingResourceGroup(rgName)
+                    .withNewWindowsPlan(PricingTier.STANDARD_S1)
                     .withJavaVersion(JavaVersion.JAVA_8_NEWEST)
                     .withWebContainer(WebContainer.TOMCAT_8_0_NEWEST)
                     .withConnectionString("storage.connectionString", connectionString, ConnectionStringType.CUSTOM)
@@ -119,7 +112,7 @@ public final class ManageWebAppStorageAccountConnection {
 
             System.out.println("Deploying azure-samples-blob-traverser.war to " + app1Name + " through FTP...");
 
-            uploadFileToFtp(app1.getPublishingProfile(), "azure-samples-blob-traverser.war", ManageWebAppStorageAccountConnection.class.getResourceAsStream("/azure-samples-blob-traverser.war"));
+            Utils.uploadFileToFtp(app1.getPublishingProfile(), "azure-samples-blob-traverser.war", ManageWebAppStorageAccountConnection.class.getResourceAsStream("/azure-samples-blob-traverser.war"));
 
             System.out.println("Deployment azure-samples-blob-traverser.war to web app " + app1.name() + " completed");
             Utils.print(app1);
@@ -188,19 +181,6 @@ public final class ManageWebAppStorageAccountConnection {
 
     static {
         httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
-    }
-
-    private static void uploadFileToFtp(PublishingProfile profile, String fileName, InputStream file) throws Exception {
-        FTPClient ftpClient = new FTPClient();
-        String[] ftpUrlSegments = profile.ftpUrl().split("/", 2);
-        String server = ftpUrlSegments[0];
-        String path = "./site/wwwroot/webapps";
-        ftpClient.connect(server);
-        ftpClient.login(profile.ftpUsername(), profile.ftpPassword());
-        ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-        ftpClient.changeWorkingDirectory(path);
-        ftpClient.storeFile(fileName, file);
-        ftpClient.disconnect();
     }
 
     private static CloudBlobContainer setUpStorageAccount(String connectionString, String containerName) {

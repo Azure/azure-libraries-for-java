@@ -17,7 +17,11 @@ import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.Snapshot;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
+import rx.Completable;
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * The implementation for {@link Disk} and its create and update interfaces.
@@ -33,14 +37,9 @@ class DiskImpl
         Disk,
         Disk.Definition,
         Disk.Update  {
-    private final DisksInner client;
 
-    DiskImpl(String name,
-             DiskInner innerModel,
-             DisksInner client,
-             final ComputeManager computeManager) {
+    DiskImpl(String name, DiskInner innerModel, final ComputeManager computeManager) {
         super(name, innerModel, computeManager);
-        this.client = client;
     }
 
     @Override
@@ -80,21 +79,45 @@ class DiskImpl
 
     @Override
     public String grantAccess(int accessDurationInSeconds) {
+        return this.grantAccessAsync(accessDurationInSeconds).toBlocking().last();
+    }
+
+    @Override
+    public Observable<String> grantAccessAsync(int accessDurationInSeconds) {
         GrantAccessDataInner grantAccessDataInner = new GrantAccessDataInner();
         grantAccessDataInner.withAccess(AccessLevel.READ)
                 .withDurationInSeconds(accessDurationInSeconds);
 
-        AccessUriInner accessUriInner = this.client.grantAccess(this.resourceGroupName(),
-                this.name(), grantAccessDataInner);
-        if (accessUriInner == null) {
-            return null;
-        }
-        return accessUriInner.accessSAS();
+        return this.manager().inner().disks().grantAccessAsync(this.resourceGroupName(),
+                this.name(), grantAccessDataInner).map(new Func1<AccessUriInner, String>() {
+            @Override
+            public String call(AccessUriInner accessUriInner) {
+                if (accessUriInner == null) {
+                    return null;
+                }
+                return accessUriInner.accessSAS();
+            }
+        });
+    }
+
+    @Override
+    public ServiceFuture<String> grantAccessAsync(int accessDurationInSeconds, ServiceCallback<String> callback) {
+        return ServiceFuture.fromBody(this.grantAccessAsync(accessDurationInSeconds), callback);
     }
 
     @Override
     public void revokeAccess() {
-        this.client.revokeAccess(this.resourceGroupName(), this.name());
+        this.revokeAccessAsync().await();
+    }
+
+    @Override
+    public Completable revokeAccessAsync() {
+        return this.manager().inner().disks().revokeAccessAsync(this.resourceGroupName(), this.name()).toCompletable();
+    }
+
+    @Override
+    public ServiceFuture<Void> revokeAccessAsync(ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(this.revokeAccessAsync().<Void>toObservable(), callback);
     }
 
     @Override
@@ -274,14 +297,12 @@ class DiskImpl
 
     @Override
     public Observable<Disk> createResourceAsync() {
-        return client.createOrUpdateAsync(resourceGroupName(), name(), this.inner())
+        return manager().inner().disks().createOrUpdateAsync(resourceGroupName(), name(), this.inner())
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    public Disk refresh() {
-        DiskInner diskInner = this.client.get(this.resourceGroupName(), this.name());
-        this.setInner(diskInner);
-        return this;
+    protected Observable<DiskInner> getInnerAsync() {
+        return this.manager().inner().disks().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 }

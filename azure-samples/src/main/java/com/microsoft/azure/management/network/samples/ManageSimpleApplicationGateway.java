@@ -1,4 +1,8 @@
-
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
 
 package com.microsoft.azure.management.network.samples;
 
@@ -74,12 +78,12 @@ public final class ManageSimpleApplicationGateway {
                         .fromPublicFrontend()
                         .fromFrontendHttpPort(80)
                         .toBackendHttpPort(8080)
-                        .toBackendIpAddress("11.1.1.1")
-                        .toBackendIpAddress("11.1.1.2")
-                        .toBackendIpAddress("11.1.1.3")
-                        .toBackendIpAddress("11.1.1.4")
+                        .toBackendIPAddress("11.1.1.1")
+                        .toBackendIPAddress("11.1.1.2")
+                        .toBackendIPAddress("11.1.1.3")
+                        .toBackendIPAddress("11.1.1.4")
                         .attach()
-                    .withNewPublicIpAddress()
+                    .withNewPublicIPAddress()
                     .create();
 
             long t2 = System.currentTimeMillis();
@@ -105,10 +109,10 @@ public final class ManageSimpleApplicationGateway {
                         .withSslCertificateFromPfxFile(new File(ManageSimpleApplicationGateway.class.getClassLoader().getResource("myTest.pfx").getPath()))
                         .withSslCertificatePassword("Abc123")
                         .toBackendHttpPort(8080)
-                        .toBackendIpAddress("11.1.1.1")
-                        .toBackendIpAddress("11.1.1.2")
-                        .toBackendIpAddress("11.1.1.3")
-                        .toBackendIpAddress("11.1.1.4")
+                        .toBackendIPAddress("11.1.1.1")
+                        .toBackendIPAddress("11.1.1.2")
+                        .toBackendIPAddress("11.1.1.3")
+                        .toBackendIPAddress("11.1.1.4")
                         .withHostName("www.contoso.com")
                         .withCookieBasedAffinity()
                         .attach()

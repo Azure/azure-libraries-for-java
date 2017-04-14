@@ -8,15 +8,18 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
+import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceCall;
+import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCall;
 import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
 import java.io.IOException;
@@ -41,7 +44,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in Snapshots.
  */
-public final class SnapshotsInner {
+public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSupportsDelete<OperationStatusResponseInner>, InnerSupportsListing<SnapshotInner> {
     /** The Retrofit service to perform REST calls. */
     private SnapshotsService service;
     /** The service client containing this operation class. */
@@ -79,9 +82,9 @@ public final class SnapshotsInner {
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}")
         Observable<Response<ResponseBody>> beginUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("snapshotName") String snapshotName, @Query("api-version") String apiVersion, @Body SnapshotUpdateInner snapshot, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Snapshots get" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Snapshots getByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}")
-        Observable<Response<ResponseBody>> get(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("snapshotName") String snapshotName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> getByResourceGroup(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("snapshotName") String snapshotName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Snapshots delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}", method = "DELETE", hasBody = true)
@@ -131,6 +134,9 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Put disk operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the SnapshotInner object if successful.
      */
     public SnapshotInner createOrUpdate(String resourceGroupName, String snapshotName, SnapshotInner snapshot) {
@@ -144,10 +150,11 @@ public final class SnapshotsInner {
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Put disk operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<SnapshotInner> createOrUpdateAsync(String resourceGroupName, String snapshotName, SnapshotInner snapshot, final ServiceCallback<SnapshotInner> serviceCallback) {
-        return ServiceCall.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, snapshotName, snapshot), serviceCallback);
+    public ServiceFuture<SnapshotInner> createOrUpdateAsync(String resourceGroupName, String snapshotName, SnapshotInner snapshot, final ServiceCallback<SnapshotInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, snapshotName, snapshot), serviceCallback);
     }
 
     /**
@@ -156,6 +163,7 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Put disk operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<SnapshotInner> createOrUpdateAsync(String resourceGroupName, String snapshotName, SnapshotInner snapshot) {
@@ -173,6 +181,7 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Put disk operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<SnapshotInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String snapshotName, SnapshotInner snapshot) {
@@ -200,6 +209,9 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Put disk operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the SnapshotInner object if successful.
      */
     public SnapshotInner beginCreateOrUpdate(String resourceGroupName, String snapshotName, SnapshotInner snapshot) {
@@ -213,10 +225,11 @@ public final class SnapshotsInner {
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Put disk operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<SnapshotInner> beginCreateOrUpdateAsync(String resourceGroupName, String snapshotName, SnapshotInner snapshot, final ServiceCallback<SnapshotInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, snapshotName, snapshot), serviceCallback);
+    public ServiceFuture<SnapshotInner> beginCreateOrUpdateAsync(String resourceGroupName, String snapshotName, SnapshotInner snapshot, final ServiceCallback<SnapshotInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, snapshotName, snapshot), serviceCallback);
     }
 
     /**
@@ -225,6 +238,7 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Put disk operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the SnapshotInner object
      */
     public Observable<SnapshotInner> beginCreateOrUpdateAsync(String resourceGroupName, String snapshotName, SnapshotInner snapshot) {
@@ -242,6 +256,7 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Put disk operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the SnapshotInner object
      */
     public Observable<ServiceResponse<SnapshotInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String snapshotName, SnapshotInner snapshot) {
@@ -287,6 +302,9 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Patch snapshot operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the SnapshotInner object if successful.
      */
     public SnapshotInner update(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot) {
@@ -300,10 +318,11 @@ public final class SnapshotsInner {
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Patch snapshot operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<SnapshotInner> updateAsync(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot, final ServiceCallback<SnapshotInner> serviceCallback) {
-        return ServiceCall.fromResponse(updateWithServiceResponseAsync(resourceGroupName, snapshotName, snapshot), serviceCallback);
+    public ServiceFuture<SnapshotInner> updateAsync(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot, final ServiceCallback<SnapshotInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, snapshotName, snapshot), serviceCallback);
     }
 
     /**
@@ -312,6 +331,7 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Patch snapshot operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<SnapshotInner> updateAsync(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot) {
@@ -329,6 +349,7 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Patch snapshot operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<SnapshotInner>> updateWithServiceResponseAsync(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot) {
@@ -356,6 +377,9 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Patch snapshot operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the SnapshotInner object if successful.
      */
     public SnapshotInner beginUpdate(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot) {
@@ -369,10 +393,11 @@ public final class SnapshotsInner {
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Patch snapshot operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<SnapshotInner> beginUpdateAsync(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot, final ServiceCallback<SnapshotInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, snapshotName, snapshot), serviceCallback);
+    public ServiceFuture<SnapshotInner> beginUpdateAsync(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot, final ServiceCallback<SnapshotInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, snapshotName, snapshot), serviceCallback);
     }
 
     /**
@@ -381,6 +406,7 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Patch snapshot operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the SnapshotInner object
      */
     public Observable<SnapshotInner> beginUpdateAsync(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot) {
@@ -398,6 +424,7 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param snapshot Snapshot object supplied in the body of the Patch snapshot operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the SnapshotInner object
      */
     public Observable<ServiceResponse<SnapshotInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot) {
@@ -442,10 +469,13 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the SnapshotInner object if successful.
      */
-    public SnapshotInner get(String resourceGroupName, String snapshotName) {
-        return getWithServiceResponseAsync(resourceGroupName, snapshotName).toBlocking().single().body();
+    public SnapshotInner getByResourceGroup(String resourceGroupName, String snapshotName) {
+        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, snapshotName).toBlocking().single().body();
     }
 
     /**
@@ -454,10 +484,11 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<SnapshotInner> getAsync(String resourceGroupName, String snapshotName, final ServiceCallback<SnapshotInner> serviceCallback) {
-        return ServiceCall.fromResponse(getWithServiceResponseAsync(resourceGroupName, snapshotName), serviceCallback);
+    public ServiceFuture<SnapshotInner> getByResourceGroupAsync(String resourceGroupName, String snapshotName, final ServiceCallback<SnapshotInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, snapshotName), serviceCallback);
     }
 
     /**
@@ -465,10 +496,11 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the SnapshotInner object
      */
-    public Observable<SnapshotInner> getAsync(String resourceGroupName, String snapshotName) {
-        return getWithServiceResponseAsync(resourceGroupName, snapshotName).map(new Func1<ServiceResponse<SnapshotInner>, SnapshotInner>() {
+    public Observable<SnapshotInner> getByResourceGroupAsync(String resourceGroupName, String snapshotName) {
+        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, snapshotName).map(new Func1<ServiceResponse<SnapshotInner>, SnapshotInner>() {
             @Override
             public SnapshotInner call(ServiceResponse<SnapshotInner> response) {
                 return response.body();
@@ -481,9 +513,10 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the SnapshotInner object
      */
-    public Observable<ServiceResponse<SnapshotInner>> getWithServiceResponseAsync(String resourceGroupName, String snapshotName) {
+    public Observable<ServiceResponse<SnapshotInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String snapshotName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -494,12 +527,12 @@ public final class SnapshotsInner {
             throw new IllegalArgumentException("Parameter snapshotName is required and cannot be null.");
         }
         final String apiVersion = "2016-04-30-preview";
-        return service.get(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.getByResourceGroup(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SnapshotInner>>>() {
                 @Override
                 public Observable<ServiceResponse<SnapshotInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<SnapshotInner> clientResponse = getDelegate(response);
+                        ServiceResponse<SnapshotInner> clientResponse = getByResourceGroupDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -508,7 +541,7 @@ public final class SnapshotsInner {
             });
     }
 
-    private ServiceResponse<SnapshotInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<SnapshotInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SnapshotInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<SnapshotInner>() { }.getType())
                 .registerError(CloudException.class)
@@ -520,6 +553,9 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner delete(String resourceGroupName, String snapshotName) {
@@ -532,10 +568,11 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> deleteAsync(String resourceGroupName, String snapshotName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, snapshotName), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> deleteAsync(String resourceGroupName, String snapshotName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, snapshotName), serviceCallback);
     }
 
     /**
@@ -543,6 +580,7 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<OperationStatusResponseInner> deleteAsync(String resourceGroupName, String snapshotName) {
@@ -559,6 +597,7 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> deleteWithServiceResponseAsync(String resourceGroupName, String snapshotName) {
@@ -581,6 +620,9 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner beginDelete(String resourceGroupName, String snapshotName) {
@@ -593,10 +635,11 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> beginDeleteAsync(String resourceGroupName, String snapshotName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, snapshotName), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> beginDeleteAsync(String resourceGroupName, String snapshotName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, snapshotName), serviceCallback);
     }
 
     /**
@@ -604,6 +647,7 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<OperationStatusResponseInner> beginDeleteAsync(String resourceGroupName, String snapshotName) {
@@ -620,6 +664,7 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String snapshotName) {
@@ -660,6 +705,9 @@ public final class SnapshotsInner {
      * Lists snapshots under a resource group.
      *
      * @param resourceGroupName The name of the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SnapshotInner&gt; object if successful.
      */
     public PagedList<SnapshotInner> listByResourceGroup(final String resourceGroupName) {
@@ -677,10 +725,11 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<SnapshotInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<SnapshotInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<SnapshotInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<SnapshotInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listByResourceGroupSinglePageAsync(resourceGroupName),
             new Func1<String, Observable<ServiceResponse<Page<SnapshotInner>>>>() {
                 @Override
@@ -695,6 +744,7 @@ public final class SnapshotsInner {
      * Lists snapshots under a resource group.
      *
      * @param resourceGroupName The name of the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SnapshotInner&gt; object
      */
     public Observable<Page<SnapshotInner>> listByResourceGroupAsync(final String resourceGroupName) {
@@ -711,6 +761,7 @@ public final class SnapshotsInner {
      * Lists snapshots under a resource group.
      *
      * @param resourceGroupName The name of the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SnapshotInner&gt; object
      */
     public Observable<ServiceResponse<Page<SnapshotInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName) {
@@ -731,6 +782,7 @@ public final class SnapshotsInner {
      * Lists snapshots under a resource group.
      *
     ServiceResponse<PageImpl1<SnapshotInner>> * @param resourceGroupName The name of the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SnapshotInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<SnapshotInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName) {
@@ -765,6 +817,9 @@ public final class SnapshotsInner {
     /**
      * Lists snapshots under a subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SnapshotInner&gt; object if successful.
      */
     public PagedList<SnapshotInner> list() {
@@ -781,10 +836,11 @@ public final class SnapshotsInner {
      * Lists snapshots under a subscription.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<SnapshotInner>> listAsync(final ListOperationCallback<SnapshotInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<SnapshotInner>> listAsync(final ListOperationCallback<SnapshotInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listSinglePageAsync(),
             new Func1<String, Observable<ServiceResponse<Page<SnapshotInner>>>>() {
                 @Override
@@ -798,6 +854,7 @@ public final class SnapshotsInner {
     /**
      * Lists snapshots under a subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SnapshotInner&gt; object
      */
     public Observable<Page<SnapshotInner>> listAsync() {
@@ -813,6 +870,7 @@ public final class SnapshotsInner {
     /**
      * Lists snapshots under a subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SnapshotInner&gt; object
      */
     public Observable<ServiceResponse<Page<SnapshotInner>>> listWithServiceResponseAsync() {
@@ -832,6 +890,7 @@ public final class SnapshotsInner {
     /**
      * Lists snapshots under a subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SnapshotInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<SnapshotInner>>> listSinglePageAsync() {
@@ -866,6 +925,9 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param grantAccessData Access data object supplied in the body of the get snapshot access operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AccessUriInner object if successful.
      */
     public AccessUriInner grantAccess(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData) {
@@ -879,10 +941,11 @@ public final class SnapshotsInner {
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param grantAccessData Access data object supplied in the body of the get snapshot access operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<AccessUriInner> grantAccessAsync(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData, final ServiceCallback<AccessUriInner> serviceCallback) {
-        return ServiceCall.fromResponse(grantAccessWithServiceResponseAsync(resourceGroupName, snapshotName, grantAccessData), serviceCallback);
+    public ServiceFuture<AccessUriInner> grantAccessAsync(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData, final ServiceCallback<AccessUriInner> serviceCallback) {
+        return ServiceFuture.fromResponse(grantAccessWithServiceResponseAsync(resourceGroupName, snapshotName, grantAccessData), serviceCallback);
     }
 
     /**
@@ -891,6 +954,7 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param grantAccessData Access data object supplied in the body of the get snapshot access operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<AccessUriInner> grantAccessAsync(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData) {
@@ -908,6 +972,7 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param grantAccessData Access data object supplied in the body of the get snapshot access operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<AccessUriInner>> grantAccessWithServiceResponseAsync(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData) {
@@ -935,6 +1000,9 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param grantAccessData Access data object supplied in the body of the get snapshot access operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AccessUriInner object if successful.
      */
     public AccessUriInner beginGrantAccess(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData) {
@@ -948,10 +1016,11 @@ public final class SnapshotsInner {
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param grantAccessData Access data object supplied in the body of the get snapshot access operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<AccessUriInner> beginGrantAccessAsync(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData, final ServiceCallback<AccessUriInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginGrantAccessWithServiceResponseAsync(resourceGroupName, snapshotName, grantAccessData), serviceCallback);
+    public ServiceFuture<AccessUriInner> beginGrantAccessAsync(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData, final ServiceCallback<AccessUriInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginGrantAccessWithServiceResponseAsync(resourceGroupName, snapshotName, grantAccessData), serviceCallback);
     }
 
     /**
@@ -960,6 +1029,7 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param grantAccessData Access data object supplied in the body of the get snapshot access operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the AccessUriInner object
      */
     public Observable<AccessUriInner> beginGrantAccessAsync(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData) {
@@ -977,6 +1047,7 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param grantAccessData Access data object supplied in the body of the get snapshot access operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the AccessUriInner object
      */
     public Observable<ServiceResponse<AccessUriInner>> beginGrantAccessWithServiceResponseAsync(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData) {
@@ -1021,6 +1092,9 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner revokeAccess(String resourceGroupName, String snapshotName) {
@@ -1033,10 +1107,11 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> revokeAccessAsync(String resourceGroupName, String snapshotName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(revokeAccessWithServiceResponseAsync(resourceGroupName, snapshotName), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> revokeAccessAsync(String resourceGroupName, String snapshotName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(revokeAccessWithServiceResponseAsync(resourceGroupName, snapshotName), serviceCallback);
     }
 
     /**
@@ -1044,6 +1119,7 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<OperationStatusResponseInner> revokeAccessAsync(String resourceGroupName, String snapshotName) {
@@ -1060,6 +1136,7 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> revokeAccessWithServiceResponseAsync(String resourceGroupName, String snapshotName) {
@@ -1082,6 +1159,9 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner beginRevokeAccess(String resourceGroupName, String snapshotName) {
@@ -1094,10 +1174,11 @@ public final class SnapshotsInner {
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> beginRevokeAccessAsync(String resourceGroupName, String snapshotName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginRevokeAccessWithServiceResponseAsync(resourceGroupName, snapshotName), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> beginRevokeAccessAsync(String resourceGroupName, String snapshotName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginRevokeAccessWithServiceResponseAsync(resourceGroupName, snapshotName), serviceCallback);
     }
 
     /**
@@ -1105,6 +1186,7 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<OperationStatusResponseInner> beginRevokeAccessAsync(String resourceGroupName, String snapshotName) {
@@ -1121,6 +1203,7 @@ public final class SnapshotsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot within the given subscription and resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> beginRevokeAccessWithServiceResponseAsync(String resourceGroupName, String snapshotName) {
@@ -1160,6 +1243,9 @@ public final class SnapshotsInner {
      * Lists snapshots under a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SnapshotInner&gt; object if successful.
      */
     public PagedList<SnapshotInner> listByResourceGroupNext(final String nextPageLink) {
@@ -1176,12 +1262,13 @@ public final class SnapshotsInner {
      * Lists snapshots under a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceCall the ServiceCall object tracking the Retrofit calls
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<SnapshotInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceCall<List<SnapshotInner>> serviceCall, final ListOperationCallback<SnapshotInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<SnapshotInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<SnapshotInner>> serviceFuture, final ListOperationCallback<SnapshotInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listByResourceGroupNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<SnapshotInner>>>>() {
                 @Override
@@ -1196,6 +1283,7 @@ public final class SnapshotsInner {
      * Lists snapshots under a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SnapshotInner&gt; object
      */
     public Observable<Page<SnapshotInner>> listByResourceGroupNextAsync(final String nextPageLink) {
@@ -1212,6 +1300,7 @@ public final class SnapshotsInner {
      * Lists snapshots under a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SnapshotInner&gt; object
      */
     public Observable<ServiceResponse<Page<SnapshotInner>>> listByResourceGroupNextWithServiceResponseAsync(final String nextPageLink) {
@@ -1232,6 +1321,7 @@ public final class SnapshotsInner {
      * Lists snapshots under a resource group.
      *
     ServiceResponse<PageImpl1<SnapshotInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SnapshotInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<SnapshotInner>>> listByResourceGroupNextSinglePageAsync(final String nextPageLink) {
@@ -1264,6 +1354,9 @@ public final class SnapshotsInner {
      * Lists snapshots under a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SnapshotInner&gt; object if successful.
      */
     public PagedList<SnapshotInner> listNext(final String nextPageLink) {
@@ -1280,12 +1373,13 @@ public final class SnapshotsInner {
      * Lists snapshots under a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceCall the ServiceCall object tracking the Retrofit calls
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<SnapshotInner>> listNextAsync(final String nextPageLink, final ServiceCall<List<SnapshotInner>> serviceCall, final ListOperationCallback<SnapshotInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<SnapshotInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<SnapshotInner>> serviceFuture, final ListOperationCallback<SnapshotInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<SnapshotInner>>>>() {
                 @Override
@@ -1300,6 +1394,7 @@ public final class SnapshotsInner {
      * Lists snapshots under a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SnapshotInner&gt; object
      */
     public Observable<Page<SnapshotInner>> listNextAsync(final String nextPageLink) {
@@ -1316,6 +1411,7 @@ public final class SnapshotsInner {
      * Lists snapshots under a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SnapshotInner&gt; object
      */
     public Observable<ServiceResponse<Page<SnapshotInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
@@ -1336,6 +1432,7 @@ public final class SnapshotsInner {
      * Lists snapshots under a subscription.
      *
     ServiceResponse<PageImpl1<SnapshotInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SnapshotInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<SnapshotInner>>> listNextSinglePageAsync(final String nextPageLink) {

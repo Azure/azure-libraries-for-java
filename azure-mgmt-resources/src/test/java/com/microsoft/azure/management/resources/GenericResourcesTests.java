@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+
 package com.microsoft.azure.management.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,7 +62,7 @@ public class GenericResourcesTests extends ResourceManagerTestBase {
                 .withProperties(new ObjectMapper().readTree("{\"SiteMode\":\"Limited\",\"ComputeMode\":\"Shared\"}"))
                 .create();
         //List
-        List<GenericResource> resourceList = genericResources.listByGroup(rgName);
+        List<GenericResource> resourceList = genericResources.listByResourceGroup(rgName);
         boolean found = false;
         for (GenericResource gr: resourceList) {
             if (gr.name().equals(resource.name())) {
@@ -79,5 +85,6 @@ public class GenericResourcesTests extends ResourceManagerTestBase {
         // Delete
         genericResources.deleteById(resource.id());
         Assert.assertFalse(genericResources.checkExistence(newRgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion()));
+        Assert.assertFalse(genericResources.checkExistenceById(resource.id()));
     }
 }

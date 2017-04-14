@@ -1,18 +1,20 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.sql.samples;
 
+import com.microsoft.azure.AzureEnvironment;
+import com.microsoft.azure.AzureResponseBuilder;
+import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.PublicIpAddress;
+import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.samples.Utils;
@@ -21,7 +23,9 @@ import com.microsoft.azure.management.sql.DatabaseEditions;
 import com.microsoft.azure.management.sql.SqlDatabase;
 import com.microsoft.azure.management.sql.SqlFirewallRule;
 import com.microsoft.azure.management.sql.SqlServer;
+import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.LogLevel;
+import com.microsoft.rest.RestClient;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,6 +33,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Azure Storage sample for managing SQL Database -
@@ -147,7 +152,7 @@ public final class ManageSqlDatabasesAcrossDifferentDataCenters {
 
             for (Network network: networks) {
                 String vmName = Utils.createRandomName(virtualMachineNamePrefix);
-                Creatable<PublicIpAddress> publicIpAddressCreatable = azure.publicIpAddresses().define(vmName)
+                Creatable<PublicIPAddress> publicIPAddressCreatable = azure.publicIPAddresses().define(vmName)
                         .withRegion(network.region())
                         .withExistingResourceGroup(rgName)
                         .withLeafDomainLabel(vmName);
@@ -156,8 +161,8 @@ public final class ManageSqlDatabasesAcrossDifferentDataCenters {
                         .withExistingResourceGroup(rgName)
                         .withExistingPrimaryNetwork(network)
                         .withSubnet(network.subnets().values().iterator().next().name())
-                        .withPrimaryPrivateIpAddressDynamic()
-                        .withNewPrimaryPublicIpAddress(publicIpAddressCreatable)
+                        .withPrimaryPrivateIPAddressDynamic()
+                        .withNewPrimaryPublicIPAddress(publicIPAddressCreatable)
                         .withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_SERVER_2012_R2_DATACENTER)
                         .withAdminUsername(administratorLogin)
                         .withAdminPassword(administratorPassword)
@@ -166,7 +171,7 @@ public final class ManageSqlDatabasesAcrossDifferentDataCenters {
 
             HashMap<String, String> ipAddresses = new HashMap<>();
             for (VirtualMachine virtualMachine: azure.virtualMachines().create(creatableVirtualMachines).values()) {
-                ipAddresses.put(virtualMachine.name(), virtualMachine.getPrimaryPublicIpAddress().ipAddress());
+                ipAddresses.put(virtualMachine.name(), virtualMachine.getPrimaryPublicIPAddress().ipAddress());
             }
 
             System.out.println("Adding firewall rule for each of virtual network network");
@@ -178,7 +183,7 @@ public final class ManageSqlDatabasesAcrossDifferentDataCenters {
 
             for (SqlServer sqlServer: sqlServers) {
                 for (Map.Entry<String, String> ipAddress: ipAddresses.entrySet()) {
-                    sqlServer.firewallRules().define(ipAddress.getKey()).withIpAddress(ipAddress.getValue()).create();
+                    sqlServer.firewallRules().define(ipAddress.getKey()).withIPAddress(ipAddress.getValue()).create();
                 }
             }
 
@@ -222,10 +227,15 @@ public final class ManageSqlDatabasesAcrossDifferentDataCenters {
 
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
-            Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BASIC)
-                    .authenticate(credFile)
-                    .withDefaultSubscription();
+            ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(credFile);
+            RestClient restClient = new RestClient.Builder()
+                    .withBaseUrl(AzureEnvironment.AZURE, AzureEnvironment.Endpoint.RESOURCE_MANAGER)
+                    .withSerializerAdapter(new AzureJacksonAdapter())
+                    .withReadTimeout(150, TimeUnit.SECONDS)
+                    .withLogLevel(LogLevel.BODY)
+                    .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
+                    .withCredentials(credentials).build();
+            Azure azure = Azure.authenticate(restClient, credentials.domain(), credentials.defaultSubscriptionId()).withDefaultSubscription();
 
             // Print selected subscription
             System.out.println("Selected subscription: " + azure.subscriptionId());

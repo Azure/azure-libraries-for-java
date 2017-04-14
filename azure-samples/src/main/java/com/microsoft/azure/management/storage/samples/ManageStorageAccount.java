@@ -1,8 +1,7 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.storage.samples;
@@ -90,7 +89,7 @@ public final class ManageStorageAccount {
 
             StorageAccounts storageAccounts = azure.storageAccounts();
 
-            List<StorageAccount> accounts = storageAccounts.listByGroup(rgName);
+            List<StorageAccount> accounts = storageAccounts.listByResourceGroup(rgName);
             StorageAccount sa;
             for (int i = 0; i < accounts.size(); i++) {
                 sa = (StorageAccount) accounts.get(i);

@@ -8,17 +8,20 @@
 
 package com.microsoft.azure.management.redis.implementation;
 
+import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceCall;
+import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.redis.RedisKeyType;
 import com.microsoft.azure.management.redis.RedisRegenerateKeyParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCall;
 import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
 import java.io.IOException;
@@ -43,7 +46,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in Redis.
  */
-public final class RedisInner {
+public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSupportsDelete<Void>, InnerSupportsListing<RedisResourceInner> {
     /** The Retrofit service to perform REST calls. */
     private RedisService service;
     /** The service client containing this operation class. */
@@ -85,9 +88,9 @@ public final class RedisInner {
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis get" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis getByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis listByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/")
@@ -141,6 +144,9 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters supplied to the Create Redis operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RedisResourceInner object if successful.
      */
     public RedisResourceInner create(String resourceGroupName, String name, RedisCreateParametersInner parameters) {
@@ -154,10 +160,11 @@ public final class RedisInner {
      * @param name The name of the Redis cache.
      * @param parameters Parameters supplied to the Create Redis operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<RedisResourceInner> createAsync(String resourceGroupName, String name, RedisCreateParametersInner parameters, final ServiceCallback<RedisResourceInner> serviceCallback) {
-        return ServiceCall.fromResponse(createWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
+    public ServiceFuture<RedisResourceInner> createAsync(String resourceGroupName, String name, RedisCreateParametersInner parameters, final ServiceCallback<RedisResourceInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
     /**
@@ -166,6 +173,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters supplied to the Create Redis operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<RedisResourceInner> createAsync(String resourceGroupName, String name, RedisCreateParametersInner parameters) {
@@ -183,6 +191,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters supplied to the Create Redis operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<RedisResourceInner>> createWithServiceResponseAsync(String resourceGroupName, String name, RedisCreateParametersInner parameters) {
@@ -212,6 +221,9 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters supplied to the Create Redis operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RedisResourceInner object if successful.
      */
     public RedisResourceInner beginCreate(String resourceGroupName, String name, RedisCreateParametersInner parameters) {
@@ -225,10 +237,11 @@ public final class RedisInner {
      * @param name The name of the Redis cache.
      * @param parameters Parameters supplied to the Create Redis operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<RedisResourceInner> beginCreateAsync(String resourceGroupName, String name, RedisCreateParametersInner parameters, final ServiceCallback<RedisResourceInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
+    public ServiceFuture<RedisResourceInner> beginCreateAsync(String resourceGroupName, String name, RedisCreateParametersInner parameters, final ServiceCallback<RedisResourceInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
     /**
@@ -237,6 +250,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters supplied to the Create Redis operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisResourceInner object
      */
     public Observable<RedisResourceInner> beginCreateAsync(String resourceGroupName, String name, RedisCreateParametersInner parameters) {
@@ -254,6 +268,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters supplied to the Create Redis operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisResourceInner object
      */
     public Observable<ServiceResponse<RedisResourceInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String name, RedisCreateParametersInner parameters) {
@@ -301,6 +316,9 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters supplied to the Update Redis operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RedisResourceInner object if successful.
      */
     public RedisResourceInner update(String resourceGroupName, String name, RedisUpdateParametersInner parameters) {
@@ -314,10 +332,11 @@ public final class RedisInner {
      * @param name The name of the Redis cache.
      * @param parameters Parameters supplied to the Update Redis operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<RedisResourceInner> updateAsync(String resourceGroupName, String name, RedisUpdateParametersInner parameters, final ServiceCallback<RedisResourceInner> serviceCallback) {
-        return ServiceCall.fromResponse(updateWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
+    public ServiceFuture<RedisResourceInner> updateAsync(String resourceGroupName, String name, RedisUpdateParametersInner parameters, final ServiceCallback<RedisResourceInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
     /**
@@ -326,6 +345,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters supplied to the Update Redis operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisResourceInner object
      */
     public Observable<RedisResourceInner> updateAsync(String resourceGroupName, String name, RedisUpdateParametersInner parameters) {
@@ -343,6 +363,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters supplied to the Update Redis operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisResourceInner object
      */
     public Observable<ServiceResponse<RedisResourceInner>> updateWithServiceResponseAsync(String resourceGroupName, String name, RedisUpdateParametersInner parameters) {
@@ -388,6 +409,9 @@ public final class RedisInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String resourceGroupName, String name) {
         deleteWithServiceResponseAsync(resourceGroupName, name).toBlocking().last().body();
@@ -399,10 +423,11 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> deleteAsync(String resourceGroupName, String name, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String name, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
     }
 
     /**
@@ -410,6 +435,7 @@ public final class RedisInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<Void> deleteAsync(String resourceGroupName, String name) {
@@ -426,6 +452,7 @@ public final class RedisInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String name) {
@@ -450,6 +477,9 @@ public final class RedisInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void beginDelete(String resourceGroupName, String name) {
         beginDeleteWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
@@ -461,10 +491,11 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> beginDeleteAsync(String resourceGroupName, String name, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String name, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
     }
 
     /**
@@ -472,6 +503,7 @@ public final class RedisInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<Void> beginDeleteAsync(String resourceGroupName, String name) {
@@ -488,6 +520,7 @@ public final class RedisInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String name) {
@@ -521,6 +554,7 @@ public final class RedisInner {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -529,10 +563,13 @@ public final class RedisInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RedisResourceInner object if successful.
      */
-    public RedisResourceInner get(String resourceGroupName, String name) {
-        return getWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
+    public RedisResourceInner getByResourceGroup(String resourceGroupName, String name) {
+        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
     }
 
     /**
@@ -541,10 +578,11 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<RedisResourceInner> getAsync(String resourceGroupName, String name, final ServiceCallback<RedisResourceInner> serviceCallback) {
-        return ServiceCall.fromResponse(getWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    public ServiceFuture<RedisResourceInner> getByResourceGroupAsync(String resourceGroupName, String name, final ServiceCallback<RedisResourceInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
     }
 
     /**
@@ -552,10 +590,11 @@ public final class RedisInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisResourceInner object
      */
-    public Observable<RedisResourceInner> getAsync(String resourceGroupName, String name) {
-        return getWithServiceResponseAsync(resourceGroupName, name).map(new Func1<ServiceResponse<RedisResourceInner>, RedisResourceInner>() {
+    public Observable<RedisResourceInner> getByResourceGroupAsync(String resourceGroupName, String name) {
+        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, name).map(new Func1<ServiceResponse<RedisResourceInner>, RedisResourceInner>() {
             @Override
             public RedisResourceInner call(ServiceResponse<RedisResourceInner> response) {
                 return response.body();
@@ -568,9 +607,10 @@ public final class RedisInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisResourceInner object
      */
-    public Observable<ServiceResponse<RedisResourceInner>> getWithServiceResponseAsync(String resourceGroupName, String name) {
+    public Observable<ServiceResponse<RedisResourceInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String name) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -583,12 +623,12 @@ public final class RedisInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.get(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.getByResourceGroup(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RedisResourceInner>>>() {
                 @Override
                 public Observable<ServiceResponse<RedisResourceInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<RedisResourceInner> clientResponse = getDelegate(response);
+                        ServiceResponse<RedisResourceInner> clientResponse = getByResourceGroupDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -597,7 +637,7 @@ public final class RedisInner {
             });
     }
 
-    private ServiceResponse<RedisResourceInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<RedisResourceInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<RedisResourceInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<RedisResourceInner>() { }.getType())
                 .registerError(CloudException.class)
@@ -608,6 +648,9 @@ public final class RedisInner {
      * Lists all Redis caches in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;RedisResourceInner&gt; object if successful.
      */
     public PagedList<RedisResourceInner> listByResourceGroup(final String resourceGroupName) {
@@ -625,10 +668,11 @@ public final class RedisInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<RedisResourceInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<RedisResourceInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<RedisResourceInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<RedisResourceInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listByResourceGroupSinglePageAsync(resourceGroupName),
             new Func1<String, Observable<ServiceResponse<Page<RedisResourceInner>>>>() {
                 @Override
@@ -643,6 +687,7 @@ public final class RedisInner {
      * Lists all Redis caches in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;RedisResourceInner&gt; object
      */
     public Observable<Page<RedisResourceInner>> listByResourceGroupAsync(final String resourceGroupName) {
@@ -659,6 +704,7 @@ public final class RedisInner {
      * Lists all Redis caches in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;RedisResourceInner&gt; object
      */
     public Observable<ServiceResponse<Page<RedisResourceInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName) {
@@ -679,6 +725,7 @@ public final class RedisInner {
      * Lists all Redis caches in a resource group.
      *
     ServiceResponse<PageImpl<RedisResourceInner>> * @param resourceGroupName The name of the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;RedisResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<RedisResourceInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName) {
@@ -715,6 +762,9 @@ public final class RedisInner {
     /**
      * Gets all Redis caches in the specified subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;RedisResourceInner&gt; object if successful.
      */
     public PagedList<RedisResourceInner> list() {
@@ -731,10 +781,11 @@ public final class RedisInner {
      * Gets all Redis caches in the specified subscription.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<RedisResourceInner>> listAsync(final ListOperationCallback<RedisResourceInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<RedisResourceInner>> listAsync(final ListOperationCallback<RedisResourceInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listSinglePageAsync(),
             new Func1<String, Observable<ServiceResponse<Page<RedisResourceInner>>>>() {
                 @Override
@@ -748,6 +799,7 @@ public final class RedisInner {
     /**
      * Gets all Redis caches in the specified subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;RedisResourceInner&gt; object
      */
     public Observable<Page<RedisResourceInner>> listAsync() {
@@ -763,6 +815,7 @@ public final class RedisInner {
     /**
      * Gets all Redis caches in the specified subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;RedisResourceInner&gt; object
      */
     public Observable<ServiceResponse<Page<RedisResourceInner>>> listWithServiceResponseAsync() {
@@ -782,6 +835,7 @@ public final class RedisInner {
     /**
      * Gets all Redis caches in the specified subscription.
      *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;RedisResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<RedisResourceInner>>> listSinglePageAsync() {
@@ -817,6 +871,9 @@ public final class RedisInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RedisAccessKeysInner object if successful.
      */
     public RedisAccessKeysInner listKeys(String resourceGroupName, String name) {
@@ -829,10 +886,11 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<RedisAccessKeysInner> listKeysAsync(String resourceGroupName, String name, final ServiceCallback<RedisAccessKeysInner> serviceCallback) {
-        return ServiceCall.fromResponse(listKeysWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    public ServiceFuture<RedisAccessKeysInner> listKeysAsync(String resourceGroupName, String name, final ServiceCallback<RedisAccessKeysInner> serviceCallback) {
+        return ServiceFuture.fromResponse(listKeysWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
     }
 
     /**
@@ -840,6 +898,7 @@ public final class RedisInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisAccessKeysInner object
      */
     public Observable<RedisAccessKeysInner> listKeysAsync(String resourceGroupName, String name) {
@@ -856,6 +915,7 @@ public final class RedisInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisAccessKeysInner object
      */
     public Observable<ServiceResponse<RedisAccessKeysInner>> listKeysWithServiceResponseAsync(String resourceGroupName, String name) {
@@ -898,6 +958,9 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param keyType The Redis access key to regenerate. Possible values include: 'Primary', 'Secondary'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RedisAccessKeysInner object if successful.
      */
     public RedisAccessKeysInner regenerateKey(String resourceGroupName, String name, RedisKeyType keyType) {
@@ -911,10 +974,11 @@ public final class RedisInner {
      * @param name The name of the Redis cache.
      * @param keyType The Redis access key to regenerate. Possible values include: 'Primary', 'Secondary'
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<RedisAccessKeysInner> regenerateKeyAsync(String resourceGroupName, String name, RedisKeyType keyType, final ServiceCallback<RedisAccessKeysInner> serviceCallback) {
-        return ServiceCall.fromResponse(regenerateKeyWithServiceResponseAsync(resourceGroupName, name, keyType), serviceCallback);
+    public ServiceFuture<RedisAccessKeysInner> regenerateKeyAsync(String resourceGroupName, String name, RedisKeyType keyType, final ServiceCallback<RedisAccessKeysInner> serviceCallback) {
+        return ServiceFuture.fromResponse(regenerateKeyWithServiceResponseAsync(resourceGroupName, name, keyType), serviceCallback);
     }
 
     /**
@@ -923,6 +987,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param keyType The Redis access key to regenerate. Possible values include: 'Primary', 'Secondary'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisAccessKeysInner object
      */
     public Observable<RedisAccessKeysInner> regenerateKeyAsync(String resourceGroupName, String name, RedisKeyType keyType) {
@@ -940,6 +1005,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param keyType The Redis access key to regenerate. Possible values include: 'Primary', 'Secondary'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisAccessKeysInner object
      */
     public Observable<ServiceResponse<RedisAccessKeysInner>> regenerateKeyWithServiceResponseAsync(String resourceGroupName, String name, RedisKeyType keyType) {
@@ -987,9 +1053,13 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Specifies which Redis node(s) to reboot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the RedisForceRebootResponseInner object if successful.
      */
-    public void forceReboot(String resourceGroupName, String name, RedisRebootParametersInner parameters) {
-        forceRebootWithServiceResponseAsync(resourceGroupName, name, parameters).toBlocking().single().body();
+    public RedisForceRebootResponseInner forceReboot(String resourceGroupName, String name, RedisRebootParametersInner parameters) {
+        return forceRebootWithServiceResponseAsync(resourceGroupName, name, parameters).toBlocking().single().body();
     }
 
     /**
@@ -999,10 +1069,11 @@ public final class RedisInner {
      * @param name The name of the Redis cache.
      * @param parameters Specifies which Redis node(s) to reboot.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> forceRebootAsync(String resourceGroupName, String name, RedisRebootParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(forceRebootWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
+    public ServiceFuture<RedisForceRebootResponseInner> forceRebootAsync(String resourceGroupName, String name, RedisRebootParametersInner parameters, final ServiceCallback<RedisForceRebootResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(forceRebootWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
     /**
@@ -1011,12 +1082,13 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Specifies which Redis node(s) to reboot.
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the RedisForceRebootResponseInner object
      */
-    public Observable<Void> forceRebootAsync(String resourceGroupName, String name, RedisRebootParametersInner parameters) {
-        return forceRebootWithServiceResponseAsync(resourceGroupName, name, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<RedisForceRebootResponseInner> forceRebootAsync(String resourceGroupName, String name, RedisRebootParametersInner parameters) {
+        return forceRebootWithServiceResponseAsync(resourceGroupName, name, parameters).map(new Func1<ServiceResponse<RedisForceRebootResponseInner>, RedisForceRebootResponseInner>() {
             @Override
-            public Void call(ServiceResponse<Void> response) {
+            public RedisForceRebootResponseInner call(ServiceResponse<RedisForceRebootResponseInner> response) {
                 return response.body();
             }
         });
@@ -1028,9 +1100,10 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Specifies which Redis node(s) to reboot.
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the RedisForceRebootResponseInner object
      */
-    public Observable<ServiceResponse<Void>> forceRebootWithServiceResponseAsync(String resourceGroupName, String name, RedisRebootParametersInner parameters) {
+    public Observable<ServiceResponse<RedisForceRebootResponseInner>> forceRebootWithServiceResponseAsync(String resourceGroupName, String name, RedisRebootParametersInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1048,11 +1121,11 @@ public final class RedisInner {
         }
         Validator.validate(parameters);
         return service.forceReboot(resourceGroupName, name, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RedisForceRebootResponseInner>>>() {
                 @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<RedisForceRebootResponseInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<Void> clientResponse = forceRebootDelegate(response);
+                        ServiceResponse<RedisForceRebootResponseInner> clientResponse = forceRebootDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1061,10 +1134,10 @@ public final class RedisInner {
             });
     }
 
-    private ServiceResponse<Void> forceRebootDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
+    private ServiceResponse<RedisForceRebootResponseInner> forceRebootDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<RedisForceRebootResponseInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<RedisForceRebootResponseInner>() { }.getType())
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1074,6 +1147,9 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis import operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void importData(String resourceGroupName, String name, ImportRDBParametersInner parameters) {
         importDataWithServiceResponseAsync(resourceGroupName, name, parameters).toBlocking().last().body();
@@ -1086,10 +1162,11 @@ public final class RedisInner {
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis import operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> importDataAsync(String resourceGroupName, String name, ImportRDBParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(importDataWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
+    public ServiceFuture<Void> importDataAsync(String resourceGroupName, String name, ImportRDBParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(importDataWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
     /**
@@ -1098,6 +1175,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis import operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<Void> importDataAsync(String resourceGroupName, String name, ImportRDBParametersInner parameters) {
@@ -1115,6 +1193,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis import operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<Void>> importDataWithServiceResponseAsync(String resourceGroupName, String name, ImportRDBParametersInner parameters) {
@@ -1144,6 +1223,9 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis import operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void beginImportData(String resourceGroupName, String name, ImportRDBParametersInner parameters) {
         beginImportDataWithServiceResponseAsync(resourceGroupName, name, parameters).toBlocking().single().body();
@@ -1156,10 +1238,11 @@ public final class RedisInner {
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis import operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> beginImportDataAsync(String resourceGroupName, String name, ImportRDBParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(beginImportDataWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
+    public ServiceFuture<Void> beginImportDataAsync(String resourceGroupName, String name, ImportRDBParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginImportDataWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
     /**
@@ -1168,6 +1251,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis import operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<Void> beginImportDataAsync(String resourceGroupName, String name, ImportRDBParametersInner parameters) {
@@ -1185,6 +1269,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis import operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<ServiceResponse<Void>> beginImportDataWithServiceResponseAsync(String resourceGroupName, String name, ImportRDBParametersInner parameters) {
@@ -1221,6 +1306,9 @@ public final class RedisInner {
     private ServiceResponse<Void> beginImportDataDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(202, new TypeToken<Void>() { }.getType())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1230,6 +1318,9 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis export operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void exportData(String resourceGroupName, String name, ExportRDBParametersInner parameters) {
         exportDataWithServiceResponseAsync(resourceGroupName, name, parameters).toBlocking().last().body();
@@ -1242,10 +1333,11 @@ public final class RedisInner {
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis export operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> exportDataAsync(String resourceGroupName, String name, ExportRDBParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(exportDataWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
+    public ServiceFuture<Void> exportDataAsync(String resourceGroupName, String name, ExportRDBParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(exportDataWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
     /**
@@ -1254,6 +1346,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis export operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<Void> exportDataAsync(String resourceGroupName, String name, ExportRDBParametersInner parameters) {
@@ -1271,6 +1364,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis export operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<Void>> exportDataWithServiceResponseAsync(String resourceGroupName, String name, ExportRDBParametersInner parameters) {
@@ -1300,6 +1394,9 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis export operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void beginExportData(String resourceGroupName, String name, ExportRDBParametersInner parameters) {
         beginExportDataWithServiceResponseAsync(resourceGroupName, name, parameters).toBlocking().single().body();
@@ -1312,10 +1409,11 @@ public final class RedisInner {
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis export operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> beginExportDataAsync(String resourceGroupName, String name, ExportRDBParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(beginExportDataWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
+    public ServiceFuture<Void> beginExportDataAsync(String resourceGroupName, String name, ExportRDBParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginExportDataWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
     /**
@@ -1324,6 +1422,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis export operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<Void> beginExportDataAsync(String resourceGroupName, String name, ExportRDBParametersInner parameters) {
@@ -1341,6 +1440,7 @@ public final class RedisInner {
      * @param resourceGroupName The name of the resource group.
      * @param name The name of the Redis cache.
      * @param parameters Parameters for Redis export operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<ServiceResponse<Void>> beginExportDataWithServiceResponseAsync(String resourceGroupName, String name, ExportRDBParametersInner parameters) {
@@ -1377,6 +1477,9 @@ public final class RedisInner {
     private ServiceResponse<Void> beginExportDataDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(202, new TypeToken<Void>() { }.getType())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1384,6 +1487,9 @@ public final class RedisInner {
      * Lists all Redis caches in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;RedisResourceInner&gt; object if successful.
      */
     public PagedList<RedisResourceInner> listByResourceGroupNext(final String nextPageLink) {
@@ -1400,12 +1506,13 @@ public final class RedisInner {
      * Lists all Redis caches in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceCall the ServiceCall object tracking the Retrofit calls
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<RedisResourceInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceCall<List<RedisResourceInner>> serviceCall, final ListOperationCallback<RedisResourceInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<RedisResourceInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<RedisResourceInner>> serviceFuture, final ListOperationCallback<RedisResourceInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listByResourceGroupNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<RedisResourceInner>>>>() {
                 @Override
@@ -1420,6 +1527,7 @@ public final class RedisInner {
      * Lists all Redis caches in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;RedisResourceInner&gt; object
      */
     public Observable<Page<RedisResourceInner>> listByResourceGroupNextAsync(final String nextPageLink) {
@@ -1436,6 +1544,7 @@ public final class RedisInner {
      * Lists all Redis caches in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;RedisResourceInner&gt; object
      */
     public Observable<ServiceResponse<Page<RedisResourceInner>>> listByResourceGroupNextWithServiceResponseAsync(final String nextPageLink) {
@@ -1456,6 +1565,7 @@ public final class RedisInner {
      * Lists all Redis caches in a resource group.
      *
     ServiceResponse<PageImpl<RedisResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;RedisResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<RedisResourceInner>>> listByResourceGroupNextSinglePageAsync(final String nextPageLink) {
@@ -1488,6 +1598,9 @@ public final class RedisInner {
      * Gets all Redis caches in the specified subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;RedisResourceInner&gt; object if successful.
      */
     public PagedList<RedisResourceInner> listNext(final String nextPageLink) {
@@ -1504,12 +1617,13 @@ public final class RedisInner {
      * Gets all Redis caches in the specified subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceCall the ServiceCall object tracking the Retrofit calls
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<RedisResourceInner>> listNextAsync(final String nextPageLink, final ServiceCall<List<RedisResourceInner>> serviceCall, final ListOperationCallback<RedisResourceInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<RedisResourceInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<RedisResourceInner>> serviceFuture, final ListOperationCallback<RedisResourceInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<RedisResourceInner>>>>() {
                 @Override
@@ -1524,6 +1638,7 @@ public final class RedisInner {
      * Gets all Redis caches in the specified subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;RedisResourceInner&gt; object
      */
     public Observable<Page<RedisResourceInner>> listNextAsync(final String nextPageLink) {
@@ -1540,6 +1655,7 @@ public final class RedisInner {
      * Gets all Redis caches in the specified subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;RedisResourceInner&gt; object
      */
     public Observable<ServiceResponse<Page<RedisResourceInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
@@ -1560,6 +1676,7 @@ public final class RedisInner {
      * Gets all Redis caches in the specified subscription.
      *
     ServiceResponse<PageImpl<RedisResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;RedisResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<RedisResourceInner>>> listNextSinglePageAsync(final String nextPageLink) {

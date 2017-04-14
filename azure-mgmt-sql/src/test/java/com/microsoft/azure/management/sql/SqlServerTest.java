@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+
 package com.microsoft.azure.management.sql;
 
 import com.microsoft.azure.management.resources.core.TestBase;
@@ -5,6 +11,8 @@ import com.microsoft.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.azure.management.sql.implementation.SqlServerManager;
 import com.microsoft.rest.RestClient;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
 
 public abstract class SqlServerTest extends TestBase {
@@ -16,9 +24,9 @@ public abstract class SqlServerTest extends TestBase {
     @Override
     protected RestClient buildRestClient(RestClient.Builder builder, boolean isMocked) {
         if (!isMocked) {
-            return super.buildRestClient(builder, isMocked);
-        }
-        return super.buildRestClient(builder.withReadTimeout(100, TimeUnit.SECONDS), isMocked);
+        return super.buildRestClient(builder.withReadTimeout(150, TimeUnit.SECONDS) , isMocked);
+    }
+        return super.buildRestClient(builder, isMocked);
     }
 
     @Override
@@ -36,6 +44,6 @@ public abstract class SqlServerTest extends TestBase {
 
     @Override
     protected void cleanUpResources() {
-        resourceManager.resourceGroups().deleteByName(RG_NAME);
+        resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
     }
 }

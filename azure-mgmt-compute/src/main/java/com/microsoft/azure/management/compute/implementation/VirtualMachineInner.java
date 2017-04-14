@@ -17,6 +17,7 @@ import com.microsoft.azure.management.compute.DiagnosticsProfile;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
 import java.util.List;
+import com.microsoft.azure.management.compute.VirtualMachineIdentity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -30,6 +31,7 @@ public class VirtualMachineInner extends Resource {
      * The purchase plan when deploying virtual machine from VM Marketplace
      * images.
      */
+    @JsonProperty(value = "plan")
     private Plan plan;
 
     /**
@@ -100,8 +102,14 @@ public class VirtualMachineInner extends Resource {
     /**
      * The virtual machine child extension resources.
      */
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "resources", access = JsonProperty.Access.WRITE_ONLY)
     private List<VirtualMachineExtensionInner> resources;
+
+    /**
+     * The identity of the virtual machine, if configured.
+     */
+    @JsonProperty(value = "identity")
+    private VirtualMachineIdentity identity;
 
     /**
      * Get the plan value.
@@ -297,6 +305,26 @@ public class VirtualMachineInner extends Resource {
      */
     public List<VirtualMachineExtensionInner> resources() {
         return this.resources;
+    }
+
+    /**
+     * Get the identity value.
+     *
+     * @return the identity value
+     */
+    public VirtualMachineIdentity identity() {
+        return this.identity;
+    }
+
+    /**
+     * Set the identity value.
+     *
+     * @param identity the identity value to set
+     * @return the VirtualMachineInner object itself.
+     */
+    public VirtualMachineInner withIdentity(VirtualMachineIdentity identity) {
+        this.identity = identity;
+        return this;
     }
 
 }

@@ -11,8 +11,8 @@ package com.microsoft.azure.management.compute.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCall;
 import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
 import java.io.IOException;
@@ -33,7 +33,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in VirtualMachineExtensions.
  */
-public final class VirtualMachineExtensionsInner {
+public class VirtualMachineExtensionsInner {
     /** The Retrofit service to perform REST calls. */
     private VirtualMachineExtensionsService service;
     /** The service client containing this operation class. */
@@ -84,6 +84,9 @@ public final class VirtualMachineExtensionsInner {
      * @param vmName The name of the virtual machine where the extension should be create or updated.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualMachineExtensionInner object if successful.
      */
     public VirtualMachineExtensionInner createOrUpdate(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionInner extensionParameters) {
@@ -98,10 +101,11 @@ public final class VirtualMachineExtensionsInner {
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<VirtualMachineExtensionInner> createOrUpdateAsync(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionInner extensionParameters, final ServiceCallback<VirtualMachineExtensionInner> serviceCallback) {
-        return ServiceCall.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName, extensionParameters), serviceCallback);
+    public ServiceFuture<VirtualMachineExtensionInner> createOrUpdateAsync(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionInner extensionParameters, final ServiceCallback<VirtualMachineExtensionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName, extensionParameters), serviceCallback);
     }
 
     /**
@@ -111,6 +115,7 @@ public final class VirtualMachineExtensionsInner {
      * @param vmName The name of the virtual machine where the extension should be create or updated.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<VirtualMachineExtensionInner> createOrUpdateAsync(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionInner extensionParameters) {
@@ -129,6 +134,7 @@ public final class VirtualMachineExtensionsInner {
      * @param vmName The name of the virtual machine where the extension should be create or updated.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<VirtualMachineExtensionInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionInner extensionParameters) {
@@ -160,6 +166,9 @@ public final class VirtualMachineExtensionsInner {
      * @param vmName The name of the virtual machine where the extension should be create or updated.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualMachineExtensionInner object if successful.
      */
     public VirtualMachineExtensionInner beginCreateOrUpdate(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionInner extensionParameters) {
@@ -174,10 +183,11 @@ public final class VirtualMachineExtensionsInner {
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<VirtualMachineExtensionInner> beginCreateOrUpdateAsync(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionInner extensionParameters, final ServiceCallback<VirtualMachineExtensionInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName, extensionParameters), serviceCallback);
+    public ServiceFuture<VirtualMachineExtensionInner> beginCreateOrUpdateAsync(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionInner extensionParameters, final ServiceCallback<VirtualMachineExtensionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName, extensionParameters), serviceCallback);
     }
 
     /**
@@ -187,6 +197,7 @@ public final class VirtualMachineExtensionsInner {
      * @param vmName The name of the virtual machine where the extension should be create or updated.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the VirtualMachineExtensionInner object
      */
     public Observable<VirtualMachineExtensionInner> beginCreateOrUpdateAsync(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionInner extensionParameters) {
@@ -205,6 +216,7 @@ public final class VirtualMachineExtensionsInner {
      * @param vmName The name of the virtual machine where the extension should be create or updated.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the VirtualMachineExtensionInner object
      */
     public Observable<ServiceResponse<VirtualMachineExtensionInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionInner extensionParameters) {
@@ -253,6 +265,9 @@ public final class VirtualMachineExtensionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine where the extension should be deleted.
      * @param vmExtensionName The name of the virtual machine extension.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner delete(String resourceGroupName, String vmName, String vmExtensionName) {
@@ -266,10 +281,11 @@ public final class VirtualMachineExtensionsInner {
      * @param vmName The name of the virtual machine where the extension should be deleted.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> deleteAsync(String resourceGroupName, String vmName, String vmExtensionName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> deleteAsync(String resourceGroupName, String vmName, String vmExtensionName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName), serviceCallback);
     }
 
     /**
@@ -278,6 +294,7 @@ public final class VirtualMachineExtensionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine where the extension should be deleted.
      * @param vmExtensionName The name of the virtual machine extension.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<OperationStatusResponseInner> deleteAsync(String resourceGroupName, String vmName, String vmExtensionName) {
@@ -295,6 +312,7 @@ public final class VirtualMachineExtensionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine where the extension should be deleted.
      * @param vmExtensionName The name of the virtual machine extension.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> deleteWithServiceResponseAsync(String resourceGroupName, String vmName, String vmExtensionName) {
@@ -321,6 +339,9 @@ public final class VirtualMachineExtensionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine where the extension should be deleted.
      * @param vmExtensionName The name of the virtual machine extension.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner beginDelete(String resourceGroupName, String vmName, String vmExtensionName) {
@@ -334,10 +355,11 @@ public final class VirtualMachineExtensionsInner {
      * @param vmName The name of the virtual machine where the extension should be deleted.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> beginDeleteAsync(String resourceGroupName, String vmName, String vmExtensionName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> beginDeleteAsync(String resourceGroupName, String vmName, String vmExtensionName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName), serviceCallback);
     }
 
     /**
@@ -346,6 +368,7 @@ public final class VirtualMachineExtensionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine where the extension should be deleted.
      * @param vmExtensionName The name of the virtual machine extension.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<OperationStatusResponseInner> beginDeleteAsync(String resourceGroupName, String vmName, String vmExtensionName) {
@@ -363,6 +386,7 @@ public final class VirtualMachineExtensionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine where the extension should be deleted.
      * @param vmExtensionName The name of the virtual machine extension.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String vmName, String vmExtensionName) {
@@ -408,6 +432,9 @@ public final class VirtualMachineExtensionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine containing the extension.
      * @param vmExtensionName The name of the virtual machine extension.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualMachineExtensionInner object if successful.
      */
     public VirtualMachineExtensionInner get(String resourceGroupName, String vmName, String vmExtensionName) {
@@ -421,10 +448,11 @@ public final class VirtualMachineExtensionsInner {
      * @param vmName The name of the virtual machine containing the extension.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<VirtualMachineExtensionInner> getAsync(String resourceGroupName, String vmName, String vmExtensionName, final ServiceCallback<VirtualMachineExtensionInner> serviceCallback) {
-        return ServiceCall.fromResponse(getWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName), serviceCallback);
+    public ServiceFuture<VirtualMachineExtensionInner> getAsync(String resourceGroupName, String vmName, String vmExtensionName, final ServiceCallback<VirtualMachineExtensionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName), serviceCallback);
     }
 
     /**
@@ -433,6 +461,7 @@ public final class VirtualMachineExtensionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine containing the extension.
      * @param vmExtensionName The name of the virtual machine extension.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the VirtualMachineExtensionInner object
      */
     public Observable<VirtualMachineExtensionInner> getAsync(String resourceGroupName, String vmName, String vmExtensionName) {
@@ -450,6 +479,7 @@ public final class VirtualMachineExtensionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine containing the extension.
      * @param vmExtensionName The name of the virtual machine extension.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the VirtualMachineExtensionInner object
      */
     public Observable<ServiceResponse<VirtualMachineExtensionInner>> getWithServiceResponseAsync(String resourceGroupName, String vmName, String vmExtensionName) {
@@ -488,6 +518,9 @@ public final class VirtualMachineExtensionsInner {
      * @param vmName The name of the virtual machine containing the extension.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param expand The expand expression to apply on the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualMachineExtensionInner object if successful.
      */
     public VirtualMachineExtensionInner get(String resourceGroupName, String vmName, String vmExtensionName, String expand) {
@@ -502,10 +535,11 @@ public final class VirtualMachineExtensionsInner {
      * @param vmExtensionName The name of the virtual machine extension.
      * @param expand The expand expression to apply on the operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<VirtualMachineExtensionInner> getAsync(String resourceGroupName, String vmName, String vmExtensionName, String expand, final ServiceCallback<VirtualMachineExtensionInner> serviceCallback) {
-        return ServiceCall.fromResponse(getWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName, expand), serviceCallback);
+    public ServiceFuture<VirtualMachineExtensionInner> getAsync(String resourceGroupName, String vmName, String vmExtensionName, String expand, final ServiceCallback<VirtualMachineExtensionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName, expand), serviceCallback);
     }
 
     /**
@@ -515,6 +549,7 @@ public final class VirtualMachineExtensionsInner {
      * @param vmName The name of the virtual machine containing the extension.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param expand The expand expression to apply on the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the VirtualMachineExtensionInner object
      */
     public Observable<VirtualMachineExtensionInner> getAsync(String resourceGroupName, String vmName, String vmExtensionName, String expand) {
@@ -533,6 +568,7 @@ public final class VirtualMachineExtensionsInner {
      * @param vmName The name of the virtual machine containing the extension.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param expand The expand expression to apply on the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the VirtualMachineExtensionInner object
      */
     public Observable<ServiceResponse<VirtualMachineExtensionInner>> getWithServiceResponseAsync(String resourceGroupName, String vmName, String vmExtensionName, String expand) {

@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
 package com.microsoft.azure.management.compute.implementation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,6 +38,7 @@ import com.microsoft.azure.management.compute.StorageProfile;
 import com.microsoft.azure.management.compute.VirtualHardDisk;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineDataDisk;
+import com.microsoft.azure.management.compute.VirtualMachineEncryption;
 import com.microsoft.azure.management.compute.VirtualMachineUnmanagedDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineExtension;
 import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
@@ -43,7 +49,7 @@ import com.microsoft.azure.management.compute.WinRMListener;
 import com.microsoft.azure.management.compute.WindowsConfiguration;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkInterface;
-import com.microsoft.azure.management.network.PublicIpAddress;
+import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
@@ -55,6 +61,9 @@ import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
+import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
+import rx.Completable;
 import rx.Observable;
 import rx.exceptions.Exceptions;
 import rx.functions.Func0;
@@ -69,23 +78,22 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * The implementation for {@link VirtualMachine} and its create and update interfaces.
+ * The implementation for VirtualMachine and its create and update interfaces.
  */
 @LangDefinition
 class VirtualMachineImpl
         extends GroupableResourceImpl<
-        VirtualMachine,
-        VirtualMachineInner,
-        VirtualMachineImpl,
-        ComputeManager>
+            VirtualMachine,
+            VirtualMachineInner,
+            VirtualMachineImpl,
+            ComputeManager>
         implements
-        VirtualMachine,
-        VirtualMachine.DefinitionManagedOrUnmanaged,
-        VirtualMachine.DefinitionManaged,
-        VirtualMachine.DefinitionUnmanaged,
-        VirtualMachine.Update {
+            VirtualMachine,
+            VirtualMachine.DefinitionManagedOrUnmanaged,
+            VirtualMachine.DefinitionManaged,
+            VirtualMachine.DefinitionUnmanaged,
+            VirtualMachine.Update {
     // Clients
-    private final VirtualMachinesInner client;
     private final StorageManager storageManager;
     private final NetworkManager networkManager;
     // the name of the virtual machine
@@ -113,7 +121,7 @@ class VirtualMachineImpl
     private VirtualMachineInstanceView virtualMachineInstanceView;
     private boolean isMarketplaceLinuxImage;
     // Intermediate state of network interface definition to which private IP can be associated
-    private NetworkInterface.DefinitionStages.WithPrimaryPrivateIp nicDefinitionWithPrivateIp;
+    private NetworkInterface.DefinitionStages.WithPrimaryPrivateIP nicDefinitionWithPrivateIp;
     // Intermediate state of network interface definition to which subnet can be associated
     private NetworkInterface.DefinitionStages.WithPrimaryNetworkSubnet nicDefinitionWithSubnet;
     // Intermediate state of network interface definition to which public IP can be associated
@@ -132,13 +140,10 @@ class VirtualMachineImpl
 
     VirtualMachineImpl(String name,
                        VirtualMachineInner innerModel,
-                       VirtualMachinesInner client,
-                       VirtualMachineExtensionsInner extensionsClient,
                        final ComputeManager computeManager,
                        final StorageManager storageManager,
                        final NetworkManager networkManager) {
         super(name, innerModel, computeManager);
-        this.client = client;
         this.storageManager = storageManager;
         this.networkManager = networkManager;
         this.vmName = name;
@@ -152,7 +157,7 @@ class VirtualMachineImpl
                 return new VirtualMachineSizeImpl(inner);
             }
         };
-        this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(extensionsClient, this);
+        this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(computeManager.inner().virtualMachineExtensions(), this);
         this.managedDataDisks = new ManagedDataDiskCollection(this);
         initializeDataDisks();
     }
@@ -160,55 +165,135 @@ class VirtualMachineImpl
     // Verbs
 
     @Override
-    public VirtualMachine refresh() {
-        VirtualMachineInner response = this.client.get(this.resourceGroupName(), this.name());
-        this.setInner(response);
-        clearCachedRelatedResources();
-        initializeDataDisks();
-        this.virtualMachineExtensions.refresh();
-        return this;
+    public Observable<VirtualMachine> refreshAsync() {
+        return super.refreshAsync().map(new Func1<VirtualMachine, VirtualMachine>() {
+            @Override
+            public VirtualMachine call(VirtualMachine virtualMachine) {
+                final VirtualMachineImpl impl = (VirtualMachineImpl) virtualMachine;
+                impl.clearCachedRelatedResources();
+                impl.initializeDataDisks();
+                // TODO - ans - We need to call refreshAsync here.
+                impl.virtualMachineExtensions.refresh();
+
+                return impl;
+            }
+        });
+    }
+
+    @Override
+    protected Observable<VirtualMachineInner> getInnerAsync() {
+        return this.manager().inner().virtualMachines().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
     public void deallocate() {
-        this.client.deallocate(this.resourceGroupName(), this.name());
+        this.deallocateAsync().await();
+    }
+
+    @Override
+    public Completable deallocateAsync() {
+        Observable<OperationStatusResponseInner> o = this.manager().inner().virtualMachines().deallocateAsync(this.resourceGroupName(), this.name());
+        Observable<VirtualMachine> r = this.refreshAsync();
+
+        // Refresh after deallocate to ensure the inner is updatable (due to a change in behavior in Managed Disks)
+        return Observable.concat(o, r).toCompletable();
+    }
+
+    @Override
+    public ServiceFuture<Void> deallocateAsync(ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(this.deallocateAsync().<Void>toObservable(), callback);
     }
 
     @Override
     public void generalize() {
-        this.client.generalize(this.resourceGroupName(), this.name());
+        this.generalizeAsync().await();
+    }
+
+    @Override
+    public Completable generalizeAsync() {
+        return this.manager().inner().virtualMachines().generalizeAsync(this.resourceGroupName(), this.name()).toCompletable();
+    }
+
+    @Override
+    public ServiceFuture<Void> generalizeAsync(ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(this.generalizeAsync().<Void>toObservable(), callback);
     }
 
     @Override
     public void powerOff() {
-        this.client.powerOff(this.resourceGroupName(), this.name());
+        this.powerOffAsync().await();
+    }
+
+    @Override
+    public Completable powerOffAsync() {
+        return this.manager().inner().virtualMachines().powerOffAsync(this.resourceGroupName(), this.name()).toCompletable();
+    }
+
+    @Override
+    public ServiceFuture<Void> powerOffAsync(ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(this.powerOffAsync().<Void>toObservable(), callback);
     }
 
     @Override
     public void restart() {
-        this.client.restart(this.resourceGroupName(), this.name());
+        this.manager().inner().virtualMachines().restart(this.resourceGroupName(), this.name());
+    }
+
+    @Override
+    public Completable restartAsync() {
+        return null;
+    }
+
+    @Override
+    public ServiceFuture<Void> restartAsync(ServiceCallback<Void> callback) {
+        return null;
     }
 
     @Override
     public void start() {
-        this.client.start(this.resourceGroupName(), this.name());
+        this.startAsync().await();
+    }
+
+    @Override
+    public Completable startAsync() {
+        return this.manager().inner().virtualMachines().startAsync(this.resourceGroupName(), this.name()).toCompletable();
+    }
+
+    @Override
+    public ServiceFuture<Void> startAsync(ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(this.startAsync().<Void>toObservable(), callback);
     }
 
     @Override
     public void redeploy() {
-        this.client.redeploy(this.resourceGroupName(), this.name());
+        this.redeployAsync().await();
+    }
+
+    @Override
+    public Completable redeployAsync() {
+        return this.manager().inner().virtualMachines().redeployAsync(this.resourceGroupName(), this.name()).toCompletable();
+    }
+
+    @Override
+    public ServiceFuture<Void> redeployAsync(ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(this.redeployAsync().<Void>toObservable(), callback);
     }
 
     @Override
     public void convertToManaged() {
-        this.client.convertToManagedDisks(this.resourceGroupName(), this.name());
+        this.manager().inner().virtualMachines().convertToManagedDisks(this.resourceGroupName(), this.name());
         this.refresh();
+    }
+
+    @Override
+    public VirtualMachineEncryption diskEncryption() {
+        return new VirtualMachineEncryptionImpl(this);
     }
 
     @Override
     public PagedList<VirtualMachineSize> availableSizes() {
         PageImpl<VirtualMachineSizeInner> page = new PageImpl<>();
-        page.setItems(this.client.listAvailableSizes(this.resourceGroupName(), this.name()));
+        page.setItems(this.manager().inner().virtualMachines().listAvailableSizes(this.resourceGroupName(), this.name()));
         page.setNextPageLink(null);
         return this.virtualMachineSizeConverter.convert(new PagedList<VirtualMachineSizeInner>(page) {
             @Override
@@ -224,7 +309,7 @@ class VirtualMachineImpl
         parameters.withDestinationContainerName(containerName);
         parameters.withOverwriteVhds(overwriteVhd);
         parameters.withVhdPrefix(vhdPrefix);
-        VirtualMachineCaptureResultInner captureResult = this.client.capture(this.resourceGroupName(), this.name(), parameters);
+        VirtualMachineCaptureResultInner captureResult = this.manager().inner().virtualMachines().capture(this.resourceGroupName(), this.name(), parameters);
         if (captureResult == null) {
             return null;
         }
@@ -239,10 +324,25 @@ class VirtualMachineImpl
 
     @Override
     public VirtualMachineInstanceView refreshInstanceView() {
-        this.virtualMachineInstanceView = this.client.get(this.resourceGroupName(),
+        return refreshInstanceViewAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<VirtualMachineInstanceView> refreshInstanceViewAsync() {
+        return this.manager().inner().virtualMachines().getByResourceGroupAsync(this.resourceGroupName(),
                 this.name(),
-                InstanceViewTypes.INSTANCE_VIEW).instanceView();
-        return this.virtualMachineInstanceView;
+                InstanceViewTypes.INSTANCE_VIEW)
+                .map(new Func1<VirtualMachineInner, VirtualMachineInstanceView>() {
+                    @Override
+                    public VirtualMachineInstanceView call(VirtualMachineInner virtualMachineInner) {
+                        if (virtualMachineInner != null) {
+                            virtualMachineInstanceView = virtualMachineInner.instanceView();
+                        } else {
+                            virtualMachineInstanceView = null;
+                        }
+                        return virtualMachineInstanceView;
+                    }
+                });
     }
 
     // SETTERS
@@ -280,50 +380,50 @@ class VirtualMachineImpl
     // Fluent methods for defining private IP association for the new primary network interface
     //
     @Override
-    public VirtualMachineImpl withPrimaryPrivateIpAddressDynamic() {
+    public VirtualMachineImpl withPrimaryPrivateIPAddressDynamic() {
         this.nicDefinitionWithCreate = this.nicDefinitionWithPrivateIp
-                .withPrimaryPrivateIpAddressDynamic();
+                .withPrimaryPrivateIPAddressDynamic();
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withPrimaryPrivateIpAddressStatic(String staticPrivateIpAddress) {
+    public VirtualMachineImpl withPrimaryPrivateIPAddressStatic(String staticPrivateIPAddress) {
         this.nicDefinitionWithCreate = this.nicDefinitionWithPrivateIp
-                .withPrimaryPrivateIpAddressStatic(staticPrivateIpAddress);
+                .withPrimaryPrivateIPAddressStatic(staticPrivateIPAddress);
         return this;
     }
 
     // Fluent methods for defining public IP association for the new primary network interface
     //
     @Override
-    public VirtualMachineImpl withNewPrimaryPublicIpAddress(Creatable<PublicIpAddress> creatable) {
+    public VirtualMachineImpl withNewPrimaryPublicIPAddress(Creatable<PublicIPAddress> creatable) {
         Creatable<NetworkInterface> nicCreatable = this.nicDefinitionWithCreate
-                .withNewPrimaryPublicIpAddress(creatable);
+                .withNewPrimaryPublicIPAddress(creatable);
         this.creatablePrimaryNetworkInterfaceKey = nicCreatable.key();
         this.addCreatableDependency(nicCreatable);
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withNewPrimaryPublicIpAddress(String leafDnsLabel) {
+    public VirtualMachineImpl withNewPrimaryPublicIPAddress(String leafDnsLabel) {
         Creatable<NetworkInterface> nicCreatable = this.nicDefinitionWithCreate
-                .withNewPrimaryPublicIpAddress(leafDnsLabel);
+                .withNewPrimaryPublicIPAddress(leafDnsLabel);
         this.creatablePrimaryNetworkInterfaceKey = nicCreatable.key();
         this.addCreatableDependency(nicCreatable);
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withExistingPrimaryPublicIpAddress(PublicIpAddress publicIpAddress) {
+    public VirtualMachineImpl withExistingPrimaryPublicIPAddress(PublicIPAddress publicIPAddress) {
         Creatable<NetworkInterface> nicCreatable = this.nicDefinitionWithCreate
-                .withExistingPrimaryPublicIpAddress(publicIpAddress);
+                .withExistingPrimaryPublicIPAddress(publicIPAddress);
         this.creatablePrimaryNetworkInterfaceKey = nicCreatable.key();
         this.addCreatableDependency(nicCreatable);
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withoutPrimaryPublicIpAddress() {
+    public VirtualMachineImpl withoutPrimaryPublicIPAddress() {
         Creatable<NetworkInterface> nicCreatable = this.nicDefinitionWithCreate;
         this.creatablePrimaryNetworkInterfaceKey = nicCreatable.key();
         this.addCreatableDependency(nicCreatable);
@@ -341,7 +441,7 @@ class VirtualMachineImpl
 
     public VirtualMachineImpl withNewPrimaryNetworkInterface(String name, String publicDnsNameLabel) {
         Creatable<NetworkInterface> definitionCreatable = prepareNetworkInterface(name)
-                .withNewPrimaryPublicIpAddress(publicDnsNameLabel);
+                .withNewPrimaryPublicIPAddress(publicDnsNameLabel);
         return withNewPrimaryNetworkInterface(definitionCreatable);
     }
 
@@ -457,7 +557,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public VirtualMachineImpl withSpecializedOsUnmanagedDisk(String osDiskUrl, OperatingSystemTypes osType) {
+    public VirtualMachineImpl withSpecializedOSUnmanagedDisk(String osDiskUrl, OperatingSystemTypes osType) {
         VirtualHardDisk osVhd = new VirtualHardDisk();
         osVhd.withUri(osDiskUrl);
         this.inner().storageProfile().osDisk().withCreateOption(DiskCreateOptionTypes.ATTACH);
@@ -468,7 +568,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public VirtualMachineImpl withSpecializedOsDisk(Disk disk, OperatingSystemTypes osType) {
+    public VirtualMachineImpl withSpecializedOSDisk(Disk disk, OperatingSystemTypes osType) {
         ManagedDiskParametersInner diskParametersInner = new ManagedDiskParametersInner();
         diskParametersInner.withId(disk.id());
         this.inner().storageProfile().osDisk().withCreateOption(DiskCreateOptionTypes.ATTACH);
@@ -510,7 +610,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public VirtualMachineImpl withoutVmAgent() {
+    public VirtualMachineImpl withoutVMAgent() {
         this.inner().osProfile().windowsConfiguration().withProvisionVMAgent(false);
         return this;
     }
@@ -528,7 +628,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public VirtualMachineImpl withWinRm(WinRMListener listener) {
+    public VirtualMachineImpl withWinRM(WinRMListener listener) {
         if (this.inner().osProfile().windowsConfiguration().winRM() == null) {
             WinRMConfiguration winRMConfiguration = new WinRMConfiguration();
             this.inner().osProfile().windowsConfiguration().withWinRM(winRMConfiguration);
@@ -585,7 +685,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public VirtualMachineImpl withOsDiskVhdLocation(String containerName, String vhdName) {
+    public VirtualMachineImpl withOSDiskVhdLocation(String containerName, String vhdName) {
         // Sets the native (un-managed) disk backing virtual machine OS disk
         //
         if (isManagedDiskEnabled()) {
@@ -634,7 +734,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public VirtualMachineImpl withOsDiskStorageAccountType(StorageAccountTypes accountType) {
+    public VirtualMachineImpl withOSDiskStorageAccountType(StorageAccountTypes accountType) {
         if (this.inner().storageProfile().osDisk().managedDisk() == null) {
             this.inner()
                     .storageProfile()
@@ -662,7 +762,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public VirtualMachineImpl withOsDiskEncryptionSettings(DiskEncryptionSettings settings) {
+    public VirtualMachineImpl withOSDiskEncryptionSettings(DiskEncryptionSettings settings) {
         this.inner().storageProfile().osDisk().withEncryptionSettings(settings);
         return this;
     }
@@ -674,7 +774,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public VirtualMachineImpl withOsDiskName(String name) {
+    public VirtualMachineImpl withOSDiskName(String name) {
         this.inner().storageProfile().osDisk().withName(name);
         return this;
     }
@@ -880,6 +980,7 @@ class VirtualMachineImpl
         return this;
     }
 
+    /* TODO: This has been disabled by Azure REST API
     @Override
     public VirtualMachineImpl withDataDiskUpdated(int lun, int newSizeInGB) {
         throwIfManagedDiskDisabled(ManagedUnmanagedDiskErrors.VM_NO_MANAGED_DISK_TO_UPDATE);
@@ -888,7 +989,7 @@ class VirtualMachineImpl
             throw new RuntimeException(String.format("A data disk with name '%d' not found", lun));
         }
         dataDisk.withDiskSizeGB(newSizeInGB);
-        return this;
+       return this;
     }
 
     @Override
@@ -933,6 +1034,7 @@ class VirtualMachineImpl
         }
         return null;
     }
+    */
 
     // Virtual machine optional storage account fluent methods
     //
@@ -1192,13 +1294,13 @@ class VirtualMachineImpl
     }
 
     @Override
-    public PublicIpAddress getPrimaryPublicIpAddress() {
-        return this.getPrimaryNetworkInterface().primaryIpConfiguration().getPublicIpAddress();
+    public PublicIPAddress getPrimaryPublicIPAddress() {
+        return this.getPrimaryNetworkInterface().primaryIPConfiguration().getPublicIPAddress();
     }
 
     @Override
-    public String getPrimaryPublicIpAddressId() {
-        return this.getPrimaryNetworkInterface().primaryIpConfiguration().publicIpAddressId();
+    public String getPrimaryPublicIPAddressId() {
+        return this.getPrimaryNetworkInterface().primaryIPConfiguration().publicIPAddressId();
     }
 
     @Override
@@ -1258,7 +1360,12 @@ class VirtualMachineImpl
     }
 
     @Override
-    public Map<String, VirtualMachineExtension> extensions() {
+    public Observable<VirtualMachineExtension> listExtensionsAsync() {
+        return this.virtualMachineExtensions.listAsync();
+    }
+
+    @Override
+    public Map<String, VirtualMachineExtension> listExtensions() {
         return this.virtualMachineExtensions.asMap();
     }
 
@@ -1315,6 +1422,7 @@ class VirtualMachineImpl
             UnmanagedDataDiskImpl.setDataDisksDefaults(this.unmanagedDataDisks, this.vmName);
         }
         final VirtualMachineImpl self = this;
+        final VirtualMachinesInner client = this.manager().inner().virtualMachines();
         return handleStorageSettingsAsync()
                 .flatMap(new Func1<StorageAccount, Observable<? extends VirtualMachine>>() {
                     @Override
@@ -1398,12 +1506,12 @@ class VirtualMachineImpl
                     if (osDisk.vhd() == null) {
                         String osDiskVhdContainerName = "vhds";
                         String osDiskVhdName = this.vmName + "-os-disk-" + UUID.randomUUID().toString() + ".vhd";
-                        withOsDiskVhdLocation(osDiskVhdContainerName, osDiskVhdName);
+                        withOSDiskVhdLocation(osDiskVhdContainerName, osDiskVhdName);
                     }
                     osDisk.withManagedDisk(null);
                 }
                 if (osDisk.name() == null) {
-                    withOsDiskName(this.vmName + "-os-disk");
+                    withOSDiskName(this.vmName + "-os-disk");
                 }
             }
         } else {
@@ -1420,7 +1528,7 @@ class VirtualMachineImpl
             } else {
                 osDisk.withManagedDisk(null);
                 if (osDisk.name() == null) {
-                    withOsDiskName(this.vmName + "-os-disk");
+                    withOSDiskName(this.vmName + "-os-disk");
                 }
             }
         }
@@ -1713,7 +1821,7 @@ class VirtualMachineImpl
         return "{storage-base-url}" + containerName + "/" + blobName;
     }
 
-    private NetworkInterface.DefinitionStages.WithPrimaryPublicIpAddress prepareNetworkInterface(String name) {
+    private NetworkInterface.DefinitionStages.WithPrimaryPublicIPAddress prepareNetworkInterface(String name) {
         NetworkInterface.DefinitionStages.WithGroup definitionWithGroup = this.networkManager
                 .networkInterfaces()
                 .define(name)
@@ -1726,7 +1834,7 @@ class VirtualMachineImpl
         }
         return definitionWithNetwork
                 .withNewPrimaryNetwork("vnet" + name)
-                .withPrimaryPrivateIpAddressDynamic();
+                .withPrimaryPrivateIPAddressDynamic();
     }
 
     private void initializeDataDisks() {
@@ -1735,6 +1843,7 @@ class VirtualMachineImpl
                     .storageProfile()
                     .withDataDisks(new ArrayList<DataDisk>());
         }
+
         this.isUnmanagedDiskSelected = false;
         this.managedDataDisks.clear();
         this.unmanagedDataDisks = new ArrayList<>();
@@ -1778,12 +1887,15 @@ class VirtualMachineImpl
         return !this.isInCreateMode();
     }
 
+    /**
+     * Class to manage Data disk collection.
+     */
     private class ManagedDataDiskCollection {
-        public final Map<String, DataDisk> newDisksToAttach = new HashMap<>();
-        public final List<DataDisk> existingDisksToAttach = new ArrayList<>();
-        public final List<DataDisk> implicitDisksToAssociate = new ArrayList<>();
-        public final List<Integer> diskLunsToRemove = new ArrayList<>();
-        public final List<DataDisk> newDisksFromImage= new ArrayList<>();
+        private final Map<String, DataDisk> newDisksToAttach = new HashMap<>();
+        private final List<DataDisk> existingDisksToAttach = new ArrayList<>();
+        private final List<DataDisk> implicitDisksToAssociate = new ArrayList<>();
+        private final List<Integer> diskLunsToRemove = new ArrayList<>();
+        private final List<DataDisk> newDisksFromImage = new ArrayList<>();
         private final VirtualMachineImpl vm;
         private CachingTypes defaultCachingType;
         private StorageAccountTypes defaultStorageAccountType;

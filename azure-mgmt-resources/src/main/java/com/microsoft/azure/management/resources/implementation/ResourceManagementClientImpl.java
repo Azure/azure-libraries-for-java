@@ -16,7 +16,7 @@ import com.microsoft.rest.RestClient;
 /**
  * Initializes a new instance of the ResourceManagementClientImpl class.
  */
-public final class ResourceManagementClientImpl extends AzureServiceClient {
+public class ResourceManagementClientImpl extends AzureServiceClient {
     /** the {@link AzureClient} used for long running operations. */
     private AzureClient azureClient;
 
@@ -261,8 +261,6 @@ public final class ResourceManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("Azure-SDK-For-Java/%s (%s)",
-                getClass().getPackage().getImplementationVersion(),
-                "ResourceManagementClient, 2016-09-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "ResourceManagementClient", "2016-09-01");
     }
 }

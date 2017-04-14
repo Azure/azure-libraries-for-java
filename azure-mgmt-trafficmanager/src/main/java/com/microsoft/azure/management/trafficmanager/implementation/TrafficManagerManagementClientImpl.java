@@ -16,7 +16,7 @@ import com.microsoft.rest.RestClient;
 /**
  * Initializes a new instance of the TrafficManagerManagementClientImpl class.
  */
-public final class TrafficManagerManagementClientImpl extends AzureServiceClient {
+public class TrafficManagerManagementClientImpl extends AzureServiceClient {
     /** the {@link AzureClient} used for long running operations. */
     private AzureClient azureClient;
 
@@ -205,8 +205,6 @@ public final class TrafficManagerManagementClientImpl extends AzureServiceClient
      */
     @Override
     public String userAgent() {
-        return String.format("Azure-SDK-For-Java/%s (%s)",
-                getClass().getPackage().getImplementationVersion(),
-                "TrafficManagerManagementClient, 2015-11-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "TrafficManagerManagementClient", "2015-11-01");
     }
 }

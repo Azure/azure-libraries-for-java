@@ -10,13 +10,13 @@ package com.microsoft.azure.management.compute.implementation;
 
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceCall;
+import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCall;
 import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import java.io.IOException;
 import java.util.List;
@@ -37,7 +37,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in VirtualMachineScaleSetVMs.
  */
-public final class VirtualMachineScaleSetVMsInner {
+public class VirtualMachineScaleSetVMsInner {
     /** The Retrofit service to perform REST calls. */
     private VirtualMachineScaleSetVMsService service;
     /** The service client containing this operation class. */
@@ -139,6 +139,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner reimage(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -152,10 +155,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> reimageAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(reimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> reimageAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(reimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -164,6 +168,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<OperationStatusResponseInner> reimageAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -181,6 +186,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> reimageWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -207,6 +213,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner beginReimage(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -220,10 +229,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> beginReimageAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginReimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> beginReimageAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginReimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -232,6 +242,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<OperationStatusResponseInner> beginReimageAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -249,6 +260,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> beginReimageWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -293,6 +305,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner reimageAll(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -306,10 +321,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> reimageAllAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(reimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> reimageAllAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(reimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -318,6 +334,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<OperationStatusResponseInner> reimageAllAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -335,6 +352,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> reimageAllWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -361,6 +379,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner beginReimageAll(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -374,10 +395,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> beginReimageAllAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginReimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> beginReimageAllAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginReimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -386,6 +408,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<OperationStatusResponseInner> beginReimageAllAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -403,6 +426,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> beginReimageAllWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -447,6 +471,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner deallocate(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -460,10 +487,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> deallocateAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(deallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> deallocateAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(deallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -472,6 +500,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<OperationStatusResponseInner> deallocateAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -489,6 +518,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> deallocateWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -515,6 +545,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner beginDeallocate(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -528,10 +561,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> beginDeallocateAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginDeallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> beginDeallocateAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginDeallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -540,6 +574,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<OperationStatusResponseInner> beginDeallocateAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -557,6 +592,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> beginDeallocateWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -601,6 +637,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner delete(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -614,10 +653,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> deleteAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> deleteAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -626,6 +666,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<OperationStatusResponseInner> deleteAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -643,6 +684,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> deleteWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -669,6 +711,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner beginDelete(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -682,10 +727,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> beginDeleteAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> beginDeleteAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -694,6 +740,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<OperationStatusResponseInner> beginDeleteAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -711,6 +758,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -756,6 +804,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualMachineScaleSetVMInner object if successful.
      */
     public VirtualMachineScaleSetVMInner get(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -769,10 +820,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<VirtualMachineScaleSetVMInner> getAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<VirtualMachineScaleSetVMInner> serviceCallback) {
-        return ServiceCall.fromResponse(getWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<VirtualMachineScaleSetVMInner> getAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<VirtualMachineScaleSetVMInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -781,6 +833,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the VirtualMachineScaleSetVMInner object
      */
     public Observable<VirtualMachineScaleSetVMInner> getAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -798,6 +851,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the VirtualMachineScaleSetVMInner object
      */
     public Observable<ServiceResponse<VirtualMachineScaleSetVMInner>> getWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -841,6 +895,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualMachineScaleSetVMInstanceViewInner object if successful.
      */
     public VirtualMachineScaleSetVMInstanceViewInner getInstanceView(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -854,10 +911,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<VirtualMachineScaleSetVMInstanceViewInner> getInstanceViewAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<VirtualMachineScaleSetVMInstanceViewInner> serviceCallback) {
-        return ServiceCall.fromResponse(getInstanceViewWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<VirtualMachineScaleSetVMInstanceViewInner> getInstanceViewAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<VirtualMachineScaleSetVMInstanceViewInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getInstanceViewWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -866,6 +924,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the VirtualMachineScaleSetVMInstanceViewInner object
      */
     public Observable<VirtualMachineScaleSetVMInstanceViewInner> getInstanceViewAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -883,6 +942,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the VirtualMachineScaleSetVMInstanceViewInner object
      */
     public Observable<ServiceResponse<VirtualMachineScaleSetVMInstanceViewInner>> getInstanceViewWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -925,6 +985,9 @@ public final class VirtualMachineScaleSetVMsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param virtualMachineScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;VirtualMachineScaleSetVMInner&gt; object if successful.
      */
     public PagedList<VirtualMachineScaleSetVMInner> list(final String resourceGroupName, final String virtualMachineScaleSetName) {
@@ -943,10 +1006,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param virtualMachineScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<VirtualMachineScaleSetVMInner>> listAsync(final String resourceGroupName, final String virtualMachineScaleSetName, final ListOperationCallback<VirtualMachineScaleSetVMInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<VirtualMachineScaleSetVMInner>> listAsync(final String resourceGroupName, final String virtualMachineScaleSetName, final ListOperationCallback<VirtualMachineScaleSetVMInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listSinglePageAsync(resourceGroupName, virtualMachineScaleSetName),
             new Func1<String, Observable<ServiceResponse<Page<VirtualMachineScaleSetVMInner>>>>() {
                 @Override
@@ -962,6 +1026,7 @@ public final class VirtualMachineScaleSetVMsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param virtualMachineScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;VirtualMachineScaleSetVMInner&gt; object
      */
     public Observable<Page<VirtualMachineScaleSetVMInner>> listAsync(final String resourceGroupName, final String virtualMachineScaleSetName) {
@@ -979,6 +1044,7 @@ public final class VirtualMachineScaleSetVMsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param virtualMachineScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;VirtualMachineScaleSetVMInner&gt; object
      */
     public Observable<ServiceResponse<Page<VirtualMachineScaleSetVMInner>>> listWithServiceResponseAsync(final String resourceGroupName, final String virtualMachineScaleSetName) {
@@ -1000,6 +1066,7 @@ public final class VirtualMachineScaleSetVMsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param virtualMachineScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;VirtualMachineScaleSetVMInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<VirtualMachineScaleSetVMInner>>> listSinglePageAsync(final String resourceGroupName, final String virtualMachineScaleSetName) {
@@ -1038,6 +1105,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param filter The filter to apply to the operation.
      * @param select The list parameters.
      * @param expand The expand expression to apply to the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;VirtualMachineScaleSetVMInner&gt; object if successful.
      */
     public PagedList<VirtualMachineScaleSetVMInner> list(final String resourceGroupName, final String virtualMachineScaleSetName, final String filter, final String select, final String expand) {
@@ -1059,10 +1129,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param select The list parameters.
      * @param expand The expand expression to apply to the operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<VirtualMachineScaleSetVMInner>> listAsync(final String resourceGroupName, final String virtualMachineScaleSetName, final String filter, final String select, final String expand, final ListOperationCallback<VirtualMachineScaleSetVMInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<VirtualMachineScaleSetVMInner>> listAsync(final String resourceGroupName, final String virtualMachineScaleSetName, final String filter, final String select, final String expand, final ListOperationCallback<VirtualMachineScaleSetVMInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listSinglePageAsync(resourceGroupName, virtualMachineScaleSetName, filter, select, expand),
             new Func1<String, Observable<ServiceResponse<Page<VirtualMachineScaleSetVMInner>>>>() {
                 @Override
@@ -1081,6 +1152,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param filter The filter to apply to the operation.
      * @param select The list parameters.
      * @param expand The expand expression to apply to the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;VirtualMachineScaleSetVMInner&gt; object
      */
     public Observable<Page<VirtualMachineScaleSetVMInner>> listAsync(final String resourceGroupName, final String virtualMachineScaleSetName, final String filter, final String select, final String expand) {
@@ -1101,6 +1173,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param filter The filter to apply to the operation.
      * @param select The list parameters.
      * @param expand The expand expression to apply to the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;VirtualMachineScaleSetVMInner&gt; object
      */
     public Observable<ServiceResponse<Page<VirtualMachineScaleSetVMInner>>> listWithServiceResponseAsync(final String resourceGroupName, final String virtualMachineScaleSetName, final String filter, final String select, final String expand) {
@@ -1125,6 +1198,7 @@ public final class VirtualMachineScaleSetVMsInner {
     ServiceResponse<PageImpl1<VirtualMachineScaleSetVMInner>> * @param filter The filter to apply to the operation.
     ServiceResponse<PageImpl1<VirtualMachineScaleSetVMInner>> * @param select The list parameters.
     ServiceResponse<PageImpl1<VirtualMachineScaleSetVMInner>> * @param expand The expand expression to apply to the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;VirtualMachineScaleSetVMInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<VirtualMachineScaleSetVMInner>>> listSinglePageAsync(final String resourceGroupName, final String virtualMachineScaleSetName, final String filter, final String select, final String expand) {
@@ -1165,6 +1239,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner powerOff(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1178,10 +1255,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> powerOffAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(powerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> powerOffAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(powerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -1190,6 +1268,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<OperationStatusResponseInner> powerOffAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1207,6 +1286,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> powerOffWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1233,6 +1313,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner beginPowerOff(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1246,10 +1329,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> beginPowerOffAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginPowerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> beginPowerOffAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginPowerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -1258,6 +1342,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<OperationStatusResponseInner> beginPowerOffAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1275,6 +1360,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> beginPowerOffWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1319,6 +1405,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner restart(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1332,10 +1421,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> restartAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(restartWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> restartAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(restartWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -1344,6 +1434,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<OperationStatusResponseInner> restartAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1361,6 +1452,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> restartWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1387,6 +1479,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner beginRestart(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1400,10 +1495,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> beginRestartAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginRestartWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> beginRestartAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginRestartWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -1412,6 +1508,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<OperationStatusResponseInner> beginRestartAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1429,6 +1526,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> beginRestartWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1473,6 +1571,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner start(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1486,10 +1587,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> startAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(startWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> startAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(startWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -1498,6 +1600,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<OperationStatusResponseInner> startAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1515,6 +1618,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> startWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1541,6 +1645,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OperationStatusResponseInner object if successful.
      */
     public OperationStatusResponseInner beginStart(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1554,10 +1661,11 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<OperationStatusResponseInner> beginStartAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginStartWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
+    public ServiceFuture<OperationStatusResponseInner> beginStartAsync(String resourceGroupName, String vmScaleSetName, String instanceId, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginStartWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId), serviceCallback);
     }
 
     /**
@@ -1566,6 +1674,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<OperationStatusResponseInner> beginStartAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1583,6 +1692,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceId The instance ID of the virtual machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OperationStatusResponseInner object
      */
     public Observable<ServiceResponse<OperationStatusResponseInner>> beginStartWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId) {
@@ -1625,6 +1735,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * Gets a list of all virtual machines in a VM scale sets.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;VirtualMachineScaleSetVMInner&gt; object if successful.
      */
     public PagedList<VirtualMachineScaleSetVMInner> listNext(final String nextPageLink) {
@@ -1641,12 +1754,13 @@ public final class VirtualMachineScaleSetVMsInner {
      * Gets a list of all virtual machines in a VM scale sets.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceCall the ServiceCall object tracking the Retrofit calls
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<VirtualMachineScaleSetVMInner>> listNextAsync(final String nextPageLink, final ServiceCall<List<VirtualMachineScaleSetVMInner>> serviceCall, final ListOperationCallback<VirtualMachineScaleSetVMInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<VirtualMachineScaleSetVMInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<VirtualMachineScaleSetVMInner>> serviceFuture, final ListOperationCallback<VirtualMachineScaleSetVMInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<VirtualMachineScaleSetVMInner>>>>() {
                 @Override
@@ -1661,6 +1775,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * Gets a list of all virtual machines in a VM scale sets.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;VirtualMachineScaleSetVMInner&gt; object
      */
     public Observable<Page<VirtualMachineScaleSetVMInner>> listNextAsync(final String nextPageLink) {
@@ -1677,6 +1792,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * Gets a list of all virtual machines in a VM scale sets.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;VirtualMachineScaleSetVMInner&gt; object
      */
     public Observable<ServiceResponse<Page<VirtualMachineScaleSetVMInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
@@ -1697,6 +1813,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * Gets a list of all virtual machines in a VM scale sets.
      *
     ServiceResponse<PageImpl1<VirtualMachineScaleSetVMInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;VirtualMachineScaleSetVMInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<VirtualMachineScaleSetVMInner>>> listNextSinglePageAsync(final String nextPageLink) {

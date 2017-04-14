@@ -14,13 +14,16 @@ import com.microsoft.azure.management.resources.fluentcore.arm.collection.Suppor
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByParent;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByParent;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChild;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.rest.ServiceCall;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceCallback;
 import rx.Completable;
+import rx.Observable;
 
 /**
  * Base class for independent child collection class.
@@ -39,7 +42,7 @@ public abstract class IndependentChildrenImpl<
         InnerT,
         InnerCollectionT,
         ManagerT extends ManagerBase,
-        ParentT extends GroupableResource<ManagerT>>
+        ParentT extends Resource & HasResourceGroup>
     extends CreatableResourcesImpl<T, ImplT, InnerT>
     implements
         SupportsGettingById<T>,
@@ -47,7 +50,8 @@ public abstract class IndependentChildrenImpl<
         SupportsListingByParent<T, ParentT, ManagerT>,
         SupportsDeletingById,
         SupportsDeletingByParent,
-        HasManager<ManagerT> {
+        HasManager<ManagerT>,
+        HasInner<InnerCollectionT> {
     protected final InnerCollectionT innerCollection;
     protected final ManagerT manager;
 
@@ -57,15 +61,43 @@ public abstract class IndependentChildrenImpl<
     }
 
     @Override
+    public InnerCollectionT inner() {
+        return this.innerCollection;
+    }
+
+    @Override
+    public T getByParent(String resourceGroup, String parentName, String name) {
+        return getByParentAsync(resourceGroup, parentName, name).toBlocking().last();
+    }
+
+    @Override
     public T getByParent(ParentT parentResource, String name) {
-        return getByParent(parentResource.resourceGroupName(), parentResource.name(), name);
+        return getByParentAsync(parentResource, name).toBlocking().last();
+    }
+
+    @Override
+    public Observable<T> getByParentAsync(ParentT parentResource, String name) {
+        return getByParentAsync(parentResource.resourceGroupName(), parentResource.name(), name);
     }
 
     @Override
     public T getById(String id) {
-        ResourceId resourceId = ResourceId.fromString(id);
+        return getByIdAsync(id).toBlocking().last();
+    }
 
-        return getByParent(resourceId.resourceGroupName(), resourceId.parent().name(), resourceId.name());
+    @Override
+    public Observable<T> getByIdAsync(String id) {
+        ResourceId resourceId = ResourceId.fromString(id);
+        if (resourceId == null) {
+            return null;
+        }
+
+        return getByParentAsync(resourceId.resourceGroupName(), resourceId.parent().name(), resourceId.name());
+    }
+
+    @Override
+    public ServiceFuture<T> getByIdAsync(String id, ServiceCallback<T> callback) {
+        return ServiceFuture.fromBody(getByIdAsync(id), callback);
     }
 
     @Override
@@ -79,8 +111,8 @@ public abstract class IndependentChildrenImpl<
     }
 
     @Override
-    public ServiceCall<Void> deleteByParentAsync(String groupName, String parentName, String name, ServiceCallback<Void> callback) {
-        return ServiceCall.fromBody(deleteByParentAsync(groupName, parentName, name).<Void>toObservable(), callback);
+    public ServiceFuture<Void> deleteByParentAsync(String groupName, String parentName, String name, ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(deleteByParentAsync(groupName, parentName, name).<Void>toObservable(), callback);
     }
 
     @Override

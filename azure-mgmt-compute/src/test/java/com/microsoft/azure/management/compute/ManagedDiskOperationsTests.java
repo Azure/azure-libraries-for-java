@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
@@ -22,7 +28,7 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
     }
 
     @Test
-    public void CanOperateOnEmptyManagedDisk() {
+    public void canOperateOnEmptyManagedDisk() {
         final String diskName = generateRandomResourceName("md-empty-", 20);
         final DiskSkuTypes updateTo = DiskSkuTypes.STANDARD_LRS;
 
@@ -67,10 +73,10 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
         Assert.assertEquals(disk.sku(), updateTo);
         Assert.assertEquals(disk.sizeInGB(), 200);
 
-        disk = computeManager.disks().getByGroup(disk.resourceGroupName(), disk.name());
+        disk = computeManager.disks().getByResourceGroup(disk.resourceGroupName(), disk.name());
         Assert.assertNotNull(disk);
 
-        PagedList<Disk> myDisks = computeManager.disks().listByGroup(disk.resourceGroupName());
+        PagedList<Disk> myDisks = computeManager.disks().listByResourceGroup(disk.resourceGroupName());
         Assert.assertNotNull(myDisks);
         Assert.assertTrue(myDisks.size() > 0);
 

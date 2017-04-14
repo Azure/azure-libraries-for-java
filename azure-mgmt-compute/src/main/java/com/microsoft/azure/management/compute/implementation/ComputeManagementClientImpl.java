@@ -16,7 +16,7 @@ import com.microsoft.rest.RestClient;
 /**
  * Initializes a new instance of the ComputeManagementClientImpl class.
  */
-public final class ComputeManagementClientImpl extends AzureServiceClient {
+public class ComputeManagementClientImpl extends AzureServiceClient {
     /** the {@link AzureClient} used for long running operations. */
     private AzureClient azureClient;
 
@@ -346,8 +346,6 @@ public final class ComputeManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("Azure-SDK-For-Java/%s (%s)",
-                getClass().getPackage().getImplementationVersion(),
-                "ComputeManagementClient, ");
+        return String.format("%s (%s)", super.userAgent(), "ComputeManagementClient");
     }
 }

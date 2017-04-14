@@ -1,13 +1,11 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
@@ -56,6 +54,9 @@ import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
+import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
+import rx.Completable;
 import rx.Observable;
 import rx.functions.Func0;
 import rx.functions.Func1;
@@ -69,7 +70,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Implementation of {@link VirtualMachineScaleSet}.
+ * Implementation of VirtualMachineScaleSet.
  */
 @LangDefinition
 public class VirtualMachineScaleSetImpl
@@ -85,8 +86,6 @@ public class VirtualMachineScaleSetImpl
         VirtualMachineScaleSet.DefinitionUnmanaged,
         VirtualMachineScaleSet.Update {
     // Clients
-    private final VirtualMachineScaleSetsInner client;
-    private final VirtualMachineScaleSetVMsInner vmInstancesClient;
     private final StorageManager storageManager;
     private final NetworkManager networkManager;
     // used to generate unique name for any dependency resources
@@ -104,7 +103,7 @@ public class VirtualMachineScaleSetImpl
     private String vhdContainerName;
     // the child resource extensions
     private Map<String, VirtualMachineScaleSetExtension> extensions;
-    // reference to the primary and internal internet facing load balancer
+    // reference to the primary and internal Internet facing load balancer
     private LoadBalancer primaryInternetFacingLoadBalancer;
     private LoadBalancer primaryInternalLoadBalancer;
     // Load balancer specific variables used during update
@@ -127,16 +126,13 @@ public class VirtualMachineScaleSetImpl
     // To track the managed data disks
     private final ManagedDataDiskCollection managedDataDisks;
 
-    VirtualMachineScaleSetImpl(String name,
+    VirtualMachineScaleSetImpl(
+                        String name,
                         VirtualMachineScaleSetInner innerModel,
-                        VirtualMachineScaleSetsInner client,
-                        VirtualMachineScaleSetVMsInner vmInstancesClient,
                         final ComputeManager computeManager,
                         final StorageManager storageManager,
                         final NetworkManager networkManager) {
         super(name, innerModel, computeManager);
-        this.client = client;
-        this.vmInstancesClient = vmInstancesClient;
         this.storageManager = storageManager;
         this.networkManager = networkManager;
         this.namer = SdkContext.getResourceNamerFactory().createResourceNamer(this.name());
@@ -163,37 +159,89 @@ public class VirtualMachineScaleSetImpl
 
    @Override
    public VirtualMachineScaleSetVMs virtualMachines() {
-        return new VirtualMachineScaleSetVMsImpl(this, this.vmInstancesClient, this.myManager);
+        return new VirtualMachineScaleSetVMsImpl(this, this.manager().inner().virtualMachineScaleSetVMs(), this.myManager);
    }
 
    @Override
-   public PagedList<VirtualMachineScaleSetSku> listAvailableSkus() throws CloudException, IOException {
-        return this.skuConverter.convert(this.client.listSkus(this.resourceGroupName(), this.name()));
+   public PagedList<VirtualMachineScaleSetSku> listAvailableSkus() {
+        return this.skuConverter.convert(this.manager().inner().virtualMachineScaleSets().listSkus(this.resourceGroupName(), this.name()));
    }
 
     @Override
-    public void deallocate() throws CloudException, IOException, InterruptedException {
-        this.client.deallocate(this.resourceGroupName(), this.name());
+    public void deallocate() {
+        this.deallocateAsync().await();
     }
 
     @Override
-    public void powerOff() throws CloudException, IOException, InterruptedException {
-        this.client.powerOff(this.resourceGroupName(), this.name());
+    public Completable deallocateAsync() {
+        Observable<OperationStatusResponseInner> d = this.manager().inner().virtualMachineScaleSets().deallocateAsync(this.resourceGroupName(), this.name());
+        Observable<VirtualMachineScaleSet> r = this.refreshAsync();
+        return Observable.concat(d, r).toCompletable();
     }
 
     @Override
-    public void restart() throws CloudException, IOException, InterruptedException {
-        this.client.restart(this.resourceGroupName(), this.name());
+    public ServiceFuture<Void> deallocateAsync(ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(this.deallocateAsync().<Void>toObservable(), callback);
     }
 
     @Override
-    public void start() throws CloudException, IOException, InterruptedException {
-        this.client.start(this.resourceGroupName(), this.name());
+    public void powerOff() {
+        this.powerOffAsync().await();
     }
 
     @Override
-    public void reimage() throws CloudException, IOException, InterruptedException {
-        this.client.reimage(this.resourceGroupName(), this.name());
+    public Completable powerOffAsync() {
+        return this.manager().inner().virtualMachineScaleSets().powerOffAsync(this.resourceGroupName(), this.name()).toCompletable();
+    }
+
+    @Override
+    public ServiceFuture<Void> powerOffAsync(ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(this.powerOffAsync().<Void>toObservable(), callback);
+    }
+
+    @Override
+    public void restart() {
+        this.restartAsync().await();
+    }
+
+    @Override
+    public Completable restartAsync() {
+        return this.manager().inner().virtualMachineScaleSets().restartAsync(this.resourceGroupName(), this.name()).toCompletable();
+    }
+
+    @Override
+    public ServiceFuture<Void> restartAsync(ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(this.restartAsync().<Void>toObservable(), callback);
+    }
+
+    @Override
+    public void start() {
+        this.startAsync().await();
+    }
+
+    @Override
+    public Completable startAsync() {
+        return this.manager().inner().virtualMachineScaleSets().startAsync(this.resourceGroupName(), this.name()).toCompletable();
+    }
+
+    @Override
+    public ServiceFuture<Void> startAsync(ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(this.startAsync().<Void>toObservable(), callback);
+    }
+
+    @Override
+    public void reimage() {
+        this.reimageAsync().await();
+    }
+
+    @Override
+    public Completable reimageAsync() {
+        return this.manager().inner().virtualMachineScaleSets().reimageAsync(this.resourceGroupName(), this.name()).toCompletable();
+    }
+
+    @Override
+    public ServiceFuture<Void> reimageAsync(ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(this.reimageAsync().<Void>toObservable(), callback);
     }
 
     @Override
@@ -299,10 +347,10 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public List<String> primaryPublicIpAddressIds() throws IOException {
+    public List<String> primaryPublicIPAddressIds() throws IOException {
         LoadBalancer loadBalancer = this.getPrimaryInternetFacingLoadBalancer();
         if (loadBalancer != null) {
-            return loadBalancer.publicIpAddressIds();
+            return loadBalancer.publicIPAddressIds();
         }
         return new ArrayList<>();
     }
@@ -376,8 +424,8 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public VirtualMachineScaleSetImpl withExistingPrimaryInternetFacingLoadBalancer(LoadBalancer loadBalancer) {
-        if (loadBalancer.publicIpAddressIds().isEmpty()) {
-            throw new IllegalArgumentException("Parameter loadBalancer must be an internet facing load balancer");
+        if (loadBalancer.publicIPAddressIds().isEmpty()) {
+            throw new IllegalArgumentException("Parameter loadBalancer must be an Internet facing load balancer");
         }
 
         if (isInCreateMode()) {
@@ -421,7 +469,7 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public VirtualMachineScaleSetImpl withExistingPrimaryInternalLoadBalancer(LoadBalancer loadBalancer) {
-        if (!loadBalancer.publicIpAddressIds().isEmpty()) {
+        if (!loadBalancer.publicIPAddressIds().isEmpty()) {
             throw new IllegalArgumentException("Parameter loadBalancer must be an internal load balancer");
         }
         String lbNetworkId = null;
@@ -741,7 +789,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withVmAgent() {
+    public VirtualMachineScaleSetImpl withVMAgent() {
         this.inner()
                 .virtualMachineProfile()
                 .osProfile().windowsConfiguration().withProvisionVMAgent(true);
@@ -749,7 +797,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withoutVmAgent() {
+    public VirtualMachineScaleSetImpl withoutVMAgent() {
         this.inner()
                 .virtualMachineProfile()
                 .osProfile().windowsConfiguration().withProvisionVMAgent(false);
@@ -781,7 +829,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withWinRm(WinRMListener listener) {
+    public VirtualMachineScaleSetImpl withWinRM(WinRMListener listener) {
         if (this.inner().virtualMachineProfile().osProfile().windowsConfiguration().winRM() == null) {
             WinRMConfiguration winRMConfiguration = new WinRMConfiguration();
             this.inner()
@@ -799,7 +847,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withOsDiskCaching(CachingTypes cachingType) {
+    public VirtualMachineScaleSetImpl withOSDiskCaching(CachingTypes cachingType) {
         this.inner()
                 .virtualMachineProfile()
                 .storageProfile().osDisk().withCaching(cachingType);
@@ -807,7 +855,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withOsDiskName(String name) {
+    public VirtualMachineScaleSetImpl withOSDiskName(String name) {
         this.inner()
                 .virtualMachineProfile()
                 .storageProfile().osDisk().withName(name);
@@ -991,6 +1039,7 @@ public class VirtualMachineScaleSetImpl
         return this;
     }
 
+    /* TODO: Broken by change in Azure API behavior
     @Override
     public VirtualMachineScaleSetImpl withDataDiskUpdated(int lun, int newSizeInGB) {
         throwIfManagedDiskDisabled(ManagedUnmanagedDiskErrors.VMSS_NO_MANAGED_DISK_TO_UPDATE);
@@ -1048,6 +1097,7 @@ public class VirtualMachineScaleSetImpl
         }
         return null;
     }
+    */
 
     @Override
     public VirtualMachineScaleSetImpl withNewDataDiskFromImage(int imageLun) {
@@ -1083,7 +1133,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withOsDiskStorageAccountType(StorageAccountTypes accountType) {
+    public VirtualMachineScaleSetImpl withOSDiskStorageAccountType(StorageAccountTypes accountType) {
         this.managedDataDisks.setDefaultStorageAccountType(accountType);
         return this;
     }
@@ -1130,6 +1180,7 @@ public class VirtualMachineScaleSetImpl
                     .dataDisks();
             VirtualMachineScaleSetUnmanagedDataDiskImpl.setDataDisksDefaults(dataDisks, this.name());
         }
+        final VirtualMachineScaleSetsInner client = this.manager().inner().virtualMachineScaleSets();
         return this.handleOSDiskContainersAsync()
                 .flatMap(new Func1<Void, Observable<VirtualMachineScaleSetInner>>() {
                     @Override
@@ -1146,12 +1197,21 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public VirtualMachineScaleSetImpl refresh() {
-        VirtualMachineScaleSetInner inner = this.client.get(this.resourceGroupName(), this.name());
-        this.setInner(inner);
-        this.clearCachedProperties();
-        this.initializeChildrenFromInner();
-        return this;
+    public Observable<VirtualMachineScaleSet> refreshAsync() {
+        return super.refreshAsync().map(new Func1<VirtualMachineScaleSet, VirtualMachineScaleSet>() {
+            @Override
+            public VirtualMachineScaleSet call(VirtualMachineScaleSet virtualMachineScaleSet) {
+                VirtualMachineScaleSetImpl impl = (VirtualMachineScaleSetImpl) virtualMachineScaleSet;
+                impl.clearCachedProperties();
+                impl.initializeChildrenFromInner();
+                return impl;
+            }
+        });
+    }
+
+    @Override
+    protected Observable<VirtualMachineScaleSetInner> getInnerAsync() {
+        return this.manager().inner().virtualMachineScaleSets().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     // Helpers
@@ -1240,14 +1300,14 @@ public class VirtualMachineScaleSetImpl
                 //
                 osDisk.withManagedDisk(null);
                 if (osDisk.name() == null) {
-                    withOsDiskName(this.name() + "-os-disk");
+                    withOSDiskName(this.name() + "-os-disk");
                 }
             }
         } else {
             // NOP [ODDisk CreateOption: ATTACH, ATTACH is not supported for VMSS]
         }
         if (this.osDiskCachingType() == null) {
-            withOsDiskCaching(CachingTypes.READ_WRITE);
+            withOSDiskCaching(CachingTypes.READ_WRITE);
         }
     }
 
@@ -1479,7 +1539,7 @@ public class VirtualMachineScaleSetImpl
         LoadBalancer loadBalancer1 = this.networkManager
                 .loadBalancers()
                 .getById(firstLoadBalancerId);
-        if (loadBalancer1.publicIpAddressIds() != null && loadBalancer1.publicIpAddressIds().size() > 0) {
+        if (loadBalancer1.publicIPAddressIds() != null && loadBalancer1.publicIPAddressIds().size() > 0) {
             this.primaryInternetFacingLoadBalancer = loadBalancer1;
         } else {
             this.primaryInternalLoadBalancer = loadBalancer1;
@@ -1511,7 +1571,7 @@ public class VirtualMachineScaleSetImpl
         LoadBalancer loadBalancer2 = this.networkManager
             .loadBalancers()
             .getById(secondLoadBalancerId);
-        if (loadBalancer2.publicIpAddressIds() != null && loadBalancer2.publicIpAddressIds().size() > 0) {
+        if (loadBalancer2.publicIPAddressIds() != null && loadBalancer2.publicIPAddressIds().size() > 0) {
             this.primaryInternetFacingLoadBalancer = loadBalancer2;
          } else {
             this.primaryInternalLoadBalancer = loadBalancer2;
@@ -1816,11 +1876,12 @@ public class VirtualMachineScaleSetImpl
                 && osDisk.image().uri() != null;
     }
 
-    private void throwIfManagedDiskEnabled(String message) {
+    /* TODO Unused
+      private void throwIfManagedDiskEnabled(String message) {
         if (this.isManagedDiskEnabled()) {
             throw new UnsupportedOperationException(message);
         }
-    }
+    }*/
 
     private void throwIfManagedDiskDisabled(String message) {
         if (!this.isManagedDiskEnabled()) {
@@ -1828,10 +1889,13 @@ public class VirtualMachineScaleSetImpl
         }
     }
 
+    /**
+     * Class to manage Data Disk collection.
+     */
     private class ManagedDataDiskCollection {
-        public final List<VirtualMachineScaleSetDataDisk> implicitDisksToAssociate = new ArrayList<>();
-        public final List<Integer> diskLunsToRemove = new ArrayList<>();
-        public final List<VirtualMachineScaleSetDataDisk> newDisksFromImage = new ArrayList<>();
+        private final List<VirtualMachineScaleSetDataDisk> implicitDisksToAssociate = new ArrayList<>();
+        private final List<Integer> diskLunsToRemove = new ArrayList<>();
+        private final List<VirtualMachineScaleSetDataDisk> newDisksFromImage = new ArrayList<>();
         private final VirtualMachineScaleSetImpl vmss;
         private CachingTypes defaultCachingType;
         private StorageAccountTypes defaultStorageAccountType;

@@ -10,7 +10,7 @@ package com.microsoft.azure.management.cdn.implementation;
 
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceCall;
+import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.cdn.ErrorResponseException;
 import com.microsoft.azure.management.cdn.LoadParameters;
@@ -18,8 +18,8 @@ import com.microsoft.azure.management.cdn.PurgeParameters;
 import com.microsoft.azure.management.cdn.ValidateCustomDomainInput;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCall;
 import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
 import java.io.IOException;
@@ -44,7 +44,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in Endpoints.
  */
-public final class EndpointsInner {
+public class EndpointsInner {
     /** The Retrofit service to perform REST calls. */
     private EndpointsService service;
     /** The service client containing this operation class. */
@@ -153,6 +153,9 @@ public final class EndpointsInner {
      *
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;EndpointInner&gt; object if successful.
      */
     public PagedList<EndpointInner> listByProfile(final String resourceGroupName, final String profileName) {
@@ -171,10 +174,11 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<EndpointInner>> listByProfileAsync(final String resourceGroupName, final String profileName, final ListOperationCallback<EndpointInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<EndpointInner>> listByProfileAsync(final String resourceGroupName, final String profileName, final ListOperationCallback<EndpointInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listByProfileSinglePageAsync(resourceGroupName, profileName),
             new Func1<String, Observable<ServiceResponse<Page<EndpointInner>>>>() {
                 @Override
@@ -190,6 +194,7 @@ public final class EndpointsInner {
      *
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;EndpointInner&gt; object
      */
     public Observable<Page<EndpointInner>> listByProfileAsync(final String resourceGroupName, final String profileName) {
@@ -207,6 +212,7 @@ public final class EndpointsInner {
      *
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;EndpointInner&gt; object
      */
     public Observable<ServiceResponse<Page<EndpointInner>>> listByProfileWithServiceResponseAsync(final String resourceGroupName, final String profileName) {
@@ -228,6 +234,7 @@ public final class EndpointsInner {
      *
     ServiceResponse<PageImpl<EndpointInner>> * @param resourceGroupName Name of the Resource group within the Azure subscription.
     ServiceResponse<PageImpl<EndpointInner>> * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;EndpointInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<EndpointInner>>> listByProfileSinglePageAsync(final String resourceGroupName, final String profileName) {
@@ -270,6 +277,9 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the EndpointInner object if successful.
      */
     public EndpointInner get(String resourceGroupName, String profileName, String endpointName) {
@@ -283,10 +293,11 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<EndpointInner> getAsync(String resourceGroupName, String profileName, String endpointName, final ServiceCallback<EndpointInner> serviceCallback) {
-        return ServiceCall.fromResponse(getWithServiceResponseAsync(resourceGroupName, profileName, endpointName), serviceCallback);
+    public ServiceFuture<EndpointInner> getAsync(String resourceGroupName, String profileName, String endpointName, final ServiceCallback<EndpointInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, profileName, endpointName), serviceCallback);
     }
 
     /**
@@ -295,6 +306,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the EndpointInner object
      */
     public Observable<EndpointInner> getAsync(String resourceGroupName, String profileName, String endpointName) {
@@ -312,6 +324,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the EndpointInner object
      */
     public Observable<ServiceResponse<EndpointInner>> getWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName) {
@@ -358,6 +371,9 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpoint Endpoint properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the EndpointInner object if successful.
      */
     public EndpointInner create(String resourceGroupName, String profileName, String endpointName, EndpointInner endpoint) {
@@ -372,10 +388,11 @@ public final class EndpointsInner {
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpoint Endpoint properties
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<EndpointInner> createAsync(String resourceGroupName, String profileName, String endpointName, EndpointInner endpoint, final ServiceCallback<EndpointInner> serviceCallback) {
-        return ServiceCall.fromResponse(createWithServiceResponseAsync(resourceGroupName, profileName, endpointName, endpoint), serviceCallback);
+    public ServiceFuture<EndpointInner> createAsync(String resourceGroupName, String profileName, String endpointName, EndpointInner endpoint, final ServiceCallback<EndpointInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, profileName, endpointName, endpoint), serviceCallback);
     }
 
     /**
@@ -385,6 +402,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpoint Endpoint properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<EndpointInner> createAsync(String resourceGroupName, String profileName, String endpointName, EndpointInner endpoint) {
@@ -403,6 +421,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpoint Endpoint properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<EndpointInner>> createWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, EndpointInner endpoint) {
@@ -436,6 +455,9 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpoint Endpoint properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the EndpointInner object if successful.
      */
     public EndpointInner beginCreate(String resourceGroupName, String profileName, String endpointName, EndpointInner endpoint) {
@@ -450,10 +472,11 @@ public final class EndpointsInner {
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpoint Endpoint properties
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<EndpointInner> beginCreateAsync(String resourceGroupName, String profileName, String endpointName, EndpointInner endpoint, final ServiceCallback<EndpointInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, endpoint), serviceCallback);
+    public ServiceFuture<EndpointInner> beginCreateAsync(String resourceGroupName, String profileName, String endpointName, EndpointInner endpoint, final ServiceCallback<EndpointInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, endpoint), serviceCallback);
     }
 
     /**
@@ -463,6 +486,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpoint Endpoint properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the EndpointInner object
      */
     public Observable<EndpointInner> beginCreateAsync(String resourceGroupName, String profileName, String endpointName, EndpointInner endpoint) {
@@ -481,6 +505,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpoint Endpoint properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the EndpointInner object
      */
     public Observable<ServiceResponse<EndpointInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, EndpointInner endpoint) {
@@ -533,6 +558,9 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpointUpdateProperties Endpoint update properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the EndpointInner object if successful.
      */
     public EndpointInner update(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties) {
@@ -547,10 +575,11 @@ public final class EndpointsInner {
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpointUpdateProperties Endpoint update properties
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<EndpointInner> updateAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties, final ServiceCallback<EndpointInner> serviceCallback) {
-        return ServiceCall.fromResponse(updateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, endpointUpdateProperties), serviceCallback);
+    public ServiceFuture<EndpointInner> updateAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties, final ServiceCallback<EndpointInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, endpointUpdateProperties), serviceCallback);
     }
 
     /**
@@ -560,6 +589,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpointUpdateProperties Endpoint update properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<EndpointInner> updateAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties) {
@@ -578,6 +608,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpointUpdateProperties Endpoint update properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<EndpointInner>> updateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties) {
@@ -611,6 +642,9 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpointUpdateProperties Endpoint update properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the EndpointInner object if successful.
      */
     public EndpointInner beginUpdate(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties) {
@@ -625,10 +659,11 @@ public final class EndpointsInner {
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpointUpdateProperties Endpoint update properties
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<EndpointInner> beginUpdateAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties, final ServiceCallback<EndpointInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, endpointUpdateProperties), serviceCallback);
+    public ServiceFuture<EndpointInner> beginUpdateAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties, final ServiceCallback<EndpointInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, endpointUpdateProperties), serviceCallback);
     }
 
     /**
@@ -638,6 +673,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpointUpdateProperties Endpoint update properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the EndpointInner object
      */
     public Observable<EndpointInner> beginUpdateAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties) {
@@ -656,6 +692,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param endpointUpdateProperties Endpoint update properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the EndpointInner object
      */
     public Observable<ServiceResponse<EndpointInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties) {
@@ -706,6 +743,9 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String resourceGroupName, String profileName, String endpointName) {
         deleteWithServiceResponseAsync(resourceGroupName, profileName, endpointName).toBlocking().last().body();
@@ -718,10 +758,11 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> deleteAsync(String resourceGroupName, String profileName, String endpointName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, profileName, endpointName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String profileName, String endpointName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, profileName, endpointName), serviceCallback);
     }
 
     /**
@@ -730,6 +771,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<Void> deleteAsync(String resourceGroupName, String profileName, String endpointName) {
@@ -747,6 +789,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName) {
@@ -775,6 +818,9 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void beginDelete(String resourceGroupName, String profileName, String endpointName) {
         beginDeleteWithServiceResponseAsync(resourceGroupName, profileName, endpointName).toBlocking().single().body();
@@ -787,10 +833,11 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> beginDeleteAsync(String resourceGroupName, String profileName, String endpointName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, profileName, endpointName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String profileName, String endpointName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, profileName, endpointName), serviceCallback);
     }
 
     /**
@@ -799,6 +846,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<Void> beginDeleteAsync(String resourceGroupName, String profileName, String endpointName) {
@@ -816,6 +864,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName) {
@@ -862,6 +911,9 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the EndpointInner object if successful.
      */
     public EndpointInner start(String resourceGroupName, String profileName, String endpointName) {
@@ -875,10 +927,11 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<EndpointInner> startAsync(String resourceGroupName, String profileName, String endpointName, final ServiceCallback<EndpointInner> serviceCallback) {
-        return ServiceCall.fromResponse(startWithServiceResponseAsync(resourceGroupName, profileName, endpointName), serviceCallback);
+    public ServiceFuture<EndpointInner> startAsync(String resourceGroupName, String profileName, String endpointName, final ServiceCallback<EndpointInner> serviceCallback) {
+        return ServiceFuture.fromResponse(startWithServiceResponseAsync(resourceGroupName, profileName, endpointName), serviceCallback);
     }
 
     /**
@@ -887,6 +940,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<EndpointInner> startAsync(String resourceGroupName, String profileName, String endpointName) {
@@ -904,6 +958,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<EndpointInner>> startWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName) {
@@ -932,6 +987,9 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the EndpointInner object if successful.
      */
     public EndpointInner beginStart(String resourceGroupName, String profileName, String endpointName) {
@@ -945,10 +1003,11 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<EndpointInner> beginStartAsync(String resourceGroupName, String profileName, String endpointName, final ServiceCallback<EndpointInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginStartWithServiceResponseAsync(resourceGroupName, profileName, endpointName), serviceCallback);
+    public ServiceFuture<EndpointInner> beginStartAsync(String resourceGroupName, String profileName, String endpointName, final ServiceCallback<EndpointInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginStartWithServiceResponseAsync(resourceGroupName, profileName, endpointName), serviceCallback);
     }
 
     /**
@@ -957,6 +1016,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the EndpointInner object
      */
     public Observable<EndpointInner> beginStartAsync(String resourceGroupName, String profileName, String endpointName) {
@@ -974,6 +1034,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the EndpointInner object
      */
     public Observable<ServiceResponse<EndpointInner>> beginStartWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName) {
@@ -1019,6 +1080,9 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the EndpointInner object if successful.
      */
     public EndpointInner stop(String resourceGroupName, String profileName, String endpointName) {
@@ -1032,10 +1096,11 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<EndpointInner> stopAsync(String resourceGroupName, String profileName, String endpointName, final ServiceCallback<EndpointInner> serviceCallback) {
-        return ServiceCall.fromResponse(stopWithServiceResponseAsync(resourceGroupName, profileName, endpointName), serviceCallback);
+    public ServiceFuture<EndpointInner> stopAsync(String resourceGroupName, String profileName, String endpointName, final ServiceCallback<EndpointInner> serviceCallback) {
+        return ServiceFuture.fromResponse(stopWithServiceResponseAsync(resourceGroupName, profileName, endpointName), serviceCallback);
     }
 
     /**
@@ -1044,6 +1109,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<EndpointInner> stopAsync(String resourceGroupName, String profileName, String endpointName) {
@@ -1061,6 +1127,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<EndpointInner>> stopWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName) {
@@ -1089,6 +1156,9 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the EndpointInner object if successful.
      */
     public EndpointInner beginStop(String resourceGroupName, String profileName, String endpointName) {
@@ -1102,10 +1172,11 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<EndpointInner> beginStopAsync(String resourceGroupName, String profileName, String endpointName, final ServiceCallback<EndpointInner> serviceCallback) {
-        return ServiceCall.fromResponse(beginStopWithServiceResponseAsync(resourceGroupName, profileName, endpointName), serviceCallback);
+    public ServiceFuture<EndpointInner> beginStopAsync(String resourceGroupName, String profileName, String endpointName, final ServiceCallback<EndpointInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginStopWithServiceResponseAsync(resourceGroupName, profileName, endpointName), serviceCallback);
     }
 
     /**
@@ -1114,6 +1185,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the EndpointInner object
      */
     public Observable<EndpointInner> beginStopAsync(String resourceGroupName, String profileName, String endpointName) {
@@ -1131,6 +1203,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the EndpointInner object
      */
     public Observable<ServiceResponse<EndpointInner>> beginStopWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName) {
@@ -1177,6 +1250,9 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be purged. Can describe a file path or a wild card directory.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void purgeContent(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths) {
         purgeContentWithServiceResponseAsync(resourceGroupName, profileName, endpointName, contentPaths).toBlocking().last().body();
@@ -1190,10 +1266,11 @@ public final class EndpointsInner {
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be purged. Can describe a file path or a wild card directory.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> purgeContentAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(purgeContentWithServiceResponseAsync(resourceGroupName, profileName, endpointName, contentPaths), serviceCallback);
+    public ServiceFuture<Void> purgeContentAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(purgeContentWithServiceResponseAsync(resourceGroupName, profileName, endpointName, contentPaths), serviceCallback);
     }
 
     /**
@@ -1203,6 +1280,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be purged. Can describe a file path or a wild card directory.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<Void> purgeContentAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths) {
@@ -1221,6 +1299,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be purged. Can describe a file path or a wild card directory.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<Void>> purgeContentWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths) {
@@ -1256,6 +1335,9 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be purged. Can describe a file path or a wild card directory.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void beginPurgeContent(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths) {
         beginPurgeContentWithServiceResponseAsync(resourceGroupName, profileName, endpointName, contentPaths).toBlocking().single().body();
@@ -1269,10 +1351,11 @@ public final class EndpointsInner {
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be purged. Can describe a file path or a wild card directory.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> beginPurgeContentAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(beginPurgeContentWithServiceResponseAsync(resourceGroupName, profileName, endpointName, contentPaths), serviceCallback);
+    public ServiceFuture<Void> beginPurgeContentAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginPurgeContentWithServiceResponseAsync(resourceGroupName, profileName, endpointName, contentPaths), serviceCallback);
     }
 
     /**
@@ -1282,6 +1365,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be purged. Can describe a file path or a wild card directory.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<Void> beginPurgeContentAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths) {
@@ -1300,6 +1384,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be purged. Can describe a file path or a wild card directory.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<ServiceResponse<Void>> beginPurgeContentWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths) {
@@ -1352,6 +1437,9 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be loaded. Path should be a relative file URL of the origin.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void loadContent(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths) {
         loadContentWithServiceResponseAsync(resourceGroupName, profileName, endpointName, contentPaths).toBlocking().last().body();
@@ -1365,10 +1453,11 @@ public final class EndpointsInner {
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be loaded. Path should be a relative file URL of the origin.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> loadContentAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(loadContentWithServiceResponseAsync(resourceGroupName, profileName, endpointName, contentPaths), serviceCallback);
+    public ServiceFuture<Void> loadContentAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(loadContentWithServiceResponseAsync(resourceGroupName, profileName, endpointName, contentPaths), serviceCallback);
     }
 
     /**
@@ -1378,6 +1467,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be loaded. Path should be a relative file URL of the origin.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<Void> loadContentAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths) {
@@ -1396,6 +1486,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be loaded. Path should be a relative file URL of the origin.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<Void>> loadContentWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths) {
@@ -1431,6 +1522,9 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be loaded. Path should be a relative file URL of the origin.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void beginLoadContent(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths) {
         beginLoadContentWithServiceResponseAsync(resourceGroupName, profileName, endpointName, contentPaths).toBlocking().single().body();
@@ -1444,10 +1538,11 @@ public final class EndpointsInner {
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be loaded. Path should be a relative file URL of the origin.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<Void> beginLoadContentAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths, final ServiceCallback<Void> serviceCallback) {
-        return ServiceCall.fromResponse(beginLoadContentWithServiceResponseAsync(resourceGroupName, profileName, endpointName, contentPaths), serviceCallback);
+    public ServiceFuture<Void> beginLoadContentAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginLoadContentWithServiceResponseAsync(resourceGroupName, profileName, endpointName, contentPaths), serviceCallback);
     }
 
     /**
@@ -1457,6 +1552,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be loaded. Path should be a relative file URL of the origin.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<Void> beginLoadContentAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths) {
@@ -1475,6 +1571,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param contentPaths The path to the content to be loaded. Path should be a relative file URL of the origin.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<ServiceResponse<Void>> beginLoadContentWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, List<String> contentPaths) {
@@ -1527,6 +1624,9 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param hostName The host name of the custom domain. Must be a domain name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ValidateCustomDomainOutputInner object if successful.
      */
     public ValidateCustomDomainOutputInner validateCustomDomain(String resourceGroupName, String profileName, String endpointName, String hostName) {
@@ -1541,10 +1641,11 @@ public final class EndpointsInner {
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param hostName The host name of the custom domain. Must be a domain name.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<ValidateCustomDomainOutputInner> validateCustomDomainAsync(String resourceGroupName, String profileName, String endpointName, String hostName, final ServiceCallback<ValidateCustomDomainOutputInner> serviceCallback) {
-        return ServiceCall.fromResponse(validateCustomDomainWithServiceResponseAsync(resourceGroupName, profileName, endpointName, hostName), serviceCallback);
+    public ServiceFuture<ValidateCustomDomainOutputInner> validateCustomDomainAsync(String resourceGroupName, String profileName, String endpointName, String hostName, final ServiceCallback<ValidateCustomDomainOutputInner> serviceCallback) {
+        return ServiceFuture.fromResponse(validateCustomDomainWithServiceResponseAsync(resourceGroupName, profileName, endpointName, hostName), serviceCallback);
     }
 
     /**
@@ -1554,6 +1655,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param hostName The host name of the custom domain. Must be a domain name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ValidateCustomDomainOutputInner object
      */
     public Observable<ValidateCustomDomainOutputInner> validateCustomDomainAsync(String resourceGroupName, String profileName, String endpointName, String hostName) {
@@ -1572,6 +1674,7 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param hostName The host name of the custom domain. Must be a domain name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ValidateCustomDomainOutputInner object
      */
     public Observable<ServiceResponse<ValidateCustomDomainOutputInner>> validateCustomDomainWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, String hostName) {
@@ -1622,6 +1725,9 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceUsageInner&gt; object if successful.
      */
     public PagedList<ResourceUsageInner> listResourceUsage(final String resourceGroupName, final String profileName, final String endpointName) {
@@ -1641,10 +1747,11 @@ public final class EndpointsInner {
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<ResourceUsageInner>> listResourceUsageAsync(final String resourceGroupName, final String profileName, final String endpointName, final ListOperationCallback<ResourceUsageInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<ResourceUsageInner>> listResourceUsageAsync(final String resourceGroupName, final String profileName, final String endpointName, final ListOperationCallback<ResourceUsageInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listResourceUsageSinglePageAsync(resourceGroupName, profileName, endpointName),
             new Func1<String, Observable<ServiceResponse<Page<ResourceUsageInner>>>>() {
                 @Override
@@ -1661,6 +1768,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ResourceUsageInner&gt; object
      */
     public Observable<Page<ResourceUsageInner>> listResourceUsageAsync(final String resourceGroupName, final String profileName, final String endpointName) {
@@ -1679,6 +1787,7 @@ public final class EndpointsInner {
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
      * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ResourceUsageInner&gt; object
      */
     public Observable<ServiceResponse<Page<ResourceUsageInner>>> listResourceUsageWithServiceResponseAsync(final String resourceGroupName, final String profileName, final String endpointName) {
@@ -1701,6 +1810,7 @@ public final class EndpointsInner {
     ServiceResponse<PageImpl<ResourceUsageInner>> * @param resourceGroupName Name of the Resource group within the Azure subscription.
     ServiceResponse<PageImpl<ResourceUsageInner>> * @param profileName Name of the CDN profile which is unique within the resource group.
     ServiceResponse<PageImpl<ResourceUsageInner>> * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ResourceUsageInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<ResourceUsageInner>>> listResourceUsageSinglePageAsync(final String resourceGroupName, final String profileName, final String endpointName) {
@@ -1744,6 +1854,9 @@ public final class EndpointsInner {
      * Lists existing CDN endpoints.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;EndpointInner&gt; object if successful.
      */
     public PagedList<EndpointInner> listByProfileNext(final String nextPageLink) {
@@ -1760,12 +1873,13 @@ public final class EndpointsInner {
      * Lists existing CDN endpoints.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceCall the ServiceCall object tracking the Retrofit calls
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<EndpointInner>> listByProfileNextAsync(final String nextPageLink, final ServiceCall<List<EndpointInner>> serviceCall, final ListOperationCallback<EndpointInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<EndpointInner>> listByProfileNextAsync(final String nextPageLink, final ServiceFuture<List<EndpointInner>> serviceFuture, final ListOperationCallback<EndpointInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listByProfileNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<EndpointInner>>>>() {
                 @Override
@@ -1780,6 +1894,7 @@ public final class EndpointsInner {
      * Lists existing CDN endpoints.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;EndpointInner&gt; object
      */
     public Observable<Page<EndpointInner>> listByProfileNextAsync(final String nextPageLink) {
@@ -1796,6 +1911,7 @@ public final class EndpointsInner {
      * Lists existing CDN endpoints.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;EndpointInner&gt; object
      */
     public Observable<ServiceResponse<Page<EndpointInner>>> listByProfileNextWithServiceResponseAsync(final String nextPageLink) {
@@ -1816,6 +1932,7 @@ public final class EndpointsInner {
      * Lists existing CDN endpoints.
      *
     ServiceResponse<PageImpl<EndpointInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;EndpointInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<EndpointInner>>> listByProfileNextSinglePageAsync(final String nextPageLink) {
@@ -1848,6 +1965,9 @@ public final class EndpointsInner {
      * Checks the quota and usage of geo filters and custom domains under the given endpoint.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceUsageInner&gt; object if successful.
      */
     public PagedList<ResourceUsageInner> listResourceUsageNext(final String nextPageLink) {
@@ -1864,12 +1984,13 @@ public final class EndpointsInner {
      * Checks the quota and usage of geo filters and custom domains under the given endpoint.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceCall the ServiceCall object tracking the Retrofit calls
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<ResourceUsageInner>> listResourceUsageNextAsync(final String nextPageLink, final ServiceCall<List<ResourceUsageInner>> serviceCall, final ListOperationCallback<ResourceUsageInner> serviceCallback) {
-        return AzureServiceCall.fromPageResponse(
+    public ServiceFuture<List<ResourceUsageInner>> listResourceUsageNextAsync(final String nextPageLink, final ServiceFuture<List<ResourceUsageInner>> serviceFuture, final ListOperationCallback<ResourceUsageInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
             listResourceUsageNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<ResourceUsageInner>>>>() {
                 @Override
@@ -1884,6 +2005,7 @@ public final class EndpointsInner {
      * Checks the quota and usage of geo filters and custom domains under the given endpoint.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ResourceUsageInner&gt; object
      */
     public Observable<Page<ResourceUsageInner>> listResourceUsageNextAsync(final String nextPageLink) {
@@ -1900,6 +2022,7 @@ public final class EndpointsInner {
      * Checks the quota and usage of geo filters and custom domains under the given endpoint.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ResourceUsageInner&gt; object
      */
     public Observable<ServiceResponse<Page<ResourceUsageInner>>> listResourceUsageNextWithServiceResponseAsync(final String nextPageLink) {
@@ -1920,6 +2043,7 @@ public final class EndpointsInner {
      * Checks the quota and usage of geo filters and custom domains under the given endpoint.
      *
     ServiceResponse<PageImpl<ResourceUsageInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ResourceUsageInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<ResourceUsageInner>>> listResourceUsageNextSinglePageAsync(final String nextPageLink) {

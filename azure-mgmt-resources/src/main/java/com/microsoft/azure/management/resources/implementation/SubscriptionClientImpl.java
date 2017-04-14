@@ -16,7 +16,7 @@ import com.microsoft.rest.RestClient;
 /**
  * Initializes a new instance of the SubscriptionClientImpl class.
  */
-public final class SubscriptionClientImpl extends AzureServiceClient {
+public class SubscriptionClientImpl extends AzureServiceClient {
     /** the {@link AzureClient} used for long running operations. */
     private AzureClient azureClient;
 
@@ -182,8 +182,6 @@ public final class SubscriptionClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("Azure-SDK-For-Java/%s (%s)",
-                getClass().getPackage().getImplementationVersion(),
-                "SubscriptionClient, 2016-06-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "SubscriptionClient", "2016-06-01");
     }
 }

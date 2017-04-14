@@ -5,56 +5,38 @@
  */
 package com.microsoft.azure.management.network.implementation;
 
-import java.util.List;
-
-import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.NetworkSecurityGroups;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import rx.Completable;
 
+import java.util.Set;
+
 /**
- *  Implementation for {@link NetworkSecurityGroups}.
+ *  Implementation for NetworkSecurityGroups.
  */
 @LangDefinition
 class NetworkSecurityGroupsImpl
-        extends GroupableResourcesImpl<
-            NetworkSecurityGroup,
-            NetworkSecurityGroupImpl,
-            NetworkSecurityGroupInner,
-            NetworkSecurityGroupsInner,
-            NetworkManager>
-        implements NetworkSecurityGroups {
+    extends TopLevelModifiableResourcesImpl<
+        NetworkSecurityGroup,
+        NetworkSecurityGroupImpl,
+        NetworkSecurityGroupInner,
+        NetworkSecurityGroupsInner,
+        NetworkManager>
+    implements NetworkSecurityGroups {
 
-    NetworkSecurityGroupsImpl(
-            final NetworkSecurityGroupsInner innerCollection,
-            final NetworkManager networkManager) {
-        super(innerCollection, networkManager);
+    NetworkSecurityGroupsImpl(final NetworkManager networkManager) {
+        super(networkManager.inner().networkSecurityGroups(), networkManager);
     }
 
     @Override
-    public PagedList<NetworkSecurityGroup> list() {
-        return wrapList(this.innerCollection.listAll());
-    }
-
-    @Override
-    public PagedList<NetworkSecurityGroup> listByGroup(String groupName) {
-        return wrapList(this.innerCollection.list(groupName));
-    }
-
-    @Override
-    public NetworkSecurityGroupImpl getByGroup(String groupName, String name) {
-        return wrapModel(this.innerCollection.get(groupName, name));
-    }
-
-    @Override
-    public Completable deleteByGroupAsync(String groupName, String name) {
+    public Completable deleteByResourceGroupAsync(String groupName, String name) {
         // Clear NIC references if any
-        NetworkSecurityGroupImpl nsg = getByGroup(groupName, name);
+        NetworkSecurityGroupImpl nsg = (NetworkSecurityGroupImpl) getByResourceGroup(groupName, name);
         if (nsg != null) {
-            List<String> nicIds = nsg.networkInterfaceIds();
+            Set<String> nicIds = nsg.networkInterfaceIds();
             if (nicIds != null) {
                 for (String nicRef : nsg.networkInterfaceIds()) {
                     NetworkInterface nic = this.manager().networkInterfaces().getById(nicRef);
@@ -69,7 +51,7 @@ class NetworkSecurityGroupsImpl
             }
         }
 
-        return this.innerCollection.deleteAsync(groupName, name).toCompletable();
+        return this.deleteInnerAsync(groupName, name);
     }
 
     @Override
@@ -82,11 +64,7 @@ class NetworkSecurityGroupsImpl
     @Override
     protected NetworkSecurityGroupImpl wrapModel(String name) {
         NetworkSecurityGroupInner inner = new NetworkSecurityGroupInner();
-        return new NetworkSecurityGroupImpl(
-                name,
-                inner,
-                this.innerCollection,
-                super.myManager);
+        return new NetworkSecurityGroupImpl(name, inner, this.manager());
     }
 
     @Override
@@ -94,10 +72,6 @@ class NetworkSecurityGroupsImpl
         if (inner == null) {
             return null;
         }
-        return new NetworkSecurityGroupImpl(
-                inner.name(),
-                inner,
-                this.innerCollection,
-                this.myManager);
+        return new NetworkSecurityGroupImpl(inner.name(), inner, this.manager());
     }
 }

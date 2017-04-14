@@ -16,7 +16,7 @@ import com.microsoft.rest.RestClient;
 /**
  * Initializes a new instance of the FeatureClientImpl class.
  */
-public final class FeatureClientImpl extends AzureServiceClient {
+public class FeatureClientImpl extends AzureServiceClient {
     /** the {@link AzureClient} used for long running operations. */
     private AzureClient azureClient;
 
@@ -191,8 +191,6 @@ public final class FeatureClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("Azure-SDK-For-Java/%s (%s)",
-                getClass().getPackage().getImplementationVersion(),
-                "FeatureClient, 2015-12-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "FeatureClient", "2015-12-01");
     }
 }

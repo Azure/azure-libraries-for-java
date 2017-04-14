@@ -16,7 +16,7 @@ import com.microsoft.rest.RestClient;
 /**
  * Initializes a new instance of the PolicyClientImpl class.
  */
-public final class PolicyClientImpl extends AzureServiceClient {
+public class PolicyClientImpl extends AzureServiceClient {
     /** the {@link AzureClient} used for long running operations. */
     private AzureClient azureClient;
 
@@ -205,8 +205,6 @@ public final class PolicyClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("Azure-SDK-For-Java/%s (%s)",
-                getClass().getPackage().getImplementationVersion(),
-                "PolicyClient, 2016-04-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "PolicyClient", "2016-04-01");
     }
 }

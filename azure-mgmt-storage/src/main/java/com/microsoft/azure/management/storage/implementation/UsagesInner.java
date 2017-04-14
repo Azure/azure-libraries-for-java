@@ -11,8 +11,10 @@ package com.microsoft.azure.management.storage.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCall;
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import java.io.IOException;
 import java.util.List;
@@ -30,7 +32,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in Usages.
  */
-public final class UsagesInner {
+public class UsagesInner {
     /** The Retrofit service to perform REST calls. */
     private UsagesService service;
     /** The service client containing this operation class. */
@@ -61,20 +63,28 @@ public final class UsagesInner {
     /**
      * Gets the current usage count and the limit for the resources under the subscription.
      *
-     * @return the List&lt;UsageInner&gt; object if successful.
+     * @return the PagedList<UsageInner> object if successful.
      */
-    public List<UsageInner> list() {
-        return listWithServiceResponseAsync().toBlocking().single().body();
+    public PagedList<UsageInner> list() {
+        PageImpl<UsageInner> page = new PageImpl<>();
+        page.setItems(listWithServiceResponseAsync().toBlocking().single().body());
+        page.setNextPageLink(null);
+        return new PagedList<UsageInner>(page) {
+            @Override
+            public Page<UsageInner> nextPage(String nextPageLink) {
+                return null;
+            }
+        };
     }
 
     /**
      * Gets the current usage count and the limit for the resources under the subscription.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceCall} object
+     * @return the {@link ServiceFuture} object
      */
-    public ServiceCall<List<UsageInner>> listAsync(final ServiceCallback<List<UsageInner>> serviceCallback) {
-        return ServiceCall.fromResponse(listWithServiceResponseAsync(), serviceCallback);
+    public ServiceFuture<List<UsageInner>> listAsync(final ServiceCallback<List<UsageInner>> serviceCallback) {
+        return ServiceFuture.fromResponse(listWithServiceResponseAsync(), serviceCallback);
     }
 
     /**
@@ -82,11 +92,13 @@ public final class UsagesInner {
      *
      * @return the observable to the List&lt;UsageInner&gt; object
      */
-    public Observable<List<UsageInner>> listAsync() {
-        return listWithServiceResponseAsync().map(new Func1<ServiceResponse<List<UsageInner>>, List<UsageInner>>() {
+    public Observable<Page<UsageInner>> listAsync() {
+        return listWithServiceResponseAsync().map(new Func1<ServiceResponse<List<UsageInner>>, Page<UsageInner>>() {
             @Override
-            public List<UsageInner> call(ServiceResponse<List<UsageInner>> response) {
-                return response.body();
+            public Page<UsageInner> call(ServiceResponse<List<UsageInner>> response) {
+                PageImpl<UsageInner> page = new PageImpl<>();
+                page.setItems(response.body());
+                return page;
             }
         });
     }

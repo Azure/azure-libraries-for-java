@@ -7,14 +7,20 @@ package com.microsoft.azure.management.network;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.network.implementation.NetworkInterfacesInner;
+import com.microsoft.azure.management.network.implementation.NetworkManager;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  *  Entry point to virtual machine scale set network interface management API.
  */
 @Fluent
 public interface VirtualMachineScaleSetNetworkInterfaces extends
-        SupportsListing<VirtualMachineScaleSetNetworkInterface> {
+        SupportsListing<VirtualMachineScaleSetNetworkInterface>,
+        HasInner<NetworkInterfacesInner>,
+        HasManager<NetworkManager> {
     /**
      * Gets a network interface associated with a virtual machine scale set instance.
      *

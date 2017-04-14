@@ -1,8 +1,7 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.resources.samples;
@@ -67,14 +66,14 @@ public final class DeployUsingARMTemplateWithProgress {
 
             System.out.println("Started a deployment for an Azure App Service: " + deploymentName);
 
-            Deployment deployment = azure.deployments().getByGroup(rgName, deploymentName);
+            Deployment deployment = azure.deployments().getByResourceGroup(rgName, deploymentName);
             System.out.println("Current deployment status : " + deployment.provisioningState());
 
             while (!(deployment.provisioningState().equalsIgnoreCase("Succeeded")
                     || deployment.provisioningState().equalsIgnoreCase("Failed")
                     || deployment.provisioningState().equalsIgnoreCase("Cancelled"))) {
                 SdkContext.sleep(10000);
-                deployment = azure.deployments().getByGroup(rgName, deploymentName);
+                deployment = azure.deployments().getByResourceGroup(rgName, deploymentName);
                 System.out.println("Current deployment status : " + deployment.provisioningState());
             }
             return true;
@@ -86,7 +85,7 @@ public final class DeployUsingARMTemplateWithProgress {
         } finally {
             try {
                 System.out.println("Deleting Resource Group: " + rgName);
-                azure.resourceGroups().deleteByName(rgName);
+                azure.resourceGroups().beginDeleteByName(rgName);
                 System.out.println("Deleted Resource Group: " + rgName);
             } catch (NullPointerException npe) {
                 System.out.println("Did not create any resources in Azure. No clean up is necessary");
@@ -127,7 +126,7 @@ public final class DeployUsingARMTemplateWithProgress {
         final String hostingPlanName = SdkContext.randomResourceName("hpRSAT", 24);
         final String webappName = SdkContext.randomResourceName("wnRSAT", 24);
         final InputStream embeddedTemplate;
-        embeddedTemplate = DeployUsingARMTemplate.class.getResourceAsStream("/templateValue.json");
+        embeddedTemplate = DeployUsingARMTemplateWithProgress.class.getResourceAsStream("/templateValue.json");
 
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNode tmp = mapper.readTree(embeddedTemplate);

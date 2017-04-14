@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+
 package com.microsoft.azure.management.resources;
 
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
@@ -37,6 +43,10 @@ public class ResourceGroupsTests extends ResourceManagerTestBase {
         Assert.assertEquals("finance", groupResult.tags().get("department"));
         Assert.assertEquals("tagvalue", groupResult.tags().get("tagname"));
         Assert.assertTrue(region.name().equalsIgnoreCase(groupResult.regionName()));
+
+        // Check existence
+        Assert.assertTrue(resourceGroups.checkExistence(rgName));
+
         // Get
         ResourceGroup getGroup = resourceGroups.getByName(rgName);
         Assert.assertNotNull(getGroup);

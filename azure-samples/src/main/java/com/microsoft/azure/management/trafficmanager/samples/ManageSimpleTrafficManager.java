@@ -1,8 +1,7 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.trafficmanager.samples;
@@ -75,8 +74,8 @@ public final class ManageSimpleTrafficManager {
                             .withRegion(region)
                             .withExistingResourceGroup(resourceGroup)
                             .withNewPrimaryNetwork("10.0.0.0/29")
-                            .withPrimaryPrivateIpAddressDynamic()
-                            .withNewPrimaryPublicIpAddress(vmName)
+                            .withPrimaryPrivateIPAddressDynamic()
+                            .withNewPrimaryPublicIPAddress(vmName)
                             .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                             .withRootUsername(userName)
                             .withSsh(sshKey)
@@ -113,7 +112,7 @@ public final class ManageSimpleTrafficManager {
             for (VirtualMachine vm : virtualMachines) {
                 String endpointName = SdkContext.randomResourceName("ep", 15);
                 profileWithCreate = profileWithEndpoint.defineAzureTargetEndpoint(endpointName)
-                        .toResourceId(vm.getPrimaryPublicIpAddressId())
+                        .toResourceId(vm.getPrimaryPublicIPAddressId())
                         .withRoutingPriority(routingPriority++)
                         .attach();
             }

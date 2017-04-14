@@ -1,8 +1,7 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.compute.samples;
@@ -23,7 +22,7 @@ import com.microsoft.azure.management.compute.VirtualMachineScaleSetSkuTypes;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.PublicIpAddress;
+import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.TransportProtocol;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
@@ -65,8 +64,8 @@ public final class ManageManagedDisks {
                     .withRegion(region)
                     .withNewResourceGroup(rgName)
                     .withNewPrimaryNetwork("10.0.0.0/28")
-                    .withPrimaryPrivateIpAddressDynamic()
-                    .withNewPrimaryPublicIpAddress(linuxVM1Pip)
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withNewPrimaryPublicIPAddress(linuxVM1Pip)
                     .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                     .withRootUsername(userName)
                     .withSsh(sshkey)
@@ -124,8 +123,8 @@ public final class ManageManagedDisks {
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
                     .withNewPrimaryNetwork("10.0.0.0/28")
-                    .withPrimaryPrivateIpAddressDynamic()
-                    .withNewPrimaryPublicIpAddress(linuxVM2Pip)
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withNewPrimaryPublicIPAddress(linuxVM2Pip)
                     .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                     .withRootUsername(userName)
                     .withSsh(sshkey)
@@ -139,13 +138,7 @@ public final class ManageManagedDisks {
 
             System.out.println("Created VM [with new managed data disks and disk attached]");
 
-            // Upate a VM
-
-            System.out.println("De-allocating VM");
-
-            linuxVM2.deallocate();
-
-            System.out.println("De-allocated VM");
+            // Update a VM
 
             System.out.println("Updating VM [by detaching a disk and adding empty disk]");
 
@@ -183,8 +176,8 @@ public final class ManageManagedDisks {
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
                     .withNewPrimaryNetwork("10.0.0.0/28")
-                    .withPrimaryPrivateIpAddressDynamic()
-                    .withoutPrimaryPublicIpAddress()
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withoutPrimaryPublicIPAddress()
                     .withLinuxCustomImage(virtualMachineCustomImage.id())
                     .withRootUsername(userName)
                     .withSsh(sshkey)
@@ -195,26 +188,26 @@ public final class ManageManagedDisks {
 
             // Create a VM from a VHD (Create Virtual Machine Using Specialized VHD)
 
-            final String linuxVmName4 = SdkContext.randomResourceName("vm" + "-", 10);
+            final String linuxVMName4 = SdkContext.randomResourceName("vm" + "-", 10);
             final String specializedVhd = linuxVM.osUnmanagedDiskVhdUri();
 
             azure.virtualMachines().deleteById(linuxVM.id());
 
             System.out.println("Creating VM [by attaching un-managed disk]");
 
-            VirtualMachine linuxVM4 = azure.virtualMachines().define(linuxVmName4)
+            VirtualMachine linuxVM4 = azure.virtualMachines().define(linuxVMName4)
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
                     .withNewPrimaryNetwork("10.0.0.0/28")
-                    .withPrimaryPrivateIpAddressDynamic()
-                    .withoutPrimaryPublicIpAddress()
-                    .withSpecializedOsUnmanagedDisk(specializedVhd, OperatingSystemTypes.LINUX)
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withoutPrimaryPublicIPAddress()
+                    .withSpecializedOSUnmanagedDisk(specializedVhd, OperatingSystemTypes.LINUX)
                     .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
                     .create();
 
             System.out.println("Created VM [by attaching un-managed disk]");
 
-            // Create a Snapshot (Create Virtual Machine Using Specilaized Disks from Snapshot)
+            // Create a Snapshot (Create Virtual Machine using specialized disks from snapshot)
 
             System.out.println("Preparing specialized virtual machine with managed disks");
 
@@ -285,14 +278,14 @@ public final class ManageManagedDisks {
 
             System.out.println("Creating VM [with specialized OS managed disk]");
 
-            final String linuxVm6Name = SdkContext.randomResourceName("vm" + "-", 10);
-            VirtualMachine linuxVM6 = azure.virtualMachines().define(linuxVm6Name)
+            final String linuxVM6Name = SdkContext.randomResourceName("vm" + "-", 10);
+            VirtualMachine linuxVM6 = azure.virtualMachines().define(linuxVM6Name)
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
                     .withNewPrimaryNetwork("10.0.0.0/28")
-                    .withPrimaryPrivateIpAddressDynamic()
-                    .withoutPrimaryPublicIpAddress()
-                    .withSpecializedOsDisk(newOSDisk, OperatingSystemTypes.LINUX)
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withoutPrimaryPublicIPAddress()
+                    .withSpecializedOSDisk(newOSDisk, OperatingSystemTypes.LINUX)
                     .withExistingDataDisk(newDataDisk)
                     .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
                     .create();
@@ -309,8 +302,8 @@ public final class ManageManagedDisks {
                     .withRegion(region)
                     .withNewResourceGroup(rgName)
                     .withNewPrimaryNetwork("10.0.0.0/28")
-                    .withPrimaryPrivateIpAddressDynamic()
-                    .withNewPrimaryPublicIpAddress(linuxVM7Pip)
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withNewPrimaryPublicIPAddress(linuxVM7Pip)
                     .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                     .withRootUsername("tirekicker")
                     .withSsh(sshkey)
@@ -384,15 +377,15 @@ public final class ManageManagedDisks {
     private static VirtualMachine prepareSpecializedUnmanagedVirtualMachine(Azure azure, Region region, String rgName) {
         final String userName = "tirekicker";
         final String password = "12NewPA$$w0rd!";
-        final String linuxVmName1 = SdkContext.randomResourceName("vm" + "-", 10);
+        final String linuxVMName1 = SdkContext.randomResourceName("vm" + "-", 10);
         final String publicIpDnsLabel = SdkContext.randomResourceName("pip" + "-", 20);
 
-        VirtualMachine linuxVM = azure.virtualMachines().define(linuxVmName1)
+        VirtualMachine linuxVM = azure.virtualMachines().define(linuxVMName1)
                 .withRegion(region)
                 .withNewResourceGroup(rgName)
                 .withNewPrimaryNetwork("10.0.0.0/28")
-                .withPrimaryPrivateIpAddressDynamic()
-                .withNewPrimaryPublicIpAddress(publicIpDnsLabel)
+                .withPrimaryPrivateIPAddressDynamic()
+                .withNewPrimaryPublicIPAddress(publicIpDnsLabel)
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                 .withRootUsername(userName)
                 .withRootPassword(password)
@@ -409,7 +402,7 @@ public final class ManageManagedDisks {
                 .create();
 
         // De-provision the virtual machine
-        deprovisionAgentInLinuxVM(linuxVM.getPrimaryPublicIpAddress().fqdn(), 22, userName, password);
+        deprovisionAgentInLinuxVM(linuxVM.getPrimaryPublicIPAddress().fqdn(), 22, userName, password);
         System.out.println("Deallocate VM: " + linuxVM.id());
         linuxVM.deallocate();
         System.out.println("Deallocated VM: " + linuxVM.id() + "; state = " + linuxVM.powerState());
@@ -422,15 +415,15 @@ public final class ManageManagedDisks {
     private static VirtualMachine prepareSpecializedManagedVirtualMachine(Azure azure, Region region, String rgName) {
         final String userName = "tirekicker";
         final String password = "12NewPA$$w0rd!";
-        final String linuxVmName1 = SdkContext.randomResourceName("vm" + "-", 10);
-        final String publicIpDnsLabel = SdkContext.randomResourceName("pip" + "-", 20);
+        final String linuxVMName1 = SdkContext.randomResourceName("vm" + "-", 10);
+        final String publicIPDnsLabel = SdkContext.randomResourceName("pip" + "-", 20);
 
-        VirtualMachine linuxVM = azure.virtualMachines().define(linuxVmName1)
+        VirtualMachine linuxVM = azure.virtualMachines().define(linuxVMName1)
                 .withRegion(region)
                 .withNewResourceGroup(rgName)
                 .withNewPrimaryNetwork("10.0.0.0/28")
-                .withPrimaryPrivateIpAddressDynamic()
-                .withNewPrimaryPublicIpAddress(publicIpDnsLabel)
+                .withPrimaryPrivateIPAddressDynamic()
+                .withNewPrimaryPublicIPAddress(publicIPDnsLabel)
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                 .withRootUsername(userName)
                 .withRootPassword(password)
@@ -440,7 +433,7 @@ public final class ManageManagedDisks {
                 .create();
 
         // De-provision the virtual machine
-        deprovisionAgentInLinuxVM(linuxVM.getPrimaryPublicIpAddress().fqdn(), 22, userName, password);
+        deprovisionAgentInLinuxVM(linuxVM.getPrimaryPublicIPAddress().fqdn(), 22, userName, password);
         System.out.println("Deallocate VM: " + linuxVM.id());
         linuxVM.deallocate();
         System.out.println("Deallocated VM: " + linuxVM.id() + "; state = " + linuxVM.powerState());
@@ -499,7 +492,7 @@ public final class ManageManagedDisks {
         final String natPool60XXto23 = "natPool60XXto23";
         final String publicIpName = "pip-" + loadBalancerName1;
 
-        PublicIpAddress publicIpAddress = azure.publicIpAddresses().define(publicIpName)
+        PublicIPAddress publicIPAddress = azure.publicIPAddresses().define(publicIpName)
                 .withRegion(region)
                 .withExistingResourceGroup(rgName)
                 .withLeafDomainLabel(publicIpName)
@@ -508,7 +501,7 @@ public final class ManageManagedDisks {
                 .withRegion(region)
                 .withExistingResourceGroup(rgName)
                 .definePublicFrontend(frontendName)
-                .withExistingPublicIpAddress(publicIpAddress)
+                .withExistingPublicIPAddress(publicIPAddress)
                 .attach()
                 // Add two backend one per rule
                 .defineBackend(backendPoolName1)

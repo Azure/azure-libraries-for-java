@@ -7,26 +7,36 @@ package com.microsoft.azure.management;
 
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.compute.CachingTypes;
+import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
+import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineImage;
 import com.microsoft.azure.management.compute.VirtualMachineOffer;
 import com.microsoft.azure.management.compute.VirtualMachinePublisher;
+import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.compute.VirtualMachineSku;
+import com.microsoft.azure.management.network.ApplicationGateway;
+import com.microsoft.azure.management.network.ApplicationGatewayOperationalState;
+import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.resources.Deployment;
 import com.microsoft.azure.management.resources.DeploymentMode;
 import com.microsoft.azure.management.resources.GenericResource;
 import com.microsoft.azure.management.resources.Location;
+import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.Subscription;
 import com.microsoft.azure.management.resources.core.TestBase;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.SkuName;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AzureTests extends TestBase {
@@ -75,7 +85,18 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testGenericResources() throws Exception {
-        PagedList<GenericResource> resources = azure.genericResources().listByGroup("sdkpriv");
+        // Create some resources
+        NetworkSecurityGroup nsg = azure.networkSecurityGroups().define(SdkContext.randomResourceName("nsg", 13))
+            .withRegion(Region.US_EAST)
+            .withNewResourceGroup()
+            .create();
+        azure.publicIPAddresses().define(SdkContext.randomResourceName("pip", 13))
+            .withRegion(Region.US_EAST)
+            .withExistingResourceGroup(nsg.resourceGroupName())
+            .create();
+
+        PagedList<GenericResource> resources = azure.genericResources().listByResourceGroup(nsg.resourceGroupName());
+        Assert.assertEquals(2, resources.size());
         GenericResource firstResource = resources.get(0);
 
         GenericResource resourceById = azure.genericResources().getById(firstResource.id());
@@ -85,6 +106,7 @@ public class AzureTests extends TestBase {
                 firstResource.resourceType(),
                 firstResource.name());
         Assert.assertTrue(resourceById.id().equalsIgnoreCase(resourceByDetails.id()));
+        azure.resourceGroups().beginDeleteByName(nsg.resourceGroupName());
     }
 
     /**
@@ -133,9 +155,7 @@ public class AzureTests extends TestBase {
     @Test
     public void testLoadBalancersNatRules() throws Exception {
         new TestLoadBalancer.InternetWithNatRule(
-                azure.publicIpAddresses(),
                 azure.virtualMachines(),
-                azure.networks(),
                 azure.availabilitySets())
             .runTest(azure.loadBalancers(), azure.resourceGroups());
     }
@@ -147,9 +167,7 @@ public class AzureTests extends TestBase {
     @Test
     public void testLoadBalancersNatPools() throws Exception {
         new TestLoadBalancer.InternetWithNatPool(
-                azure.publicIpAddresses(),
                 azure.virtualMachines(),
-                azure.networks(),
                 azure.availabilitySets())
         .runTest(azure.loadBalancers(), azure.resourceGroups());
     }
@@ -161,9 +179,7 @@ public class AzureTests extends TestBase {
     @Test
     public void testLoadBalancersInternetMinimum() throws Exception {
         new TestLoadBalancer.InternetMinimal(
-                azure.publicIpAddresses(),
                 azure.virtualMachines(),
-                azure.networks(),
                 azure.availabilitySets())
             .runTest(azure.loadBalancers(), azure.resourceGroups());
     }
@@ -176,7 +192,6 @@ public class AzureTests extends TestBase {
     public void testLoadBalancersInternalMinimum() throws Exception {
         new TestLoadBalancer.InternalMinimal(
                 azure.virtualMachines(),
-                azure.networks(),
                 azure.availabilitySets())
         .runTest(azure.loadBalancers(), azure.resourceGroups());
     }
@@ -187,8 +202,37 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testAppGatewaysInternalComplex() throws Exception {
-        new TestApplicationGateway.PrivateComplex(azure.networks(), azure.publicIpAddresses())
+        new TestApplicationGateway.PrivateComplex()
             .runTest(azure.applicationGateways(),  azure.resourceGroups());
+    }
+
+    @Test
+    public void testManagedDiskVMUpdate() throws Exception {
+        final String rgName = SdkContext.randomResourceName("rg", 13);
+        final String linuxVM2Name = SdkContext.randomResourceName("vm" + "-", 10);
+        final String linuxVM2Pip = SdkContext.randomResourceName("pip" + "-", 18);
+        VirtualMachine linuxVM2 = azure.virtualMachines().define(linuxVM2Name)
+                .withRegion(Region.US_EAST)
+                .withNewResourceGroup(rgName)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withNewPrimaryPublicIPAddress(linuxVM2Pip)
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("tester")
+                .withRootPassword("Abcdef.123456!")
+                // Begin: Managed data disks
+                .withNewDataDisk(100)
+                .withNewDataDisk(100, 1, CachingTypes.READ_WRITE)
+                // End: Managed data disks
+                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                .create();
+
+        linuxVM2.deallocate();
+        linuxVM2.update()
+                .withoutDataDisk(2)
+                .withNewDataDisk(200)
+                .apply();
+        azure.resourceGroups().beginDeleteByName(rgName);
     }
 
     /**
@@ -201,8 +245,68 @@ public class AzureTests extends TestBase {
             .runTest(azure.applicationGateways(),  azure.resourceGroups());
     }
 
+    @Test
+    public void testApplicationGatewaysInParallel() throws Exception {
+        String rgName = SdkContext.randomResourceName("rg", 13);
+        Region region = Region.US_EAST;
+        Creatable<ResourceGroup> resourceGroup = azure.resourceGroups().define(rgName)
+                .withRegion(region);
+        List<Creatable<ApplicationGateway>> agCreatables = new ArrayList<>();
+
+        agCreatables.add(azure.applicationGateways().define(SdkContext.randomResourceName("ag", 13))
+                .withRegion(Region.US_EAST)
+                .withNewResourceGroup(resourceGroup)
+                .defineRequestRoutingRule("rule1")
+                    .fromPrivateFrontend()
+                    .fromFrontendHttpPort(80)
+                    .toBackendHttpPort(8080)
+                    .toBackendIPAddress("10.0.0.1")
+                    .toBackendIPAddress("10.0.0.2")
+                    .attach());
+
+        agCreatables.add(azure.applicationGateways().define(SdkContext.randomResourceName("ag", 13))
+                .withRegion(Region.US_EAST)
+                .withNewResourceGroup(resourceGroup)
+                .defineRequestRoutingRule("rule1")
+                    .fromPrivateFrontend()
+                    .fromFrontendHttpPort(80)
+                    .toBackendHttpPort(8080)
+                    .toBackendIPAddress("10.0.0.3")
+                    .toBackendIPAddress("10.0.0.4")
+                    .attach());
+
+        CreatedResources<ApplicationGateway> created = azure.applicationGateways().create(agCreatables);
+        List<ApplicationGateway> ags = new ArrayList<>();
+        List<String> agIds = new ArrayList<>();
+        for (Creatable<ApplicationGateway> creatable : agCreatables) {
+            ApplicationGateway ag = created.get(creatable.key());
+            Assert.assertNotNull(ag);
+            ags.add(ag);
+            agIds.add(ag.id());
+        }
+
+        azure.applicationGateways().stop(agIds);
+
+        for (ApplicationGateway ag : ags) {
+            Assert.assertEquals(ApplicationGatewayOperationalState.STOPPED, ag.refresh().operationalState());
+        }
+
+        azure.applicationGateways().start(agIds);
+
+        for (ApplicationGateway ag : ags) {
+            Assert.assertEquals(ApplicationGatewayOperationalState.RUNNING, ag.refresh().operationalState());
+        }
+
+        azure.applicationGateways().deleteByIds(agIds);
+        for (String id : agIds) {
+            Assert.assertNull(azure.applicationGateways().getById(id));
+        }
+
+        azure.resourceGroups().beginDeleteByName(rgName);
+    }
+
     /**
-     * Tests a minimal Internet-facing application gateway
+     * Tests a minimal Internet-facing application gateway.
      * @throws Exception
      */
     @Test
@@ -212,13 +316,12 @@ public class AzureTests extends TestBase {
     }
 
     /**
-     * Tests a complex Internet-facing application gateway
+     * Tests a complex Internet-facing application gateway.
      * @throws Exception
      */
     @Test
     public void testAppGatewaysInternetFacingComplex() throws Exception {
-        new TestApplicationGateway.PublicComplex(
-                azure.publicIpAddresses())
+        new TestApplicationGateway.PublicComplex()
             .runTest(azure.applicationGateways(),  azure.resourceGroups());
     }
 
@@ -227,8 +330,8 @@ public class AzureTests extends TestBase {
      * @throws Exception
      */
     @Test
-    public void testPublicIpAddresses() throws Exception {
-        new TestPublicIpAddress().runTest(azure.publicIpAddresses(), azure.resourceGroups());
+    public void testPublicIPAddresses() throws Exception {
+        new TestPublicIPAddress().runTest(azure.publicIPAddresses(), azure.resourceGroups());
     }
 
     /**
@@ -246,7 +349,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testNetworks() throws Exception {
-        new TestNetwork.WithSubnets(azure.networkSecurityGroups())
+        new TestNetwork.WithSubnets()
             .runTest(azure.networks(), azure.resourceGroups());
     }
 
@@ -256,12 +359,12 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testRouteTables() throws Exception {
-        new TestRouteTables.Minimal(azure.networks())
+        new TestRouteTables.Minimal()
             .runTest(azure.routeTables(), azure.resourceGroups());
     }
 
     /**
-     * Tests the regions enum
+     * Tests the regions enum.
      */
     @Test
     public void testRegions() {
@@ -321,10 +424,10 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testVirtualMachineNics() throws Exception {
-        new TestVirtualMachineNics(azure.resourceGroups(),
-                    azure.networks(),
-                    azure.networkInterfaces())
-                .runTest(azure.virtualMachines(), azure.resourceGroups());
+        new TestVirtualMachineNics(
+                azure.networks(),
+                azure.networkInterfaces())
+            .runTest(azure.virtualMachines(), azure.resourceGroups());
     }
 
     /**
@@ -333,7 +436,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testVirtualMachineSSh() throws Exception {
-        new TestVirtualMachineSsh(azure.publicIpAddresses())
+        new TestVirtualMachineSsh(azure.publicIPAddresses())
                 .runTest(azure.virtualMachines(), azure.resourceGroups());
     }
 
@@ -349,7 +452,7 @@ public class AzureTests extends TestBase {
 
     @Test
     public void testVirtualMachineCustomData() throws Exception {
-        new TestVirtualMachineCustomData(azure.publicIpAddresses())
+        new TestVirtualMachineCustomData(azure.publicIPAddresses())
                 .runTest(azure.virtualMachines(), azure.resourceGroups());
     }
 
@@ -421,7 +524,7 @@ public class AzureTests extends TestBase {
 
         Assert.assertEquals(storageAccount.name(), storageAccountName);
 
-        azure.resourceGroups().deleteByName(storageAccount.resourceGroupName());
+        azure.resourceGroups().beginDeleteByName(storageAccount.resourceGroupName());
     }
 
     @Test
@@ -431,7 +534,7 @@ public class AzureTests extends TestBase {
 
     @Test
     public void testTrafficManager() throws Exception {
-        new TestTrafficManager(azure.resourceGroups(), azure.publicIpAddresses())
+        new TestTrafficManager(azure.publicIPAddresses())
                 .runTest(azure.trafficManagerProfiles(), azure.resourceGroups());
     }
 
@@ -449,7 +552,7 @@ public class AzureTests extends TestBase {
 
     @Test
     public void testDnsZones() throws Exception {
-        addTextReplacementRule("https://management.azure.com:443", MOCK_URI);
+        addTextReplacementRule("https://management.azure.com:443/", MOCK_URI + "/");
         new TestDns()
                 .runTest(azure.dnsZones(), azure.resourceGroups());
     }
@@ -462,6 +565,6 @@ public class AzureTests extends TestBase {
 
     @Test
     public void testResourceStreaming() throws Exception {
-        new TestResourceStreaming(azure.storageAccounts(), azure.resourceGroups()).runTest(azure.virtualMachines(), azure.resourceGroups());
+        new TestResourceStreaming(azure.storageAccounts()).runTest(azure.virtualMachines(), azure.resourceGroups());
     }
 }

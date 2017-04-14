@@ -1,8 +1,7 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.network.samples;
@@ -45,11 +44,11 @@ public final class ManageVirtualMachinesInParallelWithNetwork {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final int frontendVmCount = 10;
-        final int backendVmCount = 10;
+        final int frontendVMCount = 10;
+        final int backendVMCount = 10;
         final String rgName = SdkContext.randomResourceName("rgNEPP", 24);
-        final String frontEndNSGName = SdkContext.randomResourceName("fensg", 24);
-        final String backEndNSGName = SdkContext.randomResourceName("bensg", 24);
+        final String frontEndNsgName = SdkContext.randomResourceName("fensg", 24);
+        final String backEndNsgName = SdkContext.randomResourceName("bensg", 24);
         final String networkName = SdkContext.randomResourceName("vnetCOMV", 24);
         final String storageAccountName = SdkContext.randomResourceName("stgCOMV", 20);
         final String userName = "tirekicker";
@@ -66,7 +65,7 @@ public final class ManageVirtualMachinesInParallelWithNetwork {
             // - ALLOW-SSH - allows SSH traffic into the front end subnet
             // - ALLOW-WEB- allows HTTP traffic into the front end subnet
 
-            Creatable<NetworkSecurityGroup> frontEndNSGCreatable = azure.networkSecurityGroups().define(frontEndNSGName)
+            Creatable<NetworkSecurityGroup> frontEndNSGCreatable = azure.networkSecurityGroups().define(frontEndNsgName)
                     .withRegion(Region.US_EAST)
                     .withExistingResourceGroup(resourceGroup)
                     .defineRule("ALLOW-SSH")
@@ -96,7 +95,7 @@ public final class ManageVirtualMachinesInParallelWithNetwork {
             // - ALLOW-SQL - allows SQL traffic only from the front end subnet
             // - DENY-WEB - denies all outbound internet traffic from the back end subnet
 
-            Creatable<NetworkSecurityGroup> backEndNSGCreatable = azure.networkSecurityGroups().define(backEndNSGName)
+            Creatable<NetworkSecurityGroup> backEndNSGCreatable = azure.networkSecurityGroups().define(backEndNsgName)
                     .withRegion(Region.US_EAST)
                     .withExistingResourceGroup(resourceGroup)
                     .defineRule("ALLOW-SQL")
@@ -130,11 +129,11 @@ public final class ManageVirtualMachinesInParallelWithNetwork {
             NetworkSecurityGroup frontendNSG = null;
             NetworkSecurityGroup backendNSG = null;
             for (NetworkSecurityGroup nsg : networkSecurityGroups) {
-                if (nsg.name().equalsIgnoreCase(frontEndNSGName)) {
+                if (nsg.name().equalsIgnoreCase(frontEndNsgName)) {
                     frontendNSG = nsg;
                 }
 
-                if (nsg.name().equalsIgnoreCase(backEndNSGName)) {
+                if (nsg.name().equalsIgnoreCase(backEndNsgName)) {
                     backendNSG = nsg;
                 }
             }
@@ -167,14 +166,14 @@ public final class ManageVirtualMachinesInParallelWithNetwork {
 
             // Prepare a batch of Creatable Virtual Machines definitions
             List<Creatable<VirtualMachine>> frontendCreatableVirtualMachines = new ArrayList<>();
-            for (int i = 0; i < frontendVmCount; i++) {
+            for (int i = 0; i < frontendVMCount; i++) {
                 Creatable<VirtualMachine> creatableVirtualMachine = azure.virtualMachines().define("VM-FE-" + i)
                         .withRegion(Region.US_EAST)
                         .withExistingResourceGroup(resourceGroup)
                         .withExistingPrimaryNetwork(network)
                         .withSubnet("Front-end")
-                        .withPrimaryPrivateIpAddressDynamic()
-                        .withoutPrimaryPublicIpAddress()
+                        .withPrimaryPrivateIPAddressDynamic()
+                        .withoutPrimaryPublicIPAddress()
                         .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                         .withRootUsername(userName)
                         .withRootPassword(password)
@@ -185,14 +184,14 @@ public final class ManageVirtualMachinesInParallelWithNetwork {
 
             List<Creatable<VirtualMachine>> backendCreatableVirtualMachines = new ArrayList<>();
 
-            for (int i = 0; i < backendVmCount; i++) {
+            for (int i = 0; i < backendVMCount; i++) {
                 Creatable<VirtualMachine> creatableVirtualMachine = azure.virtualMachines().define("VM-BE-" + i)
                         .withRegion(Region.US_EAST)
                         .withExistingResourceGroup(resourceGroup)
                         .withExistingPrimaryNetwork(network)
                         .withSubnet("Back-end")
-                        .withPrimaryPrivateIpAddressDynamic()
-                        .withoutPrimaryPublicIpAddress()
+                        .withPrimaryPrivateIPAddressDynamic()
+                        .withoutPrimaryPublicIPAddress()
                         .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                         .withRootUsername(userName)
                         .withRootPassword(password)

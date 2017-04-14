@@ -6,10 +6,11 @@
 
 package com.microsoft.azure.management.network.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.IPAllocationMethod;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
-import com.microsoft.azure.management.network.VirtualMachineScaleSetNicIpConfiguration;
+import com.microsoft.azure.management.network.VirtualMachineScaleSetNicIPConfiguration;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
@@ -22,8 +23,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * The implementation for {@link VirtualMachineScaleSetNetworkInterface}.
+ * The implementation for VirtualMachineScaleSetNetworkInterface.
  */
+@LangDefinition
 class VirtualMachineScaleSetNetworkInterfaceImpl
         extends
         ResourceImpl<VirtualMachineScaleSetNetworkInterface,
@@ -31,10 +33,6 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
                 VirtualMachineScaleSetNetworkInterfaceImpl>
         implements
         VirtualMachineScaleSetNetworkInterface {
-    /**
-     * inner client.
-     */
-    private final NetworkInterfacesInner client;
     /**
      * the network client.
      */
@@ -52,17 +50,15 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
                                                       String scaleSetName,
                                                       String resourceGroupName,
                                                       NetworkInterfaceInner innerObject,
-                                                      NetworkInterfacesInner client,
                                                       NetworkManager networkManager) {
         super(name, innerObject);
         this.scaleSetName = scaleSetName;
         this.resourceGroupName = resourceGroupName;
-        this.client = client;
         this.networkManager = networkManager;
     }
 
     @Override
-    public boolean isIpForwardingEnabled() {
+    public boolean isIPForwardingEnabled() {
         return Utils.toPrimitiveBoolean(this.inner().enableIPForwarding());
     }
 
@@ -113,40 +109,40 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
     }
 
     @Override
-    public String primaryPrivateIp() {
-        VirtualMachineScaleSetNicIpConfiguration primaryIpConfig = this.primaryIpConfiguration();
-        if (primaryIpConfig == null) {
+    public String primaryPrivateIP() {
+        VirtualMachineScaleSetNicIPConfiguration primaryIPConfig = this.primaryIPConfiguration();
+        if (primaryIPConfig == null) {
             return null;
         }
-        return primaryIpConfig.privateIpAddress();
+        return primaryIPConfig.privateIPAddress();
     }
 
     @Override
-    public IPAllocationMethod primaryPrivateIpAllocationMethod() {
-        VirtualMachineScaleSetNicIpConfiguration primaryIpConfig = this.primaryIpConfiguration();
-        if (primaryIpConfig == null) {
+    public IPAllocationMethod primaryPrivateIPAllocationMethod() {
+        VirtualMachineScaleSetNicIPConfiguration primaryIPConfig = this.primaryIPConfiguration();
+        if (primaryIPConfig == null) {
             return null;
         }
-        return primaryIpConfig.privateIpAllocationMethod();
+        return primaryIPConfig.privateIPAllocationMethod();
     }
 
     @Override
-    public Map<String, VirtualMachineScaleSetNicIpConfiguration> ipConfigurations() {
+    public Map<String, VirtualMachineScaleSetNicIPConfiguration> ipConfigurations() {
         List<NetworkInterfaceIPConfigurationInner> inners = this.inner().ipConfigurations();
         if (inners == null || inners.size() == 0) {
-            return Collections.unmodifiableMap(new TreeMap<String, VirtualMachineScaleSetNicIpConfiguration>());
+            return Collections.unmodifiableMap(new TreeMap<String, VirtualMachineScaleSetNicIPConfiguration>());
         }
-        Map<String, VirtualMachineScaleSetNicIpConfiguration> nicIpConfigurations = new TreeMap<>();
+        Map<String, VirtualMachineScaleSetNicIPConfiguration> nicIPConfigurations = new TreeMap<>();
         for (NetworkInterfaceIPConfigurationInner inner : inners) {
-            VirtualMachineScaleSetNicIpConfigurationImpl nicIpConfiguration = new VirtualMachineScaleSetNicIpConfigurationImpl(inner, this, this.networkManager);
-            nicIpConfigurations.put(nicIpConfiguration.name(), nicIpConfiguration);
+            VirtualMachineScaleSetNicIPConfigurationImpl nicIPConfiguration = new VirtualMachineScaleSetNicIPConfigurationImpl(inner, this, this.networkManager);
+            nicIPConfigurations.put(nicIPConfiguration.name(), nicIPConfiguration);
         }
-        return Collections.unmodifiableMap(nicIpConfigurations);
+        return Collections.unmodifiableMap(nicIPConfigurations);
     }
 
     @Override
-    public VirtualMachineScaleSetNicIpConfiguration primaryIpConfiguration() {
-        for (VirtualMachineScaleSetNicIpConfiguration ipConfiguration : this.ipConfigurations().values()) {
+    public VirtualMachineScaleSetNicIPConfiguration primaryIPConfiguration() {
+        for (VirtualMachineScaleSetNicIPConfiguration ipConfiguration : this.ipConfigurations().values()) {
             if (ipConfiguration.isPrimary()) {
                 return ipConfiguration;
             }
@@ -168,9 +164,9 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
         if (nsgId == null) {
             return null;
         }
-        return networkManager
+        return this.manager()
             .networkSecurityGroups()
-            .getByGroup(ResourceUtils.groupFromResourceId(nsgId),
+            .getByResourceGroup(ResourceUtils.groupFromResourceId(nsgId),
                 ResourceUtils.nameFromResourceId(nsgId));
     }
 
@@ -189,11 +185,16 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
     }
 
     @Override
-    public VirtualMachineScaleSetNetworkInterface refresh() {
-        this.setInner(this.client.getVirtualMachineScaleSetNetworkInterface(this.resourceGroupName,
+    protected Observable<NetworkInterfaceInner> getInnerAsync() {
+        return this.manager().inner().networkInterfaces().getVirtualMachineScaleSetNetworkInterfaceAsync(
+                this.resourceGroupName,
                 this.scaleSetName,
                 ResourceUtils.nameFromResourceId(this.virtualMachineId()),
-                this.name()));
-        return this;
+                this.name());
+    }
+
+    @Override
+    public NetworkManager manager() {
+        return this.networkManager;
     }
 }

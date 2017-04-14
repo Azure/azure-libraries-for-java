@@ -16,7 +16,7 @@ import com.microsoft.rest.RestClient;
 /**
  * Initializes a new instance of the BatchManagementClientImpl class.
  */
-public final class BatchManagementClientImpl extends AzureServiceClient {
+public class BatchManagementClientImpl extends AzureServiceClient {
     /** the {@link AzureClient} used for long running operations. */
     private AzureClient azureClient;
 
@@ -233,8 +233,6 @@ public final class BatchManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("Azure-SDK-For-Java/%s (%s)",
-                getClass().getPackage().getImplementationVersion(),
-                "BatchManagementClient, 2015-12-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "BatchManagementClient", "2015-12-01");
     }
 }

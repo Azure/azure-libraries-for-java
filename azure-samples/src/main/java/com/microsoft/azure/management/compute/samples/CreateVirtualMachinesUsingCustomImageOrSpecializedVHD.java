@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+
 package com.microsoft.azure.management.compute.samples;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -37,11 +43,11 @@ public final class CreateVirtualMachinesUsingCustomImageOrSpecializedVHD {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String linuxVmName1 = Utils.createRandomName("VM1");
-        final String linuxVmName2 = Utils.createRandomName("VM2");
-        final String linuxVmName3 = Utils.createRandomName("VM3");
+        final String linuxVMName1 = Utils.createRandomName("VM1");
+        final String linuxVMName2 = Utils.createRandomName("VM2");
+        final String linuxVMName3 = Utils.createRandomName("VM3");
         final String rgName = Utils.createRandomName("rgCOMV");
-        final String publicIpDnsLabel = Utils.createRandomName("pip");
+        final String publicIPDnsLabel = Utils.createRandomName("pip");
         final String userName = "tirekicker";
         final String password = "12NewPA$$w0rd!";
 
@@ -56,12 +62,12 @@ public final class CreateVirtualMachinesUsingCustomImageOrSpecializedVHD {
 
             System.out.println("Creating a Linux VM");
 
-            VirtualMachine linuxVM = azure.virtualMachines().define(linuxVmName1)
+            VirtualMachine linuxVM = azure.virtualMachines().define(linuxVMName1)
                     .withRegion(Region.US_EAST)
                     .withNewResourceGroup(rgName)
                     .withNewPrimaryNetwork("10.0.0.0/28")
-                    .withPrimaryPrivateIpAddressDynamic()
-                    .withNewPrimaryPublicIpAddress(publicIpDnsLabel)
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withNewPrimaryPublicIPAddress(publicIPDnsLabel)
                     .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                     .withRootUsername(userName)
                     .withRootPassword(password)
@@ -81,7 +87,7 @@ public final class CreateVirtualMachinesUsingCustomImageOrSpecializedVHD {
             Utils.print(linuxVM);
 
             // De-provision the virtual machine
-            deprovisionAgentInLinuxVM(linuxVM.getPrimaryPublicIpAddress().fqdn(), 22, userName, password);
+            deprovisionAgentInLinuxVM(linuxVM.getPrimaryPublicIPAddress().fqdn(), 22, userName, password);
 
             //=============================================================
             // Deallocate the virtual machine
@@ -113,12 +119,12 @@ public final class CreateVirtualMachinesUsingCustomImageOrSpecializedVHD {
 
             System.out.println("Creating a Linux VM using captured image - " + capturedImageUri);
 
-            VirtualMachine linuxVM2 = azure.virtualMachines().define(linuxVmName2)
+            VirtualMachine linuxVM2 = azure.virtualMachines().define(linuxVMName2)
                     .withRegion(Region.US_EAST)
                     .withExistingResourceGroup(rgName)
                     .withNewPrimaryNetwork("10.0.0.0/28")
-                    .withPrimaryPrivateIpAddressDynamic()
-                    .withoutPrimaryPublicIpAddress()
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withoutPrimaryPublicIPAddress()
                     .withStoredLinuxImage(capturedImageUri) // Note: A Generalized Image can also be an uploaded VHD prepared from an on-premise generalized VM.
                     .withRootUsername(userName)
                     .withRootPassword(password)
@@ -144,13 +150,13 @@ public final class CreateVirtualMachinesUsingCustomImageOrSpecializedVHD {
                     + specializedVhd
                     + " of deleted VM");
 
-            VirtualMachine linuxVM3 = azure.virtualMachines().define(linuxVmName3)
+            VirtualMachine linuxVM3 = azure.virtualMachines().define(linuxVMName3)
                     .withRegion(Region.US_EAST)
                     .withExistingResourceGroup(rgName)
                     .withNewPrimaryNetwork("10.0.0.0/28")
-                    .withPrimaryPrivateIpAddressDynamic()
-                    .withoutPrimaryPublicIpAddress()
-                    .withSpecializedOsUnmanagedDisk(specializedVhd, OperatingSystemTypes.LINUX) // New user credentials cannot be specified
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withoutPrimaryPublicIPAddress()
+                    .withSpecializedOSUnmanagedDisk(specializedVhd, OperatingSystemTypes.LINUX) // New user credentials cannot be specified
                     .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)       // when attaching a specialized VHD
                     .create();
 

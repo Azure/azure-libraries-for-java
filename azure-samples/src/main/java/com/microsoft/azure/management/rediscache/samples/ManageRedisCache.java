@@ -1,8 +1,7 @@
 /**
- *
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- *
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
  */
 
 package com.microsoft.azure.management.rediscache.samples;
@@ -112,7 +111,7 @@ public final class ManageRedisCache {
 
             System.out.println("Listing Redis Caches");
 
-            List<RedisCache> caches = azure.redisCaches().listByGroup(rgName);
+            List<RedisCache> caches = azure.redisCaches().listByResourceGroup(rgName);
 
             // Walk through all the caches
             for (RedisCache redis : caches) {

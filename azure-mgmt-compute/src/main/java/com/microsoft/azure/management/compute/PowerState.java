@@ -5,51 +5,48 @@
  */
 package com.microsoft.azure.management.compute;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+
+import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
 
 /**
  * Possible power states of a virtual machine.
  */
-public class PowerState {
+public final class PowerState extends ExpandableStringEnum<PowerState> {
     /**
      * Static value PowerState/running for PowerState.
      */
-    public static final PowerState RUNNING = new PowerState("PowerState/running");
+    public static final PowerState RUNNING = fromString("PowerState/running");
 
     /**
      * Static value PowerState/deallocating for PowerState.
      */
-    public static final PowerState DEALLOCATING = new PowerState("PowerState/deallocating");
+    public static final PowerState DEALLOCATING = fromString("PowerState/deallocating");
 
     /**
      * Static value PowerState/deallocated for PowerState.
      */
-    public static final PowerState DEALLOCATED = new PowerState("PowerState/deallocated");
+    public static final PowerState DEALLOCATED = fromString("PowerState/deallocated");
 
     /**
      * Static value PowerState/starting for PowerState.
      */
-    public static final PowerState STARTING = new PowerState("PowerState/starting");
+    public static final PowerState STARTING = fromString("PowerState/starting");
 
     /**
      * Static value PowerState/stopped for PowerState.
      */
-    public static final PowerState STOPPED = new PowerState("PowerState/stopped");
+    public static final PowerState STOPPED = fromString("PowerState/stopped");
+
+    /**
+     * Static value PowerState/stopping for PowerState.
+     */
+    public static final PowerState STOPPING = fromString("PowerState/stopping");
 
     /**
      * Static value PowerState/unknown for PowerState.
      */
-    public static final PowerState UNKNOWN = new PowerState("PowerState/unknown");
-
-    private String value;
-
-    /**
-     * Creates a custom value for PowerState.
-     * @param value the custom value
-     */
-    public PowerState(String value) {
-        this.value = value;
-    }
+    public static final PowerState UNKNOWN = fromString("PowerState/unknown");
 
     /**
      * Creates an instance of PowerState from the virtual machine instance view status entry corresponding
@@ -61,38 +58,27 @@ public class PowerState {
     public static PowerState fromInstanceView(VirtualMachineInstanceView virtualMachineInstanceView) {
         if (virtualMachineInstanceView != null && virtualMachineInstanceView.statuses() != null) {
             for (InstanceViewStatus status : virtualMachineInstanceView.statuses()) {
-                if (status.code() != null && status.code().startsWith("PowerState")) {
-                    return new PowerState(status.code());
+                if (status.code() != null && status.code().toLowerCase().startsWith("powerstate")) {
+                    return fromString(status.code());
                 }
             }
         }
         return null;
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
+    /**
+     * @return all known power states
+     */
+    public static Collection<PowerState> values() {
+        return values(PowerState.class);
     }
 
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PowerState)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        PowerState rhs = (PowerState) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * Finds or creates a PowerState value.
+     * @param name the value of the power state
+     * @return a PowerState instance
+     */
+    public static PowerState fromString(String name) {
+        return fromString(name, PowerState.class);
     }
 }

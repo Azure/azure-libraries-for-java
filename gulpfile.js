@@ -18,6 +18,12 @@ var mappings = {
         'package': 'com.microsoft.azure.management.graphrbac',
         'args': '-FT 1'
     },
+    'authorization': {
+        'dir': 'azure-mgmt-graph-rbac',
+        'source': 'arm-authorization/2015-07-01/swagger/authorization.json',
+        'package': 'com.microsoft.azure.management.graphrbac',
+        'args': '-FT 1'
+    },
     'arm-keyvault': {
         'dir': 'azure-mgmt-keyvault',
         'source': 'arm-keyvault/2015-06-01/swagger/keyvault.json',
@@ -63,12 +69,6 @@ var mappings = {
         'package': 'com.microsoft.azure.management.appservice',
         'args': '-FT 1',
         'modeler': 'CompositeSwagger'
-    },
-    'graph.rbac': {
-        'dir': 'azure-mgmt-graph-rbac',
-        'source': 'arm-graphrbac/compositeGraphRbacManagementClient.json',
-        'package': 'com.microsoft.azure.management.graph.rbac',
-        'args': '-FT 1'
     },
     'redis': {
         'dir': 'azure-mgmt-redis',
@@ -128,7 +128,7 @@ var mappings = {
     },
     'batch': {
         'dir': 'azure-mgmt-batch',
-        'source': 'arm-batch/2015-12-01/swagger/BatchManagement.json',
+        'source': 'arm-batch/2017-05-01/swagger/BatchManagement.json',
         'package': 'com.microsoft.azure.management.batch',
         'args': '-FT 1'
     },
@@ -163,6 +163,18 @@ var mappings = {
         'package': 'com.microsoft.azure.management.monitor',
         'args': '-FT 1',
         'modeler': 'CompositeSwagger'
+    },
+    'containerregistry': {
+        'dir': 'azure-mgmt-containerregistry',
+        'source': 'arm-containerregistry/2017-03-01/swagger/containerregistry.json',
+        'package': 'com.microsoft.azure.management.containerregistry',
+        'args': '-FT 1',
+    },
+    'documentdb': {
+        'dir': 'azure-mgmt-documentdb',
+        'source': 'arm-documentdb/2015-04-08/swagger/documentdb.json',
+        'package': 'com.microsoft.azure.management.documentdb',
+        'args': '-FT 1',
     }
 };
 

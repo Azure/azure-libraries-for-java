@@ -8,6 +8,7 @@ package com.microsoft.azure.management;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ import com.microsoft.azure.management.network.ApplicationGatewayProtocol;
 import com.microsoft.azure.management.network.ApplicationGatewayRequestRoutingRule;
 import com.microsoft.azure.management.network.ApplicationGatewaySkuName;
 import com.microsoft.azure.management.network.ApplicationGatewaySslCertificate;
+import com.microsoft.azure.management.network.ApplicationGatewaySslProtocol;
 import com.microsoft.azure.management.network.ApplicationGatewayTier;
 import com.microsoft.azure.management.network.ApplicationGateways;
 import com.microsoft.azure.management.network.Network;
@@ -629,18 +631,6 @@ public class TestApplicationGateway {
                                 .toBackend("backend1")
                                 .attach()
 
-                            // Additional/explicit backend HTTP setting configs
-                            .defineBackendHttpConfiguration("config1")
-                                .withPort(8081)
-                                .withRequestTimeout(45)
-                                .attach()
-
-                            // Additional/explicit backends
-                            .defineBackend("backend1")
-                                .withIPAddress("11.1.1.1")
-                                .withIPAddress("11.1.1.2")
-                                .attach()
-
                             // Additional/explicit frontend listeners
                             .defineListener("listener1")
                                 .withPublicFrontend()
@@ -650,6 +640,12 @@ public class TestApplicationGateway {
                                 .withSslCertificatePassword("Abc123")
                                 .withServerNameIndication()
                                 .withHostName("www.fabricam.com")
+                                .attach()
+
+                            // Additional/explicit backends
+                            .defineBackend("backend1")
+                                .withIPAddress("11.1.1.1")
+                                .withIPAddress("11.1.1.2")
                                 .attach()
 
                             .withExistingPublicIPAddress(pip)
@@ -663,6 +659,15 @@ public class TestApplicationGateway {
                                 .withTimeBetweenProbesInSeconds(9)
                                 .withRetriesBeforeUnhealthy(5)
                                 .attach()
+
+                            // Additional/explicit backend HTTP setting configs
+                            .defineBackendHttpConfiguration("config1")
+                                .withPort(8081)
+                                .withRequestTimeout(45)
+                                .withProbe("probe1")
+                                .attach()
+
+                            .withDisabledSslProtocols(ApplicationGatewaySslProtocol.TLSV1_0, ApplicationGatewaySslProtocol.TLSV1_1)
                             .create();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -725,6 +730,8 @@ public class TestApplicationGateway {
             Assert.assertNotNull(config);
             Assert.assertEquals(8081, config.port());
             Assert.assertEquals(45, config.requestTimeout());
+            Assert.assertNotNull(config.probe());
+            Assert.assertEquals("probe1", config.probe().name());
 
             // Verify backends
             Assert.assertEquals(2, appGateway.backends().size());
@@ -781,6 +788,12 @@ public class TestApplicationGateway {
             Assert.assertEquals(10, probe.timeoutInSeconds());
             creationThread.join();
 
+            // Verify SSL policy - disabled protocols
+            Assert.assertEquals(2, appGateway.disabledSslProtocols().size());
+            Assert.assertTrue(appGateway.disabledSslProtocols().contains(ApplicationGatewaySslProtocol.TLSV1_0));
+            Assert.assertTrue(appGateway.disabledSslProtocols().contains(ApplicationGatewaySslProtocol.TLSV1_1));
+            Assert.assertTrue(!appGateway.disabledSslProtocols().contains(ApplicationGatewaySslProtocol.TLSV1_2));
+
             return appGateway;
         }
 
@@ -799,6 +812,7 @@ public class TestApplicationGateway {
                     .parent()
                 .withoutRequestRoutingRule("rule9000")
                 .withoutProbe("probe1")
+                .withoutDisabledSslProtocols(ApplicationGatewaySslProtocol.TLSV1_0, ApplicationGatewaySslProtocol.TLSV1_1)
                 .withTag("tag1", "value1")
                 .withTag("tag2", "value2")
                 .apply();
@@ -824,6 +838,11 @@ public class TestApplicationGateway {
             // Verify probes
             Assert.assertTrue(resource.probes().isEmpty());
 
+            // Verify backend configs
+            Assert.assertNull(resource.backendHttpConfigurations().get("config1").probe());
+
+            // Verify SSL policy - disabled protocols
+            Assert.assertEquals(0, resource.disabledSslProtocols().size());
             return resource;
         }
     }
@@ -832,10 +851,10 @@ public class TestApplicationGateway {
      * Internet-facing LB test with NAT pool test.
      */
     public static class PublicMinimal extends TestTemplate<ApplicationGateway, ApplicationGateways> {
-
         PublicMinimal() {
             initializeResourceNames();
         }
+
         @Override
         public void print(ApplicationGateway resource) {
             TestApplicationGateway.printAppGateway(resource);
@@ -1028,11 +1047,11 @@ public class TestApplicationGateway {
                 .append("\n\tTags: ").append(resource.tags())
                 .append("\n\tSKU: ").append(resource.sku().toString())
                 .append("\n\tOperational state: ").append(resource.operationalState())
-                .append("\n\tSSL policy: ").append(resource.sslPolicy())
                 .append("\n\tInternet-facing? ").append(resource.isPublic())
                 .append("\n\tInternal? ").append(resource.isPrivate())
                 .append("\n\tDefault private IP address: ").append(resource.privateIPAddress())
-                .append("\n\tPrivate IP address allocation method: ").append(resource.privateIPAllocationMethod());
+                .append("\n\tPrivate IP address allocation method: ").append(resource.privateIPAllocationMethod())
+                .append("\n\tDisabled SSL protocols: ").append(resource.disabledSslProtocols().toString());
 
         // Show IP configs
         Map<String, ApplicationGatewayIPConfiguration> ipConfigs = resource.ipConfigurations();
@@ -1072,7 +1091,7 @@ public class TestApplicationGateway {
                 .append("\n\t\t\tAssociated NIC IP configuration IDs: ").append(backend.backendNicIPConfigurationNames().keySet());
 
             // Show addresses
-            List<ApplicationGatewayBackendAddress> addresses = backend.addresses();
+            Collection<ApplicationGatewayBackendAddress> addresses = backend.addresses();
             info.append("\n\t\t\tAddresses: ").append(addresses.size());
             for (ApplicationGatewayBackendAddress address : addresses) {
                 info.append("\n\t\t\t\tFQDN: ").append(address.fqdn())
@@ -1089,6 +1108,10 @@ public class TestApplicationGateway {
                 .append("\n\t\t\tPort: ").append(httpConfig.port())
                 .append("\n\t\t\tRequest timeout in seconds: ").append(httpConfig.requestTimeout())
                 .append("\n\t\t\tProtocol: ").append(httpConfig.protocol());
+
+            if (httpConfig.probe() != null) {
+                info.append("\n\t\t\tProbe: " + httpConfig.probe().name());
+            }
         }
 
         // Show SSL certificates
@@ -1142,7 +1165,7 @@ public class TestApplicationGateway {
                 .append("\n\t\t\tCookie based affinity enabled? ").append(rule.cookieBasedAffinity());
 
             // Show backend addresses
-            List<ApplicationGatewayBackendAddress> addresses = rule.backendAddresses();
+            Collection<ApplicationGatewayBackendAddress> addresses = rule.backendAddresses();
             info.append("\n\t\t\tBackend addresses: ").append(addresses.size());
             for (ApplicationGatewayBackendAddress address : addresses) {
                 info.append("\n\t\t\t\t")

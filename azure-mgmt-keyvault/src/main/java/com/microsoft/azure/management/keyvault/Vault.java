@@ -6,13 +6,17 @@
 
 package com.microsoft.azure.management.keyvault;
 
+import com.microsoft.azure.keyvault.KeyVaultClient;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
+import com.microsoft.azure.management.keyvault.implementation.KeyVaultManagementClientImpl;
 import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
 import com.microsoft.azure.management.keyvault.implementation.VaultInner;
+import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 
@@ -26,6 +30,10 @@ public interface Vault extends
         GroupableResource<KeyVaultManager, VaultInner>,
         Refreshable<Vault>,
         Updatable<Vault.Update> {
+    KeyVaultClient client();
+
+    Secrets secrets();
+
     /**
      * @return the URI of the vault for performing operations on keys and secrets.
      */

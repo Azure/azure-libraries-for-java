@@ -7,12 +7,14 @@
 package com.microsoft.azure.management.keyvault.implementation;
 
 import com.microsoft.azure.CloudException;
+import com.microsoft.azure.keyvault.KeyVaultClient;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryUser;
 import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.keyvault.AccessPolicy;
 import com.microsoft.azure.management.keyvault.AccessPolicyEntry;
+import com.microsoft.azure.management.keyvault.Secrets;
 import com.microsoft.azure.management.keyvault.Sku;
 import com.microsoft.azure.management.keyvault.SkuName;
 import com.microsoft.azure.management.keyvault.Vault;
@@ -46,6 +48,9 @@ class VaultImpl
     private GraphRbacManager graphRbacManager;
     private List<AccessPolicyImpl> accessPolicies;
 
+    private KeyVaultClient client;
+    private Secrets secrets;
+
     VaultImpl(String key, VaultInner innerObject, KeyVaultManager manager, GraphRbacManager graphRbacManager) {
         super(key, innerObject, manager);
         this.graphRbacManager = graphRbacManager;
@@ -55,6 +60,21 @@ class VaultImpl
                 this.accessPolicies.add(new AccessPolicyImpl(entry, this));
             }
         }
+        this.client = new KeyVaultClient(manager.inner().restClient().newBuilder()
+            .withBaseUrl("https://{vaultBaseUrl}").build());
+    }
+
+    @Override
+    public KeyVaultClient client() {
+        return client;
+    }
+
+    @Override
+    public Secrets secrets() {
+        if (secrets == null) {
+            secrets = new SecretsImpl(client, this);
+        }
+        return secrets;
     }
 
     @Override

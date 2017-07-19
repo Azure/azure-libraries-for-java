@@ -7,8 +7,11 @@
 package com.microsoft.azure.management.keyvault;
 
 import com.microsoft.azure.keyvault.models.Attributes;
-import com.microsoft.azure.keyvault.models.SecretAttributes;
-import com.microsoft.azure.keyvault.models.SecretBundle;
+import com.microsoft.azure.keyvault.models.KeyAttributes;
+import com.microsoft.azure.keyvault.models.KeyBundle;
+import com.microsoft.azure.keyvault.webkey.JsonWebKey;
+import com.microsoft.azure.keyvault.webkey.JsonWebKeyOperation;
+import com.microsoft.azure.keyvault.webkey.JsonWebKeyType;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
@@ -18,66 +21,56 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * An immutable client-side representation of an Azure Key Vault.
  */
 @Fluent(ContainerName = "/Microsoft.Azure.Management.Fluent.KeyVault")
-public interface Secret extends
+public interface Key extends
         Indexable,
-        HasInner<SecretBundle>,
+        HasInner<KeyBundle>,
         HasId,
         HasName,
-        Updatable<Secret.Update> {
+        Updatable<Key.Update> {
     /**
-     * @return the secret value
+     * @return the Json web key.
      */
-    String value();
+    JsonWebKey jsonWebKey();
 
     /**
-     * @return the secret management attributes
+     * @return the key management attributes.
      */
-    SecretAttributes attributes();
+    KeyAttributes attributes();
 
     /**
-     * @return application specific metadata in the form of key-value pairs
+     * @return application specific metadata in the form of key-value pairs.
      */
     Map<String, String> tags();
 
     /**
-     * @return type of the secret value such as a password
-     */
-    String contentType();
-
-    /**
-     * @return the corresponding key backing the KV certificate if this is a
-     * secret backing a KV certificate
-     */
-    String kid();
-
-    /**
-     * @return true if the secret's lifetime is managed by key vault. If this is a key
-     * backing a certificate, then managed will be true
+     * True if the key's lifetime is managed by key vault. If this is a key
+     * @return backing a certificate, then managed will be true.
      */
     boolean managed();
 
     interface Definition extends
             DefinitionStages.Blank,
-            DefinitionStages.WithValue,
+            DefinitionStages.WithKeyType,
             DefinitionStages.WithCreate {
     }
 
     interface DefinitionStages {
-        interface Blank extends WithValue {
+        interface Blank extends WithKeyType {
         }
 
-        interface WithValue {
-            WithCreate withValue(String value);
+        interface WithKeyType {
+            WithCreate withKeyType(JsonWebKeyType keyType);
         }
 
-        interface WithContentType {
-            WithCreate withContentType(String contentType);
+        interface WithKeyOperations {
+            WithCreate withKeyOperations(List<JsonWebKeyOperation> keyOperations);
         }
 
         interface WithAttributes {
@@ -89,8 +82,8 @@ public interface Secret extends
         }
 
         interface WithCreate extends
-                Creatable<Secret>,
-                WithContentType,
+                Creatable<Key>,
+                WithKeyOperations,
                 WithAttributes,
                 WithTags {
 
@@ -98,16 +91,8 @@ public interface Secret extends
     }
 
     interface UpdateStages {
-        interface WithValue {
-            Update withValue(String value);
-        }
-
-        interface WithVersion {
-            Update withVersion(String version);
-        }
-
-        interface WithContentType {
-            Update withContentType(String contentType);
+        interface WithKeyOperations {
+            Update withKeyOperations(List<JsonWebKeyOperation> keyOperations);
         }
 
         interface WithAttributes {
@@ -120,11 +105,9 @@ public interface Secret extends
     }
 
     interface Update extends
-            Appliable<Secret>,
-            UpdateStages.WithValue,
-            UpdateStages.WithVersion,
+            Appliable<Key>,
+            UpdateStages.WithKeyOperations,
             UpdateStages.WithAttributes,
-            UpdateStages.WithContentType,
             UpdateStages.WithTags {
     }
 }

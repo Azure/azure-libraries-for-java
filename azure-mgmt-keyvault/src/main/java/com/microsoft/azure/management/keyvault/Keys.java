@@ -10,15 +10,13 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
 
 /**
  * Entry point for key vaults management API.
  */
 @Fluent(ContainerName = "/Microsoft.Azure.Management.Fluent.KeyVault")
-public interface Secrets extends
-        SupportsCreating<Secret.DefinitionStages.Blank>,
+public interface Keys extends
+        SupportsCreating<Key.DefinitionStages.Blank>,
         SupportsDeletingById,
-        SupportsGettingById<Secret>,
-        SupportsListing<Secret> {
+        SupportsGettingById<Key> {
 }

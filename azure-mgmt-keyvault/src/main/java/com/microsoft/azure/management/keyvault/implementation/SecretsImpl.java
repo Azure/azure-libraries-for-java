@@ -6,17 +6,25 @@
 
 package com.microsoft.azure.management.keyvault.implementation;
 
+import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.keyvault.KeyVaultClient;
+import com.microsoft.azure.keyvault.SecretIdentifier;
 import com.microsoft.azure.keyvault.models.SecretBundle;
+import com.microsoft.azure.keyvault.models.SecretItem;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.keyvault.Secret;
 import com.microsoft.azure.management.keyvault.Secrets;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
+import com.microsoft.rest.protocol.SerializerAdapter;
 import rx.Completable;
 import rx.Observable;
+
+import java.io.IOException;
 
 /**
  * The implementation of Vaults and its parent interfaces.
@@ -30,6 +38,13 @@ class SecretsImpl
         implements Secrets {
     private final KeyVaultClient inner;
     private final Vault vault;
+
+    private final PagedListConverter<SecretItem, Secret> itemConverter = new PagedListConverter<SecretItem, Secret>() {
+        @Override
+        public Secret typeConvert(SecretItem inner) {
+            return wrapModel(inner);
+        }
+    };
 
     SecretsImpl(KeyVaultClient client, Vault vault) {
         this.inner = client;
@@ -57,17 +72,64 @@ class SecretsImpl
     }
 
     @Override
-    public ServiceFuture<Secret> getByIdAsync(String id, final ServiceCallback<Secret> callback) {
-        return KeyVaultFutures.fromInner(inner.getSecretAsync(id, null), callback, vault);
+    public ServiceFuture<Secret> getByIdAsync(final String id, final ServiceCallback<Secret> callback) {
+        return new KeyVaultFutures.ServiceFutureConverter<SecretBundle, Secret>() {
+
+            @Override
+            protected ServiceFuture<SecretBundle> callAsync() {
+                return inner.getSecretAsync(id, null);
+            }
+
+            @Override
+            protected Secret wrapModel(SecretBundle secretBundle) {
+                return SecretsImpl.this.wrapModel(secretBundle);
+            }
+        }.toFuture(callback);
     }
 
     @Override
     protected SecretImpl wrapModel(SecretBundle inner) {
-        return new SecretImpl(KeyVaultUtils.nameFromId(inner.id()), inner, vault);
+        if (inner == null) {
+            return null;
+        }
+        return new SecretImpl(inner.secretIdentifier().name(), inner, vault);
+    }
+
+    private SecretImpl wrapModel(SecretItem inner) {
+        if (inner == null) {
+            return null;
+        }
+        SerializerAdapter<?> serializer = vault.manager().inner().restClient().serializerAdapter();
+        try {
+            return wrapModel(serializer.<SecretBundle>deserialize(serializer.serialize(inner), SecretBundle.class));
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     @Override
     public Completable deleteByIdAsync(String id) {
-        return Completable.fromFuture(inner.deleteSecretAsync(KeyVaultUtils.vaultUrlFromid(id), KeyVaultUtils.nameFromId(id), null));
+        SecretIdentifier identifier = new SecretIdentifier(id);
+        return Completable.fromFuture(inner.deleteSecretAsync(identifier.vault(), identifier.name(), null));
+    }
+
+    @Override
+    public PagedList<Secret> list() {
+        return itemConverter.convert(inner.listSecrets(vault.vaultUri()));
+    }
+
+    @Override
+    public Observable<Secret> listAsync() {
+        return new KeyVaultFutures.ListCallbackObserver<SecretItem, Secret>() {
+            @Override
+            protected void list(ListOperationCallback<SecretItem> callback) {
+                inner.listSecretsAsync(vault.vaultUri(), callback);
+            }
+
+            @Override
+            protected Secret wrapModel(SecretItem secretItem) {
+                return SecretsImpl.this.wrapModel(secretItem);
+            }
+        }.toObservable();
     }
 }

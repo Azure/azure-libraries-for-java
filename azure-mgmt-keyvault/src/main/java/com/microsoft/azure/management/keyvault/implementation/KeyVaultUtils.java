@@ -13,7 +13,7 @@ public class KeyVaultUtils {
         return parts[parts.length - 1];
     }
 
-    public static String vaultUrlFromid(String id) {
+    public static String vaultUrlFromId(String id) {
         String[] parts = id.replace("https://", "").split("/");
         return parts[0];
     }

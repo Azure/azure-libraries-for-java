@@ -21,18 +21,18 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.implementa
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 
 /**
- *  Implementation for {@link LoadBalancerTcpProbe} and its create and update interfaces.
+ *  Implementation for LoadBalancerTcpProbe and its create and update interfaces.
  */
 @LangDefinition
 class LoadBalancerProbeImpl
     extends ChildResourceImpl<ProbeInner, LoadBalancerImpl, LoadBalancer>
     implements
         LoadBalancerTcpProbe,
-        LoadBalancerTcpProbe.Definition<LoadBalancer.DefinitionStages.WithProbeOrLoadBalancingRule>,
+        LoadBalancerTcpProbe.Definition<LoadBalancer.DefinitionStages.WithCreate>,
         LoadBalancerTcpProbe.UpdateDefinition<LoadBalancer.Update>,
         LoadBalancerTcpProbe.Update,
         LoadBalancerHttpProbe,
-        LoadBalancerHttpProbe.Definition<LoadBalancer.DefinitionStages.WithProbeOrLoadBalancingRule>,
+        LoadBalancerHttpProbe.Definition<LoadBalancer.DefinitionStages.WithCreate>,
         LoadBalancerHttpProbe.UpdateDefinition<LoadBalancer.Update>,
         LoadBalancerHttpProbe.Update {
 

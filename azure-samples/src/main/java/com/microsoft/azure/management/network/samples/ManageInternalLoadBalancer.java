@@ -151,58 +151,57 @@ public final class ManageInternalLoadBalancer {
             LoadBalancer loadBalancer3 = azure.loadBalancers().define(loadBalancerName3)
                     .withRegion(Region.US_EAST)
                     .withExistingResourceGroup(rgName)
-                    .definePrivateFrontend(privateFrontEndName)
-                        .withExistingSubnet(network, "Back-end")
-                        .withPrivateIPAddressStatic("172.16.3.5")
-                        .attach()
-
-                    // Add one backend - one per rule
-                    .defineBackend(backendPoolName3)
-                        .attach()
-
-                    // Add one probes - one per rule
-                    .defineHttpProbe("httpProbe")
-                        .withRequestPath("/")
-                        .attach()
 
                     // Add one rule that uses above backend and probe
                     .defineLoadBalancingRule(tcpLoadBalancingRule)
                         .withProtocol(TransportProtocol.TCP)
-                        .withFrontend(privateFrontEndName)
-                        .withFrontendPort(orcaleSQLNodePort)
+                        .fromFrontend(privateFrontEndName)
+                        .fromFrontendPort(orcaleSQLNodePort)
+                        .toBackend(backendPoolName3)
                         .withProbe(httpProbe)
-                        .withBackend(backendPoolName3)
                         .attach()
 
                     // Add two nat pools to enable direct VM connectivity for
                     //  SSH to port 22 and TELNET to port 23
                     .defineInboundNatRule(natRule6000to22forVM3)
                         .withProtocol(TransportProtocol.TCP)
-                        .withFrontend(privateFrontEndName)
-                        .withFrontendPort(6000)
-                        .withBackendPort(22)
+                        .fromFrontend(privateFrontEndName)
+                        .fromFrontendPort(6000)
+                        .toBackendPort(22)
                         .attach()
 
                     .defineInboundNatRule(natRule6001to23forVM3)
                         .withProtocol(TransportProtocol.TCP)
-                        .withFrontend(privateFrontEndName)
-                        .withFrontendPort(6001)
-                        .withBackendPort(23)
+                        .fromFrontend(privateFrontEndName)
+                        .fromFrontendPort(6001)
+                        .toBackendPort(23)
                         .attach()
 
                     .defineInboundNatRule(natRule6002to22forVM4)
                         .withProtocol(TransportProtocol.TCP)
-                        .withFrontend(privateFrontEndName)
-                        .withFrontendPort(6002)
-                        .withBackendPort(22)
+                        .fromFrontend(privateFrontEndName)
+                        .fromFrontendPort(6002)
+                        .toBackendPort(22)
                         .attach()
 
                     .defineInboundNatRule(natRule6003to23forVM4)
                         .withProtocol(TransportProtocol.TCP)
-                        .withFrontend(privateFrontEndName)
-                        .withFrontendPort(6003)
-                        .withBackendPort(23)
+                        .fromFrontend(privateFrontEndName)
+                        .fromFrontendPort(6003)
+                        .toBackendPort(23)
                         .attach()
+
+                    // Explicitly define the frontend
+                    .definePrivateFrontend(privateFrontEndName)
+                        .withExistingSubnet(network, "Back-end")
+                        .withPrivateIPAddressStatic("172.16.3.5")
+                        .attach()
+
+                     // Add one probes - one per rule
+                    .defineHttpProbe("httpProbe")
+                        .withRequestPath("/")
+                        .attach()
+
                     .create();
 
             // Print load balancer details
@@ -333,13 +332,50 @@ public final class ManageInternalLoadBalancer {
             LoadBalancer loadBalancer4 = azure.loadBalancers().define(loadBalancerName4)
                     .withRegion(Region.US_EAST)
                     .withExistingResourceGroup(rgName)
+
+                    // Add one rule that uses above backend and probe
+                    .defineLoadBalancingRule(tcpLoadBalancingRule)
+                        .withProtocol(TransportProtocol.TCP)
+                        .fromFrontend(privateFrontEndName)
+                        .fromFrontendPort(orcaleSQLNodePort)
+                        .toBackend(backendPoolName3)
+                        .withProbe(httpProbe)
+                        .attach()
+
+                    // Add two nat pools to enable direct VM connectivity for
+                    //  SSH to port 22 and TELNET to port 23
+                    .defineInboundNatRule(natRule6000to22forVM3)
+                        .withProtocol(TransportProtocol.TCP)
+                        .fromFrontend(privateFrontEndName)
+                        .fromFrontendPort(6000)
+                        .toBackendPort(22)
+                        .attach()
+
+                    .defineInboundNatRule(natRule6001to23forVM3)
+                        .withProtocol(TransportProtocol.TCP)
+                        .fromFrontend(privateFrontEndName)
+                        .fromFrontendPort(6001)
+                        .toBackendPort(23)
+                        .attach()
+
+                    .defineInboundNatRule(natRule6002to22forVM4)
+                        .withProtocol(TransportProtocol.TCP)
+                        .fromFrontend(privateFrontEndName)
+                        .fromFrontendPort(6002)
+                        .toBackendPort(22)
+                        .attach()
+
+                    .defineInboundNatRule(natRule6003to23forVM4)
+                        .withProtocol(TransportProtocol.TCP)
+                        .fromFrontend(privateFrontEndName)
+                        .fromFrontendPort(6003)
+                        .toBackendPort(23)
+                        .attach()
+
+                    // Explicitly define the frontend
                     .definePrivateFrontend(privateFrontEndName)
                         .withExistingSubnet(network, "Back-end")
                         .withPrivateIPAddressStatic("172.16.3.15")
-                        .attach()
-
-                    // Add one backend - one per rule
-                    .defineBackend(backendPoolName3)
                         .attach()
 
                     // Add one probes - one per rule
@@ -347,44 +383,6 @@ public final class ManageInternalLoadBalancer {
                         .withRequestPath("/")
                         .attach()
 
-                    // Add one rule that uses above backend and probe
-                    .defineLoadBalancingRule(tcpLoadBalancingRule)
-                        .withProtocol(TransportProtocol.TCP)
-                        .withFrontend(privateFrontEndName)
-                        .withFrontendPort(orcaleSQLNodePort)
-                        .withProbe(httpProbe)
-                        .withBackend(backendPoolName3)
-                        .attach()
-
-                    // Add two nat pools to enable direct VM connectivity for
-                    //  SSH to port 22 and TELNET to port 23
-                    .defineInboundNatRule(natRule6000to22forVM3)
-                        .withProtocol(TransportProtocol.TCP)
-                        .withFrontend(privateFrontEndName)
-                        .withFrontendPort(6000)
-                        .withBackendPort(22)
-                        .attach()
-
-                    .defineInboundNatRule(natRule6001to23forVM3)
-                        .withProtocol(TransportProtocol.TCP)
-                        .withFrontend(privateFrontEndName)
-                        .withFrontendPort(6001)
-                        .withBackendPort(23)
-                        .attach()
-
-                    .defineInboundNatRule(natRule6002to22forVM4)
-                        .withProtocol(TransportProtocol.TCP)
-                        .withFrontend(privateFrontEndName)
-                        .withFrontendPort(6002)
-                        .withBackendPort(22)
-                        .attach()
-
-                    .defineInboundNatRule(natRule6003to23forVM4)
-                        .withProtocol(TransportProtocol.TCP)
-                        .withFrontend(privateFrontEndName)
-                        .withFrontendPort(6003)
-                        .withBackendPort(23)
-                        .attach()
                     .create();
 
             // Print load balancer details

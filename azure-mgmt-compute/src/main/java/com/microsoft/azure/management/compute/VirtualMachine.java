@@ -7,10 +7,12 @@
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineInner;
+import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.PublicIPAddress;
@@ -170,6 +172,23 @@ public interface VirtualMachine extends
     void convertToManaged();
 
     /**
+     * Converts (migrates) the virtual machine with un-managed disks to use managed disk asynchronously.
+     *
+     *  @return a representation of the deferred computation of this call
+     */
+    @Beta(Beta.SinceVersion.V1_2_0)
+    Completable convertToManagedAsync();
+
+    /**
+     * Converts (migrates) the virtual machine with un-managed disks to use managed disk asynchronously.
+     *
+     * @param callback the callback to call on success or failure
+     * @return a handle to cancel the request
+     */
+    @Beta(Beta.SinceVersion.V1_2_0)
+    ServiceFuture<Void> convertToManagedAsync(ServiceCallback<Void> callback);
+
+    /**
      * Lists all available virtual machine sizes this virtual machine can resized to.
      *
      * @return the virtual machine sizes
@@ -186,6 +205,29 @@ public interface VirtualMachine extends
      * @return the JSON template for creating more such virtual machines
      */
     String capture(String containerName, String vhdPrefix, boolean overwriteVhd);
+
+    /**
+     * Captures the virtual machine by copying virtual hard disks of the VM asynchronously.
+     *
+     * @param containerName destination container name to store the captured VHD
+     * @param vhdPrefix the prefix for the VHD holding captured image
+     * @param overwriteVhd whether to overwrites destination VHD if it exists
+     * @return a representation of the deferred computation of this call
+     */
+    @Beta(Beta.SinceVersion.V1_2_0)
+    Observable<String> captureAsync(String containerName, String vhdPrefix, boolean overwriteVhd);
+
+    /**
+     * Captures the virtual machine by copying virtual hard disks of the VM asynchronously.
+     *
+     * @param containerName destination container name to store the captured VHD
+     * @param vhdPrefix the prefix for the VHD holding captured image
+     * @param overwriteVhd whether to overwrites destination VHD if it exists
+     * @param callback the callback to call on success or failure
+     * @return a representation of the deferred computation of this call
+     */
+    @Beta(Beta.SinceVersion.V1_2_0)
+    ServiceFuture<String> captureAsync(String containerName, String vhdPrefix, boolean overwriteVhd, ServiceCallback<String> callback);
 
     /**
      * Refreshes the virtual machine instance view to sync with Azure.
@@ -342,6 +384,38 @@ public interface VirtualMachine extends
      * @return the virtual machine's instance view
      */
     VirtualMachineInstanceView instanceView();
+
+    /**
+     * @return true if boot diagnostics is enabled for the virtual machine
+     */
+    @Beta(Beta.SinceVersion.V1_2_0)
+    boolean isBootDiagnosticsEnabled();
+
+    /**
+     * @return the storage blob endpoint uri if boot diagnostics is enabled for the virtual machine
+     */
+    @Beta(Beta.SinceVersion.V1_2_0)
+    String bootDiagnosticsStorageUri();
+
+    /**
+     * @return true if Managed Service Identity is enabled for the virtual machine
+     */
+    @Beta(Beta.SinceVersion.V1_2_0)
+    boolean isManagedServiceIdentityEnabled();
+
+    /**
+     * @return the Managed Service Identity specific Active Directory tenant ID assigned to the
+     * virtual machine.
+     */
+    @Beta(Beta.SinceVersion.V1_2_0)
+    String managedServiceIdentityTenantId();
+
+    /**
+     * @return the Managed Service Identity specific Active Directory service principal ID assigned
+     * to the virtual machine.
+     */
+    @Beta(Beta.SinceVersion.V1_2_0)
+    String managedServiceIdentityPrincipalId();
 
     // Setters
     //
@@ -1063,6 +1137,15 @@ public interface VirtualMachine extends
             WithCreate withOSDiskSizeInGB(Integer size);
 
             /**
+             * Specifies the size of the OSDisk in GB.
+             *
+             * @param size the VHD size
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithCreate withOSDiskSizeInGB(int size);
+
+            /**
              * Specifies the name for the OS Disk.
              *
              * @param name an OS disk name
@@ -1211,9 +1294,9 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithManagedCreate withExistingDataDisk(Disk disk,
-                                        int newSizeInGB,
-                                        int lun,
-                                        CachingTypes cachingType);
+                                                   int newSizeInGB,
+                                                   int lun,
+                                                   CachingTypes cachingType);
 
             /**
              * Specifies the data disk to be created from the data disk image in the virtual machine image.
@@ -1380,6 +1463,123 @@ public interface VirtualMachine extends
         }
 
         /**
+         * The stage of the virtual machine definition allowing to enable boot diagnostics.
+         */
+        @Beta(Beta.SinceVersion.V1_2_0)
+        interface WithBootDiagnostics {
+            /**
+             * Specifies that boot diagnostics needs to be enabled in the virtual machine.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithCreate withBootDiagnostics();
+
+            /**
+             * Specifies that boot diagnostics needs to be enabled in the virtual machine.
+             *
+             * @param creatable the storage account to be created and used for store the boot diagnostics
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithCreate withBootDiagnostics(Creatable<StorageAccount> creatable);
+
+            /**
+             * Specifies that boot diagnostics needs to be enabled in the virtual machine.
+             *
+             * @param storageAccount an existing storage account to be uses to store the boot diagnostics
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithCreate withBootDiagnostics(StorageAccount storageAccount);
+
+            /**
+             * Specifies that boot diagnostics needs to be enabled in the virtual machine.
+             *
+             * @param storageAccountBlobEndpointUri a storage account blob endpoint to store the boot diagnostics
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithCreate withBootDiagnostics(String storageAccountBlobEndpointUri);
+        }
+
+        /**
+         * The stage of the virtual machine definition allowing to enable Managed Service Identity.
+         */
+        @Beta(Beta.SinceVersion.V1_2_0)
+        interface WithManagedServiceIdentity {
+            /**
+             * Specifies that Managed Service Identity needs to be enabled in the virtual machine.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithRoleAndScopeOrCreate withManagedServiceIdentity();
+
+            /**
+             * Specifies that Managed Service Identity needs to be enabled in the virtual machine.
+             *
+             * @param tokenPort the port on the virtual machine where access token is available
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithRoleAndScopeOrCreate withManagedServiceIdentity(int tokenPort);
+        }
+
+        /**
+         * The stage of the Managed Service Identity enabled virtual machine allowing to set role
+         * assignment for a scope.
+         */
+        @Beta(Beta.SinceVersion.V1_2_0)
+        interface WithRoleAndScopeOrCreate extends WithCreate {
+            /**
+             * Specifies that applications running on the virtual machine requires the given access role
+             * with scope of access limited to the ARM resource identified by the resource ID specified
+             * in the scope parameter.
+             *
+             * @param scope scope of the access represented in ARM resource ID format
+             * @param asRole access role to assigned to the virtual machine
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithRoleAndScopeOrCreate withRoleBasedAccessTo(String scope, BuiltInRole asRole);
+
+            /**
+             * Specifies that applications running on the virtual machine requires the given access role
+             * with scope of access limited to the current resource group that the virtual machine
+             * resides.
+             *
+             * @param asRole access role to assigned to the virtual machine
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithRoleAndScopeOrCreate withRoleBasedAccessToCurrentResourceGroup(BuiltInRole asRole);
+
+            /**
+             * Specifies that applications running on the virtual machine requires the access described
+             * in the given role definition with scope of access limited to the ARM resource identified
+             * by the resource ID specified in the scope parameter.
+             *
+             * @param scope scope of the access represented in ARM resource ID format
+             * @param roleDefinitionId access role definition to assigned to the virtual machine
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithRoleAndScopeOrCreate withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId);
+
+            /**
+             * Specifies that applications running on the virtual machine requires the access described
+             * in the given role definition with scope of access limited to the current resource group that
+             * the virtual machine resides.
+             *
+             * @param roleDefinitionId access role definition to assigned to the virtual machine
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithRoleAndScopeOrCreate withRoleDefinitionBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+        }
+
+        /**
          * The stage of the definition which contains all the minimum required inputs for
          * the VM to be created and optionally allow managed data disks specific settings to
          * be specified.
@@ -1444,7 +1644,9 @@ public interface VirtualMachine extends
                 DefinitionStages.WithAvailabilitySet,
                 DefinitionStages.WithSecondaryNetworkInterface,
                 DefinitionStages.WithExtension,
-                DefinitionStages.WithPlan {
+                DefinitionStages.WithPlan,
+                DefinitionStages.WithBootDiagnostics,
+                DefinitionStages.WithManagedServiceIdentity {
         }
     }
 
@@ -1706,6 +1908,131 @@ public interface VirtualMachine extends
              */
             Update withoutExtension(String name);
         }
+
+        /**
+         * The stage of the virtual machine definition allowing to enable boot diagnostics.
+         */
+        @Beta(Beta.SinceVersion.V1_2_0)
+        interface WithBootDiagnostics {
+            /**
+             * Specifies that boot diagnostics needs to be enabled in the virtual machine.
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            Update withBootDiagnostics();
+
+            /**
+             * Specifies that boot diagnostics needs to be enabled in the virtual machine.
+             *
+             * @param creatable the storage account to be created and used for store the boot diagnostics
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            Update withBootDiagnostics(Creatable<StorageAccount> creatable);
+
+            /**
+             * Specifies that boot diagnostics needs to be enabled in the virtual machine.
+             *
+             * @param storageAccount an existing storage account to be uses to store the boot diagnostics
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            Update withBootDiagnostics(StorageAccount storageAccount);
+
+            /**
+             * Specifies that boot diagnostics needs to be enabled in the virtual machine.
+             *
+             * @param storageAccountBlobEndpointUri a storage account blob endpoint to store the boot diagnostics
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            Update withBootDiagnostics(String storageAccountBlobEndpointUri);
+
+            /**
+             * Specifies that boot diagnostics needs to be disabled in the virtual machine.
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            Update withoutBootDiagnostics();
+        }
+
+        /**
+         * The stage of the virtual machine update allowing to enable Managed Service Identity.
+         */
+        @Beta(Beta.SinceVersion.V1_2_0)
+        interface WithManagedServiceIdentity {
+            /**
+             * Specifies that Managed Service Identity needs to be enabled in the virtual machine.
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithRoleAndScopeOrUpdate withManagedServiceIdentity();
+
+            /**
+             * Specifies that Managed Service Identity needs to be enabled in the virtual machine.
+             *
+             * @param tokenPort the port on the virtual machine where access token is available
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithRoleAndScopeOrUpdate withManagedServiceIdentity(int tokenPort);
+        }
+
+        /**
+         * The stage of the Managed Service Identity enabled virtual machine allowing to set role
+         * assignment for a scope.
+         */
+        @Beta(Beta.SinceVersion.V1_2_0)
+        interface WithRoleAndScopeOrUpdate extends Update {
+            /**
+             * Specifies that applications running on the virtual machine requires the given access role
+             * with scope of access limited to the ARM resource identified by the resource ID specified
+             * in the scope parameter.
+             *
+             * @param scope scope of the access represented in ARM resource ID format
+             * @param asRole access role to assigned to the virtual machine
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithRoleAndScopeOrUpdate withRoleBasedAccessTo(String scope, BuiltInRole asRole);
+
+            /**
+             * Specifies that applications running on the virtual machine requires the given access role
+             * with scope of access limited to the current resource group that the virtual machine
+             * resides.
+             *
+             * @param asRole access role to assigned to the virtual machine
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithRoleAndScopeOrUpdate withRoleBasedAccessToCurrentResourceGroup(BuiltInRole asRole);
+
+            /**
+             * Specifies that applications running on the virtual machine requires the given access role
+             * definition with scope of access limited to the ARM resource identified by the resource id
+             * specified in the scope parameter.
+             *
+             * @param scope scope of the access represented in ARM resource ID format
+             * @param roleDefinitionId access role definition to assigned to the virtual machine
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithRoleAndScopeOrUpdate withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId);
+
+            /**
+             * Specifies that applications running on the virtual machine requires the given access role
+             * definition with scope of access limited to the current resource group that the virtual
+             * machine resides.
+             *
+             * @param roleDefinitionId access role definition to assigned to the virtual machine
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_2_0)
+            WithRoleAndScopeOrUpdate withRoleDefinitionBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+        }
     }
 
     /**
@@ -1717,7 +2044,10 @@ public interface VirtualMachine extends
             UpdateStages.WithUnmanagedDataDisk,
             UpdateStages.WithManagedDataDisk,
             UpdateStages.WithSecondaryNetworkInterface,
-            UpdateStages.WithExtension {
+            UpdateStages.WithExtension,
+            UpdateStages.WithBootDiagnostics,
+            UpdateStages.WithManagedServiceIdentity {
+
         /**
          * Specifies the encryption settings for the OS Disk.
          *
@@ -1759,6 +2089,17 @@ public interface VirtualMachine extends
          * @return the next stage of the update
          */
         Update withOSDiskSizeInGB(Integer size);
+
+        /**
+         * Specifies the size of the OS disk in GB.
+         * <p>
+         * Only unmanaged disks may be resized as part of a VM update. Managed disks must be resized separately, using managed disk API.
+         *
+         * @param size a disk size.
+         * @return the next stage of the update
+         */
+        @Beta(Beta.SinceVersion.V1_2_0)
+        Update withOSDiskSizeInGB(int size);
 
         /**
          * Specifies a new size for the virtual machine.

@@ -7,7 +7,12 @@
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.management.network.Network;
+import com.microsoft.azure.management.network.NetworkInterface;
+import com.microsoft.azure.management.network.NetworkSecurityGroup;
+import com.microsoft.azure.management.network.NicIPConfiguration;
 import com.microsoft.azure.management.network.PublicIPAddress;
+import com.microsoft.azure.management.network.SecurityRuleProtocol;
+import com.microsoft.azure.management.network.Subnet;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
@@ -15,6 +20,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.storage.SkuName;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
@@ -25,12 +31,13 @@ import rx.functions.Func1;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class VirtualMachineOperationsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
-    private static final Region REGION = Region.US_SOUTH_CENTRAL;
+    private static final Region REGION = Region.US_EAST;
     private static final String VMNAME = "javavm";
 
     @Override
@@ -41,57 +48,72 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
 
     @Override
     protected void cleanUpResources() {
-        resourceManager.resourceGroups().deleteByName(RG_NAME);
+        resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
     }
 
     @Test
-    public void canCreateVirtualMachineWithDiagnostics() throws Exception {
-        final String storageName = SdkContext.randomResourceName("st", 14);
+    public void canCreateVirtualMachineWithNetworking() throws Exception {
+        NetworkSecurityGroup nsg = this.networkManager.networkSecurityGroups().define("nsg")
+            .withRegion(REGION)
+            .withNewResourceGroup(RG_NAME)
+            .defineRule("rule1")
+                .allowInbound()
+                .fromAnyAddress()
+                .fromPort(80)
+                .toAnyAddress()
+                .toPort(80)
+                .withProtocol(SecurityRuleProtocol.TCP)
+                .attach()
+            .create();
 
-        // Create a storage account for the diagnostics
-        StorageAccount storageAccount = storageManager.storageAccounts().define(storageName)
-                .withRegion(REGION)
-                .withNewResourceGroup(RG_NAME)
-                .create();
+        Creatable<Network> networkDefinition = this.networkManager.networks().define("network1")
+            .withRegion(REGION)
+            .withNewResourceGroup(RG_NAME)
+            .withAddressSpace("10.0.0.0/28")
+            .defineSubnet("subnet1")
+                .withAddressPrefix("10.0.0.0/29")
+                .withExistingNetworkSecurityGroup(nsg)
+                .attach();
 
         // Create
-        Creatable<VirtualMachine> vmDefinition = computeManager.virtualMachines()
-                .define(VMNAME)
+        VirtualMachine vm = computeManager.virtualMachines()
+            .define(VMNAME)
                 .withRegion(REGION)
-                .withExistingResourceGroup(RG_NAME)
-                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withNewResourceGroup(RG_NAME)
+                .withNewPrimaryNetwork(networkDefinition)
                 .withPrimaryPrivateIPAddressDynamic()
                 .withoutPrimaryPublicIPAddress()
-                .withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_SERVER_2012_DATACENTER)
-                .withAdminUsername("Foo12")
-                .withAdminPassword("abc!@#F0orL");
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("Foo12")
+                .withRootPassword("abc!@#F0orL")
+            .create();
 
-        // TODO: This will need to be modeled using fluent API someday
-        DiagnosticsProfile diagnostics = new DiagnosticsProfile();
-        ((VirtualMachine) vmDefinition).inner().withDiagnosticsProfile(diagnostics);
-        BootDiagnostics boot = new BootDiagnostics();
-        diagnostics.withBootDiagnostics(boot);
-        boot.withEnabled(true);
-        final String storageUri = "http://" + storageAccount.name() + ".blob.core.windows.net/";
-        boot.withStorageUri(storageUri);
+        NetworkInterface primaryNic = vm.getPrimaryNetworkInterface();
+        Assert.assertNotNull(primaryNic);
+        NicIPConfiguration primaryIpConfig = primaryNic.primaryIPConfiguration();
+        Assert.assertNotNull(primaryIpConfig);
 
-        VirtualMachine vm = vmDefinition.create();
+        // Fetch the NSG the way before v1.2
+        Assert.assertNotNull(primaryIpConfig.networkId());
+        Network network = primaryIpConfig.getNetwork();
+        Assert.assertNotNull(primaryIpConfig.subnetName());
+        Subnet subnet = network.subnets().get(primaryIpConfig.subnetName());
+        Assert.assertNotNull(subnet);
+        nsg = subnet.getNetworkSecurityGroup();
+        Assert.assertNotNull(nsg);
+        Assert.assertEquals("nsg", nsg.name());
+        Assert.assertEquals(1, nsg.securityRules().size());
 
-        // Verify diagnostics
-        Assert.assertNotNull(vm.diagnosticsProfile());
-        Assert.assertNotNull(vm.diagnosticsProfile().bootDiagnostics());
-        Assert.assertNotNull(vm.diagnosticsProfile().bootDiagnostics().storageUri());
-        Assert.assertTrue(storageUri.equalsIgnoreCase(vm.diagnosticsProfile().bootDiagnostics().storageUri()));
-
-        // Delete VM
-        computeManager.virtualMachines().deleteById(vm.id());
+        // Fetch the NSG the v1.2 way
+        nsg = primaryIpConfig.getNetworkSecurityGroup();
+        Assert.assertEquals("nsg", nsg.name());
     }
 
     @Test
     public void canCreateVirtualMachine() throws Exception {
         // Create
         computeManager.virtualMachines()
-                .define(VMNAME)
+            .define(VMNAME)
                 .withRegion(REGION)
                 .withNewResourceGroup(RG_NAME)
                 .withNewPrimaryNetwork("10.0.0.0/28")
@@ -104,7 +126,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .withSize(VirtualMachineSizeTypes.STANDARD_D3)
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .withOSDiskName("javatest")
-                .create();
+            .create();
 
         VirtualMachine foundVM = null;
         List<VirtualMachine> vms = computeManager.virtualMachines().listByResourceGroup(RG_NAME);
@@ -241,11 +263,114 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         Assert.assertEquals(resourceCount.get(), 23);
     }
 
+    @Test
+    public void canSetStorageAccountForUnmanagedDisk() {
+        final String storageName = SdkContext.randomResourceName("st", 14);
+        // Create a premium storage account for virtual machine data disk
+        //
+        StorageAccount storageAccount = storageManager.storageAccounts().define(storageName)
+                .withRegion(REGION)
+                .withNewResourceGroup(RG_NAME)
+                .withSku(SkuName.PREMIUM_LRS)
+                .create();
+
+        // Creates a virtual machine with an unmanaged data disk that gets stored in the above
+        // premium storage account
+        //
+        VirtualMachine virtualMachine = computeManager.virtualMachines()
+                .define(VMNAME)
+                .withRegion(REGION)
+                .withExistingResourceGroup(RG_NAME)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withoutPrimaryPublicIPAddress()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("Foo12")
+                .withRootPassword("abc!@#F0orL")
+                .withUnmanagedDisks()
+                .defineUnmanagedDataDisk("disk1")
+                    .withNewVhd(100)
+                    .withLun(2)
+                    .storeAt(storageAccount.name(), "diskvhds", "datadisk1vhd.vhd")
+                    .attach()
+                .defineUnmanagedDataDisk("disk2")
+                    .withNewVhd(100)
+                    .withLun(3)
+                    .storeAt(storageAccount.name(), "diskvhds", "datadisk2vhd.vhd")
+                    .attach()
+                .withSize(VirtualMachineSizeTypes.STANDARD_DS2_V2)
+                .withOSDiskCaching(CachingTypes.READ_WRITE)
+                .create();
+
+        // Validate the unmanaged data disks
+        //
+        Map<Integer, VirtualMachineUnmanagedDataDisk> unmanagedDataDisks = virtualMachine.unmanagedDataDisks();
+        Assert.assertNotNull(unmanagedDataDisks);
+        Assert.assertEquals(2, unmanagedDataDisks.size());
+        VirtualMachineUnmanagedDataDisk firstUnmanagedDataDisk = unmanagedDataDisks.get(2);
+        Assert.assertNotNull(firstUnmanagedDataDisk);
+        VirtualMachineUnmanagedDataDisk secondUnmanagedDataDisk = unmanagedDataDisks.get(3);
+        Assert.assertNotNull(secondUnmanagedDataDisk);
+        String createdVhdUri1 = firstUnmanagedDataDisk.vhdUri();
+        String createdVhdUri2 = secondUnmanagedDataDisk.vhdUri();
+        Assert.assertNotNull(createdVhdUri1);
+        Assert.assertNotNull(createdVhdUri2);
+        // delete the virtual machine
+        //
+        computeManager.virtualMachines().deleteById(virtualMachine.id());
+        // Creates another virtual machine by attaching existing unmanaged data disk detached from the
+        // above virtual machine.
+        //
+        virtualMachine = computeManager.virtualMachines()
+                .define(VMNAME)
+                .withRegion(REGION)
+                .withExistingResourceGroup(RG_NAME)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withoutPrimaryPublicIPAddress()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("Foo12")
+                .withRootPassword("abc!@#F0orL")
+                .withUnmanagedDisks()
+                .withExistingUnmanagedDataDisk(storageAccount.name(), "diskvhds", "datadisk1vhd.vhd")
+                .withSize(VirtualMachineSizeTypes.STANDARD_DS2_V2)
+                .create();
+        // Gets the vm
+        //
+        virtualMachine = computeManager.virtualMachines().getById(virtualMachine.id());
+        // Validate the unmanaged data disks
+        //
+        unmanagedDataDisks = virtualMachine.unmanagedDataDisks();
+        Assert.assertNotNull(unmanagedDataDisks);
+        Assert.assertEquals(1, unmanagedDataDisks.size());
+        firstUnmanagedDataDisk = null;
+        for(VirtualMachineUnmanagedDataDisk unmanagedDisk : unmanagedDataDisks.values()) {
+            firstUnmanagedDataDisk = unmanagedDisk;
+            break;
+        }
+        Assert.assertNotNull(firstUnmanagedDataDisk.vhdUri());
+        Assert.assertTrue(firstUnmanagedDataDisk.vhdUri().equalsIgnoreCase(createdVhdUri1));
+        // Update the VM by attaching another existing data disk
+        //
+        virtualMachine.update()
+                .withExistingUnmanagedDataDisk(storageAccount.name(), "diskvhds", "datadisk2vhd.vhd")
+                .apply();
+        // Gets the vm
+        //
+        virtualMachine = computeManager.virtualMachines().getById(virtualMachine.id());
+        // Validate the unmanaged data disks
+        //
+        unmanagedDataDisks = virtualMachine.unmanagedDataDisks();
+        Assert.assertNotNull(unmanagedDataDisks);
+        Assert.assertEquals(2, unmanagedDataDisks.size());
+    }
+
     private CreatablesInfo prepareCreatableVirtualMachines(Region region,
                                                            String vmNamePrefix,
                                                            String networkNamePrefix,
                                                            String publicIpNamePrefix,
                                                            int vmCount) {
+
         Creatable<ResourceGroup> resourceGroupCreatable = resourceManager.resourceGroups()
                 .define(RG_NAME)
                 .withRegion(region);

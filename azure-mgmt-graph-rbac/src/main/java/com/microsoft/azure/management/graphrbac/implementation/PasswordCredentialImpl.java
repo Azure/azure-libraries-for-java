@@ -34,10 +34,15 @@ class PasswordCredentialImpl<T>
     private String name;
     private HasCredential<?> parent;
     OutputStream authFile;
+    private String subscriptionId;
 
     PasswordCredentialImpl(PasswordCredentialInner passwordCredential) {
         super(passwordCredential);
-        this.name = new String(BaseEncoding.base64().decode(passwordCredential.customKeyIdentifier()));
+        if (passwordCredential.customKeyIdentifier() != null && !passwordCredential.customKeyIdentifier().isEmpty()) {
+            this.name = new String(BaseEncoding.base64().decode(passwordCredential.customKeyIdentifier()));
+        } else {
+            this.name = passwordCredential.keyId();
+        }
     }
 
     PasswordCredentialImpl(String name, HasCredential<?> parent) {
@@ -132,6 +137,7 @@ class PasswordCredentialImpl<T>
             for (AzureEnvironment env : AzureEnvironment.knownEnvironments()) {
                 if (env.resourceManagerEndpoint().toLowerCase().contains(baseUrl.toLowerCase())) {
                     environment = env;
+                    break;
                 }
             }
             if (environment == null) {
@@ -139,15 +145,16 @@ class PasswordCredentialImpl<T>
             }
         }
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(String.format("client=%s", servicePrincipal.applicationId())).append("\n");
-        builder.append(String.format("key=%s", value())).append("\n");
-        builder.append(String.format("tenant=%s", servicePrincipal.manager().tenantId())).append("\n");
-        builder.append(String.format("subscription=%s", servicePrincipal.assignedSubscription)).append("\n");
-        builder.append(String.format("authURL=%s", normalizeAuthFileUrl(environment.activeDirectoryEndpoint()))).append("\n");
-        builder.append(String.format("baseURL=%s", normalizeAuthFileUrl(environment.resourceManagerEndpoint()))).append("\n");
-        builder.append(String.format("graphURL=%s", normalizeAuthFileUrl(environment.graphEndpoint()))).append("\n");
-        builder.append(String.format("managementURI=%s", normalizeAuthFileUrl(environment.managementEndpoint())));
+        StringBuilder builder = new StringBuilder("{\n");
+        builder.append("  ").append(String.format("\"clientId\": \"%s\",", servicePrincipal.applicationId())).append("\n");
+        builder.append("  ").append(String.format("\"clientSecret\": \"%s\",", value())).append("\n");
+        builder.append("  ").append(String.format("\"tenantId\": \"%s\",", servicePrincipal.manager().tenantId())).append("\n");
+        builder.append("  ").append(String.format("\"subscriptionId\": \"%s\",", servicePrincipal.assignedSubscription)).append("\n");
+        builder.append("  ").append(String.format("\"activeDirectoryEndpointUrl\": \"%s\",", environment.activeDirectoryEndpoint())).append("\n");
+        builder.append("  ").append(String.format("\"resourceManagerEndpointUrl\": \"%s\",", environment.resourceManagerEndpoint())).append("\n");
+        builder.append("  ").append(String.format("\"activeDirectoryGraphResourceId\": \"%s\",", environment.graphEndpoint())).append("\n");
+        builder.append("  ").append(String.format("\"managementEndpointUrl\": \"%s\"", environment.managementEndpoint())).append("\n");
+        builder.append("}");
         try {
             authFile.write(builder.toString().getBytes());
         } catch (IOException e) {
@@ -155,10 +162,9 @@ class PasswordCredentialImpl<T>
         }
     }
 
-    private String normalizeAuthFileUrl(String url) {
-        if (!url.endsWith("/")) {
-            url = url + "/";
-        }
-        return url.replace("://", "\\://");
+    @Override
+    public PasswordCredentialImpl<T> withSubscriptionId(String subscriptionId) {
+        this.subscriptionId = subscriptionId;
+        return this;
     }
 }

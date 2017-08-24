@@ -9,14 +9,19 @@ import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.LoadBalancerFrontend;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
+import com.microsoft.azure.management.network.Network;
+import com.microsoft.azure.management.network.PublicIPAddress;
+import com.microsoft.azure.management.network.Subnet;
 import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.TransportProtocol;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 
 /**
- *  Implementation for {@link LoadBalancerInboundNatRule}.
+ *  Implementation for LoadBalancerInboundNatRule.
  */
 @LangDefinition
 class LoadBalancerInboundNatPoolImpl
@@ -68,7 +73,7 @@ class LoadBalancerInboundNatPoolImpl
     // Fluent setters
 
     @Override
-    public LoadBalancerInboundNatPoolImpl withBackendPort(int port) {
+    public LoadBalancerInboundNatPoolImpl toBackendPort(int port) {
         this.inner().withBackendPort(port);
         return this;
     }
@@ -80,17 +85,17 @@ class LoadBalancerInboundNatPoolImpl
     }
 
     @Override
-    public LoadBalancerInboundNatPoolImpl withFrontend(String frontendName) {
-        SubResource frontendRef = new SubResource()
-                .withId(this.parent().futureResourceId() + "/frontendIPConfigurations/" + frontendName);
-        this.inner().withFrontendIPConfiguration(frontendRef);
+    public LoadBalancerInboundNatPoolImpl fromFrontend(String frontendName) {
+        SubResource frontendRef = this.parent().ensureFrontendRef(frontendName);
+        if (frontendRef != null) {
+            this.inner().withFrontendIPConfiguration(frontendRef);
+        }
         return this;
     }
 
     @Override
-    public LoadBalancerInboundNatPoolImpl withFrontendPortRange(int from, int to) {
-        this.inner().withFrontendPortRangeStart(from);
-        this.inner().withFrontendPortRangeEnd(to);
+    public LoadBalancerInboundNatPoolImpl fromFrontendPortRange(int from, int to) {
+        this.inner().withFrontendPortRangeStart(from).withFrontendPortRangeEnd(to);
         return this;
     }
 
@@ -99,5 +104,56 @@ class LoadBalancerInboundNatPoolImpl
     @Override
     public LoadBalancerImpl attach() {
         return this.parent().withInboundNatPool(this);
+    }
+
+    @Override
+    public LoadBalancerInboundNatPoolImpl fromExistingPublicIPAddress(PublicIPAddress publicIPAddress) {
+        return (publicIPAddress != null) ? this.fromExistingPublicIPAddress(publicIPAddress.id()) : this;
+    }
+
+    @Override
+    public LoadBalancerInboundNatPoolImpl fromExistingPublicIPAddress(String resourceId) {
+        return (null != resourceId) ? this.fromFrontend(this.parent().ensurePublicFrontendWithPip(resourceId).name()) : this;
+    }
+
+    @Override
+    public LoadBalancerInboundNatPoolImpl fromNewPublicIPAddress(String leafDnsLabel) {
+        String frontendName = SdkContext.randomResourceName("fe", 20);
+        this.parent().withNewPublicIPAddress(leafDnsLabel, frontendName);
+        return fromFrontend(frontendName);
+    }
+
+    @Override
+    public LoadBalancerInboundNatPoolImpl fromNewPublicIPAddress(Creatable<PublicIPAddress> pipDefinition) {
+        String frontendName = SdkContext.randomResourceName("fe", 20);
+        this.parent().withNewPublicIPAddress(pipDefinition, frontendName);
+        return fromFrontend(frontendName);
+    }
+
+    @Override
+    public LoadBalancerInboundNatPoolImpl fromNewPublicIPAddress() {
+        String dnsLabel = SdkContext.randomResourceName("fe", 20);
+        return this.fromNewPublicIPAddress(dnsLabel);
+    }
+
+    @Override
+    public LoadBalancerInboundNatPoolImpl fromExistingSubnet(String networkResourceId, String subnetName) {
+        return (null != networkResourceId && null != subnetName)
+                ? this.fromFrontend(this.parent().ensurePrivateFrontendWithSubnet(networkResourceId, subnetName).name())
+                : this;
+    }
+
+    @Override
+    public LoadBalancerInboundNatPoolImpl fromExistingSubnet(Network network, String subnetName) {
+        return (null != network && null != subnetName)
+                ? this.fromExistingSubnet(network.id(), subnetName)
+                : this;
+    }
+
+    @Override
+    public LoadBalancerInboundNatPoolImpl fromExistingSubnet(Subnet subnet) {
+        return (null != subnet)
+                ? this.fromExistingSubnet(subnet.parent().id(), subnet.name())
+                : this;
     }
 }

@@ -34,8 +34,8 @@ import com.microsoft.azure.management.containerregistry.Registries;
 import com.microsoft.azure.management.containerregistry.implementation.ContainerRegistryManager;
 import com.microsoft.azure.management.dns.DnsZones;
 import com.microsoft.azure.management.dns.implementation.DnsZoneManager;
-import com.microsoft.azure.management.documentdb.DocumentDBAccounts;
-import com.microsoft.azure.management.documentdb.implementation.DocumentDBManager;
+import com.microsoft.azure.management.cosmosdb.CosmosDBAccounts;
+import com.microsoft.azure.management.cosmosdb.implementation.CosmosDBManager;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryGroups;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryUsers;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryApplications;
@@ -70,8 +70,11 @@ import com.microsoft.azure.management.resources.Tenants;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
+import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
 import com.microsoft.azure.management.resources.implementation.ResourceManagementClientImpl;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
+import com.microsoft.azure.management.search.SearchServices;
+import com.microsoft.azure.management.search.implementation.SearchServiceManager;
 import com.microsoft.azure.management.servicebus.ServiceBusNamespaces;
 import com.microsoft.azure.management.servicebus.implementation.ServiceBusManager;
 import com.microsoft.azure.management.sql.SqlServers;
@@ -105,7 +108,8 @@ public final class Azure {
     private final SqlServerManager sqlServerManager;
     private final ServiceBusManager serviceBusManager;
     private final ContainerRegistryManager containerRegistryManager;
-    private final DocumentDBManager documentDBManager;
+    private final SearchServiceManager searchServiceManager;
+    private final CosmosDBManager cosmosDBManager;
     private final String subscriptionId;
     private final Authenticated authenticated;
 
@@ -122,6 +126,7 @@ public final class Azure {
                 .withSerializerAdapter(new AzureJacksonAdapter())
                 .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
                 .withInterceptor(new ProviderRegistrationInterceptor(credentials))
+                .withInterceptor(new ResourceManagerThrottlingInterceptor())
                 .build(), credentials.domain());
     }
 
@@ -149,6 +154,7 @@ public final class Azure {
                 .withSerializerAdapter(new AzureJacksonAdapter())
                 .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
                 .withInterceptor(new ProviderRegistrationInterceptor(credentials))
+                .withInterceptor(new ResourceManagerThrottlingInterceptor())
                 .build(), credentials.domain()).withDefaultSubscription(credentials.defaultSubscriptionId());
     }
 
@@ -376,7 +382,8 @@ public final class Azure {
         this.sqlServerManager = SqlServerManager.authenticate(restClient, subscriptionId);
         this.serviceBusManager = ServiceBusManager.authenticate(restClient, subscriptionId);
         this.containerRegistryManager = ContainerRegistryManager.authenticate(restClient, subscriptionId);
-        this.documentDBManager = DocumentDBManager.authenticate(restClient, subscriptionId);
+        this.cosmosDBManager = CosmosDBManager.authenticate(restClient, subscriptionId);
+        this.searchServiceManager = SearchServiceManager.authenticate(restClient, subscriptionId);
         this.subscriptionId = subscriptionId;
         this.authenticated = authenticated;
     }
@@ -685,9 +692,17 @@ public final class Azure {
     /**
      * @return entry point to managing Container Regsitries.
      */
-    @Beta(SinceVersion.V1_1_0)
-    public DocumentDBAccounts documentDBs() {
-        return documentDBManager.databaseAccounts();
+    @Beta(SinceVersion.V1_2_0)
+    public CosmosDBAccounts cosmosDBAccounts() {
+        return cosmosDBManager.databaseAccounts();
+    }
+
+    /**
+     * @return entry point to managing Search services.
+     */
+    @Beta(SinceVersion.V1_2_0)
+    public SearchServices searchServices() {
+        return searchServiceManager.searchServices();
     }
 
     /**

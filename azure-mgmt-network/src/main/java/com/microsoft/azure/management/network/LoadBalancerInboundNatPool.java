@@ -17,7 +17,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
 /**
- * An immutable client-side representation of an inbound NAT rule.
+ * A client-side representation of an inbound NAT pool.
  */
 @Fluent()
 @Beta
@@ -53,8 +53,8 @@ public interface LoadBalancerInboundNatPool extends
          * The final stage of the inbound NAT pool definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the inbound NAT pool definition
-         * can be attached to the parent load balancer definition using {@link WithAttach#attach()}.
-         * @param <ParentT> the return type of {@link WithAttach#attach()}
+         * can be attached to the parent load balancer definition.
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAttach<ParentT> extends
             Attachable.InDefinition<ParentT> {
@@ -62,7 +62,7 @@ public interface LoadBalancerInboundNatPool extends
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the transport protocol for the pool to apply to.
-         * @param <ParentT> the parent load balancer type
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithProtocol<ParentT> extends
             HasProtocol.DefinitionStages.WithProtocol<WithFrontend<ParentT>, TransportProtocol> {
@@ -70,7 +70,7 @@ public interface LoadBalancerInboundNatPool extends
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the frontend for the inbound NAT rules in the pool to apply to.
-         * @param <ParentT> the parent load balancer type
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontend<ParentT> extends
             HasFrontend.DefinitionStages.WithFrontend<WithFrontendPortRange<ParentT>> {
@@ -78,29 +78,30 @@ public interface LoadBalancerInboundNatPool extends
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the frontend port range.
-         * @param <ParentT> the parent load balancer type
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontendPortRange<ParentT> {
             /**
-             * Specifies the frontend port range.
+             * Specifies the frontend port range to receive network traffic from.
              * @param from the starting port number, between 1 and 65534
              * @param to the ending port number, greater than the starting port number and no more than 65534
              * @return the next stage of the definition
              */
-            WithBackendPort<ParentT> withFrontendPortRange(int from, int to);
+            WithBackendPort<ParentT> fromFrontendPortRange(int from, int to);
         }
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the backend port.
-         * @param <ParentT> the parent load balancer type
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithBackendPort<ParentT> extends
             HasBackendPort.DefinitionStages.WithBackendPort<WithAttach<ParentT>> {
         }
     }
 
-    /** The entirety of an inbound NAT pool definition.
-     * @param <ParentT> the return type of the final {@link DefinitionStages.WithAttach#attach()}
+    /**
+     * The entirety of an inbound NAT pool definition.
+     * @param <ParentT> the stage of the parent definition to return to after attaching this definition
      */
     interface Definition<ParentT> extends
         DefinitionStages.Blank<ParentT>,
@@ -139,7 +140,7 @@ public interface LoadBalancerInboundNatPool extends
              * @param to the ending port number, greater than the starting port number and no more than 65534
              * @return the next stage of the definition
              */
-            Update withFrontendPortRange(int from, int to);
+            Update fromFrontendPortRange(int from, int to);
         }
 
         /**
@@ -176,8 +177,8 @@ public interface LoadBalancerInboundNatPool extends
          * The final stage of the inbound NAT pool definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the inbound NAT pool
-         * definition can be attached to the parent load balancer definition using {@link WithAttach#attach()}.
-         * @param <ParentT> the return type of {@link WithAttach#attach()}
+         * definition can be attached to the parent load balancer definition.
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAttach<ParentT> extends
             Attachable.InUpdate<ParentT> {
@@ -185,7 +186,7 @@ public interface LoadBalancerInboundNatPool extends
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the transport protocol for the pool to apply to.
-         * @param <ParentT> the parent load balancer type
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithProtocol<ParentT> extends
             HasProtocol.UpdateDefinitionStages.WithProtocol<WithAttach<ParentT>, TransportProtocol> {
@@ -193,7 +194,7 @@ public interface LoadBalancerInboundNatPool extends
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the frontend for the inbound NAT rules in the pool to apply to.
-         * @param <ParentT> the parent load balancer type
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontend<ParentT> extends
             HasFrontend.UpdateDefinitionStages.WithFrontend<WithAttach<ParentT>> {
@@ -201,7 +202,7 @@ public interface LoadBalancerInboundNatPool extends
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the frontend port range.
-         * @param <ParentT> the parent load balancer type
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontendPortRange<ParentT> {
             /**
@@ -210,12 +211,12 @@ public interface LoadBalancerInboundNatPool extends
              * @param to the ending port number, greater than the starting port number and no more than 65534
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withFrontendPortRange(int from, int to);
+            WithAttach<ParentT> fromFrontendPortRange(int from, int to);
         }
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the backend port.
-         * @param <ParentT> the parent load balancer type
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithBackendPort<ParentT> extends
             HasBackendPort.UpdateDefinitionStages.WithBackendPort<WithAttach<ParentT>> {
@@ -223,7 +224,7 @@ public interface LoadBalancerInboundNatPool extends
     }
 
     /** The entirety of an inbound NAT pool definition as part of a load balancer update.
-     * @param <ParentT> the return type of the final {@link UpdateDefinitionStages.WithAttach#attach()}
+     * @param <ParentT> the stage of the parent definition to return to after attaching this definition
      */
     interface UpdateDefinition<ParentT> extends
         UpdateDefinitionStages.Blank<ParentT>,

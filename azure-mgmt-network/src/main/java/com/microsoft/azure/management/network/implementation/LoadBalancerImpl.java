@@ -11,10 +11,10 @@ import com.microsoft.azure.management.network.LoadBalancerFrontend;
 import com.microsoft.azure.management.network.LoadBalancerHttpProbe;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatRule;
+import com.microsoft.azure.management.network.LoadBalancerPrivateFrontend;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.LoadBalancingRule;
-import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.NicIPConfiguration;
 import com.microsoft.azure.management.network.LoadBalancerProbe;
@@ -22,11 +22,11 @@ import com.microsoft.azure.management.network.ProbeProtocol;
 import com.microsoft.azure.management.network.LoadBalancerPublicFrontend;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.LoadBalancerTcpProbe;
-import com.microsoft.azure.management.network.TransportProtocol;
 import com.microsoft.azure.management.network.model.HasNetworkInterfaces;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 
 import rx.Observable;
 import rx.exceptions.CompositeException;
@@ -66,8 +66,6 @@ class LoadBalancerImpl
     private Map<String, LoadBalancerInboundNatRule> inboundNatRules;
     private Map<String, LoadBalancerInboundNatPool> inboundNatPools;
 
-    protected static final String DEFAULT = "default";
-
     LoadBalancerImpl(String name,
             final LoadBalancerInner innerModel,
             final NetworkManager networkManager) {
@@ -105,16 +103,96 @@ class LoadBalancerImpl
         initializeInboundNatPoolsFromInner();
     }
 
-    @Override
-    protected void beforeCreating()  {
-        // Account for the newly created public IPs
-        for (Entry<String, String> pipFrontendAssociation : this.creatablePIPKeys.entrySet()) {
-            PublicIPAddress pip = (PublicIPAddress) this.createdResource(pipFrontendAssociation.getKey());
-            if (pip != null) {
-                withExistingPublicIPAddress(pip.id(), pipFrontendAssociation.getValue());
-            }
+    protected LoadBalancerBackendImpl ensureUniqueBackend() {
+        String name = SdkContext.randomResourceName("backend", 20);
+        LoadBalancerBackendImpl backend = this.defineBackend(name);
+        backend.attach();
+        return backend;
+    }
+
+    protected SubResource ensureFrontendRef(String name) {
+        // Ensure existence of frontend, creating one if needed
+        LoadBalancerFrontendImpl frontend;
+        if (name == null) {
+            frontend = this.ensureUniqueFrontend();
+        } else {
+            frontend = this.defineFrontend(name);
+            frontend.attach();
         }
-        this.creatablePIPKeys.clear();
+
+        // Return frontend reference
+        return new SubResource()
+                .withId(this.futureResourceId() + "/frontendIPConfigurations/" + frontend.name());
+    }
+
+    protected LoadBalancerFrontendImpl ensureUniqueFrontend() {
+        String name = SdkContext.randomResourceName("frontend", 20);
+        LoadBalancerFrontendImpl frontend = this.defineFrontend(name);
+        frontend.attach();
+        return frontend;
+    }
+
+    LoadBalancerPrivateFrontend findPrivateFrontendWithSubnet(String networkId, String subnetName) {
+        if (null == networkId || null == subnetName) {
+            return null;
+        } else {
+            // Use existing frontend already pointing at this PIP, if any
+            for (LoadBalancerPrivateFrontend frontend : this.privateFrontends().values()) {
+                if (frontend.networkId() == null || frontend.subnetName() == null) {
+                    continue;
+                }
+                else if (networkId.equalsIgnoreCase(frontend.networkId()) && subnetName.equalsIgnoreCase(frontend.subnetName())) {
+                    return frontend;
+                }
+            }
+
+            return null;
+        }
+    }
+
+    LoadBalancerPrivateFrontend ensurePrivateFrontendWithSubnet(String networkId, String subnetName) {
+        LoadBalancerPrivateFrontend frontend = this.findPrivateFrontendWithSubnet(networkId, subnetName);
+        if (networkId == null || subnetName == null) {
+            return null;
+        } else if (frontend != null) {
+            return frontend;
+        } else {
+            // Create new frontend
+            LoadBalancerFrontendImpl fe = this.ensureUniqueFrontend()
+                    .withExistingSubnet(networkId, subnetName)
+                    .withPrivateIPAddressDynamic();
+            fe.attach();
+            return fe;
+        }
+    }
+
+    LoadBalancerPublicFrontend ensurePublicFrontendWithPip(String pipId) {
+        LoadBalancerPublicFrontend frontend = this.findFrontendByPublicIPAddress(pipId);
+        if (pipId == null) {
+            return null;
+        } else if (frontend != null) {
+            return frontend;
+        } else {
+            // Create new frontend
+            LoadBalancerFrontendImpl fe = this.ensureUniqueFrontend()
+                    .withExistingPublicIPAddress(pipId);
+            fe.attach();
+            return fe;
+        }
+    }
+
+    @Override
+    protected void beforeCreating() {
+        // Account for the newly created public IPs
+        if (this.creatablePIPKeys != null) {
+            for (Entry<String, String> pipFrontendAssociation : this.creatablePIPKeys.entrySet()) {
+                PublicIPAddress pip = (PublicIPAddress) this.createdResource(pipFrontendAssociation.getKey());
+                if (pip != null) {
+                    withExistingPublicIPAddress(pip.id(), pipFrontendAssociation.getValue());
+                }
+            }
+            this.creatablePIPKeys.clear();
+        }
 
         // Reset and update probes
         List<ProbeInner> innerProbes = innersFromWrappers(this.httpProbes.values());
@@ -204,31 +282,33 @@ class LoadBalancerImpl
 
     @Override
     protected void afterCreating() {
-        List<Exception> nicExceptions = new ArrayList<>();
+        if (this.nicsInBackends != null) {
+            List<Exception> nicExceptions = new ArrayList<>();
 
-        // Update the NICs to point to the backend pool
-        for (Entry<String, String> nicInBackend : this.nicsInBackends.entrySet()) {
-            String nicId = nicInBackend.getKey();
-            String backendName = nicInBackend.getValue();
-            try {
-                NetworkInterface nic = this.manager().networkInterfaces().getById(nicId);
-                NicIPConfiguration nicIP = nic.primaryIPConfiguration();
-                nic.update()
-                    .updateIPConfiguration(nicIP.name())
-                    .withExistingLoadBalancerBackend(this, backendName)
-                    .parent()
-                    .apply();
-            } catch (Exception e) {
-                nicExceptions.add(e);
+            // Update the NICs to point to the backend pool
+            for (Entry<String, String> nicInBackend : this.nicsInBackends.entrySet()) {
+                String nicId = nicInBackend.getKey();
+                String backendName = nicInBackend.getValue();
+                try {
+                    NetworkInterface nic = this.manager().networkInterfaces().getById(nicId);
+                    NicIPConfiguration nicIP = nic.primaryIPConfiguration();
+                    nic.update()
+                        .updateIPConfiguration(nicIP.name())
+                            .withExistingLoadBalancerBackend(this, backendName)
+                            .parent()
+                        .apply();
+                } catch (Exception e) {
+                    nicExceptions.add(e);
+                }
             }
-        }
 
-        if (!nicExceptions.isEmpty()) {
-            throw new CompositeException(nicExceptions);
-        }
+            if (!nicExceptions.isEmpty()) {
+                throw new CompositeException(nicExceptions);
+            }
 
-        this.nicsInBackends.clear();
-        this.refresh();
+            this.nicsInBackends.clear();
+            this.refresh();
+        }
     }
 
     @Override
@@ -314,17 +394,15 @@ class LoadBalancerImpl
     }
 
     LoadBalancerImpl withFrontend(LoadBalancerFrontendImpl frontend) {
-        if (frontend == null) {
-            return null;
-        } else {
+        if (frontend != null) {
             this.frontends.put(frontend.name(), frontend);
-            return this;
         }
+        return this;
     }
 
     LoadBalancerImpl withProbe(LoadBalancerProbeImpl probe) {
         if (probe == null) {
-            return null;
+            return this;
         } else if (probe.protocol() == ProbeProtocol.HTTP) {
             httpProbes.put(probe.name(), probe);
         } else if (probe.protocol() == ProbeProtocol.TCP) {
@@ -334,62 +412,36 @@ class LoadBalancerImpl
     }
 
     LoadBalancerImpl withLoadBalancingRule(LoadBalancingRuleImpl loadBalancingRule) {
-        if (loadBalancingRule == null) {
-            return null;
-        } else {
+        if (loadBalancingRule != null) {
             this.loadBalancingRules.put(loadBalancingRule.name(), loadBalancingRule);
-            return this;
         }
+        return this;
     }
 
     LoadBalancerImpl withInboundNatRule(LoadBalancerInboundNatRuleImpl inboundNatRule) {
-        if (inboundNatRule == null) {
-            return null;
-        } else {
+        if (inboundNatRule != null) {
             this.inboundNatRules.put(inboundNatRule.name(), inboundNatRule);
-            return this;
         }
+        return this;
     }
 
     LoadBalancerImpl withInboundNatPool(LoadBalancerInboundNatPoolImpl inboundNatPool) {
-        if (inboundNatPool == null) {
-            return null;
-        } else {
+        if (inboundNatPool != null) {
             this.inboundNatPools.put(inboundNatPool.name(), inboundNatPool);
-            return this;
         }
+        return this;
     }
 
     LoadBalancerImpl withBackend(LoadBalancerBackendImpl backend) {
-        if (backend == null) {
-            return null;
-        } else {
+        if (backend != null) {
             this.backends.put(backend.name(), backend);
-            return this;
         }
+        return this;
     }
 
     // Withers (fluent)
 
-    @Override
-    public LoadBalancerImpl withExistingPublicIPAddress(String resourceId) {
-        return withExistingPublicIPAddress(resourceId, DEFAULT);
-    }
-
-    @Override
-    public LoadBalancerImpl withExistingPublicIPAddress(PublicIPAddress pip) {
-        return withExistingPublicIPAddress(pip.id(), DEFAULT);
-    }
-
-    @Override
-    public LoadBalancerImpl withNewPublicIPAddress() {
-        // Autogenerated DNS leaf label for the PIP
-        String dnsLeafLabel = this.name().toLowerCase().replace("\\s", "");
-        return withNewPublicIPAddress(dnsLeafLabel);
-    }
-
-    @Override
-    public LoadBalancerImpl withNewPublicIPAddress(String dnsLeafLabel) {
+    LoadBalancerImpl withNewPublicIPAddress(String dnsLeafLabel, String frontendName) {
         PublicIPAddress.DefinitionStages.WithGroup precreatablePIP = manager().publicIPAddresses().define(dnsLeafLabel)
                 .withRegion(this.regionName());
         Creatable<PublicIPAddress> creatablePip;
@@ -398,91 +450,53 @@ class LoadBalancerImpl
         } else {
             creatablePip = precreatablePIP.withNewResourceGroup(super.creatableGroup).withLeafDomainLabel(dnsLeafLabel);
         }
-        return withNewPublicIPAddress(creatablePip);
+        return withNewPublicIPAddress(creatablePip, frontendName);
     }
 
-    @Override
-    public LoadBalancerImpl withNewPublicIPAddress(Creatable<PublicIPAddress> creatablePIP) {
-        return withNewPublicIPAddress(creatablePIP, DEFAULT);
-    }
+    LoadBalancerImpl withNewPublicIPAddress(Creatable<PublicIPAddress> creatablePip, String frontendName) {
+        String existingPipFrontendName = this.creatablePIPKeys.get(creatablePip.key());
+        if (frontendName == null) {
+            if (existingPipFrontendName != null) {
+                // Reuse frontend already associated with this PIP
+                frontendName = existingPipFrontendName;
+            } else {
+                // Auto-named unique frontend
+                frontendName = ensureUniqueFrontend().name();
+            }
+        }
 
-    private LoadBalancerImpl withNewPublicIPAddress(Creatable<PublicIPAddress> creatablePip, String configName) {
-        this.creatablePIPKeys.put(creatablePip.key(), configName);
-        this.addCreatableDependency(creatablePip);
+        if (existingPipFrontendName == null) {
+            // No frontend associated with this PIP yet so create new association
+            this.creatablePIPKeys.put(creatablePip.key(), frontendName);
+            this.addCreatableDependency(creatablePip);
+        } else if (!existingPipFrontendName.equalsIgnoreCase(frontendName)) {
+            // Existing PIP definition already in use but under a different frontend, so error
+            throw new IllegalArgumentException("This public IP address definition is already associated with a frontend under a different name.");
+        }
+
         return this;
     }
 
     protected LoadBalancerImpl withExistingPublicIPAddress(String resourceId, String frontendName) {
         if (frontendName == null) {
-            frontendName = DEFAULT;
-        }
-
-        return this.definePublicFrontend(frontendName)
+            return ensureUniqueFrontend()
+                    .withExistingPublicIPAddress(resourceId)
+                    .parent();
+        } else {
+            return this.definePublicFrontend(frontendName)
                 .withExistingPublicIPAddress(resourceId)
                 .attach();
-    }
-
-    @Override
-    public LoadBalancerImpl withFrontendSubnet(Network network, String subnetName) {
-        return this.definePrivateFrontend(DEFAULT)
-                .withExistingSubnet(network, subnetName)
-                .attach();
-    }
-
-    private LoadBalancerImpl withExistingVirtualMachine(HasNetworkInterfaces vm, String backendName) {
-        if (backendName == null) {
-            backendName = DEFAULT;
         }
-
-        this.defineBackend(backendName).attach();
-        if (vm.primaryNetworkInterfaceId() != null) {
-            this.nicsInBackends.put(vm.primaryNetworkInterfaceId(), backendName.toLowerCase());
-        }
-
-        return this;
     }
 
-    @Override
-    public LoadBalancerImpl withExistingVirtualMachines(HasNetworkInterfaces... vms) {
-        if (vms != null) {
-            for (HasNetworkInterfaces vm : vms) {
-                withExistingVirtualMachine(vm, null);
+    LoadBalancerImpl withExistingVirtualMachine(HasNetworkInterfaces vm, String backendName) {
+        if (backendName != null) {
+            this.defineBackend(backendName).attach();
+            if (vm.primaryNetworkInterfaceId() != null) {
+                this.nicsInBackends.put(vm.primaryNetworkInterfaceId(), backendName.toLowerCase());
             }
         }
         return this;
-    }
-
-    @Override
-    public LoadBalancerImpl withLoadBalancingRule(int frontendPort, TransportProtocol protocol, int backendPort) {
-        this.defineLoadBalancingRule(DEFAULT)
-            .withFrontendPort(frontendPort)
-            .withFrontend(DEFAULT)
-            .withBackendPort(backendPort)
-            .withBackend(DEFAULT)
-            .withProtocol(protocol)
-            .withProbe(DEFAULT)
-            .attach();
-        return this;
-    }
-
-    @Override
-    public LoadBalancerImpl withLoadBalancingRule(int port, TransportProtocol protocol) {
-        return withLoadBalancingRule(port, protocol, port);
-    }
-
-    @Override
-    public LoadBalancerImpl withTcpProbe(int port) {
-        return this.defineTcpProbe(DEFAULT)
-                .withPort(port)
-                .attach();
-    }
-
-    @Override
-    public LoadBalancerImpl withHttpProbe(String path) {
-        return this.defineHttpProbe(DEFAULT)
-                .withRequestPath(path)
-                .withPort(80)
-                .attach();
     }
 
     @Override
@@ -558,11 +572,12 @@ class LoadBalancerImpl
         return defineFrontend(name);
     }
 
-    private LoadBalancerFrontendImpl defineFrontend(String name) {
+    LoadBalancerFrontendImpl defineFrontend(String name) {
         LoadBalancerFrontend frontend = this.frontends.get(name);
+
+        // Create if non-existent
         if (frontend == null) {
-            FrontendIPConfigurationInner inner = new FrontendIPConfigurationInner()
-                    .withName(name);
+            FrontendIPConfigurationInner inner = new FrontendIPConfigurationInner().withName(name);
             return new LoadBalancerFrontendImpl(inner, this);
         } else {
             return (LoadBalancerFrontendImpl) frontend;
@@ -572,6 +587,8 @@ class LoadBalancerImpl
     @Override
     public LoadBalancerBackendImpl defineBackend(String name) {
         LoadBalancerBackend backend = this.backends.get(name);
+
+        // Create if non-existent
         if (backend == null) {
             BackendAddressPoolInner inner = new BackendAddressPoolInner()
                     .withName(name);
@@ -602,12 +619,12 @@ class LoadBalancerImpl
     }
 
     @Override
-    public LoadBalancerFrontendImpl updateInternetFrontend(String name) {
+    public LoadBalancerFrontendImpl updatePublicFrontend(String name) {
         return (LoadBalancerFrontendImpl) this.frontends.get(name);
     }
 
     @Override
-    public LoadBalancerFrontendImpl updateInternalFrontend(String name) {
+    public LoadBalancerFrontendImpl updatePrivateFrontend(String name) {
         return (LoadBalancerFrontendImpl) this.frontends.get(name);
     }
 
@@ -684,6 +701,30 @@ class LoadBalancerImpl
     }
 
     @Override
+    public Map<String, LoadBalancerPrivateFrontend> privateFrontends() {
+        Map<String, LoadBalancerPrivateFrontend> privateFrontends = new HashMap<>();
+        for (LoadBalancerFrontend frontend : this.frontends().values()) {
+            if (!frontend.isPublic()) {
+                privateFrontends.put(frontend.name(), (LoadBalancerPrivateFrontend) frontend);
+            }
+        }
+
+        return Collections.unmodifiableMap(privateFrontends);
+    }
+
+    @Override
+    public Map<String, LoadBalancerPublicFrontend> publicFrontends() {
+        Map<String, LoadBalancerPublicFrontend> publicFrontends = new HashMap<>();
+        for (LoadBalancerFrontend frontend : this.frontends().values()) {
+            if (frontend.isPublic()) {
+                publicFrontends.put(frontend.name(), (LoadBalancerPublicFrontend) frontend);
+            }
+        }
+
+        return Collections.unmodifiableMap(publicFrontends);
+    }
+
+    @Override
     public Map<String, LoadBalancerInboundNatRule> inboundNatRules() {
         return Collections.unmodifiableMap(this.inboundNatRules);
     }
@@ -708,5 +749,29 @@ class LoadBalancerImpl
             }
         }
         return Collections.unmodifiableList(publicIPAddressIds);
+    }
+
+    @Override
+    public LoadBalancerPublicFrontend findFrontendByPublicIPAddress(String pipId) {
+        if (pipId == null) {
+            return null;
+        }
+
+        // Use existing frontend already pointing at this PIP, if any
+        for (LoadBalancerPublicFrontend frontend : this.publicFrontends().values()) {
+            if (frontend.publicIPAddressId() == null) {
+                continue;
+            }
+            else if (pipId.equalsIgnoreCase(frontend.publicIPAddressId())) {
+                return frontend;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public LoadBalancerPublicFrontend findFrontendByPublicIPAddress(PublicIPAddress publicIPAddress) {
+        return (publicIPAddress != null) ? this.findFrontendByPublicIPAddress(publicIPAddress.id()) : null;
     }
 }

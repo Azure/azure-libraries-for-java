@@ -138,14 +138,41 @@ public final class ManageVirtualMachineScaleSetWithUnmanagedDisks {
             LoadBalancer loadBalancer1 = azure.loadBalancers().define(loadBalancerName1)
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
-                    .definePublicFrontend(frontendName)
-                        .withExistingPublicIPAddress(publicIPAddress)
+
+                    // Add two rules that uses above backend and probe
+                    .defineLoadBalancingRule(httpLoadBalancingRule)
+                        .withProtocol(TransportProtocol.TCP)
+                        .fromFrontend(frontendName)
+                        .fromFrontendPort(80)
+                        .toBackend(backendPoolName1)
+                        .withProbe(httpProbe)
+                        .attach()
+                    .defineLoadBalancingRule(httpsLoadBalancingRule)
+                        .withProtocol(TransportProtocol.TCP)
+                        .fromFrontend(frontendName)
+                        .fromFrontendPort(443)
+                        .toBackend(backendPoolName2)
+                        .withProbe(httpsProbe)
                         .attach()
 
-                    // Add two backend one per rule
-                    .defineBackend(backendPoolName1)
+                    // Add nat pools to enable direct VM connectivity for
+                    //  SSH to port 22 and TELNET to port 23
+                    .defineInboundNatPool(natPool50XXto22)
+                        .withProtocol(TransportProtocol.TCP)
+                        .fromFrontend(frontendName)
+                        .fromFrontendPortRange(5000, 5099)
+                        .toBackendPort(22)
                         .attach()
-                    .defineBackend(backendPoolName2)
+                    .defineInboundNatPool(natPool60XXto23)
+                        .withProtocol(TransportProtocol.TCP)
+                        .fromFrontend(frontendName)
+                        .fromFrontendPortRange(6000, 6099)
+                        .toBackendPort(23)
+                        .attach()
+
+                    // Explicitly define the frontend
+                    .definePublicFrontend(frontendName)
+                        .withExistingPublicIPAddress(publicIPAddress)
                         .attach()
 
                     // Add two probes one per rule
@@ -158,36 +185,6 @@ public final class ManageVirtualMachineScaleSetWithUnmanagedDisks {
                         .withPort(443)
                         .attach()
 
-                    // Add two rules that uses above backend and probe
-                    .defineLoadBalancingRule(httpLoadBalancingRule)
-                        .withProtocol(TransportProtocol.TCP)
-                        .withFrontend(frontendName)
-                        .withFrontendPort(80)
-                        .withProbe(httpProbe)
-                        .withBackend(backendPoolName1)
-                        .attach()
-                    .defineLoadBalancingRule(httpsLoadBalancingRule)
-                        .withProtocol(TransportProtocol.TCP)
-                        .withFrontend(frontendName)
-                        .withFrontendPort(443)
-                        .withProbe(httpsProbe)
-                        .withBackend(backendPoolName2)
-                        .attach()
-
-                    // Add nat pools to enable direct VM connectivity for
-                    //  SSH to port 22 and TELNET to port 23
-                    .defineInboundNatPool(natPool50XXto22)
-                        .withProtocol(TransportProtocol.TCP)
-                        .withFrontend(frontendName)
-                        .withFrontendPortRange(5000, 5099)
-                        .withBackendPort(22)
-                        .attach()
-                    .defineInboundNatPool(natPool60XXto23)
-                        .withProtocol(TransportProtocol.TCP)
-                        .withFrontend(frontendName)
-                        .withFrontendPortRange(6000, 6099)
-                        .withBackendPort(23)
-                        .attach()
                     .create();
 
             // Print load balancer details

@@ -414,16 +414,6 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
-    public Map<String, AppSetting> appSettings() {
-        return cachedAppSettings;
-    }
-
-    @Override
-    public Map<String, ConnectionString> connectionStrings() {
-        return cachedConnectionStrings;
-    }
-
-    @Override
     public OperatingSystem operatingSystem() {
         if (inner().kind().toLowerCase().contains("linux")) {
             return OperatingSystem.LINUX;

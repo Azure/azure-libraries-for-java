@@ -12,6 +12,8 @@ import com.google.common.io.CharStreams;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServicePlan;
+import com.microsoft.azure.management.appservice.AppSetting;
+import com.microsoft.azure.management.appservice.ConnectionString;
 import com.microsoft.azure.management.appservice.HostNameBinding;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PricingTier;
@@ -24,6 +26,7 @@ import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
+import rx.functions.Func2;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -135,6 +138,50 @@ abstract class AppServiceBaseImpl<
     @Override
     public Map<String, HostNameBinding> getHostNameBindings() {
         return getHostNameBindingsAsync().toBlocking().single();
+    }
+
+    @Override
+    public Map<String, AppSetting> getAppSettings() {
+        return getAppSettingsAsync().toBlocking().single();
+    }
+
+    public Observable<Map<String, AppSetting>> getAppSettingsAsync() {
+        return Observable.zip(listAppSettings(), listSlotConfigurations(), new Func2<StringDictionaryInner, SlotConfigNamesResourceInner, Map<String, AppSetting>>() {
+            @Override
+            public Map<String, AppSetting> call(final StringDictionaryInner appSettingsInner, final SlotConfigNamesResourceInner slotConfigs) {
+                if (appSettingsInner != null && appSettingsInner.properties() != null) {
+                    return Maps.asMap(appSettingsInner.properties().keySet(), new Function<String, AppSetting>() {
+                        @Override
+                        public AppSetting apply(String input) {
+                            return new AppSettingImpl(input, appSettingsInner.properties().get(input),
+                                    slotConfigs.appSettingNames() != null && slotConfigs.appSettingNames().contains(input));
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    @Override
+    public Map<String, ConnectionString> getConnectionStrings() {
+        return getConnectionStringsAsync().toBlocking().single();
+    }
+
+    public Observable<Map<String, ConnectionString>> getConnectionStringsAsync() {
+        return Observable.zip(listConnectionStrings(), listSlotConfigurations(), new Func2<ConnectionStringDictionaryInner, SlotConfigNamesResourceInner, Map<String, ConnectionString>>() {
+            @Override
+            public Map<String, ConnectionString> call(final ConnectionStringDictionaryInner connectionStringsInner, final SlotConfigNamesResourceInner slotConfigs) {
+                if (connectionStringsInner != null && connectionStringsInner.properties() != null) {
+                    return Maps.asMap(connectionStringsInner.properties().keySet(), new Function<String, ConnectionString>() {
+                        @Override
+                        public ConnectionString apply(String input) {
+                            return new ConnectionStringImpl(input, connectionStringsInner.properties().get(input),
+                                    slotConfigs.connectionStringNames() != null && slotConfigs.connectionStringNames().contains(input));
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override

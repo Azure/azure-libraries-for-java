@@ -232,12 +232,22 @@ public interface WebAppBase extends
     /**
      * @return the app settings defined on the web app
      */
-    Map<String, AppSetting> appSettings();
+    Map<String, AppSetting> getAppSettings();
+
+    /**
+     * @return the app settings defined on the web app
+     */
+    Observable<Map<String, AppSetting>> getAppSettingsAsync();
 
     /**
      * @return the connection strings defined on the web app
      */
-    Map<String, ConnectionString> connectionStrings();
+    Map<String, ConnectionString> getConnectionStrings();
+
+    /**
+     * @return the connection strings defined on the web app
+     */
+    Observable<Map<String, ConnectionString>> getConnectionStringsAsync();
 
     /**
      * @return the operating system the web app is running on

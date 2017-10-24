@@ -875,11 +875,11 @@ public final class Utils {
             }
         }
         builder = builder.append("\n\tApp settings: ");
-        for (AppSetting setting : resource.appSettings().values()) {
+        for (AppSetting setting : resource.getAppSettings().values()) {
             builder = builder.append("\n\t\t" + setting.key() + ": " + setting.value() + (setting.sticky() ? " - slot setting" : ""));
         }
         builder = builder.append("\n\tConnection strings: ");
-        for (ConnectionString conn : resource.connectionStrings().values()) {
+        for (ConnectionString conn : resource.getConnectionStrings().values()) {
             builder = builder.append("\n\t\t" + conn.name() + ": " + conn.value() + " - " + conn.type() + (conn.sticky() ? " - slot setting" : ""));
         }
         System.out.println(builder.toString());

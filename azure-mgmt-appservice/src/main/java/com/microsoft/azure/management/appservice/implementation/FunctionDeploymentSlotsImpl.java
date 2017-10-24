@@ -50,7 +50,10 @@ class FunctionDeploymentSlotsImpl
     }
 
     private FunctionDeploymentSlot wrapModelWithConfigChange(SiteInner siteInner, WebAppsInner innerCollection, FunctionAppImpl parent) {
-        return wrapModel(siteInner, innerCollection.getConfigurationSlot(siteInner.resourceGroup(), parent.name(), siteInner.name().replaceAll(".*/", ""))).cacheSiteProperties().toBlocking().single();
+        if (siteInner == null) {
+            return null;
+        }
+        return wrapModel(siteInner, innerCollection.getConfigurationSlot(siteInner.resourceGroup(), parent.name(), siteInner.name().replaceAll(".*/", "")));
     }
 
     @Override
@@ -86,10 +89,10 @@ class FunctionDeploymentSlotsImpl
                     return null;
                 }
                 return innerCollection.getConfigurationSlotAsync(resourceGroup, parentName, name)
-                        .flatMap(new Func1<SiteConfigResourceInner, Observable<FunctionDeploymentSlot>>() {
+                        .map(new Func1<SiteConfigResourceInner, FunctionDeploymentSlot>() {
                             @Override
-                            public Observable<FunctionDeploymentSlot> call(SiteConfigResourceInner siteConfigInner) {
-                                return wrapModel(siteInner, siteConfigInner).cacheSiteProperties();
+                            public FunctionDeploymentSlot call(SiteConfigResourceInner siteConfigInner) {
+                                return wrapModel(siteInner, siteConfigInner);
                             }
                         });
             }

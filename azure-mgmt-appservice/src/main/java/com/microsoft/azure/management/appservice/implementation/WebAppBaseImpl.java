@@ -42,6 +42,7 @@ import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;
 import rx.Observable;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.functions.Func4;
@@ -77,8 +78,6 @@ abstract class WebAppBaseImpl<
             WebAppBase.UpdateStages.WithWebContainer<FluentT> {
 
     SiteConfigResourceInner siteConfig;
-    private Map<String, AppSetting> cachedAppSettings;
-    private Map<String, ConnectionString> cachedConnectionStrings;
 
     private Set<String> hostNamesSet;
     private Set<String> enabledHostNamesSet;
@@ -422,42 +421,48 @@ abstract class WebAppBaseImpl<
         }
     }
 
-    @SuppressWarnings("unchecked")
-    Observable<FluentT> cacheSiteProperties() {
-        final FluentT self = (FluentT) this;
-        return Observable.zip(
-                listAppSettings(),
-                listConnectionStrings(),
-                listSlotConfigurations(),
-                getAuthentication(),
-                new Func4<StringDictionaryInner, ConnectionStringDictionaryInner, SlotConfigNamesResourceInner, SiteAuthSettingsInner, FluentT>() {
+    @Override
+    public Map<String, AppSetting> getAppSettings() {
+        return getAppSettingsAsync().toBlocking().single();
+    }
+
+    public Observable<Map<String, AppSetting>> getAppSettingsAsync() {
+        return Observable.zip(listAppSettings(), listSlotConfigurations(), new Func2<StringDictionaryInner, SlotConfigNamesResourceInner, Map<String, AppSetting>>() {
             @Override
-            public FluentT call(final StringDictionaryInner appSettingsInner,
-                                final ConnectionStringDictionaryInner connectionStringsInner,
-                                final SlotConfigNamesResourceInner slotConfigs,
-                                final SiteAuthSettingsInner siteAuth) {
-                cachedAppSettings = new HashMap<>();
-                cachedConnectionStrings = new HashMap<>();
-                if (appSettingsInner != null && appSettingsInner.properties() != null) {
-                    cachedAppSettings = Maps.asMap(appSettingsInner.properties().keySet(), new Function<String, AppSetting>() {
-                        @Override
-                        public AppSetting apply(String input) {
-                            return new AppSettingImpl(input, appSettingsInner.properties().get(input),
-                                    slotConfigs.appSettingNames() != null && slotConfigs.appSettingNames().contains(input));
-                        }
-                    });
+            public Map<String, AppSetting> call(final StringDictionaryInner appSettingsInner, final SlotConfigNamesResourceInner slotConfigs) {
+                if (appSettingsInner == null || appSettingsInner.properties() == null) {
+                    return null;
                 }
-                if (connectionStringsInner != null && connectionStringsInner.properties() != null) {
-                    cachedConnectionStrings = Maps.asMap(connectionStringsInner.properties().keySet(), new Function<String, ConnectionString>() {
-                        @Override
-                        public ConnectionString apply(String input) {
-                            return new ConnectionStringImpl(input, connectionStringsInner.properties().get(input),
-                                    slotConfigs.connectionStringNames() != null && slotConfigs.connectionStringNames().contains(input));
-                        }
-                    });
+                return Maps.asMap(appSettingsInner.properties().keySet(), new Function<String, AppSetting>() {
+                    @Override
+                    public AppSetting apply(String input) {
+                        return new AppSettingImpl(input, appSettingsInner.properties().get(input),
+                                slotConfigs != null && slotConfigs.appSettingNames() != null && slotConfigs.appSettingNames().contains(input));
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public Map<String, ConnectionString> getConnectionStrings() {
+        return getConnectionStringsAsync().toBlocking().single();
+    }
+
+    public Observable<Map<String, ConnectionString>> getConnectionStringsAsync() {
+        return Observable.zip(listConnectionStrings(), listSlotConfigurations(), new Func2<ConnectionStringDictionaryInner, SlotConfigNamesResourceInner, Map<String, ConnectionString>>() {
+            @Override
+            public Map<String, ConnectionString> call(final ConnectionStringDictionaryInner connectionStringsInner, final SlotConfigNamesResourceInner slotConfigs) {
+                if (connectionStringsInner == null || connectionStringsInner.properties() == null) {
+                    return null;
                 }
-                authentication = new WebAppAuthenticationImpl<>(siteAuth, WebAppBaseImpl.this);
-                return self;
+                return Maps.asMap(connectionStringsInner.properties().keySet(), new Function<String, ConnectionString>() {
+                    @Override
+                    public ConnectionString apply(String input) {
+                        return new ConnectionStringImpl(input, connectionStringsInner.properties().get(input),
+                                slotConfigs != null && slotConfigs.connectionStringNames() != null && slotConfigs.connectionStringNames().contains(input));
+                    }
+                });
             }
         });
     }
@@ -574,11 +579,6 @@ abstract class WebAppBaseImpl<
             public FluentT call(SiteInner siteInner) {
                 setInner(siteInner);
                 return normalizeProperties();
-            }
-        }).flatMap(new Func1<FluentT, Observable<FluentT>>() {
-            @Override
-            public Observable<FluentT> call(FluentT fluentT) {
-                return cacheSiteProperties();
             }
         });
     }
@@ -1160,9 +1160,8 @@ abstract class WebAppBaseImpl<
     }
 
     @SuppressWarnings("unchecked")
-    FluentImplT withSourceControl(WebAppSourceControlImpl<FluentT, FluentImplT> sourceControl) {
+    void withSourceControl(WebAppSourceControlImpl<FluentT, FluentImplT> sourceControl) {
         this.sourceControl = sourceControl;
-        return (FluentImplT) this;
     }
 
     public WebAppSourceControlImpl<FluentT, FluentImplT> defineSourceControl() {
@@ -1187,10 +1186,9 @@ abstract class WebAppBaseImpl<
     }
 
     @SuppressWarnings("unchecked")
-    FluentImplT withAuthentication(WebAppAuthenticationImpl<FluentT, FluentImplT> authentication) {
+    void withAuthentication(WebAppAuthenticationImpl<FluentT, FluentImplT> authentication) {
         this.authentication = authentication;
         authenticationToUpdate = true;
-        return (FluentImplT) this;
     }
 
     @Override
@@ -1199,13 +1197,11 @@ abstract class WebAppBaseImpl<
         return super.refreshAsync().flatMap(new Func1<FluentT, Observable<FluentT>>() {
             @Override
             public Observable<FluentT> call(final FluentT fluentT) {
-                return getConfigInner().flatMap(new Func1<SiteConfigResourceInner, Observable<FluentT>>() {
+                return getConfigInner().map(new Func1<SiteConfigResourceInner, FluentT>() {
                     @Override
-                    public Observable<FluentT> call(SiteConfigResourceInner returnedSiteConfig) {
+                    public FluentT call(SiteConfigResourceInner returnedSiteConfig) {
                         siteConfig = returnedSiteConfig;
-                        final WebAppBaseImpl<FluentT, FluentImplT> impl = (WebAppBaseImpl<FluentT, FluentImplT>) fluentT;
-
-                        return impl.cacheSiteProperties();
+                        return fluentT;
                     }
                 });
             }
@@ -1220,11 +1216,6 @@ abstract class WebAppBaseImpl<
     @Override
     public WebAppAuthenticationImpl<FluentT, FluentImplT> defineAuthentication() {
         return new WebAppAuthenticationImpl<>(new SiteAuthSettingsInner().withEnabled(true), this);
-    }
-
-    @Override
-    public WebAppAuthenticationImpl<FluentT, FluentImplT> updateAuthentication() {
-        return authentication;
     }
 
     @Override

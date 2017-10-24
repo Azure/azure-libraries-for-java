@@ -71,12 +71,12 @@ public interface FunctionDeploymentSlot extends
             WithCreate withConfigurationFromParent();
 
             /**
-             * Copies the site configurations from a given web app.
+             * Copies the site configurations from a given function app.
              *
              * @param app the function app to copy the configurations from
              * @return the next stage of the definition
              */
-            WithCreate withConfigurationFromWebApp(FunctionApp app);
+            WithCreate withConfigurationFromFunctionApp(FunctionApp app);
 
             /**
              * Copies the site configurations from a givenfunction  deployment slot.

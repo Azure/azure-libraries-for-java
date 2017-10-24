@@ -1138,12 +1138,6 @@ public interface WebAppBase extends
             WebAppAuthentication.UpdateDefinitionStages.Blank<Update<FluentT>> defineAuthentication();
 
             /**
-             * Updates the authentication configuration of the web app.
-             * @return the first stage of an authentication update
-             */
-            WebAppAuthentication.Update<Update<FluentT>> updateAuthentication();
-
-            /**
              * Turns off the authentication on the web app.
              * @return the next stage of the web app update
              */

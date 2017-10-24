@@ -250,6 +250,16 @@ public interface WebAppBase extends
     Observable<Map<String, ConnectionString>> getConnectionStringsAsync();
 
     /**
+     * @return the authentication configuration defined on the web app
+     */
+    WebAppAuthentication getAuthenticationConfig();
+
+    /**
+     * @return the authentication configuration defined on the web app
+     */
+    Observable<WebAppAuthentication> getAuthenticationConfigAsync();
+
+    /**
      * @return the operating system the web app is running on
      */
     OperatingSystem operatingSystem();

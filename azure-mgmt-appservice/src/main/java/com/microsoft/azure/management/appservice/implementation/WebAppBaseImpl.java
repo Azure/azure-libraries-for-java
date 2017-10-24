@@ -35,6 +35,7 @@ import com.microsoft.azure.management.appservice.SiteAvailabilityState;
 import com.microsoft.azure.management.appservice.SiteConfig;
 import com.microsoft.azure.management.appservice.SslState;
 import com.microsoft.azure.management.appservice.UsageState;
+import com.microsoft.azure.management.appservice.WebAppAuthentication;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import com.microsoft.azure.management.appservice.WebContainer;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
@@ -424,6 +425,7 @@ abstract class WebAppBaseImpl<
         return getAppSettingsAsync().toBlocking().single();
     }
 
+    @Override
     public Observable<Map<String, AppSetting>> getAppSettingsAsync() {
         return Observable.zip(listAppSettings(), listSlotConfigurations(), new Func2<StringDictionaryInner, SlotConfigNamesResourceInner, Map<String, AppSetting>>() {
             @Override
@@ -447,6 +449,7 @@ abstract class WebAppBaseImpl<
         return getConnectionStringsAsync().toBlocking().single();
     }
 
+    @Override
     public Observable<Map<String, ConnectionString>> getConnectionStringsAsync() {
         return Observable.zip(listConnectionStrings(), listSlotConfigurations(), new Func2<ConnectionStringDictionaryInner, SlotConfigNamesResourceInner, Map<String, ConnectionString>>() {
             @Override
@@ -461,6 +464,21 @@ abstract class WebAppBaseImpl<
                                 slotConfigs != null && slotConfigs.connectionStringNames() != null && slotConfigs.connectionStringNames().contains(input));
                     }
                 });
+            }
+        });
+    }
+
+    @Override
+    public WebAppAuthentication getAuthenticationConfig() {
+        return getAuthenticationConfigAsync().toBlocking().single();
+    }
+
+    @Override
+    public Observable<WebAppAuthentication> getAuthenticationConfigAsync() {
+        return getAuthentication().map(new Func1<SiteAuthSettingsInner, WebAppAuthentication>() {
+            @Override
+            public WebAppAuthentication call(SiteAuthSettingsInner siteAuthSettingsInner) {
+                return new WebAppAuthenticationImpl<>(siteAuthSettingsInner, WebAppBaseImpl.this);
             }
         });
     }

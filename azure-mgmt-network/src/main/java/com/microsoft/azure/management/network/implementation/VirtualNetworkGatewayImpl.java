@@ -62,8 +62,8 @@ class VirtualNetworkGatewayImpl
     private final PagedListConverter<VirtualNetworkGatewayConnectionListEntityInner, VirtualNetworkGatewayConnection> connectionsConverter =
             new PagedListConverter<VirtualNetworkGatewayConnectionListEntityInner, VirtualNetworkGatewayConnection>() {
                 @Override
-                public VirtualNetworkGatewayConnection typeConvert(VirtualNetworkGatewayConnectionListEntityInner inner) {
-                    return connections().getById(inner.id());
+                public Observable<VirtualNetworkGatewayConnection> typeConvertAsync(VirtualNetworkGatewayConnectionListEntityInner inner) {
+                    return Observable.just((VirtualNetworkGatewayConnection) connections().getById(inner.id()));
                 }
             };
 

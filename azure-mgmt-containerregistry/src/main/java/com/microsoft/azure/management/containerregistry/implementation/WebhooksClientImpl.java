@@ -69,11 +69,11 @@ public class WebhooksClientImpl implements Registries.WebhooksClient {
         final WebhooksClientImpl self = this;
         final PagedListConverter<WebhookInner, Webhook> converter = new PagedListConverter<WebhookInner, Webhook>() {
             @Override
-            public Webhook typeConvert(WebhookInner inner) {
+            public Observable<Webhook> typeConvertAsync(WebhookInner inner) {
                 if (self.containerRegistry != null) {
-                    return new WebhookImpl(inner.name(), self.containerRegistry, inner, self.containerRegistryManager).setCallbackConfigAsync().toBlocking().single();
+                    return new WebhookImpl(inner.name(), self.containerRegistry, inner, self.containerRegistryManager).setCallbackConfigAsync();
                 } else {
-                    return new WebhookImpl(resourceGroupName, registryName, inner.name(), inner, self.containerRegistryManager);
+                    return Observable.just((Webhook) new WebhookImpl(resourceGroupName, registryName, inner.name(), inner, self.containerRegistryManager));
                 }
             }
         };

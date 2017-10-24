@@ -215,8 +215,8 @@ public class WebhookImpl
         final WebhookImpl self = this;
         final PagedListConverter<EventInner, WebhookEventInfo> converter = new PagedListConverter<EventInner, WebhookEventInfo>() {
             @Override
-            public WebhookEventInfo typeConvert(EventInner inner) {
-                return new WebhookEventInfoImpl(inner);
+            public Observable<WebhookEventInfo> typeConvertAsync(EventInner inner) {
+                return Observable.just((WebhookEventInfo) new WebhookEventInfoImpl(inner));
             }
         };
         return converter.convert(this.containerRegistryManager.inner().webhooks()

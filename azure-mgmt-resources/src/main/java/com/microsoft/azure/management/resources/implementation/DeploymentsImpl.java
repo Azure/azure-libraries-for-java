@@ -39,8 +39,8 @@ final class DeploymentsImpl
         this.resourceManager = resourceManager;
         converter = new PagedListConverter<DeploymentExtendedInner, Deployment>() {
             @Override
-            public Deployment typeConvert(DeploymentExtendedInner deploymentInner) {
-                return createFluentModel(deploymentInner);
+            public Observable<Deployment> typeConvertAsync(DeploymentExtendedInner deploymentInner) {
+                return Observable.just((Deployment) createFluentModel(deploymentInner));
             }
         };
     }

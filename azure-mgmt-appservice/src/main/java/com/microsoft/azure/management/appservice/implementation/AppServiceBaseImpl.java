@@ -12,8 +12,6 @@ import com.google.common.io.CharStreams;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServicePlan;
-import com.microsoft.azure.management.appservice.AppSetting;
-import com.microsoft.azure.management.appservice.ConnectionString;
 import com.microsoft.azure.management.appservice.HostNameBinding;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PricingTier;
@@ -26,7 +24,6 @@ import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
-import rx.functions.Func2;
 
 import java.io.IOException;
 import java.io.InputStream;

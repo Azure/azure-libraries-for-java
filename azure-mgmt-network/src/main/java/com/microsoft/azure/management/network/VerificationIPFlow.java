@@ -21,9 +21,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 public interface VerificationIPFlow extends Executable<VerificationIPFlow>,
         HasParent<NetworkWatcher> {
     /**
-     * Get the access value. Indicates whether the traffic is allowed or denied. Possible values
-     * include: 'Allow', 'Deny'.
-     *
+     * Get the access value. Indicates whether the traffic is allowed or denied.
      * @return the access value
      */
     Access access();
@@ -69,8 +67,7 @@ public interface VerificationIPFlow extends Executable<VerificationIPFlow>,
         }
 
         /**
-         * The direction of the packet represented as a 5-tuple. Possible values
-         * include: 'Inbound', 'Outbound'.
+         * The direction of the packet represented as a 5-tuple.
          */
         interface WithDirection {
             /**

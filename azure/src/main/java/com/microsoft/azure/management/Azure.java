@@ -549,6 +549,7 @@ public final class Azure {
     /**
      * @return entry point to managing express route circuits
      */
+    @Beta(SinceVersion.V1_4_0)
     public ExpressRouteCircuits expressRouteCircuits() {
         return networkManager.expressRouteCircuits();
     }

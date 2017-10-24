@@ -250,6 +250,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to express route circuit management
      */
+    @Beta(SinceVersion.V1_4_0)
     public ExpressRouteCircuits expressRouteCircuits() {
         if (this.expressRouteCircuits == null) {
             this.expressRouteCircuits = new ExpressRouteCircuitsImpl(this);

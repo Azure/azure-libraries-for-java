@@ -19,20 +19,20 @@ public interface ExpressRouteCircuitStats extends HasInner<ExpressRouteCircuitSt
     /**
      * @return BytesIn of the peering
      */
-    long primarybytesIn();
+    long primaryBytesIn();
 
     /**
      * @return BytesOut of the peering
      */
-    long primarybytesOut();
+    long primaryBytesOut();
 
     /**
      * @return BytesIn of the peering
      */
-    long secondarybytesIn();
+    long secondaryBytesIn();
 
     /**
      * @return BytesOut of the peering
      */
-    long secondarybytesOut();
+    long secondaryBytesOut();
 }

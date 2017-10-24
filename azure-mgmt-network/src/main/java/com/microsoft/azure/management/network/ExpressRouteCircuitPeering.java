@@ -28,15 +28,14 @@ public interface ExpressRouteCircuitPeering extends
         Updatable<ExpressRouteCircuitPeering.Update> {
 
     // Getters
+
     /**
-     * Gets the PeeringType. Possible values include:
-     * 'AzurePublicPeering', 'AzurePrivatePeering', 'MicrosoftPeering'.
-     * @return peeringType
+     * @return peering type
      */
     ExpressRouteCircuitPeeringType peeringType();
 
     /**
-     * Gets the state of peering. Possible values include: 'Disabled', 'Enabled'.
+     * Gets the state of peering.
      * @return peering state
      */
     ExpressRouteCircuitPeeringState state();
@@ -44,12 +43,12 @@ public interface ExpressRouteCircuitPeering extends
     /**
      * @return the Azure ASN
      */
-    int azureASN();
+    int azureAsn();
 
     /**
      * @return the peer ASN
      */
-    int peerASN();
+    int peerAsn();
 
     /**
      * @return the primary address prefix
@@ -92,8 +91,7 @@ public interface ExpressRouteCircuitPeering extends
     ExpressRouteCircuitStats stats();
 
     /**
-     * Gets the provisioning state of the resource. Possible values
-     * are: 'Updating', 'Deleting', and 'Failed'.
+     * Gets the provisioning state of the resource.
      * @return provisioningState
      */
     String provisioningState();

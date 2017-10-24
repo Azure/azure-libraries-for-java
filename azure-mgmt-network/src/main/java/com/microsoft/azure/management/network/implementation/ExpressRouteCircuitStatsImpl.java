@@ -21,22 +21,22 @@ public class ExpressRouteCircuitStatsImpl extends WrapperImpl<ExpressRouteCircui
     }
 
     @Override
-    public long primarybytesIn() {
+    public long primaryBytesIn() {
         return Utils.toPrimitiveLong(inner().primarybytesIn());
     }
 
     @Override
-    public long primarybytesOut() {
+    public long primaryBytesOut() {
         return Utils.toPrimitiveLong(inner().primarybytesOut());
     }
 
     @Override
-    public long secondarybytesIn() {
+    public long secondaryBytesIn() {
         return Utils.toPrimitiveLong(inner().secondarybytesIn());
     }
 
     @Override
-    public long secondarybytesOut() {
+    public long secondaryBytesOut() {
         return Utils.toPrimitiveLong(inner().secondarybytesOut());
     }
 }

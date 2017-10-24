@@ -10,6 +10,9 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * The tests for prepare stage of the graph (i.e. adding sub-graph in prepare stage).
+ */
 public class DAGFinalizeTests {
     @Test
     public void testWithoutFinalize() {
@@ -365,7 +368,7 @@ public class DAGFinalizeTests {
         Assert.assertEquals(nodeJ.dependencyKeys().size(), 2);
         for (String dependentKey : nodeJ.dependencyKeys()) {
             Assert.assertTrue(dependentKey.equalsIgnoreCase(pizzaM.key())
-                || dependentKey.equalsIgnoreCase(pizzaN.key()));
+                    || dependentKey.equalsIgnoreCase(pizzaN.key()));
         }
         Assert.assertEquals(nodeJ.dependentKeys().size(), 1);
         for (String dependentKey : nodeJ.dependentKeys()) {
@@ -481,7 +484,7 @@ public class DAGFinalizeTests {
         Assert.assertEquals(nodeG.dependencyKeys().size(), 2);
         for (String dependentKey : nodeG.dependencyKeys()) {
             Assert.assertTrue(dependentKey.equalsIgnoreCase(pizzaC.key())
-                || dependentKey.equalsIgnoreCase(pizzaL.key()));
+                    || dependentKey.equalsIgnoreCase(pizzaL.key()));
         }
         Assert.assertEquals(nodeG.dependentKeys().size(), 1);
         for (String dependentKey : nodeG.dependentKeys()) {

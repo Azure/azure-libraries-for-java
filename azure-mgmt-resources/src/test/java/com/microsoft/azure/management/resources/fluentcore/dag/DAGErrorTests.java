@@ -116,14 +116,14 @@ public class DAGErrorTests {
                 return pancake;
             }
         })
-        .onErrorResumeNext(new Func1<Throwable, Observable<IPancake>>() {
-            @Override
-            public Observable<IPancake> call(Throwable throwable) {
-                System.out.println("map.onErrorResumeNext: " + throwable);
-                exceptions.add(throwable);
-                return Observable.empty();
-            }
-        }).toBlocking().last();
+                .onErrorResumeNext(new Func1<Throwable, Observable<IPancake>>() {
+                    @Override
+                    public Observable<IPancake> call(Throwable throwable) {
+                        System.out.println("map.onErrorResumeNext: " + throwable);
+                        exceptions.add(throwable);
+                        return Observable.empty();
+                    }
+                }).toBlocking().last();
 
         Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
         Assert.assertEquals(exceptions.size(), 1);
@@ -236,14 +236,14 @@ public class DAGErrorTests {
                 return pasta;
             }
         })
-        .onErrorResumeNext(new Func1<Throwable, Observable<IPasta>>() {
-            @Override
-            public Observable<IPasta> call(Throwable throwable) {
-                System.out.println("map.onErrorResumeNext: " + throwable);
-                exceptions.add(throwable);
-                return Observable.empty();
-            }
-        }).toBlocking().last();
+                .onErrorResumeNext(new Func1<Throwable, Observable<IPasta>>() {
+                    @Override
+                    public Observable<IPasta> call(Throwable throwable) {
+                        System.out.println("map.onErrorResumeNext: " + throwable);
+                        exceptions.add(throwable);
+                        return Observable.empty();
+                    }
+                }).toBlocking().last();
 
         Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
         Assert.assertEquals(exceptions.size(), 1);
@@ -353,14 +353,14 @@ public class DAGErrorTests {
                 return pancake;
             }
         })
-        .onErrorResumeNext(new Func1<Throwable, Observable<IPancake>>() {
-            @Override
-            public Observable<IPancake> call(Throwable throwable) {
-                System.out.println("map.onErrorResumeNext:" + throwable);
-                exceptions.add(throwable);
-                return Observable.empty();
-            }
-        }).toBlocking().last();
+                .onErrorResumeNext(new Func1<Throwable, Observable<IPancake>>() {
+                    @Override
+                    public Observable<IPancake> call(Throwable throwable) {
+                        System.out.println("map.onErrorResumeNext:" + throwable);
+                        exceptions.add(throwable);
+                        return Observable.empty();
+                    }
+                }).toBlocking().last();
 
         Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
         Assert.assertEquals(exceptions.size(), 1);
@@ -472,14 +472,14 @@ public class DAGErrorTests {
                 return pancake;
             }
         })
-        .onErrorResumeNext(new Func1<Throwable, Observable<IPancake>>() {
-            @Override
-            public Observable<IPancake> call(Throwable throwable) {
-                System.out.println("map.onErrorResumeNext:" + throwable);
-                exceptions.add(throwable);
-                return Observable.empty();
-            }
-        }).toBlocking().last();
+                .onErrorResumeNext(new Func1<Throwable, Observable<IPancake>>() {
+                    @Override
+                    public Observable<IPancake> call(Throwable throwable) {
+                        System.out.println("map.onErrorResumeNext:" + throwable);
+                        exceptions.add(throwable);
+                        return Observable.empty();
+                    }
+                }).toBlocking().last();
 
         Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
         Assert.assertEquals(exceptions.size(), 1);

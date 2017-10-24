@@ -121,7 +121,7 @@ public interface ExpressRouteCircuit extends
          * The stage of express route circuit definition allowing to specify service provider name.
          */
         interface WithServiceProvider {
-            WithPeeringLocation withServiceProvidet(String serviceProviderName);
+            WithPeeringLocation withServiceProvider(String serviceProviderName);
         }
 
         /**

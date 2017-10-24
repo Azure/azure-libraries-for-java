@@ -38,8 +38,7 @@ class WebAppsImpl
         converter = new PagedListConverter<SiteInner, WebApp>() {
             @Override
             public WebApp typeConvert(SiteInner siteInner) {
-                WebAppImpl impl = wrapModel(siteInner, manager.inner().webApps().getConfiguration(siteInner.resourceGroup(), siteInner.name()));
-                return impl.cacheSiteProperties().toBlocking().single();
+                return wrapModel(siteInner, manager.inner().webApps().getConfiguration(siteInner.resourceGroup(), siteInner.name()));
             }
 
             @Override
@@ -59,10 +58,10 @@ class WebAppsImpl
                 if (siteInner == null) {
                     return null;
                 }
-                return self.inner().getConfigurationAsync(groupName, name).flatMap(new Func1<SiteConfigResourceInner, Observable<WebApp>>() {
+                return self.inner().getConfigurationAsync(groupName, name).map(new Func1<SiteConfigResourceInner, WebApp>() {
                     @Override
-                    public Observable<WebApp> call(SiteConfigResourceInner siteConfigInner) {
-                        return wrapModel(siteInner, siteConfigInner).cacheSiteProperties();
+                    public WebApp call(SiteConfigResourceInner siteConfigInner) {
+                        return wrapModel(siteInner, siteConfigInner);
                     }
                 });
             }

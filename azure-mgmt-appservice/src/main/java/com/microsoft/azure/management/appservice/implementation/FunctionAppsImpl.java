@@ -34,8 +34,7 @@ class FunctionAppsImpl
         converter = new PagedListConverter<SiteInner, FunctionApp>() {
             @Override
             public FunctionApp typeConvert(SiteInner siteInner) {
-                FunctionAppImpl impl = wrapModel(siteInner, manager.inner().webApps().getConfiguration(siteInner.resourceGroup(), siteInner.name()));
-                return impl.cacheSiteProperties().toBlocking().single();
+                return wrapModel(siteInner, manager.inner().webApps().getConfiguration(siteInner.resourceGroup(), siteInner.name()));
             }
 
             @Override
@@ -51,7 +50,7 @@ class FunctionAppsImpl
         if (siteInner == null) {
             return null;
         }
-        return wrapModel(siteInner, this.inner().getConfiguration(groupName, name)).cacheSiteProperties().toBlocking().single();
+        return wrapModel(siteInner, this.inner().getConfiguration(groupName, name));
     }
 
     @Override

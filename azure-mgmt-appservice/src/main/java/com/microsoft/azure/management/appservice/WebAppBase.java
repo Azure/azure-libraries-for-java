@@ -232,12 +232,32 @@ public interface WebAppBase extends
     /**
      * @return the app settings defined on the web app
      */
-    Map<String, AppSetting> appSettings();
+    Map<String, AppSetting> getAppSettings();
+
+    /**
+     * @return the app settings defined on the web app
+     */
+    Observable<Map<String, AppSetting>> getAppSettingsAsync();
 
     /**
      * @return the connection strings defined on the web app
      */
-    Map<String, ConnectionString> connectionStrings();
+    Map<String, ConnectionString> getConnectionStrings();
+
+    /**
+     * @return the connection strings defined on the web app
+     */
+    Observable<Map<String, ConnectionString>> getConnectionStringsAsync();
+
+    /**
+     * @return the authentication configuration defined on the web app
+     */
+    WebAppAuthentication getAuthenticationConfig();
+
+    /**
+     * @return the authentication configuration defined on the web app
+     */
+    Observable<WebAppAuthentication> getAuthenticationConfigAsync();
 
     /**
      * @return the operating system the web app is running on
@@ -1126,12 +1146,6 @@ public interface WebAppBase extends
              */
             @Method
             WebAppAuthentication.UpdateDefinitionStages.Blank<Update<FluentT>> defineAuthentication();
-
-            /**
-             * Updates the authentication configuration of the web app.
-             * @return the first stage of an authentication update
-             */
-            WebAppAuthentication.Update<Update<FluentT>> updateAuthentication();
 
             /**
              * Turns off the authentication on the web app.

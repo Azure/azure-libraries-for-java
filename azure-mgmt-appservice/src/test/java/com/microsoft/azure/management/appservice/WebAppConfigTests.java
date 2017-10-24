@@ -68,7 +68,7 @@ public class WebAppConfigTests extends AppServiceTest {
                 .withStickyAppSetting("stickykey", "stickyvalue")
                 .apply();
         webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
-        Map<String, AppSetting> appSettingMap = webApp.appSettings();
+        Map<String, AppSetting> appSettingMap = webApp.getAppSettings();
         Assert.assertEquals("appvalue", appSettingMap.get("appkey").value());
         Assert.assertEquals(false, appSettingMap.get("appkey").sticky());
         Assert.assertEquals("stickyvalue", appSettingMap.get("stickykey").value());
@@ -80,7 +80,7 @@ public class WebAppConfigTests extends AppServiceTest {
                 .withStickyConnectionString("stickyName", "stickyValue", ConnectionStringType.CUSTOM)
                 .apply();
         webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
-        Map<String, ConnectionString> connectionStringMap = webApp.connectionStrings();
+        Map<String, ConnectionString> connectionStringMap = webApp.getConnectionStrings();
         Assert.assertEquals("connectionValue", connectionStringMap.get("connectionName").value());
         Assert.assertEquals(false, connectionStringMap.get("connectionName").sticky());
         Assert.assertEquals("stickyValue", connectionStringMap.get("stickyName").value());

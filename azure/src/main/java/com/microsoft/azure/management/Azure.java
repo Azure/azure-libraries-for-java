@@ -441,7 +441,7 @@ public final class Azure {
      * @return entry point to managing management locks
      */
     public ManagementLocks managementLocks() {
-    	return this.authorizationManager.managementLocks();
+        return this.authorizationManager.managementLocks();
     }
 
     /**

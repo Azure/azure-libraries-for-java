@@ -36,7 +36,7 @@ public class ExpressRouteCircuitSkuType {
     public static final ExpressRouteCircuitSkuType PREMIUM_UNLIMITEDDATA = new ExpressRouteCircuitSkuType(ExpressRouteCircuitSkuTier.PREMIUM, ExpressRouteCircuitSkuFamily.UNLIMITED_DATA);
 
     /**
-     * the SKU corresponding to this type
+     * the SKU corresponding to this type.
      */
     private final ExpressRouteCircuitSku sku;
 

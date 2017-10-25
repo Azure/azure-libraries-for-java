@@ -122,8 +122,8 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceImpl<
     }
 
     @Override
-    public ExpressRouteCircuitSku sku() {
-        return inner().sku();
+    public ExpressRouteCircuitSkuType sku() {
+        return ExpressRouteCircuitSkuType.fromSku(inner().sku());
     }
 
     @Override

@@ -40,9 +40,9 @@ public interface ExpressRouteCircuit extends
     // Getters
 
     /**
-     * @return the SKU
+     * @return the SKU type
      */
-    ExpressRouteCircuitSku sku();
+    ExpressRouteCircuitSkuType sku();
 
     /**
      * @return the flag indicating if classic operations allowed

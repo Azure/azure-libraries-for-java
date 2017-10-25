@@ -61,8 +61,7 @@ public class TestExpressRouteCircuit {
             Assert.assertTrue(resource.tags().containsKey("tag2"));
             Assert.assertTrue(!resource.tags().containsKey("tag1"));
             Assert.assertEquals(Integer.valueOf(200), resource.serviceProviderProperties().bandwidthInMbps());
-            Assert.assertEquals(ExpressRouteCircuitSkuFamily.UNLIMITED_DATA, resource.sku().family());
-            Assert.assertEquals(ExpressRouteCircuitSkuTier.PREMIUM, resource.sku().tier());
+            Assert.assertEquals(ExpressRouteCircuitSkuType.PREMIUM_UNLIMITEDDATA, resource.sku());
             return resource;
         }
 

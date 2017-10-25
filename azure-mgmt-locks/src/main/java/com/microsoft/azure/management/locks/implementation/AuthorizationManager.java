@@ -13,6 +13,7 @@ import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.microsoft.azure.management.locks.ManagementLocks;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -25,6 +26,9 @@ import com.microsoft.rest.RestClient;
  */
 @Beta(SinceVersion.V1_3_0)
 public final class AuthorizationManager extends Manager<AuthorizationManager, ManagementLockClientImpl> {
+
+    private ManagementLocks managementLocks;
+
     /**
     * Get a Configurable instance that can be used to create AuthorizationManager with optional configuration.
     *
@@ -85,5 +89,16 @@ public final class AuthorizationManager extends Manager<AuthorizationManager, Ma
             restClient,
             subscriptionId,
             new ManagementLockClientImpl(restClient).withSubscriptionId(subscriptionId));
+    }
+
+    /**
+     * @return entry point to management lock management
+     */
+    @Beta(SinceVersion.V1_4_0)
+    public ManagementLocks managementLocks() {
+        if (this.managementLocks == null) {
+            this.managementLocks = new ManagementLocksImpl(this);
+        }
+        return this.managementLocks;
     }
 }

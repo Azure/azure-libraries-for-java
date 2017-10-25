@@ -47,6 +47,8 @@ import com.microsoft.azure.management.graphrbac.ServicePrincipals;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.keyvault.Vaults;
 import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
+import com.microsoft.azure.management.locks.ManagementLocks;
+import com.microsoft.azure.management.locks.implementation.AuthorizationManager;
 import com.microsoft.azure.management.network.ApplicationGateways;
 import com.microsoft.azure.management.network.LoadBalancers;
 import com.microsoft.azure.management.network.LocalNetworkGateways;
@@ -114,6 +116,7 @@ public final class Azure {
     private final ContainerRegistryManager containerRegistryManager;
     private final SearchServiceManager searchServiceManager;
     private final CosmosDBManager cosmosDBManager;
+    private final AuthorizationManager authorizationManager;
     private final String subscriptionId;
     private final Authenticated authenticated;
 
@@ -387,6 +390,7 @@ public final class Azure {
         this.containerRegistryManager = ContainerRegistryManager.authenticate(restClient, subscriptionId);
         this.cosmosDBManager = CosmosDBManager.authenticate(restClient, subscriptionId);
         this.searchServiceManager = SearchServiceManager.authenticate(restClient, subscriptionId);
+        this.authorizationManager = AuthorizationManager.authenticate(restClient, subscriptionId);
         this.subscriptionId = subscriptionId;
         this.authenticated = authenticated;
     }
@@ -427,10 +431,17 @@ public final class Azure {
     }
 
     /**
-     * @return entry point to management generic resources
+     * @return entry point to managing generic resources
      */
     public GenericResources genericResources() {
         return resourceManager.genericResources();
+    }
+
+    /**
+     * @return entry point to managing management locks
+     */
+    public ManagementLocks managementLocks() {
+    	return this.authorizationManager.managementLocks();
     }
 
     /**

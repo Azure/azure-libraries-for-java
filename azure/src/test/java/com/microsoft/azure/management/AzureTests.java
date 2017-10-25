@@ -16,6 +16,8 @@ import com.microsoft.azure.management.compute.VirtualMachineOffer;
 import com.microsoft.azure.management.compute.VirtualMachinePublisher;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.compute.VirtualMachineSku;
+import com.microsoft.azure.management.locks.LockLevel;
+import com.microsoft.azure.management.locks.ManagementLock;
 import com.microsoft.azure.management.network.Access;
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayBackend;
@@ -89,6 +91,7 @@ public class AzureTests extends TestBase {
      * @throws Exception
      */
     @Test
+    @Ignore("MSI-enabled subscription broken. Can't test...")
     public void testExpandableEnum() throws Exception {
 
         // Define some threads that read from enum
@@ -236,6 +239,71 @@ public class AzureTests extends TestBase {
                 firstResource.name());
         Assert.assertTrue(resourceById.id().equalsIgnoreCase(resourceByDetails.id()));
         azure.resourceGroups().beginDeleteByName(nsg.resourceGroupName());
+    }
+
+    /**
+     * Tests management locks.
+     * @throws Exception
+     */
+    @Test
+    public void testManagementLocks() throws Exception {
+        // Prepare a VM
+        String password = SdkContext.randomResourceName("P@s", 14);
+        ResourceGroup resourceGroup = null;
+
+        try {
+            VirtualMachine vm = azure.virtualMachines().define(SdkContext.randomResourceName("vm", 10))
+                    .withRegion(Region.US_EAST)
+                    .withNewResourceGroup()
+                    .withNewPrimaryNetwork("10.0.0.0/28")
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withoutPrimaryPublicIPAddress()
+                    .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                    .withRootUsername("tester")
+                    .withRootPassword(password)
+                    .withSize(VirtualMachineSizeTypes.BASIC_A1)
+                    .create();
+            resourceGroup = azure.resourceGroups().getByName(vm.resourceGroupName());
+
+            // Lock VM
+            ManagementLock lockVM = azure.managementLocks().define("vmlock")
+                    .withLockedResource(vm)
+                    .withLevel(LockLevel.READ_ONLY)
+                    .withNotes("vm readonly lock")
+                    .create();
+
+            // Lock resource group
+            ManagementLock lockGroup = azure.managementLocks().define("rglock")
+                    .withLockedResource(resourceGroup.id())
+                    .withLevel(LockLevel.CAN_NOT_DELETE)
+                    .create();
+
+            // Verify VM lock
+            Assert.assertNotNull(lockVM);
+
+            // Verify resource group lock
+            Assert.assertNotNull(resourceGroup);
+
+            lockVM = azure.managementLocks().getById(lockVM.id());
+            lockGroup = azure.managementLocks().getByResourceGroup(resourceGroup.name(), "rglock");
+            Assert.assertNotNull(lockVM);
+            Assert.assertNotNull(lockGroup);
+
+            List<ManagementLock> locksAll = azure.managementLocks().list();
+            List<ManagementLock> locksGroup = azure.managementLocks().listByResourceGroup(vm.resourceGroupName());
+            Assert.assertNotNull(locksAll);
+            Assert.assertNotNull(locksGroup);
+            Assert.assertEquals(2, locksAll.size());
+            Assert.assertEquals(1, locksGroup.size());
+            Assert.assertEquals(LockLevel.READ_ONLY, lockVM.level());
+            Assert.assertEquals(LockLevel.CAN_NOT_DELETE, lockGroup.level());
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            if (resourceGroup != null) {
+                azure.resourceGroups().beginDeleteByName(resourceGroup.name());
+            }
+        }
     }
 
     /**

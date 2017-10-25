@@ -95,8 +95,7 @@ public interface ExpressRouteCircuit extends
             DefinitionStages.WithServiceProvider,
             DefinitionStages.WithPeeringLocation,
             DefinitionStages.WithBandwidth,
-            DefinitionStages.WithSkuTier,
-            DefinitionStages.WithSkuFamily,
+            DefinitionStages.WithSku,
             DefinitionStages.WithCreate {
     }
 
@@ -135,21 +134,14 @@ public interface ExpressRouteCircuit extends
          * The stage of express route circuit definition allowing to specify service provider bandwidth.
          */
         interface WithBandwidth {
-            WithSkuTier withBandwidthInMbps(int bandwidthInMbps);
+            WithSku withBandwidthInMbps(int bandwidthInMbps);
         }
 
         /**
-         * The stage of express route circuit definition allowing to specify SKU tier.
+         * The stage of express route circuit definition allowing to specify SKU tier and family.
          */
-        interface WithSkuTier {
-            WithSkuFamily withSkuTier(ExpressRouteCircuitSkuTier skuTier);
-        }
-
-        /**
-         * The stage of express route circuit definition allowing to specify SKU family.
-         */
-        interface WithSkuFamily {
-            WithCreate withSkuFamily(ExpressRouteCircuitSkuFamily skuFamily);
+        interface WithSku {
+            WithCreate withSku(ExpressRouteCircuitSkuType skuType);
         }
 
         /**
@@ -183,17 +175,10 @@ public interface ExpressRouteCircuit extends
         }
 
         /**
-         * The stage of express route circuit definition allowing to specify SKU tier.
+         * The stage of express route circuit definition allowing to specify SKU tier and family.
          */
-        interface WithSkuTier {
-            Update withSkuTier(ExpressRouteCircuitSkuTier skuTier);
-        }
-
-        /**
-         * The stage of express route circuit definition allowing to specify SKU family.
-         */
-        interface WithSkuFamily {
-            Update withSkuFamily(ExpressRouteCircuitSkuFamily skuFamily);
+        interface WithSku {
+            Update withSku(ExpressRouteCircuitSkuType sku);
         }
 
         /**
@@ -214,8 +199,7 @@ public interface ExpressRouteCircuit extends
             Appliable<ExpressRouteCircuit>,
             Resource.UpdateWithTags<Update>,
             UpdateStages.WithBandwidth,
-            UpdateStages.WithSkuTier,
-            UpdateStages.WithSkuFamily,
+            UpdateStages.WithSku,
             UpdateStages.WithAllowClassicOperations {
     }
 }

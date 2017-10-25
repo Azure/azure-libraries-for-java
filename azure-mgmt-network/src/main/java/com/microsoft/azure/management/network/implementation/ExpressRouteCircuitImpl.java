@@ -11,8 +11,7 @@ import com.microsoft.azure.management.network.ExpressRouteCircuitPeering;
 import com.microsoft.azure.management.network.ExpressRouteCircuitPeerings;
 import com.microsoft.azure.management.network.ExpressRouteCircuitServiceProviderProperties;
 import com.microsoft.azure.management.network.ExpressRouteCircuitSku;
-import com.microsoft.azure.management.network.ExpressRouteCircuitSkuFamily;
-import com.microsoft.azure.management.network.ExpressRouteCircuitSkuTier;
+import com.microsoft.azure.management.network.ExpressRouteCircuitSkuType;
 import com.microsoft.azure.management.network.ServiceProviderProvisioningState;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
@@ -31,7 +30,6 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceImpl<
         ExpressRouteCircuit,
         ExpressRouteCircuit.Definition,
         ExpressRouteCircuit.Update {
-    private static final String SKU_DELIMITER = "_";
     private ExpressRouteCircuitPeeringsImpl peerings;
     private Map<String, ExpressRouteCircuitPeering> expressRouteCircuitPeerings;
 
@@ -41,7 +39,7 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceImpl<
     }
 
     @Override
-    public ExpressRouteCircuitImpl withServiceProvidet(String serviceProviderName) {
+    public ExpressRouteCircuitImpl withServiceProvider(String serviceProviderName) {
         ensureServiceProviderProperties().withServiceProviderName(serviceProviderName);
         return this;
     }
@@ -59,8 +57,8 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceImpl<
     }
 
     @Override
-    public ExpressRouteCircuitImpl withSkuTier(ExpressRouteCircuitSkuTier skuTier) {
-        ensureSku().withTier(skuTier).withName(skuTier.toString());
+    public ExpressRouteCircuitImpl withSku(ExpressRouteCircuitSkuType sku) {
+        inner().withSku(sku.sku());
         return this;
     }
 
@@ -84,22 +82,7 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceImpl<
         return inner().serviceProviderProperties();
     }
 
-    private ExpressRouteCircuitSku ensureSku() {
-        if (inner().sku() == null) {
-            inner().withSku(new ExpressRouteCircuitSku());
-        }
-        return inner().sku();
-    }
-
-    @Override
-    public ExpressRouteCircuitImpl withSkuFamily(ExpressRouteCircuitSkuFamily skuFamily) {
-        ensureSku().withFamily(skuFamily);
-        return this;
-    }
-
     protected void beforeCreating() {
-        ExpressRouteCircuitSku sku = inner().sku();
-        ensureSku().withName((sku.tier() == null ? "" : sku.tier().toString()) + SKU_DELIMITER + (sku.family() == null ? "" : sku.family().toString()));
     }
 
     @Override

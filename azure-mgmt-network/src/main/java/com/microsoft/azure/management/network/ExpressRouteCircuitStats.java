@@ -17,22 +17,22 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 @Beta(Beta.SinceVersion.V1_4_0)
 public interface ExpressRouteCircuitStats extends HasInner<ExpressRouteCircuitStatsInner> {
     /**
-     * @return BytesIn of the peering
+     * @return inbound bytes through primary channel of the peering
      */
     long primaryBytesIn();
 
     /**
-     * @return BytesOut of the peering
+     * @return outbound bytes through primary channel of the peering
      */
     long primaryBytesOut();
 
     /**
-     * @return BytesIn of the peering
+     * @return inbound bytes through secondary channel of the peering
      */
     long secondaryBytesIn();
 
     /**
-     * @return BytesOut of the peering
+     * @return outbound bytes through secondary channel of the peering
      */
     long secondaryBytesOut();
 }

@@ -9,6 +9,7 @@ import com.microsoft.azure.management.network.ExpressRouteCircuit;
 import com.microsoft.azure.management.network.ExpressRouteCircuitPeeringType;
 import com.microsoft.azure.management.network.ExpressRouteCircuitSkuFamily;
 import com.microsoft.azure.management.network.ExpressRouteCircuitSkuTier;
+import com.microsoft.azure.management.network.ExpressRouteCircuitSkuType;
 import com.microsoft.azure.management.network.ExpressRouteCircuits;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
@@ -42,8 +43,7 @@ public class TestExpressRouteCircuit {
                     .withServiceProvider("Equinix")
                     .withPeeringLocation("Silicon Valley")
                     .withBandwidthInMbps(50)
-                    .withSkuTier(ExpressRouteCircuitSkuTier.STANDARD)
-                    .withSkuFamily(ExpressRouteCircuitSkuFamily.METERED_DATA)
+                    .withSku(ExpressRouteCircuitSkuType.STANDARD_METEREDDATA)
                     .withTag("tag1", "value1")
                     .create();
             return erc;
@@ -55,8 +55,7 @@ public class TestExpressRouteCircuit {
                     .withTag("tag2", "value2")
                     .withoutTag("tag1")
                     .withBandwidthInMbps(200)
-                    .withSkuFamily(ExpressRouteCircuitSkuFamily.UNLIMITED_DATA)
-                    .withSkuTier(ExpressRouteCircuitSkuTier.PREMIUM)
+                    .withSku(ExpressRouteCircuitSkuType.PREMIUM_UNLIMITEDDATA)
                     .apply();
             resource.refresh();
             Assert.assertTrue(resource.tags().containsKey("tag2"));
@@ -94,8 +93,7 @@ public class TestExpressRouteCircuit {
                     .withServiceProvider("Equinix")
                     .withPeeringLocation("Silicon Valley")
                     .withBandwidthInMbps(50)
-                    .withSkuTier(ExpressRouteCircuitSkuTier.PREMIUM)
-                    .withSkuFamily(ExpressRouteCircuitSkuFamily.METERED_DATA)
+                    .withSku(ExpressRouteCircuitSkuType.PREMIUM_METEREDDATA)
                     .withTag("tag1", "value1")
                     .create();
             erc.peerings().defineMicrosoftPeering()

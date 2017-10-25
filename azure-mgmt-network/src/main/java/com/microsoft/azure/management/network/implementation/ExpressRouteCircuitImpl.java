@@ -10,7 +10,6 @@ import com.microsoft.azure.management.network.ExpressRouteCircuit;
 import com.microsoft.azure.management.network.ExpressRouteCircuitPeering;
 import com.microsoft.azure.management.network.ExpressRouteCircuitPeerings;
 import com.microsoft.azure.management.network.ExpressRouteCircuitServiceProviderProperties;
-import com.microsoft.azure.management.network.ExpressRouteCircuitSku;
 import com.microsoft.azure.management.network.ExpressRouteCircuitSkuType;
 import com.microsoft.azure.management.network.ServiceProviderProvisioningState;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;

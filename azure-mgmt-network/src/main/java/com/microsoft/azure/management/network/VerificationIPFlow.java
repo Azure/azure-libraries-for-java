@@ -69,8 +69,7 @@ public interface VerificationIPFlow extends Executable<VerificationIPFlow>,
         }
 
         /**
-         * The direction of the packet represented as a 5-tuple. Possible values
-         * include: 'Inbound', 'Outbound'.
+         * The direction of the packet represented as a 5-tuple.
          */
         interface WithDirection {
             /**

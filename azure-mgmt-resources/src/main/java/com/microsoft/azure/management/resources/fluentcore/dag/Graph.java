@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 /**
  * Type representing a directed graph data structure.
@@ -55,7 +54,7 @@ public class Graph<DataT, NodeT extends Node<DataT, NodeT>> {
      * Creates a directed graph.
      */
     public Graph() {
-        this.nodeTable = new TreeMap<>();
+        this.nodeTable = new HashMap<>();
         this.visited = new HashSet<>();
         this.time = 0;
         this.entryTime = new HashMap<>();

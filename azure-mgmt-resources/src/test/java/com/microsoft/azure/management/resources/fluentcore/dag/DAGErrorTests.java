@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class DAGErrorTests {
     @Test
@@ -325,7 +326,7 @@ public class DAGErrorTests {
         pancakeA.withDelayedPancake(pancakeJ);
         pancakeA.withDelayedPancake(pancakeK);
 
-        final Set<String> expectedToSee = new HashSet<>();
+        final Set<String> expectedToSee = new TreeSet<>();
         expectedToSee.add("M");
         expectedToSee.add("N");
         expectedToSee.add("K");
@@ -341,7 +342,7 @@ public class DAGErrorTests {
 
         expectedToSee.add("C");
 
-        final Set<String> seen = new HashSet<>();
+        final Set<String> seen = new TreeSet<>();
         final List<Throwable> exceptions = new ArrayList<>();
         IPancake rootPancake = pancakeF.createAsync().map(new Func1<Indexable, IPancake>() {
             @Override
@@ -353,15 +354,17 @@ public class DAGErrorTests {
                 return pancake;
             }
         })
-                .onErrorResumeNext(new Func1<Throwable, Observable<IPancake>>() {
-                    @Override
-                    public Observable<IPancake> call(Throwable throwable) {
-                        System.out.println("map.onErrorResumeNext:" + throwable);
-                        exceptions.add(throwable);
-                        return Observable.empty();
-                    }
-                }).toBlocking().last();
+        .onErrorResumeNext(new Func1<Throwable, Observable<IPancake>>() {
+            @Override
+            public Observable<IPancake> call(Throwable throwable) {
+                System.out.println("map.onErrorResumeNext:" + throwable);
+                exceptions.add(throwable);
+                return Observable.empty();
+            }
+        }).toBlocking().last();
 
+        System.out.println("Seen            : " + seen);
+        System.out.println("Expected to see : " + expectedToSee);
         Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
         Assert.assertEquals(exceptions.size(), 1);
         Assert.assertTrue(exceptions.get(0) instanceof CompositeException);

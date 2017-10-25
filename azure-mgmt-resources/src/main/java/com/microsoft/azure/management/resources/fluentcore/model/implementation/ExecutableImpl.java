@@ -57,10 +57,10 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
                 (TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>>) creatable;
 
         Executable<FluentModelT> that = this;
-        TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>> thisDependent =
+        TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>> thisExecutable =
                 (TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>>) that;
 
-        dependency.taskGroup().addDependentTaskGroup(thisDependent.taskGroup());
+        thisExecutable.taskGroup().addDependencyTaskGroup(dependency.taskGroup());
     }
 
     /**
@@ -72,7 +72,7 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
     protected void addExecutableDependency(Executable<? extends Indexable> executable) {
         TaskGroup.HasTaskGroup<FluentModelT, ExecuteTask<FluentModelT>> dependency =
                 (TaskGroup.HasTaskGroup<FluentModelT, ExecuteTask<FluentModelT>>) executable;
-        dependency.taskGroup().addDependentTaskGroup(this.taskGroup);
+        this.taskGroup().addDependencyTaskGroup(dependency.taskGroup());
     }
 
     @Override

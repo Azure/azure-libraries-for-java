@@ -29,14 +29,15 @@ public class DAGraph<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Graph<D
      */
     private final NodeT rootNode;
     /**
-     * the parent graphs of this graph. A parent graph is the one with it's root depends
-     * on this graph's root.
+     * the immediate parent graphs of this graph. A parent graph is the one with it's root
+     * depends on this graph's root.
      */
-    private List<DAGraph<DataT, NodeT>> parentDAGs;
+    protected List<DAGraph<DataT, NodeT>> parentDAGs;
     /**
-     * to perform topological sort on the graph.
+     * to perform topological sort on the graph. During sorting queue contains the nodes which
+     * are ready to invoke.
      */
-    private ConcurrentLinkedQueue<String> queue;
+    protected ConcurrentLinkedQueue<String> queue;
 
     /**
      * Creates a new DAG.
@@ -59,6 +60,13 @@ public class DAGraph<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Graph<D
     }
 
     /**
+     * @return the root node of the DAG.
+     */
+    protected NodeT root() {
+        return this.rootNode;
+    }
+
+    /**
      * Checks whether the given node is root node of this DAG.
      *
      * @param node the node {@link DAGNode} to be checked
@@ -74,6 +82,15 @@ public class DAGraph<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Graph<D
      */
     public boolean isPreparer() {
         return this.rootNode.isPreparer();
+    }
+
+    /**
+     * Gets a node from the graph with the given key.
+     * @param key the key of the node
+     * @return the node
+     */
+    public NodeT getNode(String key) {
+        return nodeTable.get(key);
     }
 
     /**
@@ -132,15 +149,6 @@ public class DAGraph<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Graph<D
             return null;
         }
         return nodeTable.get(nextItemKey);
-    }
-
-    /**
-     * Gets a node from the graph with the given key.
-     * @param key the key of the node
-     * @return the node
-     */
-    public NodeT getNode(String key) {
-        return nodeTable.get(key);
     }
 
     /**

@@ -82,6 +82,13 @@ public class Node<DataT, NodeT extends Node<DataT, NodeT>> {
     }
 
     /**
+     * @param childKey remove child (neighbour) of this node
+     */
+    public void removeChild(String childKey) {
+        this.children.remove(childKey);
+    }
+
+    /**
      * Sets reference to the graph owning this node.
      *
      * @param ownerGraph the owning graph

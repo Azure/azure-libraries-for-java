@@ -29,11 +29,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * completion of tasks in the dependency task group "B" is required before the invocation of root
  * task in group "A". A.invokeAsync() will ensure this order.
  *
- * {@link TaskGroup#addDependentTaskGroup(TaskGroup)}: Through this method it is possible to
- * express that a task group "M" has a dependent task group "N" e.g. `N.addDependentTaskGroup(M)`
- * In this case M.invokeAsync() will not invocation tasks in the group "N". on the other hand
- * N.invokeAsync() will group "M" followed by "N".
- *
  * {@link TaskGroup#addPostRunDependentTaskGroup(TaskGroup)}: there are scenarios where a subset
  * of dependent task groups say "H", "I" may required to run after the invocation of a task group
  * "K" when K.invokeAsync() is called. Such special dependents can be added via
@@ -116,10 +111,9 @@ public class TaskGroup<ResultT, TaskT extends TaskItem<ResultT>>
     /**
      * @return the root task entry in the group.
      */
-    private TaskGroupEntry<ResultT, TaskT> root() {
+    protected TaskGroupEntry<ResultT, TaskT> root() {
         return this.rootTaskEntry;
     }
-
 
     /**
      * Mark root of this task task group depends on the given task group's root.
@@ -139,19 +133,6 @@ public class TaskGroup<ResultT, TaskT extends TaskItem<ResultT>>
 
     /**
      * Mark root of the given task group depends on this task group's root.
-     * This ensure given task group's root get picked for be invoked only after the completion
-     * of all tasks in this group. Calling invokeAsync(cxt) will not invoke the tasks in the
-     * given dependent task group.
-     *
-     * @param dependentTaskGroup the task group depends on this task group
-     */
-    public void addDependentTaskGroup(TaskGroup<ResultT, TaskT> dependentTaskGroup) {
-        DAGraph<TaskT, TaskGroupEntry<ResultT, TaskT>> dependentGraph = dependentTaskGroup;
-        super.addDependentGraph(dependentGraph);
-    }
-
-    /**
-     * Mark root of the given task group depends on this task group's root.
      * This ensure given task group's root get picked for invocation only after the completion
      * of all tasks in this group. Calling invokeAsync(cxt) will run the tasks in the given
      * dependent task group as well.
@@ -159,9 +140,7 @@ public class TaskGroup<ResultT, TaskT extends TaskItem<ResultT>>
      * @param dependentTaskGroup the task group depends on this task group
      */
     public void addPostRunDependentTaskGroup(TaskGroup<ResultT, TaskT> dependentTaskGroup) {
-        DAGraph<TaskT, TaskGroupEntry<ResultT, TaskT>> dependentGraph = dependentTaskGroup;
-        super.addDependentGraph(dependentGraph);
-        this.proxyTaskGroupWrapper.addDependencyTaskGroup(dependentTaskGroup.that());
+        this.proxyTaskGroupWrapper.addPostRunTaskGroupForActualTaskGroup(dependentTaskGroup.that());
     }
 
     /**
@@ -277,7 +256,7 @@ public class TaskGroup<ResultT, TaskT extends TaskItem<ResultT>>
             observables.add(currentTaskObservable.flatMap(onNext, onError, onComplete));
             entry = super.getNext();
         }
-        return Observable.mergeDelayError(observables, 1);
+        return Observable.mergeDelayError(observables);
     }
 
     /**
@@ -468,11 +447,11 @@ public class TaskGroup<ResultT, TaskT extends TaskItem<ResultT>>
      * @param <R> type of the result returned by the tasks in the proxy TaskGroup.
      */
     static final class ProxyTaskGroupWrapper<R> {
-        // The proxy TaskGroup
+        // The "proxy TaskGroup"
         private TaskGroup<R, TaskItem<R>> proxyTaskGroup;
-        // The actual TaskGroup for which above TaskGroup act as proxy
+        // The "actual TaskGroup" for which above TaskGroup act as proxy
         private final TaskGroup<R, TaskItem<R>> actualTaskGroup;
-        // The actual TaskGroup's termination strategy
+        // The "actual TaskGroup"'s termination strategy
         private final TaskGroupTerminateOnErrorStrategy terminationStrategy;
 
         /**
@@ -502,19 +481,20 @@ public class TaskGroup<ResultT, TaskT extends TaskItem<ResultT>>
         }
 
         /**
-         * Add a dependency for the proxy TaskGroup.
+         * Add "post-run TaskGroup" for the "actual TaskGroup".
          *
-         * @param dependencyTaskGroup the dependency TaskGroup.
+         * @param postRunTaskGroup the dependency TaskGroup.
          */
-        void addDependencyTaskGroup(TaskGroup<R, TaskItem<R>> dependencyTaskGroup) {
+        void addPostRunTaskGroupForActualTaskGroup(TaskGroup<R, TaskItem<R>> postRunTaskGroup) {
             if (this.proxyTaskGroup == null) {
-                ProxyTaskItem<R> proxyTaskItem = new ProxyTaskItem<>(this.actualTaskGroup.root().data());
-                this.proxyTaskGroup = new TaskGroup<R, TaskItem<R>>("proxy-" + this.actualTaskGroup.root().key(),
-                        proxyTaskItem,
-                        this.terminationStrategy);
-                this.proxyTaskGroup.addDependencyGraph(this.actualTaskGroup);
+                this.initProxyTaskGroup();
             }
-            this.proxyTaskGroup.addDependencyGraph(dependencyTaskGroup);
+            postRunTaskGroup.addDependencyGraph(this.actualTaskGroup);
+            if (postRunTaskGroup.proxyTaskGroupWrapper.isActive()) {
+                this.proxyTaskGroup.addDependencyGraph(postRunTaskGroup.proxyTaskGroupWrapper.proxyTaskGroup);
+            } else {
+                this.proxyTaskGroup.addDependencyGraph(postRunTaskGroup);
+            }
         }
 
         /**
@@ -540,6 +520,38 @@ public class TaskGroup<ResultT, TaskT extends TaskItem<ResultT>>
                 throw new IllegalStateException("invokeAsync(cxt) cannot be called in a non-active ProxyTaskGroup");
             }
             return this.proxyTaskGroup.invokeAsync(context);
+        }
+
+        /**
+         * Initialize the proxy TaskGroup if not initialized yet.
+         */
+        private void initProxyTaskGroup() {
+            if (this.proxyTaskGroup == null) {
+                // Creates proxy TaskGroup with an instance of ProxyTaskItem as root TaskItem which delegates actions on
+                // it to "actual TaskGroup"'s root.
+                //
+                ProxyTaskItem<R> proxyTaskItem = new ProxyTaskItem<>(this.actualTaskGroup.root().data());
+                this.proxyTaskGroup = new TaskGroup<R, TaskItem<R>>("proxy-" + this.actualTaskGroup.root().key(),
+                        proxyTaskItem,
+                        this.terminationStrategy);
+
+                if (this.actualTaskGroup.hasParents()) {
+                    // Once "proxy TaskGroup" is enabled, all existing TaskGroups depends on "actual TaskGroup" should
+                    // take dependency on "proxy TaskGroup".
+                    //
+                    String atgRootKey = this.actualTaskGroup.root().key();
+                    for (DAGraph<TaskItem<R>, TaskGroupEntry<R, TaskItem<R>>> parentDAG : this.actualTaskGroup.parentDAGs) {
+                        parentDAG.root().removeDependency(atgRootKey);
+                        parentDAG.addDependencyGraph(this.proxyTaskGroup);
+                    }
+                    // re-assigned actual's parents as proxy's parents, so clear actual's parent collection.
+                    //
+                    this.actualTaskGroup.parentDAGs.clear();
+                }
+                // "Proxy TaskGroup" takes dependency on "actual TaskGroup"
+                //
+                this.proxyTaskGroup.addDependencyGraph(this.actualTaskGroup);
+            }
         }
 
         /**

@@ -87,6 +87,15 @@ public class DAGNode<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Node<Da
     }
 
     /**
+     * Remove the dependency node identified by the given key from the dependencies.
+     *
+     * @param dependencyKey the id of the dependency node
+     */
+    public void removeDependency(String dependencyKey) {
+        super.removeChild(dependencyKey);
+    }
+
+    /**
      * @return <tt>true</tt> if this node has any dependency
      */
     public boolean hasDependencies() {

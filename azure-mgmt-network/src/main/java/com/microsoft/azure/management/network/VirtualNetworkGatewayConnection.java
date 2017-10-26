@@ -72,10 +72,7 @@ public interface VirtualNetworkGatewayConnection extends
     String sharedKey();
 
     /**
-     * Get the Virtual Network Gateway connection status. Possible values are
-     * 'Unknown', 'Connecting', 'Connected' and 'NotConnected'. Possible values
-     * include: 'Unknown', 'Connecting', 'Connected', 'NotConnected'.
-     *
+     * Get the Virtual Network Gateway connection status.
      * @return the connectionStatus value
      */
     VirtualNetworkGatewayConnectionStatus connectionStatus();

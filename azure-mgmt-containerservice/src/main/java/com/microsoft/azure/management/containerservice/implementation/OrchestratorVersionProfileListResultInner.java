@@ -8,12 +8,14 @@
 
 package com.microsoft.azure.management.containerservice.implementation;
 
-import com.microsoft.azure.management.containerservice.OrchestratorVersionProfileProperties;
+import com.microsoft.azure.management.containerservice.OrchestratorVersionProfile;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
  * The list of versions for supported orchestrators.
  */
+@JsonFlatten
 public class OrchestratorVersionProfileListResultInner {
     /**
      * Id of the orchestrator version profile list result.
@@ -34,10 +36,10 @@ public class OrchestratorVersionProfileListResultInner {
     private String type;
 
     /**
-     * The properties of an orchestrator version profile.
+     * List of orchstrator version profiles.
      */
-    @JsonProperty(value = "properties", required = true)
-    private OrchestratorVersionProfileProperties properties;
+    @JsonProperty(value = "properties.orchestrators", required = true)
+    private OrchestratorVersionProfile orchestrators;
 
     /**
      * Get the id value.
@@ -67,22 +69,22 @@ public class OrchestratorVersionProfileListResultInner {
     }
 
     /**
-     * Get the properties value.
+     * Get the orchestrators value.
      *
-     * @return the properties value
+     * @return the orchestrators value
      */
-    public OrchestratorVersionProfileProperties properties() {
-        return this.properties;
+    public OrchestratorVersionProfile orchestrators() {
+        return this.orchestrators;
     }
 
     /**
-     * Set the properties value.
+     * Set the orchestrators value.
      *
-     * @param properties the properties value to set
+     * @param orchestrators the orchestrators value to set
      * @return the OrchestratorVersionProfileListResultInner object itself.
      */
-    public OrchestratorVersionProfileListResultInner withProperties(OrchestratorVersionProfileProperties properties) {
-        this.properties = properties;
+    public OrchestratorVersionProfileListResultInner withOrchestrators(OrchestratorVersionProfile orchestrators) {
+        this.orchestrators = orchestrators;
         return this;
     }
 

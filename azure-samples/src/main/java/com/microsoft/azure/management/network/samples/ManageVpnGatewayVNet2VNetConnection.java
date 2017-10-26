@@ -80,6 +80,12 @@ public final class ManageVpnGatewayVNet2VNetConnection {
                     .withSharedKey("MySecretKey")
                     .create();
 
+            vngw2.connections()
+                    .define(connectionName + "2")
+                    .withVNetToVNet()
+                    .withSecondVirtualNetworkGateway(vngw1)
+                    .withSharedKey("MySecretKey")
+                    .create();
 
             //============================================================
             // List VPN Gateway connections for particular gateway

@@ -9,13 +9,12 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.locks.LockLevel;
 import com.microsoft.azure.management.locks.ManagementLock;
 import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import rx.Observable;
 
 /**
- *  Implementation for PublicIPAddress and its create and update interfaces.
+ *  Implementation for ManagementLock and its create and update interfaces.
  */
 @LangDefinition
 class ManagementLockImpl
@@ -114,7 +113,7 @@ class ManagementLockImpl
 
     @Override
     public String lockedResourceId() {
-        return ResourceUtils.parentResourceIdFromResourceId(this.inner().id());
+        return ManagementLocksImpl.resourceIdFromLockId(this.inner().id());
     }
 
     @Override

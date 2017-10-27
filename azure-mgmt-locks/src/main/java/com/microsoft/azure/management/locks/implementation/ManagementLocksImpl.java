@@ -50,7 +50,9 @@ class ManagementLocksImpl
 
         StringBuilder resourceId = new StringBuilder();
         for (int i = 0; i < lockIdParts.length - 4; i++) {
-            resourceId.append("/").append(lockIdParts[i]);
+            if (!lockIdParts[i].isEmpty()) {
+                resourceId.append("/").append(lockIdParts[i]);
+            }
         }
 
         return resourceId.toString();

@@ -6,14 +6,20 @@
 
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
+import com.google.common.collect.Sets;
 import org.junit.Assert;
 import org.junit.Test;
 import rx.Observable;
 import rx.functions.Action1;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class ProxyTaskGroupTests {
 
@@ -40,8 +46,6 @@ public class ProxyTaskGroupTests {
                 "E", "F",
                 groupItems);
 
-
-
         // Invocation of group should invoke all the tasks
         //
         group.invokeAsync(group.newInvocationContext())
@@ -55,27 +59,45 @@ public class ProxyTaskGroupTests {
 
         Assert.assertEquals(0, groupItems.size());
 
-        // Test order
+        Map<String, Set<String>> shouldNotSee = new HashMap<>();
+
+        // NotSeen entries for group-1
+        shouldNotSee.put("A", new HashSet<String>());
+        shouldNotSee.get("A").addAll(Arrays.asList(new String[] {"B", "C", "D", "E", "F"}));
+
+        shouldNotSee.put("B", new HashSet<String>());
+        shouldNotSee.get("B").addAll(Arrays.asList(new String[] {"F"}));
+
+        shouldNotSee.put("C", new HashSet<String>());
+        shouldNotSee.get("C").addAll(Arrays.asList(new String[] {"E", "F"}));
+
+        shouldNotSee.put("D", new HashSet<String>());
+        shouldNotSee.get("D").addAll(Arrays.asList(new String[] {"E", "F"}));
+
+        shouldNotSee.put("E", new HashSet<String>());
+        shouldNotSee.get("E").addAll(Arrays.asList(new String[] {"F"}));
+
+        shouldNotSee.put("F", new HashSet<String>());
+        shouldNotSee.get("F").addAll(Arrays.asList(new String[] {}));
+
+        Set<String> seen = new HashSet<>();
+        // Test invocation order for group
         //
-        LinkedList<String> expectedOrder = new LinkedList<>();
-
-        expectedOrder.push("F");
-        expectedOrder.push("E");
-        expectedOrder.push("D");
-        expectedOrder.push("C");
-        expectedOrder.push("B");
-        expectedOrder.push("A");
-
         group.prepareForEnumeration();
         for (TaskGroupEntry<String, StringTaskItem> entry = group.getNext(); entry != null; entry = group.getNext()) {
-            String top = expectedOrder.poll();
-            Assert.assertNotNull(top);
-            Assert.assertEquals(top, entry.key());
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
+            if (common.size() > 0) {
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+            }
+            seen.add(entry.key());
             group.reportCompletion(entry);
         }
 
-        Assert.assertEquals(0, expectedOrder.size());
-
+        Assert.assertEquals(6, seen.size()); // 1 groups with 6 nodes
+        Set<String> expectedToSee = new HashSet<>();
+        expectedToSee.addAll(Arrays.asList(new String[]  {"A", "B", "C", "D", "E", "F"}));
+        Sets.SetView<String> diff = Sets.difference(seen, expectedToSee);
+        Assert.assertEquals(0, diff.size());
     }
 
     @Test
@@ -163,26 +185,45 @@ public class ProxyTaskGroupTests {
 
         Assert.assertEquals(0, group1Items.size());
 
-        // Test order
+        Map<String, Set<String>> shouldNotSee = new HashMap<>();
+
+        // NotSeen entries for group-1
+        shouldNotSee.put("A", new HashSet<String>());
+        shouldNotSee.get("A").addAll(Arrays.asList(new String[] {"B", "C", "D", "E", "F"}));
+
+        shouldNotSee.put("B", new HashSet<String>());
+        shouldNotSee.get("B").addAll(Arrays.asList(new String[] {"F"}));
+
+        shouldNotSee.put("C", new HashSet<String>());
+        shouldNotSee.get("C").addAll(Arrays.asList(new String[] {"E", "F"}));
+
+        shouldNotSee.put("D", new HashSet<String>());
+        shouldNotSee.get("D").addAll(Arrays.asList(new String[] {"E", "F"}));
+
+        shouldNotSee.put("E", new HashSet<String>());
+        shouldNotSee.get("E").addAll(Arrays.asList(new String[] {"F"}));
+
+        shouldNotSee.put("F", new HashSet<String>());
+        shouldNotSee.get("F").addAll(Arrays.asList(new String[] {}));
+
+        Set<String> seen = new HashSet<>();
+        // Test invocation order for group-1
         //
-        LinkedList<String> expectedOrder = new LinkedList<>();
-
-        expectedOrder.push("F");
-        expectedOrder.push("E");
-        expectedOrder.push("D");
-        expectedOrder.push("C");
-        expectedOrder.push("B");
-        expectedOrder.push("A");
-
         group1.prepareForEnumeration();
         for (TaskGroupEntry<String, StringTaskItem> entry = group1.getNext(); entry != null; entry = group1.getNext()) {
-            String top = expectedOrder.poll();
-            Assert.assertNotNull(top);
-            Assert.assertEquals(top, entry.key());
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
+            if (common.size() > 0) {
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+            }
+            seen.add(entry.key());
             group1.reportCompletion(entry);
         }
 
-        Assert.assertEquals(0, expectedOrder.size());
+        Assert.assertEquals(6, seen.size()); // 1 groups with 6 nodes
+        Set<String> expectedToSee = new HashSet<>();
+        expectedToSee.addAll(Arrays.asList(new String[]  {"A", "B", "C", "D", "E", "F"}));
+        Sets.SetView<String> diff = Sets.difference(seen, expectedToSee);
+        Assert.assertEquals(0, diff.size());
     }
 
     @Test
@@ -272,32 +313,67 @@ public class ProxyTaskGroupTests {
 
         Assert.assertEquals(0, group2Items.size());
 
-        // Test order
+
+
+        Map<String, Set<String>> shouldNotSee = new HashMap<>();
+        // NotSeen entries for group-1
+        shouldNotSee.put("A", new HashSet<String>());
+        shouldNotSee.get("A").addAll(Arrays.asList(new String[] {"B", "C", "D", "E", "F"}));
+
+        shouldNotSee.put("B", new HashSet<String>());
+        shouldNotSee.get("B").addAll(Arrays.asList(new String[] {"F"}));
+
+        shouldNotSee.put("C", new HashSet<String>());
+        shouldNotSee.get("C").addAll(Arrays.asList(new String[] {"E", "F"}));
+
+        shouldNotSee.put("D", new HashSet<String>());
+        shouldNotSee.get("D").addAll(Arrays.asList(new String[] {"E", "F"}));
+
+        shouldNotSee.put("E", new HashSet<String>());
+        shouldNotSee.get("E").addAll(Arrays.asList(new String[] {"F"}));
+
+        shouldNotSee.put("F", new HashSet<String>());
+        shouldNotSee.get("F").addAll(Arrays.asList(new String[] {}));
+        // NotSeen entries for nodes in Group-2
         //
-        LinkedList<String> expectedOrder = new LinkedList<>();
+        shouldNotSee.put("G", new HashSet<String>());
+        shouldNotSee.get("G").addAll(Arrays.asList(new String[] {"H", "I", "J", "K", "L"}));
 
-        expectedOrder.push("L");
-        expectedOrder.push("F");
-        expectedOrder.push("K");
-        expectedOrder.push("E");
-        expectedOrder.push("J");
-        expectedOrder.push("I");
-        expectedOrder.push("H");
-        expectedOrder.push("D");
-        expectedOrder.push("C");
-        expectedOrder.push("B");
-        expectedOrder.push("G");
-        expectedOrder.push("A");
+        shouldNotSee.put("H", new HashSet<String>());
+        shouldNotSee.get("H").addAll(Arrays.asList(new String[] {"L"}));
 
+        shouldNotSee.put("I", new HashSet<String>());
+        shouldNotSee.get("I").addAll(Arrays.asList(new String[] {"K", "L"}));
+
+        shouldNotSee.put("J", new HashSet<String>());
+        shouldNotSee.get("J").addAll(Arrays.asList(new String[] {"K", "L"}));
+
+        shouldNotSee.put("K", new HashSet<String>());
+        shouldNotSee.get("K").addAll(Arrays.asList(new String[] {"L"}));
+
+        shouldNotSee.put("L", new HashSet<String>());
+        shouldNotSee.get("L").addAll(Arrays.asList(new String[] {}));
+
+        Set<String> seen = new HashSet<>();
+        // Test invocation order for group-2
+        //
         group2.prepareForEnumeration();
         for (TaskGroupEntry<String, StringTaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
-            String top = expectedOrder.poll();
-            Assert.assertNotNull(top);
-            Assert.assertEquals(top, entry.key());
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
+            if (common.size() > 0) {
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+            }
+            seen.add(entry.key());
             group2.reportCompletion(entry);
         }
 
-        Assert.assertEquals(0, expectedOrder.size());
+        Assert.assertEquals(12, seen.size()); // 2 groups each with 6 nodes
+        Set<String> expectedToSee = new HashSet<>();
+        expectedToSee.addAll(Arrays.asList(new String[] {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"}));
+        Sets.SetView<String> diff = Sets.difference(seen, expectedToSee);
+        Assert.assertEquals(0, diff.size());
     }
 
     @Test
@@ -390,34 +466,73 @@ public class ProxyTaskGroupTests {
 
         Assert.assertEquals(0, group1Items.size());
 
-//        // Test order
-//        //
-        LinkedList<String> expectedOrder = new LinkedList<>();
+        Map<String, Set<String>> shouldNotSee = new HashMap<>();
+        // NotSeen entries for group-1
+        shouldNotSee.put("A", new HashSet<String>());
+        shouldNotSee.get("A").addAll(Arrays.asList(new String[] {"B", "C", "D", "E", "F", "proxy-F"}));
 
-        expectedOrder.push("proxy-F");
-        expectedOrder.push("L");
-        expectedOrder.push("F");
-        expectedOrder.push("K");
-        expectedOrder.push("E");
-        expectedOrder.push("J");
-        expectedOrder.push("I");
-        expectedOrder.push("H");
-        expectedOrder.push("D");
-        expectedOrder.push("C");
-        expectedOrder.push("B");
-        expectedOrder.push("G");
-        expectedOrder.push("A");
+        shouldNotSee.put("B", new HashSet<String>());
+        shouldNotSee.get("B").addAll(Arrays.asList(new String[] {"F","proxy-F"}));
 
+        shouldNotSee.put("C", new HashSet<String>());
+        shouldNotSee.get("C").addAll(Arrays.asList(new String[] {"E", "F", "proxy-F"}));
+
+        shouldNotSee.put("D", new HashSet<String>());
+        shouldNotSee.get("D").addAll(Arrays.asList(new String[] {"E", "F", "proxy-F"}));
+
+        shouldNotSee.put("E", new HashSet<String>());
+        shouldNotSee.get("E").addAll(Arrays.asList(new String[] {"F", "proxy-F"}));
+
+        shouldNotSee.put("F", new HashSet<String>());
+        shouldNotSee.get("F").addAll(Arrays.asList(new String[] {"proxy-F"}));
+        // NotSeen entries for nodes in Group-2
+        //
+        shouldNotSee.put("G", new HashSet<String>());
+        shouldNotSee.get("G").addAll(Arrays.asList(new String[] {"H", "I", "J", "K", "L", "proxy-F"}));
+
+        shouldNotSee.put("H", new HashSet<String>());
+        shouldNotSee.get("H").addAll(Arrays.asList(new String[] {"L", "proxy-F"}));
+
+        shouldNotSee.put("I", new HashSet<String>());
+        shouldNotSee.get("I").addAll(Arrays.asList(new String[] {"K", "L", "proxy-F"}));
+
+        shouldNotSee.put("J", new HashSet<String>());
+        shouldNotSee.get("J").addAll(Arrays.asList(new String[] {"K", "L", "proxy-F"}));
+
+        shouldNotSee.put("K", new HashSet<String>());
+        shouldNotSee.get("K").addAll(Arrays.asList(new String[] {"L", "proxy-F"}));
+
+        shouldNotSee.put("L", new HashSet<String>());
+        shouldNotSee.get("L").addAll(Arrays.asList(new String[] {"proxy-F"}));
+        // NotSeen entries for proxies
+        shouldNotSee.put("proxy-F", new HashSet<String>());
+        shouldNotSee.get("proxy-F").addAll(Arrays.asList(new String[] {}));
+
+        Set<String> seen = new HashSet<>();
+        // Test invocation order for "group-1 proxy"
+        //
         group1.proxyTaskGroupWrapper.proxyTaskGroup().prepareForEnumeration();
         for (TaskGroupEntry<String, TaskItem<String>> entry = group1.proxyTaskGroupWrapper.proxyTaskGroup().getNext();
              entry != null;
              entry = group1.proxyTaskGroupWrapper.proxyTaskGroup().getNext()) {
-            String top = expectedOrder.poll();
-            Assert.assertNotNull(top);
-            Assert.assertEquals(top, entry.key());
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
+            if (common.size() > 0) {
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+            }
+            seen.add(entry.key());
             group1.proxyTaskGroupWrapper.proxyTaskGroup().reportCompletion(entry);
         }
-        Assert.assertEquals(0, expectedOrder.size());
+
+        Assert.assertEquals(13, seen.size()); // 2 groups each with 6 nodes + 1 proxy (proxy-F)
+        Set<String> expectedToSee = new HashSet<>();
+        expectedToSee.addAll(Arrays.asList(new String[] {"A", "B", "C", "D",
+                "E", "F", "G", "H",
+                "I", "J", "K", "L",
+                "proxy-F" }));
+        Sets.SetView<String> diff = Sets.difference(seen, expectedToSee);
+        Assert.assertEquals(0, diff.size());
     }
 
     @Test
@@ -510,33 +625,70 @@ public class ProxyTaskGroupTests {
 
         Assert.assertEquals(0, group2Items.size());
 
-        // Test order
+        Map<String, Set<String>> shouldNotSee = new HashMap<>();
+        // NotSeen entries for group-1
+        shouldNotSee.put("A", new HashSet<String>());
+        shouldNotSee.get("A").addAll(Arrays.asList(new String[] {"B", "C", "D", "E", "F", "proxy-F"}));
+
+        shouldNotSee.put("B", new HashSet<String>());
+        shouldNotSee.get("B").addAll(Arrays.asList(new String[] {"F","proxy-F"}));
+
+        shouldNotSee.put("C", new HashSet<String>());
+        shouldNotSee.get("C").addAll(Arrays.asList(new String[] {"E", "F", "proxy-F"}));
+
+        shouldNotSee.put("D", new HashSet<String>());
+        shouldNotSee.get("D").addAll(Arrays.asList(new String[] {"E", "F", "proxy-F"}));
+
+        shouldNotSee.put("E", new HashSet<String>());
+        shouldNotSee.get("E").addAll(Arrays.asList(new String[] {"F", "proxy-F"}));
+
+        shouldNotSee.put("F", new HashSet<String>());
+        shouldNotSee.get("F").addAll(Arrays.asList(new String[] {"proxy-F"}));
+        // NotSeen entries for nodes in Group-2
         //
-        LinkedList<String> expectedOrder = new LinkedList<>();
+        shouldNotSee.put("G", new HashSet<String>());
+        shouldNotSee.get("G").addAll(Arrays.asList(new String[] {"H", "I", "J", "K", "L", "proxy-F"}));
 
-        expectedOrder.push("L");
-        expectedOrder.push("F");
-        expectedOrder.push("K");
-        expectedOrder.push("E");
-        expectedOrder.push("J");
-        expectedOrder.push("I");
-        expectedOrder.push("H");
-        expectedOrder.push("D");
-        expectedOrder.push("C");
-        expectedOrder.push("B");
-        expectedOrder.push("G");
-        expectedOrder.push("A");
+        shouldNotSee.put("H", new HashSet<String>());
+        shouldNotSee.get("H").addAll(Arrays.asList(new String[] {"L", "proxy-F"}));
 
+        shouldNotSee.put("I", new HashSet<String>());
+        shouldNotSee.get("I").addAll(Arrays.asList(new String[] {"K", "L", "proxy-F"}));
+
+        shouldNotSee.put("J", new HashSet<String>());
+        shouldNotSee.get("J").addAll(Arrays.asList(new String[] {"K", "L", "proxy-F"}));
+
+        shouldNotSee.put("K", new HashSet<String>());
+        shouldNotSee.get("K").addAll(Arrays.asList(new String[] {"L", "proxy-F"}));
+
+        shouldNotSee.put("L", new HashSet<String>());
+        shouldNotSee.get("L").addAll(Arrays.asList(new String[] {"proxy-F"}));
+        // NotSeen entries for proxies
+        shouldNotSee.put("proxy-F", new HashSet<String>());
+        shouldNotSee.get("proxy-F").addAll(Arrays.asList(new String[] {}));
+
+        Set<String> seen = new HashSet<>();
+        // Test invocation order for "group-2 proxy"
+        //
         group2.prepareForEnumeration();
-        for (TaskGroupEntry<String, StringTaskItem> entry = group2.getNext();
-             entry != null;
-             entry = group2.getNext()) {
-            String top = expectedOrder.poll();
-            Assert.assertNotNull(top);
-            Assert.assertEquals(top, entry.key());
+        for (TaskGroupEntry<String, StringTaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
+            if (common.size() > 0) {
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+            }
+            seen.add(entry.key());
             group2.reportCompletion(entry);
         }
-        Assert.assertEquals(0, expectedOrder.size());
+
+        Assert.assertEquals(12, seen.size()); // 2 groups each with 6 nodes no proxy
+        Set<String> expectedToSee = new HashSet<>();
+        expectedToSee.addAll(Arrays.asList(new String[] {"A", "B", "C", "D",
+                "E", "F", "G", "H",
+                "I", "J", "K", "L"}));
+        Sets.SetView<String> diff = Sets.difference(seen, expectedToSee);
+        Assert.assertEquals(0, diff.size());
     }
 
     @Test
@@ -680,65 +832,114 @@ public class ProxyTaskGroupTests {
         Assert.assertEquals(1, group1.proxyTaskGroupWrapper.proxyTaskGroup().parentDAGs.size());
         Assert.assertTrue( group1.proxyTaskGroupWrapper.proxyTaskGroup().parentDAGs.contains(group2));
 
+        Map<String, Set<String>> shouldNotSee = new HashMap<>();
+        // NotSeen entries for group-1
+        shouldNotSee.put("A", new HashSet<String>());
+        shouldNotSee.get("A").addAll(Arrays.asList(new String[] {"B", "C", "D", "E", "F", "proxy-F",  "L"}));
 
-        // Test invocation order for group-2
+        shouldNotSee.put("B", new HashSet<String>());
+        shouldNotSee.get("B").addAll(Arrays.asList(new String[] {"F","proxy-F",  "L"}));
+
+        shouldNotSee.put("C", new HashSet<String>());
+        shouldNotSee.get("C").addAll(Arrays.asList(new String[] {"E", "F", "proxy-F", "L"}));
+
+        shouldNotSee.put("D", new HashSet<String>());
+        shouldNotSee.get("D").addAll(Arrays.asList(new String[] {"E", "F", "proxy-F", "L"}));
+
+        shouldNotSee.put("E", new HashSet<String>());
+        shouldNotSee.get("E").addAll(Arrays.asList(new String[] {"F", "proxy-F", "L"}));
+
+        shouldNotSee.put("F", new HashSet<String>());
+        shouldNotSee.get("F").addAll(Arrays.asList(new String[] {"proxy-F", "L"}));
+        // NotSeen entries for nodes in Group-3
         //
-        LinkedList<String> group2ExpectedOrder = new LinkedList<>();
+        shouldNotSee.put("M", new HashSet<String>());
+        shouldNotSee.get("M").addAll(Arrays.asList(new String[] {"N", "O", "P", "Q", "R", "proxy-F", "L"}));
 
-        group2ExpectedOrder.push("L");
-        group2ExpectedOrder.push("proxy-F");
-        group2ExpectedOrder.push("R");
-        group2ExpectedOrder.push("F");
-        group2ExpectedOrder.push("Q");
-        group2ExpectedOrder.push("K");
-        group2ExpectedOrder.push("E");
-        group2ExpectedOrder.push("P");
-        group2ExpectedOrder.push("O");
-        group2ExpectedOrder.push("N");
-        group2ExpectedOrder.push("J");
-        group2ExpectedOrder.push("I");
-        group2ExpectedOrder.push("H");
-        group2ExpectedOrder.push("D");
-        group2ExpectedOrder.push("C");
-        group2ExpectedOrder.push("B");
-        group2ExpectedOrder.push("M");
-        group2ExpectedOrder.push("G");
-        group2ExpectedOrder.push("A");
+        shouldNotSee.put("N", new HashSet<String>());
+        shouldNotSee.get("N").addAll(Arrays.asList(new String[] {"R", "proxy-F", "L"}));
 
+        shouldNotSee.put("O", new HashSet<String>());
+        shouldNotSee.get("O").addAll(Arrays.asList(new String[] {"Q", "R", "L"}));
+
+        shouldNotSee.put("P", new HashSet<String>());
+        shouldNotSee.get("P").addAll(Arrays.asList(new String[] {"Q", "R", "proxy-F", "L"}));
+
+        shouldNotSee.put("Q", new HashSet<String>());
+        shouldNotSee.get("Q").addAll(Arrays.asList(new String[] {"R", "proxy-F", "L"}));
+
+        shouldNotSee.put("R", new HashSet<String>());
+        shouldNotSee.get("R").addAll(Arrays.asList(new String[] {"proxy-F", "L"}));
+        // NotSeen entries for nodes in Group-2
+        //
+        shouldNotSee.put("G", new HashSet<String>());
+        shouldNotSee.get("G").addAll(Arrays.asList(new String[] {"H", "I", "J", "K", "L"}));
+
+        shouldNotSee.put("H", new HashSet<String>());
+        shouldNotSee.get("H").addAll(Arrays.asList(new String[] {"L"}));
+
+        shouldNotSee.put("I", new HashSet<String>());
+        shouldNotSee.get("I").addAll(Arrays.asList(new String[] {"K", "L"}));
+
+        shouldNotSee.put("J", new HashSet<String>());
+        shouldNotSee.get("J").addAll(Arrays.asList(new String[] {"K", "L"}));
+
+        shouldNotSee.put("K", new HashSet<String>());
+        shouldNotSee.get("K").addAll(Arrays.asList(new String[] {"L"}));
+
+        shouldNotSee.put("L", new HashSet<String>());
+        shouldNotSee.get("L").addAll(Arrays.asList(new String[] {}));
+        // NotSeen entries for proxies
+        shouldNotSee.put("proxy-F", new HashSet<String>());
+        shouldNotSee.get("proxy-F").addAll(Arrays.asList(new String[] {"L"}));
+
+        Set<String> seen = new HashSet<>();
+        // Test invocation order for "group-2"
+        //
         group2.prepareForEnumeration();
         for (TaskGroupEntry<String, StringTaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
-            String top = group2ExpectedOrder.poll();
-            Assert.assertNotNull(top);
-            Assert.assertEquals(top, entry.key());
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
+            if (common.size() > 0) {
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+            }
+            seen.add(entry.key());
             group2.reportCompletion(entry);
         }
-        Assert.assertEquals(0, group2ExpectedOrder.size());
+
+        Assert.assertEquals(19, seen.size()); // 3 groups each with 6 nodes + one proxy (proxy-F)
+        Set<String> expectedToSee = new HashSet<>();
+        expectedToSee.addAll(Arrays.asList(new String[] {"A", "B", "C", "D",
+                "E", "F", "G", "H",
+                "I", "J", "K", "L",
+                "M", "N", "O", "P",
+                "Q", "proxy-F", "R"}));
+        Sets.SetView<String> diff = Sets.difference(seen, expectedToSee);
+        Assert.assertEquals(0, diff.size());
 
         // Test invocation order for "group-1 proxy"
         //
-        LinkedList<String> proxyGroup1ExpectedOrder = new LinkedList<>();
-        proxyGroup1ExpectedOrder.push("proxy-F");
-        proxyGroup1ExpectedOrder.push("R");
-        proxyGroup1ExpectedOrder.push("F");
-        proxyGroup1ExpectedOrder.push("Q");
-        proxyGroup1ExpectedOrder.push("E");
-        proxyGroup1ExpectedOrder.push("P");
-        proxyGroup1ExpectedOrder.push("O");
-        proxyGroup1ExpectedOrder.push("N");
-        proxyGroup1ExpectedOrder.push("D");
-        proxyGroup1ExpectedOrder.push("C");
-        proxyGroup1ExpectedOrder.push("B");
-        proxyGroup1ExpectedOrder.push("M");
-        proxyGroup1ExpectedOrder.push("A");
-
+        seen.clear();
         TaskGroup<String, TaskItem<String>> group1Proxy = group1.proxyTaskGroupWrapper.proxyTaskGroup();
         group1Proxy.prepareForEnumeration();
         for (TaskGroupEntry<String, TaskItem<String>> entry = group1Proxy.getNext(); entry != null; entry = group1Proxy.getNext()) {
-            String top = proxyGroup1ExpectedOrder.poll();
-            Assert.assertNotNull(top);
-            Assert.assertEquals(top, entry.key());
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
+            if (common.size() > 0) {
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+            }
+            seen.add(entry.key());
             group1Proxy.reportCompletion(entry);
         }
+
+        Assert.assertEquals(13, seen.size()); // 2 groups each with 6 nodes + one proxy (proxy-F)
+        expectedToSee.clear();
+        expectedToSee.addAll(Arrays.asList(new String[] {"A", "B", "C", "D",
+                "E", "F", "M", "N",
+                "O", "P", "Q", "proxy-F",
+                "R"}));
     }
 
     @Test
@@ -960,6 +1161,7 @@ public class ProxyTaskGroupTests {
         //
         /**
          *
+         *
          *                                                                                          |------------------->2------------|
          *                                                                                          |                                 |
          *                                                                          --------------->6                                 ↓
@@ -990,11 +1192,11 @@ public class ProxyTaskGroupTests {
          *                [group-2]                             |           |
          *                                                      |           |
          *           |------------------->H------------|        |           |
-         *           |                                 |        |           |
-         *     ------L            |------->I---------->G        |           |        |------------------->B-----------|
+         *           |                                 ↓        |           |
+         *     ------L            |------->I---------->G        |           |        |-------------------->B----------|
          *     |     |            |                    ^        |           |        |                                |
          *     |     |            |                    |        |           |        |                                ↓
-         *     |     |------------>K                   |        |           -------->F             ------>C---------->A
+         *     |     |------------>K                   |        |           -------->F             ------->C--------->A
          *     |                  |                    |        |------------------->F             |                  ^      [group-1]
          *     |                  |                    |        |            ------->F             |                  |
          *     |                  ------->J-------------        |           |        |------------>E                  |
@@ -1002,171 +1204,210 @@ public class ProxyTaskGroupTests {
          *     |                                                |           |                      |                  |
          *     |                                                |           |                      ------->D-----------
          *     |-------------------------------------------->Proxy F"       |
-         *                                                      |           |       |------------------->N------------|
+         *                                                      |           |       |--------------------->N----------|
          *                                                      |           |       |                                 |
          *                                                      |           |       |                                 ↓
-         *                                                      |           --------R            ------->O----------->M
+         *                                                      |           --------R            --------->O--------->M
          *                                                      |------------------>R            |                    ^      [group-3]
          *                                                                          |            |                    |
          *                                                                          |----------->Q                    |
          *                                                                                       |                    |
          *                                                                                       |                    |
-         *                                                                                        ------->P-----------
+         *                                                                                        -------->P----------
          *
          */
 
         group1.addPostRunDependentTaskGroup(group4);
 
+        Map<String, Set<String>> shouldNotSee = new HashMap<>();
+        // NotSeen entries for nodes in Group-1
+        //
+        shouldNotSee.put("A", new HashSet<String>());
+        shouldNotSee.get("A").addAll(Arrays.asList(new String[] {"B", "C", "D", "E", "F", "proxy-F",  "L"}));
+
+        shouldNotSee.put("B", new HashSet<String>());
+        shouldNotSee.get("B").addAll(Arrays.asList(new String[] {"F","proxy-F",  "L"}));
+
+        shouldNotSee.put("C", new HashSet<String>());
+        shouldNotSee.get("C").addAll(Arrays.asList(new String[] {"E", "F", "proxy-F", "L"}));
+
+        shouldNotSee.put("D", new HashSet<String>());
+        shouldNotSee.get("D").addAll(Arrays.asList(new String[] {"E", "F", "proxy-F", "L"}));
+
+        shouldNotSee.put("E", new HashSet<String>());
+        shouldNotSee.get("E").addAll(Arrays.asList(new String[] {"F", "proxy-F", "L"}));
+
+        shouldNotSee.put("F", new HashSet<String>());
+        shouldNotSee.get("F").addAll(Arrays.asList(new String[] {"proxy-F", "L"}));
+        // NotSeen entries for nodes in Group-3
+        //
+        shouldNotSee.put("M", new HashSet<String>());
+        shouldNotSee.get("M").addAll(Arrays.asList(new String[] {"N", "O", "P", "Q", "R", "proxy-F", "L"}));
+
+        shouldNotSee.put("N", new HashSet<String>());
+        shouldNotSee.get("N").addAll(Arrays.asList(new String[] {"R", "proxy-F", "L"}));
+
+        shouldNotSee.put("O", new HashSet<String>());
+        shouldNotSee.get("O").addAll(Arrays.asList(new String[] {"Q", "R", "L"}));
+
+        shouldNotSee.put("P", new HashSet<String>());
+        shouldNotSee.get("P").addAll(Arrays.asList(new String[] {"Q", "R", "proxy-F", "L"}));
+
+        shouldNotSee.put("Q", new HashSet<String>());
+        shouldNotSee.get("Q").addAll(Arrays.asList(new String[] {"R", "proxy-F", "L"}));
+
+        shouldNotSee.put("R", new HashSet<String>());
+        shouldNotSee.get("R").addAll(Arrays.asList(new String[] {"proxy-F", "L"}));
+        // NotSeen entries for nodes in Group-4
+        //
+        shouldNotSee.put("S", new HashSet<String>());
+        shouldNotSee.get("S").addAll(Arrays.asList(new String[] {"T", "U", "V", "W", "X", "proxy-X", "proxy-F", "L"}));
+
+        shouldNotSee.put("T", new HashSet<String>());
+        shouldNotSee.get("T").addAll(Arrays.asList(new String[] {"X", "proxy-X", "proxy-F", "L"}));
+
+        shouldNotSee.put("U", new HashSet<String>());
+        shouldNotSee.get("U").addAll(Arrays.asList(new String[] {"W", "X", "proxy-X", "proxy-F", "L"}));
+
+        shouldNotSee.put("V", new HashSet<String>());
+        shouldNotSee.get("V").addAll(Arrays.asList(new String[] {"W", "X", "proxy-X", "proxy-F", "L"}));
+
+        shouldNotSee.put("W", new HashSet<String>());
+        shouldNotSee.get("W").addAll(Arrays.asList(new String[] {"X", "proxy-X", "proxy-F", "L"}));
+
+        shouldNotSee.put("X", new HashSet<String>());
+        shouldNotSee.get("X").addAll(Arrays.asList(new String[] {"proxy-X", "proxy-F", "L"}));
+        // NotSeen entries for nodes in Group-5
+        //
+        shouldNotSee.put("1", new HashSet<String>());
+        shouldNotSee.get("1").addAll(Arrays.asList(new String[] {"2", "3", "4", "5", "6", "proxy-X", "proxy-F", "L"}));
+
+        shouldNotSee.put("2", new HashSet<String>());
+        shouldNotSee.get("2").addAll(Arrays.asList(new String[] {"6", "proxy-X", "proxy-F", "L"}));
+
+        shouldNotSee.put("3", new HashSet<String>());
+        shouldNotSee.get("3").addAll(Arrays.asList(new String[] {"5", "6", "proxy-X", "proxy-F", "L"}));
+
+        shouldNotSee.put("4", new HashSet<String>());
+        shouldNotSee.get("4").addAll(Arrays.asList(new String[] {"5", "6", "proxy-X", "proxy-F", "L"}));
+
+        shouldNotSee.put("5", new HashSet<String>());
+        shouldNotSee.get("5").addAll(Arrays.asList(new String[] {"6", "proxy-X", "proxy-F", "L"}));
+
+        shouldNotSee.put("6", new HashSet<String>());
+        shouldNotSee.get("6").addAll(Arrays.asList(new String[] {"proxy-X", "proxy-F", "L"}));
+        // NotSeen entries for nodes in Group-2
+        //
+        shouldNotSee.put("G", new HashSet<String>());
+        shouldNotSee.get("G").addAll(Arrays.asList(new String[] {"H", "I", "J", "K", "L"}));
+
+        shouldNotSee.put("H", new HashSet<String>());
+        shouldNotSee.get("H").addAll(Arrays.asList(new String[] {"L"}));
+
+        shouldNotSee.put("I", new HashSet<String>());
+        shouldNotSee.get("I").addAll(Arrays.asList(new String[] {"K", "L"}));
+
+        shouldNotSee.put("J", new HashSet<String>());
+        shouldNotSee.get("J").addAll(Arrays.asList(new String[] {"K", "L"}));
+
+        shouldNotSee.put("K", new HashSet<String>());
+        shouldNotSee.get("K").addAll(Arrays.asList(new String[] {"L"}));
+
+        shouldNotSee.put("L", new HashSet<String>());
+        shouldNotSee.get("L").addAll(Arrays.asList(new String[] {}));
+
+        // NotSeen entries for proxies
+        shouldNotSee.put("proxy-F", new HashSet<String>());
+        shouldNotSee.get("proxy-F").addAll(Arrays.asList(new String[] {"L"}));
+
+        shouldNotSee.put("proxy-X", new HashSet<String>());
+        shouldNotSee.get("proxy-X").addAll(Arrays.asList(new String[] {"proxy-F", "L"}));
 
         // Test invocation order for group-1 (which gets delegated to group-1's proxy)
-        // This cause -> group-1, group-3, group-4 and group-5 to invoked
         //
-        LinkedList<String> proxyGroup1ExpectedOrder = new LinkedList<>();
-
-        proxyGroup1ExpectedOrder.push("proxy-F");
-        proxyGroup1ExpectedOrder.push("proxy-X");
-        proxyGroup1ExpectedOrder.push("6");
-        proxyGroup1ExpectedOrder.push("X");
-        proxyGroup1ExpectedOrder.push("R");
-        proxyGroup1ExpectedOrder.push("F");
-        proxyGroup1ExpectedOrder.push("5");
-        proxyGroup1ExpectedOrder.push("W");
-        proxyGroup1ExpectedOrder.push("Q");
-        proxyGroup1ExpectedOrder.push("E");
-        proxyGroup1ExpectedOrder.push("4");
-        proxyGroup1ExpectedOrder.push("3");
-        proxyGroup1ExpectedOrder.push("2");
-        proxyGroup1ExpectedOrder.push("V");
-        proxyGroup1ExpectedOrder.push("U");
-        proxyGroup1ExpectedOrder.push("T");
-        proxyGroup1ExpectedOrder.push("P");
-        proxyGroup1ExpectedOrder.push("O");
-        proxyGroup1ExpectedOrder.push("N");
-        proxyGroup1ExpectedOrder.push("D");
-        proxyGroup1ExpectedOrder.push("C");
-        proxyGroup1ExpectedOrder.push("B");
-        proxyGroup1ExpectedOrder.push("1");
-        proxyGroup1ExpectedOrder.push("S");
-        proxyGroup1ExpectedOrder.push("M");
-        proxyGroup1ExpectedOrder.push("A");
-
+        //
+        Set<String> seen = new HashSet<>();
         TaskGroup<String, TaskItem<String>> group1Proxy = group1.proxyTaskGroupWrapper.proxyTaskGroup();
         group1Proxy.prepareForEnumeration();
         for (TaskGroupEntry<String, TaskItem<String>> entry = group1Proxy.getNext(); entry != null; entry = group1Proxy.getNext()) {
-            String top = proxyGroup1ExpectedOrder.poll();
-            Assert.assertNotNull(top);
-            Assert.assertEquals(top, entry.key());
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
+            if (common.size() > 0) {
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+            }
+            seen.add(entry.key());
             group1Proxy.reportCompletion(entry);
         }
-        Assert.assertEquals(0, proxyGroup1ExpectedOrder.size());
+
+        Assert.assertEquals(26, seen.size()); // 4 groups each with 6 nodes + two proxy (proxy-F and proxy-X)
+        Set<String> expectedToSee = new HashSet<>();
+        expectedToSee.addAll(Arrays.asList(new String[] {"A", "B", "C", "D",
+                "E", "F", "M", "N",
+                "O", "P", "Q", "R",
+                "S", "T", "U", "V",
+                "W", "X", "proxy-X",
+                "1", "proxy-F", "2",
+                "3", "4", "5", "6"}));
+        Sets.SetView<String> diff = Sets.difference(seen, expectedToSee);
+        Assert.assertEquals(0, diff.size());
 
         // Test invocation order for group-1 (which gets delegated to group-1's proxy).
         // This cause -> group-1, group-4 and group-5 to invoked
         //
-        LinkedList<String> proxyGroup4ExpectedOrder = new LinkedList<>();
-
-        proxyGroup4ExpectedOrder.push("proxy-X");
-        proxyGroup4ExpectedOrder.push("6");
-        proxyGroup4ExpectedOrder.push("X");
-        proxyGroup4ExpectedOrder.push("F");
-        proxyGroup4ExpectedOrder.push("W");
-        proxyGroup4ExpectedOrder.push("5");
-        proxyGroup4ExpectedOrder.push("E");
-        proxyGroup4ExpectedOrder.push("V");
-        proxyGroup4ExpectedOrder.push("U");
-        proxyGroup4ExpectedOrder.push("T");
-        proxyGroup4ExpectedOrder.push("4");
-        proxyGroup4ExpectedOrder.push("3");
-        proxyGroup4ExpectedOrder.push("2");
-        proxyGroup4ExpectedOrder.push("D");
-        proxyGroup4ExpectedOrder.push("C");
-        proxyGroup4ExpectedOrder.push("B");
-        proxyGroup4ExpectedOrder.push("S");
-        proxyGroup4ExpectedOrder.push("1");
-        proxyGroup4ExpectedOrder.push("A");
-
+        seen.clear();
         TaskGroup<String, TaskItem<String>> group4Proxy = group4.proxyTaskGroupWrapper.proxyTaskGroup();
         group4Proxy.prepareForEnumeration();
         for (TaskGroupEntry<String, TaskItem<String>> entry = group4Proxy.getNext(); entry != null; entry = group4Proxy.getNext()) {
-            String top = proxyGroup4ExpectedOrder.poll();
-            Assert.assertNotNull(top);
-            Assert.assertEquals(top, entry.key());
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
+            if (common.size() > 0) {
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+            }
+            seen.add(entry.key());
             group4Proxy.reportCompletion(entry);
         }
-        Assert.assertEquals(0, proxyGroup4ExpectedOrder.size());
+        Assert.assertEquals(19, seen.size()); // 3 groups each with 6 nodes + one proxy
 
+        expectedToSee.clear();
+        expectedToSee.addAll(Arrays.asList(new String [] {"A", "B", "C", "D",
+                "E", "F", "S", "T",
+                "U", "V", "W", "X",
+                "proxy-X", "1", "2",
+                "3", "4", "5", "6"}));
 
-        // Test invocation order for group-2 (which gets delegated to group-2's proxy).
+        diff = Sets.difference(seen, expectedToSee);
+        Assert.assertEquals(0, diff.size());
+
+        // Test invocation order for group-2.
         // This cause -> all groups to be invoked, group-1, group-3, group-4 and group-5 to invoked
-
-        LinkedList<String> group2ExpectedOrder = new LinkedList<>();
-
-        group2ExpectedOrder.push("L");
-        group2ExpectedOrder.push("proxy-F");
-        group2ExpectedOrder.push("proxy-X");
-        group2ExpectedOrder.push("6");
-        group2ExpectedOrder.push("X");
-        group2ExpectedOrder.push("R");
-        group2ExpectedOrder.push("F");
-        group2ExpectedOrder.push("5");
-        group2ExpectedOrder.push("W");
-        group2ExpectedOrder.push("Q");
-        group2ExpectedOrder.push("K");
-        group2ExpectedOrder.push("E");
-        group2ExpectedOrder.push("4");
-        group2ExpectedOrder.push("3");
-        group2ExpectedOrder.push("2");
-        group2ExpectedOrder.push("V");
-        group2ExpectedOrder.push("U");
-        group2ExpectedOrder.push("T");
-        group2ExpectedOrder.push("P");
-        group2ExpectedOrder.push("O");
-        group2ExpectedOrder.push("N");
-        group2ExpectedOrder.push("J");
-        group2ExpectedOrder.push("I");
-        group2ExpectedOrder.push("H");
-        group2ExpectedOrder.push("D");
-        group2ExpectedOrder.push("C");
-        group2ExpectedOrder.push("B");
-        group2ExpectedOrder.push("1");
-        group2ExpectedOrder.push("S");
-        group2ExpectedOrder.push("M");
-        group2ExpectedOrder.push("G");
-        group2ExpectedOrder.push("A");
-
+        //
+        seen.clear();
         group2.prepareForEnumeration();
         for (TaskGroupEntry<String, StringTaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
-            String top = group2ExpectedOrder.poll();
-            Assert.assertNotNull(top);
-            Assert.assertEquals(top, entry.key());
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
+            if (common.size() > 0) {
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+            }
+            seen.add(entry.key());
             group2.reportCompletion(entry);
         }
-        Assert.assertEquals(0, group2ExpectedOrder.size());
 
+        expectedToSee.clear();
+        expectedToSee.addAll(Arrays.asList(new String [] {"A", "B", "C", "D",
+                "E", "F", "G", "H",
+                "I", "J", "K", "L",
+                "M", "N", "O", "P",
+                "Q", "R", "S", "T",
+                "U", "V", "W", "X",
+                "proxy-X", "1", "proxy-F", "2", "3",
+                "4", "5", "6"}));
 
-        final List<String> allItems = new ArrayList<>();
-        allItems.addAll(group1Items);
-        allItems.addAll(group2Items);
-        allItems.addAll(group3Items);
-        allItems.addAll(group4Items);
-        allItems.addAll(group5Items);
-        allItems.add("X");  // Duplicate emitted by proxy-X
-        allItems.add("F");  // Duplicate emitted by proxy-F
-
-        // Invoke group-2
-        //
-        final ArrayList<String> seen = new ArrayList<>();
-        group2.invokeAsync(group2.newInvocationContext())
-                .toBlocking()
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String value) {
-                        Assert.assertTrue(allItems.contains(value));
-                        allItems.remove(value);
-                    }
-                });
-
-        Assert.assertEquals(0, allItems.size());
+        diff = Sets.difference(seen, expectedToSee);
+        Assert.assertEquals(0, diff.size());
     }
 
     private TaskGroup<String, StringTaskItem> createSampleTaskGroup(String vertex1,
@@ -1218,7 +1459,6 @@ public class ProxyTaskGroupTests {
 
         return group6;
     }
-
 
     private static class StringTaskItem implements TaskItem<String> {
         private final String name;

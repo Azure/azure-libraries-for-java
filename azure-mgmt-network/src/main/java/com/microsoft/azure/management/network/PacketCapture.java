@@ -60,9 +60,7 @@ public interface PacketCapture extends
     List<PacketCaptureFilter> filters();
 
     /**
-     * Get the provisioning state of the packet capture session. Possible values
-     * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
-     *
+     * Get the provisioning state of the packet capture session.
      * @return the provisioningState value
      */
     ProvisioningState provisioningState();

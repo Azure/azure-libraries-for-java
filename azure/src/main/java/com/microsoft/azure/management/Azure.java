@@ -50,6 +50,7 @@ import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
 import com.microsoft.azure.management.locks.ManagementLocks;
 import com.microsoft.azure.management.locks.implementation.AuthorizationManager;
 import com.microsoft.azure.management.network.ApplicationGateways;
+import com.microsoft.azure.management.network.ExpressRouteCircuits;
 import com.microsoft.azure.management.network.LoadBalancers;
 import com.microsoft.azure.management.network.LocalNetworkGateways;
 import com.microsoft.azure.management.network.NetworkInterfaces;
@@ -554,6 +555,14 @@ public final class Azure {
      */
     public LocalNetworkGateways localNetworkGateways() {
         return networkManager.localNetworkGateways();
+    }
+
+    /**
+     * @return entry point to managing express route circuits
+     */
+    @Beta(SinceVersion.V1_4_0)
+    public ExpressRouteCircuits expressRouteCircuits() {
+        return networkManager.expressRouteCircuits();
     }
 
     /**

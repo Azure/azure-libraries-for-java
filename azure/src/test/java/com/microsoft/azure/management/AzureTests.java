@@ -301,11 +301,8 @@ public class AzureTests extends TestBase {
             .toBlocking().subscribe();
 
             VirtualMachine vm = (VirtualMachine) vmDefinition;
-            Assert.assertNotNull(vm);
             StorageAccount storage = (StorageAccount) storageDefinition;
-            Assert.assertNotNull(storageDefinition);
             Disk disk = (Disk) diskDefinition;
-            Assert.assertNotNull(diskDefinition);
 
             // Lock VM
             Creatable<ManagementLock> lockVMDef = azure.managementLocks().define("vmlock")

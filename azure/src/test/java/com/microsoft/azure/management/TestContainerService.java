@@ -5,7 +5,11 @@
  */
 package com.microsoft.azure.management;
 
-import com.microsoft.azure.management.compute.*;
+import com.microsoft.azure.management.containerservice.ContainerService;
+import com.microsoft.azure.management.containerservice.ContainerServiceMasterProfileCount;
+import com.microsoft.azure.management.containerservice.ContainerServiceOrchestratorTypes;
+import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
+import com.microsoft.azure.management.containerservice.ContainerServices;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;
@@ -28,7 +32,6 @@ public class TestContainerService extends TestTemplate<ContainerService, Contain
                 .withRegion(Region.US_EAST)
                 .withNewResourceGroup()
                 .withDcosOrchestration()
-                .withDiagnostics()
                 .withLinux()
                 .withRootUsername("testUserName")
                 .withSshKey(sshKeyData)
@@ -39,6 +42,7 @@ public class TestContainerService extends TestTemplate<ContainerService, Contain
                     .withVMSize(ContainerServiceVMSizeTypes.STANDARD_A1)
                     .withLeafDomainLabel("ap0" + dnsPrefix)
                     .attach()
+                .withDiagnostics()
                 .withTag("tag1", "value1")
                 .create();
         Assert.assertNotNull("Container service not found.", resource.id());

@@ -97,6 +97,27 @@ public interface ContainerService extends
      */
     String servicePrincipalSecret();
 
+    /**
+     * @return OS Disk Size in GB set for every machine in the master pool
+     */
+    int masterOSDiskSizeInGB();
+
+    /**
+     * @return the storage kind set for every machine in the master pool
+     */
+    ContainerServiceStorageProfileTypes masterStorageProfile();
+
+    /**
+     * @return the name of the subnet used by every machine in the master pool
+     */
+    String masterSubnetName();
+
+    /**
+     * @return the ID of the virtual network used by every machine in the master and agent pools
+     */
+    String networkId();
+
+
     // Fluent interfaces
 
     /**
@@ -143,13 +164,13 @@ public interface ContainerService extends
              * Specifies the Swarm orchestration type for the container service.
              * @return the next stage of the definition
              */
-            WithDiagnostics withSwarmOrchestration();
+            WithLinux withSwarmOrchestration();
 
             /**
              * Specifies the DCOS orchestration type for the container service.
              * @return the next stage of the definition
              */
-            WithDiagnostics withDcosOrchestration();
+            WithLinux withDcosOrchestration();
 
             /**
              * Specifies the Kubernetes orchestration type for the container service.
@@ -164,11 +185,46 @@ public interface ContainerService extends
         interface WithServicePrincipalProfile {
             /**
              * Properties for cluster service principals.
-             * @param clientId The ID for the service principal.
-             * @param secret The secret password associated with the service principal.
+             * @param clientId the ID for the service principal
+             * @param secret the secret password associated with the service principal
              * @return the next stage
              */
             WithLinux withServicePrincipal(String clientId, String secret);
+        }
+
+        /**
+         * The stage of the container service definition allowing the start of defining Linux specific settings.
+         */
+        interface WithLinux {
+            /**
+             * Begins the definition to specify Linux settings.
+             * @return the stage representing configuration of Linux specific settings
+             */
+            WithLinuxRootUsername withLinux();
+        }
+
+        /**
+         * The stage of the container service definition allowing to specific the Linux root username.
+         */
+        interface WithLinuxRootUsername {
+            /**
+             * Begins the definition to specify Linux root username.
+             * @param rootUserName the root username
+             * @return the next stage of the definition
+             */
+            WithLinuxSshKey withRootUsername(String rootUserName);
+        }
+
+        /**
+         * The stage of the container service definition allowing to specific the Linux SSH key.
+         */
+        interface WithLinuxSshKey {
+            /**
+             * Begins the definition to specify Linux ssh key.
+             * @param sshKeyData the SSH key data
+             * @return the next stage of the definition
+             */
+            WithMasterNodeCount withSshKey(String sshKeyData);
         }
 
         /**
@@ -209,50 +265,68 @@ public interface ContainerService extends
         }
 
         /**
-         * The stage of the container service definition allowing the start of defining Linux specific settings.
+         * The stage of the container service definition allowing to enable diagnostics.
          */
-        interface WithLinux {
-            /**
-             * Begins the definition to specify Linux settings.
-             * @return the stage representing configuration of Linux specific settings
-             */
-            WithLinuxRootUsername withLinux();
-        }
-
-        /**
-         * The stage of the container service definition allowing to specific the Linux root username.
-         */
-        interface WithLinuxRootUsername {
-            /**
-             * Begins the definition to specify Linux root username.
-             * @param rootUserName the root username
-             * @return the next stage of the definition
-             */
-            WithLinuxSshKey withRootUsername(String rootUserName);
-        }
-
-        /**
-         * The stage of the container service definition allowing to specific the Linux SSH key.
-         */
-        interface WithLinuxSshKey {
-            /**
-             * Begins the definition to specify Linux ssh key.
-             * @param sshKeyData the SSH key data
-             * @return the next stage of the definition
-             */
-            WithMasterNodeCount withSshKey(String sshKeyData);
-        }
-
-        /**
-         * The stage of the container service definition allowing to specific diagnostic settings.
-         */
-        interface WithDiagnostics extends
-                WithLinux {
+        interface WithDiagnostics {
             /**
              * Enable diagnostics.
-             * @return the create stage of the definition
+             * @return the next stage of the definition
              */
-            WithLinux withDiagnostics();
+            WithCreate withDiagnostics();
+        }
+
+        /**
+         * The stage of the container service definition allowing to specify the master VM size.
+         */
+        interface WithMasterVMSize {
+            /**
+             * Specifies the size of the master VMs, default set to "Standard_D2_v2".
+             * @param vmSize the size of the VM
+             * @return the next stage of the definition
+             */
+            WithCreate withMasterVMSize(ContainerServiceVMSizeTypes vmSize);
+        }
+
+        /**
+         * The stage of a container service definition allowing to specify the master's virtual machine storage kind.
+         */
+        interface WithMasterStorageProfile {
+            /**
+             * Specifies the storage kind to be used for every machine in master pool.
+             *
+             * @param storageProfile the storage kind to be used for every machine in the master pool
+             * @return the next stage of the definition
+             */
+            WithCreate withMasterStorageProfile(ContainerServiceStorageProfileTypes storageProfile);
+        }
+
+        /**
+         * The stage of a container service definition allowing to specify the master pool OS disk size.
+         *
+         */
+        interface WithMasterOSDiskSize<ParentT> {
+            /**
+             * OS Disk Size in GB to be used for every machine in the master pool.
+             *
+             * If you specify 0, the default osDisk size will be used according to the vmSize specified.
+             * @param osDiskSizeInGB OS Disk Size in GB to be used for every machine in the master pool
+             * @return the next stage of the definition
+             */
+            WithCreate withMasterOSDiskSizeInGB(int osDiskSizeInGB);
+        }
+
+        /**
+         * The stage of the container service definition allowing to specify the virtual network and subnet for the machines.
+         */
+        interface WithSubnet {
+            /**
+             * Specifies the virtual network and subnet for the virtual machines in the master and agent pools.
+             *
+             * @param networkId the network ID to be used by the machines
+             * @param subnetName the name of the subnet
+             * @return the next stage of the definition
+             */
+            WithCreate withSubnet(String networkId, String subnetName);
         }
 
         /**
@@ -261,8 +335,13 @@ public interface ContainerService extends
          * be specified.
          */
         interface WithCreate extends
-                Creatable<ContainerService>,
-                Resource.DefinitionWithTags<WithCreate> {
+            WithDiagnostics,
+            WithMasterVMSize,
+            WithMasterStorageProfile,
+            WithMasterOSDiskSize,
+            WithSubnet,
+            Creatable<ContainerService>,
+            Resource.DefinitionWithTags<WithCreate> {
         }
     }
 

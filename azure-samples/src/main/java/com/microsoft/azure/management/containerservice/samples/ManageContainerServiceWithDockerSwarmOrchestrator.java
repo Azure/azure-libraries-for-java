@@ -4,12 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.samples;
+package com.microsoft.azure.management.containerservice.samples;
 
 import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.ContainerService;
-import com.microsoft.azure.management.compute.ContainerServiceMasterProfileCount;
-import com.microsoft.azure.management.compute.ContainerServiceVMSizeTypes;
+import com.microsoft.azure.management.containerservice.ContainerService;
+import com.microsoft.azure.management.containerservice.ContainerServiceMasterProfileCount;
+import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.SSHShell;
@@ -17,53 +17,29 @@ import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.rest.LogLevel;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Date;
 
 /**
- * Azure Container Service sample for managing container service with Kubernetes orchestration.
- *   - Create an Azure Container Service with Kubernetes orchestration
- *   - Create a SSH private/public key
- *   - Update the number of agent virtual machines in an Azure Container Service
+ * An Azure Container Services sample for managing a container service with Docker Swarm orchestration.
+ *  - Create an Azure Container Service with Docker Swarm orchestration
+ *  - Create a SSH private/public key
+ *  - Update the number of agent virtual machines in an Azure Container Service
  */
-public class ManageContainerServiceUsingKubernetes {
+public class ManageContainerServiceWithDockerSwarmOrchestrator {
 
     /**
      * Main function which runs the actual sample.
      *
      * @param azure instance of the azure client
-     * @param clientId secondary service principal client ID
-     * @param secret secondary service principal secret
      * @return true if sample runs successfully
      */
-    public static boolean runSample(Azure azure, String clientId, String secret) {
+    public static boolean runSample(Azure azure) {
         final String rgName = SdkContext.randomResourceName("rgACS", 15);
         final String acsName = SdkContext.randomResourceName("acssample", 30);
         final Region region = Region.US_EAST;
-        String servicePrincipalClientId = clientId; // replace with a real service principal client id
-        String servicePrincipalSecret = secret; // and corresponding secret
         final String rootUserName = "acsuser";
 
         try {
-
-            //=============================================================
-            // If service principal client id and secret are not set via the local variables, attempt to read the service
-            //     principal client id and secret from a secondary ".azureauth" file set through an environment variable.
-            //
-            //     If the environment variable was not set then reuse the main service principal set for running this sample.
-
-            if (servicePrincipalClientId.isEmpty() || servicePrincipalSecret.isEmpty()) {
-                String envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION_2");
-
-                if (envSecondaryServicePrincipal == null || !envSecondaryServicePrincipal.isEmpty() || !Files.exists(Paths.get(envSecondaryServicePrincipal))) {
-                  envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION");
-                }
-
-                servicePrincipalClientId = Utils.getSecondaryServicePrincipalClientID(envSecondaryServicePrincipal);
-                servicePrincipalSecret = Utils.getSecondaryServicePrincipalSecret(envSecondaryServicePrincipal);
-            }
-
 
             //=============================================================
             // Create an SSH private/public key pair to be used when creating the container service
@@ -76,27 +52,26 @@ public class ManageContainerServiceUsingKubernetes {
 
 
             //=============================================================
-            // Create an Azure Container Service with Kubernetes orchestration
+            // Create an Azure Container Service with Docker Swarm orchestration
 
-            System.out.println("Creating an Azure Container Service with Kubernetes ochestration and one agent (virtual machine)");
+            System.out.println("Creating an Azure Container Service with Docker Swarm ochestration and one agent (virtual machine)");
 
             Date t1 = new Date();
 
             ContainerService azureContainerService = azure.containerServices().define(acsName)
                     .withRegion(region)
                     .withNewResourceGroup(rgName)
-                    .withKubernetesOrchestration()
-                    .withServicePrincipal(servicePrincipalClientId, servicePrincipalSecret)
+                    .withSwarmOrchestration()
                     .withLinux()
                     .withRootUsername(rootUserName)
                     .withSshKey(sshKeys.getSshPublicKey())
                     .withMasterNodeCount(ContainerServiceMasterProfileCount.MIN)
                     .withMasterLeafDomainLabel("dns-" + acsName)
                     .defineAgentPool("agentpool")
-                            .withVMCount(1)
-                            .withVMSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
-                            .withLeafDomainLabel("dns-ap-" + acsName)
-                            .attach()
+                        .withVMCount(1)
+                        .withVMSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
+                        .withLeafDomainLabel("dns-ap-" + acsName)
+                        .attach()
                     .create();
 
             Date t2 = new Date();
@@ -106,7 +81,7 @@ public class ManageContainerServiceUsingKubernetes {
             //=============================================================
             // Update a Kubernetes Azure Container Service with two agents (virtual machines)
 
-            System.out.println("Updating a Kubernetes Azure Container Service with two agents (virtual machines)");
+            System.out.println("Updating a Docker Swarm Azure Container Service with two agents (virtual machines)");
 
             t1 = new Date();
 
@@ -156,7 +131,7 @@ public class ManageContainerServiceUsingKubernetes {
             // Print selected subscription
             System.out.println("Selected subscription: " + azure.subscriptionId());
 
-            runSample(azure, "", "");
+            runSample(azure);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

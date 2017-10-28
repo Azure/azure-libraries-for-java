@@ -22,7 +22,6 @@ import com.microsoft.azure.management.cdn.CdnProfiles;
 import com.microsoft.azure.management.cdn.implementation.CdnManager;
 import com.microsoft.azure.management.compute.AvailabilitySets;
 import com.microsoft.azure.management.compute.ComputeUsages;
-import com.microsoft.azure.management.compute.ContainerServices;
 import com.microsoft.azure.management.compute.Disks;
 import com.microsoft.azure.management.compute.Snapshots;
 import com.microsoft.azure.management.compute.VirtualMachineCustomImages;
@@ -34,6 +33,8 @@ import com.microsoft.azure.management.containerinstance.ContainerGroups;
 import com.microsoft.azure.management.containerinstance.implementation.ContainerInstanceManager;
 import com.microsoft.azure.management.containerregistry.Registries;
 import com.microsoft.azure.management.containerregistry.implementation.ContainerRegistryManager;
+import com.microsoft.azure.management.containerservice.ContainerServices;
+import com.microsoft.azure.management.containerservice.implementation.ContainerServiceManager;
 import com.microsoft.azure.management.dns.DnsZones;
 import com.microsoft.azure.management.dns.implementation.DnsZoneManager;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccounts;
@@ -112,6 +113,7 @@ public final class Azure {
     private final ServiceBusManager serviceBusManager;
     private final ContainerInstanceManager containerInstanceManager;
     private final ContainerRegistryManager containerRegistryManager;
+    private final ContainerServiceManager containerServiceManager;
     private final SearchServiceManager searchServiceManager;
     private final CosmosDBManager cosmosDBManager;
     private final String subscriptionId;
@@ -385,6 +387,7 @@ public final class Azure {
         this.serviceBusManager = ServiceBusManager.authenticate(restClient, subscriptionId);
         this.containerInstanceManager = ContainerInstanceManager.authenticate(restClient, subscriptionId);
         this.containerRegistryManager = ContainerRegistryManager.authenticate(restClient, subscriptionId);
+        this.containerServiceManager = ContainerServiceManager.authenticate(restClient, subscriptionId);
         this.cosmosDBManager = CosmosDBManager.authenticate(restClient, subscriptionId);
         this.searchServiceManager = SearchServiceManager.authenticate(restClient, subscriptionId);
         this.subscriptionId = subscriptionId;
@@ -693,9 +696,9 @@ public final class Azure {
     /**
      * @return entry point to managing Container Services.
      */
-    @Beta(SinceVersion.V1_1_0)
+    @Beta(SinceVersion.V1_4_0)
     public ContainerServices containerServices() {
-        return computeManager.containerServices();
+        return containerServiceManager.containerServices();
     }
 
     /**

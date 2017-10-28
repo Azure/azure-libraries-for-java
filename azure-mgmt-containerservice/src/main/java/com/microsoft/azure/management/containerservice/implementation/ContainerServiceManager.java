@@ -11,6 +11,7 @@ import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.microsoft.azure.management.containerservice.ContainerServices;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -25,7 +26,8 @@ import com.microsoft.rest.RestClient;
 @Beta(SinceVersion.V1_4_0)
 public final class ContainerServiceManager extends Manager<ContainerServiceManager, ContainerServiceManagementClientImpl> {
     // The service managers
-//    private ContainerServicesImpl containerServices;
+    private ContainerServicesImpl containerServices;
+//    private KubernetesServicesImpl kubernetesServices;
 
     /**
      * Get a Configurable instance that can be used to create ContainerServiceManager with optional configuration.
@@ -96,14 +98,23 @@ public final class ContainerServiceManager extends Manager<ContainerServiceManag
                 new ContainerServiceManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
     }
 
-
     /**
-     * @return the availability set resource management API entry point
+     * @return the Azure Container services resource management API entry point
      */
-//    public ContainerServices containerServices() {
-//        if (this.containerServices == null) {
-//            this.containerServices = new ContainerServicesImpl(this);
+    public ContainerServices containerServices() {
+        if (this.containerServices == null) {
+            this.containerServices = new ContainerServicesImpl(this);
+        }
+        return this.containerServices;
+    }
+
+//    /**
+//     * @return the Azure Kubernetes services resource management API entry point
+//     */
+//    public KubernetesServices kubernetesServices() {
+//        if (this.kubernetesServices == null) {
+//            this.kubernetesServices = new KubernetesServicesImpl(this);
 //        }
-//        return registries;
+//        return this.kubernetesServices;
 //    }
 }

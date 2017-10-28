@@ -18,8 +18,10 @@ import com.microsoft.azure.management.containerservice.ContainerServiceOrchestra
 import com.microsoft.azure.management.containerservice.ContainerServiceServicePrincipalProfile;
 import com.microsoft.azure.management.containerservice.ContainerServiceSshConfiguration;
 import com.microsoft.azure.management.containerservice.ContainerServiceSshPublicKey;
+import com.microsoft.azure.management.containerservice.ContainerServiceStorageProfileTypes;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMDiagnostics;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Observable;
 import rx.functions.Func1;
@@ -30,21 +32,32 @@ import java.util.ArrayList;
  * The implementation for ContainerService and its create and update interfaces.
  */
 @LangDefinition
-public class ContainerServiceImpl
-        extends
+public class ContainerServiceImpl extends
         GroupableResourceImpl<
             ContainerService,
-                ContainerServiceInner,
-                ContainerServiceImpl,
-                ContainerServiceManager>
-        implements ContainerService,
-        ContainerService.Definition,
-        ContainerService.Update {
+            ContainerServiceInner,
+            ContainerServiceImpl,
+            ContainerServiceManager>
+        implements
+            ContainerService,
+            ContainerService.Definition,
+            ContainerService.Update {
+
+    private String networkId;
+    private String subnetName;
 
     protected ContainerServiceImpl(String name, ContainerServiceInner innerObject, ContainerServiceManager manager) {
         super(name, innerObject, manager);
         if (this.inner().agentPoolProfiles() == null) {
             this.inner().withAgentPoolProfiles(new ArrayList<ContainerServiceAgentPoolProfile>());
+        }
+
+        if (this.inner().masterProfile() != null && this.inner().masterProfile().vnetSubnetID() != null) {
+            this.networkId = ResourceUtils.parentResourceIdFromResourceId(this.inner().masterProfile().vnetSubnetID());
+            this.subnetName = ResourceUtils.nameFromResourceId(this.inner().masterProfile().vnetSubnetID());
+        } else {
+            this.networkId = null;
+            this.subnetName = null;
         }
     }
 
@@ -170,6 +183,34 @@ public class ContainerServiceImpl
     }
 
     @Override
+    public int masterOSDiskSizeInGB() {
+        if (this.inner().masterProfile() == null || this.inner().masterProfile().osDiskSizeGB() == null) {
+            return 0;
+        }
+
+        return this.inner().masterProfile().osDiskSizeGB();
+    }
+
+    @Override
+    public ContainerServiceStorageProfileTypes masterStorageProfile() {
+        if (this.inner().masterProfile() == null) {
+            return null;
+        }
+
+        return this.inner().masterProfile().storageProfile();
+    }
+
+    @Override
+    public String masterSubnetName() {
+        return subnetName;
+    }
+
+    @Override
+    public String networkId() {
+        return networkId;
+    }
+
+    @Override
     public boolean isDiagnosticsEnabled() {
         if (this.inner().diagnosticsProfile() == null
                 || this.inner().diagnosticsProfile().vmDiagnostics() == null) {
@@ -181,7 +222,7 @@ public class ContainerServiceImpl
 
     @Override
     public ContainerServiceImpl withMasterNodeCount(ContainerServiceMasterProfileCount profileCount) {
-        ContainerServiceMasterProfile masterProfile = new ContainerServiceMasterProfile();
+        ContainerServiceMasterProfile masterProfile = new ContainerServiceMasterProfile().withVmSize(ContainerServiceVMSizeTypes.STANDARD_D2_V2);
         masterProfile.withCount(profileCount.count());
         this.inner().withMasterProfile(masterProfile);
         return this;
@@ -292,6 +333,42 @@ public class ContainerServiceImpl
     }
 
     @Override
+    public ContainerServiceImpl withMasterVMSize(ContainerServiceVMSizeTypes vmSize) {
+        this.inner().masterProfile().withVmSize(vmSize);
+        return this;
+    }
+
+    @Override
+    public ContainerServiceImpl withMasterStorageProfile(ContainerServiceStorageProfileTypes storageProfile) {
+        this.inner().masterProfile().withStorageProfile(storageProfile);
+        return this;
+    }
+
+    @Override
+    public ContainerServiceImpl withMasterOSDiskSizeInGB(int osDiskSizeInGB) {
+        this.inner().masterProfile().withOsDiskSizeGB(osDiskSizeInGB);
+        return this;
+    }
+
+    @Override
+    public ContainerServiceImpl withSubnet(String networkId, String subnetName) {
+        this.networkId = networkId;
+        this.subnetName = subnetName;
+        this.inner().masterProfile().withVnetSubnetID(networkId + "/subnets/" + subnetName);
+        if (this.inner().agentPoolProfiles() != null) {
+            for (ContainerServiceAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
+                String agentPoolSubnet = agentPoolProfile.vnetSubnetID();
+                if (agentPoolSubnet == null) {
+                    agentPoolProfile.withVnetSubnetID(networkId + "/subnets/" + subnetName);
+                } else {
+                    agentPoolProfile.withVnetSubnetID(networkId + "/subnets/" + agentPoolSubnet);
+                }
+            }
+        }
+        return this;
+    }
+
+    @Override
     protected Observable<ContainerServiceInner> getInnerAsync() {
         return this.manager().inner().containerServices().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
@@ -321,4 +398,5 @@ public class ContainerServiceImpl
 
         return this.inner().agentPoolProfiles().get(0);
     }
+
 }

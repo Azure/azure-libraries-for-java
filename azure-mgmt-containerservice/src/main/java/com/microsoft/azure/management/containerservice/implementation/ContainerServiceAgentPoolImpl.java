@@ -9,24 +9,34 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerservice.ContainerService;
 import com.microsoft.azure.management.containerservice.ContainerServiceAgentPool;
 import com.microsoft.azure.management.containerservice.ContainerServiceAgentPoolProfile;
+import com.microsoft.azure.management.containerservice.ContainerServiceStorageProfileTypes;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
+import com.microsoft.azure.management.containerservice.OSType;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The implementation for ContainerServiceAgentPool and its create and update interfaces.
  */
 @LangDefinition
-class ContainerServiceAgentPoolImpl
-    extends ChildResourceImpl<ContainerServiceAgentPoolProfile,
-            ContainerServiceImpl,
+class ContainerServiceAgentPoolImpl extends
+        ChildResourceImpl<ContainerServiceAgentPoolProfile,
+        ContainerServiceImpl,
         ContainerService>
     implements
-    ContainerServiceAgentPool,
+        ContainerServiceAgentPool,
         ContainerServiceAgentPool.Definition {
 
     ContainerServiceAgentPoolImpl(ContainerServiceAgentPoolProfile inner, ContainerServiceImpl parent) {
         super(inner, parent);
+        String subnetId = (inner != null) ? this.inner().vnetSubnetID() : null;
+        this.subnetName = ResourceUtils.nameFromResourceId(subnetId);
     }
+
+    private String subnetName;
 
     @Override
     public String name() {
@@ -44,8 +54,52 @@ class ContainerServiceAgentPoolImpl
     }
 
     @Override
-    public String dnsLabel() {
+    public String dnsPrefix() {
         return this.inner().dnsPrefix();
+    }
+
+    @Override
+    public int osDiskSizeInGB() {
+        return this.inner().osDiskSizeGB();
+    }
+
+    @Override
+    public int[] ports() {
+        List<Integer> portsList = this.inner().ports();
+        if (portsList != null && portsList.size() > 0) {
+            int[] ports = new int[portsList.size()];
+            for (int i = 0; i < ports.length; i++) {
+                ports[i] = portsList.get(i);
+            }
+            return ports;
+        } else {
+            return new int[0];
+        }
+    }
+
+    @Override
+    public OSType osType() {
+        return this.inner().osType();
+    }
+
+    @Override
+    public ContainerServiceStorageProfileTypes storageProfile() {
+        return this.inner().storageProfile();
+    }
+
+    @Override
+    public String subnetName() {
+        if (this.subnetName != null) {
+            return this.subnetName;
+        } else {
+            return ResourceUtils.nameFromResourceId(this.inner().vnetSubnetID());
+        }
+    }
+
+    @Override
+    public String networkId() {
+        String subnetId = (this.inner() != null) ? this.inner().vnetSubnetID() : null;
+        return (subnetId != null) ? ResourceUtils.parentResourceIdFromResourceId(subnetId) : null;
     }
 
     @Override
@@ -55,12 +109,8 @@ class ContainerServiceAgentPoolImpl
 
     @Override
     public ContainerServiceAgentPoolImpl withVMCount(int agentPoolCount) {
-        if (agentPoolCount < 0 || agentPoolCount > 100) {
-            throw new RuntimeException("Agent pool count  must be in the range of 1 to 100 (inclusive)");
-        }
-
         this.inner().withCount(agentPoolCount);
-        return this;        
+        return this;
     }
 
     @Override
@@ -75,10 +125,46 @@ class ContainerServiceAgentPoolImpl
         return this;        
     }
 
+    @Override
+    public ContainerServiceAgentPoolImpl withPorts(int... ports) {
+        if (ports != null && ports.length > 0) {
+            this.inner().withPorts(new ArrayList<Integer>());
+            for (int port : ports) {
+                this.inner().ports().add(port);
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public ContainerServiceAgentPoolImpl withOSType(OSType osType) {
+        this.inner().withOsType(osType);
+        return this;
+    }
+
+    @Override
+    public ContainerServiceAgentPoolImpl withOSDiskSizeInGB(int osDiskSizeInGB) {
+        this.inner().withOsDiskSizeGB(osDiskSizeInGB);
+        return this;
+    }
+
+    @Override
+    public ContainerServiceAgentPoolImpl withStorageProfile(ContainerServiceStorageProfileTypes storageProfile) {
+        this.inner().withStorageProfile(storageProfile);
+        return this;
+    }
+
+    @Override
+    public ContainerServiceAgentPoolImpl withSubnetName(String subnetName) {
+        this.subnetName = subnetName;
+        this.inner().withVnetSubnetID(subnetName);
+        return this;
+    }
 
     @Override
     public ContainerService.Definition attach() {
         this.parent().attachAgentPoolProfile(this);
         return this.parent();
     }
+
 }

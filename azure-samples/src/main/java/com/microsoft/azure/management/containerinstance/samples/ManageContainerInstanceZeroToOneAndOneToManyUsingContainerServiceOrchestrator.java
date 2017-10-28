@@ -14,13 +14,13 @@ import com.github.dockerjava.api.model.Image;
 import com.github.dockerjava.core.command.PullImageResultCallback;
 import com.github.dockerjava.core.command.PushImageResultCallback;
 import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.ContainerService;
-import com.microsoft.azure.management.compute.ContainerServiceMasterProfileCount;
-import com.microsoft.azure.management.compute.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
 import com.microsoft.azure.management.containerregistry.AccessKeyType;
 import com.microsoft.azure.management.containerregistry.Registry;
 import com.microsoft.azure.management.containerregistry.RegistryCredentials;
+import com.microsoft.azure.management.containerservice.ContainerService;
+import com.microsoft.azure.management.containerservice.ContainerServiceMasterProfileCount;
+import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.DockerUtils;
@@ -72,7 +72,7 @@ import java.util.List;
  *     - Create a Kubernetes replication controller using a container image from the Azure private registry from above
  *         and a load balancer service that will expose the app to the world
  */
-public class ManageContainerInstanceZeroToOneAndOneToManyUsingKubernetesOrchestration {
+public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOrchestrator {
     /**
      * Main function which runs the actual sample.
      *

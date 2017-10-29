@@ -96,7 +96,6 @@ public class AzureTests extends TestBase {
      * @throws Exception
      */
     @Test
-    @Ignore("MSI-enabled subscription broken. Can't test...")
     public void testExpandableEnum() throws Exception {
 
         // Define some threads that read from enum

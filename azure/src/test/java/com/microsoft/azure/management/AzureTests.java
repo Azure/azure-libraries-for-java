@@ -43,7 +43,11 @@ import com.microsoft.azure.management.network.PcStatus;
 import com.microsoft.azure.management.network.Protocol;
 import com.microsoft.azure.management.network.SecurityGroupView;
 import com.microsoft.azure.management.network.Topology;
+import com.microsoft.azure.management.network.Troubleshooting;
 import com.microsoft.azure.management.network.VerificationIPFlow;
+import com.microsoft.azure.management.network.VirtualNetworkGateway;
+import com.microsoft.azure.management.network.VirtualNetworkGatewayConnection;
+import com.microsoft.azure.management.network.VirtualNetworkGatewaySkuName;
 import com.microsoft.azure.management.resources.Deployment;
 import com.microsoft.azure.management.resources.DeploymentMode;
 import com.microsoft.azure.management.resources.GenericResource;
@@ -928,8 +932,6 @@ public class AzureTests extends TestBase {
         Assert.assertEquals(5, flowLogSettings.retentionDays());
         Assert.assertEquals(storageAccount.id(), flowLogSettings.storageId());
 
-//        Troubleshooting troubleshooting = nw.troubleshoot(<virtual_network_gateway_id> or <virtual_network_gateway_connaction_id>,
-//                storageAccount.id(), "");
         NextHop nextHop = nw.nextHop().withTargetResourceId(virtualMachines[0].id())
             .withSourceIPAddress("10.0.0.4")
             .withDestinationIPAddress("8.8.8.8")
@@ -987,6 +989,70 @@ public class AzureTests extends TestBase {
 
         azure.resourceGroups().deleteByName(nw.resourceGroupName());
         azure.resourceGroups().deleteByName(tnw.groupName());
+    }
+
+    @Test
+    public void testNetworkWatcherTroubleshooting() throws Exception {
+        String gatewayName = SdkContext.randomResourceName("vngw", 8);
+        String connectionName = SdkContext.randomResourceName("vngwc", 8);
+
+        TestNetworkWatcher tnw = new TestNetworkWatcher();
+        NetworkWatcher nw = tnw.createResource(azure.networkWatchers());
+        Region region = nw.region();
+        String resourceGroup = nw.resourceGroupName();
+
+        VirtualNetworkGateway vngw1 = azure.virtualNetworkGateways().define(gatewayName)
+                .withRegion(region)
+                .withExistingResourceGroup(resourceGroup)
+                .withNewNetwork("10.11.0.0/16", "10.11.255.0/27")
+                .withRouteBasedVpn()
+                .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
+                .create();
+
+        VirtualNetworkGateway vngw2 = azure.virtualNetworkGateways().define(gatewayName + "2")
+                .withRegion(region)
+                .withExistingResourceGroup(resourceGroup)
+                .withNewNetwork("10.41.0.0/16", "10.41.255.0/27")
+                .withRouteBasedVpn()
+                .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
+                .create();
+        VirtualNetworkGatewayConnection connection1 = vngw1.connections()
+                .define(connectionName)
+                .withVNetToVNet()
+                .withSecondVirtualNetworkGateway(vngw2)
+                .withSharedKey("MySecretKey")
+                .create();
+
+        // Create storage account to store troubleshooting information
+        StorageAccount storageAccount = azure.storageAccounts().define("sa" + SdkContext.randomResourceName("", 8))
+                .withRegion(region)
+                .withExistingResourceGroup(resourceGroup)
+                .create();
+
+        // Troubleshoot connection
+        Troubleshooting troubleshooting = nw.troubleshoot()
+                .withTargetResourceId(connection1.id())
+                .withStorageAccount(storageAccount.id())
+                .withStoragePath(storageAccount.endPoints().primary().blob() + "results")
+                .execute();
+        Assert.assertEquals("UnHealthy", troubleshooting.code());
+
+        // Create corresponding connection on second gateway to make it work
+        vngw2.connections()
+                .define(connectionName + "2")
+                .withVNetToVNet()
+                .withSecondVirtualNetworkGateway(vngw1)
+                .withSharedKey("MySecretKey")
+                .create();
+        Thread.sleep(250000);
+        troubleshooting = nw.troubleshoot()
+                .withTargetResourceId(connection1.id())
+                .withStorageAccount(storageAccount.id())
+                .withStoragePath(storageAccount.endPoints().primary().blob() + "results")
+                .execute();
+        Assert.assertEquals("Healthy", troubleshooting.code());
+
+        azure.resourceGroups().deleteByName(resourceGroup);
     }
 
     /**

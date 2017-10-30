@@ -210,6 +210,12 @@ public class TestVirtualNetworkGateway {
                     .withSecondVirtualNetworkGateway(vngw2)
                     .withSharedKey("MySecretKey")
                     .create();
+            vngw2.connections()
+                    .define(CONNECTION_NAME + "2")
+                    .withVNetToVNet()
+                    .withSecondVirtualNetworkGateway(vngw1)
+                    .withSharedKey("MySecretKey")
+                    .create();
             List<VirtualNetworkGatewayConnection> connections = vngw1.listConnections();
             Assert.assertEquals(1, connections.size());
             Assert.assertEquals(vngw1.id(), connections.get(0).virtualNetworkGateway1Id());

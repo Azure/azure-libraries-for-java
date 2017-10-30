@@ -15,6 +15,7 @@ import com.microsoft.azure.management.network.ServiceProviderProvisioningState;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -108,6 +109,18 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceImpl<
     @Override
     protected Observable<ExpressRouteCircuitInner> getInnerAsync() {
         return this.manager().inner().expressRouteCircuits().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    }
+
+    @Override
+    public Observable<ExpressRouteCircuit> refreshAsync() {
+        return super.refreshAsync().map(new Func1<ExpressRouteCircuit, ExpressRouteCircuit>() {
+            @Override
+            public ExpressRouteCircuit call(ExpressRouteCircuit expressRouteCircuit) {
+                ExpressRouteCircuitImpl impl = (ExpressRouteCircuitImpl) expressRouteCircuit;
+                impl.initializeChildrenFromInner();
+                return impl;
+            }
+        });
     }
 
     // Getters

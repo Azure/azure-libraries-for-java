@@ -102,13 +102,12 @@ public class TestExpressRouteCircuit {
                     .withVlanId(200)
                     .withPeerAsn(100)
                     .create();
+            Assert.assertEquals(erc.peeringsMap().size(), 1);
             return erc;
         }
 
         @Override
         public ExpressRouteCircuit updateResource(ExpressRouteCircuit resource) throws Exception {
-            resource.refresh();
-            Assert.assertEquals(resource.peeringsMap().size(), 1);
             Assert.assertTrue(resource.peeringsMap().containsKey(ExpressRouteCircuitPeeringType.MICROSOFT_PEERING.toString()));
             com.microsoft.azure.management.network.ExpressRouteCircuitPeering peering =
                     resource.peeringsMap().get(ExpressRouteCircuitPeeringType.MICROSOFT_PEERING.toString())

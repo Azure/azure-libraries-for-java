@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.network;
 
 import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.Map;
 /**
  * Express route circuit sku type.
  */
+@LangDefinition
 @Beta(Beta.SinceVersion.V1_4_0)
 public class ExpressRouteCircuitSkuType {
     private static final Map<String, ExpressRouteCircuitSkuType> VALUES_BY_NAME = new HashMap<>();
@@ -98,16 +100,6 @@ public class ExpressRouteCircuitSkuType {
         } else {
             return new ExpressRouteCircuitSkuType(sku);
         }
-    }
-
-    /**
-     * Parses into a VMSS SKU type and creates a new VMSS SKU type instance if not found among the existing ones.
-     * @param skuName a SKU name
-     * @param skuTier a SKU tier
-     * @return a VMSS SKU type
-     */
-    public static ExpressRouteCircuitSkuType fromSkuNameAndTier(String skuName, ExpressRouteCircuitSkuTier skuTier) {
-        return fromSku(new ExpressRouteCircuitSku().withName(skuName).withTier(skuTier));
     }
 
     /**

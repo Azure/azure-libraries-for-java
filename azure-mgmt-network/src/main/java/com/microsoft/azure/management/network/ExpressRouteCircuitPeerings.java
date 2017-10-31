@@ -7,6 +7,7 @@ package com.microsoft.azure.management.network;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.network.implementation.ExpressRouteCircuitPeeringsInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByName;
@@ -35,17 +36,20 @@ public interface ExpressRouteCircuitPeerings extends
      * Begins definition of Azure private peering.
      * @return next peering definition stage
      */
+    @Method
     ExpressRouteCircuitPeering.DefinitionStages.Blank defineAzurePrivatePeering();
 
     /**
      * Begins definition of Azure public peering.
      * @return next peering definition stage
      */
+    @Method
     ExpressRouteCircuitPeering.DefinitionStages.Blank defineAzurePublicPeering();
 
     /**
      * Begins definition of Microsoft peering.
      * @return next peering definition stage
      */
+    @Method
     ExpressRouteCircuitPeering.DefinitionStages.WithAdvertisedPublicPrefixes defineMicrosoftPeering();
 }

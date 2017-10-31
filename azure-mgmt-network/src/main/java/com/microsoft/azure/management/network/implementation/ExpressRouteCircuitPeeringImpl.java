@@ -94,6 +94,7 @@ class ExpressRouteCircuitPeeringImpl extends
                     public ExpressRouteCircuitPeering call(ExpressRouteCircuitPeeringInner innerModel) {
                         ExpressRouteCircuitPeeringImpl.this.setInner(innerModel);
                         stats = new ExpressRouteCircuitStatsImpl(innerModel.stats());
+                        parent.refresh();
                         return ExpressRouteCircuitPeeringImpl.this;
                     }
                 });

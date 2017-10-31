@@ -7,6 +7,7 @@ package com.microsoft.azure.management.network;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
@@ -16,6 +17,7 @@ import com.microsoft.azure.management.network.implementation.ApplicationGatewayI
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.network.model.HasPrivateIPAddress;
 import com.microsoft.azure.management.network.model.HasPublicIPAddress;
+import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasSubnet;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
@@ -205,6 +207,17 @@ public interface ApplicationGateway extends
      */
     @Beta(SinceVersion.V1_4_0)
     Map<String, ApplicationGatewayAuthenticationCertificate> authenticationCertificates();
+
+    /**
+     * The availability zones assigned to the application gateway.
+     * <p>
+     * Note, this functionality is not enabled for most subscriptions and is subject to significant redesign
+     * and/or removal in the future.
+     *
+     * @return the availability zones assigned to the application gateway.
+     */
+    @Beta(Beta.SinceVersion.V1_4_0)
+    Set<AvailabilityZoneId> availabilityZones();
 
     /**
      * Returns the name of the existing port, if any, that is associated with the specified port number.
@@ -496,6 +509,24 @@ public interface ApplicationGateway extends
         }
 
         /**
+         * The stage of the application gateway definition allowing to specify availability zone.
+         */
+        @Beta(Beta.SinceVersion.V1_4_0)
+        interface WithAvailabilityZone {
+            /**
+             * Specifies the availability zone for the application gateway.
+             * <p>
+             * Note, this functionality is not enabled for most subscriptions and is subject to significant redesign
+             * and/or removal in the future.
+             *
+             * @param zoneId the zone identifier.
+             * @return the next stage of the definition
+             */
+            @Beta(SinceVersion.V1_4_0)
+            WithCreate withAvailabilityZone(AvailabilityZoneId zoneId);
+        }
+
+        /**
          * The stage of an application gateway definition containing all the required inputs for
          * the resource to be created, but also allowing
          * for any other optional settings to be specified.
@@ -518,7 +549,8 @@ public interface ApplicationGateway extends
             WithProbe,
             WithDisabledSslProtocol,
             WithAuthenticationCertificate,
-            WithRedirectConfiguration {
+            WithRedirectConfiguration,
+            WithAvailabilityZone {
         }
     }
 

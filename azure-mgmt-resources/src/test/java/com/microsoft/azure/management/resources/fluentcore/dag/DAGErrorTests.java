@@ -363,8 +363,6 @@ public class DAGErrorTests {
             }
         }).toBlocking().last();
 
-        System.out.println("Seen            : " + seen);
-        System.out.println("Expected to see : " + expectedToSee);
         Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
         Assert.assertEquals(exceptions.size(), 1);
         Assert.assertTrue(exceptions.get(0) instanceof CompositeException);

@@ -27,6 +27,9 @@ import rx.Observable;
 import rx.functions.Func1;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The implementation for ContainerService and its create and update interfaces.
@@ -81,7 +84,7 @@ public class ContainerServiceImpl extends
     }
 
     @Override
-    public String masterLeafDomainLabel() {
+    public String masterDnsPrefix() {
         if (this.inner().masterProfile() == null) {
             return null;
         }
@@ -99,48 +102,15 @@ public class ContainerServiceImpl extends
     }
 
     @Override
-    public String agentPoolName() {
-        if (this.getSingleAgentPool() == null) {
-            return null;
+    public Map<String, ContainerServiceAgentPool> agentPools() {
+        Map<String, ContainerServiceAgentPool> agentPoolMap = new HashMap<>();
+        if (this.inner().agentPoolProfiles() != null && this.inner().agentPoolProfiles().size() > 0) {
+            for (ContainerServiceAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
+                agentPoolMap.put(agentPoolProfile.name(), new ContainerServiceAgentPoolImpl(agentPoolProfile, this));
+            }
         }
 
-        return this.getSingleAgentPool().name();
-    }
-
-    @Override
-    public int agentPoolCount() {
-        if (this.getSingleAgentPool() == null) {
-            return 0;
-        }
-
-        return this.getSingleAgentPool().count();
-    }
-
-    @Override
-    public String agentPoolLeafDomainLabel() {
-        if (this.getSingleAgentPool() == null) {
-            return null;
-        }
-
-        return this.getSingleAgentPool().dnsPrefix();
-    }
-
-    @Override
-    public ContainerServiceVMSizeTypes agentPoolVMSize() {
-        if (this.getSingleAgentPool() == null) {
-            return null;
-        }
-
-        return this.getSingleAgentPool().vmSize();
-    }
-
-    @Override
-    public String agentPoolFqdn() {
-        if (this.getSingleAgentPool() == null) {
-            return null;
-        }
-
-        return this.getSingleAgentPool().fqdn();
+        return Collections.unmodifiableMap(agentPoolMap);
     }
 
     @Override
@@ -229,7 +199,7 @@ public class ContainerServiceImpl extends
     }
 
     @Override
-    public ContainerServiceImpl withMasterLeafDomainLabel(String dnsPrefix) {
+    public ContainerServiceImpl withMasterDnsPrefix(String dnsPrefix) {
         this.inner().masterProfile().withDnsPrefix(dnsPrefix);
         return this;
     }
@@ -388,15 +358,6 @@ public class ContainerServiceImpl extends
                         return self;
                     }
                 });
-    }
-
-    private ContainerServiceAgentPoolProfile getSingleAgentPool() {
-        if (this.inner().agentPoolProfiles() == null
-                || this.inner().agentPoolProfiles().size() == 0) {
-            return null;
-        }
-
-        return this.inner().agentPoolProfiles().get(0);
     }
 
 }

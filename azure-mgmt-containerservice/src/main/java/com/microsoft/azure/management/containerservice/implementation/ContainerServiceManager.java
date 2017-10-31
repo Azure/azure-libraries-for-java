@@ -12,6 +12,7 @@ import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.containerservice.ContainerServices;
+import com.microsoft.azure.management.containerservice.KubernetesClusters;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -27,7 +28,7 @@ import com.microsoft.rest.RestClient;
 public final class ContainerServiceManager extends Manager<ContainerServiceManager, ContainerServiceManagementClientImpl> {
     // The service managers
     private ContainerServicesImpl containerServices;
-//    private KubernetesServicesImpl kubernetesServices;
+    private KubernetesClustersImpl kubernetesClusters;
 
     /**
      * Get a Configurable instance that can be used to create ContainerServiceManager with optional configuration.
@@ -108,13 +109,13 @@ public final class ContainerServiceManager extends Manager<ContainerServiceManag
         return this.containerServices;
     }
 
-//    /**
-//     * @return the Azure Kubernetes services resource management API entry point
-//     */
-//    public KubernetesServices kubernetesServices() {
-//        if (this.kubernetesServices == null) {
-//            this.kubernetesServices = new KubernetesServicesImpl(this);
-//        }
-//        return this.kubernetesServices;
-//    }
+    /**
+     * @return the Azure Kubernetes cluster resource management API entry point
+     */
+    public KubernetesClusters kubernetesClusters() {
+        if (this.kubernetesClusters == null) {
+            this.kubernetesClusters = new KubernetesClustersImpl(this);
+        }
+        return this.kubernetesClusters;
+    }
 }

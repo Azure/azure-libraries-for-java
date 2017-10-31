@@ -22,18 +22,17 @@ import java.util.List;
  * The implementation for ContainerServices.
  */
 @LangDefinition
-public class ContainerServicesImpl
-        extends
-    GroupableResourcesImpl<
+public class ContainerServicesImpl extends
+        GroupableResourcesImpl<
                 ContainerService,
-                    ContainerServiceImpl,
-                    ContainerServiceInner,
-                    ContainerServicesInner,
-                    ContainerServiceManager>
+                ContainerServiceImpl,
+                ContainerServiceInner,
+                ContainerServicesInner,
+                ContainerServiceManager>
         implements ContainerServices {
 
-    ContainerServicesImpl(final ContainerServiceManager computeManager) {
-        super(computeManager.inner().containerServices(), computeManager);
+    ContainerServicesImpl(final ContainerServiceManager containerServiceManager) {
+        super(containerServiceManager.inner().containerServices(), containerServiceManager);
     }
 
     @Override

@@ -19,6 +19,7 @@ import java.io.DataOutputStream;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPublicKey;
+import java.util.ArrayList;
 
 public class TestContainerService extends TestTemplate<ContainerService, ContainerServices> {
 
@@ -36,7 +37,7 @@ public class TestContainerService extends TestTemplate<ContainerService, Contain
                 .withRootUsername("testUserName")
                 .withSshKey(sshKeyData)
                 .withMasterNodeCount(ContainerServiceMasterProfileCount.MIN)
-                .withMasterLeafDomainLabel("mp1" + dnsPrefix)
+                .withMasterDnsPrefix("mp1" + dnsPrefix)
                 .defineAgentPool("agentPool0" + newName)
                     .withVMCount(1)
                     .withVMSize(ContainerServiceVMSizeTypes.STANDARD_A1)
@@ -49,10 +50,11 @@ public class TestContainerService extends TestTemplate<ContainerService, Contain
         Assert.assertEquals(resource.region(), Region.US_EAST);
         Assert.assertEquals(resource.masterNodeCount(), ContainerServiceMasterProfileCount.MIN.count());
         Assert.assertEquals(resource.linuxRootUsername(), "testUserName");
-        Assert.assertEquals(resource.agentPoolCount(), 1);
-        Assert.assertEquals(resource.agentPoolName(), "agentPool0" + newName);
-        Assert.assertEquals(resource.agentPoolLeafDomainLabel(), "ap0" + dnsPrefix);
-        Assert.assertEquals(resource.agentPoolVMSize(), ContainerServiceVMSizeTypes.STANDARD_A1);
+        Assert.assertEquals(resource.agentPools().size(), 1);
+        Assert.assertNotNull(resource.agentPools().get("agentPool0" + newName));
+        Assert.assertEquals(resource.agentPools().get("agentPool0" + newName).count(), 1);
+        Assert.assertEquals(resource.agentPools().get("agentPool0" + newName).dnsPrefix(), "ap0" + dnsPrefix);
+        Assert.assertEquals(resource.agentPools().get("agentPool0" + newName).vmSize(), ContainerServiceVMSizeTypes.STANDARD_A1);
         Assert.assertEquals(resource.orchestratorType(), ContainerServiceOrchestratorTypes.DCOS);
         Assert.assertTrue(resource.isDiagnosticsEnabled());
         Assert.assertTrue(resource.tags().containsKey("tag1"));
@@ -69,7 +71,9 @@ public class TestContainerService extends TestTemplate<ContainerService, Contain
                 .withoutTag("tag1")
                 .apply();
 
-        Assert.assertTrue("Agent pool count was not updated.", resource.agentPoolCount() == 5);
+        Assert.assertEquals(resource.agentPools().size(), 1);
+        String agentPoolName = new ArrayList<>(resource.agentPools().keySet()).get(0);
+        Assert.assertTrue("Agent pool count was not updated.", resource.agentPools().get(agentPoolName).count() == 5);
         Assert.assertTrue(resource.tags().containsKey("tag2"));
         Assert.assertTrue(!resource.tags().containsKey("tag1"));
         return resource;

@@ -17,6 +17,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 
+import java.util.Map;
+
 /**
  * An client-side representation for a container service.
  */
@@ -38,9 +40,9 @@ public interface ContainerService extends
     ContainerServiceOrchestratorTypes orchestratorType();
 
     /**
-     * @return the master leaf domain label
+     * @return the master DNS prefix which was specified at creation time
      */
-    String masterLeafDomainLabel();
+    String masterDnsPrefix();
 
     /**
      * @return the master FQDN
@@ -48,29 +50,9 @@ public interface ContainerService extends
     String masterFqdn();
 
     /**
-     * @return the agent pool name
+     * @return the agent pools map
      */
-    String agentPoolName();
-
-    /**
-     * @return the agent pool count
-     */
-    int agentPoolCount();
-
-    /**
-     * @return the agent pool leaf domain label
-     */
-    String agentPoolLeafDomainLabel();
-
-    /**
-     * @return the agent pool VM size
-     */
-    ContainerServiceVMSizeTypes agentPoolVMSize();
-
-    /**
-     * @return the agent pool FQDN
-     */
-    String agentPoolFqdn();
+    Map<String, ContainerServiceAgentPool> agentPools();
 
     /**
      * @return the linux root username
@@ -128,7 +110,7 @@ public interface ContainerService extends
             ContainerService.DefinitionStages.WithGroup,
             ContainerService.DefinitionStages.WithOrchestrator,
             DefinitionStages.WithMasterNodeCount,
-            DefinitionStages.WithMasterLeafDomainLabel,
+            DefinitionStages.WithMasterDnsPrefix,
             DefinitionStages.WithLinux,
             DefinitionStages.WithLinuxRootUsername,
             DefinitionStages.WithLinuxSshKey,
@@ -236,19 +218,20 @@ public interface ContainerService extends
              * @param count master profile count (1, 3, 5)
              * @return the next stage of the definition
              */
-            WithMasterLeafDomainLabel withMasterNodeCount(ContainerServiceMasterProfileCount count);
+            WithMasterDnsPrefix withMasterNodeCount(ContainerServiceMasterProfileCount count);
         }
 
         /**
-         * The stage of the container service definition allowing to specify the master Dns label.
+         * The stage of the container service definition allowing to specify the master Dns prefix label.
          */
-        interface WithMasterLeafDomainLabel {
+        interface WithMasterDnsPrefix {
             /**
-             * Specifies the master node Dns label.
-             * @param dnsLabel the Dns prefix
+             * Specifies the DNS prefix to be used to create the FQDN for the master pool.
+             *
+             * @param dnsPrefix the DNS prefix to be used to create the FQDN for the master pool
              * @return the next stage of the definition
              */
-            WithAgentPool withMasterLeafDomainLabel(String dnsLabel);
+            WithAgentPool withMasterDnsPrefix(String dnsPrefix);
         }
 
         /**
@@ -330,9 +313,8 @@ public interface ContainerService extends
         }
 
         /**
-         * The stage of the definition which contains all the minimum required inputs for
-         * the resource to be created, but also allows for any other optional settings to
-         * be specified.
+         * The stage of the definition which contains all the minimum required inputs for the resource to be created,
+         *   but also allows for any other optional settings to be specified.
          */
         interface WithCreate extends
             WithDiagnostics,
@@ -360,11 +342,12 @@ public interface ContainerService extends
      */
     interface UpdateStages {
         /**
-         * The stage of the container service definition allowing to specific diagnostic settings.
+         * The stage of the container service update definition allowing to specify the number of agents in the specified pool.
          */
         interface WithUpdateAgentPoolCount {
             /**
-             * Enables diagnostics.
+             * Updates the agent pool virtual machine count.
+             *
              * @param agentCount the number of agents (VMs) to host docker containers.
              *                       Allowed values must be in the range of 1 to 100 (inclusive).
              *                       The default value is 1.

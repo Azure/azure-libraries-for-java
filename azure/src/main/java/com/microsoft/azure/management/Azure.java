@@ -34,6 +34,7 @@ import com.microsoft.azure.management.containerinstance.implementation.Container
 import com.microsoft.azure.management.containerregistry.Registries;
 import com.microsoft.azure.management.containerregistry.implementation.ContainerRegistryManager;
 import com.microsoft.azure.management.containerservice.ContainerServices;
+import com.microsoft.azure.management.containerservice.KubernetesClusters;
 import com.microsoft.azure.management.containerservice.implementation.ContainerServiceManager;
 import com.microsoft.azure.management.dns.DnsZones;
 import com.microsoft.azure.management.dns.implementation.DnsZoneManager;
@@ -699,6 +700,14 @@ public final class Azure {
     @Beta(SinceVersion.V1_4_0)
     public ContainerServices containerServices() {
         return containerServiceManager.containerServices();
+    }
+
+    /**
+     * @return entry point to managing Kubernetes clusters.
+     */
+    @Beta(SinceVersion.V1_4_0)
+    public KubernetesClusters kubernetesClusters() {
+        return containerServiceManager.kubernetesClusters();
     }
 
     /**

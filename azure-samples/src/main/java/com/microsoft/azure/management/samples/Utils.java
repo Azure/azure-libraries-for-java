@@ -1123,12 +1123,12 @@ public final class Utils {
             .append("\n\tWith orchestration: ").append(containerService.orchestratorType().toString())
             .append("\n\tMaster FQDN: ").append(containerService.masterFqdn())
             .append("\n\tMaster node count: ").append(containerService.masterNodeCount())
-            .append("\n\tMaster leaf domain label: ").append(containerService.masterLeafDomainLabel())
-            .append("\n\t\tWith Agent pool name: ").append(containerService.agentPoolName())
-            .append("\n\t\tAgent pool count: ").append(containerService.agentPoolCount())
-            .append("\n\t\tAgent pool count: ").append(containerService.agentPoolVMSize().toString())
-            .append("\n\t\tAgent pool FQDN: ").append(containerService.agentPoolFqdn())
-            .append("\n\t\tAgent pool leaf domain label: ").append(containerService.agentPoolLeafDomainLabel())
+            .append("\n\tMaster leaf domain label: ").append(containerService.masterDnsPrefix())
+            .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(containerService.agentPools().keySet()).get(0))
+            .append("\n\t\tAgent pool count: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).count())
+            .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).vmSize().toString())
+            .append("\n\t\tAgent pool FQDN: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).fqdn())
+            .append("\n\t\tAgent pool domain label prefix: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).dnsPrefix())
             .append("\n\tLinux user name: ").append(containerService.linuxRootUsername())
             .append("\n\tSSH key: ").append(containerService.sshKey());
         if (containerService.orchestratorType() == ContainerServiceOrchestratorTypes.KUBERNETES) {

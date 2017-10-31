@@ -139,7 +139,7 @@ public class DeployImageFromContainerRegistryToContainerServiceOrchestrator {
                     .withRootUsername(rootUserName)
                     .withSshKey(sshKeys.getSshPublicKey())
                     .withMasterNodeCount(ContainerServiceMasterProfileCount.MIN)
-                    .withMasterLeafDomainLabel("dns-" + acsName)
+                    .withMasterDnsPrefix("dns-" + acsName)
                     .defineAgentPool("agentpool")
                         .withVMCount(1)
                         .withVMSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)

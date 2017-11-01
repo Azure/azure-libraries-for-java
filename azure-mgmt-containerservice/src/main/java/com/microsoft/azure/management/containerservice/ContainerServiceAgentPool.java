@@ -18,7 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 @Fluent
 @Beta(SinceVersion.V1_4_0)
 public interface ContainerServiceAgentPool extends
-    ChildResource<ContainerService>,
+    ChildResource<Orchestrator>,
     HasInner<ContainerServiceAgentPoolProfile> {
 
     /**

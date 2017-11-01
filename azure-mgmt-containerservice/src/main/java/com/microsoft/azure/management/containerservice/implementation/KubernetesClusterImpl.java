@@ -5,13 +5,14 @@
  */
 package com.microsoft.azure.management.containerservice.implementation;
 
+import com.google.common.io.BaseEncoding;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerservice.ContainerServiceAgentPool;
 import com.microsoft.azure.management.containerservice.ContainerServiceAgentPoolProfile;
 import com.microsoft.azure.management.containerservice.KeyVaultSecretRef;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
+import com.microsoft.azure.management.containerservice.KubernetesClusterAgentPool;
 import com.microsoft.azure.management.containerservice.KubernetesVersion;
-import com.microsoft.azure.management.containerservice.ManagedClusterProperties;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Observable;
@@ -41,11 +42,8 @@ public class KubernetesClusterImpl extends
 
     protected KubernetesClusterImpl(String name, ManagedClusterInner innerObject, ContainerServiceManager manager) {
         super(name, innerObject, manager);
-        if (this.inner().properties() == null) {
-            this.inner().withProperties(new ManagedClusterProperties());
-        }
-        if (this.inner().properties().agentPoolProfiles() == null) {
-            this.inner().properties().withAgentPoolProfiles(new ArrayList<ContainerServiceAgentPoolProfile>());
+        if (this.inner().agentPoolProfiles() == null) {
+            this.inner().withAgentPoolProfiles(new ArrayList<ContainerServiceAgentPoolProfile>());
         }
 
         this.useLatestVersion = false;
@@ -53,58 +51,106 @@ public class KubernetesClusterImpl extends
 
     @Override
     public String provisioningState() {
-        return null;
+        return this.inner().provisioningState();
     }
 
     @Override
     public String dnsPrefix() {
-        return null;
+        return this.inner().dnsPrefix();
     }
 
     @Override
     public String fqdn() {
-        return null;
+        return this.inner().fqdn();
     }
 
     @Override
     public KubernetesVersion version() {
-        return null;
+        return KubernetesVersion.fromString(this.inner().kubernetesVersion());
     }
 
     @Override
     public byte[] adminKubeConfigContent() {
-        return new byte[0];
+        if (this.inner().accessProfiles() == null
+            || this.inner().accessProfiles().clusterAdmin() == null
+            || this.inner().accessProfiles().clusterAdmin().kubeConfig() == null) {
+            return new byte[0];
+        } else {
+            return BaseEncoding.base64().decode(this.inner().accessProfiles().clusterAdmin().kubeConfig());
+        }
     }
 
     @Override
     public byte[] userKubeConfigContent() {
-        return new byte[0];
+        if (this.inner().accessProfiles() == null
+            || this.inner().accessProfiles().clusterUser() == null
+            || this.inner().accessProfiles().clusterUser().kubeConfig() == null) {
+            return new byte[0];
+        } else {
+            return BaseEncoding.base64().decode(this.inner().accessProfiles().clusterUser().kubeConfig());
+        }
     }
 
     @Override
     public String servicePrincipalClientId() {
-        return null;
+        if (this.inner().servicePrincipalProfile() != null) {
+            return this.inner().servicePrincipalProfile().clientId();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public String servicePrincipalSecret() {
-        return null;
+        if (this.inner().servicePrincipalProfile() != null) {
+            return this.inner().servicePrincipalProfile().secret();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public KeyVaultSecretRef keyVaultSecretRef() {
-        return null;
+        if (this.inner().servicePrincipalProfile() != null) {
+            return this.inner().servicePrincipalProfile().keyVaultSecretRef();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public String linuxRootUsername() {
-        return null;
+        if (this.inner().linuxProfile() != null) {
+            return this.inner().linuxProfile().adminUsername();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public String sshKey() {
-        return null;
+        if (this.inner().linuxProfile() == null
+            || this.inner().linuxProfile().ssh() == null
+            || this.inner().linuxProfile().ssh().publicKeys() == null
+            || this.inner().linuxProfile().ssh().publicKeys().size() == 0) {
+            return null;
+        } else {
+            return this.inner().linuxProfile().ssh().publicKeys().get(0).keyData();
+        }
     }
+
+    @Override
+    public Map<String, KubernetesClusterAgentPool> agentPools() {
+        Map<String, KubernetesClusterAgentPool> agentPoolMap = new HashMap<>();
+        if (this.inner().agentPoolProfiles() != null && this.inner().agentPoolProfiles().size() > 0) {
+            for (ContainerServiceAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
+                agentPoolMap.put(agentPoolProfile.name(), new KubernetesClusterAgentPoolImpl(agentPoolProfile, this));
+            }
+        }
+
+        return Collections.unmodifiableMap(agentPoolMap);
+    }
+
 
     @Override
     protected Observable<ManagedClusterInner> getInnerAsync() {
@@ -138,6 +184,11 @@ public class KubernetesClusterImpl extends
 
     @Override
     public KubernetesClusterImpl withServicePrincipalClientId(String clientId) {
+        return null;
+    }
+
+    @Override
+    public KubernetesClusterImpl withoutServicePrincipalProfile() {
         return null;
     }
 

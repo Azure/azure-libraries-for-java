@@ -12,6 +12,7 @@ import com.microsoft.azure.management.containerservice.ContainerServiceAgentPool
 import com.microsoft.azure.management.containerservice.ContainerServiceStorageProfileTypes;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerservice.OSType;
+import com.microsoft.azure.management.containerservice.Orchestrator;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
@@ -24,19 +25,19 @@ import java.util.List;
 @LangDefinition
 class ContainerServiceAgentPoolImpl extends
         ChildResourceImpl<ContainerServiceAgentPoolProfile,
-        ContainerServiceImpl,
-        ContainerService>
+            ContainerServiceImpl,
+            Orchestrator>
     implements
         ContainerServiceAgentPool,
         ContainerServiceAgentPool.Definition {
+
+    private String subnetName;
 
     ContainerServiceAgentPoolImpl(ContainerServiceAgentPoolProfile inner, ContainerServiceImpl parent) {
         super(inner, parent);
         String subnetId = (inner != null) ? this.inner().vnetSubnetID() : null;
         this.subnetName = ResourceUtils.nameFromResourceId(subnetId);
     }
-
-    private String subnetName;
 
     @Override
     public String name() {
@@ -163,7 +164,7 @@ class ContainerServiceAgentPoolImpl extends
 
     @Override
     public ContainerService.Definition attach() {
-        this.parent().attachAgentPoolProfile(this);
+        this.parent().inner().agentPoolProfiles().add(this.inner());
         return this.parent();
     }
 

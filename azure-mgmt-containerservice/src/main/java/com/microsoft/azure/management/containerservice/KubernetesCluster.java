@@ -16,16 +16,18 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 
+import java.util.Map;
+
 /**
- * An client-side representation for a managed Kubernetes cluster.
+ * A client-side representation for a managed Kubernetes cluster.
  */
 @Fluent
 @Beta(Beta.SinceVersion.V1_4_0)
 public interface KubernetesCluster extends
-    GroupableResource<ContainerServiceManager, ManagedClusterInner>,
-    Refreshable<KubernetesCluster>,
-    Updatable<KubernetesCluster.Update> {
-
+        GroupableResource<ContainerServiceManager, ManagedClusterInner>,
+        Refreshable<KubernetesCluster>,
+        Updatable<KubernetesCluster.Update>,
+        Orchestrator {
 
     /**
      * @return the provisioning state of the Kubernetes cluster
@@ -82,6 +84,10 @@ public interface KubernetesCluster extends
      */
     String sshKey();
 
+    /**
+     * @return the agent pools map
+     */
+    Map<String, KubernetesClusterAgentPool> agentPools();
 
     // Fluent interfaces
 
@@ -189,6 +195,13 @@ public interface KubernetesCluster extends
              * @return the next stage
              */
             WithServicePrincipalProfile withServicePrincipalClientId(String clientId);
+
+            /**
+             * Properties for Kubernetes cluster service principal.
+             *
+             * @return the next stage
+             */
+            WithAgentPool withoutServicePrincipalProfile();
         }
 
         /**
@@ -201,7 +214,7 @@ public interface KubernetesCluster extends
              * @param secret the secret password associated with the service principal
              * @return the next stage
              */
-            WithKeyVaultSecret withServicePrincipalSecret(String secret);
+            WithAgentPool withServicePrincipalSecret(String secret);
 
             /**
              * Properties for cluster service principals.
@@ -244,7 +257,7 @@ public interface KubernetesCluster extends
              * @param name the name for the agent pool profile
              * @return the stage representing configuration for the agent pool profile
              */
-            ContainerServiceAgentPool.DefinitionStages.Blank<WithCreate> defineAgentPool(String name);
+            KubernetesClusterAgentPool.DefinitionStages.Blank<KubernetesCluster.DefinitionStages.WithCreate> defineAgentPool(String name);
         }
 
         /**

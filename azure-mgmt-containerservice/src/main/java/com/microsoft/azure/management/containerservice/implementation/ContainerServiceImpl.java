@@ -271,11 +271,6 @@ public class ContainerServiceImpl extends
         return this;
     }
 
-
-    void attachAgentPoolProfile(ContainerServiceAgentPool agentPoolProfile) {
-        this.inner().agentPoolProfiles().add(agentPoolProfile.inner());
-    }
-
     private ContainerServiceImpl withOrchestratorProfile(ContainerServiceOrchestratorTypes orchestratorType) {
         ContainerServiceOrchestratorProfile orchestratorProfile = new ContainerServiceOrchestratorProfile();
         orchestratorProfile.withOrchestratorType(orchestratorType);

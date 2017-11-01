@@ -20,14 +20,15 @@ import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import java.util.Map;
 
 /**
- * An client-side representation for a container service.
+ * A client-side representation for a container service.
  */
 @Fluent
 @Beta(SinceVersion.V1_4_0)
 public interface ContainerService extends
         GroupableResource<ContainerServiceManager, ContainerServiceInner>,
         Refreshable<ContainerService>,
-        Updatable<ContainerService.Update> {
+        Updatable<ContainerService.Update>,
+        Orchestrator {
 
     /**
      * @return the master node count

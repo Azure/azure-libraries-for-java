@@ -8,6 +8,7 @@ package com.microsoft.azure.management.containerregistry;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.containerregistry.implementation.ContainerRegistryManager;
 import com.microsoft.azure.management.containerregistry.implementation.RegistryInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -67,12 +68,14 @@ public interface Registry extends
      * @return the login credentials for the specified container registry
      */
     @Beta(SinceVersion.V1_4_0)
+    @Method
     RegistryCredentials getCredentials();
 
     /**
      * @return a representation of the future computation of this call
      */
     @Beta(SinceVersion.V1_4_0)
+    @Method
     Observable<RegistryCredentials> getCredentialsAsync();
 
     /**
@@ -98,6 +101,7 @@ public interface Registry extends
      * @return the list of container registry's quota usages
      */
     @Beta(SinceVersion.V1_4_0)
+    @Method
     Collection<RegistryUsage> listQuotaUsages();
 
     /**
@@ -106,6 +110,7 @@ public interface Registry extends
      * @return a representation of the future computation of this call
      */
     @Beta(SinceVersion.V1_4_0)
+    @Method
     Observable<RegistryUsage> listQuotaUsagesAsync();
 
     /**

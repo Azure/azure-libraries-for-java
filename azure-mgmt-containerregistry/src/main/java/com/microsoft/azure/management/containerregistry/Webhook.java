@@ -8,6 +8,7 @@ package com.microsoft.azure.management.containerregistry;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.containerregistry.implementation.WebhookInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
@@ -38,6 +39,7 @@ public interface Webhook extends
     /**
      * @return the status of the webhook
      */
+    @Method
     boolean isEnabled();
 
     /**
@@ -49,36 +51,43 @@ public interface Webhook extends
      *  - 'foo' is equivalent to 'foo:latest'
      *  - empty means all events
      */
+    @Method
     String scope();
 
     /**
      * @return the service URI for the webhook to post notifications
      */
+    @Method
     String serviceUri();
 
     /**
      * @return the Custom headers that will be added to the webhook notifications
      */
+    @Method
     Map<String, String> customHeaders();
 
     /**
      * @return the list of actions that trigger the webhook to post notifications
      */
+    @Method
     Collection<WebhookAction> triggers();
 
     /**
      * @return the provisioning state of the webhook
      */
+    @Method
     ProvisioningState provisioningState();
 
     /**
      * @return the webhook parent ID
      */
+    @Method
     String parentId();
 
     /**
      * Changes the status of the webhook to "enabled".
      */
+    @Method
     void enable();
 
     /**
@@ -86,11 +95,13 @@ public interface Webhook extends
      *
      * @return a representation of the future computation of this call
      */
+    @Method
     Completable enableAsync();
 
     /**
      * Changes the status of the webhook to "disabled".
      */
+    @Method
     void disable();
 
     /**
@@ -98,26 +109,31 @@ public interface Webhook extends
      *
      * @return a representation of the future computation of this call
      */
+    @Method
     Completable disableAsync();
 
     /**
      * @return the id on an event info resource
      */
+    @Method
     String ping();
 
     /**
      * @return a representation of the future computation of this call, returning the id on an event info resource
      */
+    @Method
     Observable<String> pingAsync();
 
     /**
      * @return the list of event info object
      */
+    @Method
     PagedList<WebhookEventInfo> listEvents();
 
     /**
      * @return a representation of the future computation of this call, returning the list of event info object
      */
+    @Method
     Observable<WebhookEventInfo> listEventsAsync();
 
     /**
@@ -215,10 +231,10 @@ public interface Webhook extends
             /**
              * Specifies the default status of the webhook; default is "enabled".
              *
-             * @param defaultStatus indicates whether the webhook is enabled or disabled after the being created
+             * @param defaultStatus indicates whether the webhook is enabled or disabled after being created
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withDefaultStatus(WebhookStatus defaultStatus);
+            WithAttach<ParentT> enabled(boolean defaultStatus);
         }
 
         /** The final stage of the webhook definition.
@@ -343,10 +359,10 @@ public interface Webhook extends
             /**
              * Specifies the default status of the webhook; default is "enabled".
              *
-             * @param defaultStatus indicates whether the webhook is enabled or disabled after the being created
+             * @param defaultStatus indicates whether the webhook is enabled or disabled after being created
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withDefaultStatus(WebhookStatus defaultStatus);
+            WithAttach<ParentT> enabled(boolean defaultStatus);
         }
 
         /**
@@ -486,10 +502,10 @@ public interface Webhook extends
             /**
              * Specifies the default status of the webhook; default is "enabled".
              *
-             * @param defaultStatus indicates whether the webhook is enabled or disabled after the being created
+             * @param defaultStatus indicates whether the webhook is enabled or disabled after being created
              * @return the next stage of the resource update
              */
-            Update withDefaultStatus(WebhookStatus defaultStatus);
+            Update enabled(boolean defaultStatus);
         }
     }
 
@@ -591,10 +607,10 @@ public interface Webhook extends
             /**
              * Updates the default status of the webhook.
              *
-             * @param defaultStatus indicates whether the webhook is enabled or disabled after the being created
+             * @param defaultStatus indicates whether the webhook is enabled or disabled after being created
              * @return the next stage of the resource update
              */
-            WithAttach<ParentT> withDefaultStatus(WebhookStatus defaultStatus);
+            WithAttach<ParentT> enabled(boolean defaultStatus);
         }
 
         /**

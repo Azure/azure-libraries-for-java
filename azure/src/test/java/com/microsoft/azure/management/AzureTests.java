@@ -8,6 +8,7 @@ package com.microsoft.azure.management;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.compute.CachingTypes;
+import com.microsoft.azure.management.compute.Disk;
 import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.microsoft.azure.management.compute.PowerState;
 import com.microsoft.azure.management.compute.VirtualMachine;
@@ -16,6 +17,8 @@ import com.microsoft.azure.management.compute.VirtualMachineOffer;
 import com.microsoft.azure.management.compute.VirtualMachinePublisher;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.compute.VirtualMachineSku;
+import com.microsoft.azure.management.locks.LockLevel;
+import com.microsoft.azure.management.locks.ManagementLock;
 import com.microsoft.azure.management.network.Access;
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayBackend;
@@ -40,7 +43,11 @@ import com.microsoft.azure.management.network.PcStatus;
 import com.microsoft.azure.management.network.Protocol;
 import com.microsoft.azure.management.network.SecurityGroupView;
 import com.microsoft.azure.management.network.Topology;
+import com.microsoft.azure.management.network.Troubleshooting;
 import com.microsoft.azure.management.network.VerificationIPFlow;
+import com.microsoft.azure.management.network.VirtualNetworkGateway;
+import com.microsoft.azure.management.network.VirtualNetworkGatewayConnection;
+import com.microsoft.azure.management.network.VirtualNetworkGatewaySkuName;
 import com.microsoft.azure.management.resources.Deployment;
 import com.microsoft.azure.management.resources.DeploymentMode;
 import com.microsoft.azure.management.resources.GenericResource;
@@ -56,6 +63,10 @@ import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.SkuName;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
+
+import rx.Observable;
+import rx.schedulers.Schedulers;
+
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -237,6 +248,159 @@ public class AzureTests extends TestBase {
         Assert.assertTrue(resourceById.id().equalsIgnoreCase(resourceByDetails.id()));
         azure.resourceGroups().beginDeleteByName(nsg.resourceGroupName());
     }
+
+    /**
+     * Tests management locks.
+     * @throws Exception
+     */
+    @Test
+    public void testManagementLocks() throws Exception {
+        // Prepare a VM
+        final String password = SdkContext.randomResourceName("P@s", 14);
+        final String rgName = SdkContext.randomResourceName("rg", 15);
+        final String vmName = SdkContext.randomResourceName("vm", 15);
+        final String storageName = SdkContext.randomResourceName("st", 15);
+        final String diskName = SdkContext.randomResourceName("dsk", 15);
+        final Region region = Region.US_EAST;
+
+        ResourceGroup resourceGroup = null;
+        ManagementLock lockGroup = null, lockVM = null, lockStorage = null, lockDisk = null;
+
+        try {
+            resourceGroup = azure.resourceGroups().define(rgName)
+                    .withRegion(region)
+                    .create();
+            Assert.assertNotNull(resourceGroup);
+
+            // Define a VM for testing VM locks
+            Creatable<VirtualMachine> vmDefinition = azure.virtualMachines().define(vmName)
+                    .withRegion(region)
+                    .withExistingResourceGroup(resourceGroup)
+                    .withNewPrimaryNetwork("10.0.0.0/28")
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withoutPrimaryPublicIPAddress()
+                    .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                    .withRootUsername("tester")
+                    .withRootPassword(password)
+                    .withSize(VirtualMachineSizeTypes.BASIC_A1);
+
+            // Define a managed disk for testing locks on that
+            Creatable<Disk> diskDefinition = azure.disks().define(diskName)
+                    .withRegion(region)
+                    .withExistingResourceGroup(resourceGroup)
+                    .withData()
+                    .withSizeInGB(100);
+
+            // Define a storage account for testing locks on that
+            Creatable<StorageAccount> storageDefinition = azure.storageAccounts().define(storageName)
+                    .withRegion(region)
+                    .withExistingResourceGroup(resourceGroup);
+
+            // Create resources in parallel to save time and money
+            Observable.merge(
+                    storageDefinition.createAsync().subscribeOn(Schedulers.io()),
+                    vmDefinition.createAsync().subscribeOn(Schedulers.io()),
+                    diskDefinition.createAsync().subscribeOn(Schedulers.io()))
+            .toBlocking().subscribe();
+
+            VirtualMachine vm = (VirtualMachine) vmDefinition;
+            StorageAccount storage = (StorageAccount) storageDefinition;
+            Disk disk = (Disk) diskDefinition;
+
+            // Lock VM
+            Creatable<ManagementLock> lockVMDef = azure.managementLocks().define("vmlock")
+                    .withLockedResource(vm)
+                    .withLevel(LockLevel.READ_ONLY)
+                    .withNotes("vm readonly lock");
+
+            // Lock resource group
+            Creatable<ManagementLock> lockGroupDef = azure.managementLocks().define("rglock")
+                    .withLockedResource(resourceGroup.id())
+                    .withLevel(LockLevel.CAN_NOT_DELETE);
+
+            // Lock storage
+            Creatable<ManagementLock> lockStorageDef = azure.managementLocks().define("stLock")
+                    .withLockedResource(storage)
+                    .withLevel(LockLevel.CAN_NOT_DELETE);
+
+            // Create locks in parallel
+            @SuppressWarnings("unchecked")
+            CreatedResources<ManagementLock> created = azure.managementLocks().create(lockVMDef, lockGroupDef, lockStorageDef);
+            lockVM = created.get(lockVMDef.key());
+            lockStorage = created.get(lockStorageDef.key());
+            lockGroup = created.get(lockGroupDef.key());
+
+            // Lock disk synchronously
+            lockDisk = azure.managementLocks().define("diskLock")
+                    .withLockedResource(disk)
+                    .withLevel(LockLevel.READ_ONLY)
+                    .create();
+
+            // Verify VM lock
+            Assert.assertNotNull(lockVM);
+            lockVM = azure.managementLocks().getById(lockVM.id());
+            Assert.assertNotNull(lockVM);
+            TestUtils.print(lockVM);
+            Assert.assertEquals(LockLevel.READ_ONLY, lockVM.level());
+            Assert.assertTrue(vm.id().equalsIgnoreCase(lockVM.lockedResourceId()));
+
+            // Verify resource group lock
+            Assert.assertNotNull(lockGroup);
+            lockGroup = azure.managementLocks().getByResourceGroup(resourceGroup.name(), "rglock");
+            Assert.assertNotNull(lockGroup);
+            TestUtils.print(lockVM);
+            Assert.assertEquals(LockLevel.CAN_NOT_DELETE, lockGroup.level());
+            Assert.assertTrue(resourceGroup.id().equalsIgnoreCase(lockGroup.lockedResourceId()));
+
+            // Verify storage account lock
+            Assert.assertNotNull(lockStorage);
+            lockStorage = azure.managementLocks().getById(lockStorage.id());
+            Assert.assertNotNull(lockStorage);
+            TestUtils.print(lockVM);
+            Assert.assertEquals(LockLevel.CAN_NOT_DELETE, lockStorage.level());
+            Assert.assertTrue(storage.id().equalsIgnoreCase(lockStorage.lockedResourceId()));
+
+            // Verify disk lock
+            Assert.assertNotNull(lockDisk);
+            lockDisk = azure.managementLocks().getById(lockDisk.id());
+            Assert.assertNotNull(lockDisk);
+            TestUtils.print(lockVM);
+            Assert.assertEquals(LockLevel.READ_ONLY, lockDisk.level());
+            Assert.assertTrue(disk.id().equalsIgnoreCase(lockDisk.lockedResourceId()));
+
+            // Verify lock collection
+            List<ManagementLock> locksAll = azure.managementLocks().list();
+            List<ManagementLock> locksGroup = azure.managementLocks().listByResourceGroup(vm.resourceGroupName());
+            Assert.assertNotNull(locksAll);
+            Assert.assertNotNull(locksGroup);
+
+            int locksAllCount = locksAll.size();
+            System.out.println("All locks: " + locksAllCount);
+            Assert.assertTrue(4 <= locksAllCount);
+
+            int locksGroupCount = locksGroup.size();
+            System.out.println("Group locks: " + locksGroupCount);
+            Assert.assertTrue(1 <= locksGroup.size());
+
+        } finally {
+            if (resourceGroup != null) {
+                if (lockGroup != null) {
+                    azure.managementLocks().deleteById(lockGroup.id());
+                }
+                if (lockVM != null) {
+                    azure.managementLocks().deleteById(lockVM.id());
+                }
+                if (lockDisk != null) {
+                    azure.managementLocks().deleteById(lockDisk.id());
+                }
+                if (lockStorage != null) {
+                    azure.managementLocks().deleteById(lockStorage.id());
+                }
+                azure.resourceGroups().beginDeleteByName(resourceGroup.name());
+            }
+        }
+    }
+
 
     /**
      * Tests VM images.
@@ -768,8 +932,6 @@ public class AzureTests extends TestBase {
         Assert.assertEquals(5, flowLogSettings.retentionDays());
         Assert.assertEquals(storageAccount.id(), flowLogSettings.storageId());
 
-//        Troubleshooting troubleshooting = nw.troubleshoot(<virtual_network_gateway_id> or <virtual_network_gateway_connaction_id>,
-//                storageAccount.id(), "");
         NextHop nextHop = nw.nextHop().withTargetResourceId(virtualMachines[0].id())
             .withSourceIPAddress("10.0.0.4")
             .withDestinationIPAddress("8.8.8.8")
@@ -829,6 +991,70 @@ public class AzureTests extends TestBase {
         azure.resourceGroups().deleteByName(tnw.groupName());
     }
 
+    @Test
+    public void testNetworkWatcherTroubleshooting() throws Exception {
+        String gatewayName = SdkContext.randomResourceName("vngw", 8);
+        String connectionName = SdkContext.randomResourceName("vngwc", 8);
+
+        TestNetworkWatcher tnw = new TestNetworkWatcher();
+        NetworkWatcher nw = tnw.createResource(azure.networkWatchers());
+        Region region = nw.region();
+        String resourceGroup = nw.resourceGroupName();
+
+        VirtualNetworkGateway vngw1 = azure.virtualNetworkGateways().define(gatewayName)
+                .withRegion(region)
+                .withExistingResourceGroup(resourceGroup)
+                .withNewNetwork("10.11.0.0/16", "10.11.255.0/27")
+                .withRouteBasedVpn()
+                .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
+                .create();
+
+        VirtualNetworkGateway vngw2 = azure.virtualNetworkGateways().define(gatewayName + "2")
+                .withRegion(region)
+                .withExistingResourceGroup(resourceGroup)
+                .withNewNetwork("10.41.0.0/16", "10.41.255.0/27")
+                .withRouteBasedVpn()
+                .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
+                .create();
+        VirtualNetworkGatewayConnection connection1 = vngw1.connections()
+                .define(connectionName)
+                .withVNetToVNet()
+                .withSecondVirtualNetworkGateway(vngw2)
+                .withSharedKey("MySecretKey")
+                .create();
+
+        // Create storage account to store troubleshooting information
+        StorageAccount storageAccount = azure.storageAccounts().define("sa" + SdkContext.randomResourceName("", 8))
+                .withRegion(region)
+                .withExistingResourceGroup(resourceGroup)
+                .create();
+
+        // Troubleshoot connection
+        Troubleshooting troubleshooting = nw.troubleshoot()
+                .withTargetResourceId(connection1.id())
+                .withStorageAccount(storageAccount.id())
+                .withStoragePath(storageAccount.endPoints().primary().blob() + "results")
+                .execute();
+        Assert.assertEquals("UnHealthy", troubleshooting.code());
+
+        // Create corresponding connection on second gateway to make it work
+        vngw2.connections()
+                .define(connectionName + "2")
+                .withVNetToVNet()
+                .withSecondVirtualNetworkGateway(vngw1)
+                .withSharedKey("MySecretKey")
+                .create();
+        Thread.sleep(250000);
+        troubleshooting = nw.troubleshoot()
+                .withTargetResourceId(connection1.id())
+                .withStorageAccount(storageAccount.id())
+                .withStoragePath(storageAccount.endPoints().primary().blob() + "results")
+                .execute();
+        Assert.assertEquals("Healthy", troubleshooting.code());
+
+        azure.resourceGroups().deleteByName(resourceGroup);
+    }
+
     /**
      * Tests the virtual network gateway implementation.
      * @throws Exception
@@ -865,6 +1091,24 @@ public class AzureTests extends TestBase {
     @Test
     public void testLocalNetworkGateways() throws Exception {
         new TestLocalNetworkGateway().runTest(azure.localNetworkGateways(), azure.resourceGroups());
+    }
+
+    /**
+     * Tests the express route circuit implementation.
+     * @throws Exception
+     */
+    @Test
+    public void testExpressRouteCircuits() throws Exception {
+        new TestExpressRouteCircuit.Basic().runTest(azure.expressRouteCircuits(), azure.resourceGroups());
+    }
+
+    /**
+     * Tests the express route circuit peerings implementation.
+     * @throws Exception
+     */
+    @Test
+    public void testExpressRouteCircuitPeering() throws Exception {
+        new TestExpressRouteCircuit.ExpressRouteCircuitPeering().runTest(azure.expressRouteCircuits(), azure.resourceGroups());
     }
 
     /**

@@ -28,9 +28,15 @@ public class RegistryCredentialsImpl extends WrapperImpl<RegistryListCredentials
         this.accessKeys = new HashMap<>();
         if (this.inner().passwords() != null) {
             for (RegistryPassword registryPassword : this.inner().passwords()) {
-                AccessKeyType accessKeyType = AccessKeyType.fromString(registryPassword.name().toString());
-                if (accessKeyType != null) {
-                    this.accessKeys.put(accessKeyType, registryPassword.value());
+                switch (registryPassword.name()) {
+                    case PASSWORD:
+                        this.accessKeys.put(AccessKeyType.PRIMARY, registryPassword.value());
+                        break;
+                    case PASSWORD2:
+                        this.accessKeys.put(AccessKeyType.SECONDARY, registryPassword.value());
+                        break;
+                    default:
+                        break;
                 }
             }
         }

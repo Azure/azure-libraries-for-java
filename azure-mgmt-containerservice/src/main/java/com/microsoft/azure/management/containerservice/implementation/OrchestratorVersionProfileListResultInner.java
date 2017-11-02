@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.containerservice.implementation;
 
+import java.util.List;
 import com.microsoft.azure.management.containerservice.OrchestratorVersionProfile;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -39,7 +40,7 @@ public class OrchestratorVersionProfileListResultInner {
      * List of orchstrator version profiles.
      */
     @JsonProperty(value = "properties.orchestrators", required = true)
-    private OrchestratorVersionProfile orchestrators;
+    private List<OrchestratorVersionProfile> orchestrators;
 
     /**
      * Get the id value.
@@ -73,7 +74,7 @@ public class OrchestratorVersionProfileListResultInner {
      *
      * @return the orchestrators value
      */
-    public OrchestratorVersionProfile orchestrators() {
+    public List<OrchestratorVersionProfile> orchestrators() {
         return this.orchestrators;
     }
 
@@ -83,7 +84,7 @@ public class OrchestratorVersionProfileListResultInner {
      * @param orchestrators the orchestrators value to set
      * @return the OrchestratorVersionProfileListResultInner object itself.
      */
-    public OrchestratorVersionProfileListResultInner withOrchestrators(OrchestratorVersionProfile orchestrators) {
+    public OrchestratorVersionProfileListResultInner withOrchestrators(List<OrchestratorVersionProfile> orchestrators) {
         this.orchestrators = orchestrators;
         return this;
     }

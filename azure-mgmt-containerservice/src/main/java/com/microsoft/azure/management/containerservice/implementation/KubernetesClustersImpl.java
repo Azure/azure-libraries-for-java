@@ -9,14 +9,20 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusters;
+import com.microsoft.azure.management.containerservice.OrchestratorVersionProfile;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
 import rx.Completable;
 import rx.Observable;
+import rx.functions.Action2;
+import rx.functions.Func0;
 import rx.functions.Func1;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * The implementation for KubernetesClusters.
@@ -102,5 +108,48 @@ public class KubernetesClustersImpl extends
     @Override
     public KubernetesClusterImpl define(String name) {
         return this.wrapModel(name);
+    }
+
+    @Override
+    public Set<String> listKubernetesVersions(String location) {
+        TreeSet<String> kubernetesVersions = new TreeSet<>();
+        OrchestratorVersionProfileListResultInner inner = this.manager().inner().containerServices().listOrchestrators(location);
+
+        if (inner != null && inner.orchestrators() != null && inner.orchestrators().size() > 0) {
+            for (OrchestratorVersionProfile orchestrator : inner.orchestrators()) {
+                if (orchestrator.orchestratorType().equals("Kubernetes")) {
+                    kubernetesVersions.add(orchestrator.orchestratorVersion());
+                }
+            }
+        }
+
+        return Collections.unmodifiableSet(kubernetesVersions);
+    }
+
+    @Override
+    public Observable<Set<String>> listKubernetesVersionsAsync(String location) {
+        return this.manager().inner().containerServices().listOrchestratorsAsync(location)
+            .collect(new Func0<TreeSet<String>>() {
+                @Override
+                public TreeSet<String> call() {
+                    return new TreeSet<String>();
+                }
+            }, new Action2<TreeSet<String>, OrchestratorVersionProfileListResultInner>() {
+                @Override
+                public void call(TreeSet<String> kubernetesVersions, OrchestratorVersionProfileListResultInner inner) {
+                    if (inner != null && inner.orchestrators() != null && inner.orchestrators().size() > 0) {
+                        for (OrchestratorVersionProfile orchestrator : inner.orchestrators()) {
+                            if (orchestrator.orchestratorType().equals("Kubernetes")) {
+                                kubernetesVersions.add(orchestrator.orchestratorVersion());
+                            }
+                        }
+                    }
+                }
+            }).map(new Func1<TreeSet<String>, Set<String>>() {
+                @Override
+                public Set<String> call(TreeSet<String> kubernetesVersions) {
+                    return Collections.unmodifiableSet(kubernetesVersions);
+                }
+            });
     }
 }

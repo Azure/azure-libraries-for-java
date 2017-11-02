@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management;
 
+import com.microsoft.azure.management.containerservice.ContainerServiceStorageProfileTypes;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusters;
@@ -19,39 +20,47 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, KubernetesClusters> {
     @Override
     public KubernetesCluster createResource(KubernetesClusters kubernetesClusters) throws Exception {
         final String sshKeyData =  this.getSshKey();
 
+        Set<String> kubernetesVersions = kubernetesClusters.listKubernetesVersions(Region.UK_WEST.name());
+        Assert.assertTrue(kubernetesVersions.contains("1.8.1"));
+
         final String newName = "aks" + this.testId;
         final String dnsPrefix = "dns" + newName;
+        final String agentPoolName = "ap" + newName;
 
         KubernetesCluster resource = kubernetesClusters.define(newName)
-            .withRegion(Region.US_WEST2)
+            .withRegion(Region.UK_WEST)
             .withNewResourceGroup()
-            .withVersion(KubernetesVersion.KUBERNETES_1_7_7)
-            .withDnsPrefix(dnsPrefix)
-            .withRootUsername("testUserName")
+            .withLatestVersion()
+            .withRootUsername("aksadmin")
             .withSshKey(sshKeyData)
-            .withoutServicePrincipalProfile()
-            .defineAgentPool("agentPool0" + newName)
+            .withServicePrincipalClientId("clientId")
+            .withServicePrincipalSecret("secret")
+            .defineAgentPool(agentPoolName)
                 .withVMCount(1)
-                .withVMSize(ContainerServiceVMSizeTypes.STANDARD_A1)
-                .withLeafDomainLabel("ap0" + dnsPrefix)
+                .withVMSize(ContainerServiceVMSizeTypes.STANDARD_D2_V2)
                 .attach()
+            .withDnsPrefix(dnsPrefix)
             .withTag("tag1", "value1")
             .create();
         Assert.assertNotNull("Container service not found.", resource.id());
-        Assert.assertEquals(resource.region(), Region.US_WEST2);
-        Assert.assertEquals(resource.linuxRootUsername(), "testUserName");
-        Assert.assertEquals(resource.agentPools().size(), 1);
-        Assert.assertNotNull(resource.agentPools().get("agentPool0" + newName));
-        Assert.assertEquals(resource.agentPools().get("agentPool0" + newName).count(), 1);
-        Assert.assertEquals(resource.agentPools().get("agentPool0" + newName).dnsPrefix(), "ap0" + dnsPrefix);
-        Assert.assertEquals(resource.agentPools().get("agentPool0" + newName).vmSize(), ContainerServiceVMSizeTypes.STANDARD_A1);
+        Assert.assertEquals(Region.UK_WEST, resource.region());
+        Assert.assertEquals("aksadmin", resource.linuxRootUsername());
+        Assert.assertEquals(KubernetesVersion.KUBERNETES_1_8_1, resource.version());
+        Assert.assertEquals(1, resource.agentPools().size());
+        Assert.assertNotNull(resource.agentPools().get(agentPoolName));
+        Assert.assertEquals(1, resource.agentPools().get(agentPoolName).count());
+        Assert.assertEquals(ContainerServiceVMSizeTypes.STANDARD_D2_V2, resource.agentPools().get(agentPoolName).vmSize());
         Assert.assertTrue(resource.tags().containsKey("tag1"));
+
+        resource = kubernetesClusters.getByResourceGroup(resource.resourceGroupName(), newName);
+
         return resource;
     }
 
@@ -66,7 +75,7 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
             .withoutTag("tag1")
             .apply();
 
-        Assert.assertEquals(resource.agentPools().size(), 1);
+        Assert.assertEquals(1, resource.agentPools().size());
         Assert.assertTrue("Agent pool count was not updated.", resource.agentPools().get(agentPoolName).count() == 5);
         Assert.assertTrue(resource.tags().containsKey("tag2"));
         Assert.assertTrue(!resource.tags().containsKey("tag1"));

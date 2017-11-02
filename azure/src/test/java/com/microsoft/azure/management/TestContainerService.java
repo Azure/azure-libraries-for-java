@@ -41,7 +41,7 @@ public class TestContainerService extends TestTemplate<ContainerService, Contain
                 .defineAgentPool("agentPool0" + newName)
                     .withVMCount(1)
                     .withVMSize(ContainerServiceVMSizeTypes.STANDARD_A1)
-                    .withLeafDomainLabel("ap0" + dnsPrefix)
+                    .withDnsPrefix("ap0" + dnsPrefix)
                     .attach()
                 .withDiagnostics()
                 .withTag("tag1", "value1")

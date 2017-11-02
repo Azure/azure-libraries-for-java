@@ -3,6 +3,6 @@
 // license information.
 
 /**
- * This package contains the classes for Azure container service samples.
+ * This package contains the classes for Azure container service (AKS) samples.
  */
-package com.microsoft.azure.management.containerservice.samples;
+package com.microsoft.azure.management.kubernetescluster.samples;

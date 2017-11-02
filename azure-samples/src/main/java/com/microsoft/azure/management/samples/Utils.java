@@ -41,6 +41,7 @@ import com.microsoft.azure.management.containerregistry.Registry;
 import com.microsoft.azure.management.containerregistry.RegistryCredentials;
 import com.microsoft.azure.management.containerservice.ContainerService;
 import com.microsoft.azure.management.containerservice.ContainerServiceOrchestratorTypes;
+import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
 import com.microsoft.azure.management.dns.ARecordSet;
 import com.microsoft.azure.management.dns.AaaaRecordSet;
@@ -1123,7 +1124,7 @@ public final class Utils {
             .append("\n\tWith orchestration: ").append(containerService.orchestratorType().toString())
             .append("\n\tMaster FQDN: ").append(containerService.masterFqdn())
             .append("\n\tMaster node count: ").append(containerService.masterNodeCount())
-            .append("\n\tMaster leaf domain label: ").append(containerService.masterDnsPrefix())
+            .append("\n\tMaster domain label prefix: ").append(containerService.masterDnsPrefix())
             .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(containerService.agentPools().keySet()).get(0))
             .append("\n\t\tAgent pool count: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).count())
             .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).vmSize().toString())
@@ -1133,6 +1134,30 @@ public final class Utils {
             .append("\n\tSSH key: ").append(containerService.sshKey());
         if (containerService.orchestratorType() == ContainerServiceOrchestratorTypes.KUBERNETES) {
             info.append("\n\tName: ").append(containerService.servicePrincipalClientId());
+        }
+
+        System.out.println(info.toString());
+    }
+
+    /**
+     * Print an Azure Container Service (AKS).
+     * @param kubernetesCluster a managed container service
+     */
+    public static void print(KubernetesCluster kubernetesCluster) {
+        StringBuilder info = new StringBuilder();
+
+        info.append("Azure Container Service: ").append(kubernetesCluster.id())
+            .append("\n\tName: ").append(kubernetesCluster.name())
+            .append("\n\tFQDN: ").append(kubernetesCluster.fqdn())
+            .append("\n\tDNS prefix label: ").append(kubernetesCluster.dnsPrefix())
+            .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(kubernetesCluster.agentPools().keySet()).get(0))
+            .append("\n\t\tAgent pool count: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).count())
+            .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).vmSize().toString())
+            .append("\n\tLinux user name: ").append(kubernetesCluster.linuxRootUsername())
+            .append("\n\tSSH key: ").append(kubernetesCluster.sshKey())
+            .append("\n\tService principal client ID: ").append(kubernetesCluster.servicePrincipalClientId());
+        if (kubernetesCluster.keyVaultSecretRef() != null) {
+            info.append("\n\tKeyVault reference: ").append(kubernetesCluster.keyVaultSecretRef().vaultID());
         }
 
         System.out.println(info.toString());

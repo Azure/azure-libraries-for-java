@@ -12,32 +12,24 @@ import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTyp
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusterAgentPool;
 import com.microsoft.azure.management.containerservice.OSType;
-import com.microsoft.azure.management.containerservice.Orchestrator;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.management.containerservice.OrchestratorServiceBase;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * The implementation for ContainerServiceAgentPool and its create and update interfaces.
+ * The implementation for KubernetesClusterAgentPool and its create and update interfaces.
  */
 @LangDefinition
 public class KubernetesClusterAgentPoolImpl
     extends
         ChildResourceImpl<ContainerServiceAgentPoolProfile,
             KubernetesClusterImpl,
-            Orchestrator>
+            OrchestratorServiceBase>
     implements
         KubernetesClusterAgentPool,
         KubernetesClusterAgentPool.Definition {
 
-    private String subnetName;
-
     KubernetesClusterAgentPoolImpl(ContainerServiceAgentPoolProfile inner, KubernetesClusterImpl parent) {
         super(inner, parent);
-        String subnetId = (inner != null) ? this.inner().vnetSubnetID() : null;
-        this.subnetName = ResourceUtils.nameFromResourceId(subnetId);
     }
 
     @Override
@@ -56,27 +48,8 @@ public class KubernetesClusterAgentPoolImpl
     }
 
     @Override
-    public String dnsPrefix() {
-        return this.inner().dnsPrefix();
-    }
-
-    @Override
     public int osDiskSizeInGB() {
         return this.inner().osDiskSizeGB();
-    }
-
-    @Override
-    public int[] ports() {
-        List<Integer> portsList = this.inner().ports();
-        if (portsList != null && portsList.size() > 0) {
-            int[] ports = new int[portsList.size()];
-            for (int i = 0; i < ports.length; i++) {
-                ports[i] = portsList.get(i);
-            }
-            return ports;
-        } else {
-            return new int[0];
-        }
     }
 
     @Override
@@ -87,26 +60,6 @@ public class KubernetesClusterAgentPoolImpl
     @Override
     public ContainerServiceStorageProfileTypes storageProfile() {
         return this.inner().storageProfile();
-    }
-
-    @Override
-    public String subnetName() {
-        if (this.subnetName != null) {
-            return this.subnetName;
-        } else {
-            return ResourceUtils.nameFromResourceId(this.inner().vnetSubnetID());
-        }
-    }
-
-    @Override
-    public String networkId() {
-        String subnetId = (this.inner() != null) ? this.inner().vnetSubnetID() : null;
-        return (subnetId != null) ? ResourceUtils.parentResourceIdFromResourceId(subnetId) : null;
-    }
-
-    @Override
-    public String fqdn() {
-        return this.inner().fqdn();
     }
 
     @Override
@@ -122,23 +75,6 @@ public class KubernetesClusterAgentPoolImpl
     }
 
     @Override
-    public KubernetesClusterAgentPoolImpl withLeafDomainLabel(String param0) {
-        this.inner().withDnsPrefix(param0);
-        return this;
-    }
-
-    @Override
-    public KubernetesClusterAgentPoolImpl withPorts(int... ports) {
-        if (ports != null && ports.length > 0) {
-            this.inner().withPorts(new ArrayList<Integer>());
-            for (int port : ports) {
-                this.inner().ports().add(port);
-            }
-        }
-        return this;
-    }
-
-    @Override
     public KubernetesClusterAgentPoolImpl withOSType(OSType osType) {
         this.inner().withOsType(osType);
         return this;
@@ -147,19 +83,6 @@ public class KubernetesClusterAgentPoolImpl
     @Override
     public KubernetesClusterAgentPoolImpl withOSDiskSizeInGB(int osDiskSizeInGB) {
         this.inner().withOsDiskSizeGB(osDiskSizeInGB);
-        return this;
-    }
-
-    @Override
-    public KubernetesClusterAgentPoolImpl withStorageProfile(ContainerServiceStorageProfileTypes storageProfile) {
-        this.inner().withStorageProfile(storageProfile);
-        return this;
-    }
-
-    @Override
-    public KubernetesClusterAgentPoolImpl withSubnetName(String subnetName) {
-        this.subnetName = subnetName;
-        this.inner().withVnetSubnetID(subnetName);
         return this;
     }
 

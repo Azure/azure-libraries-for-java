@@ -27,7 +27,7 @@ public interface KubernetesCluster extends
         GroupableResource<ContainerServiceManager, ManagedClusterInner>,
         Refreshable<KubernetesCluster>,
         Updatable<KubernetesCluster.Update>,
-        Orchestrator {
+    OrchestratorServiceBase {
 
     /**
      * @return the provisioning state of the Kubernetes cluster
@@ -142,20 +142,7 @@ public interface KubernetesCluster extends
              *
              * @return the next stage of the definition
              */
-            WithDnsPrefix withLatestVersion();
-        }
-
-        /**
-         * The stage of the Kubernetes cluster definition allowing to specify the DNS prefix label.
-         */
-        interface WithDnsPrefix {
-            /**
-             * Specifies the DNS prefix label.
-             *
-             * @param dnsPrefix the Dns prefix
-             * @return the next stage of the definition
-             */
-            WithLinuxRootUsername withDnsPrefix(String dnsPrefix);
+            WithLinuxRootUsername withLatestVersion();
         }
 
         /**
@@ -195,13 +182,6 @@ public interface KubernetesCluster extends
              * @return the next stage
              */
             WithServicePrincipalProfile withServicePrincipalClientId(String clientId);
-
-            /**
-             * Properties for Kubernetes cluster service principal.
-             *
-             * @return the next stage
-             */
-            WithAgentPool withoutServicePrincipalProfile();
         }
 
         /**
@@ -232,19 +212,19 @@ public interface KubernetesCluster extends
             /**
              * Specifies the KeyVault secret.
              *
-             * @param secret the KeyVault reference to the secret which stores the password associated with the service principal
+             * @param secretName the KeyVault reference to the secret which stores the password associated with the service principal
              * @return the next stage of the definition
              */
-            WithAgentPool withKeyVaultSecret(String secret);
+            WithAgentPool withKeyVaultSecret(String secretName);
 
             /**
              * Specifies the KeyVault secret and the version of it.
              *
-             * @param secret the KeyVault reference to the secret which stores the password associated with the service principal
-             * @param version the KeyVault secret version to be used
+             * @param secretName the KeyVault reference to the secret which stores the password associated with the service principal
+             * @param secretVersion the KeyVault secret version to be used
              * @return the next stage of the definition
              */
-            WithAgentPool withKeyVaultSecret(String secret, String version);
+            WithAgentPool withKeyVaultSecret(String secretName, String secretVersion);
         }
 
         /**
@@ -261,12 +241,26 @@ public interface KubernetesCluster extends
         }
 
         /**
+         * The stage of the Kubernetes cluster definition allowing to specify the DNS prefix label.
+         */
+        interface WithDnsPrefix {
+            /**
+             * Specifies the DNS prefix label.
+             *
+             * @param dnsPrefix the Dns prefix
+             * @return the next stage of the definition
+             */
+            KubernetesCluster.DefinitionStages.WithCreate withDnsPrefix(String dnsPrefix);
+        }
+
+        /**
          * The stage of the definition which contains all the minimum required inputs for
          * the resource to be created, but also allows for any other optional settings to
          * be specified.
          */
         interface WithCreate extends
             Creatable<KubernetesCluster>,
+            WithDnsPrefix,
             Resource.DefinitionWithTags<WithCreate> {
         }
     }
@@ -296,6 +290,14 @@ public interface KubernetesCluster extends
              * @return the next stage of the update
              */
             KubernetesCluster.Update withAgentVMCount(String agentPoolName, int agentCount);
+
+            /**
+             * Updates all the agent pools virtual machine count.
+             *
+             * @param agentCount the number of agents (VMs) to host docker containers.
+             * @return the next stage of the update
+             */
+            KubernetesCluster.Update withAgentVMCount(int agentCount);
         }
     }
 }

@@ -18,7 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 @Fluent
 @Beta(SinceVersion.V1_4_0)
 public interface ContainerServiceAgentPool extends
-    ChildResource<Orchestrator>,
+    ChildResource<OrchestratorServiceBase>,
     HasInner<ContainerServiceAgentPoolProfile> {
 
     /**
@@ -130,7 +130,7 @@ public interface ContainerServiceAgentPool extends
              * @param dnsPrefix the Dns prefix
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withLeafDomainLabel(String dnsPrefix);
+            WithAttach<ParentT> withDnsPrefix(String dnsPrefix);
         }
 
         /**

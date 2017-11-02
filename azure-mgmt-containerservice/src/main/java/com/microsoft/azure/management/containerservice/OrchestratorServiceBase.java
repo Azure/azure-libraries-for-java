@@ -13,5 +13,5 @@ import com.microsoft.azure.management.apigeneration.Fluent;
  */
 @Fluent
 @Beta(Beta.SinceVersion.V1_4_0)
-public interface Orchestrator {
+public interface OrchestratorServiceBase {
 }

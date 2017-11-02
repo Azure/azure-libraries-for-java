@@ -19,6 +19,9 @@ import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCr
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import rx.Observable;
+
+import java.util.Set;
 
 /**
  *  Entry point to managed Kubernetes service management API.
@@ -36,4 +39,20 @@ public interface KubernetesClusters extends
     SupportsDeletingByResourceGroup,
     SupportsListingByResourceGroup<KubernetesCluster>,
     SupportsGettingByResourceGroup<KubernetesCluster> {
+
+    /**
+     * Returns the list of available Kubernetes versions available for the given location.
+     *
+     * @param location the location to query into
+     * @return a set of Kubernetes versions which can be used when creating a service in this location
+     */
+    Set<String> listKubernetesVersions(String location);
+
+    /**
+     * Returns the list of available Kubernetes versions available for the given location.
+     *
+     * @param location the location to query into
+     * @return a future representation of a set of Kubernetes versions which can be used when creating a service in this location
+     */
+    Observable<Set<String>> listKubernetesVersionsAsync(String location);
 }

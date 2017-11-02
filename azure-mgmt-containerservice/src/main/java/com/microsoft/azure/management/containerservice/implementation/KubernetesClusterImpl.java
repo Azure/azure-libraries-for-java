@@ -7,21 +7,27 @@ package com.microsoft.azure.management.containerservice.implementation;
 
 import com.google.common.io.BaseEncoding;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.containerservice.ContainerServiceAgentPool;
 import com.microsoft.azure.management.containerservice.ContainerServiceAgentPoolProfile;
+import com.microsoft.azure.management.containerservice.ContainerServiceLinuxProfile;
+import com.microsoft.azure.management.containerservice.ContainerServiceServicePrincipalProfile;
+import com.microsoft.azure.management.containerservice.ContainerServiceSshConfiguration;
+import com.microsoft.azure.management.containerservice.ContainerServiceSshPublicKey;
 import com.microsoft.azure.management.containerservice.KeyVaultSecretRef;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusterAgentPool;
 import com.microsoft.azure.management.containerservice.KubernetesVersion;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.management.containerservice.OrchestratorVersionProfile;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Observable;
+import rx.functions.Action2;
+import rx.functions.Func0;
 import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeSet;
 
 /**
  * The implementation for KubernetesCluster and its create and update interfaces.
@@ -154,77 +160,164 @@ public class KubernetesClusterImpl extends
 
     @Override
     protected Observable<ManagedClusterInner> getInnerAsync() {
-        return null;
+        return this.manager().inner().managedClusters().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
     public Observable<KubernetesCluster> createResourceAsync() {
-        return null;
+        final KubernetesClusterImpl self = this;
+        if (!this.isInCreateMode()) {
+            this.inner().withServicePrincipalProfile(null);
+        }
+
+        if (useLatestVersion) {
+            return this.manager().inner().containerServices().listOrchestratorsAsync(self.inner().location())
+                .collect(new Func0<TreeSet<String>>() {
+                    @Override
+                    public TreeSet<String> call() {
+                        return new TreeSet<String>();
+                    }
+                }, new Action2<TreeSet<String>, OrchestratorVersionProfileListResultInner>() {
+                    @Override
+                    public void call(TreeSet<String> kubernetesVersions, OrchestratorVersionProfileListResultInner inner) {
+                        if (inner != null && inner.orchestrators() != null && inner.orchestrators().size() > 0) {
+                            for (OrchestratorVersionProfile orchestrator : inner.orchestrators()) {
+                                if (orchestrator.orchestratorType().equals("Kubernetes")) {
+                                    kubernetesVersions.add(orchestrator.orchestratorVersion());
+                                }
+                            }
+                        }
+                    }
+                }).last()
+                .flatMap(new Func1<TreeSet<String>, Observable<KubernetesCluster>>() {
+                    @Override
+                    public Observable<KubernetesCluster> call(TreeSet<String> kubernetesVersions) {
+                        self.inner().withKubernetesVersion(kubernetesVersions.last());
+                        return self.manager().inner().managedClusters().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner())
+                            .map(new Func1<ManagedClusterInner, KubernetesCluster>() {
+                                @Override
+                                public KubernetesCluster call(ManagedClusterInner inner) {
+                                    self.setInner(inner);
+                                    return self;
+                                }
+                            });
+                    }
+                });
+        } else {
+            return this.manager().inner().managedClusters().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner())
+                .map(new Func1<ManagedClusterInner, KubernetesCluster>() {
+                    @Override
+                    public KubernetesCluster call(ManagedClusterInner inner) {
+                        self.setInner(inner);
+                        return self;
+                    }
+                });
+        }
     }
 
     @Override
     public KubernetesClusterImpl withVersion(KubernetesVersion kubernetesVersion) {
-        return null;
+        this.inner().withKubernetesVersion(kubernetesVersion.toString());
+        return this;
     }
 
     @Override
     public KubernetesClusterImpl withLatestVersion() {
-        return null;
+        this.useLatestVersion = true;
+        return this;
     }
 
     @Override
     public KubernetesClusterImpl withRootUsername(String rootUserName) {
-        return null;
+        if (this.inner().linuxProfile() == null) {
+            this.inner().withLinuxProfile(new ContainerServiceLinuxProfile());
+        }
+        this.inner().linuxProfile().withAdminUsername(rootUserName);
+
+        return this;
     }
 
     @Override
     public KubernetesClusterImpl withSshKey(String sshKeyData) {
-        return null;
+        this.inner().linuxProfile()
+            .withSsh(new ContainerServiceSshConfiguration()
+                .withPublicKeys(new ArrayList<ContainerServiceSshPublicKey>()));
+        this.inner().linuxProfile().ssh().publicKeys()
+            .add(new ContainerServiceSshPublicKey()
+                .withKeyData(sshKeyData));
+
+        return this;
     }
 
     @Override
     public KubernetesClusterImpl withServicePrincipalClientId(String clientId) {
-        return null;
-    }
-
-    @Override
-    public KubernetesClusterImpl withoutServicePrincipalProfile() {
-        return null;
+        this.inner().withServicePrincipalProfile(new ContainerServiceServicePrincipalProfile().withClientId(clientId));
+        return this;
     }
 
     @Override
     public KubernetesClusterImpl withServicePrincipalSecret(String secret) {
-        return null;
+        this.inner().servicePrincipalProfile().withSecret(secret);
+        return this;
     }
 
     @Override
     public KubernetesClusterImpl withKeyVaultReference(String vaultId) {
-        return null;
+        this.inner().servicePrincipalProfile().withSecret(null);
+        this.inner().servicePrincipalProfile()
+            .withKeyVaultSecretRef(new KeyVaultSecretRef()
+                .withVaultID(vaultId));
+        return this;
     }
 
     @Override
-    public KubernetesClusterImpl withKeyVaultSecret(String secret) {
-        return null;
+    public KubernetesClusterImpl withKeyVaultSecret(String secretName) {
+        this.inner().servicePrincipalProfile().keyVaultSecretRef()
+            .withSecretName(secretName);
+        return this;
     }
 
     @Override
-    public KubernetesClusterImpl withKeyVaultSecret(String secret, String version) {
-        return null;
+    public KubernetesClusterImpl withKeyVaultSecret(String secretName, String secretVersion) {
+        this.inner().servicePrincipalProfile().keyVaultSecretRef()
+            .withSecretName(secretName)
+            .withVersion(secretVersion);
+        return this;
     }
 
     @Override
     public KubernetesClusterImpl withDnsPrefix(String dnsPrefix) {
-        return null;
+        this.inner().withDnsPrefix(dnsPrefix);
+        return this;
     }
 
     @Override
-    public ContainerServiceAgentPool.DefinitionStages.Blank<KubernetesCluster.DefinitionStages.WithCreate> defineAgentPool(String name) {
-        return null;
+    public KubernetesClusterAgentPoolImpl defineAgentPool(String name) {
+        ContainerServiceAgentPoolProfile innerPoolProfile = new ContainerServiceAgentPoolProfile();
+        innerPoolProfile.withName(name);
+        return new KubernetesClusterAgentPoolImpl(innerPoolProfile, this);
     }
 
     @Override
     public KubernetesClusterImpl withAgentVMCount(String agentPoolName, int agentCount) {
-        return null;
+        if (this.inner().agentPoolProfiles() != null && this.inner().agentPoolProfiles().size() > 0) {
+            for (ContainerServiceAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
+                if (agentPoolProfile.name().equals(agentPoolName)) {
+                    agentPoolProfile.withCount(agentCount);
+                    break;
+                }
+            }
+        }
+        return this;
     }
 
+    @Override
+    public KubernetesClusterImpl withAgentVMCount(int agentCount) {
+        if (this.inner().agentPoolProfiles() != null && this.inner().agentPoolProfiles().size() > 0) {
+            for (ContainerServiceAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
+                agentPoolProfile.withCount(agentCount);
+            }
+        }
+        return this;
+    }
 }

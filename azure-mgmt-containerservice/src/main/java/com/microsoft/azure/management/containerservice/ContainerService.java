@@ -28,7 +28,7 @@ public interface ContainerService extends
         GroupableResource<ContainerServiceManager, ContainerServiceInner>,
         Refreshable<ContainerService>,
         Updatable<ContainerService.Update>,
-        Orchestrator {
+    OrchestratorServiceBase {
 
     /**
      * @return the master node count

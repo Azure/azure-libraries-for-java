@@ -3,13 +3,11 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-
-package com.microsoft.azure.management.containerservice.samples;
+package com.microsoft.azure.management.kubernetescluster.samples;
 
 import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.containerservice.ContainerService;
-import com.microsoft.azure.management.containerservice.ContainerServiceMasterProfileCount;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
+import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.SSHShell;
@@ -22,12 +20,12 @@ import java.nio.file.Paths;
 import java.util.Date;
 
 /**
- * Azure Container Service sample for managing container service with Kubernetes orchestration.
- *   - Create an Azure Container Service with Kubernetes orchestration
+ * Azure Container Service (AKS) sample for managing a Kubernetes cluster.
+ *   - Create an Azure Container Service (AKS) with managed Kubernetes cluster
  *   - Create a SSH private/public key
- *   - Update the number of agent virtual machines in an Azure Container Service
+ *   - Update the number of agent virtual machines in the Kubernetes cluster
  */
-public class ManageContainerServiceWithKubernetesOrchestrator {
+public class ManageKubernetesCluster {
 
     /**
      * Main function which runs the actual sample.
@@ -38,12 +36,12 @@ public class ManageContainerServiceWithKubernetesOrchestrator {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure, String clientId, String secret) {
-        final String rgName = SdkContext.randomResourceName("rgACS", 15);
-        final String acsName = SdkContext.randomResourceName("acssample", 30);
-        final Region region = Region.US_EAST;
+        final String rgName = SdkContext.randomResourceName("rgaks", 15);
+        final String aksName = SdkContext.randomResourceName("akssample", 30);
+        final Region region = Region.UK_WEST;
         String servicePrincipalClientId = clientId; // replace with a real service principal client id
         String servicePrincipalSecret = secret; // and corresponding secret
-        final String rootUserName = "acsuser";
+        final String rootUserName = "aksuser";
 
         try {
 
@@ -57,7 +55,7 @@ public class ManageContainerServiceWithKubernetesOrchestrator {
                 String envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION_2");
 
                 if (envSecondaryServicePrincipal == null || !envSecondaryServicePrincipal.isEmpty() || !Files.exists(Paths.get(envSecondaryServicePrincipal))) {
-                  envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION");
+                    envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION");
                 }
 
                 servicePrincipalClientId = Utils.getSecondaryServicePrincipalClientID(envSecondaryServicePrincipal);
@@ -76,47 +74,45 @@ public class ManageContainerServiceWithKubernetesOrchestrator {
 
 
             //=============================================================
-            // Create an Azure Container Service with Kubernetes orchestration
+            // Create a Kubernetes cluster with one agent pool of size one
 
-            System.out.println("Creating an Azure Container Service with Kubernetes ochestration and one agent (virtual machine)");
+            System.out.println("Creating a Kubernetes cluster");
 
             Date t1 = new Date();
 
-            ContainerService azureContainerService = azure.containerServices().define(acsName)
-                    .withRegion(region)
-                    .withNewResourceGroup(rgName)
-                    .withKubernetesOrchestration()
-                    .withServicePrincipal(servicePrincipalClientId, servicePrincipalSecret)
-                    .withLinux()
-                    .withRootUsername(rootUserName)
-                    .withSshKey(sshKeys.getSshPublicKey())
-                    .withMasterNodeCount(ContainerServiceMasterProfileCount.MIN)
-                    .withMasterDnsPrefix("dns-" + acsName)
-                    .defineAgentPool("agentpool")
-                            .withVMCount(1)
-                            .withVMSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
-                            .withDnsPrefix("dns-ap-" + acsName)
-                            .attach()
-                    .create();
+            KubernetesCluster kubernetesCluster = azure.kubernetesClusters().define(aksName)
+                .withRegion(region)
+                .withNewResourceGroup(rgName)
+                .withLatestVersion()
+                .withRootUsername(rootUserName)
+                .withSshKey(sshKeys.getSshPublicKey())
+                .withServicePrincipalClientId(servicePrincipalClientId)
+                .withServicePrincipalSecret(servicePrincipalSecret)
+                .defineAgentPool("agentpool")
+                    .withVMCount(1)
+                    .withVMSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
+                    .attach()
+                .withDnsPrefix("dns-" + aksName)
+                .create();
 
             Date t2 = new Date();
-            System.out.println("Created Azure Container Service: (took " + ((t2.getTime() - t1.getTime()) / 1000) + " seconds) " + azureContainerService.id());
-            Utils.print(azureContainerService);
+            System.out.println("Created Azure Container Service (AKS) resource: (took " + ((t2.getTime() - t1.getTime()) / 1000) + " seconds) " + kubernetesCluster.id());
+            Utils.print(kubernetesCluster);
 
             //=============================================================
-            // Update a Kubernetes Azure Container Service with two agents (virtual machines)
+            // Update a Kubernetes cluster agent pool to two machines
 
-            System.out.println("Updating a Kubernetes Azure Container Service with two agents (virtual machines)");
+            System.out.println("Updating a Kubernetes cluster agent pool to two virtual machines");
 
             t1 = new Date();
 
-            azureContainerService.update()
-                    .withAgentVMCount(2)
-                    .apply();
+            kubernetesCluster.update()
+                .withAgentVMCount(2)
+                .apply();
 
             t2 = new Date();
-            System.out.println("Updated Azure Container Service: (took " + ((t2.getTime() - t1.getTime()) / 1000) + " seconds) " + azureContainerService.id());
-            Utils.print(azureContainerService);
+            System.out.println("Updated Azure Container Service (AKS) resource: (took " + ((t2.getTime() - t1.getTime()) / 1000) + " seconds) " + kubernetesCluster.id());
+            Utils.print(kubernetesCluster);
 
             return true;
         } catch (Exception f) {
@@ -149,9 +145,9 @@ public class ManageContainerServiceWithKubernetesOrchestrator {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BODY)
-                    .authenticate(credFile)
-                    .withDefaultSubscription();
+                .withLogLevel(LogLevel.BODY)
+                .authenticate(credFile)
+                .withDefaultSubscription();
 
             // Print selected subscription
             System.out.println("Selected subscription: " + azure.subscriptionId());

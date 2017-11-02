@@ -70,7 +70,7 @@ public class ManageContainerServiceWithDockerSwarmOrchestrator {
                     .defineAgentPool("agentpool")
                         .withVMCount(1)
                         .withVMSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
-                        .withLeafDomainLabel("dns-ap-" + acsName)
+                        .withDnsPrefix("dns-ap-" + acsName)
                         .attach()
                     .create();
 

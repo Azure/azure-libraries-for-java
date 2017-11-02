@@ -12,7 +12,7 @@ import com.microsoft.azure.management.containerservice.ContainerServiceAgentPool
 import com.microsoft.azure.management.containerservice.ContainerServiceStorageProfileTypes;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerservice.OSType;
-import com.microsoft.azure.management.containerservice.Orchestrator;
+import com.microsoft.azure.management.containerservice.OrchestratorServiceBase;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
@@ -26,7 +26,7 @@ import java.util.List;
 class ContainerServiceAgentPoolImpl extends
         ChildResourceImpl<ContainerServiceAgentPoolProfile,
             ContainerServiceImpl,
-            Orchestrator>
+            OrchestratorServiceBase>
     implements
         ContainerServiceAgentPool,
         ContainerServiceAgentPool.Definition {
@@ -121,7 +121,7 @@ class ContainerServiceAgentPoolImpl extends
     }
 
     @Override
-    public ContainerServiceAgentPoolImpl withLeafDomainLabel(String param0) {
+    public ContainerServiceAgentPoolImpl withDnsPrefix(String param0) {
         this.inner().withDnsPrefix(param0);
         return this;        
     }

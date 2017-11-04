@@ -139,13 +139,13 @@ public class DeployImageFromContainerRegistryToContainerServiceOrchestrator {
                     .withRootUsername(rootUserName)
                     .withSshKey(sshKeys.getSshPublicKey())
                     .withMasterNodeCount(ContainerServiceMasterProfileCount.MIN)
-                    .withMasterDnsPrefix("dns-" + acsName)
                     .defineAgentPool("agentpool")
-                        .withVMCount(1)
-                        .withVMSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
+                        .withVirtualMachineCount(1)
+                        .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
                         .withDnsPrefix("dns-ap-" + acsName)
-                    .attach()
-                    .create();
+                        .attach()
+                    .withMasterDnsPrefix("dns-" + acsName)
+                .create();
 
             Date t2 = new Date();
             System.out.println("Created Azure Container Service: (took " + ((t2.getTime() - t1.getTime()) / 1000) + " seconds) " + azureContainerService.id());

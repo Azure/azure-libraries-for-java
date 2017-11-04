@@ -9,6 +9,7 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.containerservice.implementation.ContainerServiceManager;
 import com.microsoft.azure.management.containerservice.implementation.ManagedClustersInner;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
@@ -41,18 +42,18 @@ public interface KubernetesClusters extends
     SupportsGettingByResourceGroup<KubernetesCluster> {
 
     /**
-     * Returns the list of available Kubernetes versions available for the given location.
+     * Returns the list of available Kubernetes versions available for the given Azure region.
      *
-     * @param location the location to query into
-     * @return a set of Kubernetes versions which can be used when creating a service in this location
+     * @param region the Azure region to query into
+     * @return a set of Kubernetes versions which can be used when creating a service in this region
      */
-    Set<String> listKubernetesVersions(String location);
+    Set<String> listKubernetesVersions(Region region);
 
     /**
-     * Returns the list of available Kubernetes versions available for the given location.
+     * Returns the list of available Kubernetes versions available for the given Azure region.
      *
-     * @param location the location to query into
-     * @return a future representation of a set of Kubernetes versions which can be used when creating a service in this location
+     * @param region the Azure region to query into
+     * @return a future representation of a set of Kubernetes versions which can be used when creating a service in this region
      */
-    Observable<Set<String>> listKubernetesVersionsAsync(String location);
+    Observable<Set<String>> listKubernetesVersionsAsync(Region region);
 }

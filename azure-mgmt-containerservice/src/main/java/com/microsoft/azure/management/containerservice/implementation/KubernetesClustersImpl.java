@@ -11,6 +11,7 @@ import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusters;
 import com.microsoft.azure.management.containerservice.OrchestratorVersionProfile;
 import com.microsoft.azure.management.resources.ResourceGroup;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
 import rx.Completable;
@@ -111,9 +112,9 @@ public class KubernetesClustersImpl extends
     }
 
     @Override
-    public Set<String> listKubernetesVersions(String location) {
+    public Set<String> listKubernetesVersions(Region region) {
         TreeSet<String> kubernetesVersions = new TreeSet<>();
-        OrchestratorVersionProfileListResultInner inner = this.manager().inner().containerServices().listOrchestrators(location);
+        OrchestratorVersionProfileListResultInner inner = this.manager().inner().containerServices().listOrchestrators(region.name());
 
         if (inner != null && inner.orchestrators() != null && inner.orchestrators().size() > 0) {
             for (OrchestratorVersionProfile orchestrator : inner.orchestrators()) {
@@ -127,8 +128,8 @@ public class KubernetesClustersImpl extends
     }
 
     @Override
-    public Observable<Set<String>> listKubernetesVersionsAsync(String location) {
-        return this.manager().inner().containerServices().listOrchestratorsAsync(location)
+    public Observable<Set<String>> listKubernetesVersionsAsync(Region region) {
+        return this.manager().inner().containerServices().listOrchestratorsAsync(region.name())
             .collect(new Func0<TreeSet<String>>() {
                 @Override
                 public TreeSet<String> call() {

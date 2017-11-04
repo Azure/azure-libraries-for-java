@@ -218,6 +218,12 @@ public class ContainerServiceImpl extends
     }
 
     @Override
+    public ContainerServiceImpl withoutDiagnostics() {
+        this.withDiagnosticsProfile(false);
+        return this;
+    }
+
+    @Override
     public ContainerServiceImpl withLinux() {
         if (this.inner().linuxProfile() == null) {
             this.inner().withLinuxProfile(new ContainerServiceLinuxProfile());

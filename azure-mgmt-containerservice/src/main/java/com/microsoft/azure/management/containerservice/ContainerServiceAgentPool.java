@@ -22,12 +22,12 @@ public interface ContainerServiceAgentPool extends
     HasInner<ContainerServiceAgentPoolProfile> {
 
     /**
-     * @return the number of agents (VMs) to host docker containers
+     * @return the number of agents (virtual machines) to host docker containers
      */
     int count();
 
     /**
-     * @return size of agent VMs
+     * @return the size of each virtual machine in the agent pool
      */
     ContainerServiceVMSizeTypes vmSize();
 
@@ -42,7 +42,7 @@ public interface ContainerServiceAgentPool extends
     String fqdn();
 
     /**
-     * @return OS Disk Size in GB set for every machine in the agent pool
+     * @return OS disk size in GB set for each virtual machine in the agent pool
      */
     int osDiskSizeInGB();
 
@@ -52,22 +52,22 @@ public interface ContainerServiceAgentPool extends
     int[] ports();
 
     /**
-     * @return OS type set for every machine in the agent pool
+     * @return OS of each virtual machine in the agent pool
      */
     OSType osType();
 
     /**
-     * @return the storage kind set for every machine in the agent pool
+     * @return the storage kind (managed or classic) set for each virtual machine in the agent pool
      */
     ContainerServiceStorageProfileTypes storageProfile();
 
     /**
-     * @return the name of the subnet used by every machine in the agent pool
+     * @return the name of the subnet used by each virtual machine in the agent pool
      */
     String subnetName();
 
     /**
-     * @return the ID of the virtual network used by every machine in the agent pool
+     * @return the ID of the virtual network used by each virtual machine in the agent pool
      */
     String networkId();
 
@@ -97,26 +97,26 @@ public interface ContainerServiceAgentPool extends
          */
         interface Blank<ParentT> {
             /**
-             * Specifies the number of agents (VMs) to host docker containers.
-             * Allowed values must be in the range of 1 to 100 (inclusive).
-             * @param count the count
+             * Specifies the number of agents (virtual machines) to host docker containers.
+             *
+             * @param count a number between 1 and 100
              * @return the next stage of the definition
              */
-            WithVMSize<ParentT> withVMCount(int count);
+            WithVMSize<ParentT> withVirtualMachineCount(int count);
         }
 
         /**
-         * The stage of a container service agent pool definition allowing to specify the agent VM size.
+         * The stage of a container service agent pool definition allowing to specify the agent virtual machine size.
          *
          * @param <ParentT>  the stage of the container service definition to return to after attaching this definition
          */
         interface WithVMSize<ParentT> {
             /**
-             * Specifies the size of the agents VMs.
-             * @param vmSize the size of the VM
+             * Specifies the size of the agent virtual machines.
+             * @param vmSize the size of the virtual machine
              * @return the next stage of the definition
              */
-            WithLeafDomainLabel<ParentT> withVMSize(ContainerServiceVMSizeTypes vmSize);
+            WithLeafDomainLabel<ParentT> withVirtualMachineSize(ContainerServiceVMSizeTypes vmSize);
         }
 
         /**
@@ -126,8 +126,8 @@ public interface ContainerServiceAgentPool extends
          */
         interface WithLeafDomainLabel<ParentT> {
             /**
-             * Specify the DNS prefix to be used to create the FQDN for the agent pool.
-             * @param dnsPrefix the Dns prefix
+             * Specify the DNS prefix to be used in the FQDN for the agent pool.
+             * @param dnsPrefix the DNS prefix
              * @return the next stage of the definition
              */
             WithAttach<ParentT> withDnsPrefix(String dnsPrefix);
@@ -140,10 +140,10 @@ public interface ContainerServiceAgentPool extends
          */
         interface WithPorts<ParentT> {
             /**
-             * Ports to be opened on this agent pool.
-             *
-             * The default opened ports are different based on your choice of orchestrator.
-             * @param ports that will be opened on this agent pool
+             * Ports to be exposed on this agent pool.
+             *<p>
+             * The default exposed ports are different based on your choice of orchestrator.
+             * @param ports port numbers that will be exposed on this agent pool
              * @return the next stage of the definition
              */
             WithAttach<ParentT> withPorts(int... ports);
@@ -174,8 +174,7 @@ public interface ContainerServiceAgentPool extends
             /**
              * OS Disk Size in GB to be used for every machine in the agent pool.
              *
-             * If you specify 0, the default osDisk size will be used according to the vmSize specified.
-             * @param osDiskSizeInGB OS Disk Size in GB to be used for every machine in the agent pool
+             * @param osDiskSizeInGB OS disk size in GB to be used for each virtual machine in the agent pool
              * @return the next stage of the definition
              */
             WithAttach<ParentT> withOSDiskSizeInGB(int osDiskSizeInGB);
@@ -188,9 +187,9 @@ public interface ContainerServiceAgentPool extends
          */
         interface WithStorageProfile<ParentT> {
             /**
-             * Specifies the storage kind to be used for every machine in the agent pool.
+             * Specifies the storage kind to be used for each virtual machine in the agent pool.
              *
-             * @param storageProfile the storage kind to be used for every machine in the agent pool
+             * @param storageProfile the storage kind to be used for each virtual machine in the agent pool
              * @return the next stage of the definition
              */
             WithAttach<ParentT> withStorageProfile(ContainerServiceStorageProfileTypes storageProfile);
@@ -203,11 +202,11 @@ public interface ContainerServiceAgentPool extends
          */
         interface WithSubnet<ParentT> {
             /**
-             * Specifies the subnet to be used for every machine in the agent pool.
+             * Specifies the subnet to be used for each virtual machine in the agent pool.
+             * <p>
+             * The subnet must be in the same virtual network as specified for the master. By default, the master subnet will be used.
              *
-             * The subnet must be in the same virtual network as specified for the master. Default is to the same subnet as specified for the master.
-             *
-             * @param subnetName the name of the subnet to be used for every machine in the agent pool
+             * @param subnetName the name of the subnet to be used for each virtual machine in the agent pool
              * @return the next stage of the definition
              */
             WithAttach<ParentT> withSubnetName(String subnetName);

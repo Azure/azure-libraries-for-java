@@ -60,7 +60,7 @@ public interface KubernetesCluster extends
     byte[] userKubeConfigContent();
 
     /**
-     * @return the service principal clientId
+     * @return the service principal client ID
      */
     String servicePrincipalClientId();
 
@@ -70,24 +70,25 @@ public interface KubernetesCluster extends
     String servicePrincipalSecret();
 
     /**
-     * @return the KeyVault reference to the service principal secret
+     * @return the key vault reference to the service principal secret
      */
-    KeyVaultSecretRef keyVaultSecretRef();
+    KeyVaultSecretRef keyVaultSecretReference();
 
     /**
-     * @return the linux root username
+     * @return the Linux root username
      */
     String linuxRootUsername();
 
     /**
-     * @return the linux ssh key
+     * @return the Linux SSH key
      */
     String sshKey();
 
     /**
-     * @return the agent pools map
+     * @return the agent pools in the Kubernetes cluster
      */
     Map<String, KubernetesClusterAgentPool> agentPools();
+
 
     // Fluent interfaces
 
@@ -245,9 +246,9 @@ public interface KubernetesCluster extends
          */
         interface WithDnsPrefix {
             /**
-             * Specifies the DNS prefix label.
+             * Specifies the DNS prefix to be used to create the FQDN for the master pool.
              *
-             * @param dnsPrefix the Dns prefix
+             * @param dnsPrefix the DNS prefix to be used to create the FQDN for the master pool
              * @return the next stage of the definition
              */
             KubernetesCluster.DefinitionStages.WithCreate withDnsPrefix(String dnsPrefix);
@@ -286,7 +287,7 @@ public interface KubernetesCluster extends
              * Updates the agent pool virtual machine count.
              *
              * @param agentPoolName the name of the agent pool to be updated
-             * @param agentCount the number of agents (VMs) to host docker containers.
+             * @param agentCount the number of agents (virtual machines) to host docker containers.
              * @return the next stage of the update
              */
             KubernetesCluster.Update withAgentVMCount(String agentPoolName, int agentCount);
@@ -294,7 +295,7 @@ public interface KubernetesCluster extends
             /**
              * Updates all the agent pools virtual machine count.
              *
-             * @param agentCount the number of agents (VMs) to host docker containers.
+             * @param agentCount the number of agents (virtual machines) to host docker containers.
              * @return the next stage of the update
              */
             KubernetesCluster.Update withAgentVMCount(int agentCount);

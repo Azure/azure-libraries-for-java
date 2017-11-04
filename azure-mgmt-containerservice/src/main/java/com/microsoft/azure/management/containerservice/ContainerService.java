@@ -56,22 +56,22 @@ public interface ContainerService extends
     Map<String, ContainerServiceAgentPool> agentPools();
 
     /**
-     * @return the linux root username
+     * @return the Linux root username
      */
     String linuxRootUsername();
 
     /**
-     * @return the linux ssh key
+     * @return the Linux SSH key
      */
     String sshKey();
 
     /**
-     * @return diagnostics enabled
+     * @return true if diagnostics are enabled
      */
     boolean isDiagnosticsEnabled();
 
     /**
-     * @return the service principal clientId
+     * @return the service principal client ID
      */
     String servicePrincipalClientId();
 
@@ -81,7 +81,7 @@ public interface ContainerService extends
     String servicePrincipalSecret();
 
     /**
-     * @return OS Disk Size in GB set for every machine in the master pool
+     * @return OS disk size in GB set for every machine in the master pool
      */
     int masterOSDiskSizeInGB();
 
@@ -111,13 +111,11 @@ public interface ContainerService extends
             ContainerService.DefinitionStages.WithGroup,
             ContainerService.DefinitionStages.WithOrchestrator,
             DefinitionStages.WithMasterNodeCount,
-            DefinitionStages.WithMasterDnsPrefix,
             DefinitionStages.WithLinux,
             DefinitionStages.WithLinuxRootUsername,
             DefinitionStages.WithLinuxSshKey,
             DefinitionStages.WithAgentPool,
             DefinitionStages.WithServicePrincipalProfile,
-            DefinitionStages.WithDiagnostics,
             ContainerService.DefinitionStages.WithCreate {
     }
 
@@ -163,7 +161,7 @@ public interface ContainerService extends
         }
 
         /**
-         * The stage allowing properties for cluster service principals.
+         * The stage allowing properties for cluster service principals to be specified.
          */
         interface WithServicePrincipalProfile {
             /**
@@ -219,20 +217,7 @@ public interface ContainerService extends
              * @param count master profile count (1, 3, 5)
              * @return the next stage of the definition
              */
-            WithMasterDnsPrefix withMasterNodeCount(ContainerServiceMasterProfileCount count);
-        }
-
-        /**
-         * The stage of the container service definition allowing to specify the master Dns prefix label.
-         */
-        interface WithMasterDnsPrefix {
-            /**
-             * Specifies the DNS prefix to be used to create the FQDN for the master pool.
-             *
-             * @param dnsPrefix the DNS prefix to be used to create the FQDN for the master pool
-             * @return the next stage of the definition
-             */
-            WithAgentPool withMasterDnsPrefix(String dnsPrefix);
+            WithAgentPool withMasterNodeCount(ContainerServiceMasterProfileCount count);
         }
 
         /**
@@ -249,11 +234,24 @@ public interface ContainerService extends
         }
 
         /**
+         * The stage of the container service definition allowing to specify the master DNS prefix label.
+         */
+        interface WithMasterDnsPrefix {
+            /**
+             * Specifies the DNS prefix to be used to create the FQDN for the master pool.
+             *
+             * @param dnsPrefix the DNS prefix to be used to create the FQDN for the master pool
+             * @return the next stage of the definition
+             */
+            WithCreate withMasterDnsPrefix(String dnsPrefix);
+        }
+
+        /**
          * The stage of the container service definition allowing to enable diagnostics.
          */
         interface WithDiagnostics {
             /**
-             * Enable diagnostics.
+             * Enables diagnostics.
              * @return the next stage of the definition
              */
             WithCreate withDiagnostics();
@@ -318,6 +316,7 @@ public interface ContainerService extends
          *   but also allows for any other optional settings to be specified.
          */
         interface WithCreate extends
+            WithMasterDnsPrefix,
             WithDiagnostics,
             WithMasterVMSize,
             WithMasterStorageProfile,
@@ -335,7 +334,8 @@ public interface ContainerService extends
     interface Update extends
             Resource.UpdateWithTags<Update>,
             Appliable<ContainerService>,
-            ContainerService.UpdateStages.WithUpdateAgentPoolCount {
+            ContainerService.UpdateStages.WithUpdateAgentPoolCount,
+            ContainerService.UpdateStages.WithDiagnostics {
     }
 
     /**
@@ -343,18 +343,33 @@ public interface ContainerService extends
      */
     interface UpdateStages {
         /**
-         * The stage of the container service update definition allowing to specify the number of agents in the specified pool.
+         * The stage of the container service update allowing to specify the number of agents in the specified pool.
          */
         interface WithUpdateAgentPoolCount {
             /**
              * Updates the agent pool virtual machine count.
              *
-             * @param agentCount the number of agents (VMs) to host docker containers.
-             *                       Allowed values must be in the range of 1 to 100 (inclusive).
-             *                       The default value is 1.
+             * @param agentCount the number of agents (virtual machines) to host docker containers.
              * @return the next stage of the update
              */
             Update withAgentVMCount(int agentCount);
+        }
+
+        /**
+         * The stage of the container service update allowing to enable or disable diagnostics.
+         */
+        interface WithDiagnostics {
+            /**
+             * Enables diagnostics.
+             * @return the next stage of the definition
+             */
+            Update withDiagnostics();
+
+            /**
+             * Disables diagnostics.
+             * @return the next stage of the definition
+             */
+            Update withoutDiagnostics();
         }
     }
 }

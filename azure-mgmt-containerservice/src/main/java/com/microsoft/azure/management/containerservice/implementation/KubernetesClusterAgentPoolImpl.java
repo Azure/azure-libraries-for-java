@@ -63,13 +63,13 @@ public class KubernetesClusterAgentPoolImpl
     }
 
     @Override
-    public KubernetesClusterAgentPoolImpl withVMCount(int agentPoolCount) {
+    public KubernetesClusterAgentPoolImpl withVirtualMachineCount(int agentPoolCount) {
         this.inner().withCount(agentPoolCount);
         return this;
     }
 
     @Override
-    public KubernetesClusterAgentPoolImpl withVMSize(ContainerServiceVMSizeTypes param0) {
+    public KubernetesClusterAgentPoolImpl withVirtualMachineSize(ContainerServiceVMSizeTypes param0) {
         this.inner().withVmSize(param0);
         return this;
     }

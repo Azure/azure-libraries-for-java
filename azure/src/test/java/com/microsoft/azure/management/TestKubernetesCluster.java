@@ -27,7 +27,7 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
     public KubernetesCluster createResource(KubernetesClusters kubernetesClusters) throws Exception {
         final String sshKeyData =  this.getSshKey();
 
-        Set<String> kubernetesVersions = kubernetesClusters.listKubernetesVersions(Region.UK_WEST.name());
+        Set<String> kubernetesVersions = kubernetesClusters.listKubernetesVersions(Region.UK_WEST);
         Assert.assertTrue(kubernetesVersions.contains("1.8.1"));
 
         final String newName = "aks" + this.testId;
@@ -43,8 +43,8 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
             .withServicePrincipalClientId("clientId")
             .withServicePrincipalSecret("secret")
             .defineAgentPool(agentPoolName)
-                .withVMCount(1)
-                .withVMSize(ContainerServiceVMSizeTypes.STANDARD_D2_V2)
+                .withVirtualMachineCount(1)
+                .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D2_V2)
                 .attach()
             .withDnsPrefix(dnsPrefix)
             .withTag("tag1", "value1")

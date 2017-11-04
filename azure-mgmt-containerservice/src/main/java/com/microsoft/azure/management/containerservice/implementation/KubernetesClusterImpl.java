@@ -116,7 +116,7 @@ public class KubernetesClusterImpl extends
     }
 
     @Override
-    public KeyVaultSecretRef keyVaultSecretRef() {
+    public KeyVaultSecretRef keyVaultSecretReference() {
         if (this.inner().servicePrincipalProfile() != null) {
             return this.inner().servicePrincipalProfile().keyVaultSecretRef();
         } else {

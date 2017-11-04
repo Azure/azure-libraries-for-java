@@ -109,13 +109,13 @@ class ContainerServiceAgentPoolImpl extends
     }
 
     @Override
-    public ContainerServiceAgentPoolImpl withVMCount(int agentPoolCount) {
+    public ContainerServiceAgentPoolImpl withVirtualMachineCount(int agentPoolCount) {
         this.inner().withCount(agentPoolCount);
         return this;
     }
 
     @Override
-    public ContainerServiceAgentPoolImpl withVMSize(ContainerServiceVMSizeTypes param0) {
+    public ContainerServiceAgentPoolImpl withVirtualMachineSize(ContainerServiceVMSizeTypes param0) {
         this.inner().withVmSize(param0);
         return this;        
     }

@@ -1156,8 +1156,8 @@ public final class Utils {
             .append("\n\tLinux user name: ").append(kubernetesCluster.linuxRootUsername())
             .append("\n\tSSH key: ").append(kubernetesCluster.sshKey())
             .append("\n\tService principal client ID: ").append(kubernetesCluster.servicePrincipalClientId());
-        if (kubernetesCluster.keyVaultSecretRef() != null) {
-            info.append("\n\tKeyVault reference: ").append(kubernetesCluster.keyVaultSecretRef().vaultID());
+        if (kubernetesCluster.keyVaultSecretReference() != null) {
+            info.append("\n\tKeyVault reference: ").append(kubernetesCluster.keyVaultSecretReference().vaultID());
         }
 
         System.out.println(info.toString());

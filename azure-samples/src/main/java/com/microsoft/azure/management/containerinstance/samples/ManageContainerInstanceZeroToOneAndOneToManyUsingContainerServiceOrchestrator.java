@@ -259,12 +259,12 @@ public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOr
                 .withRootUsername(rootUserName)
                 .withSshKey(sshKeys.getSshPublicKey())
                 .withMasterNodeCount(ContainerServiceMasterProfileCount.MIN)
-                .withMasterDnsPrefix("dns-" + acsName)
                 .defineAgentPool("agentpool")
-                    .withVMCount(1)
-                    .withVMSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
+                    .withVirtualMachineCount(1)
+                    .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
                     .withDnsPrefix("dns-ap-" + acsName)
                     .attach()
+                .withMasterDnsPrefix("dns-" + acsName)
                 .create();
 
             t2 = new Date();

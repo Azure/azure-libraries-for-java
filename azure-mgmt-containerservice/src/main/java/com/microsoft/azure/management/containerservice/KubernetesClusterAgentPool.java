@@ -23,27 +23,27 @@ public interface KubernetesClusterAgentPool
     HasInner<ContainerServiceAgentPoolProfile> {
 
     /**
-     * @return the number of agents (VMs) to host docker containers
+     * @return the number of agents (virtual machines) to host docker containers
      */
     int count();
 
     /**
-     * @return size of agent VMs
+     * @return size of each agent virtual machine in the agent pool
      */
     ContainerServiceVMSizeTypes vmSize();
 
     /**
-     * @return OS Disk Size in GB set for every machine in the agent pool
+     * @return OS disk size in GB set for each virtual machine in the agent pool
      */
     int osDiskSizeInGB();
 
     /**
-     * @return OS type set for every machine in the agent pool
+     * @return OS of each virtual machine in the agent pool
      */
     OSType osType();
 
     /**
-     * @return the storage kind set for every machine in the agent pool
+     * @return the storage kind (managed or classic) set for each virtual machine in the agent pool
      */
     ContainerServiceStorageProfileTypes storageProfile();
 
@@ -71,25 +71,26 @@ public interface KubernetesClusterAgentPool
          */
         interface Blank<ParentT> {
             /**
-             * Specifies the number of agents (VMs) to host docker containers.
-             * @param count the count
+             * Specifies the number of agents (virtual machines) to host docker containers.
+             *
+             * @param count a number between 1 and 100
              * @return the next stage of the definition
              */
-            WithVMSize<ParentT> withVMCount(int count);
+            WithVMSize<ParentT> withVirtualMachineCount(int count);
         }
 
         /**
-         * The stage of a container service agent pool definition allowing to specify the agent VM size.
+         * The stage of a container service agent pool definition allowing to specify the agent virtual machine size.
          *
          * @param <ParentT>  the stage of the container service definition to return to after attaching this definition
          */
         interface WithVMSize<ParentT> {
             /**
-             * Specifies the size of the agents VMs.
-             * @param vmSize the size of the VM
+             * Specifies the size of the agent virtual machines.
+             * @param vmSize the size of each virtual machine in the agent pool
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withVMSize(ContainerServiceVMSizeTypes vmSize);
+            WithAttach<ParentT> withVirtualMachineSize(ContainerServiceVMSizeTypes vmSize);
         }
 
         /**
@@ -99,10 +100,10 @@ public interface KubernetesClusterAgentPool
          */
         interface WithOSType<ParentT> {
             /**
-             * OS type to be used for every machine in the agent pool.
+             * OS type to be used for each virtual machine in the agent pool.
              *
              * Default is Linux.
-             * @param osType OS type to be used for every machine in the agent pool
+             * @param osType OS type to be used for each virtual machine in the agent pool
              * @return the next stage of the definition
              */
             WithAttach<ParentT> withOSType(OSType osType);
@@ -115,9 +116,8 @@ public interface KubernetesClusterAgentPool
          */
         interface WithOSDiskSize<ParentT> {
             /**
-             * OS Disk Size in GB to be used for every machine in the agent pool.
+             * OS disk size in GB to be used for each virtual machine in the agent pool.
              *
-             * If you specify 0, the default osDisk size will be used according to the vmSize specified.
              * @param osDiskSizeInGB OS Disk Size in GB to be used for every machine in the agent pool
              * @return the next stage of the definition
              */

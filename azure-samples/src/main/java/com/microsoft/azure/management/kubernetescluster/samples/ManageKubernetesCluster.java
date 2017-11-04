@@ -89,8 +89,8 @@ public class ManageKubernetesCluster {
                 .withServicePrincipalClientId(servicePrincipalClientId)
                 .withServicePrincipalSecret(servicePrincipalSecret)
                 .defineAgentPool("agentpool")
-                    .withVMCount(1)
-                    .withVMSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
+                    .withVirtualMachineCount(1)
+                    .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
                     .attach()
                 .withDnsPrefix("dns-" + aksName)
                 .create();

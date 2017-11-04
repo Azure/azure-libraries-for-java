@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import rx.Observable;
 import rx.functions.Func0;
 
@@ -15,11 +16,10 @@ import rx.functions.Func0;
  * 1. references to other {@link TaskGroupEntry} dependencies
  * 2. references to the other {@link TaskGroupEntry} dependents
  *
- * @param <ResultT> the type of the result produced by the task
  * @param <TaskT> the task type that can return a value
  */
-final class TaskGroupEntry<ResultT, TaskT extends TaskItem<ResultT>>
-        extends DAGNode<TaskT, TaskGroupEntry<ResultT, TaskT>> {
+final class TaskGroupEntry<TaskT extends TaskItem>
+        extends DAGNode<TaskT, TaskGroupEntry<TaskT>> {
     /**
      * indicates that one or more decedent dependency tasks are faulted.
      */
@@ -43,7 +43,7 @@ final class TaskGroupEntry<ResultT, TaskT extends TaskItem<ResultT>>
     /**
      * @return the result produced by the task.
      */
-    public ResultT taskResult() {
+    public Indexable taskResult() {
         return taskItem().result();
     }
 
@@ -58,9 +58,10 @@ final class TaskGroupEntry<ResultT, TaskT extends TaskItem<ResultT>>
      *                this will be passed to {@link TaskItem#invokeAsync(TaskGroup.InvocationContext)}
      *                method of the task item
      *
-     * @return the handle to the asynchronous execution of the task this entry holds.
+     * @return a cold Observable upon subscription invokes the task this entry hold, which produces a result of
+     * type {@link Indexable}.
      */
-    public Observable<ResultT> invokeTaskAsync(boolean ignoreCachedResult, final TaskGroup.InvocationContext context) {
+    public Observable<Indexable> invokeTaskAsync(boolean ignoreCachedResult, final TaskGroup.InvocationContext context) {
         if (hasFaultedDescentDependencyTask) {
             return Observable.error(new ErroredDependencyTaskException());
         }
@@ -70,9 +71,9 @@ final class TaskGroupEntry<ResultT, TaskT extends TaskItem<ResultT>>
         }
         if (taskItem.isHot()) {
             // Convert hot task to cold to delay it's execution until subscription.
-            return Observable.defer(new Func0<Observable<ResultT>>() {
+            return Observable.defer(new Func0<Observable<Indexable>>() {
                 @Override
-                public Observable<ResultT> call() {
+                public Observable<Indexable> call() {
                     return taskItem.invokeAsync(context);
                 }
             });

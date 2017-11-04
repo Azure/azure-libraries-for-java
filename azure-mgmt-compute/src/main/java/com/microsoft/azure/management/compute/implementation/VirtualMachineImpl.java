@@ -1840,7 +1840,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public void prepare() {
+    public void beforeGroupCreateOrUpdate() {
         // Add delayed dependencies for StorageProfile
         //
         if (creatableStorageAccountKey == null && existingStorageAccountToAssociate == null) {

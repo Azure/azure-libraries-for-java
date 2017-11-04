@@ -8,7 +8,6 @@ package com.microsoft.azure.management.resources.fluentcore.model.implementation
 
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroupTerminateOnErrorStrategy;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskItem;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Executable;
@@ -35,7 +34,7 @@ public abstract class CreatableUpdatableImpl<
         implements
         Appliable<FluentModelT>,
         Creatable<FluentModelT>,
-        TaskGroup.HasTaskGroup<FluentModelT, CreateUpdateTask<FluentModelT>>,
+        TaskGroup.HasTaskGroup,
         CreateUpdateTask.ResourceCreatorUpdater<FluentModelT> {
     /**
      * The name of the creatable updatable model.
@@ -44,7 +43,7 @@ public abstract class CreatableUpdatableImpl<
     /**
      * The group of tasks to create or update this model and it's dependencies.
      */
-    private final TaskGroup<FluentModelT, CreateUpdateTask<FluentModelT>> taskGroup;
+    private final TaskGroup taskGroup;
 
     /**
      * Creates CreatableUpdatableImpl.
@@ -55,8 +54,8 @@ public abstract class CreatableUpdatableImpl<
     protected CreatableUpdatableImpl(String name, InnerModelT innerObject) {
         super(innerObject);
         this.name = name;
-        taskGroup = new TaskGroup<>(this.key(),
-                new CreateUpdateTask<>(this),
+        taskGroup = new TaskGroup(this.key(),
+                new CreateUpdateTask<FluentModelT>(this),
                 TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_INPROGRESS_TASKS_COMPLETION);
     }
 
@@ -66,7 +65,7 @@ public abstract class CreatableUpdatableImpl<
     }
 
     @Override
-    public TaskGroup<FluentModelT, CreateUpdateTask<FluentModelT>> taskGroup() {
+    public TaskGroup taskGroup() {
         return this.taskGroup;
     }
 
@@ -77,8 +76,7 @@ public abstract class CreatableUpdatableImpl<
      */
     @SuppressWarnings("unchecked")
     protected void addCreatableDependency(Creatable<? extends Indexable> creatable) {
-        TaskGroup.HasTaskGroup<FluentModelT, CreateUpdateTask<FluentModelT>> dependency =
-                (TaskGroup.HasTaskGroup<FluentModelT, CreateUpdateTask<FluentModelT>>) creatable;
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) creatable;
         this.taskGroup.addDependencyTaskGroup(dependency.taskGroup());
     }
 
@@ -89,8 +87,7 @@ public abstract class CreatableUpdatableImpl<
      */
     @SuppressWarnings("unchecked")
     protected void addAppliableDependency(Appliable<? extends Indexable> appliable) {
-        TaskGroup.HasTaskGroup<FluentModelT, CreateUpdateTask<FluentModelT>> dependency =
-                (TaskGroup.HasTaskGroup<FluentModelT, CreateUpdateTask<FluentModelT>>) appliable;
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) appliable;
         this.taskGroup.addDependencyTaskGroup(dependency.taskGroup());
     }
 
@@ -101,18 +98,33 @@ public abstract class CreatableUpdatableImpl<
      */
     @SuppressWarnings("unchecked")
     protected void addExecutableDependency(Executable<? extends Indexable> executable) {
-        TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>> dependency =
-                (TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>>) executable;
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) executable;
 
         Creatable<FluentModelT> that = this;
-        TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>> thisDependent =
-                (TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>>) that;
+        TaskGroup.HasTaskGroup thisDependent = (TaskGroup.HasTaskGroup) that;
 
         thisDependent.taskGroup().addDependencyTaskGroup(dependency.taskGroup());
     }
 
     @Override
-    public void prepare() {
+    public void beforeGroupCreateOrUpdate() {
+    }
+
+    @Override
+    public Observable<Indexable> createAsync() {
+        return taskGroup.invokeAsync(this.taskGroup.newInvocationContext());
+    }
+
+    @Override
+    public Observable<FluentModelT> applyAsync() {
+        return taskGroup.invokeAsync(this.taskGroup.newInvocationContext())
+                .last()
+                .map(new Func1<Indexable, FluentModelT>() {
+                    @Override
+                    public FluentModelT call(Indexable indexable) {
+                        return (FluentModelT) indexable;
+                    }
+                });
     }
 
     @Override
@@ -120,22 +132,6 @@ public abstract class CreatableUpdatableImpl<
         // createResourceAsync & updateResourceAsync returns cold observable since Retrofit Http
         // request APIs (POST, PUT, PATCH ..) returns cold observable
         return false;
-    }
-
-    @Override
-    public Observable<Indexable> createAsync() {
-        return taskGroup.invokeAsync(this.taskGroup.newInvocationContext())
-                .map(new Func1<FluentModelT, Indexable>() {
-                    @Override
-                    public Indexable call(FluentModelT fluentModel) {
-                        return fluentModel;
-                    }
-                });
-    }
-
-    @Override
-    public Observable<FluentModelT> applyAsync() {
-        return taskGroup.invokeAsync(this.taskGroup.newInvocationContext()).last();
     }
 
     @Override
@@ -174,7 +170,7 @@ public abstract class CreatableUpdatableImpl<
     }
 
     protected FluentModelT createdModel(String key) {
-        return this.taskGroup.taskResult(key);
+        return (FluentModelT) this.taskGroup.taskResult(key);
     }
 
     @SuppressWarnings("unchecked")

@@ -7,10 +7,12 @@
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
 import com.google.common.collect.Sets;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import org.junit.Assert;
 import org.junit.Test;
 import rx.Observable;
 import rx.functions.Action1;
+import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +43,7 @@ public class ProxyTaskGroupTests {
          *                ------->D-------------
          */
         final List<String> groupItems = new ArrayList<>();
-        TaskGroup<String, StringTaskItem> group = createSampleTaskGroup("A", "B",
+        TaskGroup group = createSampleTaskGroup("A", "B",
                 "C", "D",
                 "E", "F",
                 groupItems);
@@ -49,11 +51,12 @@ public class ProxyTaskGroupTests {
         // Invocation of group should invoke all the tasks
         //
         group.invokeAsync(group.newInvocationContext())
-                .subscribe(new Action1<String>() {
+                .subscribe(new Action1<Indexable>() {
                     @Override
-                    public void call(String value) {
-                        Assert.assertTrue(groupItems.contains(value));
-                        groupItems.remove(value);
+                    public void call(Indexable value) {
+                        StringIndexable stringIndexable = toStringIndexable(value);
+                        Assert.assertTrue(groupItems.contains(stringIndexable.str()));
+                        groupItems.remove(stringIndexable.str());
                     }
                 });
 
@@ -84,7 +87,7 @@ public class ProxyTaskGroupTests {
         // Test invocation order for group
         //
         group.prepareForEnumeration();
-        for (TaskGroupEntry<String, StringTaskItem> entry = group.getNext(); entry != null; entry = group.getNext()) {
+        for (TaskGroupEntry<TaskItem> entry = group.getNext(); entry != null; entry = group.getNext()) {
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
                 Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
@@ -118,7 +121,7 @@ public class ProxyTaskGroupTests {
          *                ------->D-------------
          */
         final List<String> group1Items = new ArrayList<>();
-        final TaskGroup<String, StringTaskItem> group1 = createSampleTaskGroup("A", "B",
+        final TaskGroup group1 = createSampleTaskGroup("A", "B",
                 "C", "D",
                 "E", "F",
                 group1Items);
@@ -139,7 +142,7 @@ public class ProxyTaskGroupTests {
          *                ------->J-------------
          */
         final List<String> group2Items = new ArrayList<>();
-        final TaskGroup<String, StringTaskItem> group2 = createSampleTaskGroup("G", "H",
+        final TaskGroup group2 = createSampleTaskGroup("G", "H",
                 "I", "J",
                 "K", "L",
                 group2Items);
@@ -175,11 +178,12 @@ public class ProxyTaskGroupTests {
         // Invocation of group-1 should not invoke group-2
         //
         group1.invokeAsync(group1.newInvocationContext())
-                .subscribe(new Action1<String>() {
+                .subscribe(new Action1<Indexable>() {
                     @Override
-                    public void call(String value) {
-                        Assert.assertTrue(group1Items.contains(value));
-                        group1Items.remove(value);
+                    public void call(Indexable value) {
+                        StringIndexable stringIndexable = toStringIndexable(value);
+                        Assert.assertTrue(group1Items.contains(stringIndexable.str()));
+                        group1Items.remove(stringIndexable.str());
                     }
                 });
 
@@ -210,7 +214,7 @@ public class ProxyTaskGroupTests {
         // Test invocation order for group-1
         //
         group1.prepareForEnumeration();
-        for (TaskGroupEntry<String, StringTaskItem> entry = group1.getNext(); entry != null; entry = group1.getNext()) {
+        for (TaskGroupEntry<TaskItem> entry = group1.getNext(); entry != null; entry = group1.getNext()) {
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
                 Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
@@ -244,7 +248,7 @@ public class ProxyTaskGroupTests {
          *                ------->D-------------
          */
         final List<String> group1Items = new ArrayList<>();
-        final TaskGroup<String, StringTaskItem> group1 = createSampleTaskGroup("A", "B",
+        final TaskGroup group1 = createSampleTaskGroup("A", "B",
                 "C", "D",
                 "E", "F",
                 group1Items);
@@ -265,7 +269,7 @@ public class ProxyTaskGroupTests {
          *                ------->J-------------
          */
         final List<String> group2Items = new ArrayList<>();
-        final TaskGroup<String, StringTaskItem> group2 = createSampleTaskGroup("G", "H",
+        final TaskGroup group2 = createSampleTaskGroup("G", "H",
                 "I", "J",
                 "K", "L",
                 group2Items);
@@ -303,11 +307,12 @@ public class ProxyTaskGroupTests {
         // Invocation of group-2 should invoke group-2 and group-1
         //
         group2.invokeAsync(group2.newInvocationContext())
-                .subscribe(new Action1<String>() {
+                .subscribe(new Action1<Indexable>() {
                     @Override
-                    public void call(String value) {
-                        Assert.assertTrue(group2Items.contains(value));
-                        group2Items.remove(value);
+                    public void call(Indexable value) {
+                        StringIndexable stringIndexable = toStringIndexable(value);
+                        Assert.assertTrue(group2Items.contains(stringIndexable.str()));
+                        group2Items.remove(stringIndexable.str());
                     }
                 });
 
@@ -358,7 +363,7 @@ public class ProxyTaskGroupTests {
         // Test invocation order for group-2
         //
         group2.prepareForEnumeration();
-        for (TaskGroupEntry<String, StringTaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
+        for (TaskGroupEntry<TaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
             Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
             Assert.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
@@ -394,7 +399,7 @@ public class ProxyTaskGroupTests {
          *                ------->D-------------
          */
         final LinkedList<String> group1Items = new LinkedList<>();
-        final TaskGroup<String, StringTaskItem> group1 = createSampleTaskGroup("A", "B",
+        final TaskGroup group1 = createSampleTaskGroup("A", "B",
                 "C", "D",
                 "E", "F",
                 group1Items);
@@ -415,7 +420,7 @@ public class ProxyTaskGroupTests {
          *                ------->J-------------
          */
         final LinkedList<String> group2Items = new LinkedList<>();
-        final TaskGroup<String, StringTaskItem> group2 = createSampleTaskGroup("G", "H",
+        final TaskGroup group2 = createSampleTaskGroup("G", "H",
                 "I", "J",
                 "K", "L",
                 group2Items);
@@ -456,11 +461,12 @@ public class ProxyTaskGroupTests {
         // Invocation of group-1 should run group-1 and it's "post run" dependent group-2
         //
         group1.invokeAsync(group1.newInvocationContext())
-                .subscribe(new Action1<String>() {
+                .subscribe(new Action1<Indexable>() {
                     @Override
-                    public void call(String value) {
-                        Assert.assertTrue(group1Items.contains(value));
-                        group1Items.remove(value);
+                    public void call(Indexable value) {
+                        StringIndexable stringIndexable = toStringIndexable(value);
+                        Assert.assertTrue(group1Items.contains(stringIndexable.str()));
+                        group1Items.remove(stringIndexable.str());
                     }
                 });
 
@@ -512,7 +518,7 @@ public class ProxyTaskGroupTests {
         // Test invocation order for "group-1 proxy"
         //
         group1.proxyTaskGroupWrapper.proxyTaskGroup().prepareForEnumeration();
-        for (TaskGroupEntry<String, TaskItem<String>> entry = group1.proxyTaskGroupWrapper.proxyTaskGroup().getNext();
+        for (TaskGroupEntry<TaskItem> entry = group1.proxyTaskGroupWrapper.proxyTaskGroup().getNext();
              entry != null;
              entry = group1.proxyTaskGroupWrapper.proxyTaskGroup().getNext()) {
             Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
@@ -553,7 +559,7 @@ public class ProxyTaskGroupTests {
          *                ------->D-------------
          */
         final LinkedList<String> group1Items = new LinkedList<>();
-        final TaskGroup<String, StringTaskItem> group1 = createSampleTaskGroup("A", "B",
+        final TaskGroup group1 = createSampleTaskGroup("A", "B",
                 "C", "D",
                 "E", "F",
                 group1Items);
@@ -574,7 +580,7 @@ public class ProxyTaskGroupTests {
          *                ------->J-------------
          */
         final List<String> group2Items = new ArrayList<>();
-        final TaskGroup<String, StringTaskItem> group2 = createSampleTaskGroup("G", "H",
+        final TaskGroup group2 = createSampleTaskGroup("G", "H",
                 "I", "J",
                 "K", "L",
                 group2Items);
@@ -615,11 +621,12 @@ public class ProxyTaskGroupTests {
         // Invocation of group-2 should run group-2 and group-1
         //
         group2.invokeAsync(group2.newInvocationContext())
-                .subscribe(new Action1<String>() {
+                .subscribe(new Action1<Indexable>() {
                     @Override
-                    public void call(String value) {
-                        Assert.assertTrue(group2Items.contains(value));
-                        group2Items.remove(value);
+                    public void call(Indexable value) {
+                        StringIndexable stringIndexable = toStringIndexable(value);
+                        Assert.assertTrue(group2Items.contains(stringIndexable.str()));
+                        group2Items.remove(stringIndexable.str());
                     }
                 });
 
@@ -671,7 +678,7 @@ public class ProxyTaskGroupTests {
         // Test invocation order for "group-2 proxy"
         //
         group2.prepareForEnumeration();
-        for (TaskGroupEntry<String, StringTaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
+        for (TaskGroupEntry<TaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
             Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
             Assert.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
@@ -709,7 +716,7 @@ public class ProxyTaskGroupTests {
          *                ------->D-------------
          */
         final LinkedList<String> group1Items = new LinkedList<>();
-        final TaskGroup<String, StringTaskItem> group1 = createSampleTaskGroup("A", "B",
+        final TaskGroup group1 = createSampleTaskGroup("A", "B",
                 "C", "D",
                 "E", "F",
                 group1Items);
@@ -730,7 +737,7 @@ public class ProxyTaskGroupTests {
          *                ------->J-------------
          */
         final List<String> group2Items = new ArrayList<>();
-        final TaskGroup<String, StringTaskItem> group2 = createSampleTaskGroup("G", "H",
+        final TaskGroup group2 = createSampleTaskGroup("G", "H",
                 "I", "J",
                 "K", "L",
                 group2Items);
@@ -785,7 +792,7 @@ public class ProxyTaskGroupTests {
          */
 
         final LinkedList<String> group3Items = new LinkedList<>();
-        final TaskGroup<String, StringTaskItem> group3 = createSampleTaskGroup("M", "N",
+        final TaskGroup group3 = createSampleTaskGroup("M", "N",
                 "O", "P",
                 "Q", "R",
                 group3Items);
@@ -897,7 +904,7 @@ public class ProxyTaskGroupTests {
         // Test invocation order for "group-2"
         //
         group2.prepareForEnumeration();
-        for (TaskGroupEntry<String, StringTaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
+        for (TaskGroupEntry<TaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
             Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
             Assert.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
@@ -921,9 +928,9 @@ public class ProxyTaskGroupTests {
         // Test invocation order for "group-1 proxy"
         //
         seen.clear();
-        TaskGroup<String, TaskItem<String>> group1Proxy = group1.proxyTaskGroupWrapper.proxyTaskGroup();
+        TaskGroup group1Proxy = group1.proxyTaskGroupWrapper.proxyTaskGroup();
         group1Proxy.prepareForEnumeration();
-        for (TaskGroupEntry<String, TaskItem<String>> entry = group1Proxy.getNext(); entry != null; entry = group1Proxy.getNext()) {
+        for (TaskGroupEntry<TaskItem> entry = group1Proxy.getNext(); entry != null; entry = group1Proxy.getNext()) {
             Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
             Assert.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
@@ -960,7 +967,7 @@ public class ProxyTaskGroupTests {
          *                ------->D-------------
          */
         final LinkedList<String> group1Items = new LinkedList<>();
-        final TaskGroup<String, StringTaskItem> group1 = createSampleTaskGroup("A", "B",
+        final TaskGroup group1 = createSampleTaskGroup("A", "B",
                 "C", "D",
                 "E", "F",
                 group1Items);
@@ -981,7 +988,7 @@ public class ProxyTaskGroupTests {
          *                ------->J-------------
          */
         final List<String> group2Items = new ArrayList<>();
-        final TaskGroup<String, StringTaskItem> group2 = createSampleTaskGroup("G", "H",
+        final TaskGroup group2 = createSampleTaskGroup("G", "H",
                 "I", "J",
                 "K", "L",
                 group2Items);
@@ -1036,7 +1043,7 @@ public class ProxyTaskGroupTests {
          */
 
         final LinkedList<String> group3Items = new LinkedList<>();
-        final TaskGroup<String, StringTaskItem> group3 = createSampleTaskGroup("M", "N",
+        final TaskGroup group3 = createSampleTaskGroup("M", "N",
                 "O", "P",
                 "Q", "R",
                 group3Items);
@@ -1101,7 +1108,7 @@ public class ProxyTaskGroupTests {
          */
 
         final LinkedList<String> group4Items = new LinkedList<>();
-        final TaskGroup<String, StringTaskItem> group4 = createSampleTaskGroup("S", "T",
+        final TaskGroup group4 = createSampleTaskGroup("S", "T",
                 "U", "V",
                 "W", "X",
                 group4Items);
@@ -1123,7 +1130,7 @@ public class ProxyTaskGroupTests {
          */
 
         final LinkedList<String> group5Items = new LinkedList<>();
-        final TaskGroup<String, StringTaskItem> group5 = createSampleTaskGroup("1", "2",
+        final TaskGroup group5 = createSampleTaskGroup("1", "2",
                 "3", "4",
                 "5", "6",
                 group5Items);
@@ -1327,9 +1334,9 @@ public class ProxyTaskGroupTests {
         //
         //
         Set<String> seen = new HashSet<>();
-        TaskGroup<String, TaskItem<String>> group1Proxy = group1.proxyTaskGroupWrapper.proxyTaskGroup();
+        TaskGroup group1Proxy = group1.proxyTaskGroupWrapper.proxyTaskGroup();
         group1Proxy.prepareForEnumeration();
-        for (TaskGroupEntry<String, TaskItem<String>> entry = group1Proxy.getNext(); entry != null; entry = group1Proxy.getNext()) {
+        for (TaskGroupEntry<TaskItem> entry = group1Proxy.getNext(); entry != null; entry = group1Proxy.getNext()) {
             Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
             Assert.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
@@ -1356,9 +1363,9 @@ public class ProxyTaskGroupTests {
         // This cause -> group-1, group-4 and group-5 to invoked
         //
         seen.clear();
-        TaskGroup<String, TaskItem<String>> group4Proxy = group4.proxyTaskGroupWrapper.proxyTaskGroup();
+        TaskGroup group4Proxy = group4.proxyTaskGroupWrapper.proxyTaskGroup();
         group4Proxy.prepareForEnumeration();
-        for (TaskGroupEntry<String, TaskItem<String>> entry = group4Proxy.getNext(); entry != null; entry = group4Proxy.getNext()) {
+        for (TaskGroupEntry<TaskItem> entry = group4Proxy.getNext(); entry != null; entry = group4Proxy.getNext()) {
             Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
             Assert.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
@@ -1385,7 +1392,7 @@ public class ProxyTaskGroupTests {
         //
         seen.clear();
         group2.prepareForEnumeration();
-        for (TaskGroupEntry<String, StringTaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
+        for (TaskGroupEntry<TaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
             Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
             Assert.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
@@ -1410,13 +1417,13 @@ public class ProxyTaskGroupTests {
         Assert.assertEquals(0, diff.size());
     }
 
-    private TaskGroup<String, StringTaskItem> createSampleTaskGroup(String vertex1,
-                                                                    String vertex2,
-                                                                    String vertex3,
-                                                                    String vertex4,
-                                                                    String vertex5,
-                                                                    String vertex6,
-                                                                    List<String> verticesNames) {
+    private TaskGroup createSampleTaskGroup(String vertex1,
+                                            String vertex2,
+                                            String vertex3,
+                                            String vertex4,
+                                            String vertex5,
+                                            String vertex6,
+                                            List<String> verticesNames) {
         verticesNames.add(vertex6);
         verticesNames.add(vertex5);
         verticesNames.add(vertex4);
@@ -1440,12 +1447,12 @@ public class ProxyTaskGroupTests {
          */
 
         TaskGroupTerminateOnErrorStrategy terminateStrategy = TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_INPROGRESS_TASKS_COMPLETION;
-        TaskGroup<String, StringTaskItem> group1 = new TaskGroup<>(vertex1, new StringTaskItem(vertex1), terminateStrategy);
-        TaskGroup<String, StringTaskItem> group2 = new TaskGroup<>(vertex2, new StringTaskItem(vertex2), terminateStrategy);
-        TaskGroup<String, StringTaskItem> group3 = new TaskGroup<>(vertex3, new StringTaskItem(vertex3), terminateStrategy);
-        TaskGroup<String, StringTaskItem> group4 = new TaskGroup<>(vertex4, new StringTaskItem(vertex4), terminateStrategy);
-        TaskGroup<String, StringTaskItem> group5 = new TaskGroup<>(vertex5, new StringTaskItem(vertex5), terminateStrategy);
-        TaskGroup<String, StringTaskItem> group6 = new TaskGroup<>(vertex6, new StringTaskItem(vertex6), terminateStrategy);
+        TaskGroup group1 = new TaskGroup(vertex1, new StringTaskItem(vertex1), terminateStrategy);
+        TaskGroup group2 = new TaskGroup(vertex2, new StringTaskItem(vertex2), terminateStrategy);
+        TaskGroup group3 = new TaskGroup(vertex3, new StringTaskItem(vertex3), terminateStrategy);
+        TaskGroup group4 = new TaskGroup(vertex4, new StringTaskItem(vertex4), terminateStrategy);
+        TaskGroup group5 = new TaskGroup(vertex5, new StringTaskItem(vertex5), terminateStrategy);
+        TaskGroup group6 = new TaskGroup(vertex6, new StringTaskItem(vertex6), terminateStrategy);
 
         group2.addDependencyTaskGroup(group1);
         group3.addDependencyTaskGroup(group1);
@@ -1460,21 +1467,26 @@ public class ProxyTaskGroupTests {
         return group6;
     }
 
-    private static class StringTaskItem implements TaskItem<String> {
+    private StringIndexable toStringIndexable(Indexable indexable) {
+        return (StringIndexable) indexable;
+    }
+
+    private static class StringTaskItem implements TaskItem {
         private final String name;
-        private String producedValue = null;
+        private StringIndexable producedValue = null;
 
         StringTaskItem(String name) {
             this.name = name;
         }
 
         @Override
-        public String result() {
+        public Indexable result() {
             return this.producedValue;
         }
 
         @Override
-        public void prepare() {
+        public void beforeGroupInvoke() {
+            // NOP
         }
 
         @Override
@@ -1483,9 +1495,31 @@ public class ProxyTaskGroupTests {
         }
 
         @Override
-        public Observable<String> invokeAsync(final TaskGroup.InvocationContext context) {
-            this.producedValue = this.name;
-            return Observable.just(this.producedValue);
+        public Observable<Indexable> invokeAsync(final TaskGroup.InvocationContext context) {
+            this.producedValue = new StringIndexable(this.name);
+            return Observable.just(this.producedValue).map(new Func1<StringIndexable, Indexable>() {
+                @Override
+                public Indexable call(StringIndexable stringIndexable) {
+                    return stringIndexable;
+                }
+            });
+        }
+    }
+
+    private static class StringIndexable implements Indexable {
+        private final String str;
+
+        StringIndexable(String str) {
+            this.str = str;
+        }
+
+        public String str() {
+            return this.str;
+        }
+
+        @Override
+        public String key() {
+            return this.str;
         }
     }
 }

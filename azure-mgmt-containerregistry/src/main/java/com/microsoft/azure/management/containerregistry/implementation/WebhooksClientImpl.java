@@ -7,6 +7,7 @@ package com.microsoft.azure.management.containerregistry.implementation;
 
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.Registries;
 import com.microsoft.azure.management.containerregistry.Webhook;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
@@ -17,6 +18,7 @@ import rx.functions.Func1;
 /**
  * Represents a webhook collection associated with a container registry.
  */
+@LangDefinition
 public class WebhooksClientImpl implements Registries.WebhooksClient {
     private final ContainerRegistryManager containerRegistryManager;
     private final RegistryImpl containerRegistry;

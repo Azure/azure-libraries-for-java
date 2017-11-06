@@ -86,4 +86,9 @@ public class NetworkSampleTests extends SamplesTestBase {
     public void testManageVpnGatewayVNet2VNetConnection() {
         Assert.assertTrue(ManageVpnGatewayVNet2VNetConnection.runSample(azure));
     }
+
+    @Test
+    public void testManageExpressRoute() {
+        Assert.assertTrue(ManageExpressRoute.runSample(azure));
+    }
 }

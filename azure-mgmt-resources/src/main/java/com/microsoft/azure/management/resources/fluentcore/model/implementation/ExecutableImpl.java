@@ -13,6 +13,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
+import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -39,7 +40,7 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
     protected ExecutableImpl() {
         taskGroup = new TaskGroup(this.key(),
                 new ExecuteTask(this),
-                TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_INPROGRESS_TASKS_COMPLETION);
+                TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION);
     }
 
     @Override
@@ -100,5 +101,10 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
     @Override
     public ServiceFuture<FluentModelT> executeAsync(ServiceCallback<FluentModelT> callback) {
         return ServiceFuture.fromBody(executeAsync(), callback);
+    }
+
+    @Override
+    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+        return Completable.complete();
     }
 }

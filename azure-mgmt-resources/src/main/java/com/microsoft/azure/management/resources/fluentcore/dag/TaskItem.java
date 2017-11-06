@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import rx.Completable;
 import rx.Observable;
 
 /**
@@ -41,4 +42,16 @@ public interface TaskItem {
      * result of type {@link Indexable}
      */
     Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context);
+
+    /**
+     * The method that gets called after invocation of "post run" task items depends on
+     * this TaskItem.
+     * <p>
+     * This method will be invoked only if this TaskItem had "post run" dependents.
+     *
+     * @param isGroupFaulted true if one or more tasks in the group this TaskItem belongs
+     *                       to are in faulted state.
+     * @return a completable representing any asynchronous work initiated
+     */
+    Completable invokeAfterPostRunAsync(boolean isGroupFaulted);
 }

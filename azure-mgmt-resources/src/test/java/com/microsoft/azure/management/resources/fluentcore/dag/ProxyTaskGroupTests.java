@@ -10,6 +10,7 @@ import com.google.common.collect.Sets;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import org.junit.Assert;
 import org.junit.Test;
+import rx.Completable;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -539,6 +540,15 @@ public class ProxyTaskGroupTests {
                 "proxy-F" }));
         Sets.SetView<String> diff = Sets.difference(seen, expectedToSee);
         Assert.assertEquals(0, diff.size());
+
+
+        group1.invokeAsync(group1.newInvocationContext())
+                .subscribe(new Action1<Indexable>() {
+                    @Override
+                    public void call(Indexable indexable) {
+                        System.out.println(indexable.key());
+                    }
+                });
     }
 
     @Test
@@ -1446,7 +1456,7 @@ public class ProxyTaskGroupTests {
          *                ------->group4-------------
          */
 
-        TaskGroupTerminateOnErrorStrategy terminateStrategy = TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_INPROGRESS_TASKS_COMPLETION;
+        TaskGroupTerminateOnErrorStrategy terminateStrategy = TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION;
         TaskGroup group1 = new TaskGroup(vertex1, new StringTaskItem(vertex1), terminateStrategy);
         TaskGroup group2 = new TaskGroup(vertex2, new StringTaskItem(vertex2), terminateStrategy);
         TaskGroup group3 = new TaskGroup(vertex3, new StringTaskItem(vertex3), terminateStrategy);
@@ -1503,6 +1513,11 @@ public class ProxyTaskGroupTests {
                     return stringIndexable;
                 }
             });
+        }
+
+        @Override
+        public Completable invokeAfterPostRunAsync(boolean isGroupFaulted) {
+            return Completable.complete();
         }
     }
 

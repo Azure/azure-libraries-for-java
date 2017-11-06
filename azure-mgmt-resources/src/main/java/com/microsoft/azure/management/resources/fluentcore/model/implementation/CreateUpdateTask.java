@@ -10,6 +10,7 @@ import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskItem;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import rx.Completable;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -85,6 +86,11 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
     }
 
     @Override
+    public Completable invokeAfterPostRunAsync(boolean isGroupFaulted) {
+        return this.resourceCreatorUpdater.afterPostRunAsync(isGroupFaulted);
+    }
+
+    @Override
     public boolean isHot() {
         return this.resourceCreatorUpdater.isHot();
     }
@@ -130,5 +136,16 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
          * observables.
          */
         boolean isHot();
+
+        /**
+         * Perform any action followed by the processing of work scheduled to be invoked
+         * (i.e. "post run") after {@link this#createResourceAsync()} or
+         * {@link this#updateResourceAsync()}.
+         *
+         * @param isGroupFaulted true if one or more tasks in the group this creatorUpdater
+         *                       belongs to are in faulted state.
+         * @return a completable represents the asynchronous action
+         */
+        Completable afterPostRunAsync(boolean isGroupFaulted);
     }
 }

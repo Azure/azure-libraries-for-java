@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import rx.Completable;
 import rx.Observable;
 
 import java.util.UUID;
@@ -54,6 +55,11 @@ public abstract class IndexableTaskItem implements Indexable, TaskItem {
 
     @Override
     public abstract Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context);
+
+    @Override
+    public Completable invokeAfterPostRunAsync(boolean isGroupFaulted) {
+        return Completable.complete();
+    }
 
     /**
      * A helper method that returns an instance of VoidIndexable with key same as

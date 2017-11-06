@@ -23,7 +23,8 @@ final class TaskGroupEntry<TaskT extends TaskItem>
     /**
      * indicates that one or more decedent dependency tasks are faulted.
      */
-    private boolean hasFaultedDescentDependencyTask;
+    private boolean hasFaultedDescentDependencyTasks;
+
     /**
      * Creates TaskGroupEntry.
      *
@@ -37,7 +38,7 @@ final class TaskGroupEntry<TaskT extends TaskItem>
     @Override
     public void initialize() {
         super.initialize();
-        this.hasFaultedDescentDependencyTask = false;
+        this.hasFaultedDescentDependencyTasks = false;
     }
 
     /**
@@ -45,6 +46,14 @@ final class TaskGroupEntry<TaskT extends TaskItem>
      */
     public Indexable taskResult() {
         return taskItem().result();
+    }
+
+    /**
+     * @return true if one or more decedent dependency tasks are in faulted
+     * state, false otherwise.
+     */
+    public boolean hasFaultedDescentDependencyTasks() {
+        return this.hasFaultedDescentDependencyTasks;
     }
 
     /**
@@ -62,7 +71,7 @@ final class TaskGroupEntry<TaskT extends TaskItem>
      * type {@link Indexable}.
      */
     public Observable<Indexable> invokeTaskAsync(boolean ignoreCachedResult, final TaskGroup.InvocationContext context) {
-        if (hasFaultedDescentDependencyTask) {
+        if (hasFaultedDescentDependencyTasks) {
             return Observable.error(new ErroredDependencyTaskException());
         }
         final TaskT taskItem = this.taskItem();
@@ -85,7 +94,7 @@ final class TaskGroupEntry<TaskT extends TaskItem>
     @Override
     protected void onFaultedResolution(String dependencyKey, Throwable throwable) {
         super.onFaultedResolution(dependencyKey, throwable);
-        this.hasFaultedDescentDependencyTask = true;
+        this.hasFaultedDescentDependencyTasks = true;
     }
 
     /**

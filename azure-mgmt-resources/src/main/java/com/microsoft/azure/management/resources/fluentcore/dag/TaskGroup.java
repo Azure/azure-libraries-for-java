@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import rx.Completable;
 import rx.Observable;
 import rx.functions.Func0;
 import rx.functions.Func1;
@@ -16,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Type representing a group of task entries with dependencies between them. Initially a task
@@ -50,11 +52,11 @@ public class TaskGroup
     /**
      * Flag indicating whether this group is marked as cancelled or not. This flag will be used only
      * when group's terminate on error strategy is set as
-     * {@link TaskGroupTerminateOnErrorStrategy#TERMINATE_ON_INPROGRESS_TASKS_COMPLETION}.
+     * {@link TaskGroupTerminateOnErrorStrategy#TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION}.
      * Effect of setting this flag can be think as broadcasting a cancellation signal to tasks those
      * are yet to invoke.
      */
-    private boolean isGroupCancelled;
+    private AtomicBoolean isGroupCancelled;
     /**
      * The shared exception object used to indicate that a task is not invoked since the group
      * is marked as cancelled i.e. {@link this#isGroupCancelled} is set.
@@ -75,6 +77,7 @@ public class TaskGroup
     private TaskGroup(TaskGroupEntry<TaskItem> rootTaskEntry,
                       TaskGroupTerminateOnErrorStrategy taskGroupTerminateOnErrorStrategy) {
         super(rootTaskEntry);
+        this.isGroupCancelled = new AtomicBoolean(false);
         this.rootTaskEntry = rootTaskEntry;
         this.taskGroupTerminateOnErrorStrategy = taskGroupTerminateOnErrorStrategy;
         this.proxyTaskGroupWrapper = new ProxyTaskGroupWrapper(this, taskGroupTerminateOnErrorStrategy);
@@ -100,7 +103,7 @@ public class TaskGroup
      */
     public TaskGroup(IndexableTaskItem rootTaskItem) {
         this(new TaskGroupEntry<TaskItem>(rootTaskItem.key(), rootTaskItem),
-                TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_INPROGRESS_TASKS_COMPLETION);
+                TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION);
     }
 
     /**
@@ -180,7 +183,7 @@ public class TaskGroup
             return Observable.defer(new Func0<Observable<Indexable>>() {
                 @Override
                 public Observable<Indexable> call() {
-                    isGroupCancelled = false;
+                    isGroupCancelled.set(false);
                     // Prepare tasks and queue the ready tasks (terminal tasks with no dependencies)
                     //
                     prepareTasks();
@@ -247,35 +250,19 @@ public class TaskGroup
      * @return an observable that emits the result of tasks in the order they finishes.
      */
     private Observable<Indexable> invokeReadyTasksAsync(final InvocationContext context) {
-        TaskGroupEntry<TaskItem> entry = super.getNext();
+        TaskGroupEntry<TaskItem> readyTaskEntry = super.getNext();
         final List<Observable<Indexable>> observables = new ArrayList<>();
         // Enumerate the ready tasks (those with dependencies resolved) and kickoff them concurrently
         //
-        while (entry != null) {
-            final TaskGroupEntry<TaskItem> currentEntry = entry;
-            Observable<Indexable> currentTaskObservable = invokeTaskAsync(currentEntry, context);
-            Func1<Indexable, Observable<Indexable>> onNext = new Func1<Indexable, Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call(Indexable taskResult) {
-                    return Observable.just(taskResult);
-                }
-            };
-            Func1<Throwable, Observable<Indexable>> onError = new Func1<Throwable, Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call(Throwable throwable) {
-                    // Append next observable on error terminate event of this observable
-                    return processFaultedTaskAsync(currentEntry, throwable, context);
-                }
-            };
-            Func0<Observable<Indexable>> onComplete = new Func0<Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call() {
-                    // Append next observable on successful terminate event of this observable
-                    return processCompletedTaskAsync(currentEntry, context);
-                }
-            };
-            observables.add(currentTaskObservable.flatMap(onNext, onError, onComplete));
-            entry = super.getNext();
+        while (readyTaskEntry != null) {
+            final TaskGroupEntry<TaskItem> currentEntry = readyTaskEntry;
+            final TaskItem currentTaskItem = currentEntry.data();
+            if (currentTaskItem instanceof ProxyTaskItem) {
+                observables.add(invokeAfterPostRunAsync(currentEntry, context));
+            } else {
+                observables.add(invokeTaskAsync(currentEntry, context));
+            }
+            readyTaskEntry = super.getNext();
         }
         return Observable.mergeDelayError(observables);
     }
@@ -290,13 +277,96 @@ public class TaskGroup
      * @param context a group level shared context that is passed to {@link TaskItem#invokeAsync(InvocationContext)}
      *                method of the task item this entry wraps.
      *
-     * @return an observable represents result of task in the given entry.
+     * @return an observable that emits result of task in the given entry and result of subset of tasks which gets
+     * scheduled after this task.
      */
     private Observable<Indexable> invokeTaskAsync(final TaskGroupEntry<TaskItem> entry, final InvocationContext context) {
-        if (this.isGroupCancelled) {
-            return toErrorObservable(taskCancelledException);
-        }
-        return entry.invokeTaskAsync(isRootEntry(entry), context);
+        return Observable.defer(new Func0<Observable<Indexable>>() {
+            @Override
+            public Observable<Indexable> call() {
+                if (isGroupCancelled.get()) {
+                    // One or more tasks are in faulted state, though this task MAYBE invoked if it does not
+                    // have faulted tasks as transitive dependencies, we won't do it since group is cancelled
+                    // due to termination strategy TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION.
+                    //
+                    return processFaultedTaskAsync(entry, taskCancelledException, context);
+                } else {
+                    Observable<Indexable> taskObservable = entry.invokeTaskAsync(isRootEntry(entry), context);
+                    Func1<Indexable, Observable<Indexable>> onResult = new Func1<Indexable, Observable<Indexable>>() {
+                        @Override
+                        public Observable<Indexable> call(final Indexable taskResult) {
+                            return Observable.just(taskResult);
+                        }
+                    };
+                    Func1<Throwable, Observable<Indexable>> onError = new Func1<Throwable, Observable<Indexable>>() {
+                        @Override
+                        public Observable<Indexable> call(final Throwable taskError) {
+                            return processFaultedTaskAsync(entry, taskError, context);
+                        }
+                    };
+                    Func0<Observable<Indexable>> onComplete = new Func0<Observable<Indexable>>() {
+                        @Override
+                        public Observable<Indexable> call() {
+                            return processCompletedTaskAsync(entry, context);
+                        }
+                    };
+                    return taskObservable.flatMap(onResult, onError, onComplete);
+                }
+            }
+        });
+    }
+
+    /**
+     * Invokes the {@link TaskItem#invokeAfterPostRunAsync(boolean)} method of an actual TaskItem
+     * if the given entry holds a ProxyTaskItem.
+     *
+     * @param entry the entry holding a ProxyTaskItem
+     * @param context a group level shared context
+     *
+     * @return An Observable that represents asynchronous work started by
+     * {@link TaskItem#invokeAfterPostRunAsync(boolean)} method of actual TaskItem and result of subset
+     * of tasks which gets scheduled after proxy task. If group was not in faulted state and
+     * {@link TaskItem#invokeAfterPostRunAsync(boolean)} emits no error then stream also includes
+     * result produced by actual TaskItem.
+     */
+    private Observable<Indexable> invokeAfterPostRunAsync(final TaskGroupEntry<TaskItem> entry,
+                                                          final InvocationContext context) {
+        return Observable.defer(new Func0<Observable<Indexable>>() {
+            @Override
+            public Observable<Indexable> call() {
+                final ProxyTaskItem proxyTaskItem = (ProxyTaskItem) entry.data();
+                if (proxyTaskItem == null) {
+                    return Observable.empty();
+                }
+                final boolean isFaulted = entry.hasFaultedDescentDependencyTasks() || isGroupCancelled.get();
+
+                Observable<Indexable> postRunObservable = proxyTaskItem.invokeAfterPostRunAsync(isFaulted).toObservable();
+                Func1<Throwable, Observable<Indexable>> onError = new Func1<Throwable, Observable<Indexable>>() {
+                    @Override
+                    public Observable<Indexable> call(final Throwable error) {
+                        return processFaultedTaskAsync(entry, error, context);
+                    }
+                };
+                Func0<Observable<Indexable>> onComplete = new Func0<Observable<Indexable>>() {
+                    @Override
+                    public Observable<Indexable> call() {
+                        if (isFaulted) {
+                            if (entry.hasFaultedDescentDependencyTasks()) {
+                                return processFaultedTaskAsync(entry, new ErroredDependencyTaskException(), context);
+                            } else {
+                                return processFaultedTaskAsync(entry, taskCancelledException, context);
+                            }
+                        } else {
+                            return Observable.concat(Observable.just(proxyTaskItem.result()),
+                                    processCompletedTaskAsync(entry, context));
+                        }
+                    }
+                };
+                return postRunObservable.flatMap(null, // no onNext call as stream is created from Completable.
+                        onError,
+                        onComplete);
+            }
+        });
     }
 
     /**
@@ -314,8 +384,9 @@ public class TaskGroup
         reportCompletion(completedEntry);
         if (isRootEntry(completedEntry)) {
             return Observable.empty();
+        } else {
+            return invokeReadyTasksAsync(context);
         }
-        return invokeReadyTasksAsync(context);
     }
 
     /**
@@ -330,19 +401,26 @@ public class TaskGroup
     private Observable<Indexable> processFaultedTaskAsync(final TaskGroupEntry<TaskItem> faultedEntry,
                                                         final Throwable throwable,
                                                         final InvocationContext context) {
-        this.isGroupCancelled = this.taskGroupTerminateOnErrorStrategy
-                == TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_INPROGRESS_TASKS_COMPLETION;
+        markGroupAsCancelledIfTerminationStrategyIsIPTC();
         reportError(faultedEntry, throwable);
         if (isRootEntry(faultedEntry)) {
             if (shouldPropagateException(throwable)) {
                 return toErrorObservable(throwable);
             }
             return Observable.empty();
-        }
-        if (shouldPropagateException(throwable)) {
+        } else if (shouldPropagateException(throwable)) {
             return Observable.concatDelayError(invokeReadyTasksAsync(context), toErrorObservable(throwable));
+        } else {
+            return invokeReadyTasksAsync(context);
         }
-        return invokeReadyTasksAsync(context);
+    }
+
+    /**
+     * Mark this TaskGroup as cancelled if the termination strategy associated with the group
+     * is {@link TaskGroupTerminateOnErrorStrategy#TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION}.
+     */
+    private void markGroupAsCancelledIfTerminationStrategyIsIPTC() {
+        this.isGroupCancelled.set(this.taskGroupTerminateOnErrorStrategy == TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION);
     }
 
     /**
@@ -566,36 +644,50 @@ public class TaskGroup
                 this.proxyTaskGroup.addDependencyGraph(this.actualTaskGroup);
             }
         }
+    }
 
-        /**
-         * A {@link TaskItem} type that act as proxy for another {@link TaskItem}.
-         */
-        private static final class ProxyTaskItem implements TaskItem {
-            private final TaskItem taskItem;
+    /**
+     * A {@link TaskItem} type that act as proxy for another {@link TaskItem}.
+     */
+    private static final class ProxyTaskItem implements TaskItem {
+        private final TaskItem actualTaskItem;
 
-            private ProxyTaskItem(final TaskItem taskItem) {
-                this.taskItem = taskItem;
-            }
+        private ProxyTaskItem(final TaskItem actualTaskItem) {
+            this.actualTaskItem = actualTaskItem;
+        }
 
-            @Override
-            public Indexable result() {
-                return taskItem.result();
-            }
+        @Override
+        public Indexable result() {
+            return actualTaskItem.result();
+        }
 
 
-            @Override
-            public void beforeGroupInvoke() {
-                // NOP
-            }
+        @Override
+        public void beforeGroupInvoke() {
+            // NOP
+        }
 
-            @Override
-            public boolean isHot() {
-                return taskItem.isHot();
-            }
+        @Override
+        public boolean isHot() {
+            return actualTaskItem.isHot();
+        }
 
-            @Override
-            public Observable<Indexable> invokeAsync(InvocationContext context) {
-                return Observable.just(taskItem.result());
+        @Override
+        public Observable<Indexable> invokeAsync(InvocationContext context) {
+            return Observable.just(actualTaskItem.result());
+        }
+
+        @Override
+        public Completable invokeAfterPostRunAsync(final boolean isGroupFaulted) {
+            if (actualTaskItem.isHot()) {
+                return Completable.defer(new Func0<Completable>() {
+                    @Override
+                    public Completable call() {
+                        return actualTaskItem.invokeAfterPostRunAsync(isGroupFaulted);
+                    }
+                });
+            } else {
+                return this.actualTaskItem.invokeAfterPostRunAsync(isGroupFaulted);
             }
         }
     }

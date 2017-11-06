@@ -13,6 +13,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceCallback;
+import rx.Completable;
 import rx.Observable;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -84,4 +85,9 @@ abstract class CreatableUpdatableLCAImpl<
 
     @Override
     public abstract Observable<FluentModelT> createResourceAsync();
+
+    @Override
+    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+        return Completable.complete();
+    }
 }

@@ -4,7 +4,7 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.samples;
+package com.microsoft.azure.management.containerservice.samples;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
@@ -14,12 +14,12 @@ import com.github.dockerjava.api.model.Image;
 import com.github.dockerjava.core.command.PullImageResultCallback;
 import com.github.dockerjava.core.command.PushImageResultCallback;
 import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.ContainerService;
-import com.microsoft.azure.management.compute.ContainerServiceMasterProfileCount;
-import com.microsoft.azure.management.compute.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerregistry.AccessKeyType;
 import com.microsoft.azure.management.containerregistry.Registry;
 import com.microsoft.azure.management.containerregistry.RegistryCredentials;
+import com.microsoft.azure.management.containerservice.ContainerService;
+import com.microsoft.azure.management.containerservice.ContainerServiceMasterProfileCount;
+import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.DockerUtils;
@@ -67,7 +67,7 @@ import org.apache.commons.codec.binary.Base64;
  *  - Create a Kubernetes secret of type "docker-registry" using the Azure Container Registry credentials from above
  *  - Create a Kubernetes replication controller using a container image from the Azure private registry from above and a load balancer service that will expose the app to the world
  */
-public class DeployImageFromContainerRegistryToKubernetes {
+public class DeployImageFromContainerRegistryToContainerServiceOrchestrator {
 
     /**
      * Main function which runs the actual sample.
@@ -139,13 +139,13 @@ public class DeployImageFromContainerRegistryToKubernetes {
                     .withRootUsername(rootUserName)
                     .withSshKey(sshKeys.getSshPublicKey())
                     .withMasterNodeCount(ContainerServiceMasterProfileCount.MIN)
-                    .withMasterLeafDomainLabel("dns-" + acsName)
                     .defineAgentPool("agentpool")
-                        .withVMCount(1)
-                        .withVMSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
-                        .withLeafDomainLabel("dns-ap-" + acsName)
-                    .attach()
-                    .create();
+                        .withVirtualMachineCount(1)
+                        .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
+                        .withDnsPrefix("dns-ap-" + acsName)
+                        .attach()
+                    .withMasterDnsPrefix("dns-" + acsName)
+                .create();
 
             Date t2 = new Date();
             System.out.println("Created Azure Container Service: (took " + ((t2.getTime() - t1.getTime()) / 1000) + " seconds) " + azureContainerService.id());

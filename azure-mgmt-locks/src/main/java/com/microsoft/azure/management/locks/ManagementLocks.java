@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.locks;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
@@ -21,6 +22,8 @@ import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCr
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+
+import rx.Observable;
 
 /**
  * Entry point to management lock management.
@@ -39,4 +42,20 @@ public interface ManagementLocks extends
     SupportsBatchDeletion,
     HasManager<AuthorizationManager>,
     HasInner<ManagementLocksInner> {
+
+    /**
+     * Lists management locks associated with the specified resource, its resource group and any resources below the resource.
+     *
+     * @param resourceId the resource ID of the resource
+     * @return management locks
+     */
+    PagedList<ManagementLock> listForResource(String resourceId);
+
+    /**
+     * Lists management locks associated with the specified resource, its resource group, and any level below the resource.
+     *
+     * @param resourceId the resource Id of the resource
+     * @return management locks
+     */
+    Observable<ManagementLock> listForResourceAsync(String resourceId);
 }

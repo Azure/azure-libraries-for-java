@@ -42,6 +42,7 @@ import com.microsoft.azure.management.network.PcProtocol;
 import com.microsoft.azure.management.network.PcStatus;
 import com.microsoft.azure.management.network.Protocol;
 import com.microsoft.azure.management.network.SecurityGroupView;
+import com.microsoft.azure.management.network.Subnet;
 import com.microsoft.azure.management.network.Topology;
 import com.microsoft.azure.management.network.Troubleshooting;
 import com.microsoft.azure.management.network.VerificationIPFlow;
@@ -251,6 +252,7 @@ public class AzureTests extends TestBase {
 
     /**
      * Tests management locks.
+     * NOTE: This requires the service principal to have an Owner role on the subscription
      * @throws Exception
      */
     @Test
@@ -261,22 +263,32 @@ public class AzureTests extends TestBase {
         final String vmName = SdkContext.randomResourceName("vm", 15);
         final String storageName = SdkContext.randomResourceName("st", 15);
         final String diskName = SdkContext.randomResourceName("dsk", 15);
+        final String netName = SdkContext.randomResourceName("net", 15);
         final Region region = Region.US_EAST;
 
         ResourceGroup resourceGroup = null;
-        ManagementLock lockGroup = null, lockVM = null, lockStorage = null, lockDisk = null;
-
+        ManagementLock lockGroup = null,
+                lockVM = null,
+                lockStorage = null,
+                lockDiskRO = null,
+                lockDiskDel = null,
+                lockSubnet = null;
         try {
             resourceGroup = azure.resourceGroups().define(rgName)
                     .withRegion(region)
                     .create();
             Assert.assertNotNull(resourceGroup);
 
+            Creatable<Network> netDefinition = azure.networks().define(netName)
+                    .withRegion(region)
+                    .withExistingResourceGroup(resourceGroup)
+                    .withAddressSpace("10.0.0.0/28");
+
             // Define a VM for testing VM locks
             Creatable<VirtualMachine> vmDefinition = azure.virtualMachines().define(vmName)
                     .withRegion(region)
                     .withExistingResourceGroup(resourceGroup)
-                    .withNewPrimaryNetwork("10.0.0.0/28")
+                    .withNewPrimaryNetwork(netDefinition)
                     .withPrimaryPrivateIPAddressDynamic()
                     .withoutPrimaryPublicIPAddress()
                     .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
@@ -306,6 +318,13 @@ public class AzureTests extends TestBase {
             VirtualMachine vm = (VirtualMachine) vmDefinition;
             StorageAccount storage = (StorageAccount) storageDefinition;
             Disk disk = (Disk) diskDefinition;
+            Network network = vm.getPrimaryNetworkInterface().primaryIPConfiguration().getNetwork();
+            Subnet subnet = network.subnets().values().iterator().next();
+
+            // Lock subnet
+            Creatable<ManagementLock> lockSubnetDef = azure.managementLocks().define("subnetLock")
+                    .withLockedResource(subnet.inner().id())
+                    .withLevel(LockLevel.READ_ONLY);
 
             // Lock VM
             Creatable<ManagementLock> lockVMDef = azure.managementLocks().define("vmlock")
@@ -325,18 +344,26 @@ public class AzureTests extends TestBase {
 
             // Create locks in parallel
             @SuppressWarnings("unchecked")
-            CreatedResources<ManagementLock> created = azure.managementLocks().create(lockVMDef, lockGroupDef, lockStorageDef);
+            CreatedResources<ManagementLock> created = azure.managementLocks().create(lockVMDef, lockGroupDef, lockStorageDef, lockSubnetDef);
             lockVM = created.get(lockVMDef.key());
             lockStorage = created.get(lockStorageDef.key());
             lockGroup = created.get(lockGroupDef.key());
+            lockSubnet = created.get(lockSubnetDef.key());
 
             // Lock disk synchronously
-            lockDisk = azure.managementLocks().define("diskLock")
+            lockDiskRO = azure.managementLocks().define("diskLockRO")
                     .withLockedResource(disk)
                     .withLevel(LockLevel.READ_ONLY)
                     .create();
 
+            lockDiskDel = azure.managementLocks().define("diskLockDel")
+                    .withLockedResource(disk)
+                    .withLevel(LockLevel.CAN_NOT_DELETE)
+                    .create();
+
             // Verify VM lock
+            Assert.assertEquals(2, azure.managementLocks().listForResource(vm.id()).size());
+
             Assert.assertNotNull(lockVM);
             lockVM = azure.managementLocks().getById(lockVM.id());
             Assert.assertNotNull(lockVM);
@@ -353,35 +380,56 @@ public class AzureTests extends TestBase {
             Assert.assertTrue(resourceGroup.id().equalsIgnoreCase(lockGroup.lockedResourceId()));
 
             // Verify storage account lock
+            Assert.assertEquals(2, azure.managementLocks().listForResource(storage.id()).size());
+
             Assert.assertNotNull(lockStorage);
             lockStorage = azure.managementLocks().getById(lockStorage.id());
             Assert.assertNotNull(lockStorage);
-            TestUtils.print(lockVM);
+            TestUtils.print(lockStorage);
             Assert.assertEquals(LockLevel.CAN_NOT_DELETE, lockStorage.level());
             Assert.assertTrue(storage.id().equalsIgnoreCase(lockStorage.lockedResourceId()));
 
             // Verify disk lock
-            Assert.assertNotNull(lockDisk);
-            lockDisk = azure.managementLocks().getById(lockDisk.id());
-            Assert.assertNotNull(lockDisk);
-            TestUtils.print(lockVM);
-            Assert.assertEquals(LockLevel.READ_ONLY, lockDisk.level());
-            Assert.assertTrue(disk.id().equalsIgnoreCase(lockDisk.lockedResourceId()));
+            Assert.assertEquals(3, azure.managementLocks().listForResource(disk.id()).size());
+
+            Assert.assertNotNull(lockDiskRO);
+            lockDiskRO = azure.managementLocks().getById(lockDiskRO.id());
+            Assert.assertNotNull(lockDiskRO);
+            TestUtils.print(lockDiskRO);
+            Assert.assertEquals(LockLevel.READ_ONLY, lockDiskRO.level());
+            Assert.assertTrue(disk.id().equalsIgnoreCase(lockDiskRO.lockedResourceId()));
+
+            Assert.assertNotNull(lockDiskDel);
+            lockDiskDel = azure.managementLocks().getById(lockDiskDel.id());
+            Assert.assertNotNull(lockDiskDel);
+            TestUtils.print(lockDiskDel);
+            Assert.assertEquals(LockLevel.CAN_NOT_DELETE, lockDiskDel.level());
+            Assert.assertTrue(disk.id().equalsIgnoreCase(lockDiskDel.lockedResourceId()));
+
+            // Verify subnet lock
+            Assert.assertEquals(2, azure.managementLocks().listForResource(network.id()).size());
+
+            lockSubnet = azure.managementLocks().getById(lockSubnet.id());
+            Assert.assertNotNull(lockSubnet);
+            TestUtils.print(lockSubnet);
+            Assert.assertEquals(LockLevel.READ_ONLY, lockSubnet.level());
+            Assert.assertTrue(subnet.inner().id().equalsIgnoreCase(lockSubnet.lockedResourceId()));
 
             // Verify lock collection
-            List<ManagementLock> locksAll = azure.managementLocks().list();
+            List<ManagementLock> locksSubscription = azure.managementLocks().list();
             List<ManagementLock> locksGroup = azure.managementLocks().listByResourceGroup(vm.resourceGroupName());
-            Assert.assertNotNull(locksAll);
+            Assert.assertNotNull(locksSubscription);
             Assert.assertNotNull(locksGroup);
 
-            int locksAllCount = locksAll.size();
+            int locksAllCount = locksSubscription.size();
             System.out.println("All locks: " + locksAllCount);
-            Assert.assertTrue(4 <= locksAllCount);
+            Assert.assertTrue(6 <= locksAllCount);
 
             int locksGroupCount = locksGroup.size();
             System.out.println("Group locks: " + locksGroupCount);
-            Assert.assertTrue(1 <= locksGroup.size());
-
+            Assert.assertEquals(6, locksGroup.size());
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
         } finally {
             if (resourceGroup != null) {
                 if (lockGroup != null) {
@@ -390,11 +438,17 @@ public class AzureTests extends TestBase {
                 if (lockVM != null) {
                     azure.managementLocks().deleteById(lockVM.id());
                 }
-                if (lockDisk != null) {
-                    azure.managementLocks().deleteById(lockDisk.id());
+                if (lockDiskRO != null) {
+                    azure.managementLocks().deleteById(lockDiskRO.id());
+                }
+                if (lockDiskDel != null) {
+                    azure.managementLocks().deleteById(lockDiskDel.id());
                 }
                 if (lockStorage != null) {
                     azure.managementLocks().deleteById(lockStorage.id());
+                }
+                if (lockSubnet != null) {
+                    azure.managementLocks().deleteById(lockSubnet.id());
                 }
                 azure.resourceGroups().beginDeleteByName(resourceGroup.name());
             }

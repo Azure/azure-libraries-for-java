@@ -10,6 +10,7 @@ import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskItem;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import rx.Completable;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -71,6 +72,11 @@ public class ExecuteTask<ResultT extends Indexable> implements TaskItem {
                 });
     }
 
+    @Override
+    public Completable invokeAfterPostRunAsync(boolean isGroupFaulted) {
+        return this.executor.afterPostRunAsync(isGroupFaulted);
+    }
+
     /**
      * Represents a type that know how to execute a work that produces result of type {@link T}.
      * <p>
@@ -98,5 +104,16 @@ public class ExecuteTask<ResultT extends Indexable> implements TaskItem {
          * @return the observable reference
          */
         Observable<T> executeWorkAsync();
+
+        /**
+         * Perform any action followed by the processing of work scheduled to be invoked
+         * (i.e. "post run") after {@link this#executeWorkAsync()}.
+         *
+         * @param isGroupFaulted true if one or more tasks in the group this work belongs
+         *                       to are in faulted state.
+         *
+         * @return a completable represents the asynchronous action
+         */
+        Completable afterPostRunAsync(boolean isGroupFaulted);
     }
 }

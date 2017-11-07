@@ -1,14 +1,30 @@
-[![Build Status](https://travis-ci.org/Azure/azure-sdk-for-java.svg?style=flat-square&label=build)](https://travis-ci.org/Azure/azure-sdk-for-java)
+[![Build Status](https://travis-ci.org/Azure/azure-libraries-for-java.svg?style=flat-square&label=build)](https://travis-ci.org/Azure/azure-libraries-for-java)
 
 # Azure Management Libraries for Java
 
 This README is based on the released stable version (1.3.0). If you are looking for other releases, see [More Information](#more-information).
 
-The Azure Management Libraries for Java is a higher-level, object-oriented API for managing Azure resources. If you are looking for Java client libraries for Azure services, please see [Azure libraries for Java](https://docs.microsoft.com/en-us/java/azure/java-sdk-azure-install) - this page will be maintained regularly to ensure that it is up to date.
+The Azure Management Libraries for Java is a higher-level, object-oriented API for *managing* Azure resources, that is optimized for ease of use, succinctness and consistency.
 
-Note: This page will be maintained regularly to ensure that it is up to date.
+If you are looking for Java client libraries for *consuming* (rather than *managing*) individual Azure services (e.g. storage blob upload, JDBC, messaging, etc), please see https://docs.microsoft.com/en-us/java/azure/java-sdk-azure-install.
 
-## Feature Availability and Road Map as of Version 1.3.0 ##
+## Table of contents
+* [Feature availability and road map](#feature-availability-and-road-map)
+* [Code snippets and samples](#code-snippets-and-samples)
+  * [Virtual machines](#virtual-machines)
+  * [Networking](#networking)
+  * [Application services](#application-services)
+  * [Databases and storage](#databases-and-storage)
+  * [Others...](#other-code-samples)
+* [Download](#download)
+* [Prerequisites](#prerequisites)
+* [Updgrading from older versions](#upgrading-from-older-versions)
+* [Help and issues](#help-and-issues)
+* [Contribute code](#contribute-code)
+* [More information](#more-information)
+
+## Feature Availability and Road Map
+:triangular_flag_on_post: *as of Version 1.3*
 
 <table>
   <tr>
@@ -58,27 +74,17 @@ Note: This page will be maintained regularly to ensure that it is up to date.
 
 > *Preview* features are marked with the @Beta annotation at the class or interface or method level in libraries. These features are subject to change. They can be modified in any way, or even removed, in the future.
 
+## Code snippets and samples
 
-#### Azure Authentication
+### Azure Authentication
 
 The `Azure` class is the simplest entry point for creating and interacting with Azure resources.
 
 `Azure azure = Azure.authenticate(credFile).withDefaultSubscription();` 
 
-#### Create a Cosmos DB with CosmosDB Programming Model
+To learn more about authentication in the Azure Libraries for Java, see [AUTH.md](AUTH.md).
 
-You can create a Cosmos DB account by using a `define() … create()` method chain.
-
-```java
-CosmosAccount cosmosDBAccount = azure.cosmosDBs().define(cosmosDBName)
-	.withRegion(Region.US_EAST)
-	.withNewResourceGroup(rgName)
-	.withKind(DatabaseAccountKind.GLOBAL_DOCUMENT_DB)
-	.withSessionConsistency()
-	.withWriteReplication(Region.US_WEST)
-	.withReadReplication(Region.US_CENTRAL)
-	.create()
-```
+### Virtual Machines
 
 #### Create a Virtual Machine
 
@@ -111,13 +117,13 @@ linuxVM.update()
 	.withNewDataDisk(20,  lun,  CachingTypes.READ_WRITE)
 	.apply();
 ```
+
 #### Create a Virtual Machine Scale Set
 
-You can create a virtual machine scale set instance by using another `define() … create()` method chain.
+You can create a virtual machine scale set instance by using a `define() … create()` method chain.
 
 ```java
- VirtualMachineScaleSet virtualMachineScaleSet = azure.virtualMachineScaleSets()
-     .define(vmssName)
+ VirtualMachineScaleSet virtualMachineScaleSet = azure.virtualMachineScaleSets().define(vmssName)
      .withRegion(Region.US_EAST)
      .withExistingResourceGroup(rgName)
      .withSku(VirtualMachineScaleSetSkuTypes.STANDARD_D3_V2)
@@ -136,97 +142,7 @@ You can create a virtual machine scale set instance by using another `define() �
      .create();
 ```
 
-#### Create a Network Security Group
-
-You can create a network security group instance by using another `define() … create()` method chain.
-
-```java
-NetworkSecurityGroup frontEndNSG = azure.networkSecurityGroups().define(frontEndNSGName)
-    .withRegion(Region.US_EAST)
-    .withNewResourceGroup(rgName)
-    .defineRule("ALLOW-SSH")
-        .allowInbound()
-        .fromAnyAddress()
-        .fromAnyPort()
-        .toAnyAddress()
-        .toPort(22)
-        .withProtocol(SecurityRuleProtocol.TCP)
-        .withPriority(100)
-        .withDescription("Allow SSH")
-        .attach()
-    .defineRule("ALLOW-HTTP")
-        .allowInbound()
-        .fromAnyAddress()
-        .fromAnyPort()
-        .toAnyAddress()
-        .toPort(80)
-        .withProtocol(SecurityRuleProtocol.TCP)
-        .withPriority(101)
-        .withDescription("Allow HTTP")
-        .attach()
-    .create();
-```
-
-#### Create an Application Gateway
-
-You can create a application gateway instance by using another `define() … create()` method chain.
-
-```java
-ApplicationGateway applicationGateway = azure.applicationGateways().define("myFirstAppGateway")
-    .withRegion(Region.US_EAST)
-    .withExistingResourceGroup(resourceGroup)
-    // Request routing rule for HTTP from public 80 to public 8080
-    .defineRequestRoutingRule("HTTP-80-to-8080")
-        .fromPublicFrontend()
-        .fromFrontendHttpPort(80)
-        .toBackendHttpPort(8080)
-        .toBackendIPAddress("11.1.1.1")
-        .toBackendIPAddress("11.1.1.2")
-        .toBackendIPAddress("11.1.1.3")
-        .toBackendIPAddress("11.1.1.4")
-        .attach()
-    .withExistingPublicIPAddress(publicIpAddress)
-    .create();
-```
-
-#### Create a Web App
-
-You can create a Web App instance by using another `define() … create()` method chain.
-
-```java
-WebApp webApp = azure.webApps()
-    .define(appName)
-    .withRegion(Region.US_WEST)
-    .withNewResourceGroup(rgName)
-    .withNewWindowsPlan(PricingTier.STANDARD_S1)
-    .create();
-```
-
-#### Create a SQL Database
-
-You can create a SQL server instance by using another `define() … create()` method chain.
-
-```java
-SqlServer sqlServer = azure.sqlServers().define(sqlServerName)
-    .withRegion(Region.US_EAST)
-    .withNewResourceGroup(rgName)
-    .withAdministratorLogin("adminlogin123")
-    .withAdministratorPassword("myS3cureP@ssword")
-    .withNewFirewallRule("10.0.0.1")
-    .withNewFirewallRule("10.2.0.1", "10.2.0.10")
-    .create();
-```
-
-Then, you can create a SQL database instance by using another `define() … create()` method chain.
-
-```java
-SqlDatabase database = sqlServer.databases().define("myNewDatabase")
-    .create();
-```
-
-# Sample Code
-
-You can find plenty of sample code that illustrates management scenarios (95+ end-to-end scenarios) for Azure Virtual Machines, Virtual Machine Scale Sets, Managed Disks, Active Directory Azure Container Service and Registry, Storage, Networking, Resource Manager, SQL Database, Cosmos DB, App Service (Web Apps on Windows and Linux), Functions, Service Bus, Key Vault, Redis, CDN and Batch … 
+#### Ready-to-run code samples for virtual machines
 
 <table>
   <tr>
@@ -270,37 +186,83 @@ You can find plenty of sample code that illustrates management scenarios (95+ en
 <li><a href="https://github.com/Azure-Samples/compute-java-manage-virtual-machine-scale-set-with-unmanaged-disks">Manage virtual machine scale sets with unmanaged disks</li>
 </ul></td>
   </tr>
-<tr>
-    <td>Active Directory</td>
-    <td><ul style="list-style-type:circle">
-<li><a href="https://github.com/Azure-Samples/aad-java-manage-service-principals">Manage service principals using Java</a></li>
-<li><a href="https://github.com/Azure-Samples/aad-java-manage-users-groups-and-roles">Manage users and groups and manage their roles</a></li>
-<li><a href="https://github.com/Azure-Samples/aad-java-manage-passwords">Manage passwords</li>
-</ul></td>
-  </tr>
-<tr>
-    <td>Container Service<br>Container Registry and <br>Container Instances</td>
-    <td><ul style="list-style-type:circle">
-<li><a href="https://github.com/Azure-Samples/acr-java-manage-azure-container-registry">Manage container registry</a></li>
-<li><a href="https://github.com/Azure-Samples/acs-java-deploy-image-from-acr-to-kubernetes">Deploy an image from container registry to Kubernetes cluster</a></li>
-<!--
-<li><a href="https://github.com/Azure-Samples/acs-java-deploy-image-from-acr-to-swarm">Deploy an image from container registry to Swarm cluster</li>
-<li><a href="https://github.com/Azure-Samples/acs-java-deploy-image-from-docker-hub-to-kubernetes">Deploy an image from Docker hub to Kubernetes cluster</a></li>
-<li><a href="https://github.com/Azure-Samples/acs-java-deploy-image-from-docker-hub-to-swarm">Deploy an image from Docker hub to Swarm cluster</li>
--->
-<li><a href="https://github.com/Azure-Samples/acs-java-manage-azure-container-service">Manage container service</li>
-<li><a href="https://github.com/Azure-Samples/aci-java-manage-container-instances-1">Manage Azure Container Instances with new Azure File Share</li>
-<li><a href="https://github.com/Azure-Samples/aci-java-manage-container-instances-2">Manage Azure Container Instances with an existing Azure File Share</li>
-<li><a href="https://github.com/Azure-Samples/aci-java-create-container-groups">Create Container Group with multiple instances and container images</li>
-<li><a href="https://github.com/Azure-Samples/aci-java-scale-up-containers-using-kubernetes-in-acs">Create Container Group and scale up containers using Kubernetes in ACS</li>
-</ul></td>
-  </tr>
+</table>
+
+### Networking 
+
+#### Create a virtual network
+
+You can create a virtual network by using a `define() … create()` method chain.
+
+```java
+Network network = networks.define("mynetwork")
+	.withRegion(Region.US_EAST)
+	.withNewResourceGroup()
+	.withAddressSpace("10.0.0.0/28")
+	.withSubnet("subnet1", "10.0.0.0/29")
+	.withSubnet("subnet2", "10.0.0.8/29")
+	.create();
+```
+
+#### Create a network security group
+
+You can create a network security group instance by using a `define() … create()` method chain.
+
+```java
+NetworkSecurityGroup frontEndNSG = azure.networkSecurityGroups().define(frontEndNSGName)
+    .withRegion(Region.US_EAST)
+    .withNewResourceGroup(rgName)
+    .defineRule("ALLOW-SSH")
+        .allowInbound()
+        .fromAnyAddress()
+        .fromAnyPort()
+        .toAnyAddress()
+        .toPort(22)
+        .withProtocol(SecurityRuleProtocol.TCP)
+        .withPriority(100)
+        .withDescription("Allow SSH")
+        .attach()
+    .defineRule("ALLOW-HTTP")
+        .allowInbound()
+        .fromAnyAddress()
+        .fromAnyPort()
+        .toAnyAddress()
+        .toPort(80)
+        .withProtocol(SecurityRuleProtocol.TCP)
+        .withPriority(101)
+        .withDescription("Allow HTTP")
+        .attach()
+    .create();
+```
+
+#### Create an Application Gateway
+
+You can create a application gateway instance by using a `define() … create()` method chain.
+
+```java
+ApplicationGateway applicationGateway = azure.applicationGateways().define("myFirstAppGateway")
+    .withRegion(Region.US_EAST)
+    .withExistingResourceGroup(resourceGroup)
+    // Request routing rule for HTTP from public 80 to public 8080
+    .defineRequestRoutingRule("HTTP-80-to-8080")
+        .fromPublicFrontend()
+        .fromFrontendHttpPort(80)
+        .toBackendHttpPort(8080)
+        .toBackendIPAddress("11.1.1.1")
+        .toBackendIPAddress("11.1.1.2")
+        .toBackendIPAddress("11.1.1.3")
+        .toBackendIPAddress("11.1.1.4")
+        .attach()
+    .withExistingPublicIPAddress(publicIpAddress)
+    .create();
+```
+
+#### Ready-to-run code samples for networking
+
+<table>
   <tr>
-    <td>Storage</td>
-    <td><ul style="list-style-type:circle">
-<li><a href="https://github.com/Azure-Samples/storage-java-manage-storage-accounts">Manage storage accounts</a></li>
-<li><a href="https://github.com/Azure-Samples/storage-java-manage-storage-accounts-async">Manage storage accounts asynchronously</a></li>
-</ul></td>
+    <th>Service</th>
+    <th>Management Scenario</th>
   </tr>
   <tr>
     <td>Networking</td>
@@ -324,7 +286,7 @@ You can find plenty of sample code that illustrates management scenarios (95+ en
   </tr>
 
   <tr>
-    <td>Networking - DNS</td>
+    <td>DNS</td>
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/dns-java-host-and-manage-your-domains">Host and manage domains</a></li>
 </ul></td>
@@ -345,19 +307,34 @@ You can find plenty of sample code that illustrates management scenarios (95+ en
 </ul></td>
   </tr>
 
+</table>
+
+
+### Application Services
+
+#### Create a Web App
+
+You can create a Web App instance by using a `define() … create()` method chain.
+
+```java
+WebApp webApp = azure.webApps()
+    .define(appName)
+    .withRegion(Region.US_WEST)
+    .withNewResourceGroup(rgName)
+    .withNewWindowsPlan(PricingTier.STANDARD_S1)
+    .create();
+```
+
+#### Ready-to-run code samples for Application Services
+
+<table>
   <tr>
-    <td>SQL Database</td>
-    <td><ul style="list-style-type:circle">
-<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-db">Manage SQL databases</a></li>
-<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-sql-dbs-in-elastic-pool">Manage SQL databases in elastic pools</a></li>
-<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-firewalls-for-sql-databases">Manage firewalls for SQL databases</a></li>
-<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-sql-databases-across-regions">Manage SQL databases across regions</a></li>
-</ul></td>
+    <th>Service</th>
+    <th>Management Scenario</th>
   </tr>
 
-
   <tr>
-    <td>App Service - Web Apps on <b>Windows</b></td>
+    <td>Web Apps on <b>Windows</b></td>
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-web-apps">Manage Web apps</a></li>
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-web-apps-with-custom-domains">Manage Web apps with custom domains</a></li>
@@ -372,7 +349,7 @@ You can find plenty of sample code that illustrates management scenarios (95+ en
   </tr>
 
   <tr>
-    <td>App Service - Web Apps on <b>Linux</b></td>
+    <td>Web Apps on <b>Linux</b></td>
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-web-apps-on-linux">Manage Web apps</a></li>
 <li><a href="https://github.com/Azure-Samples/app-service-java-deploy-image-from-acr-to-linux">Deploy a container image from Azure Container Registry to Linux containers</a></li>
@@ -394,7 +371,75 @@ You can find plenty of sample code that illustrates management scenarios (95+ en
 </ul></td>
   </tr>
 
-<tr>
+</table>
+
+### Databases and Storage
+
+#### Create a Cosmos DB with CosmosDB Programming Model
+
+You can create a Cosmos DB account by using a `define() … create()` method chain.
+
+```java
+CosmosAccount cosmosDBAccount = azure.cosmosDBs().define(cosmosDBName)
+	.withRegion(Region.US_EAST)
+	.withNewResourceGroup(rgName)
+	.withKind(DatabaseAccountKind.GLOBAL_DOCUMENT_DB)
+	.withSessionConsistency()
+	.withWriteReplication(Region.US_WEST)
+	.withReadReplication(Region.US_CENTRAL)
+	.create()
+```
+
+#### Create a SQL Database
+
+You can create a SQL server instance by using a `define() … create()` method chain.
+
+```java
+SqlServer sqlServer = azure.sqlServers().define(sqlServerName)
+    .withRegion(Region.US_EAST)
+    .withNewResourceGroup(rgName)
+    .withAdministratorLogin("adminlogin123")
+    .withAdministratorPassword("myS3cureP@ssword")
+    .withNewFirewallRule("10.0.0.1")
+    .withNewFirewallRule("10.2.0.1", "10.2.0.10")
+    .create();
+```
+
+Then, you can create a SQL database instance by using a `define() … create()` method chain.
+
+```java
+SqlDatabase database = sqlServer.databases().define("myNewDatabase")
+	...
+    .create();
+```
+
+#### Ready-to-run code samples for databases
+
+<table>
+  <tr>
+    <th>Service</th>
+    <th>Management Scenario</th>
+  </tr>
+
+  <tr>
+    <td>Storage</td>
+    <td><ul style="list-style-type:circle">
+<li><a href="https://github.com/Azure-Samples/storage-java-manage-storage-accounts">Manage storage accounts</a></li>
+<li><a href="https://github.com/Azure-Samples/storage-java-manage-storage-accounts-async">Manage storage accounts asynchronously</a></li>
+</ul></td>
+  </tr>
+
+  <tr>
+    <td>SQL Database</td>
+    <td><ul style="list-style-type:circle">
+<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-db">Manage SQL databases</a></li>
+<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-sql-dbs-in-elastic-pool">Manage SQL databases in elastic pools</a></li>
+<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-firewalls-for-sql-databases">Manage firewalls for SQL databases</a></li>
+<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-sql-databases-across-regions">Manage SQL databases across regions</a></li>
+</ul></td>
+  </tr>
+
+  <tr>
     <td>Cosmos DB</td>
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-cosmosdb-and-configure-for-high-availability">Create a CosmosDB and configure it for high availability</a></li>
@@ -404,6 +449,42 @@ You can find plenty of sample code that illustrates management scenarios (95+ en
 </ul></td>
   </tr>
 
+</table>
+
+
+### Other code samples
+
+<table>
+  <tr>
+    <th>Service</th>
+    <th>Management Scenario</th>
+  </tr>
+<tr>
+    <td>Active Directory</td>
+    <td><ul style="list-style-type:circle">
+<li><a href="https://github.com/Azure-Samples/aad-java-manage-service-principals">Manage service principals using Java</a></li>
+<li><a href="https://github.com/Azure-Samples/aad-java-manage-users-groups-and-roles">Manage users and groups and manage their roles</a></li>
+<li><a href="https://github.com/Azure-Samples/aad-java-manage-passwords">Manage passwords</li>
+</ul></td>
+  </tr>
+
+<tr>
+    <td>Container Service<br>Container Registry and <br>Container Instances</td>
+    <td><ul style="list-style-type:circle">
+<li><a href="https://github.com/Azure-Samples/acr-java-manage-azure-container-registry">Manage container registry</a></li>
+<li><a href="https://github.com/Azure-Samples/acs-java-deploy-image-from-acr-to-kubernetes">Deploy an image from container registry to Kubernetes cluster</a></li>
+<!--
+<li><a href="https://github.com/Azure-Samples/acs-java-deploy-image-from-acr-to-swarm">Deploy an image from container registry to Swarm cluster</li>
+<li><a href="https://github.com/Azure-Samples/acs-java-deploy-image-from-docker-hub-to-kubernetes">Deploy an image from Docker hub to Kubernetes cluster</a></li>
+<li><a href="https://github.com/Azure-Samples/acs-java-deploy-image-from-docker-hub-to-swarm">Deploy an image from Docker hub to Swarm cluster</li>
+-->
+<li><a href="https://github.com/Azure-Samples/acs-java-manage-azure-container-service">Manage container service</li>
+<li><a href="https://github.com/Azure-Samples/aci-java-manage-container-instances-1">Manage Azure Container Instances with new Azure File Share</li>
+<li><a href="https://github.com/Azure-Samples/aci-java-manage-container-instances-2">Manage Azure Container Instances with an existing Azure File Share</li>
+<li><a href="https://github.com/Azure-Samples/aci-java-create-container-groups">Create Container Group with multiple instances and container images</li>
+<li><a href="https://github.com/Azure-Samples/aci-java-scale-up-containers-using-kubernetes-in-acs">Create Container Group and scale up containers using Kubernetes in ACS</li>
+</ul></td>
+  </tr>
 
   <tr>
     <td>Service Bus</td>
@@ -439,12 +520,14 @@ You can find plenty of sample code that illustrates management scenarios (95+ en
 <li><a href="https://github.com/Azure-Samples/key-vault-java-manage-key-vaults">Manage key vaults</a></li>
 </ul></td>
   </tr>
+
   <tr>
     <td>CDN</td>
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/cdn-java-manage-cdn ">Manage CDNs</a></li>
 </ul></td>
   </tr>
+
   <tr>
     <td>Batch</td>
     <td><ul style="list-style-type:circle">
@@ -461,10 +544,9 @@ You can find plenty of sample code that illustrates management scenarios (95+ en
 
 </table>
 
-# Download
+## Download
 
-
-**1.3.0**
+### Latest stable release
 
 If you are using released builds from 1.3.0, add the following to your POM file:
 
@@ -476,7 +558,7 @@ If you are using released builds from 1.3.0, add the following to your POM file:
 </dependency>
 ```
 
-**Latest snapshots**
+### Latest snapshots
 
 If you are using snapshots builds for this repo, add the following repository and dependency to your POM file:
 
@@ -518,20 +600,30 @@ If you are using snapshots builds for this repo, add the following repository an
 </dependency>
 ```
 
-# Pre-requisites
+## Prerequisites
 
 - A Java Developer Kit (JDK), v 1.7 or later
 - Maven
 - Azure Service Principal - see [how to create authentication info](./AUTH.md).
 
+## Upgrading from older versions
 
-## Help
+If you are migrating your code from 1.2.x to 1.3.x, you can use these release notes for [preparing your code for 1.3.0 from 1.2.0](./notes/prepare-for-1.3.0.md).
 
-If you are migrating your code to 1.3.0, you can use these notes for [preparing your code for 1.3.0 from 1.2.0](./notes/prepare-for-1.3.0.md).
+In general, Azure Libraries for Java follow [semantic versioning](http://semver.org/), so user code should continue working in a compatible fashion between minor versions of the same major version release train, with the following caveats:
 
-If you encounter any bugs with these libraries, please file issues via [Issues](https://github.com/Azure/azure-sdk-for-java/issues) or checkout [StackOverflow for Azure Java SDK](http://stackoverflow.com/questions/tagged/azure-java-sdk).
+* methods and types annotated with `@Beta` are not considered "generally available" and their design and functionality may change arbitrarily (including removal) in any future *minor* release of the libraries. To help identify such `@Beta` breaking changes from one minor release to the next and see how to mitigate them, see the above mentioned release notes for each release.
 
-# Contribute Code
+* occasionally the naming and structure of "fluent" interface definitions (i.e. the ones whose names start with `With*`) may change between minor versions, as long as that change does not affect the fluent "flow" (the chaining of the methods in a definition or update chain).
+
+* the `*Inner` types and their methods may occasionally change their naming and structure between minor versions in breaking ways. User code should generally avoid making a reference to those types though, unless their functionality is not yet exposed by the "fluent" API.
+
+
+## Help and Issues
+
+If you encounter any bugs with these libraries, please file issues via [Issues](https://github.com/Azure/azure-libraries-for-java/issues) or checkout [StackOverflow for Azure Java SDK](http://stackoverflow.com/questions/tagged/azure-java-sdk).
+
+## Contribute Code
 
 If you would like to become an active contributor to this project please follow the instructions provided in [Microsoft Azure Projects Contribution Guidelines](http://azure.github.io/guidelines.html).
 
@@ -541,7 +633,7 @@ If you would like to become an active contributor to this project please follow 
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-# More Information
+## More Information
 * [Javadoc](http://azure.github.io/azure-sdk-for-java)
 * [http://azure.com/java](http://azure.com/java)
 * If you don't have a Microsoft Azure subscription you can get a FREE trial account [here](http://go.microsoft.com/fwlink/?LinkId=330212)

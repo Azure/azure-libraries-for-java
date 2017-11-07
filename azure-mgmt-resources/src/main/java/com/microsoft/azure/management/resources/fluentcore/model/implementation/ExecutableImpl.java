@@ -8,13 +8,14 @@ package com.microsoft.azure.management.resources.fluentcore.model.implementation
 
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroupTerminateOnErrorStrategy;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskItem;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
+import rx.Completable;
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * The base class for all executable model.
@@ -22,27 +23,28 @@ import rx.Observable;
  * @param <FluentModelT> the fluent model type
  */
 public abstract class ExecutableImpl<FluentModelT extends Indexable>
-        extends IndexableImpl
+        extends
+        IndexableImpl
         implements
+        TaskGroup.HasTaskGroup,
         Executable<FluentModelT>,
-        TaskGroup.HasTaskGroup<FluentModelT, ExecuteTask<FluentModelT>>,
         ExecuteTask.Executor<FluentModelT> {
     /**
      * The group of tasks to the produces this result and it's dependencies results.
      */
-    private final TaskGroup<FluentModelT, ExecuteTask<FluentModelT>> taskGroup;
+    private final TaskGroup taskGroup;
 
     /**
      * Creates ExecutableImpl.
      */
     protected ExecutableImpl() {
-        taskGroup = new TaskGroup<>(this.key(),
-                new ExecuteTask<>(this),
-                TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_INPROGRESS_TASKS_COMPLETION);
+        taskGroup = new TaskGroup(this.key(),
+                new ExecuteTask(this),
+                TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION);
     }
 
     @Override
-    public TaskGroup<FluentModelT, ExecuteTask<FluentModelT>> taskGroup() {
+    public TaskGroup taskGroup() {
         return this.taskGroup;
     }
 
@@ -53,14 +55,9 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
      */
     @SuppressWarnings("unchecked")
     protected void addCreatableDependency(Creatable<? extends Indexable> creatable) {
-        TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>> dependency =
-                (TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>>) creatable;
-
-        Executable<FluentModelT> that = this;
-        TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>> thisExecutable =
-                (TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>>) that;
-
-        thisExecutable.taskGroup().addDependencyTaskGroup(dependency.taskGroup());
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) creatable;
+        assert dependency != null;
+        this.taskGroup().addDependencyTaskGroup(dependency.taskGroup());
     }
 
     /**
@@ -70,13 +67,13 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
      */
     @SuppressWarnings("unchecked")
     protected void addExecutableDependency(Executable<? extends Indexable> executable) {
-        TaskGroup.HasTaskGroup<FluentModelT, ExecuteTask<FluentModelT>> dependency =
-                (TaskGroup.HasTaskGroup<FluentModelT, ExecuteTask<FluentModelT>>) executable;
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) executable;
+        assert dependency != null;
         this.taskGroup().addDependencyTaskGroup(dependency.taskGroup());
     }
 
     @Override
-    public void prepare() {
+    public void beforeGroupExecute() {
     }
 
     @Override
@@ -86,7 +83,14 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
 
     @Override
     public Observable<FluentModelT> executeAsync() {
-        return taskGroup.invokeAsync(taskGroup.newInvocationContext()).last();
+        return taskGroup.invokeAsync(taskGroup.newInvocationContext())
+                .last()
+                .map(new Func1<Indexable, FluentModelT>() {
+                    @Override
+                    public FluentModelT call(Indexable indexable) {
+                        return (FluentModelT) indexable;
+                    }
+                });
     }
 
     @Override
@@ -97,5 +101,10 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
     @Override
     public ServiceFuture<FluentModelT> executeAsync(ServiceCallback<FluentModelT> callback) {
         return ServiceFuture.fromBody(executeAsync(), callback);
+    }
+
+    @Override
+    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+        return Completable.complete();
     }
 }

@@ -24,7 +24,7 @@ public class DAGErrorTests {
     @Test
     public void testTerminateOnInProgressTaskCompletion() {
         // Terminate on error strategy used in this task group is
-        // TaskGroupTerminateOnErrorStrategy::TERMINATE_ON_INPROGRESS_TASKS_COMPLETION
+        // TaskGroupTerminateOnErrorStrategy::TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION
 
         // The task B start and asynchronously wait for 4000 ms then emit an error.
         // The tasks Q and I start and asynchronous wait for 8000 ms and then report
@@ -256,7 +256,7 @@ public class DAGErrorTests {
     @Test
     public void testCompositeError() {
         // Terminate on error strategy used in this task group is
-        // TaskGroupTerminateOnErrorStrategy::TERMINATE_ON_INPROGRESS_TASKS_COMPLETION
+        // TaskGroupTerminateOnErrorStrategy::TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION
 
         // Tasks marked X (B & G) will fault. B and G are not depends on each other.
         // If B start at time 't0'th ms then G starts ~'t1 = (t0 + 250)'th ms.
@@ -377,7 +377,7 @@ public class DAGErrorTests {
     @Test
     public void testErrorOnRoot() {
         // Terminate on error strategy used in this task group is
-        // TaskGroupTerminateOnErrorStrategy::TERMINATE_ON_INPROGRESS_TASKS_COMPLETION
+        // TaskGroupTerminateOnErrorStrategy::TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION
 
         // In this setup only the root task F fault. The final stream will emit result from
         // all tasks expect F and terminate with exception from F.

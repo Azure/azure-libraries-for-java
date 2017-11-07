@@ -45,7 +45,7 @@ class PizzaImpl
 
     /**
      * a pizza specified via this wither will not be added immediately as a dependency, will be added only
-     * inside prepare {@link CreateUpdateTask.ResourceCreatorUpdater#prepare()}
+     * inside beforeGroupCreateOrUpdate {@link CreateUpdateTask.ResourceCreatorUpdater#beforeGroupCreateOrUpdate()}
      *
      * @param pizza the pizza
      * @return the next stage of pizza
@@ -54,6 +54,19 @@ class PizzaImpl
     public PizzaImpl withDelayedPizza(Creatable<IPizza> pizza) {
         this.delayedPizzas.add(pizza);
         return this;
+    }
+
+    @Override
+    public void beforeGroupCreateOrUpdate() {
+        Assert.assertFalse("PizzaImpl::beforeGroupCreateOrUpdate() should not be called multiple times", this.prepareCalled);
+        prepareCalled = true;
+        int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
+        for(Creatable<IPizza> pizza : this.delayedPizzas) {
+            this.addCreatableDependency(pizza);
+        }
+        int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
+        System.out.println("Pizza(" + this.name() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPizzas.size()
+                + " 'dependency count [old, new]': [" + oldCount + "," + newCount + "]");
     }
 
     @Override
@@ -67,19 +80,6 @@ class PizzaImpl
                         return pizza;
                     }
                 });
-    }
-
-    @Override
-    public void prepare() {
-        Assert.assertFalse("PizzaImpl::prepare() should not be called multiple times", this.prepareCalled);
-        prepareCalled = true;
-        int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
-        for(Creatable<IPizza> pizza : this.delayedPizzas) {
-            this.addCreatableDependency(pizza);
-        }
-        int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
-        System.out.println("Pizza(" + this.name() + ")::prepare() 'delayedSize':" + this.delayedPizzas.size()
-                + " 'dependency count [old, new]': [" + oldCount + "," + newCount + "]");
     }
 
     @Override

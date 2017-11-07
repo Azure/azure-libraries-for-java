@@ -30,8 +30,8 @@ public class BreadSliceImpl extends ExecutableImpl<IBreadSlice> implements IBrea
                 .delay(250, TimeUnit.MILLISECONDS)
                 .map(new Func1<BreadSliceImpl, IBreadSlice>() {
                     @Override
-                    public IBreadSlice call(BreadSliceImpl sandwich) {
-                        return sandwich;
+                    public IBreadSlice call(BreadSliceImpl breadSlice) {
+                        return breadSlice;
                     }
                 });
     }

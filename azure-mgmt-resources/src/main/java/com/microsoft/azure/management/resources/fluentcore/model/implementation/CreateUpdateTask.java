@@ -8,16 +8,20 @@ package com.microsoft.azure.management.resources.fluentcore.model.implementation
 
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskItem;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import rx.Completable;
 import rx.Observable;
 import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
- * Represents a task that creates or updates a resource when invoked.
+ * A {@link TaskItem} type, when invoked it create or update a resource using
+ * the {@link ResourceCreatorUpdater} it composes.
  *
  * @param <ResourceT> the type of the resource that this task creates or update
  */
-public class CreateUpdateTask<ResourceT> implements TaskItem<ResourceT> {
+public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
     /**
      * the underlying instance that can create and update the resource.
      */
@@ -30,7 +34,8 @@ public class CreateUpdateTask<ResourceT> implements TaskItem<ResourceT> {
     /**
      * Creates CreateUpdateTask.
      *
-     * @param resourceCreatorUpdater the resource creator and updator
+     * @param resourceCreatorUpdater the resource creator and updater used by this TaskItem
+     *                               to create or update the resource when invoked.
      */
     public CreateUpdateTask(ResourceCreatorUpdater<ResourceT> resourceCreatorUpdater) {
         this.resourceCreatorUpdater = resourceCreatorUpdater;
@@ -42,17 +47,12 @@ public class CreateUpdateTask<ResourceT> implements TaskItem<ResourceT> {
     }
 
     @Override
-    public void prepare() {
-        this.resourceCreatorUpdater.prepare();
+    public void beforeGroupInvoke() {
+        this.resourceCreatorUpdater.beforeGroupCreateOrUpdate();
     }
 
     @Override
-    public boolean isHot() {
-        return this.resourceCreatorUpdater.isHot();
-    }
-
-    @Override
-    public Observable<ResourceT> invokeAsync(TaskGroup.InvocationContext context) {
+    public Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
         if (this.resourceCreatorUpdater.isInCreateMode()) {
             return this.resourceCreatorUpdater.createResourceAsync()
                     .subscribeOn(SdkContext.getRxScheduler())
@@ -60,6 +60,11 @@ public class CreateUpdateTask<ResourceT> implements TaskItem<ResourceT> {
                         @Override
                         public void call(ResourceT resourceT) {
                             resource = resourceT;
+                        }
+                    }).map(new Func1<ResourceT, Indexable>() {
+                        @Override
+                        public Indexable call(ResourceT resourceT) {
+                            return resourceT;
                         }
                     });
         } else {
@@ -70,44 +75,77 @@ public class CreateUpdateTask<ResourceT> implements TaskItem<ResourceT> {
                         public void call(ResourceT resourceT) {
                             resource = resourceT;
                         }
+                    })
+                    .map(new Func1<ResourceT, Indexable>() {
+                        @Override
+                        public Indexable call(ResourceT resourceT) {
+                            return resourceT;
+                        }
                     });
         }
     }
 
+    @Override
+    public Completable invokeAfterPostRunAsync(boolean isGroupFaulted) {
+        return this.resourceCreatorUpdater.afterPostRunAsync(isGroupFaulted);
+    }
+
+    @Override
+    public boolean isHot() {
+        return this.resourceCreatorUpdater.isHot();
+    }
+
+
     /**
-     * Represents a type that know how to create or update a resource of type {@link ResultT}.
+     * Represents a type that know how to create or update a resource of type {@link T}.
+     * <p>
+     * An instance of {@link CreateUpdateTask} wraps this type and invokes appropriate
+     * methods when CreateUpdateTask methods get called during TaskGroup invocation.
      *
-     * @param <ResultT> the resource type
+     * @param <T> the resource type
      */
-    public interface ResourceCreatorUpdater<ResultT> {
+    public interface ResourceCreatorUpdater<T extends Indexable> {
         /**
-         * @return true if this creatorUpdator is in create mode.
+         * @return true if this creatorUpdater is in create mode.
          */
         boolean isInCreateMode();
 
         /**
-         * prepare for create or update.
+         * The method that gets called before invoking all the tasks in the {@link TaskGroup}
+         * that the parent {@link CreateUpdateTask} belongs to.
          */
-        void prepare();
-
-        /**
-         * @return true if the observable returned by {@link this#createResourceAsync()} and
-         * {@link this#updateResourceAsync()} are hot observables, false if they are cold observables.
-         */
-        boolean isHot();
+        void beforeGroupCreateOrUpdate();
 
         /**
          * Creates the resource asynchronously.
          *
-         * @return the observable reference
+         * @return an observable that create the resource when subscribed
          */
-        Observable<ResultT> createResourceAsync();
+        Observable<T> createResourceAsync();
 
         /**
          * Update the resource asynchronously.
          *
-         * @return the observable reference
+         * @return an observable that update the resource when subscribed
          */
-        Observable<ResultT> updateResourceAsync();
+        Observable<T> updateResourceAsync();
+
+        /**
+         * @return true if the observable returned by {@link this#createResourceAsync()} and
+         * {@link this#updateResourceAsync()} are hot observables, false if they are cold
+         * observables.
+         */
+        boolean isHot();
+
+        /**
+         * Perform any action followed by the processing of work scheduled to be invoked
+         * (i.e. "post run") after {@link this#createResourceAsync()} or
+         * {@link this#updateResourceAsync()}.
+         *
+         * @param isGroupFaulted true if one or more tasks in the group this creatorUpdater
+         *                       belongs to are in faulted state.
+         * @return a completable represents the asynchronous action
+         */
+        Completable afterPostRunAsync(boolean isGroupFaulted);
     }
 }

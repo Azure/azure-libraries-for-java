@@ -1455,7 +1455,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public void prepare() {
+    public void beforeGroupCreateOrUpdate() {
         // Adding delayed storage account dependency if needed
         //
         this.prepareOSDiskContainers();

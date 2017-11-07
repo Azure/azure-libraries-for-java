@@ -13,8 +13,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceCallback;
+import rx.Completable;
 import rx.Observable;
-import rx.functions.Func1;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 abstract class CreatableUpdatableLCAImpl<
@@ -23,15 +23,15 @@ abstract class CreatableUpdatableLCAImpl<
         extends IndexableRefreshableWrapperImpl<FluentModelT, InnerModelT>
         implements
         Creatable<FluentModelT>,
-        TaskGroup.HasTaskGroup<FluentModelT, CreateUpdateTask<FluentModelT>>,
+        TaskGroup.HasTaskGroup,
         CreateUpdateTask.ResourceCreatorUpdater<FluentModelT> {
     private final String name;
-    private final TaskGroup<FluentModelT, CreateUpdateTask<FluentModelT>> taskGroup;
+    private final TaskGroup taskGroup;
 
     protected CreatableUpdatableLCAImpl(String name, InnerModelT innerObject) {
         super(innerObject);
         this.name = name;
-        taskGroup = new TaskGroup<>(this.key(),
+        taskGroup = new TaskGroup(this.key(),
                 new CreateUpdateTask<>(this),
                 TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_HITTING_LCA_TASK);
     }
@@ -42,19 +42,19 @@ abstract class CreatableUpdatableLCAImpl<
     }
 
     @Override
-    public TaskGroup<FluentModelT, CreateUpdateTask<FluentModelT>> taskGroup() {
+    public TaskGroup taskGroup() {
         return this.taskGroup;
     }
 
     @SuppressWarnings("unchecked")
     protected void addCreatableDependency(Creatable<? extends Indexable> creatable) {
-        TaskGroup.HasTaskGroup<FluentModelT, CreateUpdateTask<FluentModelT>> dependency =
-                (TaskGroup.HasTaskGroup<FluentModelT, CreateUpdateTask<FluentModelT>>) creatable;
+        TaskGroup.HasTaskGroup dependency =
+                (TaskGroup.HasTaskGroup) creatable;
         this.taskGroup().addDependencyTaskGroup(dependency.taskGroup());
     }
 
     @Override
-    public void prepare() {
+    public void beforeGroupCreateOrUpdate() {
     }
 
     @Override
@@ -64,13 +64,7 @@ abstract class CreatableUpdatableLCAImpl<
 
     @Override
     public Observable<Indexable> createAsync() {
-        return taskGroup.invokeAsync(taskGroup.newInvocationContext())
-                .map(new Func1<FluentModelT, Indexable>() {
-                    @Override
-                    public Indexable call(FluentModelT fluentModel) {
-                        return fluentModel;
-                    }
-                });
+        return taskGroup.invokeAsync(taskGroup.newInvocationContext());
     }
 
     @Override
@@ -91,4 +85,9 @@ abstract class CreatableUpdatableLCAImpl<
 
     @Override
     public abstract Observable<FluentModelT> createResourceAsync();
+
+    @Override
+    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+        return Completable.complete();
+    }
 }

@@ -56,7 +56,7 @@ class PastaImpl
 
     /**
      * a pancake specified via this wither will not be added immediately as a dependency, will be added only
-     * inside prepare {@link CreateUpdateTask.ResourceCreatorUpdater#prepare()}
+     * inside beforeGroupCreateOrUpdate {@link CreateUpdateTask.ResourceCreatorUpdater#beforeGroupCreateOrUpdate()}
      *
      * @param pasta the pasta
      * @return the next stage of pasta
@@ -65,6 +65,20 @@ class PastaImpl
     public PastaImpl withDelayedPasta(Creatable<IPasta> pasta) {
         this.delayedPastas.add(pasta);
         return this;
+    }
+
+
+    @Override
+    public void beforeGroupCreateOrUpdate() {
+        Assert.assertFalse("PastaImpl::beforeGroupCreateOrUpdate() should not be called multiple times", this.prepareCalled);
+        prepareCalled = true;
+        int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
+        for(Creatable<IPasta> pancake : this.delayedPastas) {
+            this.addCreatableDependency(pancake);
+        }
+        int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
+        System.out.println("Pasta(" + this.name() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPastas.size()
+                + " 'dependency count [old, new]': [" + oldCount + "," + newCount + "]");
     }
 
     @Override
@@ -90,19 +104,6 @@ class PastaImpl
                         }
                     });
         }
-    }
-
-    @Override
-    public void prepare() {
-        Assert.assertFalse("PastaImpl::prepare() should not be called multiple times", this.prepareCalled);
-        prepareCalled = true;
-        int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
-        for(Creatable<IPasta> pancake : this.delayedPastas) {
-            this.addCreatableDependency(pancake);
-        }
-        int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
-        System.out.println("Pasta(" + this.name() + ")::prepare() 'delayedSize':" + this.delayedPastas.size()
-                + " 'dependency count [old, new]': [" + oldCount + "," + newCount + "]");
     }
 
     @Override

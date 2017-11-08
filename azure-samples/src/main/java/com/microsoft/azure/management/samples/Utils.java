@@ -549,7 +549,7 @@ public final class Utils {
     }
 
     /**
-     * Print management lock
+     * Print management lock.
      * @param lock a management lock
      */
     public static void print(ManagementLock lock) {

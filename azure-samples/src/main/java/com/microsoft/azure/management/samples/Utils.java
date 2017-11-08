@@ -553,7 +553,7 @@ public final class Utils {
      * @param lock a management lock
      */
     public static void print(ManagementLock lock) {
-        StringBuffer info = new StringBuffer();
+        StringBuilder info = new StringBuilder();
         info.append("\nLock ID: ").append(lock.id())
             .append("\nLocked resource ID: ").append(lock.lockedResourceId())
             .append("\nLevel: ").append(lock.level());

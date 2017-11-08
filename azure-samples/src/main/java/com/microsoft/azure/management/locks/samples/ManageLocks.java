@@ -46,7 +46,6 @@ public final class ManageLocks {
      */
     public static boolean runSample(Azure azure) {
         
-        // Prepare a VM
         final String password = SdkContext.randomResourceName("P@s", 14);
         final String rgName = SdkContext.randomResourceName("rg", 15);
         final String vmName = SdkContext.randomResourceName("vm", 15);
@@ -125,46 +124,57 @@ public final class ManageLocks {
             // Create various locks for the created resources
             //
 
-            // Lock subnet
+            // Locks can be created serially, and multiple can be applied to the same resource:
+            System.out.println("Creating locks sequentially...");
+
+            // Apply a ReadOnly lock to the disk
+            lockDiskRO = azure.managementLocks().define("diskLockRO")
+                    .withLockedResource(disk)
+                    .withLevel(LockLevel.READ_ONLY)
+                    .create();
+
+            // Apply a lock preventing the disk from being deleted
+            lockDiskDel = azure.managementLocks().define("diskLockDel")
+                    .withLockedResource(disk)
+                    .withLevel(LockLevel.CAN_NOT_DELETE)
+                    .create();
+
+            // Locks can also be created in parallel, for better overall performance:
+            System.out.println("Creating locks in parallel...");
+
+            // Define a subnet lock
             Creatable<ManagementLock> lockSubnetDef = azure.managementLocks().define("subnetLock")
                     .withLockedResource(subnet.inner().id())
                     .withLevel(LockLevel.READ_ONLY);
     
-            // Lock VM
+            // Define a VM lock
             Creatable<ManagementLock> lockVMDef = azure.managementLocks().define("vmlock")
                     .withLockedResource(vm)
                     .withLevel(LockLevel.READ_ONLY)
                     .withNotes("vm readonly lock");
     
-            // Lock resource group
+            // Define a resource group lock
             Creatable<ManagementLock> lockGroupDef = azure.managementLocks().define("rglock")
                     .withLockedResource(resourceGroup.id())
                     .withLevel(LockLevel.CAN_NOT_DELETE);
     
-            // Lock storage
+            // Define a storage lock
             Creatable<ManagementLock> lockStorageDef = azure.managementLocks().define("stLock")
                     .withLockedResource(storage)
                     .withLevel(LockLevel.CAN_NOT_DELETE);
     
-            // Locks can be created in parallel
-            System.out.println("Creating locks...");
             @SuppressWarnings("unchecked")
-            CreatedResources<ManagementLock> created = azure.managementLocks().create(lockVMDef, lockGroupDef, lockStorageDef, lockSubnetDef);
+            CreatedResources<ManagementLock> created = azure.managementLocks().create(
+                    lockVMDef,
+                    lockGroupDef,
+                    lockStorageDef,
+                    lockSubnetDef);
+
             lockVM = created.get(lockVMDef.key());
             lockStorage = created.get(lockStorageDef.key());
             lockGroup = created.get(lockGroupDef.key());
             lockSubnet = created.get(lockSubnetDef.key());
     
-            // Locks can be created serially, and multiple can be applied to the same rosource
-            lockDiskRO = azure.managementLocks().define("diskLockRO")
-                    .withLockedResource(disk)
-                    .withLevel(LockLevel.READ_ONLY)
-                    .create();
-    
-            lockDiskDel = azure.managementLocks().define("diskLockDel")
-                    .withLockedResource(disk)
-                    .withLevel(LockLevel.CAN_NOT_DELETE)
-                    .create();
             System.out.println("Locks created.");
     
             //============================================================

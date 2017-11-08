@@ -60,7 +60,7 @@ public final class ManageVpnGatewayVNet2VNetConnection {
             VirtualNetworkGateway vngw1 = azure.virtualNetworkGateways().define(vpnGatewayName)
                     .withRegion(region)
                     .withNewResourceGroup(rgName)
-                    .withExistingNetwork(network)
+                    .withNewNetwork("10.11.0.0/16", "10.11.255.0/27")
                     .withRouteBasedVpn()
                     .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
                     .create();

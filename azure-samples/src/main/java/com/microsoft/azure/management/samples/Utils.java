@@ -67,6 +67,7 @@ import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.graphrbac.implementation.PermissionInner;
 import com.microsoft.azure.management.keyvault.AccessPolicy;
 import com.microsoft.azure.management.keyvault.Vault;
+import com.microsoft.azure.management.locks.ManagementLock;
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayBackend;
 import com.microsoft.azure.management.network.ApplicationGatewayBackendAddress;
@@ -545,6 +546,18 @@ public final class Utils {
             .append("\n\tSecondary Key: '").append(redisAccessKeys.secondaryKey()).append("', ");
 
         System.out.println(redisKeys.toString());
+    }
+
+    /**
+     * Print management lock
+     * @param lock a management lock
+     */
+    public static void print(ManagementLock lock) {
+        StringBuffer info = new StringBuffer();
+        info.append("\nLock ID: ").append(lock.id())
+            .append("\nLocked resource ID: ").append(lock.lockedResourceId())
+            .append("\nLevel: ").append(lock.level());
+        System.out.println(info.toString());
     }
 
     /**

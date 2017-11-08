@@ -152,7 +152,7 @@ public interface ExpressRouteCircuit extends
         }
 
         /**
-         * The stage of definition allowing to add authorization
+         * The stage of definition allowing to add authorization.
          */
         interface WithAuthorization {
             WithCreate withAuthorization(String authorizationName);
@@ -199,7 +199,7 @@ public interface ExpressRouteCircuit extends
         }
 
         /**
-         * The stage of express route circuit update allowing to add authorization
+         * The stage of express route circuit update allowing to add authorization.
          */
         interface WithAuthorization {
             Update withAuthorization(String authorizationName);

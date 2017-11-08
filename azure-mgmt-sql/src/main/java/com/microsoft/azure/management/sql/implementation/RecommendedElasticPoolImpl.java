@@ -115,9 +115,8 @@ class RecommendedElasticPoolImpl
         final RecommendedElasticPoolImpl self = this;
         PagedListConverter<DatabaseInner, SqlDatabase> converter = new PagedListConverter<DatabaseInner, SqlDatabase>() {
             @Override
-            public SqlDatabase typeConvert(DatabaseInner databaseInner) {
-
-                return new SqlDatabaseImpl(databaseInner.name(), databaseInner, self.manager());
+            public Observable<SqlDatabase> typeConvertAsync(DatabaseInner databaseInner) {
+                return Observable.just((SqlDatabase) new SqlDatabaseImpl(databaseInner.name(), databaseInner, self.manager()));
             }
         };
         return converter.convert(ReadableWrappersImpl.convertToPagedList(
@@ -142,9 +141,8 @@ class RecommendedElasticPoolImpl
     public List<RecommendedElasticPoolMetric> listMetrics() {
         PagedListConverter<RecommendedElasticPoolMetricInner, RecommendedElasticPoolMetric> converter = new PagedListConverter<RecommendedElasticPoolMetricInner, RecommendedElasticPoolMetric>() {
             @Override
-            public RecommendedElasticPoolMetric typeConvert(RecommendedElasticPoolMetricInner recommendedElasticPoolMetricInner) {
-
-                return new RecommendedElasticPoolMetricImpl(recommendedElasticPoolMetricInner);
+            public Observable<RecommendedElasticPoolMetric> typeConvertAsync(RecommendedElasticPoolMetricInner recommendedElasticPoolMetricInner) {
+                return Observable.just((RecommendedElasticPoolMetric) new RecommendedElasticPoolMetricImpl(recommendedElasticPoolMetricInner));
             }
         };
         return converter.convert(ReadableWrappersImpl.convertToPagedList(

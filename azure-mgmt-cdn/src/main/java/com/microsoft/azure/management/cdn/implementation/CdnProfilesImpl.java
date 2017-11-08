@@ -91,8 +91,8 @@ class CdnProfilesImpl
     public PagedList<Operation> listOperations() {
         return (new PagedListConverter<OperationInner, Operation>() {
             @Override
-            public Operation typeConvert(OperationInner inner) {
-                return new Operation(inner);
+            public Observable<Operation> typeConvertAsync(OperationInner inner) {
+                return Observable.just((Operation) new Operation(inner));
             }
         }).convert(this.manager().inner().listOperations());
     }
@@ -101,8 +101,8 @@ class CdnProfilesImpl
     public PagedList<ResourceUsage> listResourceUsage() {
         return (new PagedListConverter<ResourceUsageInner, ResourceUsage>() {
             @Override
-            public ResourceUsage typeConvert(ResourceUsageInner inner) {
-                return new ResourceUsage(inner);
+            public Observable<ResourceUsage> typeConvertAsync(ResourceUsageInner inner) {
+                return Observable.just((ResourceUsage) new ResourceUsage(inner));
             }
         }).convert(this.manager().inner().listResourceUsage());
     }
@@ -111,8 +111,8 @@ class CdnProfilesImpl
     public PagedList<EdgeNode> listEdgeNodes() {
         return (new PagedListConverter<EdgeNodeInner, EdgeNode>() {
             @Override
-            public EdgeNode typeConvert(EdgeNodeInner inner) {
-                return new EdgeNode(inner);
+            public Observable<EdgeNode> typeConvertAsync(EdgeNodeInner inner) {
+                return Observable.just((EdgeNode) new EdgeNode(inner));
             }
         }).convert(this.manager().inner().edgeNodes().list());
     }

@@ -10,6 +10,8 @@ import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
 import com.microsoft.rest.RestException;
+import rx.Observable;
+import rx.functions.Func1;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ public abstract class PagedListConverter<U, V> {
      * @param u the resource to convert from
      * @return the converted resource
      */
-    public abstract V typeConvert(U u);
+    public abstract Observable<V> typeConvertAsync(U u);
 
     /**
      * Override this method to define what items should be fetched.
@@ -58,28 +60,43 @@ public abstract class PagedListConverter<U, V> {
             };
         }
         Page<U> uPage = uList.currentPage();
-        PageImpl<V> vPage = new PageImpl<>();
+        final PageImpl<V> vPage = new PageImpl<>();
         vPage.setNextPageLink(uPage.nextPageLink());
         vPage.setItems(new ArrayList<V>());
-        for (U u : uPage.items()) {
-            if (filter(u)) {
-                vPage.items().add(typeConvert(u));
-            }
-        }
+        loadConvertedList(uPage, vPage);
         return new PagedList<V>(vPage) {
             @Override
             public Page<V> nextPage(String nextPageLink) throws RestException, IOException {
                 Page<U> uPage = uList.nextPage(nextPageLink);
-                PageImpl<V> vPage = new PageImpl<>();
+                final PageImpl<V> vPage = new PageImpl<>();
                 vPage.setNextPageLink(uPage.nextPageLink());
                 vPage.setItems(new ArrayList<V>());
-                for (U u : uPage.items()) {
-                    if (filter(u)) {
-                        vPage.items().add(typeConvert(u));
-                    }
-                }
+                loadConvertedList(uPage, vPage);
                 return vPage;
             }
         };
+    }
+
+    private void loadConvertedList(final Page<U> uPage, final Page<V> vPage) {
+        Observable.from(uPage.items())
+                .filter(new Func1<U, Boolean>() {
+                    @Override
+                    public Boolean call(U u) {
+                        return filter(u);
+                    }
+                })
+                .flatMap(new Func1<U, Observable<V>>() {
+                    @Override
+                    public Observable<V> call(U u) {
+                        return typeConvertAsync(u);
+                    }
+                })
+                .map(new Func1<V, V>() {
+                    @Override
+                    public V call(V v) {
+                        vPage.items().add(v);
+                        return v;
+                    }
+                }).toBlocking().subscribe();
     }
 }

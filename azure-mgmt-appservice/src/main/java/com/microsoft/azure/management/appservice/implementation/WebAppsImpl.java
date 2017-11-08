@@ -12,6 +12,7 @@ import com.microsoft.azure.management.appservice.WebApp;
 import com.microsoft.azure.management.appservice.WebApps;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -37,14 +38,21 @@ class WebAppsImpl
         super(manager.inner().webApps(), manager);
         converter = new PagedListConverter<SiteInner, WebApp>() {
             @Override
-            public WebApp typeConvert(SiteInner siteInner) {
-                return wrapModel(siteInner, manager.inner().webApps().getConfiguration(siteInner.resourceGroup(), siteInner.name()));
-            }
-
-            @Override
             protected boolean filter(SiteInner inner) {
                 List<String> kinds = Arrays.asList(inner.kind().split(","));
                 return kinds.contains("app");
+            }
+
+            @Override
+            public Observable<WebApp> typeConvertAsync(final SiteInner siteInner) {
+                return manager.inner().webApps().getConfigurationAsync(siteInner.resourceGroup(), siteInner.name())
+                        .subscribeOn(SdkContext.getRxScheduler())
+                        .map(new Func1<SiteConfigResourceInner, WebApp>() {
+                            @Override
+                            public WebApp call(SiteConfigResourceInner siteConfigResourceInner) {
+                                return wrapModel(siteInner, siteConfigResourceInner);
+                            }
+                        });
             }
         };
     }

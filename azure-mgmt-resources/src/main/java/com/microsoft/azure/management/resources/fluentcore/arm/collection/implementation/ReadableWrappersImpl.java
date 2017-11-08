@@ -31,8 +31,8 @@ public abstract class ReadableWrappersImpl<
     protected ReadableWrappersImpl() {
         this.converter = new PagedListConverter<InnerT, T>() {
             @Override
-            public T typeConvert(InnerT inner) {
-                return wrapModel(inner);
+            public Observable<T> typeConvertAsync(InnerT inner) {
+                return Observable.just((T) wrapModel(inner));
             }
         };
     }

@@ -58,8 +58,8 @@ class VirtualMachineExtensionImagesImpl
         PagedListConverter<VirtualMachineExtensionImageVersion, VirtualMachineExtensionImage> converter =
                 new PagedListConverter<VirtualMachineExtensionImageVersion, VirtualMachineExtensionImage>() {
                     @Override
-                    public VirtualMachineExtensionImage typeConvert(VirtualMachineExtensionImageVersion virtualMachineExtensionImageVersion) {
-                        return virtualMachineExtensionImageVersion.getImage();
+                    public Observable<VirtualMachineExtensionImage> typeConvertAsync(VirtualMachineExtensionImageVersion virtualMachineExtensionImageVersion) {
+                        return Observable.just((VirtualMachineExtensionImage) virtualMachineExtensionImageVersion.getImage());
                     }
                 };
 

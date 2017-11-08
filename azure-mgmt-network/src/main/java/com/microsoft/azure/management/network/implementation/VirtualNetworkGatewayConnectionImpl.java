@@ -7,6 +7,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.network.ExpressRouteCircuit;
 import com.microsoft.azure.management.network.IpsecPolicy;
 import com.microsoft.azure.management.network.LocalNetworkGateway;
 import com.microsoft.azure.management.network.TunnelConnectionHealth;
@@ -181,6 +182,24 @@ public class VirtualNetworkGatewayConnectionImpl
     @Override
     public VirtualNetworkGatewayConnectionImpl withoutBgp() {
         inner().withEnableBgp(false);
+        return this;
+    }
+
+    @Override
+    public VirtualNetworkGatewayConnectionImpl withExpressRouteCircuit(String circuitId) {
+        inner().withPeer(new SubResource().withId(circuitId));
+        return this;
+    }
+
+    @Override
+    public VirtualNetworkGatewayConnectionImpl withExpressRouteCircuit(ExpressRouteCircuit circuit) {
+        inner().withPeer(new SubResource().withId(circuit.id()));
+        return this;
+    }
+
+    @Override
+    public VirtualNetworkGatewayConnectionImpl withAuthorization(String authorizationKey) {
+        inner().withAuthorizationKey(authorizationKey);
         return this;
     }
 

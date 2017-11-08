@@ -127,8 +127,9 @@ public interface VirtualNetworkGatewayConnection extends
             DefinitionStages.WithConnectionType,
             DefinitionStages.WithLocalNetworkGateway,
             DefinitionStages.WithSecondVirtualNetworkGateway,
-            DefinitionStages.WithExpressRoute,
             DefinitionStages.WithSharedKey,
+            DefinitionStages.WithExpressRouteCircuit,
+            DefinitionStages.WithAuthorization,
             DefinitionStages.WithCreate {
     }
 
@@ -144,7 +145,7 @@ public interface VirtualNetworkGatewayConnection extends
 
             WithSecondVirtualNetworkGateway withVNetToVNet();
 
-            WithExpressRoute withExpressRoute();
+            WithExpressRouteCircuit withExpressRoute();
         }
 
         interface WithLocalNetworkGateway {
@@ -155,9 +156,6 @@ public interface VirtualNetworkGatewayConnection extends
             WithSharedKey withSecondVirtualNetworkGateway(VirtualNetworkGateway virtualNetworkGateway2);
         }
 
-        interface WithExpressRoute {
-        }
-
         interface WithSharedKey {
             WithCreate withSharedKey(String sharedKey);
         }
@@ -166,10 +164,21 @@ public interface VirtualNetworkGatewayConnection extends
             WithCreate withBgp();
         }
 
+        interface WithExpressRouteCircuit {
+            WithCreate withExpressRouteCircuit(String circuitId);
+
+            WithCreate withExpressRouteCircuit(ExpressRouteCircuit circuit);
+        }
+
+        interface WithAuthorization {
+            WithCreate withAuthorization(String authorizationKey);
+        }
+
         interface WithCreate extends
                 Creatable<VirtualNetworkGatewayConnection>,
                 Resource.DefinitionWithTags<WithCreate>,
-                WithBgp {
+                WithBgp,
+                WithAuthorization {
         }
     }
 
@@ -180,7 +189,8 @@ public interface VirtualNetworkGatewayConnection extends
             Appliable<VirtualNetworkGatewayConnection>,
             Resource.UpdateWithTags<Update>,
             UpdateStages.WithBgp,
-            UpdateStages.WithSharedKey {
+            UpdateStages.WithSharedKey,
+            UpdateStages.WithAuthorization {
     }
 
     /**
@@ -196,6 +206,10 @@ public interface VirtualNetworkGatewayConnection extends
 
         interface WithSharedKey {
             Update withSharedKey(String sharedKey);
+        }
+
+        interface WithAuthorization {
+            Update withAuthorization(String authorizationKey);
         }
     }
 }

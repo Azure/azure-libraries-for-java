@@ -148,7 +148,14 @@ public interface ExpressRouteCircuit extends
          * The stage of express route circuit definition allowing to enable/disable classic operations.
          */
         interface WithAllowClassicOperations {
-            WithCreate enableClassicOperations();
+            WithCreate withClassicOperations();
+        }
+
+        /**
+         * The stage of definition allowing to add authorization
+         */
+        interface WithAuthorization {
+            WithCreate withAuthorization(String authorizationName);
         }
 
         /**
@@ -159,7 +166,8 @@ public interface ExpressRouteCircuit extends
         interface WithCreate extends
                 Creatable<ExpressRouteCircuit>,
                 Resource.DefinitionWithTags<WithCreate>,
-                WithAllowClassicOperations {
+                WithAllowClassicOperations,
+                WithAuthorization {
         }
     }
 
@@ -168,26 +176,33 @@ public interface ExpressRouteCircuit extends
      */
     interface UpdateStages {
         /**
-         * The stage of express route circuit definition allowing to specify service provider bandwidth.
+         * The stage of express route circuit update allowing to specify service provider bandwidth.
          */
         interface WithBandwidth {
             Update withBandwidthInMbps(int bandwidthInMbps);
         }
 
         /**
-         * The stage of express route circuit definition allowing to specify SKU tier and family.
+         * The stage of express route circuit update allowing to specify SKU tier and family.
          */
         interface WithSku {
             Update withSku(ExpressRouteCircuitSkuType sku);
         }
 
         /**
-         * The stage of express route circuit definition allowing to enable/disable classic operations.
+         * The stage of express route circuit update allowing to enable/disable classic operations.
          */
         interface WithAllowClassicOperations {
-            Update enableClassicOperations();
+            Update withClassicOperations();
 
-            Update disableClassicOperations();
+            Update withoutClassicOperations();
+        }
+
+        /**
+         * The stage of express route circuit update allowing to add authorization
+         */
+        interface WithAuthorization {
+            Update withAuthorization(String authorizationName);
         }
     }
 
@@ -200,6 +215,7 @@ public interface ExpressRouteCircuit extends
             Resource.UpdateWithTags<Update>,
             UpdateStages.WithBandwidth,
             UpdateStages.WithSku,
-            UpdateStages.WithAllowClassicOperations {
+            UpdateStages.WithAllowClassicOperations,
+            UpdateStages.WithAuthorization {
     }
 }

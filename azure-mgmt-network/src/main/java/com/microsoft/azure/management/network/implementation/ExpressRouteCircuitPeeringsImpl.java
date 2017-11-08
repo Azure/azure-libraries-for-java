@@ -48,8 +48,8 @@ class ExpressRouteCircuitPeeringsImpl extends IndependentChildrenImpl<
     public final PagedList<ExpressRouteCircuitPeering> list() {
         return (new PagedListConverter<ExpressRouteCircuitPeeringInner, ExpressRouteCircuitPeering>() {
             @Override
-            public ExpressRouteCircuitPeering typeConvert(ExpressRouteCircuitPeeringInner inner) {
-                return wrapModel(inner);
+            public Observable<ExpressRouteCircuitPeering> typeConvertAsync(ExpressRouteCircuitPeeringInner inner) {
+                return Observable.just((ExpressRouteCircuitPeering) wrapModel(inner));
             }
         }).convert(ReadableWrappersImpl.convertToPagedList(inner().list(parent.resourceGroupName(), parent.name())));
     }

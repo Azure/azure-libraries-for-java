@@ -156,8 +156,8 @@ public final class Utils {
         };
         PagedListConverter<InT, OutT> converter = new PagedListConverter<InT, OutT>() {
             @Override
-            public OutT typeConvert(InT inner) {
-                return mapper.call(inner);
+            public Observable<OutT> typeConvertAsync(InT inner) {
+                return Observable.just(mapper.call(inner));
             }
         };
         return converter.convert(pagedList);

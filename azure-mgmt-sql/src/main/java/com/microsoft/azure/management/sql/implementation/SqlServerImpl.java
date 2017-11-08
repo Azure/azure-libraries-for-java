@@ -146,9 +146,8 @@ public class SqlServerImpl
     public List<ServerMetric> listUsages() {
         PagedListConverter<ServerMetricInner, ServerMetric> converter = new PagedListConverter<ServerMetricInner, ServerMetric>() {
             @Override
-            public ServerMetric typeConvert(ServerMetricInner serverMetricInner) {
-
-                return new ServerMetricImpl(serverMetricInner);
+            public Observable<ServerMetric> typeConvertAsync(ServerMetricInner serverMetricInner) {
+                return Observable.just((ServerMetric) new ServerMetricImpl(serverMetricInner));
             }
         };
         return converter.convert(ReadableWrappersImpl.convertToPagedList(
@@ -162,9 +161,8 @@ public class SqlServerImpl
         final ServersInner innerCollection = this.manager().inner().servers();
         PagedListConverter<ServiceObjectiveInner, ServiceObjective> converter = new PagedListConverter<ServiceObjectiveInner, ServiceObjective>() {
             @Override
-            public ServiceObjective typeConvert(ServiceObjectiveInner serviceObjectiveInner) {
-
-                return new ServiceObjectiveImpl(serviceObjectiveInner, innerCollection);
+            public Observable<ServiceObjective> typeConvertAsync(ServiceObjectiveInner serviceObjectiveInner) {
+                return Observable.just((ServiceObjective) new ServiceObjectiveImpl(serviceObjectiveInner, innerCollection));
             }
         };
         return converter.convert(ReadableWrappersImpl.convertToPagedList(

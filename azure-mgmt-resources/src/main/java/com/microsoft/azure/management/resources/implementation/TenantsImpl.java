@@ -29,8 +29,8 @@ final class TenantsImpl
     public PagedList<Tenant> list() {
         PagedListConverter<TenantIdDescriptionInner, Tenant> converter = new PagedListConverter<TenantIdDescriptionInner, Tenant>() {
             @Override
-            public Tenant typeConvert(TenantIdDescriptionInner tenantInner) {
-                return new TenantImpl(tenantInner);
+            public Observable<Tenant> typeConvertAsync(TenantIdDescriptionInner tenantInner) {
+                return Observable.just((Tenant) new TenantImpl(tenantInner));
             }
         };
         return converter.convert(client.list());

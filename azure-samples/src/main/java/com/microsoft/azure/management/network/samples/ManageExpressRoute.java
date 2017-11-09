@@ -99,8 +99,7 @@ public final class ManageExpressRoute {
             // Create virtual network gateway connection
             System.out.println("Creating virtual network gateway connection...");
             vngw1.connections().define(connectionName)
-                    .withExpressRoute()
-                    .withExpressRouteCircuit(erc)
+                    .withExpressRoute(erc)
                     // Note: authorization key is required only in case express route circuit and virtual network gateway are in different subscriptions
                     // .withAuthorization(erc.inner().authorizations().get(0).authorizationKey())
                     .create();

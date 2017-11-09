@@ -54,8 +54,7 @@ public interface VirtualNetworkGatewayConnection extends
     String localNetworkGateway2Id();
 
     /**
-     * Get the gateway connection type. Possible values are:
-     * 'Ipsec','Vnet2Vnet','ExpressRoute', and 'VPNClient.
+     * Get the gateway connection type.
      *
      * @return the connectionType value
      */
@@ -128,7 +127,6 @@ public interface VirtualNetworkGatewayConnection extends
             DefinitionStages.WithLocalNetworkGateway,
             DefinitionStages.WithSecondVirtualNetworkGateway,
             DefinitionStages.WithSharedKey,
-            DefinitionStages.WithExpressRouteCircuit,
             DefinitionStages.WithAuthorization,
             DefinitionStages.WithCreate {
     }
@@ -137,43 +135,105 @@ public interface VirtualNetworkGatewayConnection extends
      * Grouping of virtual network gateway connection definition stages.
      */
     interface DefinitionStages {
+        /**
+         * The first stage of virtual network gateway connection definition.
+         */
         interface Blank extends WithConnectionType {
         }
 
+        /**
+         * Stage of definition allowing to specify connection type.
+         */
         interface WithConnectionType {
+            /**
+             * Create Site-to-Site connection.
+             * @return next stage of definition, allowing to specify local network gateway
+             */
             WithLocalNetworkGateway withSiteToSite();
 
+            /**
+             * Create VNet-to-VNet connection.
+             * @return the next stage of the definition, allowing to specify virtual network gateway to connect to.
+             */
             WithSecondVirtualNetworkGateway withVNetToVNet();
 
-            WithExpressRouteCircuit withExpressRoute();
+            /**
+             * Create Express Route connection.
+             * @param circuitId id of Express Route circuit used for connection
+             * @return next stage of definition
+             */
+            WithCreate withExpressRoute(String circuitId);
+
+            /**
+             * Create Express Route connection.
+             * @param circuit Express Route circuit used for connection
+             * @return the next stage of the definition
+             */
+            WithCreate withExpressRoute(ExpressRouteCircuit circuit);
         }
 
+        /**
+         * Stage of definition allowing to specify local network gateway to connect to.
+         */
         interface WithLocalNetworkGateway {
+            /**
+             * @param localNetworkGateway local network gateway to connect to
+             * @return the next stage of the definition
+             */
             WithSharedKey withLocalNetworkGateway(LocalNetworkGateway localNetworkGateway);
         }
 
+        /**
+         * Stage of definition allowing to specify virtual network gateway to connect to.
+         */
         interface WithSecondVirtualNetworkGateway {
+            /**
+             * @param virtualNetworkGateway2 virtual network gateway to connect to
+             * @return the next stage of the definition
+             */
             WithSharedKey withSecondVirtualNetworkGateway(VirtualNetworkGateway virtualNetworkGateway2);
         }
 
+        /**
+         * Stage of definition allowing to specify shared key for the connection.
+         */
         interface WithSharedKey {
+            /**
+             * Specify shared key.
+             * @param sharedKey shared key
+             * @return the next stage of the definition
+             */
             WithCreate withSharedKey(String sharedKey);
         }
 
+        /**
+         * Stage of definition allowing to enable BGP for the connection.
+         */
         interface WithBgp {
+            /**
+             * Enable BGP for the connection
+             * @return the next stage of the definition
+             */
             WithCreate withBgp();
         }
 
-        interface WithExpressRouteCircuit {
-            WithCreate withExpressRouteCircuit(String circuitId);
-
-            WithCreate withExpressRouteCircuit(ExpressRouteCircuit circuit);
-        }
-
+        /**
+         * Stage of definition allowing to add authorization for the connection.
+         */
         interface WithAuthorization {
+            /**
+             * Specify authorization key.
+             * This is required in case of Express Route connection if Express Route circuit and virtual network gateway reside in different subscriptions.
+             * @param authorizationKey authorization key to use
+             * @return the next stage of the definition
+             */
             WithCreate withAuthorization(String authorizationKey);
         }
 
+        /**
+         * The stage of a virtual network gateway connection definition with sufficient inputs to create a new connection in the cloud,
+         * but exposing additional optional settings to specify.
+         */
         interface WithCreate extends
                 Creatable<VirtualNetworkGatewayConnection>,
                 Resource.DefinitionWithTags<WithCreate>,
@@ -197,18 +257,45 @@ public interface VirtualNetworkGatewayConnection extends
      * Grouping of virtual network gateway connection update stages.
      */
     interface UpdateStages {
-
+        /**
+         * Stage of virtual network gateway connection update allowing to enable or disable BGP for the connection.
+         */
         interface WithBgp {
+            /**
+             * Enable BGP for the connection
+             * @return the next stage of the update
+             */
             Update withBgp();
 
+            /**
+             * Disable BGP for the connection
+             * @return the next stage of the update
+             */
             Update withoutBgp();
         }
 
+        /**
+         * Stage of virtual network gateway connection update allowing to specify shared key for the connection.
+         */
         interface WithSharedKey {
+            /**
+             * Specify shared key.
+             * @param sharedKey shared key
+             * @return the next stage of the update
+             */
             Update withSharedKey(String sharedKey);
         }
 
+        /**
+         * Stage of virtual network gateway connection update allowing to add authorization for the connection.
+         */
         interface WithAuthorization {
+            /**
+             * Specify authorization key.
+             * This is required in case of Express Route connection if Express Route circuit and virtual network gateway reside in different subscriptions.
+             * @param authorizationKey authorization key to use
+             * @return the next stage of the update
+             */
             Update withAuthorization(String authorizationKey);
         }
     }

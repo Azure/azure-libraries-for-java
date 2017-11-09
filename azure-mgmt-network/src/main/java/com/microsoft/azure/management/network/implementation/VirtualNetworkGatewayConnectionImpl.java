@@ -148,9 +148,15 @@ public class VirtualNetworkGatewayConnectionImpl
     }
 
     @Override
-    public VirtualNetworkGatewayConnectionImpl withExpressRoute() {
+    public VirtualNetworkGatewayConnectionImpl withExpressRoute(String circuitId) {
         inner().withConnectionType(VirtualNetworkGatewayConnectionType.EXPRESS_ROUTE);
+        inner().withPeer(new SubResource().withId(circuitId));
         return this;
+    }
+
+    @Override
+    public VirtualNetworkGatewayConnectionImpl withExpressRoute(ExpressRouteCircuit circuit) {
+        return withExpressRoute(circuit.id());
     }
 
     @Override
@@ -182,18 +188,6 @@ public class VirtualNetworkGatewayConnectionImpl
     @Override
     public VirtualNetworkGatewayConnectionImpl withoutBgp() {
         inner().withEnableBgp(false);
-        return this;
-    }
-
-    @Override
-    public VirtualNetworkGatewayConnectionImpl withExpressRouteCircuit(String circuitId) {
-        inner().withPeer(new SubResource().withId(circuitId));
-        return this;
-    }
-
-    @Override
-    public VirtualNetworkGatewayConnectionImpl withExpressRouteCircuit(ExpressRouteCircuit circuit) {
-        inner().withPeer(new SubResource().withId(circuit.id()));
         return this;
     }
 

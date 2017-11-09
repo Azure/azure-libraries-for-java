@@ -211,7 +211,7 @@ public interface VirtualNetworkGatewayConnection extends
          */
         interface WithBgp {
             /**
-             * Enable BGP for the connection
+             * Enable BGP for the connection.
              * @return the next stage of the definition
              */
             WithCreate withBgp();
@@ -262,13 +262,13 @@ public interface VirtualNetworkGatewayConnection extends
          */
         interface WithBgp {
             /**
-             * Enable BGP for the connection
+             * Enable BGP for the connection.
              * @return the next stage of the update
              */
             Update withBgp();
 
             /**
-             * Disable BGP for the connection
+             * Disable BGP for the connection.
              * @return the next stage of the update
              */
             Update withoutBgp();

@@ -6,9 +6,6 @@
 package com.microsoft.azure.management.network.samples;
 
 import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.network.ExpressRouteCircuit;
 import com.microsoft.azure.management.network.ExpressRouteCircuitSkuType;
 import com.microsoft.azure.management.network.Network;
@@ -104,28 +101,10 @@ public final class ManageExpressRoute {
             vngw1.connections().define(connectionName)
                     .withExpressRoute()
                     .withExpressRouteCircuit(erc)
-                    .withAuthorization(erc.inner().authorizations().get(0).authorizationKey())
+                    // Note: authorization key is required only in case express route circuit and virtual network gateway are in different subscriptions
+                    // .withAuthorization(erc.inner().authorizations().get(0).authorizationKey())
                     .create();
             System.out.println("Created virtual network gateway connection");
-
-            //============================================================
-            // Create virtual machine
-            System.out.println("Creating virtual machine...");
-            VirtualMachine windowsVM = azure.virtualMachines()
-                    .define("myVm")
-                    .withRegion(region)
-                    .withNewResourceGroup(rgName)
-                    .withExistingPrimaryNetwork(network)
-                    .withSubnet("FrontEnd")
-                    .withPrimaryPrivateIPAddressDynamic()
-                    .withoutPrimaryPublicIPAddress()
-                    .withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_SERVER_2012_R2_DATACENTER)
-                    .withAdminUsername("myAdmin")
-                    .withAdminPassword("MyPassword!")
-                    .withNewDataDisk(50)
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
-                    .create();
-            System.out.println("Created virtual machine");
 
             return true;
         } catch (Exception e) {

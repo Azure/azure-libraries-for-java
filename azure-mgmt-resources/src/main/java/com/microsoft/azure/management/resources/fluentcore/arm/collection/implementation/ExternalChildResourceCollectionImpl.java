@@ -7,6 +7,7 @@ package com.microsoft.azure.management.resources.fluentcore.arm.collection.imple
 
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import rx.Observable;
 import rx.exceptions.CompositeException;
 import rx.functions.Action0;
@@ -44,11 +45,21 @@ public abstract class ExternalChildResourceCollectionImpl<
      * The parent resource of this collection of child resources.
      */
     private final ParentImplT parent;
-    
+    /**
+     * the TaskGroup of parent resource. This is used to schedule the "post run" works
+     * when post run is enabled via {@link this#enablePostRunMode()}
+     */
+    private final TaskGroup parentTaskGroup;
     /**
      * The child resource instances that this collection contains.
      */
     protected ConcurrentMap<String, FluentModelTImpl> childCollection = new ConcurrentHashMap<>();
+    /**
+     * Indicates how the pending operations on the child resources are performed, true
+     * if operations are performed through "post run" task, false if operations are
+     * performed via explicit call to {@link this#commitAsync()}.
+     */
+    private boolean isPostRunMode;
 
     /**
      * Used to construct error string, this is user friendly name of the child resource (e.g. Subnet, Extension).
@@ -59,11 +70,56 @@ public abstract class ExternalChildResourceCollectionImpl<
      * Creates a new ExternalChildResourcesImpl.
      *
      * @param parent the parent Azure resource
+     * @param parentTaskGroup the TaskGroup the parent Azure resource belongs to
      * @param childResourceName the child resource name
      */
-    protected ExternalChildResourceCollectionImpl(ParentImplT parent, String childResourceName) {
+    protected ExternalChildResourceCollectionImpl(ParentImplT parent, TaskGroup parentTaskGroup, String childResourceName) {
         this.parent = parent;
+        this.parentTaskGroup = parentTaskGroup;
         this.childResourceName = childResourceName;
+        this.isPostRunMode = false;
+    }
+
+    /**
+     * Indicates that the pending operations on the resources are performed as "post run" tasks.
+     */
+    public void enablePostRunMode() {
+        this.isPostRunMode = true;
+    }
+
+    /**
+     * Indicates that the pending operations on the resources are performed via explicit call to
+     * {@link this#commitAsync()}.
+     */
+    public void enableCommitMode() {
+       this.isPostRunMode = false;
+    }
+
+    /**
+     * Mark that there is no pending operations on the external child resources
+     * and clear internal collection holding the external child resources.
+     */
+    protected void reset() {
+        for (FluentModelTImpl child : childCollection.values()) {
+            child.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None);
+        }
+        this.childCollection.clear();
+    }
+
+    /**
+     * Mark the given child resource as the post run dependent of the parent of this collection.
+     *
+     * @param childResource the child resource
+     */
+    protected FluentModelTImpl prepareForFutureCommitOrPostRun(FluentModelTImpl childResource) {
+        if (!this.isPostRunMode) {
+            if (!childResource.taskGroup().dependsOn(this.parentTaskGroup)) {
+                this.parentTaskGroup.addPostRunDependentTaskGroup(childResource.taskGroup());
+            }
+            return childResource;
+        } else {
+            return childResource;
+        }
     }
 
     /**
@@ -77,6 +133,10 @@ public abstract class ExternalChildResourceCollectionImpl<
      * @return the observable stream
      */
     public Observable<FluentModelTImpl> commitAsync() {
+        if (this.isPostRunMode) {
+            return Observable.error(new IllegalStateException("commitAsync() cannot be invoked when 'post run' mode is enabled"));
+        }
+
         final ExternalChildResourceCollectionImpl<FluentModelTImpl, FluentModelT, InnerModelT, ParentImplT, ParentT> self = this;
         List<FluentModelTImpl> items = new ArrayList<>();
         for (FluentModelTImpl item : this.childCollection.values()) {

@@ -7,6 +7,7 @@ package com.microsoft.azure.management.resources.fluentcore.arm.collection.imple
 
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 
 /**
  * Externalized non cache-able child resource collection abstract implementation.
@@ -35,10 +36,21 @@ public abstract class ExternalChildResourcesNonCachedImpl<
      * Creates a new ExternalNonInlineChildResourcesImpl.
      *
      * @param parent the parent Azure resource
+     * @param parentTaskGroup the TaskGroup the parent Azure resource belongs to
      * @param childResourceName the child resource name
      */
-    protected ExternalChildResourcesNonCachedImpl(ParentImplT parent, String childResourceName) {
-        super(parent, childResourceName);
+    protected ExternalChildResourcesNonCachedImpl(ParentImplT parent, TaskGroup parentTaskGroup, String childResourceName) {
+        super(parent, parentTaskGroup, childResourceName);
+    }
+
+    /**
+     * Perform actions after the processing of external child resource actions.
+     *
+     * @param isGroupFaulted if the task group that the external child resources
+     *                       belongs are in faulted state.
+     */
+    public void reset(boolean isGroupFaulted) {
+        super.reset();
     }
 
     /**
@@ -54,7 +66,7 @@ public abstract class ExternalChildResourcesNonCachedImpl<
         }
         model.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeCreated);
         this.childCollection.put(model.childResourceKey(), model);
-        return model;
+        return super.prepareForFutureCommitOrPostRun(model);
     }
 
     /**
@@ -70,7 +82,7 @@ public abstract class ExternalChildResourcesNonCachedImpl<
         }
         model.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeUpdated);
         this.childCollection.put(model.childResourceKey(), model);
-        return model;
+        return super.prepareForFutureCommitOrPostRun(model);
     }
 
     /**
@@ -85,6 +97,7 @@ public abstract class ExternalChildResourcesNonCachedImpl<
         }
         model.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeRemoved);
         this.childCollection.put(model.childResourceKey(), model);
+        super.prepareForFutureCommitOrPostRun(model);
     }
 
     @Override

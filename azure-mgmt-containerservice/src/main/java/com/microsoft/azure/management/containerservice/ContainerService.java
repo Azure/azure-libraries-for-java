@@ -8,6 +8,7 @@ package com.microsoft.azure.management.containerservice;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.containerservice.implementation.ContainerServiceInner;
 import com.microsoft.azure.management.containerservice.implementation.ContainerServiceManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -33,71 +34,85 @@ public interface ContainerService extends
     /**
      * @return the master node count
      */
+    @Method
     int masterNodeCount();
 
     /**
      * @return the type of the orchestrator
      */
+    @Method
     ContainerServiceOrchestratorTypes orchestratorType();
 
     /**
      * @return the master DNS prefix which was specified at creation time
      */
+    @Method
     String masterDnsPrefix();
 
     /**
      * @return the master FQDN
      */
+    @Method
     String masterFqdn();
 
     /**
      * @return the agent pools map
      */
+    @Method
     Map<String, ContainerServiceAgentPool> agentPools();
 
     /**
      * @return the Linux root username
      */
+    @Method
     String linuxRootUsername();
 
     /**
      * @return the Linux SSH key
      */
+    @Method
     String sshKey();
 
     /**
      * @return true if diagnostics are enabled
      */
+    @Method
     boolean isDiagnosticsEnabled();
 
     /**
      * @return the service principal client ID
      */
+    @Method
     String servicePrincipalClientId();
 
     /**
      * @return the service principal secret
      */
+    @Method
     String servicePrincipalSecret();
 
     /**
      * @return OS disk size in GB set for every machine in the master pool
      */
+    @Method
     int masterOSDiskSizeInGB();
 
     /**
      * @return the storage kind set for every machine in the master pool
      */
+    @Method
     ContainerServiceStorageProfileTypes masterStorageProfile();
 
     /**
      * @return the name of the subnet used by every machine in the master pool
      */
+    @Method
     String masterSubnetName();
 
     /**
      * @return the ID of the virtual network used by every machine in the master and agent pools
      */
+    @Method
     String networkId();
 
 

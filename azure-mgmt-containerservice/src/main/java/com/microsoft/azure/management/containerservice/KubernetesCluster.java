@@ -7,6 +7,7 @@ package com.microsoft.azure.management.containerservice;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.containerservice.implementation.ContainerServiceManager;
 import com.microsoft.azure.management.containerservice.implementation.ManagedClusterInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -32,61 +33,73 @@ public interface KubernetesCluster extends
     /**
      * @return the provisioning state of the Kubernetes cluster
      */
+    @Method
     String provisioningState();
 
     /**
      * @return the DNS prefix which was specified at creation time
      */
+    @Method
     String dnsPrefix();
 
     /**
      * @return the FQDN for the master pool
      */
+    @Method
     String fqdn();
 
     /**
      * @return the Kubernetes version
      */
+    @Method
     KubernetesVersion version();
 
     /**
      * @return the Kubernetes configuration file content with administrative privileges to the cluster
      */
+    @Method
     byte[] adminKubeConfigContent();
 
     /**
      * @return the Kubernetes configuration file content with user-level privileges to the cluster
      */
+    @Method
     byte[] userKubeConfigContent();
 
     /**
      * @return the service principal client ID
      */
+    @Method
     String servicePrincipalClientId();
 
     /**
      * @return the service principal secret
      */
+    @Method
     String servicePrincipalSecret();
 
     /**
      * @return the key vault reference to the service principal secret
      */
+    @Method
     KeyVaultSecretRef keyVaultSecretReference();
 
     /**
      * @return the Linux root username
      */
+    @Method
     String linuxRootUsername();
 
     /**
      * @return the Linux SSH key
      */
+    @Method
     String sshKey();
 
     /**
      * @return the agent pools in the Kubernetes cluster
      */
+    @Method
     Map<String, KubernetesClusterAgentPool> agentPools();
 
 

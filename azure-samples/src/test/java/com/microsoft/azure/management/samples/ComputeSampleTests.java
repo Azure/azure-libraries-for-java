@@ -43,6 +43,7 @@ public class ComputeSampleTests extends SamplesTestBase {
     }
 
     @Test
+    @Ignore("Sample leverages true parallelization, which cannot be recorded, until GenericResources support deleteByIds()")
     public void testCreateVirtualMachinesAsyncTrackingRelatedResources() {
         Assert.assertTrue(CreateVirtualMachinesAsyncTrackingRelatedResources.runSample(azure));
     }

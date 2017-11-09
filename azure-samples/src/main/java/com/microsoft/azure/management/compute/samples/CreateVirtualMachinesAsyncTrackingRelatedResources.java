@@ -25,6 +25,7 @@ import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.LogLevel;
 
 import rx.Completable;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -32,24 +33,25 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Making use of the reactive pattern in a complex virtual machine creation scenario
  *
- * This sample shows how the reactive pattern (RXJava's Observables) supported by the Azure Libraries for Java in their asynchronous API can be
- * used for handling some potentially more complex real world scenarios with relative ease, involving parallel, distributed computation in the cloud.
- * The specific example here shows how Observables can be used to enable real time tracking of the creation of many virtual machines in parallel and
- * all their related resources. Since Azure does not support transactional creation of virtual machines (no automatic rollback in case of failure),
- * this could be useful for example for the purposes of deleting "orphaned" resources if the creation of some other resources fails.
- * Or to simply show real-time progress in some UI to the end user.
+ * This sample shows how the reactive pattern (RXJava's Observables) supported by the Azure Libraries for Java in their asynchronous API
+ * can be used for handling some more complex real world scenarios with relative ease, involving parallel, distributed computation in
+ * the cloud. The specific example here shows how Observables enable real time tracking of the creation of many virtual machines in
+ * parallel and all their related resources. Since Azure does not support transactional creation of virtual machines (no automatic
+ * rollback in case of failure), this could be useful for example for the purposes of deleting "orphaned" resources, whenever the
+ * creation of some other resources fails. Or simply showing real-time progress in some UI to the end user.
  *
  * The sample goes through the following steps:
  *
  * 1. Define a number of virtual machines and their related required resources (such as virtual networks, etc)
- * 2. Start the parallel creation of those virtual machine but with observers set up that will keep track of the created resources and report them on the console
- * 3. Clean up those successfully created resources whose virtual machines for some reason failed to be created
+ * 2. Start the parallel creation of those virtual machineS but with observer logic keeping track of the created resources and reporting
+ *    them on the console in real time
+ * 3. Clean up the "orphaned" resources, i.e. those that were created successfully but whose associated virtual machine
+ *    failed to be created for some reason.
  */
 public final class CreateVirtualMachinesAsyncTrackingRelatedResources {
 
@@ -59,8 +61,7 @@ public final class CreateVirtualMachinesAsyncTrackingRelatedResources {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-
-        final int desiredVMCount = 15;
+        final int desiredVMCount = 6;
         final Region region = Region.US_EAST;
         final String resourceGroupName = SdkContext.randomResourceName("rg", 15);
 
@@ -81,7 +82,6 @@ public final class CreateVirtualMachinesAsyncTrackingRelatedResources {
             final Map<String, Creatable<NetworkInterface>> nicDefinitions = new HashMap<>(); // Tracking NICs separately because they have to be deleted first
             final Map<String, Creatable<VirtualMachine>> vmDefinitions = new HashMap<>();
             final Map<String, String> createdResourceIds = new HashMap<>();
-            final List<Throwable> errors = new ArrayList<>();
 
             for (int i = 0; i < desiredVMCount; i++) {
                 Collection<Creatable<? extends Resource>> relatedDefinitions = new ArrayList<>();
@@ -122,7 +122,7 @@ public final class CreateVirtualMachinesAsyncTrackingRelatedResources {
                 // Define a VM
                 String userName;
                 if (i == desiredVMCount / 2) {
-                    // Intentionally cause a failure in one of the VMs to test the sample's rollback implementation
+                    // Intentionally cause a "missing user name" failure in one of the VMs to test the sample's rollback implementation
                     userName = "";
                 } else {
                     userName = "tester";
@@ -150,26 +150,46 @@ public final class CreateVirtualMachinesAsyncTrackingRelatedResources {
             System.out.println("Creating the virtual machines and related required resources in parallel...");
             azure.virtualMachines().createAsync(new ArrayList<>(vmDefinitions.values()))
 
+                // Handle the first (and only) error that will occur during the creation of the resources. For simplicity
+                // we're only recording the error, not trying/throw an exception.
+                .onErrorReturn(new Func1<Throwable, Indexable>() {
+                    @Override
+                    public Indexable call(Throwable throwable) {
+                        System.out.println("ERROR: Creation of virtual machines has been stopped due to a failure to create a resource.\n");
+                        if (throwable instanceof CloudException) {
+                            CloudException ce = (CloudException) throwable;
+                            System.out.println("Cloud Exception: " + ce.getMessage());
+                        } else {
+                            throwable.printStackTrace();
+                        }
+                        return null;
+                    }
+                })
+
+                // Making this observable blocking for the purposes of the sample, since the parallel resource creation needs to
+                // be completed before we start
+                .toBlocking()
+
                 // The Observable returned by createAsync() emits a resource as soon as that resource is successfully created, so
-                // this is where the RX map() operator can be used to handle each such emitted resource accordingly.
+                // this is where the subscriber can handle each such emitted resource accordingly.
                 //
                 // Resources will be created across multiple threads and the order in which they will be emitted is unpredictable.
                 // Since the SDK and the RX framework handle the multi-threading and parallelization under the hood, our code below
                 // does not need to worry about it, just handle each resource as it is emitted.
                 //
-                // Thanks to how RX works, we can also assume our callback below will be always called on the same thread, so we do
-                // not need to worry about making the collections it uses thread-safe.
-                .map(new Func1<Indexable, Indexable>() {
-                    @Override
-                    public Indexable call(Indexable createdResource) {
+                // We can also assume our callback below will be always called on the same thread, so we do not need to worry about
+                // making the collections it uses thread-safe.
+                .subscribe(new Action1<Indexable>() {
 
+                    @Override
+                    public void call(Indexable createdResource) {
                         // Since the resources are of different types, each resources is emitted as the Indexable base type
                         // so it needs to be cast and handled depending on its type
                         if (createdResource instanceof Resource) {
                             Resource resource = (Resource) createdResource;
 
                             // Report the creation of a resource in the UI
-                            System.out.println(String.format("\tCreated: %s '%s'",
+                            System.out.println(String.format("\tCreated resource of type %s named '%s'",
                                     ResourceUtils.resourceTypeFromResourceId(resource.id()),
                                     ResourceUtils.nameFromResourceId(resource.id())));
 
@@ -190,22 +210,10 @@ public final class CreateVirtualMachinesAsyncTrackingRelatedResources {
                                 createdResourceIds.put(resource.key(), resource.id());
                             }
                         }
-                        return createdResource;
                     }
-               })
-               .onErrorReturn(new Func1<Throwable, Indexable>() {
-                   // Aggregate all the errors
-                   @Override
-                   public Indexable call(Throwable throwable) {
-                       errors.add(throwable);
-                       return null;
-                   }
-                })
+                });
 
-               // Start the process and wait for the Observable to stop emitting
-               .toBlocking().last();
-
-               System.out.println("Creation completed.");
+            System.out.println("Creation completed.");
 
             // =====================================================================
             // Clean up orphaned resources
@@ -239,35 +247,23 @@ public final class CreateVirtualMachinesAsyncTrackingRelatedResources {
             // Delete the related resources in parallel, as much as possible, postponing the errors till the end
             Completable.mergeDelayError(deleteObservables).await();
 
-            // Show any errors
-            for (Throwable error : errors) {
-                System.out.println("\n### ERROR ###\n");
-                if (error instanceof CloudException) {
-                    CloudException ce = (CloudException) error;
-                    System.out.println("Cloud Exception: " + ce.getMessage());
-                } else {
-                    error.printStackTrace();
-                }
-            }
-
             System.out.println("Number of failed/cleaned up VM creations: " + vmNonNicResourceDefinitions.size());
 
             // Verifications
-            final int successfulVMCount = desiredVMCount - vmNonNicResourceDefinitions.size();
             final int actualVMCount = azure.virtualMachines().listByResourceGroup(resourceGroupName).size();
             System.out.println("Number of successful VMs: " + actualVMCount);
 
             final int actualNicCount = azure.networkInterfaces().listByResourceGroup(resourceGroupName).size();
-            System.out.println(String.format("Remaining network interfaces (should be %d): %d", successfulVMCount, actualNicCount));
+            System.out.println(String.format("Remaining network interfaces (should be %d): %d", actualVMCount, actualNicCount));
 
             final int actualNetworkCount = azure.networks().listByResourceGroup(resourceGroupName).size();
-            System.out.println(String.format("Remaining virtual networks (should be %d): %d", successfulVMCount, actualNetworkCount));
+            System.out.println(String.format("Remaining virtual networks (should be %d): %d", actualVMCount, actualNetworkCount));
 
             final int actualPipCount = azure.publicIPAddresses().listByResourceGroup(resourceGroupName).size();
-            System.out.println(String.format("Remaining public IP addresses (should be %d): %d", successfulVMCount, actualPipCount));
+            System.out.println(String.format("Remaining public IP addresses (should be %d): %d", actualVMCount, actualPipCount));
 
             final int actualAvailabilitySetCount = azure.availabilitySets().listByResourceGroup(resourceGroupName).size();
-            System.out.println(String.format("Remaining availability sets (should be %d): %d", successfulVMCount, actualAvailabilitySetCount));
+            System.out.println(String.format("Remaining availability sets (should be %d): %d", actualVMCount, actualAvailabilitySetCount));
 
             return true;
         } catch (Exception f) {

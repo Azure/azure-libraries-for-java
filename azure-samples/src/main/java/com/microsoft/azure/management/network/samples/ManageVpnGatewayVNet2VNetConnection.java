@@ -37,8 +37,8 @@ import java.util.List;
  *    - Create storage account to store troubleshooting information
  *    - Run troubleshooting for the connection - result will be 'UnHealthy' as need to create symmetrical connection from second gateway to the first
  *  - Create virtual network connection from second gateway to the first and run troubleshooting. Result will be 'Healthy'.
- *  - Create 2 virtual machines, each one in its network and verify connectivity between them
  *  - List VPN Gateway connections for the first gateway
+ *  - Create 2 virtual machines, each one in its network and verify connectivity between them
  */
 
 public final class ManageVpnGatewayVNet2VNetConnection {

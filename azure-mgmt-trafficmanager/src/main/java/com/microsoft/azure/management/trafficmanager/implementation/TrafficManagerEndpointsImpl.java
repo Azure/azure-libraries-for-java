@@ -39,7 +39,7 @@ class TrafficManagerEndpointsImpl extends
      * @param parent the parent traffic manager profile of the endpoints
      */
     TrafficManagerEndpointsImpl(EndpointsInner client, TrafficManagerProfileImpl parent) {
-        super(parent, "Endpoint");
+        super(parent, parent.taskGroup(), "Endpoint");
         this.client = client;
         this.cacheCollection();
     }

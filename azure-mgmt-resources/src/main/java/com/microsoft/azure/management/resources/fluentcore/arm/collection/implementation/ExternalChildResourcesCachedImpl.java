@@ -54,18 +54,6 @@ public abstract class ExternalChildResourcesCachedImpl<
     }
 
     /**
-     * Resets the external child resources after performing pending operations on them.
-     *
-     * @param isGroupFaulted if the group is in faulted state.
-     */
-    public void reset(boolean isGroupFaulted) {
-        super.reset();
-        if (!isGroupFaulted) {
-            this.cacheCollection();
-        }
-    }
-
-    /**
      * @return the childCollection of external child resources.
      */
     protected Map<String, FluentModelTImpl> collection() {
@@ -176,7 +164,7 @@ public abstract class ExternalChildResourcesCachedImpl<
      * Initializes the external child resource collection.
      */
     protected void cacheCollection() {
-        this.childCollection.clear();
+        this.clear();
         for (FluentModelTImpl childResource : this.listChildResources()) {
             this.childCollection.put(childResource.childResourceKey(), childResource);
         }

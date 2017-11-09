@@ -53,12 +53,12 @@ public class DnsZoneImpl
     private PtrRecordSets ptrRecordSets;
     private SrvRecordSets srvRecordSets;
     private TxtRecordSets txtRecordSets;
-    private DnsRecordSetsImpl recordSetsImpl;
+    private DnsRecordSetsImpl recordSets;
     private String dnsZoneETag;
 
     DnsZoneImpl(String name, final ZoneInner innerModel, final DnsZoneManager manager) {
         super(name, innerModel, manager);
-        this.recordSetsImpl = new DnsRecordSetsImpl(this);
+        this.recordSets = new DnsRecordSetsImpl(this);
         initRecordSets();
     }
 
@@ -155,94 +155,94 @@ public class DnsZoneImpl
 
     @Override
     public DnsRecordSetImpl defineARecordSet(String name) {
-        return recordSetsImpl.defineARecordSet(name);
+        return recordSets.defineARecordSet(name);
     }
 
     @Override
     public DnsRecordSetImpl defineAaaaRecordSet(String name) {
-        return recordSetsImpl.defineAaaaRecordSet(name);
+        return recordSets.defineAaaaRecordSet(name);
     }
 
     @Override
     public DnsZoneImpl withCNameRecordSet(String name, String alias) {
-        recordSetsImpl.withCNameRecordSet(name, alias);
+        recordSets.withCNameRecordSet(name, alias);
         return this;
     }
 
     @Override
     public DnsRecordSetImpl defineCNameRecordSet(String name) {
-        return recordSetsImpl.defineCNameRecordSet(name);
+        return recordSets.defineCNameRecordSet(name);
     }
 
 
     @Override
     public DnsRecordSetImpl defineMXRecordSet(String name) {
-        return recordSetsImpl.defineMXRecordSet(name);
+        return recordSets.defineMXRecordSet(name);
     }
 
     @Override
     public DnsRecordSetImpl defineNSRecordSet(String name) {
-        return recordSetsImpl.defineNSRecordSet(name);
+        return recordSets.defineNSRecordSet(name);
     }
 
     @Override
     public DnsRecordSetImpl definePtrRecordSet(String name) {
-        return recordSetsImpl.definePtrRecordSet(name);
+        return recordSets.definePtrRecordSet(name);
     }
 
     @Override
     public DnsRecordSetImpl defineSrvRecordSet(String name) {
-        return recordSetsImpl.defineSrvRecordSet(name);
+        return recordSets.defineSrvRecordSet(name);
     }
 
     @Override
     public DnsRecordSetImpl defineTxtRecordSet(String name) {
-        return recordSetsImpl.defineTxtRecordSet(name);
+        return recordSets.defineTxtRecordSet(name);
     }
 
     @Override
     public DnsRecordSetImpl updateARecordSet(String name) {
-        return recordSetsImpl.updateARecordSet(name);
+        return recordSets.updateARecordSet(name);
     }
 
     @Override
     public DnsRecordSetImpl updateAaaaRecordSet(String name) {
-        return recordSetsImpl.updateAaaaRecordSet(name);
+        return recordSets.updateAaaaRecordSet(name);
     }
 
     @Override
     public DnsRecordSetImpl updateMXRecordSet(String name) {
-        return recordSetsImpl.updateMXRecordSet(name);
+        return recordSets.updateMXRecordSet(name);
     }
 
     @Override
     public DnsRecordSetImpl updateCNameRecordSet(String name) {
-        return recordSetsImpl.updateCNameRecordSet(name);
+        return recordSets.updateCNameRecordSet(name);
     }
 
     @Override
     public DnsRecordSetImpl updateNSRecordSet(String name) {
-        return recordSetsImpl.updateNSRecordSet(name);
+        return recordSets.updateNSRecordSet(name);
     }
 
     @Override
     public DnsRecordSetImpl updatePtrRecordSet(String name) {
-        return recordSetsImpl.updatePtrRecordSet(name);
+        return recordSets.updatePtrRecordSet(name);
     }
 
     @Override
     public DnsRecordSetImpl updateSrvRecordSet(String name) {
-        return recordSetsImpl.updateSrvRecordSet(name);
+        return recordSets.updateSrvRecordSet(name);
     }
 
     @Override
     public DnsRecordSetImpl updateTxtRecordSet(String name) {
-        return recordSetsImpl.updateTxtRecordSet(name);
+        return recordSets.updateTxtRecordSet(name);
     }
 
     @Override
     public DnsRecordSetImpl updateSoaRecord() {
-        return recordSetsImpl.updateSoaRecordSet();
+        return recordSets.updateSoaRecordSet();
     }
 
     @Override
@@ -252,7 +252,7 @@ public class DnsZoneImpl
 
     @Override
     public DnsZoneImpl withoutARecordSet(String name, String eTag) {
-        recordSetsImpl.withoutARecordSet(name, eTag);
+        recordSets.withoutARecordSet(name, eTag);
         return this;
     }
 
@@ -263,7 +263,7 @@ public class DnsZoneImpl
 
     @Override
     public DnsZoneImpl withoutAaaaRecordSet(String name, String eTag) {
-        recordSetsImpl.withoutAaaaRecordSet(name, eTag);
+        recordSets.withoutAaaaRecordSet(name, eTag);
         return this;
     }
 
@@ -274,7 +274,7 @@ public class DnsZoneImpl
 
     @Override
     public DnsZoneImpl withoutCNameRecordSet(String name, String eTag) {
-        recordSetsImpl.withoutCNameRecordSet(name, eTag);
+        recordSets.withoutCNameRecordSet(name, eTag);
         return this;
     }
 
@@ -285,7 +285,7 @@ public class DnsZoneImpl
 
     @Override
     public DnsZoneImpl withoutMXRecordSet(String name, String eTag) {
-        recordSetsImpl.withoutMXRecordSet(name, eTag);
+        recordSets.withoutMXRecordSet(name, eTag);
         return this;
     }
 
@@ -296,7 +296,7 @@ public class DnsZoneImpl
 
     @Override
     public DnsZoneImpl withoutNSRecordSet(String name, String eTag) {
-        recordSetsImpl.withoutNSRecordSet(name, eTag);
+        recordSets.withoutNSRecordSet(name, eTag);
         return this;
     }
 
@@ -307,7 +307,7 @@ public class DnsZoneImpl
 
     @Override
     public DnsZoneImpl withoutPtrRecordSet(String name, String eTag) {
-        recordSetsImpl.withoutPtrRecordSet(name, eTag);
+        recordSets.withoutPtrRecordSet(name, eTag);
         return this;
     }
 
@@ -318,7 +318,7 @@ public class DnsZoneImpl
 
     @Override
     public DnsZoneImpl withoutSrvRecordSet(String name, String eTag) {
-        recordSetsImpl.withoutSrvRecordSet(name, eTag);
+        recordSets.withoutSrvRecordSet(name, eTag);
         return this;
     }
 
@@ -329,7 +329,7 @@ public class DnsZoneImpl
 
     @Override
     public DnsZoneImpl withoutTxtRecordSet(String name, String eTag) {
-        recordSetsImpl.withoutTxtRecordSet(name, eTag);
+        recordSets.withoutTxtRecordSet(name, eTag);
         return this;
     }
 
@@ -376,7 +376,7 @@ public class DnsZoneImpl
 
     @Override
     public Completable afterPostRunAsync(boolean isGroupFaulted) {
-        recordSetsImpl.reset(true);
+        recordSets.clear();
         return Completable.complete();
     }
 
@@ -406,7 +406,7 @@ public class DnsZoneImpl
         this.ptrRecordSets = new PtrRecordSetsImpl(this);
         this.srvRecordSets = new SrvRecordSetsImpl(this);
         this.txtRecordSets = new TxtRecordSetsImpl(this);
-        this.recordSetsImpl.clearPendingOperations();
+        this.recordSets.clear();
     }
 
     private PagedList<DnsRecordSet> listRecordSetsIntern(String recordSetSuffix, Integer pageSize) {

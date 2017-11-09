@@ -44,16 +44,6 @@ public abstract class ExternalChildResourcesNonCachedImpl<
     }
 
     /**
-     * Perform actions after the processing of external child resource actions.
-     *
-     * @param isGroupFaulted if the task group that the external child resources
-     *                       belongs are in faulted state.
-     */
-    public void reset(boolean isGroupFaulted) {
-        super.reset();
-    }
-
-    /**
      * Prepare a given model of an external child resource for create.
      *
      * @param model the model to track create changes

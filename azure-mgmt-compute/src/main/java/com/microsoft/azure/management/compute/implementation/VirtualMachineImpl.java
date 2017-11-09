@@ -1691,24 +1691,15 @@ class VirtualMachineImpl
     //    public Completable afterPostRunAsync(boolean isGroupFaulted) {
     //        // There can be VM extensions associated with this VM those are marked as "post run",
     //        // (i.e. After VM is created) if so there could be some operations (CUD) performed on
-    //        // VM extensions. We need to refresh the VM with latest state of those extensions.
-    //        // 'afterPostRunAsync' method will be called only after all extensions operations are
-    //        // processed.  Refresh VM if no failure happened so far.
+    //        // VM extensions after VM create. Hence we need to refresh the VM with latest state of
+    //        // those extensions. 'afterPostRunAsync' method will be called only after all extensions
+    //        // operations are processed. Refresh VM if no failure happened so far.
     //        //
     //        if (isGroupFaulted) {
-    //            this.virtualMachineExtensions.reset(true);
+    //            this.virtualMachineExtensions.clear();
     //            return Completable.complete();
     //        } else {
-    //            final VirtualMachinesInner client = this.manager().inner().virtualMachines();
-    //            return client.getByResourceGroupAsync(resourceGroupName(), vmName)
-    //                    .map(new Func1<VirtualMachineInner, Object>() {
-    //                        @Override
-    //                        public Object call(VirtualMachineInner inner) {
-    //                            reset(inner);
-    //                            virtualMachineExtensions.reset(false);
-    //                            return inner;
-    //                        }
-    //                    }).toCompletable();
+    //            return this.refreshAsync().toCompletable();
     //        }
     //    }
 

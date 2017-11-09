@@ -273,19 +273,10 @@ class TrafficManagerProfileImpl
     @Override
     public Completable afterPostRunAsync(final boolean isGroupFaulted) {
         if (isGroupFaulted) {
-            this.endpoints.reset(isGroupFaulted);
+            this.endpoints.clear();
             return Completable.complete();
         } else {
-            return this.manager().inner().profiles().getByResourceGroupAsync(resourceGroupName(), name())
-                    .map(new Func1<ProfileInner, ProfileInner>() {
-                        @Override
-                        public ProfileInner call(ProfileInner profileInner) {
-                            setInner(profileInner);
-                            endpoints.reset(isGroupFaulted);
-                            return profileInner;
-                        }
-                    })
-                    .toCompletable();
+            return this.refreshAsync().toCompletable();
         }
     }
 

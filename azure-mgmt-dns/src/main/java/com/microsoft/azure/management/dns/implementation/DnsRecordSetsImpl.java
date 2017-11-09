@@ -140,9 +140,6 @@ class DnsRecordSetsImpl extends
         prepareRemove(TxtRecordSetImpl.newRecordSet(name, this.parent()).withETagOnDelete(eTagValue));
     }
 
-    final void clearPendingOperations() {
-    }
-
     private DnsRecordSetImpl setDefaults(DnsRecordSetImpl recordSet) {
         return recordSet.withTimeToLive(defaultTtlInSeconds);
     }

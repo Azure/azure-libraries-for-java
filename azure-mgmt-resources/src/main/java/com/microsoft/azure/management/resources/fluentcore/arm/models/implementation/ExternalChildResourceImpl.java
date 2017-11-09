@@ -148,6 +148,10 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
 
     protected abstract Observable<InnerModelT> getInnerAsync();
 
+    protected Completable afterPostRunAsync(boolean isGroupFaulted) {
+        return Completable.complete();
+    }
+
     /**
      * The possible operation pending on a child resource in-memory.
      */
@@ -241,7 +245,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
 
         @Override
         public Completable invokeAfterPostRunAsync(boolean isGroupFaulted) {
-            return Completable.complete();
+            return this.externalChild.afterPostRunAsync(isGroupFaulted);
         }
     }
 }

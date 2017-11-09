@@ -43,7 +43,7 @@ public class BatchAccountImpl
     private final StorageManager storageManager;
     private String creatableStorageAccountKey;
     private StorageAccount existingStorageAccountToAssociate;
-    private ApplicationsImpl applicationsImpl;
+    private ApplicationsImpl applications;
     private AutoStorageProperties autoStorage;
 
     protected BatchAccountImpl(String name,
@@ -52,7 +52,7 @@ public class BatchAccountImpl
                                final StorageManager storageManager) {
         super(name, innerObject, manager);
         this.storageManager = storageManager;
-        this.applicationsImpl = new ApplicationsImpl(this);
+        this.applications = new ApplicationsImpl(this);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class BatchAccountImpl
             @Override
             public BatchAccount call(BatchAccount batchAccount) {
                 BatchAccountImpl impl = (BatchAccountImpl) batchAccount;
-                impl.applicationsImpl.refresh();
+                impl.applications.refresh();
                 return impl;
             }
         });
@@ -131,18 +131,10 @@ public class BatchAccountImpl
     @Override
     public Completable afterPostRunAsync(final boolean isGroupFaulted) {
         if (isGroupFaulted) {
-            this.applicationsImpl.reset(isGroupFaulted);
+            this.applications.clear();
             return Completable.complete();
         } else {
-            return this.manager().inner().batchAccounts().getByResourceGroupAsync(this.resourceGroupName(), this.name())
-                    .map(new Func1<BatchAccountInner, BatchAccountInner>() {
-                        @Override
-                        public BatchAccountInner call(BatchAccountInner batchAccountInner) {
-                            setInner(batchAccountInner);
-                            applicationsImpl.reset(isGroupFaulted);
-                            return batchAccountInner;
-                        }
-                    }).toCompletable();
+            return refreshAsync().toCompletable();
         }
     }
 
@@ -198,7 +190,7 @@ public class BatchAccountImpl
 
     @Override
     public Map<String, Application> applications() {
-        return this.applicationsImpl.asMap();
+        return this.applications.asMap();
     }
 
     @Override
@@ -244,17 +236,17 @@ public class BatchAccountImpl
 
     @Override
     public ApplicationImpl defineNewApplication(String applicationId) {
-        return this.applicationsImpl.define(applicationId);
+        return this.applications.define(applicationId);
     }
 
     @Override
     public ApplicationImpl updateApplication(String applicationId) {
-        return this.applicationsImpl.update(applicationId);
+        return this.applications.update(applicationId);
     }
 
     @Override
     public Update withoutApplication(String applicationId) {
-        this.applicationsImpl.remove(applicationId);
+        this.applications.remove(applicationId);
         return this;
     }
 
@@ -277,7 +269,7 @@ public class BatchAccountImpl
     }
 
     BatchAccountImpl withApplication(ApplicationImpl application) {
-        this.applicationsImpl.addApplication(application);
+        this.applications.addApplication(application);
         return this;
     }
 }

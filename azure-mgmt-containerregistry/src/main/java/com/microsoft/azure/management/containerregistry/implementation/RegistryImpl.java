@@ -124,7 +124,7 @@ public class RegistryImpl
 
     @Override
     public Completable afterPostRunAsync(boolean isGroupFaulted) {
-        this.webhooks.reset(isGroupFaulted);
+        this.webhooks.clear();
         return Completable.complete();
     }
 

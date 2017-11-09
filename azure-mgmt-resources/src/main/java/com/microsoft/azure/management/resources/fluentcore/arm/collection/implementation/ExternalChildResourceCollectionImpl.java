@@ -96,10 +96,9 @@ public abstract class ExternalChildResourceCollectionImpl<
     }
 
     /**
-     * Mark that there is no pending operations on the external child resources
-     * and clear internal collection holding the external child resources.
+     * Clear the child collection.
      */
-    protected void reset() {
+    public void clear() {
         for (FluentModelTImpl child : childCollection.values()) {
             child.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None);
         }
@@ -112,7 +111,7 @@ public abstract class ExternalChildResourceCollectionImpl<
      * @param childResource the child resource
      */
     protected FluentModelTImpl prepareForFutureCommitOrPostRun(FluentModelTImpl childResource) {
-        if (!this.isPostRunMode) {
+        if (this.isPostRunMode) {
             if (!childResource.taskGroup().dependsOn(this.parentTaskGroup)) {
                 this.parentTaskGroup.addPostRunDependentTaskGroup(childResource.taskGroup());
             }

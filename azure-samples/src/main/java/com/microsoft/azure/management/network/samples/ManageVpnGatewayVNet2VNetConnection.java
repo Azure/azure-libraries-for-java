@@ -199,9 +199,9 @@ public final class ManageVpnGatewayVNet2VNetConnection {
             VirtualMachine vm2 = createdVMs.get(vmDefinitions.get(1).key());
 
             ConnectivityCheck connectivity = nw.checkConnectivity()
-                    .toDestinationResourceId(vm2.vmId())
+                    .toDestinationResourceId(vm2.id())
                     .toDestinationPort(22)
-                    .fromSourceVirtualMachine(vm1.vmId())
+                    .fromSourceVirtualMachine(vm1.id())
                     .execute();
             System.out.println("Connectivity status: " + connectivity.connectionStatus());
             return true;

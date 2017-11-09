@@ -10,15 +10,13 @@ import com.microsoft.azure.management.compute.samples.CreateVirtualMachineUsingC
 import com.microsoft.azure.management.compute.samples.CreateVirtualMachineUsingCustomImageFromVM;
 import com.microsoft.azure.management.compute.samples.CreateVirtualMachineUsingSpecializedDiskFromSnapshot;
 import com.microsoft.azure.management.compute.samples.CreateVirtualMachineUsingSpecializedDiskFromVhd;
+import com.microsoft.azure.management.compute.samples.CreateVirtualMachinesAsyncTrackingRelatedResources;
 import com.microsoft.azure.management.compute.samples.CreateVirtualMachinesInParallel;
 import com.microsoft.azure.management.compute.samples.CreateVirtualMachinesUsingCustomImageOrSpecializedVHD;
-import com.microsoft.azure.management.containerservice.samples.DeployImageFromContainerRegistryToContainerServiceOrchestrator;
 import com.microsoft.azure.management.compute.samples.ListVirtualMachineExtensionImages;
 import com.microsoft.azure.management.compute.samples.ListVirtualMachineImages;
 import com.microsoft.azure.management.compute.samples.ManageAvailabilitySet;
 import com.microsoft.azure.management.compute.samples.ManageManagedDisks;
-import com.microsoft.azure.management.containerservice.samples.ManageContainerServiceWithDockerSwarmOrchestrator;
-import com.microsoft.azure.management.containerservice.samples.ManageContainerServiceWithKubernetesOrchestrator;
 import com.microsoft.azure.management.compute.samples.ManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup;
 import com.microsoft.azure.management.compute.samples.ManageStorageFromMSIEnabledVirtualMachine;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachine;
@@ -42,6 +40,12 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Test
     public void testCreateVirtualMachinesInParallel() {
         Assert.assertTrue(CreateVirtualMachinesInParallel.runSample(azure));
+    }
+
+    @Test
+    @Ignore("Sample leverages true parallelization, which cannot be recorded, until GenericResources support deleteByIds()")
+    public void testCreateVirtualMachinesAsyncTrackingRelatedResources() {
+        Assert.assertTrue(CreateVirtualMachinesAsyncTrackingRelatedResources.runSample(azure));
     }
 
     @Test

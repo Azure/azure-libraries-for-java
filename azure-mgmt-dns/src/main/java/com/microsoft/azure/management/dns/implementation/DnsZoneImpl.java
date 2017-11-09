@@ -22,6 +22,7 @@ import com.microsoft.azure.management.dns.TxtRecordSets;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import rx.Completable;
 import rx.Observable;
 import rx.functions.Func0;
 import rx.functions.Func1;
@@ -364,19 +365,19 @@ public class DnsZoneImpl
         };
         return createOrUpdateAsync.call()
                 .map(innerToFluentMap(this))
-                .flatMap(new Func1<DnsZone, Observable<? extends DnsZone>>() {
+                .map(new Func1<DnsZone, DnsZone>() {
                     @Override
-                    public Observable<? extends DnsZone> call(DnsZone dnsZone) {
+                    public DnsZone call(DnsZone dnsZone) {
                         self.dnsZoneETag = null;
-                        return self.recordSetsImpl.commitAndGetAllAsync()
-                                .map(new Func1<List<DnsRecordSetImpl>, DnsZone>() {
-                                    @Override
-                                    public DnsZone call(List<DnsRecordSetImpl> recordSets) {
-                                        return self;
-                                    }
-                                });
+                        return dnsZone;
                     }
                 });
+    }
+
+    @Override
+    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+        recordSetsImpl.reset(true);
+        return Completable.complete();
     }
 
     @Override

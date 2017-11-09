@@ -177,6 +177,8 @@ class VirtualMachineImpl
             }
         };
         this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(computeManager.inner().virtualMachineExtensions(), this);
+        this.virtualMachineExtensions.enableCommitMode();
+
         this.managedDataDisks = new ManagedDataDiskCollection(this);
         initializeDataDisks();
         this.bootDiagnosticsHandler = new BootDiagnosticsHandler(this);
@@ -1595,7 +1597,37 @@ class VirtualMachineImpl
         return null;
     }
 
-    // CreateUpdateTaskGroup.ResourceCreator.createResourceAsync implementation
+    // CreateUpdateTaskGroup.ResourceCreator.beforeGroupCreateOrUpdate implementation
+    //
+    @Override
+    public void beforeGroupCreateOrUpdate() {
+        // [1]. StorageProfile: If implicit storage account creation is required then add Creatable<StorageAccount>.
+        //
+        if (creatableStorageAccountKey == null && existingStorageAccountToAssociate == null) {
+            if (osDiskRequiresImplicitStorageAccountCreation()
+                    || dataDisksRequiresImplicitStorageAccountCreation()) {
+                Creatable<StorageAccount> storageAccountCreatable = null;
+                if (this.creatableGroup != null) {
+                    storageAccountCreatable = this.storageManager.storageAccounts()
+                            .define(this.namer.randomName("stg", 24).replace("-", ""))
+                            .withRegion(this.regionName())
+                            .withNewResourceGroup(this.creatableGroup);
+                } else {
+                    storageAccountCreatable = this.storageManager.storageAccounts()
+                            .define(this.namer.randomName("stg", 24).replace("-", ""))
+                            .withRegion(this.regionName())
+                            .withExistingResourceGroup(this.resourceGroupName());
+                }
+                this.creatableStorageAccountKey = storageAccountCreatable.key();
+                this.addCreatableDependency(storageAccountCreatable);
+            }
+        }
+        // [2]. BootDiagnosticsProfile: If any implicit resource creation is required then add Creatable<?>.
+        //
+        this.bootDiagnosticsHandler.prepare();
+    }
+
+    // [2]. CreateUpdateTaskGroup.ResourceCreator.createResourceAsync implementation
     //
     @Override
     public Observable<VirtualMachine> createResourceAsync() {
@@ -1650,8 +1682,35 @@ class VirtualMachineImpl
                                 }
                             });
                 }
-            });
+                });
     }
+
+    // CreateUpdateTaskGroup.ResourceCreator.afterPostRunAsync implementation
+    //
+    //    @Override
+    //    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+    //        // There can be VM extensions associated with this VM those are marked as "post run",
+    //        // (i.e. After VM is created) if so there could be some operations (CUD) performed on
+    //        // VM extensions. We need to refresh the VM with latest state of those extensions.
+    //        // 'afterPostRunAsync' method will be called only after all extensions operations are
+    //        // processed.  Refresh VM if no failure happened so far.
+    //        //
+    //        if (isGroupFaulted) {
+    //            this.virtualMachineExtensions.reset(true);
+    //            return Completable.complete();
+    //        } else {
+    //            final VirtualMachinesInner client = this.manager().inner().virtualMachines();
+    //            return client.getByResourceGroupAsync(resourceGroupName(), vmName)
+    //                    .map(new Func1<VirtualMachineInner, Object>() {
+    //                        @Override
+    //                        public Object call(VirtualMachineInner inner) {
+    //                            reset(inner);
+    //                            virtualMachineExtensions.reset(false);
+    //                            return inner;
+    //                        }
+    //                    }).toCompletable();
+    //        }
+    //    }
 
     // Helpers
     VirtualMachineImpl withExtension(VirtualMachineExtensionImpl extension) {
@@ -1837,34 +1896,6 @@ class VirtualMachineImpl
         if (hardwareProfile.vmSize() == null) {
             hardwareProfile.withVmSize(VirtualMachineSizeTypes.BASIC_A0);
         }
-    }
-
-    @Override
-    public void beforeGroupCreateOrUpdate() {
-        // Add delayed dependencies for StorageProfile
-        //
-        if (creatableStorageAccountKey == null && existingStorageAccountToAssociate == null) {
-            if (osDiskRequiresImplicitStorageAccountCreation()
-                    || dataDisksRequiresImplicitStorageAccountCreation()) {
-                Creatable<StorageAccount> storageAccountCreatable = null;
-                if (this.creatableGroup != null) {
-                    storageAccountCreatable = this.storageManager.storageAccounts()
-                            .define(this.namer.randomName("stg", 24).replace("-", ""))
-                            .withRegion(this.regionName())
-                            .withNewResourceGroup(this.creatableGroup);
-                } else {
-                    storageAccountCreatable = this.storageManager.storageAccounts()
-                            .define(this.namer.randomName("stg", 24).replace("-", ""))
-                            .withRegion(this.regionName())
-                            .withExistingResourceGroup(this.resourceGroupName());
-                }
-                this.creatableStorageAccountKey = storageAccountCreatable.key();
-                this.addCreatableDependency(storageAccountCreatable);
-            }
-        }
-        // Add delayed dependencies for DiagnosticsProfile
-        //
-        this.bootDiagnosticsHandler.prepare();
     }
 
     /**

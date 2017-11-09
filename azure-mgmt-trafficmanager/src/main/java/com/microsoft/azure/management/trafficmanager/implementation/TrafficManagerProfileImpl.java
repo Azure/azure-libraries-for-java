@@ -16,6 +16,7 @@ import com.microsoft.azure.management.trafficmanager.TrafficManagerNestedProfile
 import com.microsoft.azure.management.trafficmanager.TrafficManagerProfile;
 import com.microsoft.azure.management.trafficmanager.ProfileMonitorStatus;
 import com.microsoft.azure.management.trafficmanager.TrafficRoutingMethod;
+import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -41,6 +42,7 @@ class TrafficManagerProfileImpl
     TrafficManagerProfileImpl(String name, final ProfileInner innerModel, final TrafficManager trafficManager) {
         super(name, innerModel, trafficManager);
         this.endpoints = new TrafficManagerEndpointsImpl(trafficManager.inner().endpoints(), this);
+        this.endpoints.enablePostRunMode();
     }
 
     @Override
@@ -233,28 +235,16 @@ class TrafficManagerProfileImpl
     }
 
     @Override
+    public TrafficManagerProfileImpl update() {
+        this.endpoints.enableCommitMode();
+        return super.update();
+    }
+
+    @Override
     public Observable<TrafficManagerProfile> createResourceAsync() {
-        final TrafficManagerProfileImpl self = this;
         return this.manager().inner().profiles().createOrUpdateAsync(
                 resourceGroupName(), name(), inner())
-                .map(new Func1<ProfileInner, TrafficManagerProfile>() {
-                    @Override
-                    public TrafficManagerProfile call(ProfileInner profileInner) {
-                        self.setInner(profileInner);
-                        return self;
-                    }
-                }).flatMap(new Func1<TrafficManagerProfile, Observable<? extends TrafficManagerProfile>>() {
-                    @Override
-                    public Observable<? extends TrafficManagerProfile> call(TrafficManagerProfile profile) {
-                        return self.endpoints.commitAndGetAllAsync()
-                                .map(new Func1<List<TrafficManagerEndpointImpl>, TrafficManagerProfile>() {
-                                    @Override
-                                    public TrafficManagerProfile call(List<TrafficManagerEndpointImpl> endpoints) {
-                                        return self;
-                                    }
-                                });
-                    }
-                });
+                .map(innerToFluentMap(this));
     }
 
     @Override
@@ -278,6 +268,25 @@ class TrafficManagerProfileImpl
                                 });
                     }
                 });
+    }
+
+    @Override
+    public Completable afterPostRunAsync(final boolean isGroupFaulted) {
+        if (isGroupFaulted) {
+            this.endpoints.reset(isGroupFaulted);
+            return Completable.complete();
+        } else {
+            return this.manager().inner().profiles().getByResourceGroupAsync(resourceGroupName(), name())
+                    .map(new Func1<ProfileInner, ProfileInner>() {
+                        @Override
+                        public ProfileInner call(ProfileInner profileInner) {
+                            setInner(profileInner);
+                            endpoints.reset(isGroupFaulted);
+                            return profileInner;
+                        }
+                    })
+                    .toCompletable();
+        }
     }
 
     TrafficManagerProfileImpl withEndpoint(TrafficManagerEndpointImpl endpoint) {

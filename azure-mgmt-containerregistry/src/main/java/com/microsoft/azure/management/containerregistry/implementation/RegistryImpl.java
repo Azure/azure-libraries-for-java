@@ -21,11 +21,11 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import org.joda.time.DateTime;
+import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Implementation for Registry and its create and update interfaces.
@@ -89,17 +89,6 @@ public class RegistryImpl
                                         self.setInner(containerServiceInner);
                                         return self;
                                     }
-                                }).flatMap(new Func1<Registry, Observable<? extends Registry>>() {
-                                    @Override
-                                    public Observable<? extends Registry> call(Registry registry) {
-                                        return self.webhooks.commitAndGetAllAsync()
-                                            .map(new Func1<List<WebhookImpl>, Registry>() {
-                                                @Override
-                                                public Registry call(List<WebhookImpl> webhooks) {
-                                                    return self;
-                                                }
-                                            });
-                                    }
                                 });
                         }
                     });
@@ -118,17 +107,6 @@ public class RegistryImpl
                             self.setInner(containerServiceInner);
                             return self;
                         }
-                    }).flatMap(new Func1<Registry, Observable<? extends Registry>>() {
-                        @Override
-                        public Observable<? extends Registry> call(Registry registry) {
-                            return self.webhooks.commitAndGetAllAsync()
-                                .map(new Func1<List<WebhookImpl>, Registry>() {
-                                    @Override
-                                    public Registry call(List<WebhookImpl> webhooks) {
-                                        return self;
-                                    }
-                                });
-                        }
                     });
             }
         } else {
@@ -140,20 +118,16 @@ public class RegistryImpl
                         self.setInner(containerServiceInner);
                         return self;
                     }
-                }).flatMap(new Func1<Registry, Observable<? extends Registry>>() {
-                    @Override
-                    public Observable<? extends Registry> call(Registry registry) {
-                        return self.webhooks.commitAndGetAllAsync()
-                            .map(new Func1<List<WebhookImpl>, Registry>() {
-                                @Override
-                                public Registry call(List<WebhookImpl> webhooks) {
-                                    return self;
-                                }
-                            });
-                    }
                 });
         }
     }
+
+    @Override
+    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+        this.webhooks.reset(isGroupFaulted);
+        return Completable.complete();
+    }
+
 
     @Override
     public Sku sku() {

@@ -19,10 +19,10 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
+import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -95,19 +95,7 @@ public class BatchAccountImpl
                     public BatchAccount call(BatchAccountInner batchAccountInner) {
                         self.creatableStorageAccountKey = null;
                         setInner(batchAccountInner);
-
                         return self;
-                    }
-                }).flatMap(new Func1<BatchAccount, Observable<? extends BatchAccount>>() {
-                    @Override
-                    public Observable<? extends BatchAccount> call(BatchAccount batchAccount) {
-                        return self.applicationsImpl.commitAndGetAllAsync()
-                                .map(new Func1<List<ApplicationImpl>, BatchAccount>() {
-                                    @Override
-                                    public BatchAccount call(List<ApplicationImpl> applications) {
-                                        return self;
-                                    }
-                                });
                     }
                 });
     }
@@ -138,6 +126,24 @@ public class BatchAccountImpl
                     }
                 });
     */
+    }
+
+    @Override
+    public Completable afterPostRunAsync(final boolean isGroupFaulted) {
+        if (isGroupFaulted) {
+            this.applicationsImpl.reset(isGroupFaulted);
+            return Completable.complete();
+        } else {
+            return this.manager().inner().batchAccounts().getByResourceGroupAsync(this.resourceGroupName(), this.name())
+                    .map(new Func1<BatchAccountInner, BatchAccountInner>() {
+                        @Override
+                        public BatchAccountInner call(BatchAccountInner batchAccountInner) {
+                            setInner(batchAccountInner);
+                            applicationsImpl.reset(isGroupFaulted);
+                            return batchAccountInner;
+                        }
+                    }).toCompletable();
+        }
     }
 
     @Override

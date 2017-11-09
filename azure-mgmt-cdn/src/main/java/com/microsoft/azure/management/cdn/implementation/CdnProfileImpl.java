@@ -230,6 +230,19 @@ class CdnProfileImpl
     }
 
     @Override
+    public CdnProfileImpl update() {
+        this.endpointsImpl.enableCommitMode();
+        return super.update();
+    }
+
+
+    @Override
+    public Observable<CdnProfile> createResourceAsync() {
+        return this.manager().inner().profiles().createAsync(resourceGroupName(), name(), inner())
+                .map(innerToFluentMap(this));
+    }
+
+    @Override
     public Observable<CdnProfile> updateResourceAsync() {
         final CdnProfileImpl self = this;
         final ProfilesInner innerCollection = this.manager().inner().profiles();
@@ -249,27 +262,21 @@ class CdnProfileImpl
     }
 
     @Override
-    public Observable<CdnProfile> createResourceAsync() {
-        final CdnProfileImpl self = this;
-        return this.manager().inner().profiles().createAsync(resourceGroupName(), name(), inner())
-                .map(new Func1<ProfileInner, CdnProfile>() {
-                    @Override
-                    public CdnProfile call(ProfileInner profileInner) {
-                        self.setInner(profileInner);
-                        return self;
-                    }
-                }).flatMap(new Func1<CdnProfile, Observable<? extends CdnProfile>>() {
-                    @Override
-                    public Observable<? extends CdnProfile> call(CdnProfile profile) {
-                        return self.endpointsImpl.commitAndGetAllAsync()
-                                .map(new Func1<List<CdnEndpointImpl>, CdnProfile>() {
-                                    @Override
-                                    public CdnProfile call(List<CdnEndpointImpl> endpoints) {
-                                        return self;
-                                    }
-                                });
-                    }
-                });
+    public Completable afterPostRunAsync(final boolean isGroupFaulted) {
+        if (isGroupFaulted) {
+            endpointsImpl.reset(isGroupFaulted);
+            return Completable.complete();
+        } else {
+            return this.manager().inner().profiles().getByResourceGroupAsync(resourceGroupName(), name())
+                    .map(new Func1<ProfileInner, ProfileInner>() {
+                        @Override
+                        public ProfileInner call(ProfileInner profileInner) {
+                            setInner(profileInner);
+                            endpointsImpl.reset(isGroupFaulted);
+                            return profileInner;
+                        }
+                    }).toCompletable();
+        }
     }
 
     @Override

@@ -77,7 +77,7 @@ public abstract class ExternalChildResourceCollectionImpl<
         this.parent = parent;
         this.parentTaskGroup = parentTaskGroup;
         this.childResourceName = childResourceName;
-        this.isPostRunMode = false;
+        this.isPostRunMode = true;
     }
 
     /**

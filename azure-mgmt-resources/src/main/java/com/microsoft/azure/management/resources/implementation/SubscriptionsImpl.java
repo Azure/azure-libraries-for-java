@@ -31,8 +31,8 @@ final class SubscriptionsImpl
     public PagedList<Subscription> list() {
         PagedListConverter<SubscriptionInner, Subscription> converter = new PagedListConverter<SubscriptionInner, Subscription>() {
             @Override
-            public Subscription typeConvert(SubscriptionInner subscriptionInner) {
-                return wrapModel(subscriptionInner);
+            public Observable<Subscription> typeConvertAsync(SubscriptionInner subscriptionInner) {
+                return Observable.just((Subscription) wrapModel(subscriptionInner));
             }
         };
         return converter.convert(client.list());

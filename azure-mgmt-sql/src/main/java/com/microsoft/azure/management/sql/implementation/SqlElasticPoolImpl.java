@@ -100,9 +100,8 @@ class SqlElasticPoolImpl
     public List<ElasticPoolActivity> listActivities() {
         PagedListConverter<ElasticPoolActivityInner, ElasticPoolActivity> converter = new PagedListConverter<ElasticPoolActivityInner, ElasticPoolActivity>() {
             @Override
-            public ElasticPoolActivity typeConvert(ElasticPoolActivityInner elasticPoolActivityInner) {
-
-                return new ElasticPoolActivityImpl(elasticPoolActivityInner);
+            public Observable<ElasticPoolActivity> typeConvertAsync(ElasticPoolActivityInner elasticPoolActivityInner) {
+                return Observable.just((ElasticPoolActivity) new ElasticPoolActivityImpl(elasticPoolActivityInner));
             }
         };
         return converter.convert(ReadableWrappersImpl.convertToPagedList(
@@ -117,9 +116,8 @@ class SqlElasticPoolImpl
         PagedListConverter<ElasticPoolDatabaseActivityInner, ElasticPoolDatabaseActivity> converter
                 = new PagedListConverter<ElasticPoolDatabaseActivityInner, ElasticPoolDatabaseActivity>() {
             @Override
-            public ElasticPoolDatabaseActivity typeConvert(ElasticPoolDatabaseActivityInner elasticPoolDatabaseActivityInner) {
-
-                return new ElasticPoolDatabaseActivityImpl(elasticPoolDatabaseActivityInner);
+            public Observable<ElasticPoolDatabaseActivity> typeConvertAsync(ElasticPoolDatabaseActivityInner elasticPoolDatabaseActivityInner) {
+                return Observable.just((ElasticPoolDatabaseActivity) new ElasticPoolDatabaseActivityImpl(elasticPoolDatabaseActivityInner));
             }
         };
         return converter.convert(ReadableWrappersImpl.convertToPagedList(
@@ -135,9 +133,8 @@ class SqlElasticPoolImpl
         PagedListConverter<DatabaseInner, SqlDatabase> converter
                 = new PagedListConverter<DatabaseInner, SqlDatabase>() {
             @Override
-            public SqlDatabase typeConvert(DatabaseInner databaseInner) {
-
-                return new SqlDatabaseImpl(databaseInner.name(), databaseInner, self.manager());
+            public Observable<SqlDatabase> typeConvertAsync(DatabaseInner databaseInner) {
+                return Observable.just((SqlDatabase) new SqlDatabaseImpl(databaseInner.name(), databaseInner, self.manager()));
             }
         };
         return converter.convert(ReadableWrappersImpl.convertToPagedList(

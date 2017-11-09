@@ -46,9 +46,9 @@ class ServicePrincipalsImpl
         this.manager = graphRbacManager;
         converter = new PagedListConverter<ServicePrincipalInner, ServicePrincipal>() {
             @Override
-            public ServicePrincipal typeConvert(ServicePrincipalInner servicePrincipalInner) {
+            public Observable<ServicePrincipal> typeConvertAsync(ServicePrincipalInner servicePrincipalInner) {
                 ServicePrincipalImpl impl = wrapModel(servicePrincipalInner);
-                return impl.refreshCredentialsAsync().toBlocking().single();
+                return impl.refreshCredentialsAsync();
             }
         };
     }

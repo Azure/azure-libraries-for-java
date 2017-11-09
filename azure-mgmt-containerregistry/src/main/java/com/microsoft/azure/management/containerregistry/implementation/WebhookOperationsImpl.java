@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.containerregistry.implementation;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.Webhook;
 import com.microsoft.azure.management.containerregistry.WebhookOperations;
 import rx.Completable;
@@ -14,6 +15,7 @@ import rx.Observable;
 /**
  * Represents a webhook collection associated with a container registry.
  */
+@LangDefinition
 public class WebhookOperationsImpl implements WebhookOperations {
     private final RegistryImpl containerRegistry;
     private final WebhooksClientImpl webhooksClient;

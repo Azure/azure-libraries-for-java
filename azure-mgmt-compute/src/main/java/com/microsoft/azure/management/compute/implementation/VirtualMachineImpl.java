@@ -172,8 +172,8 @@ class VirtualMachineImpl
         this.existingSecondaryNetworkInterfacesToAssociate = new ArrayList<>();
         this.virtualMachineSizeConverter = new PagedListConverter<VirtualMachineSizeInner, VirtualMachineSize>() {
             @Override
-            public VirtualMachineSize typeConvert(VirtualMachineSizeInner inner) {
-                return new VirtualMachineSizeImpl(inner);
+            public Observable<VirtualMachineSize> typeConvertAsync(VirtualMachineSizeInner inner) {
+                return Observable.just((VirtualMachineSize) new VirtualMachineSizeImpl(inner));
             }
         };
         this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(computeManager.inner().virtualMachineExtensions(), this);

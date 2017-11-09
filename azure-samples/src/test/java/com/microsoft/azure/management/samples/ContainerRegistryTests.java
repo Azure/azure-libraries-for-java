@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.samples;
 import com.microsoft.azure.management.containerregistry.samples.ManageContainerRegistry;
+import com.microsoft.azure.management.containerregistry.samples.ManageContainerRegistryWithWebhooks;
 import com.microsoft.azure.management.resources.core.TestBase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,5 +20,10 @@ public class ContainerRegistryTests extends SamplesTestBase {
     @Test
     public void testManageContainerRegistry() {
         Assert.assertTrue(ManageContainerRegistry.runSample(azure));
+    }
+
+    @Test
+    public void testManageContainerRegistryWithWebhooks() {
+        Assert.assertTrue(ManageContainerRegistryWithWebhooks.runSample(azure));
     }
 }

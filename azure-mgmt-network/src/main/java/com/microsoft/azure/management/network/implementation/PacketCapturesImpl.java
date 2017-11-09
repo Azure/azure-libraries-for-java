@@ -47,8 +47,8 @@ class PacketCapturesImpl extends
     public final PagedList<PacketCapture> list() {
         return (new PagedListConverter<PacketCaptureResultInner, PacketCapture>() {
             @Override
-            public PacketCapture typeConvert(PacketCaptureResultInner inner) {
-                return wrapModel(inner);
+            public Observable<PacketCapture> typeConvertAsync(PacketCaptureResultInner inner) {
+                return Observable.just((PacketCapture) wrapModel(inner));
             }
         }).convert(ReadableWrappersImpl.convertToPagedList(inner().list(parent.resourceGroupName(), parent.name())));
     }

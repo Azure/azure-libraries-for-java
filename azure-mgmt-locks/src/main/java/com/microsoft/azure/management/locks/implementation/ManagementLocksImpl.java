@@ -165,7 +165,7 @@ class ManagementLocksImpl
     public Observable<ManagementLock> getByIdAsync(String id) {
         String resourceId = resourceIdFromLockId(id);
         String lockName = ResourceUtils.nameFromResourceId(id);
-        if (resourceId != null || lockName != null) {
+        if (resourceId != null && lockName != null) {
             return this.inner().getByScopeAsync(resourceId, lockName).map(new Func1<ManagementLockObjectInner, ManagementLock>() {
 
                 @Override
@@ -240,5 +240,25 @@ class ManagementLocksImpl
     @Override
     public ManagementLocksInner inner() {
         return this.manager().inner().managementLocks();
+    }
+
+    @Override
+    public PagedList<ManagementLock> listForResource(String resourceId) {
+        return wrapList(inner().listAtResourceLevel(
+                ResourceUtils.groupFromResourceId(resourceId),
+                ResourceUtils.resourceProviderFromResourceId(resourceId),
+                ResourceUtils.parentRelativePathFromResourceId(resourceId),
+                ResourceUtils.resourceTypeFromResourceId(resourceId),
+                ResourceUtils.nameFromResourceId(resourceId)));
+    }
+
+    @Override
+    public Observable<ManagementLock> listForResourceAsync(String resourceId) {
+        return wrapPageAsync(inner().listAtResourceLevelAsync(
+                ResourceUtils.groupFromResourceId(resourceId),
+                ResourceUtils.resourceProviderFromResourceId(resourceId),
+                ResourceUtils.parentRelativePathFromResourceId(resourceId),
+                ResourceUtils.resourceTypeFromResourceId(resourceId),
+                ResourceUtils.nameFromResourceId(resourceId)));
     }
 }

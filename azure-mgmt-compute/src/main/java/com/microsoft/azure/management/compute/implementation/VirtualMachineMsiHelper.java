@@ -15,8 +15,8 @@ import com.microsoft.azure.management.compute.VirtualMachineExtension;
 import com.microsoft.azure.management.compute.VirtualMachineIdentity;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.RoleAssignment;
-import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.apache.commons.lang3.tuple.Pair;
@@ -25,14 +25,12 @@ import rx.functions.Action0;
 import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.functions.Func1;
-import rx.functions.Func2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 /**
  * Utility class to set Managed Service Identity (MSI) and MSI related resources for a virtual machine.
@@ -227,40 +225,29 @@ class VirtualMachineMsiHelper {
         if (this.rolesToAssign.isEmpty()
                 && this.roleDefinitionsToAssign.isEmpty()) {
             return Observable.empty();
+        } else {
+            this.resolveCurrentResourceGroupScope(virtualMachine);
+            final String servicePrincipalObjectId = virtualMachine.inner().identity().principalId();
+            Observable<RoleAssignment> observable1 = Observable.from(rolesToAssign.values())
+                    .flatMap(new Func1<Pair<String, BuiltInRole>, Observable<RoleAssignment>>() {
+                        @Override
+                        public Observable<RoleAssignment> call(Pair<String, BuiltInRole> scopeAndRole) {
+                            final BuiltInRole role = scopeAndRole.getRight();
+                            final String scope = scopeAndRole.getLeft();
+                            return createRbacRoleAssignmentIfNotExistsAsync(servicePrincipalObjectId, role.toString(), scope, true);
+                        }
+                    });
+            Observable<RoleAssignment> observable2 = Observable.from(roleDefinitionsToAssign.values())
+                    .flatMap(new Func1<Pair<String, String>, Observable<RoleAssignment>>() {
+                        @Override
+                        public Observable<RoleAssignment> call(Pair<String, String> scopeAndRole) {
+                            final String roleDefinition = scopeAndRole.getRight();
+                            final String scope = scopeAndRole.getLeft();
+                            return createRbacRoleAssignmentIfNotExistsAsync(servicePrincipalObjectId, roleDefinition, scope, false);
+                        }
+                    });
+            return Observable.mergeDelayError(observable1, observable2);
         }
-        return rbacManager
-                .servicePrincipals()
-                .getByIdAsync(virtualMachine.inner().identity().principalId())
-                .zipWith(resolveCurrentResourceGroupScopeAsync(virtualMachine), new Func2<ServicePrincipal, Boolean, ServicePrincipal>() {
-                    @Override
-                    public ServicePrincipal call(ServicePrincipal servicePrincipal, Boolean resolvedAny) {
-                        return servicePrincipal;
-                    }
-                })
-                .flatMap(new Func1<ServicePrincipal, Observable<RoleAssignment>>() {
-                    @Override
-                    public Observable<RoleAssignment> call(final ServicePrincipal servicePrincipal) {
-                       Observable<RoleAssignment> observable1 = Observable.from(rolesToAssign.values())
-                                .flatMap(new Func1<Pair<String, BuiltInRole>, Observable<RoleAssignment>>() {
-                                    @Override
-                                    public Observable<RoleAssignment> call(Pair<String, BuiltInRole> scopeAndRole) {
-                                        final BuiltInRole role = scopeAndRole.getRight();
-                                        final String scope = scopeAndRole.getLeft();
-                                        return createRbacRoleAssignmentIfNotExistsAsync(servicePrincipal, role.toString(), scope, true);
-                                    }
-                                });
-                        Observable<RoleAssignment> observable2 = Observable.from(roleDefinitionsToAssign.values())
-                                .flatMap(new Func1<Pair<String, String>, Observable<RoleAssignment>>() {
-                                    @Override
-                                    public Observable<RoleAssignment> call(Pair<String, String> scopeAndRole) {
-                                        final String roleDefinition = scopeAndRole.getRight();
-                                        final String scope = scopeAndRole.getLeft();
-                                        return createRbacRoleAssignmentIfNotExistsAsync(servicePrincipal, roleDefinition, scope, false);
-                                    }
-                                });
-                        return Observable.mergeDelayError(observable1, observable2);
-                    }
-                });
     }
 
     /**
@@ -360,9 +347,8 @@ class VirtualMachineMsiHelper {
      * resource group scope (id).
      *
      * @param virtualMachine the virtual machine
-     * @return an observable that emits true once if there was a scope to resolve, otherwise emits false once.
      */
-    private Observable<Boolean> resolveCurrentResourceGroupScopeAsync(final VirtualMachine virtualMachine) {
+    private void resolveCurrentResourceGroupScope(final VirtualMachine virtualMachine) {
         final List<String> keysWithCurrentResourceGroupScopeForRoles = new ArrayList<>();
         for (Map.Entry<String, Pair<String, BuiltInRole>> entrySet : this.rolesToAssign.entrySet()) {
             if (entrySet.getValue().getLeft().equals(CURRENT_RESOURCE_GROUP_SCOPE)) {
@@ -378,44 +364,35 @@ class VirtualMachineMsiHelper {
 
         if (keysWithCurrentResourceGroupScopeForRoles.isEmpty()
                 && keysWithCurrentResourceGroupScopeForRoleDefinitions.isEmpty()) {
-            return Observable.just(false);
+            return;
         } else {
-            // TODO: Remove fromCallable wrapper once we have getByNameAsync implemented.
-            //
-            return Observable.fromCallable(new Callable<String>() {
-                @Override
-                public String call() throws Exception {
-                    return virtualMachine.manager()
-                            .resourceManager()
-                            .resourceGroups()
-                            .getByName(virtualMachine.resourceGroupName())
-                            .id();
-                } })
-                .subscribeOn(SdkContext.getRxScheduler())
-                .map(new Func1<String, Boolean>() {
-                    @Override
-                    public Boolean call(String resourceGroupScope) {
-                        for (String key : keysWithCurrentResourceGroupScopeForRoles) {
-                            rolesToAssign.put(key, Pair.of(resourceGroupScope, rolesToAssign.get(key).getRight()));
-                        }
-                        for (String key : keysWithCurrentResourceGroupScopeForRoleDefinitions) {
-                            roleDefinitionsToAssign.put(key, Pair.of(resourceGroupScope, roleDefinitionsToAssign.get(key).getRight()));
-                        }
-                        return true;
-                    }
-                });
+            ResourceId id = ResourceId.fromString(virtualMachine.id());
+            StringBuilder builder = new StringBuilder();
+            builder.append("/subscriptions/")
+                    .append(id.subscriptionId())
+                    .append("/resourceGroups/")
+                    .append(id.resourceGroupName());
+
+            String resourceGroupScope = builder.toString();
+            for (String key : keysWithCurrentResourceGroupScopeForRoles) {
+                rolesToAssign.put(key, Pair.of(resourceGroupScope, rolesToAssign.get(key).getRight()));
+            }
+            for (String key : keysWithCurrentResourceGroupScopeForRoleDefinitions) {
+                roleDefinitionsToAssign.put(key, Pair.of(resourceGroupScope, roleDefinitionsToAssign.get(key).getRight()));
+            }
+            return;
         }
     }
 
     /**
      * Creates a RBAC role assignment (using role or role definition) for the given service principal.
      *
-     * @param servicePrincipal the service principal
+     * @param servicePrincipalObjectId the service principal id (objectId)
      * @param roleOrRoleDefinition the role or role definition
      * @param scope the scope for the role assignment
      * @return an observable that emits the role assignment if it is created, null if assignment already exists.
      */
-    private Observable<RoleAssignment> createRbacRoleAssignmentIfNotExistsAsync(final ServicePrincipal servicePrincipal,
+    private Observable<RoleAssignment> createRbacRoleAssignmentIfNotExistsAsync(final String servicePrincipalObjectId,
                                                                                 final String roleOrRoleDefinition,
                                                                                 final String scope,
                                                                                 final boolean isRole) {
@@ -442,7 +419,7 @@ class VirtualMachineMsiHelper {
             return rbacManager
                     .roleAssignments()
                     .define(roleAssignmentName)
-                    .forServicePrincipal(servicePrincipal)
+                    .forObjectId(servicePrincipalObjectId)
                     .withBuiltInRole(BuiltInRole.fromString(roleOrRoleDefinition))
                     .withScope(scope)
                     .createAsync()
@@ -458,7 +435,7 @@ class VirtualMachineMsiHelper {
             return rbacManager
                     .roleAssignments()
                     .define(roleAssignmentName)
-                    .forServicePrincipal(servicePrincipal)
+                    .forObjectId(servicePrincipalObjectId)
                     .withRoleDefinition(roleOrRoleDefinition)
                     .withScope(scope)
                     .createAsync()

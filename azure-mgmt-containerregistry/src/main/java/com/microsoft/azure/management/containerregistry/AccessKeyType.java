@@ -6,7 +6,7 @@
 package com.microsoft.azure.management.containerregistry;
 
 import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
 
 import java.util.Collection;
@@ -14,7 +14,7 @@ import java.util.Collection;
 /**
  * Defines values for admin user access key names.
  */
-@Fluent
+@LangDefinition
 @Beta(Beta.SinceVersion.V1_3_0)
 public class AccessKeyType extends ExpandableStringEnum<AccessKeyType> {
     /** Primary key. */

@@ -46,9 +46,9 @@ class ActiveDirectoryApplicationsImpl
         this.manager = graphRbacManager;
         converter = new PagedListConverter<ApplicationInner, ActiveDirectoryApplication>() {
             @Override
-            public ActiveDirectoryApplication typeConvert(ApplicationInner applicationsInner) {
+            public Observable<ActiveDirectoryApplication> typeConvertAsync(ApplicationInner applicationsInner) {
                 ActiveDirectoryApplicationImpl impl = wrapModel(applicationsInner);
-                return impl.refreshCredentialsAsync().toBlocking().single();
+                return impl.refreshCredentialsAsync();
             }
         };
 

@@ -43,22 +43,19 @@ class DeploymentSlotsImpl
         final WebAppsInner innerCollection = this.inner();
         converter = new PagedListConverter<SiteInner, DeploymentSlot>() {
             @Override
-            public DeploymentSlot typeConvert(SiteInner siteInner) {
-                return wrapModelWithConfigChange(siteInner, innerCollection, parent);
-            }
-        };
-    }
-
-    private DeploymentSlot wrapModelWithConfigChange(SiteInner siteInner, WebAppsInner innerCollection, WebAppImpl parent) {
-        if (siteInner == null) {
-            return null;
-        }
-        return wrapModel(
-                siteInner,
-                innerCollection.getConfigurationSlot(
+            public Observable<DeploymentSlot> typeConvertAsync(final SiteInner siteInner) {
+                return innerCollection.getConfigurationSlotAsync(
                         siteInner.resourceGroup(),
                         parent.name(),
-                        siteInner.name().replaceAll(".*/", "")));
+                        siteInner.name().replaceAll(".*/", ""))
+                        .map(new Func1<SiteConfigResourceInner, DeploymentSlot>() {
+                            @Override
+                            public DeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner) {
+                                return wrapModel(siteInner, siteConfigResourceInner);
+                            }
+                        });
+            }
+        };
     }
 
     @Override
@@ -143,12 +140,13 @@ class DeploymentSlotsImpl
 
     @Override
     public Observable<DeploymentSlot> listAsync() {
-        return convertPageToInnerAsync(innerCollection.listSlotsAsync(parent.resourceGroupName(), parent.name())).map(new Func1<SiteInner, DeploymentSlot>() {
-            @Override
-            public DeploymentSlot call(SiteInner siteInner) {
-                return wrapModelWithConfigChange(siteInner, innerCollection, parent);
-            }
-        });
+        return convertPageToInnerAsync(innerCollection.listSlotsAsync(parent.resourceGroupName(), parent.name()))
+                .flatMap(new Func1<SiteInner, Observable<DeploymentSlot>>() {
+                    @Override
+                    public Observable<DeploymentSlot> call(SiteInner siteInner) {
+                        return converter.typeConvertAsync(siteInner);
+                    }
+                });
     }
 
     private DeploymentSlotImpl wrapModel(SiteInner inner, SiteConfigResourceInner configResourceInner) {

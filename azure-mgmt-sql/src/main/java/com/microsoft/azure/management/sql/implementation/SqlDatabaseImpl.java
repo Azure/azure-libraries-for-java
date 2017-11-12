@@ -157,9 +157,8 @@ class SqlDatabaseImpl
     public List<RestorePoint> listRestorePoints() {
         PagedListConverter<RestorePointInner, RestorePoint> converter = new PagedListConverter<RestorePointInner, RestorePoint>() {
             @Override
-            public RestorePoint typeConvert(RestorePointInner restorePointInner) {
-
-                return new RestorePointImpl(restorePointInner);
+            public Observable<RestorePoint> typeConvertAsync(RestorePointInner restorePointInner) {
+                return Observable.just((RestorePoint) new RestorePointImpl(restorePointInner));
             }
         };
         return converter.convert(ReadableWrappersImpl.convertToPagedList(
@@ -173,8 +172,8 @@ class SqlDatabaseImpl
     public List<DatabaseMetric> listUsages() {
         PagedListConverter<DatabaseMetricInner, DatabaseMetric> converter = new PagedListConverter<DatabaseMetricInner, DatabaseMetric>() {
             @Override
-            public DatabaseMetric typeConvert(DatabaseMetricInner databaseMetricInner) {
-                return new DatabaseMetricImpl(databaseMetricInner);
+            public Observable<DatabaseMetric> typeConvertAsync(DatabaseMetricInner databaseMetricInner) {
+                return Observable.just((DatabaseMetric) new DatabaseMetricImpl(databaseMetricInner));
             }
         };
         return converter.convert(ReadableWrappersImpl.convertToPagedList(

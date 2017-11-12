@@ -155,8 +155,8 @@ public class VirtualMachineScaleSetImpl
         this.namer = SdkContext.getResourceNamerFactory().createResourceNamer(this.name());
         this.skuConverter = new PagedListConverter<VirtualMachineScaleSetSkuInner, VirtualMachineScaleSetSku>() {
             @Override
-            public VirtualMachineScaleSetSku typeConvert(VirtualMachineScaleSetSkuInner inner) {
-                return new VirtualMachineScaleSetSkuImpl(inner);
+            public Observable<VirtualMachineScaleSetSku> typeConvertAsync(VirtualMachineScaleSetSkuInner inner) {
+                return Observable.just((VirtualMachineScaleSetSku) new VirtualMachineScaleSetSkuImpl(inner));
             }
         };
         this.managedDataDisks = new ManagedDataDiskCollection(this);

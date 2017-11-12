@@ -413,29 +413,29 @@ public class DnsZoneImpl
         final DnsZoneImpl self = this;
         PagedListConverter<RecordSetInner, DnsRecordSet> converter = new PagedListConverter<RecordSetInner, DnsRecordSet>() {
             @Override
-            public DnsRecordSet typeConvert(RecordSetInner inner) {
+            public Observable<DnsRecordSet> typeConvertAsync(RecordSetInner inner) {
                 DnsRecordSet recordSet = new DnsRecordSetImpl(self, inner);
                 switch (recordSet.recordType()) {
                     case A:
-                        return new ARecordSetImpl(self, inner);
+                        return Observable.just((DnsRecordSet) new ARecordSetImpl(self, inner));
                     case AAAA:
-                        return new AaaaRecordSetImpl(self, inner);
+                        return Observable.just((DnsRecordSet) new AaaaRecordSetImpl(self, inner));
                     case CNAME:
-                        return new CNameRecordSetImpl(self, inner);
+                        return Observable.just((DnsRecordSet) new CNameRecordSetImpl(self, inner));
                     case MX:
-                        return new MXRecordSetImpl(self, inner);
+                        return Observable.just((DnsRecordSet) new MXRecordSetImpl(self, inner));
                     case NS:
-                        return new NSRecordSetImpl(self, inner);
+                        return Observable.just((DnsRecordSet) new NSRecordSetImpl(self, inner));
                     case PTR:
-                        return new PtrRecordSetImpl(self, inner);
+                        return Observable.just((DnsRecordSet) new PtrRecordSetImpl(self, inner));
                     case SOA:
-                        return new SoaRecordSetImpl(self, inner);
+                        return Observable.just((DnsRecordSet) new SoaRecordSetImpl(self, inner));
                     case SRV:
-                        return new SrvRecordSetImpl(self, inner);
+                        return Observable.just((DnsRecordSet) new SrvRecordSetImpl(self, inner));
                     case TXT:
-                        return new TxtRecordSetImpl(self, inner);
+                        return Observable.just((DnsRecordSet) new TxtRecordSetImpl(self, inner));
                     default:
-                        return recordSet;
+                        return Observable.just(recordSet);
                 }
             }
         };

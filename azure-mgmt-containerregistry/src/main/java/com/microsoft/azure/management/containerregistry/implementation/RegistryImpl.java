@@ -23,7 +23,6 @@ import com.microsoft.azure.management.storage.implementation.StorageManager;
 import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
-import rx.functions.Func1;
 
 import java.util.Collection;
 
@@ -43,8 +42,6 @@ public class RegistryImpl
 
     private RegistryUpdateParametersInner updateParameters;
     private final StorageManager storageManager;
-    private String existingStorageAccountName;
-    private String existingStorageAccountResourceGroupName;
     private String storageAccountId;
     private String creatableStorageAccountKey;
     private WebhooksImpl webhooks;
@@ -54,8 +51,6 @@ public class RegistryImpl
         super(name, innerObject, manager);
         this.storageManager = storageManager;
 
-        this.existingStorageAccountName = null;
-        this.existingStorageAccountResourceGroupName = null;
         this.storageAccountId = null;
         this.webhooks = new WebhooksImpl(this, "Webhook");
     }
@@ -75,50 +70,19 @@ public class RegistryImpl
     public Observable<Registry> createResourceAsync() {
         final RegistryImpl self = this;
         if (isInCreateMode()) {
-            if (existingStorageAccountName != null) {
-                return storageManager.storageAccounts().getByResourceGroupAsync(existingStorageAccountResourceGroupName, existingStorageAccountName)
-                    .flatMap(new Func1<StorageAccount, Observable<Registry>>() {
-                        @Override
-                        public Observable<Registry> call(StorageAccount storageAccount) {
-                            self.inner().storageAccount().withId(storageAccount.id());
-
-                            return manager().inner().registries().createAsync(self.resourceGroupName(), self.name(), self.inner())
-                                .map(new Func1<RegistryInner, Registry>() {
-                                    @Override
-                                    public Registry call(RegistryInner containerServiceInner) {
-                                        self.setInner(containerServiceInner);
-                                        return self;
-                                    }
-                                });
-                        }
-                    });
-            } else {
-                if (this.creatableStorageAccountKey != null) {
-                    StorageAccount storageAccount = (StorageAccount) this.createdResource(this.creatableStorageAccountKey);
-                    this.inner().storageAccount().withId(storageAccount.id());
-                } else if (storageAccountId != null) {
-                    this.inner().storageAccount().withId(storageAccountId);
-                }
-
-                return manager().inner().registries().createAsync(this.resourceGroupName(), this.name(), this.inner())
-                    .map(new Func1<RegistryInner, Registry>() {
-                        @Override
-                        public Registry call(RegistryInner containerServiceInner) {
-                            self.setInner(containerServiceInner);
-                            return self;
-                        }
-                    });
+            if (self.creatableStorageAccountKey != null) {
+                StorageAccount storageAccount = (StorageAccount) self.createdResource(this.creatableStorageAccountKey);
+                self.inner().storageAccount().withId(storageAccount.id());
+            } else if (storageAccountId != null) {
+                self.inner().storageAccount().withId(storageAccountId);
             }
+
+            return manager().inner().registries().createAsync(self.resourceGroupName(), self.name(), self.inner())
+                .map(innerToFluentMap(this));
         } else {
             updateParameters.withTags(inner().getTags());
-            return manager().inner().registries().updateAsync(resourceGroupName(), name(), updateParameters)
-                .map(new Func1<RegistryInner, Registry>() {
-                    @Override
-                    public Registry call(RegistryInner containerServiceInner) {
-                        self.setInner(containerServiceInner);
-                        return self;
-                    }
-                });
+            return manager().inner().registries().updateAsync(self.resourceGroupName(), self.name(), self.updateParameters)
+                .map(innerToFluentMap(this));
         }
     }
 
@@ -206,7 +170,6 @@ public class RegistryImpl
 
     @Override
     public RegistryImpl withExistingStorageAccount(StorageAccount storageAccount) {
-        this.existingStorageAccountName = null;
         this.storageAccountId = storageAccount.id();
 
         return this;
@@ -214,7 +177,6 @@ public class RegistryImpl
 
     @Override
     public RegistryImpl withExistingStorageAccount(String id) {
-        this.existingStorageAccountName = null;
         this.storageAccountId = id;
 
         return this;
@@ -222,7 +184,6 @@ public class RegistryImpl
 
     @Override
     public RegistryImpl withNewStorageAccount(String storageAccountName) {
-        this.existingStorageAccountName = null;
         this.storageAccountId = null;
 
         StorageAccount.DefinitionStages.WithGroup definitionWithGroup = this.storageManager
@@ -241,7 +202,6 @@ public class RegistryImpl
 
     @Override
     public RegistryImpl withNewStorageAccount(Creatable<StorageAccount> creatable) {
-        this.existingStorageAccountName = null;
         this.storageAccountId = null;
 
         if (this.creatableStorageAccountKey == null) {

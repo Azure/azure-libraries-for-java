@@ -118,8 +118,8 @@ class CdnProfileImpl
     public PagedList<ResourceUsage> listResourceUsage() {
         return (new PagedListConverter<ResourceUsageInner, ResourceUsage>() {
             @Override
-            public ResourceUsage typeConvert(ResourceUsageInner inner) {
-                return new ResourceUsage(inner);
+            public Observable<ResourceUsage> typeConvertAsync(ResourceUsageInner inner) {
+                return Observable.just((ResourceUsage) new ResourceUsage(inner));
             }
         }).convert(this.manager().inner().profiles().listResourceUsage(
                 this.resourceGroupName(),

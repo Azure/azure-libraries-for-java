@@ -177,12 +177,11 @@ class VirtualMachineImpl
             }
         };
         this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(computeManager.inner().virtualMachineExtensions(), this);
-        this.virtualMachineExtensions.enableCommitMode();
 
         this.managedDataDisks = new ManagedDataDiskCollection(this);
         initializeDataDisks();
         this.bootDiagnosticsHandler = new BootDiagnosticsHandler(this);
-        this.virtualMachineMsiHelper = new VirtualMachineMsiHelper(rbacManager);
+        this.virtualMachineMsiHelper = new VirtualMachineMsiHelper(rbacManager, this);
     }
 
     // Verbs
@@ -192,11 +191,9 @@ class VirtualMachineImpl
         return super.refreshAsync().map(new Func1<VirtualMachine, VirtualMachine>() {
             @Override
             public VirtualMachine call(VirtualMachine virtualMachine) {
-                final VirtualMachineImpl impl = (VirtualMachineImpl) virtualMachine;
-                reset(impl.inner());
-                // TODO - ans - We need to call refreshAsync here.
-                impl.virtualMachineExtensions.refresh();
-                return impl;
+                reset(virtualMachine.inner());
+                virtualMachineExtensions.refresh();
+                return virtualMachine;
             }
         });
     }
@@ -1286,13 +1283,13 @@ class VirtualMachineImpl
 
     @Override
     public VirtualMachineImpl withManagedServiceIdentity() {
-        this.virtualMachineMsiHelper.withManagedServiceIdentity(this.inner());
+        this.virtualMachineMsiHelper.withManagedServiceIdentity();
         return this;
     }
 
     @Override
     public VirtualMachineImpl withManagedServiceIdentity(int tokenPort) {
-        this.virtualMachineMsiHelper.withManagedServiceIdentity(tokenPort, this.inner());
+        this.virtualMachineMsiHelper.withManagedServiceIdentity(tokenPort);
         return this;
     }
 
@@ -1365,7 +1362,18 @@ class VirtualMachineImpl
 
     @Override
     public OperatingSystemTypes osType() {
-        return inner().storageProfile().osDisk().osType();
+        if (inner().storageProfile().osDisk().osType() != null) {
+            return inner().storageProfile().osDisk().osType();
+        }
+        if (inner().osProfile() != null) {
+            if (inner().osProfile().linuxConfiguration() != null) {
+                return OperatingSystemTypes.LINUX;
+            }
+            if (inner().osProfile().windowsConfiguration() != null) {
+                return OperatingSystemTypes.WINDOWS;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -1647,8 +1655,8 @@ class VirtualMachineImpl
         this.handleAvailabilitySettings();
 
         final VirtualMachineImpl self = this;
-        final VirtualMachinesInner client = this.manager().inner().virtualMachines();
-        return client.createOrUpdateAsync(resourceGroupName(), vmName, inner())
+        return this.manager().inner().virtualMachines()
+                .createOrUpdateAsync(resourceGroupName(), vmName, inner())
                 .map(new Func1<VirtualMachineInner, VirtualMachine>() {
                     @Override
                     public VirtualMachine call(VirtualMachineInner virtualMachineInner) {
@@ -1656,52 +1664,21 @@ class VirtualMachineImpl
                         return self;
                     }
 
-            }).flatMap(new Func1<VirtualMachine, Observable<? extends VirtualMachine>>() {
-                @Override
-                public Observable<? extends VirtualMachine> call(VirtualMachine virtualMachine) {
-                    return self.virtualMachineExtensions.commitAndGetAllAsync()
-                            .map(new Func1<List<VirtualMachineExtensionImpl>, VirtualMachine>() {
-                                @Override
-                                public VirtualMachine call(List<VirtualMachineExtensionImpl> virtualMachineExtensions) {
-                                    return self;
-                                }
-                            });
-                }
-            }).flatMap(new Func1<VirtualMachine, Observable<? extends VirtualMachine>>() {
-                @Override
-                public Observable<? extends VirtualMachine> call(VirtualMachine virtualMachine) {
-                    return virtualMachineMsiHelper.setupVirtualMachineMSIResourcesAsync(self)
-                            .flatMap(new Func1<VirtualMachineMsiHelper.MSIResourcesSetupResult, Observable<VirtualMachine>>() {
-                                @Override
-                                public Observable<VirtualMachine> call(VirtualMachineMsiHelper.MSIResourcesSetupResult result) {
-                                    if (result.isExtensionInstalledOrUpdated) {
-                                        return refreshAsync();
-                                    } else {
-                                        return Observable.just((VirtualMachine) self);
-                                    }
-                                }
-                            });
-                }
                 });
     }
 
     // CreateUpdateTaskGroup.ResourceCreator.afterPostRunAsync implementation
     //
-    //    @Override
-    //    public Completable afterPostRunAsync(boolean isGroupFaulted) {
-    //        // There can be VM extensions associated with this VM those are marked as "post run",
-    //        // (i.e. After VM is created) if so there could be some operations (CUD) performed on
-    //        // VM extensions after VM create. Hence we need to refresh the VM with latest state of
-    //        // those extensions. 'afterPostRunAsync' method will be called only after all extensions
-    //        // operations are processed. Refresh VM if no failure happened so far.
-    //        //
-    //        if (isGroupFaulted) {
-    //            this.virtualMachineExtensions.clear();
-    //            return Completable.complete();
-    //        } else {
-    //            return this.refreshAsync().toCompletable();
-    //        }
-    //    }
+        @Override
+        public Completable afterPostRunAsync(boolean isGroupFaulted) {
+            this.virtualMachineExtensions.clear();
+            this.virtualMachineMsiHelper.clear();
+            if (isGroupFaulted) {
+                return Completable.complete();
+            } else {
+                return this.refreshAsync().toCompletable();
+            }
+        }
 
     // Helpers
     VirtualMachineImpl withExtension(VirtualMachineExtensionImpl extension) {

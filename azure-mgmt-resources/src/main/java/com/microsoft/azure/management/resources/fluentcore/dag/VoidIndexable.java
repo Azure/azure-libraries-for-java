@@ -8,12 +8,14 @@ package com.microsoft.azure.management.resources.fluentcore.dag;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 
+import java.util.Objects;
+
 /**
  * Represents an index-able model, when used as return type of a method,
  * it indicates invocation of the method may cause side-effect but does
  * not produce a value.
  */
-public class VoidIndexable implements Indexable {
+public final class VoidIndexable implements Indexable {
     /**
      * The key.
      */
@@ -25,6 +27,7 @@ public class VoidIndexable implements Indexable {
      * @param key the key.
      */
     public VoidIndexable(String key) {
+        Objects.requireNonNull(key);
         this.key = key;
     }
 

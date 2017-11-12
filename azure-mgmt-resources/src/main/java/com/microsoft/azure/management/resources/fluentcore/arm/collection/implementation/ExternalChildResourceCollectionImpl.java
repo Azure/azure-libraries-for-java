@@ -100,7 +100,7 @@ public abstract class ExternalChildResourceCollectionImpl<
      */
     public void clear() {
         for (FluentModelTImpl child : childCollection.values()) {
-            child.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None);
+            child.clear();
         }
         this.childCollection.clear();
     }

@@ -41,10 +41,6 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
             ExternalChildResource<FluentModelT, ParentT>,
             Refreshable<FluentModelT> {
     /**
-     * The task group with root task as the task to create, update or delete this external child resource.
-     */
-    private final TaskGroup taskGroup;
-    /**
      * State representing any pending action that needs to be performed on this child resource.
      */
     private PendingOperation pendingOperation = PendingOperation.None;
@@ -53,9 +49,9 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      */
     private final String name;
     /**
-     * Flag indicating whether {@link this#deleteAsync()} was invoked and completed successfully.
+     * TaskItem in the graph to perform action on this external child resource.
      */
-    private boolean isDeleted;
+    private final ExternalChildActionTaskItem childAction;
 
     /**
      * Creates an instance of external child resource in-memory.
@@ -68,7 +64,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
                                         ParentImplT parent,
                                         InnerModelT innerObject) {
         super(innerObject, parent);
-        this.taskGroup = new TaskGroup(new ExternalChildActionTaskItem(this));
+        this.childAction = new ExternalChildActionTaskItem(this);
         this.name = name;
     }
 
@@ -94,11 +90,21 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
     }
 
     /**
+     * Mark that there is no action pending on this child resource and clear
+     * any cached result, i.e. the output produced by the invocation of last
+     * action.
+     */
+    public void clear() {
+        this.setPendingOperation(PendingOperation.None);
+        this.childAction.clear();
+    }
+
+    /**
      * @return the task group associated with this external child resource.
      */
     @Override
     public TaskGroup taskGroup() {
-        return this.taskGroup;
+        return this.childAction.taskGroup();
     }
 
     /**
@@ -175,42 +181,26 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
     }
 
     /**
-     * A {@link com.microsoft.azure.management.resources.fluentcore.dag.TaskItem}, when invoked performs
-     * actions (create, update or delete) on an external child resource via {@link ExternalChildResourceImpl}
-     * it composes.
+     * A TaskItem in the graph, when invoked performs actions (create, update or delete) on an
+     * external child resource it composes.
      */
     private class ExternalChildActionTaskItem extends IndexableTaskItem {
+        /**
+         * The composed external child resource.
+         */
         private final ExternalChildResourceImpl<FluentModelT, InnerModelT, ParentImplT, ParentT> externalChild;
 
         /**
          * Creates ExternalChildActionTaskItem.
          *
-         * @param externalChild an external child this TaskItem composes, to execute the action on the resource when invoked.
+         * @param externalChild an external child this TaskItem composes.
          */
         ExternalChildActionTaskItem(final ExternalChildResourceImpl<FluentModelT, InnerModelT, ParentImplT, ParentT> externalChild) {
-            super();
             this.externalChild = externalChild;
         }
 
         @Override
-        public Indexable result() {
-            if (this.externalChild.pendingOperation != PendingOperation.None) {
-                // Returning null from the result() method indicates action is pending hence
-                // invokeAsync() should be called to run the action and to produce the result.
-                //
-                return null;
-            } else {
-                // PendingOperation.None
-                //
-                if (this.externalChild.isDeleted) {
-                    return this.voidIndexable();
-                }
-                return this.externalChild;
-            }
-        }
-
-        @Override
-        public Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
+        public Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
             switch (this.externalChild.pendingOperation()) {
                 case ToBeCreated:
                     return this.externalChild.createAsync()
@@ -233,13 +223,12 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
                             .map(new Func1<Void, Indexable>() {
                                 @Override
                                 public Indexable call(Void aVoid) {
-                                    externalChild.isDeleted = true;
                                     return voidIndexable();
                                 }
                             });
                 default:
-                    // None
-                    throw new IllegalStateException("No action pending on child resource: " + externalChild.name + ", invokeAsync should not be called ");
+                    // PendingOperation.None
+                    return Observable.error(new IllegalStateException("No action pending on child resource: " + externalChild.name + ", invokeAsync should not be called "));
             }
         }
 

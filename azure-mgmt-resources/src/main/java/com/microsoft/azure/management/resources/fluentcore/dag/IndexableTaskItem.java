@@ -9,30 +9,58 @@ package com.microsoft.azure.management.resources.fluentcore.dag;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import rx.Completable;
 import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.UUID;
 
 /**
- * Type representing a TaskItem which is indexable.
+ * An index-able TaskItem with a TaskGroup.
  */
 public abstract class IndexableTaskItem implements Indexable, TaskItem {
+    /**
+     * The key that is unique to this TaskItem which is used to index this
+     * TaskItem.
+     */
     private final String key;
-    private VoidIndexable voidIndexable;
+    /**
+     * The TaskGroup with this TaskItem as root task.
+     */
+    private final TaskGroup taskGroup;
+    /**
+     * The result of computation performed by this TaskItem.
+     */
+    private Indexable taskResult;
 
     /**
-     * Creates IndexableTaskItem.
+     * Creates a TaskItem which is index-able using provided key.
      *
-     * @param key the indexable key
+     * @param key the unique key to index this TaskItem
      */
     public IndexableTaskItem(String key) {
         this.key = key;
+        this.taskGroup = new TaskGroup(this);
+        this.taskResult = null;
     }
 
     /**
-     * Creates IndexableTaskItem with key as random guid.
+     * Creates a TaskItem which is index-able using a random UUID.
      */
     public IndexableTaskItem() {
         this(UUID.randomUUID().toString());
+    }
+
+    /**
+     * @return the TaskGroup this this TaskItem as root.
+     */
+    public TaskGroup taskGroup() {
+        return this.taskGroup;
+    }
+
+    /**
+     * Clear the result produced by the task.
+     */
+    public void clear() {
+        this.taskResult = voidIndexable();
     }
 
     @Override
@@ -40,8 +68,11 @@ public abstract class IndexableTaskItem implements Indexable, TaskItem {
         return this.key;
     }
 
+
     @Override
-    public abstract Indexable result();
+    public Indexable result() {
+        return this.taskResult;
+    }
 
     @Override
     public void beforeGroupInvoke() {
@@ -54,26 +85,36 @@ public abstract class IndexableTaskItem implements Indexable, TaskItem {
     }
 
     @Override
-    public abstract Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context);
+    public Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
+        return this.invokeTaskAsync(context)
+                .map(new Func1<Indexable, Indexable>() {
+                    @Override
+                    public Indexable call(Indexable result) {
+                        taskResult = result;
+                        return result;
+                    }
+                });
+    }
 
     @Override
     public Completable invokeAfterPostRunAsync(boolean isGroupFaulted) {
         return Completable.complete();
     }
 
+    protected abstract Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context);
+
     /**
-     * A helper method that returns an instance of VoidIndexable with key same as
-     * the key of this TaskItem.
-     * <p>
-     * Returning VoidIndexable from result() and invokeAsync() returned Observable
-     * indicates that the task does not produce any value.
-     *
-     * @return a VoidIndexable.
+     * @return an instance of {@link VoidIndexable} with key same as the key of this TaskItem.
      */
-    protected VoidIndexable voidIndexable() {
-        if (this.voidIndexable == null) {
-            this.voidIndexable = new VoidIndexable(this.key);
-        }
-        return this.voidIndexable;
+    protected Indexable voidIndexable() {
+        return new VoidIndexable(this.key);
+    }
+
+    /**
+     * @return an Observable upon subscription emits {@link VoidIndexable} with key same as the key of
+     * this TaskItem
+     */
+    protected Observable<Indexable> voidObservable() {
+        return Observable.just(this.voidIndexable());
     }
 }

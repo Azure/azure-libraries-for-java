@@ -286,7 +286,7 @@ public interface ContainerService extends
          * The stage of a container service definition allowing to specify the master pool OS disk size.
          *
          */
-        interface WithMasterOSDiskSize<ParentT> {
+        interface WithMasterOSDiskSize {
             /**
              * OS Disk Size in GB to be used for every machine in the master pool.
              *

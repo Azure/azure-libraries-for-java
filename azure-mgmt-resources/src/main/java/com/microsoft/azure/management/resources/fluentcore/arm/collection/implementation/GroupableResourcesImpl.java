@@ -15,6 +15,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Ma
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceCallback;
 import rx.Completable;
@@ -96,7 +97,7 @@ public abstract class GroupableResourcesImpl<
 
     @Override
     public Completable deleteByResourceGroupAsync(String groupName, String name) {
-        return this.deleteInnerAsync(groupName, name);
+        return this.deleteInnerAsync(groupName, name).subscribeOn(SdkContext.getRxScheduler());
     }
 
     @Override

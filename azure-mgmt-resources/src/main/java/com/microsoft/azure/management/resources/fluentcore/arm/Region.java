@@ -68,8 +68,35 @@ public final class Region {
     /**************************************************
      * Azure Government Cloud
      **************************************************/
+    /**
+     * U.S. government cloud in Virginia.
+     */
     public static final Region GOV_US_VIRGINIA = new Region("usgovvirginia", "US Gov Virginia");
+
+    /**
+     * U.S. government cloud in Iowa.
+     */
     public static final Region GOV_US_IOWA = new Region("usgoviowa", "US Gov Iowa");
+
+    /**
+     * U.S. government cloud in Arizona.
+     */
+    public static final Region GOV_US_ARIZONA = new Region("usgovarizona", "US Gov Arizona");
+
+    /**
+     * U.S. government cloud in Texas.
+     */
+    public static final Region GOV_US_TEXAS =  new Region("usgovtexas", "US Gov Texas");
+
+    /**
+     * U.S. Department of Defense cloud - East.
+     */
+    public static final Region GOV_US_DOD_EAST = new Region("usdodeast", "US DoD East");
+
+    /**
+     * U.S. Department of Defense cloud - Central.
+     */
+    public static final Region GOV_US_DOD_CENTRAL = new Region("usdodcentral", "US DoD Central");
 
     private final String name;
     private final String label;

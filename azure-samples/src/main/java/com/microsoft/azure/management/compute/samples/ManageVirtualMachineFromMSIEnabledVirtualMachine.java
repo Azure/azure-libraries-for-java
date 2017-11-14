@@ -13,7 +13,6 @@ import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.samples.Utils;
 
@@ -93,8 +92,6 @@ public final class ManageVirtualMachineFromMSIEnabledVirtualMachine {
                     .withRootPassword(password)
                     .withSize(VirtualMachineSizeTypes.STANDARD_DS2_V2)
                     .withOSDiskCaching(CachingTypes.READ_WRITE)
-                    .withManagedServiceIdentity()
-                    .withRoleBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
                     .create();
 
             System.out.println("Created virtual machine using MSI credentials");

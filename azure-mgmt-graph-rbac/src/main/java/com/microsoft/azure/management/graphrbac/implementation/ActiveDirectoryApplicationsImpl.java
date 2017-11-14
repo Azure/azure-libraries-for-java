@@ -93,18 +93,15 @@ class ActiveDirectoryApplicationsImpl
     @Override
     public Observable<ActiveDirectoryApplication> getByIdAsync(String id) {
         return innerCollection.getAsync(id)
-                .map(new Func1<ApplicationInner, ActiveDirectoryApplicationImpl>() {
+                .flatMap(new Func1<ApplicationInner, Observable<ActiveDirectoryApplication>>() {
                     @Override
-                    public ActiveDirectoryApplicationImpl call(ApplicationInner applicationInner) {
+                    public Observable<ActiveDirectoryApplication> call(ApplicationInner applicationInner) {
                         if (applicationInner == null) {
-                            return null;
+                            return Observable.just(null);
+                        } else {
+                            return new ActiveDirectoryApplicationImpl(applicationInner, manager())
+                                    .refreshCredentialsAsync();
                         }
-                        return new ActiveDirectoryApplicationImpl(applicationInner, manager());
-                    }
-                }).flatMap(new Func1<ActiveDirectoryApplicationImpl, Observable<ActiveDirectoryApplication>>() {
-                    @Override
-                    public Observable<ActiveDirectoryApplication> call(ActiveDirectoryApplicationImpl application) {
-                        return application.refreshCredentialsAsync();
                     }
                 });
     }

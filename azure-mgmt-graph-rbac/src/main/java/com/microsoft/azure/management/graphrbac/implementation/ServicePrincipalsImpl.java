@@ -85,21 +85,14 @@ class ServicePrincipalsImpl
     @Override
     public Observable<ServicePrincipal> getByIdAsync(String id) {
         return innerCollection.getAsync(id)
-                .map(new Func1<ServicePrincipalInner, ServicePrincipalImpl>() {
+                .flatMap(new Func1<ServicePrincipalInner, Observable<ServicePrincipal>>() {
                     @Override
-                    public ServicePrincipalImpl call(ServicePrincipalInner servicePrincipalInner) {
+                    public Observable<ServicePrincipal> call(ServicePrincipalInner servicePrincipalInner) {
                         if (servicePrincipalInner == null) {
-                            return null;
+                            return Observable.just(null);
+                        } else {
+                            return new ServicePrincipalImpl(servicePrincipalInner, manager()).refreshCredentialsAsync();
                         }
-                        return new ServicePrincipalImpl(servicePrincipalInner, manager());
-                    }
-                }).flatMap(new Func1<ServicePrincipalImpl, Observable<ServicePrincipal>>() {
-                    @Override
-                    public Observable<ServicePrincipal> call(ServicePrincipalImpl servicePrincipal) {
-                        if (servicePrincipal == null) {
-                            return null;
-                        }
-                        return servicePrincipal.refreshCredentialsAsync();
                     }
                 });
     }

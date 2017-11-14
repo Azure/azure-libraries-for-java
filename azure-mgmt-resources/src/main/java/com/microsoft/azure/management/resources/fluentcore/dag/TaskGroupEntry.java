@@ -21,6 +21,11 @@ import rx.functions.Func0;
 final class TaskGroupEntry<TaskT extends TaskItem>
         extends DAGNode<TaskT, TaskGroupEntry<TaskT>> {
     /**
+     * The proxy entry for this entry if exists.
+     */
+    private TaskGroupEntry<TaskT> proxy;
+
+    /**
      * indicates that one or more decedent dependency tasks are faulted.
      */
     private boolean hasFaultedDescentDependencyTasks;
@@ -39,6 +44,22 @@ final class TaskGroupEntry<TaskT extends TaskItem>
     public void initialize() {
         super.initialize();
         this.hasFaultedDescentDependencyTasks = false;
+    }
+
+    /**
+     * Set the proxy entry for this entry.
+     *
+     * @param proxy the proxy entry
+     */
+    public void setProxy(TaskGroupEntry<TaskT> proxy) {
+        this.proxy = proxy;
+    }
+
+    /**
+     * @return the proxy entry if it is set, null if not set.
+     */
+    public TaskGroupEntry<TaskT> proxy() {
+        return this.proxy;
     }
 
     /**
@@ -61,8 +82,9 @@ final class TaskGroupEntry<TaskT extends TaskItem>
      * if the task cannot be invoked due to faulted dependencies then an observable that emit
      * {@link ErroredDependencyTaskException} will be returned.
      *
-     * @param ignoreCachedResult indicate that whether the cached result can be returned without
-     *                           invoking the task again
+     * @param ignoreCachedResult if the task is already invoked and has result cached then a value false for this
+     *                           parameter indicates the cached result can be returned without invoking task again,
+     *                           if true then cached result will be ignored and task will be invoked
      * @param context the context object shared across all the entries in the group that this entry belongs to,
      *                this will be passed to {@link TaskItem#invokeAsync(TaskGroup.InvocationContext)}
      *                method of the task item

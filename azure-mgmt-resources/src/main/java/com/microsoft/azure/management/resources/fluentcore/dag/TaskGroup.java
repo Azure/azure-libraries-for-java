@@ -291,7 +291,11 @@ public class TaskGroup
                     //
                     return processFaultedTaskAsync(entry, taskCancelledException, context);
                 } else {
-                    Observable<Indexable> taskObservable = entry.invokeTaskAsync(isRootEntry(entry), context);
+                    // Any cached result will be ignored for root resource
+                    //
+                    boolean ignoreCachedResult = isRootEntry(entry) || (entry.proxy() != null && isRootEntry(entry.proxy()));
+
+                    Observable<Indexable> taskObservable = entry.invokeTaskAsync(ignoreCachedResult, context);
                     Func1<Indexable, Observable<Indexable>> onResult = new Func1<Indexable, Observable<Indexable>>() {
                         @Override
                         public Observable<Indexable> call(final Indexable taskResult) {
@@ -642,6 +646,7 @@ public class TaskGroup
                 // "Proxy TaskGroup" takes dependency on "actual TaskGroup"
                 //
                 this.proxyTaskGroup.addDependencyGraph(this.actualTaskGroup);
+                this.actualTaskGroup.rootTaskEntry.setProxy(this.proxyTaskGroup.rootTaskEntry);
             }
         }
     }

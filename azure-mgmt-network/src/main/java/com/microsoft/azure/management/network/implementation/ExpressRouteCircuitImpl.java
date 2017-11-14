@@ -17,7 +17,9 @@ import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
 import rx.functions.Func1;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @LangDefinition
@@ -64,15 +66,28 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceImpl<
 
 
     @Override
-    public ExpressRouteCircuitImpl enableClassicOperations() {
+    public ExpressRouteCircuitImpl withClassicOperations() {
         inner().withAllowClassicOperations(true);
         return this;
     }
 
     @Override
-    public Update disableClassicOperations() {
+    public ExpressRouteCircuitImpl withoutClassicOperations() {
         inner().withAllowClassicOperations(false);
         return this;
+    }
+
+    @Override
+    public ExpressRouteCircuitImpl withAuthorization(String authorizationName) {
+        ensureAuthorizations().add(new ExpressRouteCircuitAuthorizationInner().withName(authorizationName));
+        return this;
+    }
+
+    private List<ExpressRouteCircuitAuthorizationInner> ensureAuthorizations() {
+        if (inner().authorizations() == null) {
+            inner().withAuthorizations(new ArrayList<ExpressRouteCircuitAuthorizationInner>());
+        }
+        return inner().authorizations();
     }
 
     private ExpressRouteCircuitServiceProviderProperties ensureServiceProviderProperties() {

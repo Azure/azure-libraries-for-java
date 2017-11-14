@@ -272,8 +272,8 @@ class TrafficManagerProfileImpl
 
     @Override
     public Completable afterPostRunAsync(final boolean isGroupFaulted) {
+        this.endpoints.clear();
         if (isGroupFaulted) {
-            this.endpoints.clear();
             return Completable.complete();
         } else {
             return this.refreshAsync().toCompletable();

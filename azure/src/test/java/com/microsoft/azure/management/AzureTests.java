@@ -1004,7 +1004,7 @@ public class AzureTests extends TestBase {
                 .withRemotePort("443")
                 .execute();
         Assert.assertEquals(Access.ALLOW, verificationIPFlow.access());
-        Assert.assertEquals("DefaultRule_AllowInternetOutBound", verificationIPFlow.ruleName());
+        Assert.assertTrue("defaultSecurityRules/AllowInternetOutBound".equalsIgnoreCase(verificationIPFlow.ruleName()));
 
         // test packet capture
         List<PacketCapture> packetCaptures = nw.packetCaptures().list();

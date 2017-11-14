@@ -39,16 +39,16 @@ import java.util.Map;
  * Making use of the reactive pattern in a complex virtual machine creation scenario
  *
  * This sample shows how the reactive pattern (RXJava's Observables) supported by the Azure Libraries for Java in their asynchronous API
- * can be used for handling some more complex real world scenarios with relative ease, involving parallel, distributed computation in
- * the cloud. The specific example here shows how Observables enable real time tracking of the creation of many virtual machines in
- * parallel and all their related resources. Since Azure does not support transactional creation of virtual machines (no automatic
- * rollback in case of failure), this could be useful for example for the purposes of deleting "orphaned" resources, whenever the
- * creation of some other resources fails. Or simply showing real-time progress in some UI to the end user.
+ * can be used for handling some more complex real world scenarios with relative ease, involving distributed computation in the cloud.
+ * The specific example here shows how Observables enable real time tracking of the creation of many virtual machines in parallel and
+ * all their related resources. Since Azure does not support transactional creation of virtual machines (no automatic rollback in case
+ * of failure), this could be useful for example for the purposes of deleting "orphaned" resources, whenever the creation of some other
+ * resources fails. Or simply showing real-time progress in some UI to the end user.
  *
  * The sample goes through the following steps:
  *
  * 1. Define a number of virtual machines and their related required resources (such as virtual networks, etc)
- * 2. Start the parallel creation of those virtual machineS but with observer logic keeping track of the created resources and reporting
+ * 2. Start the parallel creation of those virtual machines with observer logic keeping track of the created resources and reporting
  *    them on the console in real time
  * 3. Clean up the "orphaned" resources, i.e. those that were created successfully but whose associated virtual machine
  *    failed to be created for some reason.

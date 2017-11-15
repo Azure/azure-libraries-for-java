@@ -7,6 +7,7 @@ package com.microsoft.azure.management.containerservice;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.containerservice.implementation.ContainerServiceManager;
 import com.microsoft.azure.management.containerservice.implementation.ManagedClusterInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -143,6 +144,7 @@ public interface KubernetesCluster extends
              *
              * @return the next stage of the definition
              */
+            @Method
             WithLinuxRootUsername withLatestVersion();
         }
 
@@ -290,7 +292,7 @@ public interface KubernetesCluster extends
              * @param agentCount the number of agents (virtual machines) to host docker containers.
              * @return the next stage of the update
              */
-            KubernetesCluster.Update withAgentVMCount(String agentPoolName, int agentCount);
+            KubernetesCluster.Update withAgentVirtualMachineCount(String agentPoolName, int agentCount);
 
             /**
              * Updates all the agent pools virtual machine count.
@@ -298,7 +300,7 @@ public interface KubernetesCluster extends
              * @param agentCount the number of agents (virtual machines) to host docker containers.
              * @return the next stage of the update
              */
-            KubernetesCluster.Update withAgentVMCount(int agentCount);
+            KubernetesCluster.Update withAgentVirtualMachineCount(int agentCount);
         }
     }
 }

@@ -107,7 +107,7 @@ public class ManageKubernetesCluster {
             t1 = new Date();
 
             kubernetesCluster.update()
-                .withAgentVMCount(2)
+                .withAgentVirtualMachineCount(2)
                 .apply();
 
             t2 = new Date();

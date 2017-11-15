@@ -30,10 +30,66 @@ The following methods and/or types have been either renamed or removed in V1.4 c
     <td><a href="https://github.com/Azure/azure-sdk-for-java/pull/1948">PR #1948</a></td>
   </tr>
   <tr>
-    <td><code>??</code></td>
+    <td><code>ComputeManager</code></td>
+    <td><code>.containerServices()</code></td>
+    <td><i>Removed</i></td>
+    <td>Use <code>ContainerServiceManager.containerServices()</code> instead</td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
+  </tr>
+  <tr>
+    <td><code>ContainerService</code></td>
+    <td><code>.masterLeafDomainLabel()</code></td>
+    <td><code>.masterDnsPrefix()</code></td>
+    <td></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
+  </tr>
+  <tr>
+    <td><code>ContainerService</code></td>
+    <td><code>.withMasterLeafDomainLabel()</code></td>
+    <td><code>.withMasterDnsPrefix()</code></td>
+    <td></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
+  </tr>
+  <tr>
+    <td><code>ContainerService</code></td>
+    <td><code>.withAgentVMCount()</code></td>
+    <td><code>.withAgentVirtualMachineCount()</code></td>
+    <td></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/50">PR #50</a></td>
+  </tr>
+  <tr>
+    <td><code>ContainerServiceAgentPool</code></td>
+    <td><code>.dnsLabel()</code></td>
+    <td><code>.dnsPrefix()</code></td>
+    <td></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
+  </tr>
+  <tr>
+    <td><code>ContainerServiceAgentPool</code></td>
+    <td><code>.withLeafDomainLabel()</code></td>
+    <td><code>.withDnsPrefix()</code></td>
+    <td></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
+  </tr>
+  <tr>
+    <td><code>ContainerServiceAgentPool</code></td>
+    <td><code>.withVMCount()</code></td>
+    <td><code>.withVirtualMachineCount()</code></td>
+    <td></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
+  </tr>
+  <tr>
+    <td><code>ContainerServiceAgentPool</code></td>
+    <td><code>.withVMSize()</code></td>
+    <td><code>.withVirtualMachineSize()</code></td>
+    <td></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
+  </tr>
+  <tr>
     <td><code>??</code></td>
     <td><code>??</code></td>
     <td>??</td>
+    <td><code>??</code></td>
     <td><a href="??">??</a></td>
   </tr>
 </table>

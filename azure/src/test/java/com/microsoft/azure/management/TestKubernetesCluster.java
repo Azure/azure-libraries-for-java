@@ -69,7 +69,7 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
         String agentPoolName = new ArrayList<>(resource.agentPools().keySet()).get(0);
         // Modify existing container service
         resource =  resource.update()
-            .withAgentVMCount(agentPoolName, 5)
+            .withAgentVirtualMachineCount(agentPoolName, 5)
             .withTag("tag2", "value2")
             .withTag("tag3", "value3")
             .withoutTag("tag1")

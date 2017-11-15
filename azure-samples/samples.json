@@ -2,112 +2,10 @@
   "$schema": "./samples.schema.json",
   "javaSamples": [
     {
-      "owner": "anudeepsharma",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/batch/samples/ManageBatchAccount.java",
-      "githubPath": "Azure-Samples/batch-java-manage-batch-accounts",
-      "description": "Getting started on managing batch accounts in Java http://azure.com/java"
-    },
-    {
-      "owner": "anuchandy",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ListVirtualMachineExtensionImages.java",
-      "githubPath": "Azure-Samples/compute-java-list-vm-extension-images",
-      "description": "Getting started on listing virtual machine extension images in Java http://azure.com/java"
-    },
-    {
-      "owner": "selvasingh",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ListVirtualMachineImages.java",
-      "githubPath": "Azure-Samples/compute-java-list-vm-images",
-      "description": "Browse and get versions and names - virtual machine images, publishers, offers and SKUs - http://azure.com/java "
-    },
-    {
-      "owner": "selvasingh",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageAvailabilitySet.java",
-      "githubPath": "Azure-Samples/compute-java-manage-availability-sets",
-      "description": "Getting started on managing availability sets in Java - http://azure.com/java"
-    },
-    {
-      "owner": "selvasingh",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageVirtualMachine.java",
-      "githubPath": "Azure-Samples/compute-java-manage-vm",
-      "description": "Getting Started with Compute - Manage Virtual Machines - in Java http://azure.com/java"
-    },
-    {
-      "owner": "anuchandy",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageVirtualMachineExtension.java",
-      "githubPath": "Azure-Samples/compute-java-manage-virtual-machine-using-vm-extensions",
-      "description": "Getting started on managing virtual machines using vm extensions in Java http://azure.com/java"
-    },
-    {
-      "owner": "selvasingh",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageVirtualMachineScaleSet.java",
-      "githubPath": "Azure-Samples/compute-java-manage-virtual-machine-scale-sets",
-      "description": "Getting started on managing virtual machine scale sets in Java http://azure.com/java"
-    },
-    {
-      "owner": "anuchandy",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageVirtualMachinesInParallel.java",
-      "githubPath": "Azure-Samples/compute-java-manage-virtual-machines-in-parallel",
-      "description": "Getting started on managing virtual machines in parallel in Java http://azure.com/java"
-    },
-    {
-      "owner": "jianghaolu",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/keyvault/samples/ManageKeyVault.java",
-      "githubPath": "Azure-Samples/key-vault-java-manage-key-vaults",
-      "description": "Getting started on managing key vaults in Java http://azure.com/java"
-    },
-    {
-      "owner": "selvasingh",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageInternalLoadBalancer.java",
-      "githubPath": "Azure-Samples/network-java-manage-internal-load-balancers",
-      "description": "Getting started on managing internal load balancers in Java http://azure.com/java"
-    },
-    {
-      "owner": "selvasingh",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageInternetFacingLoadBalancer.java",
-      "githubPath": "Azure-Samples/network-java-manage-internet-facing-load-balancers",
-      "description": "Getting started on managing load balancers in Java http://azure.com/java"
-    },
-    {
-      "owner": "selvasingh",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageIPAddress.java",
-      "githubPath": "Azure-Samples/network-java-manage-ip-address",
-      "description": "Manage IP addresses in Java - assign a Public IP Address for a Virtual Machine during create and through an update. Get the associated Public IP Name for a virtual machine, get the assigned Public IP Address for a virtual machine. Remove Public IP Address from a Virtual machine - http://azure.com/java"
-    },
-    {
-      "owner": "selvasingh",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageNetworkInterface.java",
-      "githubPath": "Azure-Samples/network-java-manage-network-interface",
-      "description": "Manage multiples network interfaces for VMs in Java - create a VM with multiple network interfaces, configure multiple network interfaces, list network interfaces, delete a network interface - http://azure.com/java"
-    },
-    {
-      "owner": "selvasingh",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageNetworkSecurityGroup.java",
-      "githubPath": "Azure-Samples/network-java-manage-network-security-group",
-      "description": "Manage network security group (NSG) in Java - create an NSG for the front end subnet, create another for the backend subnet, and CRUD on NSG - http://azure.com/java"
-    },
-    {
-      "owner": "anuchandy",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageVirtualMachinesInParallelWithNetwork.java",
-      "githubPath": "Azure-Samples/compute-java-manage-virtual-machines-with-network-in-parallel",
-      "description": "Getting started on managing virtual machines within subnets in parallel in Java http://azure.com/java"
-    },
-    {
-      "owner": "selvasingh",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageVirtualNetwork.java",
-      "githubPath": "Azure-Samples/network-java-manage-virtual-network",
-      "description": "Manage virtual networks in Java - create a virtual network, create a virtual network with subnets, update a virtual network, list virtual networks, delete a virtual network - http://azure.com/java"
-    },
-    {
       "owner": "alvadb",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/resources/samples/DeployUsingARMTemplate.java",
       "githubPath": "Azure-Samples/resources-java-deploy-using-arm-template",
       "description": "Getting started on deploying using an ARM template - http://azure.com/java"
-    },
-    {
-      "owner": "anudeepsharma",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/resources/samples/DeployUsingARMTemplateWithProgress.java",
-      "githubPath": "Azure-Samples/resources-java-deploy-using-arm-template-with-progress",
-      "description": "Getting started on deploying using an ARM template and show progress"
     },
     {
       "owner": "alvadb",
@@ -122,100 +20,36 @@
       "description": "Getting started on managing resource groups in Java - http://azure.com/java"
     },
     {
-      "owner": "selvasingh",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/storage/samples/ManageStorageAccount.java",
-      "githubPath": "Azure-Samples/storage-java-manage-storage-accounts",
-      "description": "Getting started on managing storage accounts in Java - http://azure.com/java"
+      "owner": "alvadb",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/cosmosdb/samples/ManageHACosmosDB.java",
+      "githubPath": "Azure-Samples/cosmosdb-java-create-documentdb-and-configure-for-high-availability",
+      "description": "Create a DocumentDB and configure it for high availability using Java"
     },
     {
-      "owner": "anudeepsharma",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/sql/samples/ManageSqlDatabase.java",
-      "githubPath": "Azure-Samples/sql-database-java-manage-db",
-      "description": "Getting started on managing SQL databases in Java"
+      "owner": "alvadb",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/cosmosdb/samples/CreateCosmosDBWithEventualConsistency.java",
+      "githubPath": "Azure-Samples/cosmosdb-java-create-documentdb-and-configure-for-eventual-consistency",
+      "description": "Create a DocumentDB and configure it with eventual consistency using Java"
     },
     {
-      "owner": "anudeepsharma",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/sql/samples/ManageSqlDatabaseInElasticPool.java",
-      "githubPath": "Azure-Samples/sql-database-java-manage-sql-dbs-in-elastic-pool",
-      "description": "Getting started on managing SQL databases in elastic pools in Java"
+      "owner": "alvadb",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/cosmosdb/samples/CreateCosmosDBWithIPRange.java",
+      "githubPath": "Azure-Samples/cosmosdb-java-create-documentdb-and-configure-firewall",
+      "description": "Create a DocumentDB, configure it for high availability and create a firewall by limiting access to DocumentDB from an approved set of IP addresses using Java"
     },
     {
-      "owner": "anudeepsharma",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/sql/samples/ManageSqlFirewallRules.java",
-      "githubPath": "Azure-Samples/sql-database-java-manage-firewalls-for-sql-databases",
-      "description": "Getting started on managing firewalls for sql databases in Java"
+      "owner": "alvadb",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/cosmosdb/samples/CreateCosmosDBWithKindMongoDB.java",
+      "githubPath": "Azure-Samples/cosmosdb-java-create-documentdb-and-get-mongodb-connection-string",
+      "description": "Create a DocumentDB and get MongoDB connection string using Java"
     },
-    {
-      "owner": "anudeepsharma",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/sql/samples/ManageSqlDatabasesAcrossDifferentDataCenters.java",
-      "githubPath": "Azure-Samples/sql-database-java-manage-sql-databases-across-regions",
-      "description": "Getting started with managing SQL databases across regions in Java"
-    },
-    {
-      "owner": "hovsepm",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/rediscache/samples/ManageRedisCache.java",
-      "githubPath": "Azure-Samples/redis-java-manage-cache",
-      "description": "Getting started on managing Redis Cache in Java http://azure.com/java"
-    },
-    {
-      "owner": "selvasingh",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/CreateVirtualMachinesInParallel.java",
-      "githubPath": "Azure-Samples/compute-java-create-virtual-machines-across-regions-in-parallel",
-      "description": "Getting started on creating several virtual machines across regions in parallel in Java"
-    },
+
+
     {
       "owner": "anuchandy",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/trafficmanager/samples/ManageTrafficManager.java",
       "githubPath": "Azure-Samples/traffic-manager-java-manage-profiles",
       "description": "Getting started on managing Traffic Manager Profiles in Java"
-    },
-    {
-      "owner": "hovsepm",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/cdn/samples/ManageCdn.java",
-      "githubPath": "Azure-Samples/cdn-java-manage-cdn",
-      "description": "Getting started on managing CDN in Java"
-    },
-    {
-      "owner": "jianghaolu",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppBasic.java",
-      "githubPath": "Azure-Samples/app-service-java-manage-web-apps",
-      "description": "Getting started on managing Web Apps in Java"
-    },
-    {
-      "owner": "jianghaolu",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppSlots.java",
-      "githubPath": "Azure-Samples/app-service-java-manage-staging-and-production-slots-for-web-apps",
-      "description": "Getting started on managing staging and product slots for Web Apps in Java"
-    },
-    {
-      "owner": "jianghaolu",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppSourceControl.java",
-      "githubPath": "Azure-Samples/app-service-java-configure-deployment-sources-for-web-apps",
-      "description": "Getting started on configuring deployment sources for Web Apps in Java"
-    },
-    {
-      "owner": "jianghaolu",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppSqlConnection.java",
-      "githubPath": "Azure-Samples/app-service-java-manage-data-connections-for-web-apps",
-      "description": "Getting started on managing data connections (such as SQL Database and Redis Cache) for Web Apps in Java"
-    },
-    {
-      "owner": "jianghaolu",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppWithDomainSsl.java",
-      "githubPath": "Azure-Samples/app-service-java-manage-web-apps-with-custom-domains",
-      "description": "Getting started on managing Web Apps with custom domains in Java"
-    },
-    {
-      "owner": "jianghaolu",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppWithTrafficManager.java",
-      "githubPath": "Azure-Samples/app-service-java-scale-web-apps",
-      "description": "Getting started on scaling Web Apps in Java"
-    },
-    {
-      "owner": "jianghaolu",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppStorageAccountConnection.java",
-      "githubPath": "Azure-Samples/app-service-java-manage-storage-connections-for-web-apps",
-      "description": "Getting started on managing storage connections for Web Apps in Java"
     },
     {
       "owner": "anuchandy",
@@ -224,16 +58,28 @@
       "description": "Getting started on hosting and managing your domains in Java"
     },
     {
-      "owner": "selvasingh",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageSimpleApplicationGateway.java",
-      "githubPath": "Azure-Samples/application-gateway-java-manage-simple-application-gateways",
-      "description": "Getting started on managing simple Application Gateways in Java"
+      "owner": "anuchandy",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ListVirtualMachineExtensionImages.java",
+      "githubPath": "Azure-Samples/compute-java-list-vm-extension-images",
+      "description": "Getting started on listing virtual machine extension images in Java http://azure.com/java"
     },
     {
-      "owner": "selvasingh",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageApplicationGateway.java",
-      "githubPath": "Azure-Samples/application-gateway-java-manage-application-gateways",
-      "description": "Getting started on managing Application Gateways with backend pools in Java"
+      "owner": "anuchandy",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageVirtualMachineExtension.java",
+      "githubPath": "Azure-Samples/compute-java-manage-virtual-machine-using-vm-extensions",
+      "description": "Getting started on managing virtual machines using vm extensions in Java http://azure.com/java"
+    },
+    {
+      "owner": "anuchandy",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageVirtualMachinesInParallel.java",
+      "githubPath": "Azure-Samples/compute-java-manage-virtual-machines-in-parallel",
+      "description": "Getting started on managing virtual machines in parallel in Java http://azure.com/java"
+    },
+    {
+      "owner": "anuchandy",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageVirtualMachinesInParallelWithNetwork.java",
+      "githubPath": "Azure-Samples/compute-java-manage-virtual-machines-with-network-in-parallel",
+      "description": "Getting started on managing virtual machines within subnets in parallel in Java http://azure.com/java"
     },
     {
       "owner": "anuchandy",
@@ -289,6 +135,150 @@
       "githubPath": "Azure-Samples/resources-java-deploy-virtual-machine-with-managed-disks-using-arm-template",
       "description": "Getting started with deploying a Virtual Machine with managed disks using an ARM Template"
     },
+    {
+      "owner": "anuchandy",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup.java",
+      "githubPath": "Azure-Samples/compute-java-manage-resources-from-vm-with-msi-in-aad-group",
+      "description": "Getting started on managing Azure resources from a managed service identity (MSI) enabled virtual machine that belongs to an Azure Active Directory (AAD) security group."
+    },
+    {
+      "owner": "anuchandy",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageStorageFromMSIEnabledVirtualMachine.java",
+      "githubPath": "Azure-Samples/aad-java-manage-resources-from-vm-with-msi",
+      "description": "Getting started on managing Azure resources from a virtual machine with managed service identity (MSI)"
+    },
+    {
+      "owner": "anuchandy",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageZonalVirtualMachine.java",
+      "githubPath": "Azure-Samples/compute-java-manage-vms-in-availability-zones",
+      "description": "Manage virtual machines in availability zones"
+    },
+    {
+      "owner": "anuchandy",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageZonalVirtualMachineScaleSet.java",
+      "githubPath": "Azure-Samples/compute-java-manage-vmss-in-availability-zones",
+      "description": "Manage virtual machine scale sets in availability zones"
+    },
+    {
+      "owner": "anuchandy",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageVirtualMachineFromMSIEnabledVirtualMachine.java",
+      "githubPath": "Azure-Samples/compute-java-manage-vm-from-vm-with-msi-credentials",
+      "description": "Getting started on managing Azure VM from a virtual machine using with managed service identity (MSI) credentials"
+    },
+
+
+    {
+      "owner": "anudeepsharma",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/servicebus/samples/ServiceBusQueueBasic.java",
+      "githubPath": "Azure-Samples/service-bus-java-manage-queue-with-basic-features",
+      "description": "Getting started on managing Service Bus Queues with basic features in Java"
+    },
+    {
+      "owner": "anudeepsharma",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/servicebus/samples/ServiceBusPublishSubscribeBasic.java",
+      "githubPath": "Azure-Samples/service-bus-java-manage-publish-subscribe-with-basic-features",
+      "description": "Getting started on managing Service Bus Publish-Subscribe with basic features in Java"
+    },
+    {
+      "owner": "anudeepsharma",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/servicebus/samples/ServiceBusWithClaimBasedAuthorization.java",
+      "githubPath": "Azure-Samples/service-bus-java-manage-with-claims-based-authorization",
+      "description": "Getting started on managing Service Bus with claims based authorization in Java"
+    },
+    {
+      "owner": "anudeepsharma",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/servicebus/samples/ServiceBusPublishSubscribeAdvanceFeatures.java",
+      "githubPath": "Azure-Samples/service-bus-java-manage-publish-subscribe-with-advanced-features",
+      "description": "Getting started on managing Service Bus Publish-Subscribe with advanced features in Java - sessions, dead-lettering, de-duplication and auto-deletion of idle entries"
+    },
+    {
+      "owner": "anudeepsharma",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/servicebus/samples/ServiceBusQueueAdvanceFeatures.java",
+      "githubPath": "Azure-Samples/service-bus-java-manage-queue-with-advanced-features",
+      "description": "Getting started on managing Service Bus Queues with advanced features in Java - sessions, dead-lettering, de-duplication and auto-deletion of idle entries"
+    },
+    {
+      "owner": "anudeepsharma",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/sql/samples/ManageSqlDatabase.java",
+      "githubPath": "Azure-Samples/sql-database-java-manage-db",
+      "description": "Getting started on managing SQL databases in Java"
+    },
+    {
+      "owner": "anudeepsharma",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/sql/samples/ManageSqlDatabaseInElasticPool.java",
+      "githubPath": "Azure-Samples/sql-database-java-manage-sql-dbs-in-elastic-pool",
+      "description": "Getting started on managing SQL databases in elastic pools in Java"
+    },
+    {
+      "owner": "anudeepsharma",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/sql/samples/ManageSqlFirewallRules.java",
+      "githubPath": "Azure-Samples/sql-database-java-manage-firewalls-for-sql-databases",
+      "description": "Getting started on managing firewalls for sql databases in Java"
+    },
+    {
+      "owner": "anudeepsharma",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/sql/samples/ManageSqlDatabasesAcrossDifferentDataCenters.java",
+      "githubPath": "Azure-Samples/sql-database-java-manage-sql-databases-across-regions",
+      "description": "Getting started with managing SQL databases across regions in Java"
+    },
+    {
+      "owner": "anudeepsharma",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/resources/samples/DeployUsingARMTemplateWithProgress.java",
+      "githubPath": "Azure-Samples/resources-java-deploy-using-arm-template-with-progress",
+      "description": "Getting started on deploying using an ARM template and show progress"
+    },
+    {
+      "owner": "anudeepsharma",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/batch/samples/ManageBatchAccount.java",
+      "githubPath": "Azure-Samples/batch-java-manage-batch-accounts",
+      "description": "Getting started on managing batch accounts in Java http://azure.com/java"
+    },
+
+
+    {
+      "owner": "hovsepm",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageVirtualMachineAsync.java",
+      "githubPath": "Azure-Samples/compute-java-manage-vm-async",
+      "description": "Getting Started with Compute - Manage Virtual Machines - in Java asynchronously"
+    },
+    {
+      "owner": "hovsepm",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/storage/samples/ManageStorageAccountAsync.java",
+      "githubPath": "Azure-Samples/storage-java-manage-storage-accounts-async",
+      "description": "Getting started on managing storage accounts in Java asynchronously"
+    },
+    {
+      "owner": "hovsepm",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageVirtualMachineScaleSetAsync.java",
+      "githubPath": "Azure-Samples/compute-java-manage-virtual-machine-scale-sets-async",
+      "description": "Getting started on managing virtual machine scale sets in Java asynchronously"
+    },
+    {
+      "owner": "hovsepm",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageVirtualNetworkAsync.java",
+      "githubPath": "Azure-Samples/network-java-manage-virtual-network-async",
+      "description": "Manage virtual networks in Java asynchronously - create a virtual network, create a virtual network with subnets, update a virtual network, list virtual networks, delete a virtual network"
+    },
+    {
+      "owner": "hovsepm",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppSourceControlAsync.java",
+      "githubPath": "Azure-Samples/app-service-java-configure-deployment-sources-for-web-apps-async",
+      "description": "Getting started on configuring deployment sources for Web Apps in Java asynchronously"
+    },
+    {
+      "owner": "hovsepm",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/cdn/samples/ManageCdn.java",
+      "githubPath": "Azure-Samples/cdn-java-manage-cdn",
+      "description": "Getting started on managing CDN in Java"
+    },
+    {
+      "owner": "hovsepm",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/rediscache/samples/ManageRedisCache.java",
+      "githubPath": "Azure-Samples/redis-java-manage-cache",
+      "description": "Getting started on managing Redis Cache in Java http://azure.com/java"
+    },
+
+
     {
       "owner": "jianghaolu",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppWithAuthentication.java",
@@ -356,70 +346,136 @@
       "description": "Getting started on managing authentication for Functions using Java"
     },
     {
-      "owner": "hovsepm",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageVirtualMachineAsync.java",
-      "githubPath": "Azure-Samples/compute-java-manage-vm-async",
-      "description": "Getting Started with Compute - Manage Virtual Machines - in Java asynchronously"
+      "owner": "jianghaolu",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppBasic.java",
+      "githubPath": "Azure-Samples/app-service-java-manage-web-apps",
+      "description": "Getting started on managing Web Apps in Java"
     },
     {
-      "owner": "hovsepm",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/storage/samples/ManageStorageAccountAsync.java",
-      "githubPath": "Azure-Samples/storage-java-manage-storage-accounts-async",
-      "description": "Getting started on managing storage accounts in Java asynchronously"
-    },
-    {
-      "owner": "hovsepm",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageVirtualMachineScaleSetAsync.java",
-      "githubPath": "Azure-Samples/compute-java-manage-virtual-machine-scale-sets-async",
-      "description": "Getting started on managing virtual machine scale sets in Java asynchronously"
-    },
-    {
-      "owner": "hovsepm",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageVirtualNetworkAsync.java",
-      "githubPath": "Azure-Samples/network-java-manage-virtual-network-async",
-      "description": "Manage virtual networks in Java asynchronously - create a virtual network, create a virtual network with subnets, update a virtual network, list virtual networks, delete a virtual network"
-    },
-    {
-      "owner": "hovsepm",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppSourceControlAsync.java",
-      "githubPath": "Azure-Samples/app-service-java-configure-deployment-sources-for-web-apps-async",
-      "description": "Getting started on configuring deployment sources for Web Apps in Java asynchronously"
-    },
-    {
-      "owner": "anudeepsharma",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/servicebus/samples/ServiceBusQueueBasic.java",
-      "githubPath": "Azure-Samples/service-bus-java-manage-queue-with-basic-features",
-      "description": "Getting started on managing Service Bus Queues with basic features in Java"
-    },
-    {
-      "owner": "anudeepsharma",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/servicebus/samples/ServiceBusPublishSubscribeBasic.java",
-      "githubPath": "Azure-Samples/service-bus-java-manage-publish-subscribe-with-basic-features",
-      "description": "Getting started on managing Service Bus Publish-Subscribe with basic features in Java"
-    },
-    {
-      "owner": "anudeepsharma",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/servicebus/samples/ServiceBusWithClaimBasedAuthorization.java",
-      "githubPath": "Azure-Samples/service-bus-java-manage-with-claims-based-authorization",
-      "description": "Getting started on managing Service Bus with claims based authorization in Java"
-    },
-    {
-      "owner": "anudeepsharma",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/servicebus/samples/ServiceBusPublishSubscribeAdvanceFeatures.java",
-      "githubPath": "Azure-Samples/service-bus-java-manage-publish-subscribe-with-advanced-features",
-      "description": "Getting started on managing Service Bus Publish-Subscribe with advanced features in Java - sessions, dead-lettering, de-duplication and auto-deletion of idle entries"
-    },
-    {
-      "owner": "anudeepsharma",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/servicebus/samples/ServiceBusQueueAdvanceFeatures.java",
-      "githubPath": "Azure-Samples/service-bus-java-manage-queue-with-advanced-features",
-      "description": "Getting started on managing Service Bus Queues with advanced features in Java - sessions, dead-lettering, de-duplication and auto-deletion of idle entries"
+      "owner": "jianghaolu",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppSlots.java",
+      "githubPath": "Azure-Samples/app-service-java-manage-staging-and-production-slots-for-web-apps",
+      "description": "Getting started on managing staging and product slots for Web Apps in Java"
     },
     {
       "owner": "jianghaolu",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageLinuxWebAppWithContainerRegistry.java",
       "githubPath": "Azure-Samples/app-service-java-deploy-image-from-acr-to-linux",
       "description": "Deploy a container image from Azure Container Registry to Linux containers in App Service using Java"
+    },
+    {
+      "owner": "jianghaolu",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppSourceControl.java",
+      "githubPath": "Azure-Samples/app-service-java-configure-deployment-sources-for-web-apps",
+      "description": "Getting started on configuring deployment sources for Web Apps in Java"
+    },
+    {
+      "owner": "jianghaolu",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppSqlConnection.java",
+      "githubPath": "Azure-Samples/app-service-java-manage-data-connections-for-web-apps",
+      "description": "Getting started on managing data connections (such as SQL Database and Redis Cache) for Web Apps in Java"
+    },
+    {
+      "owner": "jianghaolu",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppWithDomainSsl.java",
+      "githubPath": "Azure-Samples/app-service-java-manage-web-apps-with-custom-domains",
+      "description": "Getting started on managing Web Apps with custom domains in Java"
+    },
+    {
+      "owner": "jianghaolu",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppWithTrafficManager.java",
+      "githubPath": "Azure-Samples/app-service-java-scale-web-apps",
+      "description": "Getting started on scaling Web Apps in Java"
+    },
+    {
+      "owner": "jianghaolu",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/appservice/samples/ManageWebAppStorageAccountConnection.java",
+      "githubPath": "Azure-Samples/app-service-java-manage-storage-connections-for-web-apps",
+      "description": "Getting started on managing storage connections for Web Apps in Java"
+    },
+    {
+      "owner": "jianghaolu",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/keyvault/samples/ManageKeyVault.java",
+      "githubPath": "Azure-Samples/key-vault-java-manage-key-vaults",
+      "description": "Getting started on managing key vaults in Java http://azure.com/java"
+    },
+    {
+      "owner": "jianghaolu",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/graphrbac/samples/ManageServicePrincipal.java",
+      "githubPath": "Azure-Samples/aad-java-manage-service-principals",
+      "description": "Getting started with managing service principals using Java."
+    },
+    {
+      "owner": "jianghaolu",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/graphrbac/samples/ManageUsersGroupsAndRoles.java",
+      "githubPath": "Azure-Samples/aad-java-manage-users-groups-and-roles",
+      "description": "Manage users and groups and manage their roles"
+    },
+
+
+    {
+      "owner": "lenala",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageNetworkWatcher.java",
+      "githubPath": "Azure-Samples/network-java-use-new-watcher",
+      "description": "Getting started on using network watcher in Java"
+    },
+    {
+      "owner": "lenala",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageVpnGatewaySite2SiteConnection.java",
+      "githubPath": "Azure-Samples/network-java-manage-virtual-network-with-site-to-site-vpn-connection",
+      "description": "Manage virtual network with site-to-site VPN connection"
+    },
+    {
+      "owner": "lenala",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageVpnGatewayVNet2VNetConnection.java",
+      "githubPath": "Azure-Samples/network-java-manage-virtual-network-to-virtual-network-vpn-connection",
+      "description": "Manage virtual network to virtual network VPN connection"
+    },
+
+
+    {
+      "owner": "martinsawicki",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/CreateSimpleInternetFacingLoadBalancer.java",
+      "githubPath": "Azure-Samples/network-java-create-simple-internet-facing-load-balancer",
+      "description": "Create a simple Internet Facing load balancer using Java"
+    },
+    {
+      "owner": "martinsawicki",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageNetworkPeeringInSameSubscription.java",
+      "githubPath": "Azure-Samples/network-java-manage-network-peering",
+      "description": "Manage network peering between two virtual networks"
+    },
+    {
+      "owner": "martinsawicki",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/VerifyNetworkPeeringWithNetworkWatcher.java",
+      "githubPath": "Azure-Samples/network-java-use-network-watcher-to-check-connectivity",
+      "description": "Use network watcher to check connectivity between virtual machines in peered networks"
+    },
+    {
+      "owner": "martinsawicki",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageSimpleApplicationGateway.java",
+      "githubPath": "Azure-Samples/application-gateway-java-manage-simple-application-gateways",
+      "description": "Getting started on managing simple Application Gateways in Java"
+    },
+    {
+      "owner": "martinsawicki",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/locks/samples/ManageLocks.java",
+      "githubPath": "Azure-Samples/locks-java-manage-locks",
+      "description": "Getting started with managing resource locks in Java"
+    },
+    {
+      "owner": "martinsawicki",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/CreateVirtualMachinesAsyncTrackingRelatedResources.java",
+      "githubPath": "Azure-Samples/compute-java-create-vms-async-tracking-related-resources",
+      "description": "Getting started with reactive extensions in parallel Azure virtual machine creation"
+    },
+
+
+    {
+      "owner": "milismsft",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/search/samples/ManageSearchService.java",
+      "githubPath": "Azure-Samples/search-java-manage-search-service",
+      "description": "Getting started on managing Azure search service using Java"
     },
     {
       "owner": "milismsft",
@@ -464,108 +520,6 @@
       "description": "Deploy an image from Azure Container Registry to Azure Container Service with Kubernetes orchestrator using Java"
     },
     {
-      "owner": "jianghaolu",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/graphrbac/samples/ManageServicePrincipal.java",
-      "githubPath": "Azure-Samples/aad-java-manage-service-principals",
-      "description": "Getting started with managing service principals using Java."
-    },
-    {
-      "owner": "jianghaolu",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/graphrbac/samples/ManageUsersGroupsAndRoles.java",
-      "githubPath": "Azure-Samples/aad-java-manage-users-groups-and-roles",
-      "description": "Manage users and groups and manage their roles"
-    },
-    {
-      "owner": "alvadb",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/cosmosdb/samples/ManageHACosmosDB.java",
-      "githubPath": "Azure-Samples/cosmosdb-java-create-documentdb-and-configure-for-high-availability",
-      "description": "Create a DocumentDB and configure it for high availability using Java"
-    },
-    {
-      "owner": "alvadb",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/cosmosdb/samples/CreateCosmosDBWithEventualConsistency.java",
-      "githubPath": "Azure-Samples/cosmosdb-java-create-documentdb-and-configure-for-eventual-consistency",
-      "description": "Create a DocumentDB and configure it with eventual consistency using Java"
-    },
-    {
-      "owner": "alvadb",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/cosmosdb/samples/CreateCosmosDBWithIPRange.java",
-      "githubPath": "Azure-Samples/cosmosdb-java-create-documentdb-and-configure-firewall",
-      "description": "Create a DocumentDB, configure it for high availability and create a firewall by limiting access to DocumentDB from an approved set of IP addresses using Java"
-    },
-    {
-      "owner": "alvadb",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/cosmosdb/samples/CreateCosmosDBWithKindMongoDB.java",
-      "githubPath": "Azure-Samples/cosmosdb-java-create-documentdb-and-get-mongodb-connection-string",
-      "description": "Create a DocumentDB and get MongoDB connection string using Java"
-    },
-    {
-      "owner": "anuchandy",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup.java",
-      "githubPath": "Azure-Samples/compute-java-manage-resources-from-vm-with-msi-in-aad-group",
-      "description": "Getting started on managing Azure resources from a managed service identity (MSI) enabled virtual machine that belongs to an Azure Active Directory (AAD) security group."
-    },
-    {
-      "owner": "anuchandy",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageStorageFromMSIEnabledVirtualMachine.java",
-      "githubPath": "Azure-Samples/aad-java-manage-resources-from-vm-with-msi",
-      "description": "Getting started on managing Azure resources from a virtual machine with managed service identity (MSI)"
-    },
-    {
-      "owner": "lenala",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageNetworkWatcher.java",
-      "githubPath": "Azure-Samples/network-java-use-new-watcher",
-      "description": "Getting started on using network watcher in Java"
-    },
-    {
-      "owner": "milismsft",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/search/samples/ManageSearchService.java",
-      "githubPath": "Azure-Samples/search-java-manage-search-service",
-      "description": "Getting started on managing Azure search service using Java"
-    },
-    {
-      "owner": "martinsawicki",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/CreateSimpleInternetFacingLoadBalancer.java",
-      "githubPath": "Azure-Samples/network-java-create-simple-internet-facing-load-balancer",
-      "description": "Create a simple Internet Facing load balancer using Java"
-    },
-    {
-      "owner": "anuchandy",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageZonalVirtualMachine.java",
-      "githubPath": "Azure-Samples/compute-java-manage-vms-in-availability-zones",
-      "description": "Manage virtual machines in availability zones"
-    },
-    {
-      "owner": "anuchandy",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageZonalVirtualMachineScaleSet.java",
-      "githubPath": "Azure-Samples/compute-java-manage-vmss-in-availability-zones",
-      "description": "Manage virtual machine scale sets in availability zones"
-    },
-    {
-      "owner": "martinsawicki",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageNetworkPeeringInSameSubscription.java",
-      "githubPath": "Azure-Samples/network-java-manage-network-peering",
-      "description": "Manage network peering between two virtual networks"
-    },
-    {
-      "owner": "martinsawicki",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/VerifyNetworkPeeringWithNetworkWatcher.java",
-      "githubPath": "Azure-Samples/network-java-use-network-watcher-to-check-connectivity",
-      "description": "Use network watcher to check connectivity between virtual machines in peered networks"
-    },
-    {
-      "owner": "lenala",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageVpnGatewaySite2SiteConnection.java",
-      "githubPath": "Azure-Samples/network-java-manage-virtual-network-with-site-to-site-vpn-connection",
-      "description": "Manage virtual network with site-to-site VPN connection"
-    },
-    {
-      "owner": "lenala",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageVpnGatewayVNet2VNetConnection.java",
-      "githubPath": "Azure-Samples/network-java-manage-virtual-network-to-virtual-network-vpn-connection",
-      "description": "Manage virtual network to virtual network VPN connection"
-    },
-    {
       "owner": "milismsft",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/containerinstance/samples/ManageContainerInstanceWithAzureFileShareMount.java",
       "githubPath": "Azure-Samples/aci-java-manage-container-instances-1",
@@ -589,11 +543,85 @@
       "githubPath": "Azure-Samples/aci-java-scale-up-containers-using-acs",
       "description": "Create Container Group and scale up containers using Kubernetes in ACS"
     },
+
+
     {
-      "owner": "anuchandy",
-      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageVirtualMachineFromMSIEnabledVirtualMachine.java",
-      "githubPath": "Azure-Samples/compute-java-manage-vm-from-vm-with-msi-credentials",
-      "description": "Getting started on managing Azure VM from a virtual machine using with managed service identity (MSI) credentials"
+      "owner": "selvasingh",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ListVirtualMachineImages.java",
+      "githubPath": "Azure-Samples/compute-java-list-vm-images",
+      "description": "Browse and get versions and names - virtual machine images, publishers, offers and SKUs - http://azure.com/java "
+    },
+    {
+      "owner": "selvasingh",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageAvailabilitySet.java",
+      "githubPath": "Azure-Samples/compute-java-manage-availability-sets",
+      "description": "Getting started on managing availability sets in Java - http://azure.com/java"
+    },
+    {
+      "owner": "selvasingh",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageVirtualMachine.java",
+      "githubPath": "Azure-Samples/compute-java-manage-vm",
+      "description": "Getting Started with Compute - Manage Virtual Machines - in Java http://azure.com/java"
+    },
+    {
+      "owner": "selvasingh",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/ManageVirtualMachineScaleSet.java",
+      "githubPath": "Azure-Samples/compute-java-manage-virtual-machine-scale-sets",
+      "description": "Getting started on managing virtual machine scale sets in Java http://azure.com/java"
+    },
+    {
+      "owner": "selvasingh",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageInternalLoadBalancer.java",
+      "githubPath": "Azure-Samples/network-java-manage-internal-load-balancers",
+      "description": "Getting started on managing internal load balancers in Java http://azure.com/java"
+    },
+    {
+      "owner": "selvasingh",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageInternetFacingLoadBalancer.java",
+      "githubPath": "Azure-Samples/network-java-manage-internet-facing-load-balancers",
+      "description": "Getting started on managing load balancers in Java http://azure.com/java"
+    },
+    {
+      "owner": "selvasingh",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageIPAddress.java",
+      "githubPath": "Azure-Samples/network-java-manage-ip-address",
+      "description": "Manage IP addresses in Java - assign a Public IP Address for a Virtual Machine during create and through an update. Get the associated Public IP Name for a virtual machine, get the assigned Public IP Address for a virtual machine. Remove Public IP Address from a Virtual machine - http://azure.com/java"
+    },
+    {
+      "owner": "selvasingh",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageNetworkInterface.java",
+      "githubPath": "Azure-Samples/network-java-manage-network-interface",
+      "description": "Manage multiples network interfaces for VMs in Java - create a VM with multiple network interfaces, configure multiple network interfaces, list network interfaces, delete a network interface - http://azure.com/java"
+    },
+    {
+      "owner": "selvasingh",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageNetworkSecurityGroup.java",
+      "githubPath": "Azure-Samples/network-java-manage-network-security-group",
+      "description": "Manage network security group (NSG) in Java - create an NSG for the front end subnet, create another for the backend subnet, and CRUD on NSG - http://azure.com/java"
+    },
+    {
+      "owner": "selvasingh",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageVirtualNetwork.java",
+      "githubPath": "Azure-Samples/network-java-manage-virtual-network",
+      "description": "Manage virtual networks in Java - create a virtual network, create a virtual network with subnets, update a virtual network, list virtual networks, delete a virtual network - http://azure.com/java"
+    },
+    {
+      "owner": "selvasingh",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/storage/samples/ManageStorageAccount.java",
+      "githubPath": "Azure-Samples/storage-java-manage-storage-accounts",
+      "description": "Getting started on managing storage accounts in Java - http://azure.com/java"
+    },
+    {
+      "owner": "selvasingh",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/compute/samples/CreateVirtualMachinesInParallel.java",
+      "githubPath": "Azure-Samples/compute-java-create-virtual-machines-across-regions-in-parallel",
+      "description": "Getting started on creating several virtual machines across regions in parallel in Java"
+    },
+    {
+      "owner": "selvasingh",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageApplicationGateway.java",
+      "githubPath": "Azure-Samples/application-gateway-java-manage-application-gateways",
+      "description": "Getting started on managing Application Gateways with backend pools in Java"
     }
   ]
 }

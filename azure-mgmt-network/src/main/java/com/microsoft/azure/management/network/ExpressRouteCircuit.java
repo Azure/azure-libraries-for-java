@@ -34,7 +34,6 @@ public interface ExpressRouteCircuit extends
     /**
      * @return entry point to manage express route peerings associated with express route circuit
      */
-    @Method
     ExpressRouteCircuitPeerings peerings();
 
     // Getters

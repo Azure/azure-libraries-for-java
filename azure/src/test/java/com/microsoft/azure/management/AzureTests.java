@@ -484,12 +484,8 @@ public class AzureTests extends TestBase {
         }
         List<VirtualMachineImage> images = azure.virtualMachineImages().listByRegion(Region.US_WEST);
         Assert.assertTrue(images.size() > 0);
-        try {
-            // Seems to help avoid connection refused error on subsequent mock test
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // Seems to help avoid connection refused error on subsequent mock test
+        SdkContext.sleep(2000);
     }
 
     /**
@@ -1098,7 +1094,7 @@ public class AzureTests extends TestBase {
                 .withSecondVirtualNetworkGateway(vngw1)
                 .withSharedKey("MySecretKey")
                 .create();
-        Thread.sleep(250000);
+        SdkContext.sleep(250000);
         troubleshooting = nw.troubleshoot()
                 .withTargetResourceId(connection1.id())
                 .withStorageAccount(storageAccount.id())

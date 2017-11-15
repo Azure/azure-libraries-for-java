@@ -133,7 +133,7 @@ public final class ManageFunctionAppWithAuthentication {
             // warm up
             System.out.println("Warming up " + app1Url + "/api/square...");
             post("http://" + app1Url + "/api/square", "625");
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
             System.out.println("CURLing " + app1Url + "/api/square...");
             System.out.println("Square of 625 is " + post("http://" + app1Url + "/api/square?code=" + app1.getMasterKey(), "625"));
 
@@ -165,7 +165,7 @@ public final class ManageFunctionAppWithAuthentication {
             // warm up
             System.out.println("Warming up " + app2Url + "/api/square...");
             post("http://" + app2Url + "/api/square", "725");
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
             System.out.println("CURLing " + app2Url + "/api/square...");
             System.out.println("Square of 725 is " + post("http://" + app2Url + "/api/square?code=" + functionKey, "725"));
 
@@ -196,7 +196,7 @@ public final class ManageFunctionAppWithAuthentication {
             // warm up
             System.out.println("Warming up " + app3Url + "/api/square...");
             post("http://" + app3Url + "/api/square", "925");
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
             System.out.println("CURLing " + app3Url + "/api/square...");
             System.out.println("Square of 925 is " + post("http://" + app3Url + "/api/square?code=mysecretkey", "925"));
 

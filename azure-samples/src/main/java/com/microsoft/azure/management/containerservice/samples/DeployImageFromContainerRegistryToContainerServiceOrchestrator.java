@@ -304,7 +304,7 @@ public class DeployImageFromContainerRegistryToContainerServiceOrchestrator {
             } catch (Exception ignored) {
             }
 
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
             for (Namespace namespace : kubernetesClient.namespaces().list().getItems()) {
                 System.out.println("\tFound Kubernetes namespace: " + namespace.toString());
             }
@@ -333,7 +333,7 @@ public class DeployImageFromContainerRegistryToContainerServiceOrchestrator {
 
             System.out.println("Creating new secret: " + kubernetesClient.secrets().inNamespace(acsNamespace).create(secretBuilder.build()));
 
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
 
             for (Secret kubeS : kubernetesClient.secrets().inNamespace(acsNamespace).list().getItems()) {
                 System.out.println("\tFound secret: " + kubeS);
@@ -370,7 +370,7 @@ public class DeployImageFromContainerRegistryToContainerServiceOrchestrator {
                     .build();
 
             System.out.println("Creating a replication controller: " + kubernetesClient.replicationControllers().inNamespace(acsNamespace).create(rc));
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
 
             rc = kubernetesClient.replicationControllers().inNamespace(acsNamespace).withName("acrsample-rc").get();
             System.out.println("Found replication controller: " + rc.toString());
@@ -400,7 +400,7 @@ public class DeployImageFromContainerRegistryToContainerServiceOrchestrator {
 
             System.out.println("Creating a service: " + kubernetesClient.services().inNamespace(acsNamespace).create(lbService));
 
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
 
             System.out.println("\tFound service: " + kubernetesClient.services().inNamespace(acsNamespace).withName(acsLbIngressName).get());
 
@@ -423,7 +423,7 @@ public class DeployImageFromContainerRegistryToContainerServiceOrchestrator {
 
                 if (timeout > 0) {
                     timeout -= 30000; // 30 seconds
-                    Thread.sleep(30000);
+                    SdkContext.sleep(30000);
                 }
             }
 

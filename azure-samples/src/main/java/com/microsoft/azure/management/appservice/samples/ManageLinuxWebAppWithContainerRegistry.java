@@ -154,7 +154,7 @@ public class ManageLinuxWebAppWithContainerRegistry {
             // warm up
             System.out.println("Warming up " + appUrl + "...");
             curl("http://" + appUrl);
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
             System.out.println("CURLing " + appUrl + "...");
             System.out.println(curl("http://" + appUrl));
 

@@ -89,7 +89,7 @@ public final class ManageLinuxWebAppSourceControl {
             // warm up
             System.out.println("Warming up " + app1Url + "/helloworld...");
             curl("http://" + app1Url + "/helloworld");
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
             System.out.println("CURLing " + app1Url + "/helloworld...");
             System.out.println(curl("http://" + app1Url + "/helloworld"));
 
@@ -135,7 +135,7 @@ public final class ManageLinuxWebAppSourceControl {
             // warm up
             System.out.println("Warming up " + app2Url + "/helloworld...");
             curl("http://" + app2Url + "/helloworld");
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
             System.out.println("CURLing " + app2Url + "/helloworld...");
             System.out.println(curl("http://" + app2Url + "/helloworld"));
 
@@ -161,7 +161,7 @@ public final class ManageLinuxWebAppSourceControl {
             // warm up
             System.out.println("Warming up " + app3Url + "...");
             curl("http://" + app3Url);
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
             System.out.println("CURLing " + app3Url + "...");
             System.out.println(curl("http://" + app3Url));
 
@@ -190,7 +190,7 @@ public final class ManageLinuxWebAppSourceControl {
             // warm up
             System.out.println("Warming up " + app4Url + "...");
             curl("http://" + app4Url);
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
             System.out.println("CURLing " + app4Url + "...");
             System.out.println(curl("http://" + app4Url));
 

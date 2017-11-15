@@ -49,7 +49,7 @@ class FunctionAppsImpl
 
             @Override
             protected boolean filter(SiteInner inner) {
-                return "functionapp".equals(inner.kind());
+                return "functionapp".equalsIgnoreCase(inner.kind());
             }
         };
     }

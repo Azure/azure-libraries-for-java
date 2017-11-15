@@ -153,7 +153,7 @@ public interface VirtualNetworkGateway extends
              * Use Express route gateway type.
              * @return the next stage of the definition
              */
-            WithPublicIPAddress withExpressRoute();
+            WithSku withExpressRoute();
             /**
              * Use Route-based VPN type.
              * @return the next stage of the definition

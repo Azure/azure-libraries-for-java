@@ -22,6 +22,8 @@ import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
+import java.util.UUID;
+
 /**
  * The implementation of Applications and its parent interfaces.
  */
@@ -91,18 +93,15 @@ class ActiveDirectoryApplicationsImpl
     @Override
     public Observable<ActiveDirectoryApplication> getByIdAsync(String id) {
         return innerCollection.getAsync(id)
-                .map(new Func1<ApplicationInner, ActiveDirectoryApplicationImpl>() {
+                .flatMap(new Func1<ApplicationInner, Observable<ActiveDirectoryApplication>>() {
                     @Override
-                    public ActiveDirectoryApplicationImpl call(ApplicationInner applicationInner) {
+                    public Observable<ActiveDirectoryApplication> call(ApplicationInner applicationInner) {
                         if (applicationInner == null) {
-                            return null;
+                            return Observable.just(null);
+                        } else {
+                            return new ActiveDirectoryApplicationImpl(applicationInner, manager())
+                                    .refreshCredentialsAsync();
                         }
-                        return new ActiveDirectoryApplicationImpl(applicationInner, manager());
-                    }
-                }).flatMap(new Func1<ActiveDirectoryApplicationImpl, Observable<ActiveDirectoryApplication>>() {
-                    @Override
-                    public Observable<ActiveDirectoryApplication> call(ActiveDirectoryApplicationImpl application) {
-                        return application.refreshCredentialsAsync();
                     }
                 });
     }
@@ -118,13 +117,19 @@ class ActiveDirectoryApplicationsImpl
     }
 
     @Override
-    public Observable<ActiveDirectoryApplication> getByNameAsync(final String name) {
-        return innerCollection.listWithServiceResponseAsync(String.format("displayName eq '%s'", name))
+    public Observable<ActiveDirectoryApplication> getByNameAsync(String name) {
+        final String trimmed = name.replaceFirst("^'+", "").replaceAll("'+$", "");
+        return innerCollection.listWithServiceResponseAsync(String.format("displayName eq '%s'", trimmed))
                 .flatMap(new Func1<ServiceResponse<Page<ApplicationInner>>, Observable<Page<ApplicationInner>>>() {
                     @Override
                     public Observable<Page<ApplicationInner>> call(ServiceResponse<Page<ApplicationInner>> result) {
                         if (result == null || result.body().items() == null || result.body().items().isEmpty()) {
-                            return innerCollection.listAsync(String.format("appId eq '%s'", name));
+                            try {
+                                UUID.fromString(trimmed);
+                                return innerCollection.listAsync(String.format("appId eq '%s'", trimmed));
+                            } catch (IllegalArgumentException e) {
+                                return null;
+                            }
                         }
                         return Observable.just(result.body());
                     }

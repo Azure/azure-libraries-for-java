@@ -242,7 +242,7 @@ public interface NetworkPeering extends
     }
 
     /**
-     * The template for a load balancer update operation, containing all the settings that
+     * The template for a network peering update operation, containing all the settings that
      * can be modified.
      */
     interface Update extends

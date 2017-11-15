@@ -174,7 +174,7 @@
     <build>
         <plugins>
             <plugin>
-                 <groupId>org.apache.maven.plugins</groupId>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.0</version>
                 <configuration>
@@ -189,6 +189,27 @@
                     <Adebug>true</Adebug>
                   </compilerArguments>
                 </configuration>
+            </plugin>
+
+            <plugin>
+              <artifactId>json-schema-validator</artifactId>
+              <groupId>com.groupon.maven.plugin.json</groupId>
+              <executions>
+                <execution>
+                <phase>compile</phase>
+                  <goals>
+                    <goal>validate</goal>
+                  </goals>
+                </execution>
+              </executions>
+              <configuration>
+                <validations>
+                  <validation>
+                    <jsonSchema>${project.basedir}/samples.schema.json</jsonSchema>
+                    <jsonFile>${project.basedir}/samples.json</jsonFile>
+                  </validation>
+                </validations>
+              </configuration>
             </plugin>
         </plugins>
     </build>

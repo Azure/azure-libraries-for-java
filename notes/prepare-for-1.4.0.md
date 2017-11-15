@@ -51,6 +51,13 @@ The following methods and/or types have been either renamed or removed in V1.4 c
     <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
   </tr>
   <tr>
+    <td><code>ContainerService</code></td>
+    <td><code>.withAgentVMCount()</code></td>
+    <td><code>.withAgentVirtualMachineCount()</code></td>
+    <td></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/50">PR #50</a></td>
+  </tr>
+  <tr>
     <td><code>ContainerServiceAgentPool</code></td>
     <td><code>.dnsLabel()</code></td>
     <td><code>.dnsPrefix()</code></td>

@@ -298,7 +298,7 @@ public class ContainerServiceImpl extends
     }
 
     @Override
-    public ContainerServiceImpl withAgentVMCount(int agentCount) {
+    public ContainerServiceImpl withAgentVirtualMachineCount(int agentCount) {
         this.inner().agentPoolProfiles().get(0).withCount(agentCount);
         return this;
     }

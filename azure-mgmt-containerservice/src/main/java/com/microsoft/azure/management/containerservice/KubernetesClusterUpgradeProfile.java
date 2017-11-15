@@ -7,7 +7,6 @@ package com.microsoft.azure.management.containerservice;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.containerservice.implementation.ManagedClusterUpgradeProfileInner;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
@@ -20,18 +19,15 @@ public interface KubernetesClusterUpgradeProfile extends HasInner<ManagedCluster
     /**
      * @return the ID of the Kubernetes cluster upgrade profile
      */
-    @Method
     String id();
 
     /**
      * @return the name of the Kubernetes cluster upgrade profile
      */
-    @Method
     String name();
 
     /**
      * @return the type of the Kubernetes cluster upgrade profile.
      */
-    @Method
     String type();
 }

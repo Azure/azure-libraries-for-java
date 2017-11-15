@@ -34,85 +34,71 @@ public interface ContainerService extends
     /**
      * @return the master node count
      */
-    @Method
     int masterNodeCount();
 
     /**
      * @return the type of the orchestrator
      */
-    @Method
     ContainerServiceOrchestratorTypes orchestratorType();
 
     /**
      * @return the master DNS prefix which was specified at creation time
      */
-    @Method
     String masterDnsPrefix();
 
     /**
      * @return the master FQDN
      */
-    @Method
     String masterFqdn();
 
     /**
      * @return the agent pools map
      */
-    @Method
     Map<String, ContainerServiceAgentPool> agentPools();
 
     /**
      * @return the Linux root username
      */
-    @Method
     String linuxRootUsername();
 
     /**
      * @return the Linux SSH key
      */
-    @Method
     String sshKey();
 
     /**
      * @return true if diagnostics are enabled
      */
-    @Method
     boolean isDiagnosticsEnabled();
 
     /**
      * @return the service principal client ID
      */
-    @Method
     String servicePrincipalClientId();
 
     /**
      * @return the service principal secret
      */
-    @Method
     String servicePrincipalSecret();
 
     /**
      * @return OS disk size in GB set for every machine in the master pool
      */
-    @Method
     int masterOSDiskSizeInGB();
 
     /**
      * @return the storage kind set for every machine in the master pool
      */
-    @Method
     ContainerServiceStorageProfileTypes masterStorageProfile();
 
     /**
      * @return the name of the subnet used by every machine in the master pool
      */
-    @Method
     String masterSubnetName();
 
     /**
      * @return the ID of the virtual network used by every machine in the master and agent pools
      */
-    @Method
     String networkId();
 
 
@@ -196,6 +182,7 @@ public interface ContainerService extends
              * Begins the definition to specify Linux settings.
              * @return the stage representing configuration of Linux specific settings
              */
+            @Method
             WithLinuxRootUsername withLinux();
         }
 
@@ -367,7 +354,7 @@ public interface ContainerService extends
              * @param agentCount the number of agents (virtual machines) to host docker containers.
              * @return the next stage of the update
              */
-            Update withAgentVMCount(int agentCount);
+            Update withAgentVirtualMachineCount(int agentCount);
         }
 
         /**

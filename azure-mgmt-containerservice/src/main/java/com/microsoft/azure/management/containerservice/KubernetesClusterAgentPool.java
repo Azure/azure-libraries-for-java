@@ -8,7 +8,6 @@ package com.microsoft.azure.management.containerservice;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
@@ -26,31 +25,26 @@ public interface KubernetesClusterAgentPool
     /**
      * @return the number of agents (virtual machines) to host docker containers
      */
-    @Method
     int count();
 
     /**
      * @return size of each agent virtual machine in the agent pool
      */
-    @Method
     ContainerServiceVMSizeTypes vmSize();
 
     /**
      * @return OS disk size in GB set for each virtual machine in the agent pool
      */
-    @Method
     int osDiskSizeInGB();
 
     /**
      * @return OS of each virtual machine in the agent pool
      */
-    @Method
     OSType osType();
 
     /**
      * @return the storage kind (managed or classic) set for each virtual machine in the agent pool
      */
-    @Method
     ContainerServiceStorageProfileTypes storageProfile();
 
     // Fluent interfaces

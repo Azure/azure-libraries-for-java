@@ -8,7 +8,6 @@ package com.microsoft.azure.management.containerservice;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
@@ -25,61 +24,51 @@ public interface ContainerServiceAgentPool extends
     /**
      * @return the number of agents (virtual machines) to host docker containers
      */
-    @Method
     int count();
 
     /**
      * @return the size of each virtual machine in the agent pool
      */
-    @Method
     ContainerServiceVMSizeTypes vmSize();
 
     /**
      * @return DNS prefix to be used to create the FQDN for the agent pool
      */
-    @Method
     String dnsPrefix();
 
     /**
      * @return FDQN for the agent pool
      */
-    @Method
     String fqdn();
 
     /**
      * @return OS disk size in GB set for each virtual machine in the agent pool
      */
-    @Method
     int osDiskSizeInGB();
 
     /**
      * @return array of ports opened on this agent pool
      */
-    @Method
     int[] ports();
 
     /**
      * @return OS of each virtual machine in the agent pool
      */
-    @Method
     OSType osType();
 
     /**
      * @return the storage kind (managed or classic) set for each virtual machine in the agent pool
      */
-    @Method
     ContainerServiceStorageProfileTypes storageProfile();
 
     /**
      * @return the name of the subnet used by each virtual machine in the agent pool
      */
-    @Method
     String subnetName();
 
     /**
      * @return the ID of the virtual network used by each virtual machine in the agent pool
      */
-    @Method
     String networkId();
 
 

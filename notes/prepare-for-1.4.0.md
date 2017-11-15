@@ -30,6 +30,13 @@ The following methods and/or types have been either renamed or removed in V1.4 c
     <td><a href="https://github.com/Azure/azure-sdk-for-java/pull/1948">PR #1948</a></td>
   </tr>
   <tr>
+    <td><code>WebApp/FunctionApp/DeploymentSlot</code></td>
+    <td><code>.updateAuthentication()</code></td>
+    <td><i>Removed</i></td>
+    <td>Please remove and re-define authentication instead</td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/22">PR #22</a></td>
+  </tr>
+  <tr>
     <td><code>??</code></td>
     <td><code>??</code></td>
     <td><code>??</code></td>

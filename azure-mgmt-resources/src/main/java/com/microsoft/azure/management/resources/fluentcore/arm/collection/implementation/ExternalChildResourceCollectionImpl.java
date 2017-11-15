@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Base class for cached {@link ExternalChildResourcesCachedImpl} and non-cached {@link ExternalChildResourcesNonCachedImpl}
@@ -53,7 +53,7 @@ public abstract class ExternalChildResourceCollectionImpl<
     /**
      * The child resource instances that this collection contains.
      */
-    protected ConcurrentMap<String, FluentModelTImpl> childCollection = new ConcurrentHashMap<>();
+    protected ConcurrentMap<String, FluentModelTImpl> childCollection = new ConcurrentSkipListMap<>();
     /**
      * Indicates how the pending operations on the child resources are performed, true
      * if operations are performed through "post run" task, false if operations are

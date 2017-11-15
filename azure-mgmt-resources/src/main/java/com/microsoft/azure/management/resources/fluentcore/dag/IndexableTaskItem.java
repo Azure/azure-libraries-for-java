@@ -16,7 +16,7 @@ import java.util.UUID;
 /**
  * An index-able TaskItem with a TaskGroup.
  */
-public abstract class IndexableTaskItem implements Indexable, TaskItem {
+public abstract class IndexableTaskItem implements Indexable, TaskItem, TaskGroup.HasTaskGroup {
     /**
      * The key that is unique to this TaskItem which is used to index this
      * TaskItem.
@@ -52,6 +52,7 @@ public abstract class IndexableTaskItem implements Indexable, TaskItem {
     /**
      * @return the TaskGroup this this TaskItem as root.
      */
+    @Override
     public TaskGroup taskGroup() {
         return this.taskGroup;
     }
@@ -68,6 +69,23 @@ public abstract class IndexableTaskItem implements Indexable, TaskItem {
         return this.key;
     }
 
+    /**
+     * Add a {@link IndexableTaskItem} dependency for this task item.
+     *
+     * @param dependency the dependency
+     */
+    public void addDependency(IndexableTaskItem dependency) {
+        this.taskGroup().addDependencyTaskGroup(dependency.taskGroup());
+    }
+
+    /**
+     * Add a {@link IndexableTaskItem} post-run dependency for this task item.
+     *
+     * @param dependent the post-run dependent
+     */
+    public void addPostRunDependent(IndexableTaskItem dependent) {
+        this.taskGroup().addPostRunDependentTaskGroup(dependent.taskGroup());
+    }
 
     @Override
     public Indexable result() {

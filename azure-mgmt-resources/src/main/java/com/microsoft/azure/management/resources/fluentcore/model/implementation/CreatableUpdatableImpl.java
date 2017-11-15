@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.resources.fluentcore.model.implementation;
 
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroupTerminateOnErrorStrategy;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Executable;
@@ -56,8 +55,7 @@ public abstract class CreatableUpdatableImpl<
         super(innerObject);
         this.name = name;
         taskGroup = new TaskGroup(this.key(),
-                new CreateUpdateTask<FluentModelT>(this),
-                TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION);
+                new CreateUpdateTask<FluentModelT>(this));
     }
 
     @Override
@@ -109,6 +107,8 @@ public abstract class CreatableUpdatableImpl<
 
     @Override
     public void beforeGroupCreateOrUpdate() {
+        // The types extending from this type, can override this method and add
+        // delayed dependencies and/or post-run dependents.
     }
 
     @Override
@@ -187,6 +187,9 @@ public abstract class CreatableUpdatableImpl<
 
     @Override
     public Completable afterPostRunAsync(boolean isGroupFaulted) {
+        // The types extending from this type can override this method and perform
+        // any activities that needs to be done after the processing of all
+        // post-run tasks.
         return Completable.complete();
     }
 }

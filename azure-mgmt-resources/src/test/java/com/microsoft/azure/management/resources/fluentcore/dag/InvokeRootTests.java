@@ -21,7 +21,7 @@ public class InvokeRootTests {
         TestTaskItem taskItem1 = new TestTaskItem("A");
         TestTaskItem taskItem2 = new TestTaskItem("B");
 
-        taskItem1.taskGroup().addDependencyTaskGroup(taskItem2.taskGroup());
+        taskItem1.addDependency(taskItem2);
 
         final HashMap<String, Integer> seen = new HashMap<>();
 
@@ -84,8 +84,8 @@ public class InvokeRootTests {
         TestTaskItem taskItem2 = new TestTaskItem("Y");
         TestTaskItem taskItem3 = new TestTaskItem("Z");
 
-        taskItem1.taskGroup().addDependencyTaskGroup(taskItem2.taskGroup());
-        taskItem1.taskGroup().addPostRunDependentTaskGroup(taskItem3.taskGroup());
+        taskItem1.addDependency(taskItem2);
+        taskItem1.addPostRunDependent(taskItem3);
 
         final HashMap<String, Integer> seen = new HashMap<>();
 
@@ -158,10 +158,10 @@ public class InvokeRootTests {
         TestTaskItem taskItem4 = new TestTaskItem("4");
         TestTaskItem taskItem5 = new TestTaskItem("5");
 
-        taskItem1.taskGroup().addDependencyTaskGroup(taskItem2.taskGroup());
-        taskItem1.taskGroup().addPostRunDependentTaskGroup(taskItem3.taskGroup());
-        taskItem4.taskGroup().addDependencyTaskGroup(taskItem1.taskGroup());
-        taskItem4.taskGroup().addPostRunDependentTaskGroup(taskItem5.taskGroup());
+        taskItem1.addDependency(taskItem2);
+        taskItem1.addPostRunDependent(taskItem3);
+        taskItem4.addDependency(taskItem1);
+        taskItem4.addPostRunDependent(taskItem5);
 
         final HashMap<String, Integer> seen = new HashMap<>();
 

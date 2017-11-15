@@ -48,7 +48,7 @@ public class TaskGroup
     /**
      * Task group termination strategy to be used once any task in the group error-ed.
      */
-    private final TaskGroupTerminateOnErrorStrategy taskGroupTerminateOnErrorStrategy;
+    private TaskGroupTerminateOnErrorStrategy taskGroupTerminateOnErrorStrategy;
     /**
      * Flag indicating whether this group is marked as cancelled or not. This flag will be used only
      * when group's terminate on error strategy is set as
@@ -72,15 +72,12 @@ public class TaskGroup
      * Creates TaskGroup.
      *
      * @param rootTaskEntry the entry holding root task
-     * @param taskGroupTerminateOnErrorStrategy termination strategy to be used on error
      */
-    private TaskGroup(TaskGroupEntry<TaskItem> rootTaskEntry,
-                      TaskGroupTerminateOnErrorStrategy taskGroupTerminateOnErrorStrategy) {
+    private TaskGroup(TaskGroupEntry<TaskItem> rootTaskEntry) {
         super(rootTaskEntry);
         this.isGroupCancelled = new AtomicBoolean(false);
         this.rootTaskEntry = rootTaskEntry;
-        this.taskGroupTerminateOnErrorStrategy = taskGroupTerminateOnErrorStrategy;
-        this.proxyTaskGroupWrapper = new ProxyTaskGroupWrapper(this, taskGroupTerminateOnErrorStrategy);
+        this.proxyTaskGroupWrapper = new ProxyTaskGroupWrapper(this);
     }
 
     /**
@@ -88,12 +85,10 @@ public class TaskGroup
      *
      * @param rootTaskItemId the id of the root task in the group
      * @param rootTaskItem the root task
-     * @param taskGroupTerminateOnErrorStrategy group termination strategy to be used on error
      */
     public TaskGroup(String rootTaskItemId,
-                     TaskItem rootTaskItem,
-                     TaskGroupTerminateOnErrorStrategy taskGroupTerminateOnErrorStrategy) {
-        this(new TaskGroupEntry<TaskItem>(rootTaskItemId, rootTaskItem), taskGroupTerminateOnErrorStrategy);
+                     TaskItem rootTaskItem) {
+        this(new TaskGroupEntry<TaskItem>(rootTaskItemId, rootTaskItem));
     }
 
     /**
@@ -102,8 +97,7 @@ public class TaskGroup
      * @param rootTaskItem the root task
      */
     public TaskGroup(IndexableTaskItem rootTaskItem) {
-        this(new TaskGroupEntry<TaskItem>(rootTaskItem.key(), rootTaskItem),
-                TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION);
+        this(new TaskGroupEntry<TaskItem>(rootTaskItem.key(), rootTaskItem));
     }
 
     /**
@@ -180,6 +174,7 @@ public class TaskGroup
             if (!isPreparer()) {
                 return Observable.error(new IllegalStateException("invokeAsync(cxt) can be called only from root TaskGroup"));
             }
+            this.taskGroupTerminateOnErrorStrategy = context.terminateOnErrorStrategy();
             return Observable.defer(new Func0<Observable<Indexable>>() {
                 @Override
                 public Observable<Indexable> call() {
@@ -484,6 +479,7 @@ public class TaskGroup
     public static final class InvocationContext {
         private final Map<String, Object> properties;
         private final TaskGroup taskGroup;
+        private TaskGroupTerminateOnErrorStrategy terminateOnErrorStrategy;
 
         /**
          * Creates InvocationContext instance.
@@ -500,6 +496,30 @@ public class TaskGroup
          */
         public TaskGroup taskGroup() {
             return this.taskGroup;
+        }
+
+        /**
+         * Sets the group termination strategy to use on error.
+         *
+         * @param strategy the strategy
+         * @return the context
+         */
+        public InvocationContext withTerminateOnErrorStrategy(TaskGroupTerminateOnErrorStrategy strategy) {
+            if (this.terminateOnErrorStrategy != null) {
+                throw new IllegalStateException("Termination strategy is already set, it is immutable for a specific context");
+            }
+            this.terminateOnErrorStrategy = strategy;
+            return this;
+        }
+
+        /**
+         * @return the termination strategy to use upon error during the current invocation of the TaskGroup.
+         */
+        public TaskGroupTerminateOnErrorStrategy terminateOnErrorStrategy() {
+            if (this.terminateOnErrorStrategy == null) {
+                return TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_HITTING_LCA_TASK;
+            }
+            return this.terminateOnErrorStrategy;
         }
 
         /**
@@ -546,19 +566,14 @@ public class TaskGroup
         private TaskGroup proxyTaskGroup;
         // The "actual TaskGroup" for which above TaskGroup act as proxy
         private final TaskGroup actualTaskGroup;
-        // The "actual TaskGroup"'s termination strategy
-        private final TaskGroupTerminateOnErrorStrategy terminationStrategy;
 
         /**
          * Creates ProxyTaskGroupWrapper.
          *
          * @param actualTaskGroup the actual TaskGroup for which proxy TaskGroup will be enabled
-         * @param terminationStrategy the actual TaskGroup's termination strategy
          */
-        ProxyTaskGroupWrapper(TaskGroup actualTaskGroup,
-                              TaskGroupTerminateOnErrorStrategy terminationStrategy) {
+        ProxyTaskGroupWrapper(TaskGroup actualTaskGroup) {
             this.actualTaskGroup = actualTaskGroup;
-            this.terminationStrategy = terminationStrategy;
         }
 
         /**
@@ -627,8 +642,7 @@ public class TaskGroup
                 //
                 ProxyTaskItem proxyTaskItem = new ProxyTaskItem(this.actualTaskGroup.root().data());
                 this.proxyTaskGroup = new TaskGroup("proxy-" + this.actualTaskGroup.root().key(),
-                        proxyTaskItem,
-                        this.terminationStrategy);
+                        proxyTaskItem);
 
                 if (this.actualTaskGroup.hasParents()) {
                     // Once "proxy TaskGroup" is enabled, all existing TaskGroups depends on "actual TaskGroup" should

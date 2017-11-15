@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.resources.fluentcore.model.implementation;
 
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroupTerminateOnErrorStrategy;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
@@ -39,8 +38,7 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
      */
     protected ExecutableImpl() {
         taskGroup = new TaskGroup(this.key(),
-                new ExecuteTask(this),
-                TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION);
+                new ExecuteTask(this));
     }
 
     @Override

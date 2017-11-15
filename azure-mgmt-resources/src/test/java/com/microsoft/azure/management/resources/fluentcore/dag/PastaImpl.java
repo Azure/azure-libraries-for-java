@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreateUpdateTask;
 import org.junit.Assert;
 import rx.Observable;
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  * Implementation of {@link IPasta}
  */
 class PastaImpl
-        extends CreatableUpdatableLCAImpl<IPasta, PastaInner>
+        extends CreatableUpdatableImpl<IPasta, PastaInner, PastaImpl>
         implements IPasta {
     final List<Creatable<IPasta>> delayedPastas;
     final long eventDelayInMilliseconds;

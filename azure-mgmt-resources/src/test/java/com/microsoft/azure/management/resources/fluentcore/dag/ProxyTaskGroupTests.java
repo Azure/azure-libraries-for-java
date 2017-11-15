@@ -1456,13 +1456,12 @@ public class ProxyTaskGroupTests {
          *                ------->group4-------------
          */
 
-        TaskGroupTerminateOnErrorStrategy terminateStrategy = TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION;
-        TaskGroup group1 = new TaskGroup(vertex1, new StringTaskItem(vertex1), terminateStrategy);
-        TaskGroup group2 = new TaskGroup(vertex2, new StringTaskItem(vertex2), terminateStrategy);
-        TaskGroup group3 = new TaskGroup(vertex3, new StringTaskItem(vertex3), terminateStrategy);
-        TaskGroup group4 = new TaskGroup(vertex4, new StringTaskItem(vertex4), terminateStrategy);
-        TaskGroup group5 = new TaskGroup(vertex5, new StringTaskItem(vertex5), terminateStrategy);
-        TaskGroup group6 = new TaskGroup(vertex6, new StringTaskItem(vertex6), terminateStrategy);
+        TaskGroup group1 = new TaskGroup(vertex1, new StringTaskItem(vertex1));
+        TaskGroup group2 = new TaskGroup(vertex2, new StringTaskItem(vertex2));
+        TaskGroup group3 = new TaskGroup(vertex3, new StringTaskItem(vertex3));
+        TaskGroup group4 = new TaskGroup(vertex4, new StringTaskItem(vertex4));
+        TaskGroup group5 = new TaskGroup(vertex5, new StringTaskItem(vertex5));
+        TaskGroup group6 = new TaskGroup(vertex6, new StringTaskItem(vertex6));
 
         group2.addDependencyTaskGroup(group1);
         group3.addDependencyTaskGroup(group1);

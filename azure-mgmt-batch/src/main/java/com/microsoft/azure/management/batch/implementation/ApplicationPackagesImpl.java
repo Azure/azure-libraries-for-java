@@ -26,7 +26,7 @@ class ApplicationPackagesImpl extends
                 ApplicationPackage,
                 ApplicationPackageInner,
                 ApplicationImpl,
-                        Application> {
+                Application> {
     private final ApplicationImpl parent;
 
     ApplicationPackagesImpl(ApplicationImpl parent) {

@@ -11,12 +11,13 @@ import com.microsoft.azure.management.batch.Application;
 import com.microsoft.azure.management.batch.ApplicationPackage;
 import com.microsoft.azure.management.batch.BatchAccount;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.RXMapper;
 
-import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
 import java.util.Map;
+import java.util.List;
 
 /**
  * Implementation for BatchAccount Application and its parent interfaces.
@@ -24,13 +25,13 @@ import java.util.Map;
 @LangDefinition
 public class ApplicationImpl
         extends ExternalChildResourceImpl<Application,
-                ApplicationInner,
-                BatchAccountImpl,
-                BatchAccount>
+        ApplicationInner,
+        BatchAccountImpl,
+        BatchAccount>
         implements Application,
-                Application.Definition<BatchAccount.DefinitionStages.WithApplicationAndStorage>,
-                Application.UpdateDefinition<BatchAccount.Update>,
-                Application.Update {
+        Application.Definition<BatchAccount.DefinitionStages.WithApplicationAndStorage>,
+        Application.UpdateDefinition<BatchAccount.Update>,
+        Application.Update {
     private final ApplicationPackagesImpl applicationPackages;
 
     protected ApplicationImpl(
@@ -39,6 +40,7 @@ public class ApplicationImpl
             ApplicationInner inner) {
         super(name, batchAccount, inner);
         applicationPackages = new ApplicationPackagesImpl(this);
+        applicationPackages.enableCommitMode();
     }
 
     @Override
@@ -83,37 +85,46 @@ public class ApplicationImpl
                         self.setInner(inner);
                         return self;
                     }
+                })
+                .flatMap(new Func1<Application, Observable<? extends Application>>() {
+                    @Override
+                    public Observable<? extends Application> call(Application application) {
+                        return self.applicationPackages.commitAndGetAllAsync()
+                                .map(new Func1<List<ApplicationPackageImpl>, Application>() {
+                                    @Override
+                                    public Application call(List<ApplicationPackageImpl> applications) {
+                                        return self;
+                                    }
+                                });
+                    }
                 });
     }
 
     @Override
     public Observable<Application> updateAsync() {
         final ApplicationImpl self = this;
+
         ApplicationUpdateParametersInner updateParameter = new ApplicationUpdateParametersInner();
         updateParameter.withDisplayName(this.inner().displayName());
         updateParameter.withAllowUpdates(this.inner().allowUpdates());
 
-        return this.parent().manager().inner().applications().updateAsync(
-                    this.parent().resourceGroupName(),
-                    this.parent().name(),
-                    this.name(),
-                    updateParameter)
-                .map(new Func1<Void, Application>() {
+        return RXMapper.map(this.parent().manager().inner().applications().updateAsync(
+                this.parent().resourceGroupName(),
+                this.parent().name(),
+                this.name(),
+                updateParameter), self)
+                .flatMap(new Func1<Application, Observable<? extends Application>>() {
                     @Override
-                    public Application call(Void aVoid) {
-                        return self;
+                    public Observable<? extends Application> call(Application application) {
+                        return self.applicationPackages.commitAndGetAllAsync()
+                                .map(new Func1<List<ApplicationPackageImpl>, Application>() {
+                                    @Override
+                                    public Application call(List<ApplicationPackageImpl> applications) {
+                                        return self;
+                                    }
+                                });
                     }
                 });
-    }
-
-    @Override
-    public Completable afterPostRunAsync(boolean isGroupFaulted) {
-        if (isGroupFaulted) {
-            this.applicationPackages.clear();
-            return Completable.complete();
-        } else {
-            return this.refreshAsync().toCompletable();
-        }
     }
 
     @Override
@@ -129,8 +140,10 @@ public class ApplicationImpl
         return super.refreshAsync().map(new Func1<Application, Application>() {
             @Override
             public Application call(Application application) {
-                applicationPackages.refresh();
-                return application;
+                ApplicationImpl impl = (ApplicationImpl) application;
+
+                impl.applicationPackages.refresh();
+                return impl;
             }
         });
     }

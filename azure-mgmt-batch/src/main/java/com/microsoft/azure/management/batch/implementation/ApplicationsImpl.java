@@ -30,7 +30,7 @@ class ApplicationsImpl extends
                 BatchAccount> {
 
     ApplicationsImpl(BatchAccountImpl parent) {
-        super(parent, parent.taskGroup(), "Application");
+        super(parent,  parent.taskGroup(), "Application");
         this.cacheCollection();
     }
 

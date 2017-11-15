@@ -25,7 +25,6 @@ import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.azure.management.storage.StorageAccount;
 
 import rx.Observable;
-import rx.schedulers.Schedulers;
 
 import java.io.File;
 import java.util.List;
@@ -61,7 +60,7 @@ public final class ManageLocks {
                 lockDiskRO = null,
                 lockDiskDel = null,
                 lockSubnet = null;
-        
+
         try {
             //=============================================================
             // Create a shared resource group for all the resources so they can all be deleted together
@@ -109,8 +108,8 @@ public final class ManageLocks {
             // Create resources in parallel to save time
             System.out.println("Creating the needed resources...");
             Observable.merge(
-                    storageDefinition.createAsync().subscribeOn(Schedulers.io()),
-                    vmDefinition.createAsync().subscribeOn(Schedulers.io()))
+                    storageDefinition.createAsync().subscribeOn(SdkContext.getRxScheduler()),
+                    vmDefinition.createAsync().subscribeOn(SdkContext.getRxScheduler()))
             .toBlocking().subscribe();
             System.out.println("Resources created.");
     

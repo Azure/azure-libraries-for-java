@@ -1098,7 +1098,7 @@ public class AzureTests extends TestBase {
                 .withSecondVirtualNetworkGateway(vngw1)
                 .withSharedKey("MySecretKey")
                 .create();
-        Thread.sleep(250000);
+        SdkContext.sleep(250000);
         troubleshooting = nw.troubleshoot()
                 .withTargetResourceId(connection1.id())
                 .withStorageAccount(storageAccount.id())

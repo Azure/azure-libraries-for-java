@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
@@ -105,6 +106,7 @@ public abstract class IndexableTaskItem implements Indexable, TaskItem, TaskGrou
     @Override
     public Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
         return this.invokeTaskAsync(context)
+                .subscribeOn(SdkContext.getRxScheduler())
                 .map(new Func1<Indexable, Indexable>() {
                     @Override
                     public Indexable call(Indexable result) {

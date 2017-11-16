@@ -146,7 +146,7 @@ public final class ManageVpnGatewayVNet2VNetConnection {
                     .withSecondVirtualNetworkGateway(vngw1)
                     .withSharedKey("MySecretKey")
                     .create();
-            Thread.sleep(250000);
+            SdkContext.sleep(250000);
             troubleshooting = nw.troubleshoot()
                     .withTargetResourceId(connection.id())
                     .withStorageAccount(storageAccount.id())

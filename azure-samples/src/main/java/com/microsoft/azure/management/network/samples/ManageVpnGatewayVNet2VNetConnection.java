@@ -22,6 +22,9 @@ import com.microsoft.azure.management.resources.fluentcore.model.CreatedResource
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.blob.CloudBlobClient;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.rest.LogLevel;
 
 import java.io.File;
@@ -62,6 +65,7 @@ public final class ManageVpnGatewayVNet2VNetConnection {
         final String vm2Name = SdkContext.randomResourceName("vm2", 20);
         final String rootname = "tirekicker";
         final String password = SdkContext.randomResourceName("pWd!", 15);
+        final String storageContainerName = "results";
 
         try {
             //============================================================
@@ -130,11 +134,20 @@ public final class ManageVpnGatewayVNet2VNetConnection {
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
                     .create();
+
+            // Create storage container to store troubleshooting results
+            String accountKey = storageAccount.getKeys().get(0).value();
+            String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s", storageAccount.name(), accountKey);
+            CloudStorageAccount account = CloudStorageAccount.parse(connectionString);
+            CloudBlobClient cloudBlobClient = account.createCloudBlobClient();
+            CloudBlobContainer container = cloudBlobClient.getContainerReference(storageContainerName);
+            container.create();
+
             // Run troubleshooting for the connection - result will be 'UnHealthy' as need to create symmetrical connection from second gateway to the first
             Troubleshooting troubleshooting = nw.troubleshoot()
                     .withTargetResourceId(connection.id())
                     .withStorageAccount(storageAccount.id())
-                    .withStoragePath(storageAccount.endPoints().primary().blob() + "results")
+                    .withStoragePath(storageAccount.endPoints().primary().blob() + storageContainerName)
                     .execute();
             System.out.println("Troubleshooting status is: " + troubleshooting.code());
 
@@ -150,7 +163,7 @@ public final class ManageVpnGatewayVNet2VNetConnection {
             troubleshooting = nw.troubleshoot()
                     .withTargetResourceId(connection.id())
                     .withStorageAccount(storageAccount.id())
-                    .withStoragePath(storageAccount.endPoints().primary().blob() + "results")
+                    .withStoragePath(storageAccount.endPoints().primary().blob() + storageContainerName)
                     .execute();
             System.out.println("Troubleshooting status is: " + troubleshooting.code());
 

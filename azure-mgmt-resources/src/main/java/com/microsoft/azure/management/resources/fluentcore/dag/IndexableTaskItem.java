@@ -12,12 +12,11 @@ import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
-import java.util.UUID;
-
 /**
  * An index-able TaskItem with a TaskGroup.
  */
-public abstract class IndexableTaskItem implements Indexable, TaskItem, TaskGroup.HasTaskGroup {
+public abstract class IndexableTaskItem
+        implements Indexable, TaskItem, TaskGroup.HasTaskGroup {
     /**
      * The key that is unique to this TaskItem which is used to index this
      * TaskItem.
@@ -47,7 +46,7 @@ public abstract class IndexableTaskItem implements Indexable, TaskItem, TaskGrou
      * Creates a TaskItem which is index-able using a random UUID.
      */
     public IndexableTaskItem() {
-        this(UUID.randomUUID().toString());
+        this(SdkContext.randomUuid());
     }
 
     /**

@@ -11,6 +11,7 @@ import rx.Completable;
 import rx.Observable;
 import rx.functions.Func0;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -702,11 +703,13 @@ public class TaskGroup
                 return Completable.defer(new Func0<Completable>() {
                     @Override
                     public Completable call() {
-                        return actualTaskItem.invokeAfterPostRunAsync(isGroupFaulted);
+                        return actualTaskItem.invokeAfterPostRunAsync(isGroupFaulted)
+                                .subscribeOn(Schedulers.immediate());
                     }
                 });
             } else {
-                return this.actualTaskItem.invokeAfterPostRunAsync(isGroupFaulted);
+                return this.actualTaskItem.invokeAfterPostRunAsync(isGroupFaulted)
+                        .subscribeOn(Schedulers.immediate());
             }
         }
     }

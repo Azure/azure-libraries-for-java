@@ -36,6 +36,7 @@ public final class WebServerWithDelegatedCredentials {
      * Main function which runs the actual sample.
      * @param authFile the auth file backing the web server
      * @return true if sample runs successfully
+     * @throws Exception exceptions running the server
      */
     public static boolean runSample(File authFile) throws Exception {
         final String redirectUrl = "http://localhost:8000";

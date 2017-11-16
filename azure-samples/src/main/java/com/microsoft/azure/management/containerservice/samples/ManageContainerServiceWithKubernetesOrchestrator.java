@@ -111,7 +111,7 @@ public class ManageContainerServiceWithKubernetesOrchestrator {
             t1 = new Date();
 
             azureContainerService.update()
-                    .withAgentVMCount(2)
+                    .withAgentVirtualMachineCount(2)
                     .apply();
 
             t2 = new Date();

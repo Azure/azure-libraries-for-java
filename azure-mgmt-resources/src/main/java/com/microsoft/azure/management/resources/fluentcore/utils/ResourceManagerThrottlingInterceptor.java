@@ -78,7 +78,7 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
                 }
                 LoggerFactory.getLogger(context)
                     .info("Azure Resource Manager read/write per hour limit reached. Will retry in: " + retryAfter + " seconds");
-                Thread.sleep(TimeUnit.SECONDS.toMillis(retryAfter) + 100);
+                SdkContext.sleep((int) (TimeUnit.SECONDS.toMillis(retryAfter) + 100));
             }
             return chain.proceed(chain.request());
         } catch (Throwable t) {

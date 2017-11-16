@@ -271,7 +271,7 @@ public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOr
             System.out.println("Created Azure Container Service: (took " + ((t2.getTime() - t1.getTime()) / 1000) + " seconds) " + azureContainerService.id());
             Utils.print(azureContainerService);
 
-            Thread.sleep(30000);
+            SdkContext.sleep(30000);
 
 
             //=============================================================
@@ -301,7 +301,7 @@ public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOr
             Config config = new Config();
             KubernetesClient kubernetesClient = new DefaultKubernetesClient(config);
 
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
 
 
             //=============================================================
@@ -324,7 +324,7 @@ public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOr
             } catch (Exception ignored) {
             }
 
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
             for (Namespace namespace : kubernetesClient.namespaces().list().getItems()) {
                 System.out.println("\tFound Kubernetes namespace: " + namespace.toString());
             }
@@ -353,7 +353,7 @@ public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOr
 
             System.out.println("Creating new secret: " + kubernetesClient.secrets().inNamespace(acsNamespace).create(secretBuilder.build()));
 
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
 
             for (Secret kubeS : kubernetesClient.secrets().inNamespace(acsNamespace).list().getItems()) {
                 System.out.println("\tFound secret: " + kubeS);
@@ -390,7 +390,7 @@ public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOr
                 .build();
 
             System.out.println("Creating a replication controller: " + kubernetesClient.replicationControllers().inNamespace(acsNamespace).create(rc));
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
 
             rc = kubernetesClient.replicationControllers().inNamespace(acsNamespace).withName("acrsample-rc").get();
             System.out.println("Found replication controller: " + rc.toString());
@@ -420,7 +420,7 @@ public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOr
 
             System.out.println("Creating a service: " + kubernetesClient.services().inNamespace(acsNamespace).create(lbService));
 
-            Thread.sleep(5000);
+            SdkContext.sleep(5000);
 
             System.out.println("\tFound service: " + kubernetesClient.services().inNamespace(acsNamespace).withName(acsLbIngressName).get());
 
@@ -446,7 +446,7 @@ public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOr
 
                 if (timeout > 0) {
                     timeout -= 30000; // 30 seconds
-                    Thread.sleep(30000);
+                    SdkContext.sleep(30000);
                 }
             }
 

@@ -65,7 +65,7 @@ public class TestContainerService extends TestTemplate<ContainerService, Contain
     public ContainerService updateResource(ContainerService resource) throws Exception {
         // Modify existing container service
         resource =  resource.update()
-                .withAgentVMCount(5)
+                .withAgentVirtualMachineCount(5)
                 .withTag("tag2", "value2")
                 .withTag("tag3", "value3")
                 .withoutTag("tag1")

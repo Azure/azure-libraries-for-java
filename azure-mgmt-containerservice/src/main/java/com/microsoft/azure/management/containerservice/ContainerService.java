@@ -8,6 +8,7 @@ package com.microsoft.azure.management.containerservice;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.containerservice.implementation.ContainerServiceInner;
 import com.microsoft.azure.management.containerservice.implementation.ContainerServiceManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -181,6 +182,7 @@ public interface ContainerService extends
              * Begins the definition to specify Linux settings.
              * @return the stage representing configuration of Linux specific settings
              */
+            @Method
             WithLinuxRootUsername withLinux();
         }
 
@@ -286,7 +288,7 @@ public interface ContainerService extends
          * The stage of a container service definition allowing to specify the master pool OS disk size.
          *
          */
-        interface WithMasterOSDiskSize<ParentT> {
+        interface WithMasterOSDiskSize {
             /**
              * OS Disk Size in GB to be used for every machine in the master pool.
              *
@@ -352,7 +354,7 @@ public interface ContainerService extends
              * @param agentCount the number of agents (virtual machines) to host docker containers.
              * @return the next stage of the update
              */
-            Update withAgentVMCount(int agentCount);
+            Update withAgentVirtualMachineCount(int agentCount);
         }
 
         /**

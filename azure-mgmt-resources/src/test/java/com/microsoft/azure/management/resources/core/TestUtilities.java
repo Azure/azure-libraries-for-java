@@ -11,7 +11,7 @@ package com.microsoft.azure.management.resources.core;
  */
 public class TestUtilities {
     /**
-     * Wrapper on the Thread.sleep, in case of record mode will not sleep, otherwise sleep.
+     * Wrapper on the SdkContext.sleep, in case of record mode will not sleep, otherwise sleep.
      * @param milliseconds time in milliseconds for which to sleep.
      */
     public static void sleep(int milliseconds, boolean isRecordMode) {

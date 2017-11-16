@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.appservice;
 
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.RestClient;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -87,7 +88,7 @@ public class HostnameSslTests extends AppServiceTest {
                     response = curl("https://" + WEBAPP_NAME + "." + DOMAIN);
                 } catch (SSLPeerUnverifiedException e) {
                     retryCount--;
-                    Thread.sleep(5000);
+                    SdkContext.sleep(5000);
                 }
             }
             if (retryCount == 0) {

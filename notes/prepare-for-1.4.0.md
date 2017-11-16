@@ -45,6 +45,27 @@ The following methods and/or types have been either renamed or removed in V1.4 c
   </tr>
   <tr>
     <td><code>ContainerService</code></td>
+    <td><code>.agentPoolName()</code></td>
+    <td><i>Removed</i></td>
+    <td>Use <code>.agentPools().keySet()</code> instead</td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
+  </tr>
+  <tr>
+    <td><code>ContainerService</code></td>
+    <td><code>.agentPoolCount()</code></td>
+    <td><i>Removed</i></td>
+    <td>Use <code>.agentPools().get("name").count()</code> instead</td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
+  </tr>
+  <tr>
+    <td><code>ContainerService</code></td>
+    <td><code>.agentPoolLeafDomainLabel()</code></td>
+    <td><i>Removed</i></td>
+    <td>Use <code>.agentPools().get("name").dnsPrefix()</code> instead</td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
+  </tr>
+  <tr>
+    <td><code>ContainerService</code></td>
     <td><code>.masterLeafDomainLabel()</code></td>
     <td><code>.masterDnsPrefix()</code></td>
     <td></td>

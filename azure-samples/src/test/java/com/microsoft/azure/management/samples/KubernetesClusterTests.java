@@ -8,10 +8,12 @@ package com.microsoft.azure.management.samples;
 import com.microsoft.azure.management.kubernetescluster.samples.DeployImageFromContainerRegistryToKubernetes;
 import com.microsoft.azure.management.kubernetescluster.samples.ManageKubernetesCluster;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class KubernetesClusterTests extends SamplesTestBase {
     @Test
+    @Ignore("QuotaExceeded error: Public preview limit of 5 for managed cluster(AKS) has been reached for subscription sub-id in location ukwest. Same error even after deleting all clusters")
     public void testManageKubernetesCluster() {
         if (isPlaybackMode()) {
             Assert.assertTrue(ManageKubernetesCluster.runSample(azure, "client id", "secret"));

@@ -1294,6 +1294,11 @@ public class AzureTests extends TestBase {
     }
 
     @Test
+    public void testBatchAI() throws Exception {
+        new TestBatchAI().runTest(azure.clusters(), azure.resourceGroups());
+    }
+
+    @Test
     public void testTrafficManager() throws Exception {
         new TestTrafficManager(azure.publicIPAddresses())
                 .runTest(azure.trafficManagerProfiles(), azure.resourceGroups());

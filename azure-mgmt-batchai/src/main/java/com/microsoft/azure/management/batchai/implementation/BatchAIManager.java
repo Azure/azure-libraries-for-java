@@ -13,6 +13,7 @@ import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.microsoft.azure.management.batchai.Clusters;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -25,6 +26,8 @@ import com.microsoft.rest.RestClient;
  */
 @Beta(SinceVersion.V1_4_0)
 public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagementClientImpl> {
+    private Clusters clusters;
+
     /**
     * Get a Configurable instance that can be used to create BatchAIManager with optional configuration.
     *
@@ -85,5 +88,15 @@ public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagem
             restClient,
             subscriptionId,
             new BatchAIManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
+    }
+
+    /**
+     * @return the batch account management API entry point
+     */
+    public Clusters clusters() {
+        if (clusters == null) {
+            clusters = new ClustersImpl(this);
+        }
+        return clusters;
     }
 }

@@ -18,6 +18,8 @@ import com.microsoft.azure.management.appservice.WebApps;
 import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
 import com.microsoft.azure.management.batch.BatchAccounts;
 import com.microsoft.azure.management.batch.implementation.BatchManager;
+import com.microsoft.azure.management.batchai.Clusters;
+import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.cdn.CdnProfiles;
 import com.microsoft.azure.management.cdn.implementation.CdnManager;
 import com.microsoft.azure.management.compute.AvailabilitySets;
@@ -108,6 +110,7 @@ public final class Azure {
     private final NetworkManager networkManager;
     private final KeyVaultManager keyVaultManager;
     private final BatchManager batchManager;
+    private final BatchAIManager batchAIManager;
     private final TrafficManager trafficManager;
     private final RedisManager redisManager;
     private final CdnManager cdnManager;
@@ -383,6 +386,7 @@ public final class Azure {
         this.networkManager = NetworkManager.authenticate(restClient, subscriptionId);
         this.keyVaultManager = KeyVaultManager.authenticate(restClient, tenantId, subscriptionId);
         this.batchManager = BatchManager.authenticate(restClient, subscriptionId);
+        this.batchAIManager = BatchAIManager.authenticate(restClient, subscriptionId);
         this.trafficManager = TrafficManager.authenticate(restClient, subscriptionId);
         this.redisManager = RedisManager.authenticate(restClient, subscriptionId);
         this.cdnManager = CdnManager.authenticate(restClient, subscriptionId);
@@ -644,6 +648,13 @@ public final class Azure {
      */
     public BatchAccounts batchAccounts() {
         return batchManager.batchAccounts();
+    }
+
+    /**
+     * @return entry point to managing batch AI clusters.
+     */
+    public Clusters clusters() {
+        return batchAIManager.clusters();
     }
 
     /**

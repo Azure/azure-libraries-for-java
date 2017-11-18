@@ -26,7 +26,7 @@ public class SandwichImpl
      * @param innerObject the inner model object
      */
     protected SandwichImpl(String name, SandwichInner innerObject) {
-        super(name, innerObject);
+        super(name, name, innerObject);
     }
 
 

@@ -35,7 +35,7 @@ class PancakeImpl
     }
 
     public PancakeImpl(String name, long eventDelayInMilliseconds, boolean fault) {
-        super(name, new PancakeInner());
+        super(name, name, new PancakeInner());
         this.eventDelayInMilliseconds = eventDelayInMilliseconds;
         if (fault) {
             this.errorToThrow = new RuntimeException(name);

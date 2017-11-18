@@ -27,7 +27,7 @@ class PizzaImpl
     boolean prepareCalled = false;
 
     public PizzaImpl(String name) {
-        super(name, new PizzaInner());
+        super(name, name, new PizzaInner());
         delayedPizzas = new ArrayList<>();
     }
 

@@ -243,6 +243,7 @@ public class InvokeRootTests {
         private int callCount = 0;
 
         TestTaskItem(String name) {
+            super(name);
             this.name = name;
         }
 

@@ -33,7 +33,7 @@ class PastaImpl
     }
 
     public PastaImpl(String name, long eventDelayInMilliseconds, boolean fault) {
-        super(name, new PastaInner());
+        super(name, name, new PastaInner());
         this.eventDelayInMilliseconds = eventDelayInMilliseconds;
         if (fault) {
             this.errorToThrow = new RuntimeException(name);

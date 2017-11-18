@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class BreadSliceImpl extends ExecutableImpl<IBreadSlice> implements IBreadSlice {
     private final String name;
     public BreadSliceImpl(String name) {
+        super(name);
         this.name = name;
     }
 

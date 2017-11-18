@@ -38,7 +38,16 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
      * Creates ExecutableImpl.
      */
     protected ExecutableImpl() {
-        super(SdkContext.randomUuid());
+        this(SdkContext.randomUuid());
+    }
+
+    /**
+     * Creates ExecutableImpl.
+     *
+     * @param key the task group key for the executable
+     */
+    protected ExecutableImpl(String key) {
+        super(key);
         taskGroup = new TaskGroup(this.key(),
                 new ExecuteTask(this));
     }

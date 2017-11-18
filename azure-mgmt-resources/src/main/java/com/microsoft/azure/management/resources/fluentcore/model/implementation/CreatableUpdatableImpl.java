@@ -53,7 +53,18 @@ public abstract class CreatableUpdatableImpl<
      * @param innerObject the inner model object
      */
     protected CreatableUpdatableImpl(String name, InnerModelT innerObject) {
-        super(SdkContext.randomUuid(), innerObject);
+        this(name, SdkContext.randomUuid(), innerObject);
+    }
+
+    /**
+     * Creates CreatableUpdatableImpl.
+     *
+     * @param name the name of the model
+     * @param key task group key for the creator updater of this model
+     * @param innerObject the inner model object
+     */
+    protected CreatableUpdatableImpl(String name, String key, InnerModelT innerObject) {
+        super(key, innerObject);
         this.name = name;
         taskGroup = new TaskGroup(this.key(),
                 new CreateUpdateTask<FluentModelT>(this));

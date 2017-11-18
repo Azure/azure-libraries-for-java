@@ -68,6 +68,23 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
         this.name = name;
     }
 
+    /**
+     * Creates an instance of external child resource in-memory.
+     *
+     * @param key the task group key for the task item that perform actions on this child
+     * @param name the name of this external child resource
+     * @param parent reference to the parent of this external child resource
+     * @param innerObject reference to the inner object representing this external child resource
+     */
+    protected ExternalChildResourceImpl(String key,
+                                        String name,
+                                        ParentImplT parent,
+                                        InnerModelT innerObject) {
+        super(innerObject, parent);
+        this.childAction = new ExternalChildActionTaskItem(key, this);
+        this.name = name;
+    }
+
     @Override
     public String name() {
         return this.name;
@@ -196,6 +213,17 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
          * @param externalChild an external child this TaskItem composes.
          */
         ExternalChildActionTaskItem(final ExternalChildResourceImpl<FluentModelT, InnerModelT, ParentImplT, ParentT> externalChild) {
+            this.externalChild = externalChild;
+        }
+
+        /**
+         * Creates ExternalChildActionTaskItem.
+         *
+         * @param key the task group key for this item
+         * @param externalChild an external child this TaskItem composes.
+         */
+        ExternalChildActionTaskItem(final String key, final ExternalChildResourceImpl<FluentModelT, InnerModelT, ParentImplT, ParentT> externalChild) {
+            super(key);
             this.externalChild = externalChild;
         }
 

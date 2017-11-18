@@ -53,7 +53,7 @@ public class WebAppsWebDeployTests extends AppServiceTest {
         Assert.assertEquals(PricingTier.BASIC_B1, plan1.pricingTier());
 
         WebDeployment deployment = webApp1.deploy()
-                .withPackageUri("https://github.com/Azure/azure-sdk-for-java/raw/master/azure-mgmt-appservice/src/test/resources/webapps.zip")
+                .withPackageUri("https://github.com/Azure/azure-libraries-for-java/raw/master/azure-mgmt-appservice/src/test/resources/webapps.zip")
                 .withExistingDeploymentsDeleted(true)
                 .execute();
 

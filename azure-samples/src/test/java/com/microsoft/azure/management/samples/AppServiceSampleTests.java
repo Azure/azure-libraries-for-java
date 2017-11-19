@@ -46,13 +46,11 @@ public class AppServiceSampleTests extends SamplesTestBase {
     }
 
     @Test
-    @Ignore("The cert thumbprint generated is different in Playback and record hence failing with error Unexpected request: PUT")
     public void testManageWebAppWithDomainSsl() {
         Assert.assertTrue(ManageWebAppWithDomainSsl.runSample(azure));
     }
 
     @Test
-    @Ignore("The cert thumbprint generated is different in Playback and record hence failing with error Unexpected request: PUT")
     public void testManageWebAppWithTrafficManager() {
         Assert.assertTrue(ManageWebAppWithTrafficManager.runSample(azure));
     }
@@ -69,13 +67,11 @@ public class AppServiceSampleTests extends SamplesTestBase {
     }
 
     @Test
-    @Ignore("The cert thumbprint generated is different in Playback and record hence failing with error Unexpected request: PUT")
     public void testManageLinuxWebAppWithDomainSsl() {
         Assert.assertTrue(ManageLinuxWebAppWithDomainSsl.runSample(azure));
     }
 
     @Test
-    @Ignore("The cert thumbprint generated is different in Playback and record hence failing with error Unexpected request: PUT")
     public void testManageLinuxWebAppWithTrafficManager() {
         Assert.assertTrue(ManageLinuxWebAppWithTrafficManager.runSample(azure));
     }
@@ -86,7 +82,6 @@ public class AppServiceSampleTests extends SamplesTestBase {
     }
 
     @Test
-    @Ignore("The cert thumbprint generated is different in Playback and record hence failing with error Unexpected request: PUT")
     public void testManageFunctionAppWithDomainSsl() {
         Assert.assertTrue(ManageFunctionAppWithDomainSsl.runSample(azure));
     }

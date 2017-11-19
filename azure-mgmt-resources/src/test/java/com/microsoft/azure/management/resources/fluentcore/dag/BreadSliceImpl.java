@@ -39,13 +39,13 @@ public class BreadSliceImpl extends ExecutableImpl<IBreadSlice> implements IBrea
 
     @Override
     public IBreadSlice withAnotherSliceFromStore(Executable<IBreadSlice> breadFetcher) {
-        this.addExecutableDependency(breadFetcher);
+        this.addDependency(breadFetcher);
         return this;
     }
 
     @Override
     public IBreadSlice withNewOrder(Creatable<IOrder> order) {
-        this.addCreatableDependency(order);
+        this.addDependency(order);
         return this;
     }
 }

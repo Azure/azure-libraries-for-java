@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Type representing a group of task entries with dependencies between them. Initially a task
  * group will have only one task entry known as root task entry, then more entries can be
- * added by taking dependency on multiple task group.
+ * added by taking dependency on other task groups or adding "post-run" task group dependents.
  *
  * The method {@link TaskGroup#invokeAsync(InvocationContext)} ()} kick-off invocation of tasks
  * in the group, task are invoked in topological sorted order.
@@ -31,17 +31,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * {@link TaskGroup#addDependencyTaskGroup(TaskGroup)}: A task group "A" can take dependency on
  * another task group "B" through this method e.g. `A.addDependencyTaskGroup(B)` indicates that
  * completion of tasks in the dependency task group "B" is required before the invocation of root
- * task in group "A". A.invokeAsync() will ensure this order.
+ * task in group "A". A.invokeAsync(cxt) will ensure this order.
  *
  * {@link TaskGroup#addPostRunDependentTaskGroup(TaskGroup)}: there are scenarios where a subset
  * of dependent task groups say "H", "I" may required to run after the invocation of a task group
- * "K" when K.invokeAsync() is called. Such special dependents can be added via
+ * "K" when K.invokeAsync(cxt) is called. Such special dependents can be added via
  * K.addPostRunDependentTaskGroup(H) and K.addPostRunDependentTaskGroup(I).
  *
  * The result produced by the tasks in the group are of type {@link Indexable}.
  */
 public class TaskGroup
-        extends DAGraph<TaskItem, TaskGroupEntry<TaskItem>> {
+        extends DAGraph<TaskItem, TaskGroupEntry<TaskItem>>
+        implements Indexable {
     /**
      * The root task in this task group.
      */
@@ -99,6 +100,14 @@ public class TaskGroup
      */
     public TaskGroup(IndexableTaskItem rootTaskItem) {
         this(new TaskGroupEntry<TaskItem>(rootTaskItem.key(), rootTaskItem));
+    }
+
+    /**
+     * @return the key of this task group, which is same as key of the root entry in the group
+     */
+    @Override
+    public String key() {
+        return this.rootTaskEntry.key();
     }
 
     /**
@@ -214,17 +223,17 @@ public class TaskGroup
             int prevSize = entries.size();
             entries = this.entriesSnapshot();
             if (entries.size() > prevSize) {
-                // If new task dependencies/dependents added in 'prepare' then set the
-                // flag which indicates another pass is required to 'prepare' new task
-                // items
+                // If new task dependencies/dependents added in 'beforeGroupInvoke' then
+                // set the flag which indicates another pass is required to 'prepare' new
+                // task items
                 isPreparePending = true;
             }
-        } while (isPreparePending);  // Run another pass if new dependencies were added in this pass
+        } while (isPreparePending);  // Run another pass if new dependencies/dependents were added in this pass
         super.prepareForEnumeration();
     }
 
     /**
-     * @return list with nodes in the graph.
+     * @return list with task entries in this task group
      */
     private List<TaskGroupEntry<TaskItem>> entriesSnapshot() {
         List<TaskGroupEntry<TaskItem>> entries = new ArrayList<>();

@@ -39,7 +39,7 @@ class PizzaImpl
      */
     @Override
     public PizzaImpl withInstantPizza(Creatable<IPizza> pizza) {
-        this.addCreatableDependency(pizza);
+        this.addDependency(pizza);
         return this;
     }
 
@@ -62,7 +62,7 @@ class PizzaImpl
         prepareCalled = true;
         int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
         for(Creatable<IPizza> pizza : this.delayedPizzas) {
-            this.addCreatableDependency(pizza);
+            this.addDependency(pizza);
         }
         int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
         System.out.println("Pizza(" + this.name() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPizzas.size()

@@ -53,7 +53,7 @@ class PancakeImpl
      */
     @Override
     public PancakeImpl withInstantPancake(Creatable<IPancake> pancake) {
-        this.addCreatableDependency(pancake);
+        this.addDependency(pancake);
         return this;
     }
 
@@ -76,7 +76,7 @@ class PancakeImpl
         prepareCalled = true;
         int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
         for(Creatable<IPancake> pancake : this.delayedPancakes) {
-            this.addCreatableDependency(pancake);
+            this.addDependency(pancake);
         }
         int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
         System.out.println("Pancake(" + this.name() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPancakes.size()

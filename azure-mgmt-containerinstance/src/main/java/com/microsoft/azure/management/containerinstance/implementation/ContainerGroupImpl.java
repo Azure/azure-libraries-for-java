@@ -83,7 +83,7 @@ public class ContainerGroupImpl
         } else if (newFileShares == null || creatableStorageAccountKey == null) {
             return this.manager().inner().containerGroups().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner());
         } else {
-            final StorageAccount storageAccount = (StorageAccount) this.createdResource(this.creatableStorageAccountKey);
+            final StorageAccount storageAccount = this.<StorageAccount>taskResult(this.creatableStorageAccountKey);
             return createFileShareAsync(storageAccount)
                 .collect(new Func0<List<Triple<String, String, String>>>() {
                     @Override
@@ -279,9 +279,7 @@ public class ContainerGroupImpl
             } else {
                 creatable = definitionWithGroup.withExistingResourceGroup(this.resourceGroupName());
             }
-            this.creatableStorageAccountKey = creatable.key();
-            this.addCreatableDependency(creatable);
-
+            this.creatableStorageAccountKey = this.addDependency(creatable);
             this.newFileShares = new HashMap<>();
         }
         this.newFileShares.put(volumeName, shareName);

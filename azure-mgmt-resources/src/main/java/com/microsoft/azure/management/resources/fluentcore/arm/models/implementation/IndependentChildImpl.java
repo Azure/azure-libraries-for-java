@@ -13,7 +13,6 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourc
 import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChild;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import rx.Observable;
 
@@ -98,8 +97,7 @@ public abstract class IndependentChildImpl<
     @Override
     public FluentModelImplT withNewParentResource(Creatable<FluentParentModelT> parentResourceCreatable) {
         if (this.creatableParentResourceKey == null) {
-            this.creatableParentResourceKey = parentResourceCreatable.key();
-            this.addCreatableDependency(parentResourceCreatable);
+            this.creatableParentResourceKey = this.addDependency(parentResourceCreatable);
         }
         return (FluentModelImplT) this;
     }
@@ -114,7 +112,7 @@ public abstract class IndependentChildImpl<
     @Override
     public Observable<FluentModelT> createResourceAsync() {
         if (this.creatableParentResourceKey != null) {
-            FluentParentModelT parentResource = (FluentParentModelT) this.createdResource(this.creatableParentResourceKey);
+            FluentParentModelT parentResource = this.<FluentParentModelT>taskResult(this.creatableParentResourceKey);
             withExistingParentResource(parentResource);
         }
         return this.createChildResourceAsync();
@@ -124,10 +122,6 @@ public abstract class IndependentChildImpl<
         if (this.id() != null) {
             this.parentName = ResourceId.fromString(this.id()).parent().name();
         }
-    }
-
-    protected Indexable createdResource(String key) {
-        return super.createdModel(key);
     }
 
     protected abstract Observable<FluentModelT> createChildResourceAsync();

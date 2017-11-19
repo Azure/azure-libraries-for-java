@@ -32,7 +32,7 @@ public class SandwichImpl
 
     @Override
     public ISandwich withBreadSliceFromStore(Executable<IBreadSlice> breadFetcher) {
-        this.addExecutableDependency(breadFetcher);
+        this.addDependency(breadFetcher);
         return this;
     }
 

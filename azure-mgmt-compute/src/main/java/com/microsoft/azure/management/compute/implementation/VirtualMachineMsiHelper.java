@@ -209,7 +209,7 @@ class VirtualMachineMsiHelper {
 
         @Override
         public Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
-            VirtualMachine virtualMachine = (VirtualMachine) this.taskGroup().taskResult(vmCreateUpdateTaskKey);
+            VirtualMachine virtualMachine = this.<VirtualMachine>taskResult(vmCreateUpdateTaskKey);
 
             if (!virtualMachine.isManagedServiceIdentityEnabled()) {
                 return voidObservable();

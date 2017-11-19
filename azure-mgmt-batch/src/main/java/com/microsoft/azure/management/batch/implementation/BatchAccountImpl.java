@@ -207,8 +207,7 @@ public class BatchAccountImpl
     public BatchAccountImpl withNewStorageAccount(Creatable<StorageAccount> creatable) {
         // This method's effect is NOT additive.
         if (this.creatableStorageAccountKey == null) {
-            this.creatableStorageAccountKey = creatable.key();
-            this.addCreatableDependency(creatable);
+            this.creatableStorageAccountKey = this.addDependency(creatable);
         }
         this.existingStorageAccountToAssociate = null;
         return this;
@@ -256,7 +255,7 @@ public class BatchAccountImpl
     private void handleStorageSettings() {
         StorageAccount storageAccount;
         if (this.creatableStorageAccountKey != null) {
-            storageAccount = (StorageAccount) this.createdResource(this.creatableStorageAccountKey);
+            storageAccount = this.<StorageAccount>taskResult(this.creatableStorageAccountKey);
             existingStorageAccountToAssociate = storageAccount;
         } else if (this.existingStorageAccountToAssociate != null) {
             storageAccount = this.existingStorageAccountToAssociate;

@@ -20,6 +20,8 @@ import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
+import java.util.Objects;
+
 /**
  * The base class for all creatable and updatable model.
  *
@@ -81,40 +83,94 @@ public abstract class CreatableUpdatableImpl<
     }
 
     /**
-     * Add a creatable dependency for the model.
+     * Add a dependency for this model.
+     *
+     * @param dependency the dependency.
+     * @return key of the dependency task group
+     */
+    protected String addDependency(TaskGroup.HasTaskGroup dependency) {
+        Objects.requireNonNull(dependency);
+        this.taskGroup.addDependencyTaskGroup(dependency.taskGroup());
+        return dependency.taskGroup().key();
+    }
+
+    /**
+     * Add a creatable dependency for this model.
      *
      * @param creatable the creatable dependency.
+     * @return key of the creatable dependency
      */
     @SuppressWarnings("unchecked")
-    protected void addCreatableDependency(Creatable<? extends Indexable> creatable) {
+    protected String addDependency(Creatable<? extends Indexable> creatable) {
         TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) creatable;
-        this.taskGroup.addDependencyTaskGroup(dependency.taskGroup());
+        return this.addDependency(dependency);
     }
 
     /**
-     * Add an updatable dependency for the model.
+     * Add an appliable dependency for this model.
      *
      * @param appliable the appliable dependency.
+     * @return key of the appliable dependency
      */
     @SuppressWarnings("unchecked")
-    protected void addAppliableDependency(Appliable<? extends Indexable> appliable) {
+    protected String addeDependency(Appliable<? extends Indexable> appliable) {
         TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) appliable;
-        this.taskGroup.addDependencyTaskGroup(dependency.taskGroup());
+        return this.addDependency(dependency);
     }
 
     /**
-     * Add an executable dependency for this executable model.
+     * Add an executable dependency for this model.
      *
      * @param executable the executable dependency
+     * @return key of the executable dependency
      */
     @SuppressWarnings("unchecked")
-    protected void addExecutableDependency(Executable<? extends Indexable> executable) {
+    protected String addDependency(Executable<? extends Indexable> executable) {
         TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) executable;
+        return this.addDependency(dependency);
+    }
 
-        Creatable<FluentModelT> that = this;
-        TaskGroup.HasTaskGroup thisDependent = (TaskGroup.HasTaskGroup) that;
+    /**
+     * Add a "post-run" dependent for this model.
+     *
+     * @param dependent the "post-run" dependent.
+     */
+    protected void addPostRunDependent(TaskGroup.HasTaskGroup dependent) {
+        Objects.requireNonNull(dependent);
+        this.taskGroup.addPostRunDependentTaskGroup(dependent.taskGroup());
+    }
 
-        thisDependent.taskGroup().addDependencyTaskGroup(dependency.taskGroup());
+    /**
+     * Add a creatable "post-run" dependent for this model.
+     *
+     * @param creatable the creatable "post-run" dependent.
+     */
+    @SuppressWarnings("unchecked")
+    protected void addPostRunDependent(Creatable<? extends Indexable> creatable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) creatable;
+        this.addPostRunDependent(dependency);
+    }
+
+    /**
+     * Add an appliable "post-run" dependent for this model.
+     *
+     * @param appliable the appliable "post-run" dependent.
+     */
+    @SuppressWarnings("unchecked")
+    protected void addPostRunDependent(Appliable<? extends Indexable> appliable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) appliable;
+        this.addPostRunDependent(dependency);
+    }
+
+    /**
+     * Add an executable "post-run" dependent for this model.
+     *
+     * @param executable the executable "post-run" dependent
+     */
+    @SuppressWarnings("unchecked")
+    protected void addPostRunDependent(Executable<? extends Indexable> executable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) executable;
+        this.addPostRunDependent(dependency);
     }
 
     @Override
@@ -182,8 +238,22 @@ public abstract class CreatableUpdatableImpl<
         return this.createResourceAsync();
     }
 
-    protected FluentModelT createdModel(String key) {
-        return (FluentModelT) this.taskGroup.taskResult(key);
+    /**
+     * Get result of one of the task that belongs to this task's task group.
+     *
+     * @param key the task key
+     * @param <T> the actual type of the task result
+     * @return the task result, null will be returned if task has not produced a result yet
+     */
+    @SuppressWarnings("unchecked")
+    protected <T extends Indexable> T taskResult(String key) {
+        Indexable result = this.taskGroup.taskResult(key);
+        if (result == null) {
+            return null;
+        } else {
+            T castedResult = (T) result;
+            return castedResult;
+        }
     }
 
     @SuppressWarnings("unchecked")

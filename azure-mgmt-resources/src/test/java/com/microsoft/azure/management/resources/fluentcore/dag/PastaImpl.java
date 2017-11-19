@@ -51,7 +51,7 @@ class PastaImpl
      */
     @Override
     public PastaImpl withInstantPasta(Creatable<IPasta> pasta) {
-        this.addCreatableDependency(pasta);
+        this.addDependency(pasta);
         return this;
     }
 
@@ -75,7 +75,7 @@ class PastaImpl
         prepareCalled = true;
         int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
         for(Creatable<IPasta> pancake : this.delayedPastas) {
-            this.addCreatableDependency(pancake);
+            this.addDependency(pancake);
         }
         int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
         System.out.println("Pasta(" + this.name() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPastas.size()

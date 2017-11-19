@@ -6,11 +6,16 @@
 
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
+import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
+
+import java.util.Objects;
 
 /**
  * An index-able TaskItem with a TaskGroup.
@@ -70,21 +75,100 @@ public abstract class IndexableTaskItem
     }
 
     /**
-     * Add a {@link IndexableTaskItem} dependency for this task item.
+     * Add a dependency for this task item.
      *
-     * @param dependency the dependency
+     * @param dependency the dependency.
+     * @return key of the dependency task group
      */
-    public void addDependency(IndexableTaskItem dependency) {
-        this.taskGroup().addDependencyTaskGroup(dependency.taskGroup());
+    protected String addDependency(TaskGroup.HasTaskGroup dependency) {
+        Objects.requireNonNull(dependency);
+        this.taskGroup.addDependencyTaskGroup(dependency.taskGroup());
+        return dependency.taskGroup().key();
     }
 
     /**
-     * Add a {@link IndexableTaskItem} post-run dependency for this task item.
+     * Add a creatable dependency for this this task item.
      *
-     * @param dependent the post-run dependent
+     * @param creatable the creatable dependency.
+     * @return key of the creatable dependency
      */
-    public void addPostRunDependent(IndexableTaskItem dependent) {
+    @SuppressWarnings("unchecked")
+    protected String addDependency(Creatable<? extends Indexable> creatable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) creatable;
+        return this.addDependency(dependency);
+    }
+
+    /**
+     * Add an appliable dependency for this this task item.
+     *
+     * @param appliable the appliable dependency.
+     * @return key of the appliable dependency
+     */
+    @SuppressWarnings("unchecked")
+    protected String addeDependency(Appliable<? extends Indexable> appliable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) appliable;
+        return this.addDependency(dependency);
+    }
+
+    /**
+     * Add a {@link IndexableTaskItem} "post-run" dependency for this task item.
+     *
+     * @param dependent the "post-run" dependent
+     */
+    public void addPostRunDependent(TaskGroup.HasTaskGroup dependent) {
+        Objects.requireNonNull(dependent);
         this.taskGroup().addPostRunDependentTaskGroup(dependent.taskGroup());
+    }
+
+    /**
+     * Add a creatable "post-run" dependent for this task item.
+     *
+     * @param creatable the creatable "post-run" dependent.
+     */
+    @SuppressWarnings("unchecked")
+    protected void addPostRunDependent(Creatable<? extends Indexable> creatable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) creatable;
+        this.addPostRunDependent(dependency);
+    }
+
+    /**
+     * Add an appliable "post-run" dependent for this task item.
+     *
+     * @param appliable the appliable "post-run" dependent.
+     */
+    @SuppressWarnings("unchecked")
+    protected void addPostRunDependent(Appliable<? extends Indexable> appliable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) appliable;
+        this.addPostRunDependent(dependency);
+    }
+
+    /**
+     * Add an executable "post-run" dependent for this task item.
+     *
+     * @param executable the executable "post-run" dependent
+     */
+    @SuppressWarnings("unchecked")
+    protected void addPostRunDependent(Executable<? extends Indexable> executable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) executable;
+        this.addPostRunDependent(dependency);
+    }
+
+    /**
+     * Get result of one of the task that belongs to this task's task group.
+     *
+     * @param key the task key
+     * @param <T> the actual type of the task result
+     * @return the task result, null will be returned if task has not produced a result yet
+     */
+    @SuppressWarnings("unchecked")
+    protected <T extends Indexable> T taskResult(String key) {
+        Indexable result = this.taskGroup.taskResult(key);
+        if (result == null) {
+            return null;
+        } else {
+            T castedResult = (T) result;
+            return castedResult;
+        }
     }
 
     @Override

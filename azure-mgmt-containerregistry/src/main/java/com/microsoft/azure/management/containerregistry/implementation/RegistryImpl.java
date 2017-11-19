@@ -71,7 +71,7 @@ public class RegistryImpl
         final RegistryImpl self = this;
         if (isInCreateMode()) {
             if (self.creatableStorageAccountKey != null) {
-                StorageAccount storageAccount = (StorageAccount) self.createdResource(this.creatableStorageAccountKey);
+                StorageAccount storageAccount = self.<StorageAccount>taskResult(this.creatableStorageAccountKey);
                 self.inner().storageAccount().withId(storageAccount.id());
             } else if (storageAccountId != null) {
                 self.inner().storageAccount().withId(storageAccountId);
@@ -205,8 +205,7 @@ public class RegistryImpl
         this.storageAccountId = null;
 
         if (this.creatableStorageAccountKey == null) {
-            this.creatableStorageAccountKey = creatable.key();
-            this.addCreatableDependency(creatable);
+            this.creatableStorageAccountKey = this.addDependency(creatable);
         }
         return this;
     }

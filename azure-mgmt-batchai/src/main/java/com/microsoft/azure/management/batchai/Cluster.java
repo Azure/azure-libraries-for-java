@@ -16,6 +16,9 @@ import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import org.joda.time.DateTime;
+
+import java.util.List;
 
 /**
  * Entry point for Batch AI cluster management API in Azure.
@@ -26,6 +29,90 @@ public interface Cluster extends
         GroupableResource<BatchAIManager, ClusterInner>,
         Refreshable<Cluster>,
         Updatable<Cluster.Update> {
+    /**
+     * All virtual machines in a cluster are the same size. For information
+     * about available VM sizes for clusters using images from the Virtual
+     * Machines Marketplace (see Sizes for Virtual Machines (Linux) or Sizes
+     * for Virtual Machines (Windows). Batch AI service supports all Azure VM
+     * sizes except STANDARD_A0 and those with premium storage (STANDARD_GS,
+     * STANDARD_DS, and STANDARD_DSV2 series).
+     * @return the size of the virtual machines in the cluster
+     */
+    String vmSize();
+
+    /**
+     * The default value is dedicated. The node can get preempted while the
+     * task is running if lowpriority is choosen. This is best suited if the
+     * workload is checkpointing and can be restarted.
+     * @return virtual machine priority status
+     */
+    VmPriority vmPriority();
+
+    /**
+     * @return desired scale for the Cluster
+     */
+    ScaleSettings scaleSettings();
+
+    /**
+     * @return settings for OS image and mounted data volumes
+     */
+    VirtualMachineConfiguration virtualMachineConfiguration();
+
+    /**
+     * @return setup to be done on all compute nodes in the Cluster
+     */
+    NodeSetup nodeSetup();
+
+    /**
+     * @return administrator account name for compute nodes.
+     */
+    String adminUserName();
+
+    /**
+     * @return the identifier of the subnet
+     */
+    ResourceId subnet();
+
+    /**
+     * @return the creation time of the cluster
+     */
+    DateTime creationTime();
+
+    /**
+     * @return the provisioning state of the cluster
+     */
+    ProvisioningState provisioningState();
+
+    /**
+     * @return the provisioning state transition time of the cluster
+     */
+    DateTime provisioningStateTransitionTime();
+
+    /**
+     * Indicates whether the cluster is resizing.
+     * @return cluster allocation state
+     */
+    AllocationState allocationState();
+
+    /**
+     * @return the time at which the cluster entered its current allocation state
+     */
+    DateTime allocationStateTransitionTime();
+
+    /**
+     * @return all the errors encountered by various compute nodes during node setup
+     */
+    List<BatchAIError> errors();
+
+    /**
+     * @return the number of compute nodes currently assigned to the cluster
+     */
+    int currentNodeCount();
+
+    /**
+     * @return counts of various node states on the cluster
+     */
+    NodeStateCounts nodeStateCounts();
 
     /**
      * The entirety of a Batch AI cluster definition.
@@ -34,6 +121,7 @@ public interface Cluster extends
             DefinitionStages.Blank,
             DefinitionStages.WithGroup,
             DefinitionStages.WithVMSize,
+            DefinitionStages.WithUserName,
             DefinitionStages.WithUserCredentials,
             DefinitionStages.WithScaleSettings,
             DefinitionStages.WithCreate {
@@ -66,11 +154,17 @@ public interface Cluster extends
              * @param vmSize virtual machine size
              * @return next stage of the definition
              */
-            WithUserCredentials withVMSize(String vmSize);
+            WithUserName withVMSize(String vmSize);
+        }
+
+        interface WithUserName {
+            WithUserCredentials withUserName(String userName);
         }
 
         interface WithUserCredentials {
-            WithScaleSettings withUserName(String userName, String password);
+            WithScaleSettings withPassword(String password);
+
+            WithScaleSettings withSshPublicKey(String sshPublicKey);
         }
 
         interface WithScaleSettings {
@@ -82,12 +176,19 @@ public interface Cluster extends
 
             WithCreate withManualScale(int targetNodeCount, DeallocationOption deallocationOption);
         }
+
+        interface WithVMPriority {
+            WithCreate withLowPriority();
+        }
+
         /**
          * The stage of the definition which contains all the minimum required inputs for the resource to be created
          * but also allows for any other optional settings to be specified.
          */
         interface WithCreate extends
                 Creatable<Cluster>,
+                DefinitionStages.WithUserCredentials,
+                DefinitionStages.WithVMPriority,
                 Resource.DefinitionWithTags<WithCreate> {
         }
     }
@@ -96,7 +197,15 @@ public interface Cluster extends
      * Grouping of Batch AI cluster update stages.
      */
     interface UpdateStages {
+        interface WithScaleSettings {
+            Update withAutoScale(int minimumNodeCount, int maximumNodeCount);
 
+            Update withAutoScale(int minimumNodeCount, int maximumNodeCount, int initialNodeCount);
+
+            Update withManualScale(int targetNodeCount);
+
+            Update withManualScale(int targetNodeCount, DeallocationOption deallocationOption);
+        }
     }
 
     /**
@@ -104,6 +213,7 @@ public interface Cluster extends
      */
     interface Update extends
             Appliable<Cluster>,
+            UpdateStages.WithScaleSettings,
             Resource.UpdateWithTags<Update> {
     }
 }

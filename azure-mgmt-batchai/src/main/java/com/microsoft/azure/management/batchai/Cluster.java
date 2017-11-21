@@ -182,6 +182,23 @@ public interface Cluster extends
         }
 
         /**
+         * Specifies a setup task which can be used to customize the compute nodes
+         * of the cluster. The task runs everytime a VM is rebooted. For
+         * that reason the task code needs to be idempotent. Generally it is used
+         * to either download static data that is required for all jobs that run on
+         * the cluster VMs or to download/install software.
+         * NOTE: The volumes specified in mountVolumes are mounted first and then the setupTask is run.
+         * Therefore the setup task can use local mountPaths in its execution.
+         */
+        interface WithSetupTask {
+            /**
+             * Begins the definition of setup task.
+             * @return the first stage of the setup task definition
+             */
+            NodeSetupTask.DefinitionStages.Blank<WithCreate> defineSetupTask();
+        }
+
+        /**
          * The stage of the definition which contains all the minimum required inputs for the resource to be created
          * but also allows for any other optional settings to be specified.
          */
@@ -189,6 +206,7 @@ public interface Cluster extends
                 Creatable<Cluster>,
                 DefinitionStages.WithUserCredentials,
                 DefinitionStages.WithVMPriority,
+                DefinitionStages.WithSetupTask,
                 Resource.DefinitionWithTags<WithCreate> {
         }
     }

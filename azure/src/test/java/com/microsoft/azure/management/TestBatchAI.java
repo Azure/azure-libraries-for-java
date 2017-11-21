@@ -33,6 +33,10 @@ public class TestBatchAI extends TestTemplate<Cluster, Clusters> {
                 .withPassword("MyPassword")
                 .withAutoScale(1, 1)
                 .withLowPriority()
+                .defineSetupTask()
+                    .withCommandLine("echo Hello World!")
+                    .withStdOutErrPath("./outputpath")
+                    .attach()
                 .withTag("tag1", "value1")
                 .create();
         Assert.assertEquals("steady", cluster.allocationState().toString());
@@ -59,7 +63,10 @@ public class TestBatchAI extends TestTemplate<Cluster, Clusters> {
                 .append("\n\tName: ").append(cluster.name())
                 .append("\n\tResource group: ").append(cluster.resourceGroupName())
                 .append("\n\tRegion: ").append(cluster.regionName())
-                .append("\n\tTags: ").append(cluster.tags());
+                .append("\n\tTags: ").append(cluster.tags())
+                .append("\n\tVM size: ").append(cluster.vmSize())
+                .append("\n\tAdmin user name: ").append(cluster.adminUserName())
+                .append("\n\tCreation time: ").append(cluster.creationTime());
 
         System.out.println(info.toString());
     }

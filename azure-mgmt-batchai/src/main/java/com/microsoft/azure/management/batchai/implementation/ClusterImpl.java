@@ -13,10 +13,12 @@ import com.microsoft.azure.management.batchai.Cluster;
 import com.microsoft.azure.management.batchai.DeallocationOption;
 import com.microsoft.azure.management.batchai.ManualScaleSettings;
 import com.microsoft.azure.management.batchai.NodeSetup;
+import com.microsoft.azure.management.batchai.NodeSetupTask;
 import com.microsoft.azure.management.batchai.NodeStateCounts;
 import com.microsoft.azure.management.batchai.ProvisioningState;
 import com.microsoft.azure.management.batchai.ResourceId;
 import com.microsoft.azure.management.batchai.ScaleSettings;
+import com.microsoft.azure.management.batchai.SetupTask;
 import com.microsoft.azure.management.batchai.UserAccountSettings;
 import com.microsoft.azure.management.batchai.VirtualMachineConfiguration;
 import com.microsoft.azure.management.batchai.VmPriority;
@@ -156,6 +158,23 @@ class ClusterImpl extends GroupableResourceImpl<
     public Cluster.DefinitionStages.WithCreate withLowPriority() {
         createParameters.withVmPriority(VmPriority.LOWPRIORITY);
         return this;
+    }
+
+    @Override
+    public NodeSetupTask.DefinitionStages.Blank<Cluster.DefinitionStages.WithCreate> defineSetupTask() {
+        return new NodeSetupTaskImpl(new SetupTask(), this);
+    }
+
+    ClusterImpl withSetupTask(NodeSetupTaskImpl setupTask) {
+        ensureNodeSetup().withSetupTask(setupTask.inner());
+        return this;
+    }
+
+    private NodeSetup ensureNodeSetup() {
+        if (createParameters.nodeSetup() == null) {
+            createParameters.withNodeSetup(new NodeSetup());
+        }
+        return createParameters.nodeSetup();
     }
 
     @Override

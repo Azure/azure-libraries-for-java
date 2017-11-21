@@ -111,17 +111,28 @@ public class TaskGroup
     }
 
     /**
-     * Gets the result produced by a task in the group.
+     * Retrieve the result produced by a task with the given id in the group.
+     *
+     * This method can be used to retrieve the result of invocation of both dependency
+     * and "post-run" dependent tasks. If task with the given id does not exists then
+     * IllegalArgumentException exception will be thrown.
      *
      * @param taskId the task item id
      * @return the task result, null will be returned if task has not yet been invoked
      */
     public Indexable taskResult(String taskId) {
         TaskGroupEntry<TaskItem> taskGroupEntry = super.getNode(taskId);
-        if (taskGroupEntry == null) {
-            throw new IllegalArgumentException("A task with id '" + taskId + "' is not found");
+        if (taskGroupEntry != null) {
+            return taskGroupEntry.taskResult();
         }
-        return taskGroupEntry.taskResult();
+        if (!this.proxyTaskGroupWrapper.isActive()) {
+            throw new IllegalArgumentException("A dependency task with id '" + taskId + "' is not found");
+        }
+        taskGroupEntry = this.proxyTaskGroupWrapper.proxyTaskGroup.getNode(taskId);
+        if (taskGroupEntry != null) {
+            return taskGroupEntry.taskResult();
+        }
+        throw new IllegalArgumentException("A dependency task or 'post-run' dependent task with with id '" + taskId + "' not found");
     }
 
     /**
@@ -670,6 +681,8 @@ public class TaskGroup
                 // "Proxy TaskGroup" takes dependency on "actual TaskGroup"
                 //
                 this.proxyTaskGroup.addDependencyGraph(this.actualTaskGroup);
+                // Add a back reference to "proxy" in actual
+                //
                 this.actualTaskGroup.rootTaskEntry.setProxy(this.proxyTaskGroup.rootTaskEntry);
             }
         }

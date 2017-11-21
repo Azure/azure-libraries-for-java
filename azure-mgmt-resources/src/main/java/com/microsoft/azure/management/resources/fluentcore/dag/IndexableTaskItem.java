@@ -78,7 +78,8 @@ public abstract class IndexableTaskItem
      * Add a dependency for this task item.
      *
      * @param dependency the dependency.
-     * @return key of the dependency task group
+     * @return key to be used as parameter to taskResult(string) method to retrieve result of root
+     * task in the given dependency task group
      */
     protected String addDependency(TaskGroup.HasTaskGroup dependency) {
         Objects.requireNonNull(dependency);
@@ -87,10 +88,10 @@ public abstract class IndexableTaskItem
     }
 
     /**
-     * Add a creatable dependency for this this task item.
+     * Add a creatable dependency for this task item.
      *
      * @param creatable the creatable dependency.
-     * @return key of the creatable dependency
+     * @return the key to be used as parameter to taskResult(string) method to retrieve created dependency
      */
     @SuppressWarnings("unchecked")
     protected String addDependency(Creatable<? extends Indexable> creatable) {
@@ -99,10 +100,10 @@ public abstract class IndexableTaskItem
     }
 
     /**
-     * Add an appliable dependency for this this task item.
+     * Add an appliable dependency for this task item.
      *
      * @param appliable the appliable dependency.
-     * @return key of the appliable dependency
+     * @return the key to be used as parameter to taskResult(string) method to retrieve updated dependency
      */
     @SuppressWarnings("unchecked")
     protected String addeDependency(Appliable<? extends Indexable> appliable) {
@@ -111,46 +112,66 @@ public abstract class IndexableTaskItem
     }
 
     /**
+     * Add an executable dependency for this task item.
+     *
+     * @param executable the executable dependency
+     * @return the key to be used as parameter to taskResult(string) method to retrieve result of executing
+     * the executable dependency
+     */
+    @SuppressWarnings("unchecked")
+    protected String addDependency(Executable<? extends Indexable> executable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) executable;
+        return this.addDependency(dependency);
+    }
+
+    /**
      * Add a {@link IndexableTaskItem} "post-run" dependency for this task item.
      *
-     * @param dependent the "post-run" dependent
+     * @param dependent the "post-run" dependent.
+     * @return key to be used as parameter to taskResult(string) method to retrieve result of root
+     * task in the given dependent task group
      */
-    public void addPostRunDependent(TaskGroup.HasTaskGroup dependent) {
+    public String addPostRunDependent(TaskGroup.HasTaskGroup dependent) {
         Objects.requireNonNull(dependent);
         this.taskGroup().addPostRunDependentTaskGroup(dependent.taskGroup());
+        return dependent.taskGroup().key();
     }
 
     /**
      * Add a creatable "post-run" dependent for this task item.
      *
      * @param creatable the creatable "post-run" dependent.
+     * @return the key to be used as parameter to taskResult(string) method to retrieve created "post-run" dependent
      */
     @SuppressWarnings("unchecked")
-    protected void addPostRunDependent(Creatable<? extends Indexable> creatable) {
+    protected String addPostRunDependent(Creatable<? extends Indexable> creatable) {
         TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) creatable;
-        this.addPostRunDependent(dependency);
+        return this.addPostRunDependent(dependency);
     }
 
     /**
      * Add an appliable "post-run" dependent for this task item.
      *
      * @param appliable the appliable "post-run" dependent.
+     * @return the key to be used as parameter to taskResult(string) method to retrieve updated "post-run" dependent
      */
     @SuppressWarnings("unchecked")
-    protected void addPostRunDependent(Appliable<? extends Indexable> appliable) {
+    protected String addPostRunDependent(Appliable<? extends Indexable> appliable) {
         TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) appliable;
-        this.addPostRunDependent(dependency);
+        return this.addPostRunDependent(dependency);
     }
 
     /**
      * Add an executable "post-run" dependent for this task item.
      *
      * @param executable the executable "post-run" dependent
+     * @return the key to be used as parameter to taskResult(string) method to retrieve result of executing
+     * the executable "post-run" dependent
      */
     @SuppressWarnings("unchecked")
-    protected void addPostRunDependent(Executable<? extends Indexable> executable) {
+    protected String addPostRunDependent(Executable<? extends Indexable> executable) {
         TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) executable;
-        this.addPostRunDependent(dependency);
+        return this.addPostRunDependent(dependency);
     }
 
     /**

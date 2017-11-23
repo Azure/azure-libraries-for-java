@@ -11,11 +11,12 @@ package com.microsoft.azure.management.storage;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The StorageAccountRegenerateKeyParameters model.
+ * The parameters used to regenerate the storage account key.
  */
 public class StorageAccountRegenerateKeyParameters {
     /**
-     * The keyName property.
+     * The name of storage keys that want to be regenerated, possible vaules
+     * are key1, key2.
      */
     @JsonProperty(value = "keyName", required = true)
     private String keyName;

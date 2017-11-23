@@ -12,32 +12,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for AccountStatus.
+ * Defines values for HttpProtocol.
  */
-public enum AccountStatus {
-    /** Enum value available. */
-    AVAILABLE("available"),
+public enum HttpProtocol {
+    /** Enum value https,http. */
+    HTTPSHTTP("https,http"),
 
-    /** Enum value unavailable. */
-    UNAVAILABLE("unavailable");
+    /** Enum value https. */
+    HTTPS("https");
 
-    /** The actual serialized value for a AccountStatus instance. */
+    /** The actual serialized value for a HttpProtocol instance. */
     private String value;
 
-    AccountStatus(String value) {
+    HttpProtocol(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a AccountStatus instance.
+     * Parses a serialized value to a HttpProtocol instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed AccountStatus object, or null if unable to parse.
+     * @return the parsed HttpProtocol object, or null if unable to parse.
      */
     @JsonCreator
-    public static AccountStatus fromString(String value) {
-        AccountStatus[] items = AccountStatus.values();
-        for (AccountStatus item : items) {
+    public static HttpProtocol fromString(String value) {
+        HttpProtocol[] items = HttpProtocol.values();
+        for (HttpProtocol item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

@@ -39,7 +39,7 @@ The following methods and/or types have been either renamed or removed in V1.4 c
   <tr>
     <td><code>ComputeManager</code></td>
     <td><code>.containerServices()</code></td>
-    <td><i>Removed</i></td>
+    <td><i>Deprecated</i></td>
     <td>Use <code>ContainerServiceManager.containerServices()</code> instead</td>
     <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
   </tr>

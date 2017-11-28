@@ -12,17 +12,17 @@ import com.microsoft.azure.management.storage.EncryptionServices;
 import com.microsoft.azure.management.storage.StorageService;
 
 /**
- * Implementation of StorageAccountEncryptionStatus for Blob service.
+ * Implementation of StorageAccountEncryptionStatus for Queue service.
  */
 @LangDefinition
-class BlobServiceEncryptionStatusImpl extends StorageAccountEncryptionStatusImpl {
-    BlobServiceEncryptionStatusImpl(EncryptionServices encryptionServices) {
+class QueueServiceEncryptionStatusImpl extends StorageAccountEncryptionStatusImpl {
+    QueueServiceEncryptionStatusImpl(EncryptionServices encryptionServices) {
         super(encryptionServices);
     }
 
     @Override
     public StorageService storageService() {
-        return StorageService.BLOB;
+        return StorageService.QUEUE;
     }
 
     @Override
@@ -30,7 +30,7 @@ class BlobServiceEncryptionStatusImpl extends StorageAccountEncryptionStatusImpl
         if (super.encryptionServices == null) {
             return null;
         } else {
-            return  super.encryptionServices.blob();
+            return  super.encryptionServices.queue();
         }
     }
 }

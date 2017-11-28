@@ -16,8 +16,10 @@ import java.util.Collection;
  */
 @LangDefinition
 public class StorageAccountEncryptionKeySource extends ExpandableStringEnum<StorageAccountEncryptionKeySource> {
-    /** Static value Blob for StorageAccountEncryptionKeySource. */
+    /** Static value Microsoft.Storage for StorageAccountEncryptionKeySource. */
     public static final StorageAccountEncryptionKeySource MICROSOFT_STORAGE = fromString("Microsoft.Storage");
+    /** Static value Microsoft.Keyvault for StorageAccountEncryptionKeySource. */
+    public static final StorageAccountEncryptionKeySource MICROSOFT_KEYVAULT = fromString("Microsoft.Keyvault");
 
     /**
      * Creates or finds an encryption status based on its name.

@@ -37,7 +37,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
     <td>Compute</td>
     <td>Virtual machines and VM extensions<br>Virtual machine scale sets<br>Managed disks</td>
     <td valign="top">Azure container service (AKS) + registry + instances<br>Availability Zones</td>
-    <td valign="top"></td>
+    <td valign="top">More Availability Zones and MSI features</td>
   </tr>
   <tr>
     <td>Storage</td>
@@ -61,7 +61,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
     <td>More services</td>
     <td>Resource Manager<br>Key Vault<br>Redis<br>CDN<br>Batch<br>Service bus</td>
     <td valign="top">Web apps<br>Function Apps<br>Graph RBAC<br>Cosmos DB<br>Search</td>
-    <td valign="top">Monitor<br>Data Lake</td>
+    <td valign="top">Monitor<br>Data Lake<br>Batch AI</td>
   </tr>
   <tr>
     <td>Fundamentals</td>

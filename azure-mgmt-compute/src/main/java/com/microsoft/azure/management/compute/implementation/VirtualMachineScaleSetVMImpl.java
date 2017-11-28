@@ -113,7 +113,7 @@ class VirtualMachineScaleSetVMImpl
             return this.inner().hardwareProfile().vmSize();
         }
         if (this.sku() != null && this.sku().name() != null) {
-            return new VirtualMachineSizeTypes(this.sku().name());
+            return VirtualMachineSizeTypes.fromString(this.sku().name());
         }
         return null;
     }

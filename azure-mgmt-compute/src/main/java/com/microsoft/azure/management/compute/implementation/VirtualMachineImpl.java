@@ -732,7 +732,7 @@ class VirtualMachineImpl
 
     @Override
     public VirtualMachineImpl withSize(String sizeName) {
-        this.inner().hardwareProfile().withVmSize(new VirtualMachineSizeTypes(sizeName));
+        this.inner().hardwareProfile().withVmSize(VirtualMachineSizeTypes.fromString(sizeName));
         return this;
     }
 

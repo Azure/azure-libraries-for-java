@@ -39,7 +39,7 @@ import java.util.Map;
  * Making use of the reactive pattern in a complex virtual machine creation scenario
  *
  * This sample shows how the reactive pattern (RXJava's Observables) supported by the Azure Libraries for Java in their asynchronous API
- * can be used for handling some more complex real world scenarios with relative ease, involving distributed computation in the cloud.
+ * can be used for handling some more complex real world scenarios involving distributed computation in the cloud with relative ease.
  * The specific example here shows how Observables enable real time tracking of the creation of many virtual machines in parallel and
  * all their related resources. Since Azure does not support transactional creation of virtual machines (no automatic rollback in case
  * of failure), this could be useful for example for the purposes of deleting "orphaned" resources, whenever the creation of some other
@@ -77,10 +77,19 @@ public final class CreateVirtualMachinesAsyncTrackingRelatedResources {
             // Define a number of virtual machines and their related resources
             //
 
-            // Needed for tracking related resources
+            // Needed for tracking related resources:
+
+            // Map for tracking network interfaces separately because they have to be deleted first
+            final Map<String, Creatable<NetworkInterface>> nicDefinitions = new HashMap<>();
+
+            // For each given virtual machine, all of the related resource definitions will be in one collection,
+            // which will be be stored in a Map indexed by the VM definition's unique auto-generated key.
             final Map<String, Collection<Creatable<? extends Resource>>> vmNonNicResourceDefinitions = new HashMap<>();
-            final Map<String, Creatable<NetworkInterface>> nicDefinitions = new HashMap<>(); // Tracking NICs separately because they have to be deleted first
+
+            // Map for tracking VM definitions themselves, indexed by the definition key
             final Map<String, Creatable<VirtualMachine>> vmDefinitions = new HashMap<>();
+
+            // Map for associating the resource definition key with the resource ID of the created resource
             final Map<String, String> createdResourceIds = new HashMap<>();
 
             for (int i = 0; i < desiredVMCount; i++) {
@@ -91,12 +100,12 @@ public final class CreateVirtualMachinesAsyncTrackingRelatedResources {
                 Creatable<Network> networkDefinition = azure.networks().define(networkName)
                         .withRegion(region)
                         .withExistingResourceGroup(resourceGroup)
-                        .withAddressSpace("10.0." + i + ".0/29");
+                        .withAddressSpace("10.0." + i + ".0/29"); // Make the address space unique
                 relatedDefinitions.add(networkDefinition);
 
                 // Define a PIP for each VM
                 String pipName = SdkContext.randomResourceName("pip", 14);
-                PublicIPAddress.DefinitionStages.WithCreate pipDefinition = azure.publicIPAddresses().define(pipName)
+                Creatable<PublicIPAddress> pipDefinition = azure.publicIPAddresses().define(pipName)
                         .withRegion(region)
                         .withExistingResourceGroup(resourceGroup);
                 relatedDefinitions.add(pipDefinition);
@@ -167,7 +176,7 @@ public final class CreateVirtualMachinesAsyncTrackingRelatedResources {
                 })
 
                 // Making this observable blocking for the purposes of the sample, since the parallel resource creation needs to
-                // be completed before we start
+                // be completed before we start deleting resources
                 .toBlocking()
 
                 // The Observable returned by createAsync() emits a resource as soon as that resource is successfully created, so

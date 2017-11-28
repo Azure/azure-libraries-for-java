@@ -177,6 +177,7 @@ You can create a virtual machine scale set instance by using a `define() … cre
 <li><a href="https://github.com/azure-samples/compute-java-manage-virtual-machines-in-parallel">Create multiple virtual machines in parallel</li>
 <li><a href="https://github.com/azure-samples/compute-java-manage-virtual-machines-with-network-in-parallel">Create multiple virtual machines with network in parallel</li>
 <li><a href="https://github.com/azure-samples/compute-java-create-virtual-machines-across-regions-in-parallel">Create multiple virtual machines across regions in parallel</li>
+<li><a href="https://github.com/Azure-Samples/compute-java-create-vms-async-tracking-related-resources">Create multiple virtual machines in parallel and track related resources</li>
 </ul></td>
   </tr>
   <tr>

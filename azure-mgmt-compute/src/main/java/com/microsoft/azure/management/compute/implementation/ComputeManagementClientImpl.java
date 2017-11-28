@@ -329,6 +329,19 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The ContainerServicesInner object to access its operations.
+     */
+    private ContainerServicesInner containerServices;
+
+    /**
+     * Gets the ContainerServicesInner object to access its operations.
+     * @return the ContainerServicesInner object.
+     */
+    public ContainerServicesInner containerServices() {
+        return this.containerServices;
+    }
+
+    /**
      * Initializes an instance of ComputeManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -378,6 +391,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
         this.disks = new DisksInner(restClient().retrofit(), this);
         this.snapshots = new SnapshotsInner(restClient().retrofit(), this);
         this.virtualMachineRunCommands = new VirtualMachineRunCommandsInner(restClient().retrofit(), this);
+        this.containerServices = new ContainerServicesInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

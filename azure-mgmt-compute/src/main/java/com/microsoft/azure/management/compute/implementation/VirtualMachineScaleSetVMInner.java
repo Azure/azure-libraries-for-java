@@ -18,7 +18,6 @@ import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.compute.Plan;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
 
@@ -56,41 +55,52 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      * The virtual machine instance view.
      */
     @JsonProperty(value = "properties.instanceView", access = JsonProperty.Access.WRITE_ONLY)
-    private VirtualMachineInstanceView instanceView;
+    private VirtualMachineInstanceViewInner instanceView;
 
     /**
-     * The hardware profile.
+     * Specifies the hardware settings for the virtual machine.
      */
     @JsonProperty(value = "properties.hardwareProfile")
     private HardwareProfile hardwareProfile;
 
     /**
-     * The storage profile.
+     * Specifies the storage settings for the virtual machine disks.
      */
     @JsonProperty(value = "properties.storageProfile")
     private StorageProfile storageProfile;
 
     /**
-     * The OS profile.
+     * Specifies the operating system settings for the virtual machine.
      */
     @JsonProperty(value = "properties.osProfile")
     private OSProfile osProfile;
 
     /**
-     * The network profile.
+     * Specifies the network interfaces of the virtual machine.
      */
     @JsonProperty(value = "properties.networkProfile")
     private NetworkProfile networkProfile;
 
     /**
-     * The diagnostics profile.
+     * Specifies the boot diagnostic settings state.
+     * &lt;br&gt;&lt;br&gt;Minimum api-version: 2015-06-15.
      */
     @JsonProperty(value = "properties.diagnosticsProfile")
     private DiagnosticsProfile diagnosticsProfile;
 
     /**
-     * The reference Id of the availability set to which this virtual machine
-     * belongs.
+     * Specifies information about the availability set that the virtual
+     * machine should be assigned to. Virtual machines specified in the same
+     * availability set are allocated to different nodes to maximize
+     * availability. For more information about availability sets, see [Manage
+     * the availability of virtual
+     * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+     * &lt;br&gt;&lt;br&gt; For more information on Azure planned maintainance,
+     * see [Planned maintenance for virtual machines in
+     * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
+     * &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability
+     * set at creation time. An existing VM cannot be added to an availability
+     * set.
      */
     @JsonProperty(value = "properties.availabilitySet")
     private SubResource availabilitySet;
@@ -102,14 +112,28 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     private String provisioningState;
 
     /**
-     * The license type, which is for bring your own license scenario.
+     * Specifies that the image or disk that is being used was licensed
+     * on-premises. This element is only used for images that contain the
+     * Windows Server operating system. &lt;br&gt;&lt;br&gt; Possible values
+     * are: &lt;br&gt;&lt;br&gt; Windows_Client &lt;br&gt;&lt;br&gt;
+     * Windows_Server &lt;br&gt;&lt;br&gt; If this element is included in a
+     * request for an update, the value must match the initial value. This
+     * value cannot be updated. &lt;br&gt;&lt;br&gt; For more information, see
+     * [Azure Hybrid Use Benefit for Windows
+     * Server](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-hybrid-use-benefit-licensing?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
+     * &lt;br&gt;&lt;br&gt; Minimum api-version: 2015-06-15.
      */
     @JsonProperty(value = "properties.licenseType")
     private String licenseType;
 
     /**
-     * The purchase plan when deploying virtual machine from VM Marketplace
-     * images.
+     * Specifies information about the marketplace image used to create the
+     * virtual machine. This element is only used for marketplace images.
+     * Before you can use a marketplace image from an API, you must enable the
+     * image for programmatic use.  In the Azure portal, find the marketplace
+     * image that you want to use and then click **Want to deploy
+     * programmatically, Get Started -&gt;**. Enter any required information
+     * and then click **Save**.
      */
     @JsonProperty(value = "plan")
     private Plan plan;
@@ -161,7 +185,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      *
      * @return the instanceView value
      */
-    public VirtualMachineInstanceView instanceView() {
+    public VirtualMachineInstanceViewInner instanceView() {
         return this.instanceView;
     }
 

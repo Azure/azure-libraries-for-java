@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for ResourceSkuRestrictionsType.
  */
 public enum ResourceSkuRestrictionsType {
-    /** Enum value location. */
-    LOCATION("location");
+    /** Enum value Location. */
+    LOCATION("Location");
 
     /** The actual serialized value for a ResourceSkuRestrictionsType instance. */
     private String value;

@@ -10,6 +10,7 @@ package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.management.compute.ResourceSkuCapacity;
 import java.util.List;
+import com.microsoft.azure.management.compute.ResourceSkuLocationInfo;
 import com.microsoft.azure.management.compute.ResourceSkuCosts;
 import com.microsoft.azure.management.compute.ResourceSkuCapabilities;
 import com.microsoft.azure.management.compute.ResourceSkuRestrictions;
@@ -32,7 +33,9 @@ public class ResourceSkuInner {
     private String name;
 
     /**
-     * The tier of this particular SKU.
+     * Specifies the tier of virtual machines in a scale set.&lt;br /&gt;&lt;br
+     * /&gt; Possible Values:&lt;br /&gt;&lt;br /&gt; **Standard**&lt;br
+     * /&gt;&lt;br /&gt; **Basic**.
      */
     @JsonProperty(value = "tier", access = JsonProperty.Access.WRITE_ONLY)
     private String tier;
@@ -56,7 +59,7 @@ public class ResourceSkuInner {
     private String kind;
 
     /**
-     * Available scaling information.
+     * Specifies the number of virtual machines in the scale set.
      */
     @JsonProperty(value = "capacity", access = JsonProperty.Access.WRITE_ONLY)
     private ResourceSkuCapacity capacity;
@@ -66,6 +69,13 @@ public class ResourceSkuInner {
      */
     @JsonProperty(value = "locations", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> locations;
+
+    /**
+     * A list of locations and availability zones in those locations where the
+     * SKU is available.
+     */
+    @JsonProperty(value = "locationInfo", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ResourceSkuLocationInfo> locationInfo;
 
     /**
      * The api versions that support this SKU.
@@ -162,6 +172,15 @@ public class ResourceSkuInner {
      */
     public List<String> locations() {
         return this.locations;
+    }
+
+    /**
+     * Get the locationInfo value.
+     *
+     * @return the locationInfo value
+     */
+    public List<ResourceSkuLocationInfo> locationInfo() {
+        return this.locationInfo;
     }
 
     /**

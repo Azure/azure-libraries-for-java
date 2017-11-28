@@ -17,10 +17,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class VirtualMachineScaleSetNetworkProfile {
     /**
+     * A reference to a load balancer probe used to determine the health of an
+     * instance in the virtual machine scale set. The reference will be in the
+     * form:
+     * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'.
+     */
+    @JsonProperty(value = "healthProbe")
+    private ApiEntityReference healthProbe;
+
+    /**
      * The list of network configurations.
      */
     @JsonProperty(value = "networkInterfaceConfigurations")
     private List<VirtualMachineScaleSetNetworkConfigurationInner> networkInterfaceConfigurations;
+
+    /**
+     * Get the healthProbe value.
+     *
+     * @return the healthProbe value
+     */
+    public ApiEntityReference healthProbe() {
+        return this.healthProbe;
+    }
+
+    /**
+     * Set the healthProbe value.
+     *
+     * @param healthProbe the healthProbe value to set
+     * @return the VirtualMachineScaleSetNetworkProfile object itself.
+     */
+    public VirtualMachineScaleSetNetworkProfile withHealthProbe(ApiEntityReference healthProbe) {
+        this.healthProbe = healthProbe;
+        return this;
+    }
 
     /**
      * Get the networkInterfaceConfigurations value.

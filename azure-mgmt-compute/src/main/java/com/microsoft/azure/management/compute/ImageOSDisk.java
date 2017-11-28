@@ -16,7 +16,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ImageOSDisk {
     /**
-     * The Operating System type. Possible values include: 'Windows', 'Linux'.
+     * This property allows you to specify the type of the OS that is included
+     * in the disk if creating a VM from a custom image. &lt;br&gt;&lt;br&gt;
+     * Possible values are: &lt;br&gt;&lt;br&gt; **Windows**
+     * &lt;br&gt;&lt;br&gt; **Linux**. Possible values include: 'Windows',
+     * 'Linux'.
      */
     @JsonProperty(value = "osType", required = true)
     private OperatingSystemTypes osType;
@@ -46,22 +50,27 @@ public class ImageOSDisk {
     private String blobUri;
 
     /**
-     * The caching type. Possible values include: 'None', 'ReadOnly',
-     * 'ReadWrite'.
+     * Specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values
+     * are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly**
+     * &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None
+     * for Standard storage. ReadOnly for Premium storage**. Possible values
+     * include: 'None', 'ReadOnly', 'ReadWrite'.
      */
     @JsonProperty(value = "caching")
     private CachingTypes caching;
 
     /**
-     * The initial managed disk size in GB for blank data disks, and the new
-     * desired size for existing OS and Data disks.
+     * Specifies the size of empty data disks in gigabytes. This element can be
+     * used to overwrite the name of the disk in a virtual machine image.
+     * &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
      */
     @JsonProperty(value = "diskSizeGB")
     private Integer diskSizeGB;
 
     /**
-     * The Storage Account type. Possible values include: 'Standard_LRS',
-     * 'Premium_LRS'.
+     * Specifies the storage account type for the managed disk. Possible values
+     * are: Standard_LRS or Premium_LRS. Possible values include:
+     * 'Standard_LRS', 'Premium_LRS'.
      */
     @JsonProperty(value = "storageAccountType")
     private StorageAccountTypes storageAccountType;

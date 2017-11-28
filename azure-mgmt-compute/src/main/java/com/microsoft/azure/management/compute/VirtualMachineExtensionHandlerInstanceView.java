@@ -15,14 +15,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class VirtualMachineExtensionHandlerInstanceView {
     /**
-     * Full type of the extension handler which includes both publisher and
-     * type.
+     * Specifies the type of the extension; an example is
+     * "CustomScriptExtension".
      */
     @JsonProperty(value = "type")
     private String type;
 
     /**
-     * The type version of the extension handler.
+     * Specifies the version of the script handler.
      */
     @JsonProperty(value = "typeHandlerVersion")
     private String typeHandlerVersion;

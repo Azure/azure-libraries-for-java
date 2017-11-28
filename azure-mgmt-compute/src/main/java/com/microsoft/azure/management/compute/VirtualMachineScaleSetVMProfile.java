@@ -15,37 +15,50 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class VirtualMachineScaleSetVMProfile {
     /**
-     * The virtual machine scale set OS profile.
+     * Specifies the operating system settings for the virtual machines in the
+     * scale set.
      */
     @JsonProperty(value = "osProfile")
     private VirtualMachineScaleSetOSProfile osProfile;
 
     /**
-     * The virtual machine scale set storage profile.
+     * Specifies the storage settings for the virtual machine disks.
      */
     @JsonProperty(value = "storageProfile")
     private VirtualMachineScaleSetStorageProfile storageProfile;
 
     /**
-     * The virtual machine scale set network profile.
+     * Specifies properties of the network interfaces of the virtual machines
+     * in the scale set.
      */
     @JsonProperty(value = "networkProfile")
     private VirtualMachineScaleSetNetworkProfile networkProfile;
 
     /**
-     * The virtual machine scale set diagnostics profile.
+     * Specifies the boot diagnostic settings state.
+     * &lt;br&gt;&lt;br&gt;Minimum api-version: 2015-06-15.
      */
     @JsonProperty(value = "diagnosticsProfile")
     private DiagnosticsProfile diagnosticsProfile;
 
     /**
-     * The virtual machine scale set extension profile.
+     * Specifies a collection of settings for extensions installed on virtual
+     * machines in the scale set.
      */
     @JsonProperty(value = "extensionProfile")
     private VirtualMachineScaleSetExtensionProfile extensionProfile;
 
     /**
-     * The license type, which is for bring your own license scenario.
+     * Specifies that the image or disk that is being used was licensed
+     * on-premises. This element is only used for images that contain the
+     * Windows Server operating system. &lt;br&gt;&lt;br&gt; Possible values
+     * are: &lt;br&gt;&lt;br&gt; Windows_Client &lt;br&gt;&lt;br&gt;
+     * Windows_Server &lt;br&gt;&lt;br&gt; If this element is included in a
+     * request for an update, the value must match the initial value. This
+     * value cannot be updated. &lt;br&gt;&lt;br&gt; For more information, see
+     * [Azure Hybrid Use Benefit for Windows
+     * Server](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-hybrid-use-benefit-licensing?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
+     * &lt;br&gt;&lt;br&gt; Minimum api-version: 2015-06-15.
      */
     @JsonProperty(value = "licenseType")
     private String licenseType;

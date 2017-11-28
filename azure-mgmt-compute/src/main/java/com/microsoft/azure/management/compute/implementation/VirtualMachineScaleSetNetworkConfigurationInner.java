@@ -27,7 +27,8 @@ public class VirtualMachineScaleSetNetworkConfigurationInner extends SubResource
     private String name;
 
     /**
-     * Whether this is a primary NIC on a virtual machine.
+     * Specifies the primary network interface in case the virtual machine has
+     * more than 1 network interface.
      */
     @JsonProperty(value = "properties.primary")
     private Boolean primary;
@@ -52,7 +53,7 @@ public class VirtualMachineScaleSetNetworkConfigurationInner extends SubResource
     private VirtualMachineScaleSetNetworkConfigurationDnsSettings dnsSettings;
 
     /**
-     * The virtual machine scale set IP Configuration.
+     * Specifies the IP configurations of the network interface.
      */
     @JsonProperty(value = "properties.ipConfigurations", required = true)
     private List<VirtualMachineScaleSetIPConfigurationInner> ipConfigurations;

@@ -11,7 +11,6 @@ package com.microsoft.azure.management.consumption.implementation;
 import org.joda.time.DateTime;
 import java.math.BigDecimal;
 import com.microsoft.azure.management.consumption.MeterDetails;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -107,12 +106,54 @@ public class UsageDetailInner extends Resource {
     private MeterDetails meterDetails;
 
     /**
-     * The list of key/value pairs for the additional properties, in the format
-     * 'key':'value' where key = the field name, and value = the field value.
-     * By default this is not populated, unless it's specified in $expand.
+     * Subscription guid.
+     */
+    @JsonProperty(value = "properties.subscriptionGuid", access = JsonProperty.Access.WRITE_ONLY)
+    private String subscriptionGuid;
+
+    /**
+     * Subscription name.
+     */
+    @JsonProperty(value = "properties.subscriptionName", access = JsonProperty.Access.WRITE_ONLY)
+    private String subscriptionName;
+
+    /**
+     * Account name.
+     */
+    @JsonProperty(value = "properties.accountName", access = JsonProperty.Access.WRITE_ONLY)
+    private String accountName;
+
+    /**
+     * Department name.
+     */
+    @JsonProperty(value = "properties.departmentName", access = JsonProperty.Access.WRITE_ONLY)
+    private String departmentName;
+
+    /**
+     * Product name.
+     */
+    @JsonProperty(value = "properties.product", access = JsonProperty.Access.WRITE_ONLY)
+    private String product;
+
+    /**
+     * Consumed service name.
+     */
+    @JsonProperty(value = "properties.consumedService", access = JsonProperty.Access.WRITE_ONLY)
+    private String consumedService;
+
+    /**
+     * The cost center of this department if it is a department and a
+     * costcenter exists.
+     */
+    @JsonProperty(value = "properties.costCenter", access = JsonProperty.Access.WRITE_ONLY)
+    private String costCenter;
+
+    /**
+     * Additional details of this usage item. By default this is not populated,
+     * unless it's specified in $expand.
      */
     @JsonProperty(value = "properties.additionalProperties", access = JsonProperty.Access.WRITE_ONLY)
-    private Map<String, String> additionalProperties;
+    private String additionalProperties;
 
     /**
      * Get the billingPeriodId value.
@@ -241,11 +282,74 @@ public class UsageDetailInner extends Resource {
     }
 
     /**
+     * Get the subscriptionGuid value.
+     *
+     * @return the subscriptionGuid value
+     */
+    public String subscriptionGuid() {
+        return this.subscriptionGuid;
+    }
+
+    /**
+     * Get the subscriptionName value.
+     *
+     * @return the subscriptionName value
+     */
+    public String subscriptionName() {
+        return this.subscriptionName;
+    }
+
+    /**
+     * Get the accountName value.
+     *
+     * @return the accountName value
+     */
+    public String accountName() {
+        return this.accountName;
+    }
+
+    /**
+     * Get the departmentName value.
+     *
+     * @return the departmentName value
+     */
+    public String departmentName() {
+        return this.departmentName;
+    }
+
+    /**
+     * Get the product value.
+     *
+     * @return the product value
+     */
+    public String product() {
+        return this.product;
+    }
+
+    /**
+     * Get the consumedService value.
+     *
+     * @return the consumedService value
+     */
+    public String consumedService() {
+        return this.consumedService;
+    }
+
+    /**
+     * Get the costCenter value.
+     *
+     * @return the costCenter value
+     */
+    public String costCenter() {
+        return this.costCenter;
+    }
+
+    /**
      * Get the additionalProperties value.
      *
      * @return the additionalProperties value
      */
-    public Map<String, String> additionalProperties() {
+    public String additionalProperties() {
         return this.additionalProperties;
     }
 

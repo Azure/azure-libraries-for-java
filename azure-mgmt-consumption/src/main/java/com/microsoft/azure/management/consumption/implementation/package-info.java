@@ -6,6 +6,6 @@
 
 /**
  * This package contains the implementation classes for ConsumptionManagementClient.
- * Consumption management client provides access to consumption resources for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
+ * Consumption management client provides access to consumption resources for Azure Enterprise Subscriptions.
  */
 package com.microsoft.azure.management.consumption.implementation;

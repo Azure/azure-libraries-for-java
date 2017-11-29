@@ -10,6 +10,7 @@ import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.compute.AvailabilitySets;
+import com.microsoft.azure.management.compute.ComputeSkus;
 import com.microsoft.azure.management.compute.ComputeUsages;
 import com.microsoft.azure.management.compute.Disks;
 import com.microsoft.azure.management.compute.Snapshots;
@@ -48,6 +49,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     private VirtualMachineCustomImages virtualMachineCustomImages;
     private Disks disks;
     private Snapshots snapshots;
+    private ComputeSkus computeSkus;
 
     /**
      * Get a Configurable instance that can be used to create ComputeManager with optional configuration.
@@ -220,5 +222,15 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
             snapshots = new SnapshotsImpl(this);
         }
         return snapshots;
+    }
+
+    /**
+     * @return the compute service SKU management API entry point
+     */
+    public ComputeSkus computeSkus() {
+        if (computeSkus == null) {
+            computeSkus = new ComputeSkusImpl(this);
+        }
+        return computeSkus;
     }
 }

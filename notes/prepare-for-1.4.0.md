@@ -39,8 +39,45 @@ The following methods and/or types have been either renamed or removed in V1.4 c
   <tr>
     <td><code>ComputeManager</code></td>
     <td><code>.containerServices()</code></td>
-    <td><i>Removed</i></td>
+    <td><i>Deprecated</i></td>
     <td>Use <code>ContainerServiceManager.containerServices()</code> instead</td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
+  </tr>
+</table>
+
+## Azure Container Services
+
+Azure Container Service was moved out of Compute into its own package and resource manager. The corresponding Compute API's from the service are now deprecated and will be removed in a future release. The Azure entry point for accessing resource management APIs has been modified to return the refactored service.
+
+Some of the ContainerService API's have been renamed or removed:
+
+<table>
+  <tr>
+    <th align=left>Area/Model</th>
+    <th align=left>In V1.3</th>
+    <th align=left>In V1.4</th>
+    <th align=left>Remarks</th>
+    <th align=left>Ref</th>
+  </tr>
+  <tr>
+    <td><code>ContainerService</code></td>
+    <td><code>.agentPoolName()</code></td>
+    <td><i>Removed</i></td>
+    <td>Use <code>.agentPools().keySet()</code> instead</td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
+  </tr>
+  <tr>
+    <td><code>ContainerService</code></td>
+    <td><code>.agentPoolCount()</code></td>
+    <td><i>Removed</i></td>
+    <td>Use <code>.agentPools().get("name").count()</code> instead</td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
+  </tr>
+  <tr>
+    <td><code>ContainerService</code></td>
+    <td><code>.agentPoolLeafDomainLabel()</code></td>
+    <td><i>Removed</i></td>
+    <td>Use <code>.agentPools().get("name").dnsPrefix()</code> instead</td>
     <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
   </tr>
   <tr>
@@ -92,11 +129,25 @@ The following methods and/or types have been either renamed or removed in V1.4 c
     <td></td>
     <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/30">PR #30</a></td>
   </tr>
-  <tr>
-    <td><code>??</code></td>
-    <td><code>??</code></td>
-    <td>??</td>
-    <td><code>??</code></td>
-    <td><a href="??">??</a></td>
-  </tr>
 </table>
+
+
+A new simplified managed service for the deployment, management and operations for Kubernetes clusters is now available as preview as part of the Azure Container Services:
+
+```java
+        KubernetesCluster resource = kubernetesClusters.define("akscluster")
+            .withRegion(Region.US_CENTRAL)
+            .withNewResourceGroup()
+            .withLatestVersion()
+            .withRootUsername("aksadmin")
+            .withSshKey("sshKeyData")
+            .withServicePrincipalClientId("clientId")
+            .withServicePrincipalSecret("secret")
+            .defineAgentPool("agentPoolName")
+                .withVirtualMachineCount(1)
+                .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D2_V2)
+                .attach()
+            .withDnsPrefix("dnsPrefix")
+            .withTag("tag1", "value1")
+            .create();
+```

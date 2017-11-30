@@ -451,10 +451,10 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
   <tr>
     <td>Cosmos DB</td>
     <td><ul style="list-style-type:circle">
-<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-cosmosdb-and-configure-for-high-availability">Create a CosmosDB and configure it for high availability</a></li>
-<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-cosmosdb-and-configure-for-eventual-consistency">Create a CosmosDB and configure it with eventual consistency</a></li>
-<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-cosmosdb-and-configure-firewall">Create a CosmosDB, configure it for high availability and create a firewall to limit access from an approved set of IP addresses</li>
-<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-cosmosdb-and-get-mongodb-connection-string">Create a CosmosDB and get MongoDB connection string</li>
+<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-documentdb-and-configure-for-high-availability">Create a CosmosDB and configure it for high availability</a></li>
+<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-documentdb-and-configure-for-eventual-consistency">Create a CosmosDB and configure it with eventual consistency</a></li>
+<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-documentdb-and-configure-firewall">Create a CosmosDB, configure it for high availability and create a firewall to limit access from an approved set of IP addresses</li>
+<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-documentdb-and-get-mongodb-connection-string">Create a CosmosDB and get MongoDB connection string</li>
 </ul></td>
   </tr>
 

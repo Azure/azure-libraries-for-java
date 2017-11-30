@@ -6,9 +6,13 @@
 
 package com.microsoft.azure.management.keyvault.implementation;
 
+import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.PagedList;
+import com.microsoft.azure.keyvault.SecretIdentifier;
 import com.microsoft.azure.keyvault.models.Attributes;
 import com.microsoft.azure.keyvault.models.SecretAttributes;
 import com.microsoft.azure.keyvault.models.SecretBundle;
+import com.microsoft.azure.keyvault.models.SecretItem;
 import com.microsoft.azure.keyvault.requests.SetSecretRequest;
 import com.microsoft.azure.keyvault.requests.UpdateSecretRequest;
 import com.microsoft.azure.keyvault.webkey.JsonWebKeyOperation;
@@ -17,7 +21,9 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.keyvault.Secret;
 import com.microsoft.azure.management.keyvault.Vault;
+import com.microsoft.azure.management.keyvault.implementation.KeyVaultFutures.KeyVaultFuture;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
 import rx.functions.Action0;
@@ -83,6 +89,33 @@ class SecretImpl
     @Override
     public boolean managed() {
         return Utils.toPrimitiveBoolean(inner().managed());
+    }
+
+    @Override
+    public PagedList<SecretIdentifier> listVersions() {
+        return new PagedListConverter<SecretItem, SecretIdentifier>() {
+
+            @Override
+            public SecretIdentifier typeConvert(SecretItem secretItem) {
+                return secretItem.identifier();
+            }
+        }.convert(vault.client().listSecretVersions(vault.vaultUri(), name()));
+    }
+
+    @Override
+    public Observable<SecretIdentifier> listVersionsAsync() {
+        return new KeyVaultFutures.ListCallbackObserver<SecretItem, SecretIdentifier>() {
+
+            @Override
+            protected void list(ListOperationCallback<SecretItem> callback) {
+                vault.client().listSecretVersionsAsync(vault.vaultUri(), name(), callback);
+            }
+
+            @Override
+            protected SecretIdentifier wrapModel(SecretItem o) {
+                return o.identifier();
+            }
+        }.toObservable();
     }
 
     @Override

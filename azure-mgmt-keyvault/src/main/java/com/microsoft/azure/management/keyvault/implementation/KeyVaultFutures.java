@@ -15,6 +15,7 @@ import rx.Emitter.BackpressureMode;
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
+import rx.functions.Func0;
 import rx.functions.Func1;
 
 import java.util.List;
@@ -54,7 +55,12 @@ class KeyVaultFutures {
         }
 
         public Observable<T> toObservable() {
-            return Observable.from(toFuture(null));
+            return Observable.defer(new Func0<Observable<T>>() {
+                @Override
+                public Observable<T> call() {
+                    return Observable.from(toFuture(null));
+                }
+            });
         }
     }
 

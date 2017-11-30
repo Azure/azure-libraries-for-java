@@ -6,6 +6,8 @@
 
 package com.microsoft.azure.management.keyvault;
 
+import com.microsoft.azure.PagedList;
+import com.microsoft.azure.keyvault.SecretIdentifier;
 import com.microsoft.azure.keyvault.models.Attributes;
 import com.microsoft.azure.keyvault.models.SecretAttributes;
 import com.microsoft.azure.keyvault.models.SecretBundle;
@@ -17,6 +19,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import rx.Observable;
 
 import java.util.Map;
 
@@ -61,6 +64,10 @@ public interface Secret extends
      * backing a certificate, then managed will be true
      */
     boolean managed();
+
+    PagedList<SecretIdentifier> listVersions();
+
+    Observable<SecretIdentifier> listVersionsAsync();
 
     interface Definition extends
             DefinitionStages.Blank,

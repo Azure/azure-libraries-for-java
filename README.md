@@ -484,7 +484,7 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 <li><a href="https://github.com/Azure-Samples/acr-java-manage-azure-container-registry">Manage container registry</a></li>
 <li><a href="https://github.com/Azure-Samples/acr-java-manage-azure-container-registry-with-webhooks">Manage container registry with Web hooks</a></li>
 <li><a href="https://github.com/Azure-Samples/aks-java-manage-kubernetes-cluster">Manage Kubernetes cluster (AKS)</a></li>
-<li><a href="Azure-Samples/aks-java-deploy-image-from-acr-to-kubernetes">Deploy an image from container registry to Kubernetes cluster (AKS)</a></li>
+<li><a href="https://github.com/Azure-Samples/aks-java-deploy-image-from-acr-to-kubernetes">Deploy an image from container registry to Kubernetes cluster (AKS)</a></li>
 
 <li><a href="https://github.com/Azure-Samples/acs-java-deploy-image-from-acr-to-acs-orchestrator">Deploy an image from container registry to ACS with Kubernetes orchestrator</a></li>
 <!--
@@ -539,7 +539,7 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
   <tr>
     <td>CDN</td>
     <td><ul style="list-style-type:circle">
-<li><a href="https://github.com/Azure-Samples/cdn-java-manage-cdn ">Manage CDNs</a></li>
+<li><a href="https://github.com/Azure-Samples/cdn-java-manage-cdn">Manage CDNs</a></li>
 </ul></td>
   </tr>
 

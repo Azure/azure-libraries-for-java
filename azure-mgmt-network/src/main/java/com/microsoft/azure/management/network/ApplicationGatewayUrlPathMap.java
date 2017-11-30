@@ -23,6 +23,20 @@ public interface ApplicationGatewayUrlPathMap extends
     HasInner<ApplicationGatewayUrlPathMapInner>,
     ChildResource<ApplicationGateway> {
 
+    /**
+     * @return default backend address pool
+     */
+    ApplicationGatewayBackend defaultBackend();
+
+    /**
+     * @return default backend HTTP settings configuration
+     */
+    ApplicationGatewayBackendHttpConfiguration defaultBackendHttpConfiguration();
+
+    /**
+     * @return default redirect configuration
+     */
+    ApplicationGatewayRedirectConfiguration defaultRedirectConfiguration();
 
     /**
      * Grouping of application gateway URL path map definition stages.

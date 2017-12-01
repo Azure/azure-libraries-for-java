@@ -28,7 +28,7 @@ public class WebhooksImpl
      * @param childResourceName the child resource name
      */
     protected WebhooksImpl(RegistryImpl parent, String childResourceName) {
-        super(parent, childResourceName);
+        super(parent, parent.taskGroup(), childResourceName);
     }
 
     WebhookImpl defineWebhook(String name) {

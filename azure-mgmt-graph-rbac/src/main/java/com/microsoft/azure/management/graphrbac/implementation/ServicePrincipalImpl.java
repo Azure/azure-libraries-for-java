@@ -120,7 +120,7 @@ class ServicePrincipalImpl
         Observable<ServicePrincipal> sp = Observable.just((ServicePrincipal) this);
         if (isInCreateMode()) {
             if (applicationCreatable != null) {
-                ActiveDirectoryApplication application = (ActiveDirectoryApplication) ((Object) super.createdModel(applicationCreatable.key()));
+                ActiveDirectoryApplication application = this.<ActiveDirectoryApplication>taskResult(applicationCreatable.key());
                 createParameters.withAppId(application.applicationId());
             }
             sp = manager.inner().servicePrincipals().createAsync(createParameters)
@@ -391,7 +391,7 @@ class ServicePrincipalImpl
 
     @Override
     public ServicePrincipalImpl withNewApplication(Creatable<ActiveDirectoryApplication> applicationCreatable) {
-        addCreatableDependency(applicationCreatable);
+        this.addDependency(applicationCreatable);
         this.applicationCreatable = applicationCreatable;
         return this;
     }

@@ -13,6 +13,7 @@ class ChickenImpl {
     private PulletsImpl pullets;
     ChickenImpl() {
         this.pullets = new PulletsImpl(this);
+        this.pullets.enableCommitMode();
     }
 
     PulletsImpl pullets() {

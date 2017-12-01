@@ -942,8 +942,7 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public VirtualMachineScaleSetImpl withNewStorageAccount(Creatable<StorageAccount> creatable) {
-        this.creatableStorageAccountKeys.add(creatable.key());
-        this.addCreatableDependency(creatable);
+        this.creatableStorageAccountKeys.add(this.addDependency(creatable));
         return this;
     }
 
@@ -1455,7 +1454,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public void prepare() {
+    public void beforeGroupCreateOrUpdate() {
         // Adding delayed storage account dependency if needed
         //
         this.prepareOSDiskContainers();
@@ -1491,8 +1490,7 @@ public class VirtualMachineScaleSetImpl
                         .withRegion(this.regionName())
                         .withExistingResourceGroup(this.resourceGroupName());
             }
-            this.addCreatableDependency(storageAccountCreatable);
-            this.creatableStorageAccountKeys.add(storageAccountCreatable.key());
+            this.creatableStorageAccountKeys.add(this.addDependency(storageAccountCreatable));
         }
     }
 
@@ -1534,7 +1532,7 @@ public class VirtualMachineScaleSetImpl
         }
 
         for (String storageAccountKey : this.creatableStorageAccountKeys) {
-            StorageAccount storageAccount = (StorageAccount) createdResource(storageAccountKey);
+            StorageAccount storageAccount = this.<StorageAccount>taskResult(storageAccountKey);
             storageProfile.osDisk()
                     .vhdContainers()
                     .add(mergePath(storageAccount.endPoints().primary().blob(), containerName));
@@ -2328,8 +2326,7 @@ public class VirtualMachineScaleSetImpl
             // Diagnostics storage uri will be set later by this.handleDiagnosticsSettings(..)
             //
             this.enableDisable(true);
-            this.creatableDiagnosticsStorageAccountKey = creatable.key();
-            this.vmssImpl.addCreatableDependency(creatable);
+            this.creatableDiagnosticsStorageAccountKey = this.vmssImpl.addDependency(creatable);
             return this;
         }
 
@@ -2392,8 +2389,7 @@ public class VirtualMachineScaleSetImpl
                         .withRegion(this.vmssImpl.regionName())
                         .withExistingResourceGroup(this.vmssImpl.resourceGroupName());
             }
-            this.creatableDiagnosticsStorageAccountKey = storageAccountCreatable.key();
-            this.vmssImpl.addCreatableDependency(storageAccountCreatable);
+            this.creatableDiagnosticsStorageAccountKey = this.vmssImpl.addDependency(storageAccountCreatable);
         }
 
         void handleDiagnosticsSettings() {
@@ -2409,9 +2405,9 @@ public class VirtualMachineScaleSetImpl
             }
             StorageAccount storageAccount = null;
             if (creatableDiagnosticsStorageAccountKey != null) {
-                storageAccount = (StorageAccount) this.vmssImpl.createdResource(creatableDiagnosticsStorageAccountKey);
+                storageAccount = this.vmssImpl.<StorageAccount>taskResult(creatableDiagnosticsStorageAccountKey);
             } else if (this.creatableStorageAccountKey != null) {
-                storageAccount = (StorageAccount) this.vmssImpl.createdResource(this.creatableStorageAccountKey);
+                storageAccount = this.vmssImpl.<StorageAccount>taskResult(this.creatableStorageAccountKey);
             } else if (this.existingStorageAccountToAssociate != null) {
                 storageAccount = this.existingStorageAccountToAssociate;
             }

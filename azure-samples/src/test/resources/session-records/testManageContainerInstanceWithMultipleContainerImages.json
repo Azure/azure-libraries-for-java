@@ -1,13 +1,13 @@
 {
   "networkCallRecords" : [ {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgaci38c18947a?api-version=2016-09-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgacic57012283?api-version=2016-09-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.11.6 MacAddressHash:f3e724d972426a79006ddccaa8ceddefd1cc85387ab9dd050187dc3a455d02a7 Java:1.8.0_102 (ResourceManagementClient, 2016-09-01)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.1 MacAddressHash:4c96cd5c5c153dd835711c3afa7639e14ca493239bd0cf0597a1733c30b1e2d2 Java:1.8.0_144 (ResourceManagementClient, 2016-09-01)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Wed, 06 Sep 2017 15:49:23 GMT",
+      "date" : "Fri, 17 Nov 2017 22:09:46 GMT",
       "content-length" : "181",
       "expires" : "-1",
       "x-ms-ratelimit-remaining-subscription-writes" : "1199",
@@ -15,95 +15,97 @@
       "StatusCode" : "201",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "992f926a-30f6-48cd-9620-73a96eaf1182",
-      "x-ms-routing-request-id" : "WESTUS2:20170906T154924Z:992f926a-30f6-48cd-9620-73a96eaf1182",
+      "x-ms-correlation-request-id" : "27936062-311b-400b-95bc-9d566dfbe48d",
+      "x-ms-routing-request-id" : "WESTUS2:20171117T220947Z:27936062-311b-400b-95bc-9d566dfbe48d",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "992f926a-30f6-48cd-9620-73a96eaf1182",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci38c18947a\",\"name\":\"rgaci38c18947a\",\"location\":\"westus\",\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+      "x-ms-request-id" : "27936062-311b-400b-95bc-9d566dfbe48d",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacic57012283\",\"name\":\"rgacic57012283\",\"location\":\"westus\",\"properties\":{\"provisioningState\":\"Succeeded\"}}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci38c18947a/providers/Microsoft.ContainerInstance/containerGroups/acisample87a266417?api-version=2017-08-01-preview",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacic57012283/providers/Microsoft.ContainerInstance/containerGroups/acisample28813612b?api-version=2017-08-01-preview",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.11.6 MacAddressHash:f3e724d972426a79006ddccaa8ceddefd1cc85387ab9dd050187dc3a455d02a7 Java:1.8.0_102 (ContainerInstanceManagementClient, 2017-08-01-preview)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.1 MacAddressHash:4c96cd5c5c153dd835711c3afa7639e14ca493239bd0cf0597a1733c30b1e2d2 Java:1.8.0_144 (ContainerInstanceManagementClient, 2017-08-01-preview)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Wed, 06 Sep 2017 15:49:25 GMT",
-      "content-length" : "806",
+      "date" : "Fri, 17 Nov 2017 22:09:48 GMT",
+      "content-length" : "824",
       "expires" : "-1",
       "x-ms-ratelimit-remaining-subscription-writes" : "1198",
       "retry-after" : "0",
       "StatusCode" : "201",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "b276eea3-a53e-4f58-b64f-a730400dcbfd",
-      "x-ms-routing-request-id" : "WESTUS2:20170906T154925Z:b276eea3-a53e-4f58-b64f-a730400dcbfd",
+      "x-ms-correlation-request-id" : "42cb63cb-cf7b-4214-9ae4-05d2c6f744c4",
+      "x-ms-ratelimit-remaining-subscription-resource-requests-pt1h" : "58",
+      "x-ms-ratelimit-remaining-subscription-resource-requests-pt5m" : "18",
+      "x-ms-routing-request-id" : "WESTUS2:20171117T220948Z:42cb63cb-cf7b-4214-9ae4-05d2c6f744c4",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:a4976a6e-64f5-4d64-9105-a26889acd650",
-      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"acisample87a266417-1\",\"properties\":{\"image\":\"microsoft/aci-helloworld\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":0.75,\"cpu\":0.5}}}},{\"name\":\"acisample87a266417-2\",\"properties\":{\"image\":\"microsoft/aci-tutorial-sidecar\",\"ports\":[],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":0.75,\"cpu\":0.5}}}}],\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"23.99.52.245\",\"type\":\"Public\"},\"osType\":\"Linux\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci38c18947a/providers/Microsoft.ContainerInstance/containerGroups/acisample87a266417\",\"name\":\"acisample87a266417\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{}}"
+      "x-ms-request-id" : "westus:97cf1a6d-9c8d-4af9-b923-ff667d989fd4",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"acisample28813612b-1\",\"properties\":{\"image\":\"microsoft/aci-helloworld\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":0.8,\"cpu\":0.5}}}},{\"name\":\"acisample28813612b-2\",\"properties\":{\"image\":\"microsoft/aci-tutorial-sidecar\",\"ports\":[],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":0.8,\"cpu\":0.5}}}}],\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"40.118.134.175\",\"type\":\"Public\"},\"osType\":\"Linux\",\"state\":\"Pending\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacic57012283/providers/Microsoft.ContainerInstance/containerGroups/acisample28813612b\",\"name\":\"acisample28813612b\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{}}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci38c18947a/providers/Microsoft.ContainerInstance/containerGroups/acisample87a266417/containers/acisample87a266417-1/logs?api-version=2017-08-01-preview",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacic57012283/providers/Microsoft.ContainerInstance/containerGroups/acisample28813612b/containers/acisample28813612b-1/logs?api-version=2017-08-01-preview",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.11.6 MacAddressHash:f3e724d972426a79006ddccaa8ceddefd1cc85387ab9dd050187dc3a455d02a7 Java:1.8.0_102 (ContainerInstanceManagementClient, 2017-08-01-preview)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.1 MacAddressHash:4c96cd5c5c153dd835711c3afa7639e14ca493239bd0cf0597a1733c30b1e2d2 Java:1.8.0_144 (ContainerInstanceManagementClient, 2017-08-01-preview)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Wed, 06 Sep 2017 15:49:52 GMT",
-      "content-length" : "588",
+      "date" : "Fri, 17 Nov 2017 22:10:24 GMT",
+      "content-length" : "1374",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding,Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14992",
+      "x-ms-ratelimit-remaining-subscription-reads" : "14995",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "5aef83e2-b5f8-4cce-85e7-185400deace7",
-      "x-ms-routing-request-id" : "WESTUS2:20170906T154953Z:5aef83e2-b5f8-4cce-85e7-185400deace7",
+      "x-ms-correlation-request-id" : "e01560a4-561c-42c0-aeb2-1066a57be2fb",
+      "x-ms-routing-request-id" : "WESTUS2:20171117T221024Z:e01560a4-561c-42c0-aeb2-1066a57be2fb",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:3db7bc9d-6929-497a-9f61-e179ff342ee4",
-      "Body" : "{\"content\":\"listening on port 80\\n::1 - - [06/Sep/2017:15:49:39 +0000] \\\"HEAD / HTTP/1.1\\\" 200 1663 \\\"-\\\" \\\"curl/7.54.0\\\"\\n::1 - - [06/Sep/2017:15:49:42 +0000] \\\"HEAD / HTTP/1.1\\\" 200 1663 \\\"-\\\" \\\"curl/7.54.0\\\"\\n::1 - - [06/Sep/2017:15:49:45 +0000] \\\"HEAD / HTTP/1.1\\\" 200 1663 \\\"-\\\" \\\"curl/7.54.0\\\"\\n::1 - - [06/Sep/2017:15:49:48 +0000] \\\"HEAD / HTTP/1.1\\\" 200 1663 \\\"-\\\" \\\"curl/7.54.0\\\"\\n::1 - - [06/Sep/2017:15:49:51 +0000] \\\"HEAD / HTTP/1.1\\\" 200 1663 \\\"-\\\" \\\"curl/7.54.0\\\"\\n::ffff:10.240.255.106 - - [06/Sep/2017:15:49:52 +0000] \\\"GET / HTTP/1.1\\\" 200 1663 \\\"-\\\" \\\"okhttp/3.6.0\\\"\\n\"}"
+      "x-ms-request-id" : "westus:0f468128-7f78-4b15-af98-a2942a5fa160",
+      "Body" : "{\"content\":\"Server running...\\n::1 - - [17/Nov/2017:22:09:59 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0 \\\"\\\" \\\"curl/7.54.0\\\"\\n::1 - - [17/Nov/2017:22:09:59 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0\\n::1 - - [17/Nov/2017:22:10:02 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0 \\\"\\\" \\\"curl/7.54.0\\\"\\n::1 - - [17/Nov/2017:22:10:02 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0\\n::1 - - [17/Nov/2017:22:10:05 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0 \\\"\\\" \\\"curl/7.54.0\\\"\\n::1 - - [17/Nov/2017:22:10:05 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0\\n::1 - - [17/Nov/2017:22:10:08 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0 \\\"\\\" \\\"curl/7.54.0\\\"\\n::1 - - [17/Nov/2017:22:10:08 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0\\n::1 - - [17/Nov/2017:22:10:11 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0 \\\"\\\" \\\"curl/7.54.0\\\"\\n::1 - - [17/Nov/2017:22:10:11 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0\\n::1 - - [17/Nov/2017:22:10:14 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0 \\\"\\\" \\\"curl/7.54.0\\\"\\n::1 - - [17/Nov/2017:22:10:14 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0\\n::1 - - [17/Nov/2017:22:10:17 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0 \\\"\\\" \\\"curl/7.54.0\\\"\\n::1 - - [17/Nov/2017:22:10:17 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0\\n::1 - - [17/Nov/2017:22:10:20 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0 \\\"\\\" \\\"curl/7.54.0\\\"\\n::1 - - [17/Nov/2017:22:10:20 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0\\n::1 - - [17/Nov/2017:22:10:23 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0 \\\"\\\" \\\"curl/7.54.0\\\"\\n::1 - - [17/Nov/2017:22:10:23 +0000] \\\"HEAD / HTTP/1.1\\\" 200 0\\n\"}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci38c18947a/providers/Microsoft.ContainerInstance/containerGroups/acisample87a266417/containers/acisample87a266417-2/logs?api-version=2017-08-01-preview",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacic57012283/providers/Microsoft.ContainerInstance/containerGroups/acisample28813612b/containers/acisample28813612b-2/logs?api-version=2017-08-01-preview",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.11.6 MacAddressHash:f3e724d972426a79006ddccaa8ceddefd1cc85387ab9dd050187dc3a455d02a7 Java:1.8.0_102 (ContainerInstanceManagementClient, 2017-08-01-preview)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.1 MacAddressHash:4c96cd5c5c153dd835711c3afa7639e14ca493239bd0cf0597a1733c30b1e2d2 Java:1.8.0_144 (ContainerInstanceManagementClient, 2017-08-01-preview)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Wed, 06 Sep 2017 15:49:52 GMT",
-      "content-length" : "3709",
+      "date" : "Fri, 17 Nov 2017 22:10:24 GMT",
+      "content-length" : "5683",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding,Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14991",
+      "x-ms-ratelimit-remaining-subscription-reads" : "14994",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "8c4b3db7-8548-40ea-bdab-1c6038959678",
-      "x-ms-routing-request-id" : "WESTUS2:20170906T154953Z:8c4b3db7-8548-40ea-bdab-1c6038959678",
+      "x-ms-correlation-request-id" : "745fc6c6-4115-4c0b-ae00-2b6dce4f9f84",
+      "x-ms-routing-request-id" : "WESTUS2:20171117T221024Z:745fc6c6-4115-4c0b-ae00-2b6dce4f9f84",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:49212e3f-4787-4872-823a-1dcaa0927c61",
-      "Body" : "{\"content\":\"\\u001b[H\\u001b[JEvery 3s: curl -I http://localhost                          2017-09-06 15:49:39\\n\\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\\n                                 Dload  Upload   Total   Spent    Left  Speed\\n\\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\r  0  1663    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\nHTTP/1.1 200 OK\\r\\nX-Powered-By: Express\\r\\nAccept-Ranges: bytes\\r\\nCache-Control: public, max-age=0\\r\\nLast-Modified: Thu, 20 Jul 2017 21:57:04 GMT\\r\\nETag: W/\\\"67f-15d62011380\\\"\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-Length: 1663\\r\\nDate: Wed, 06 Sep 2017 15:49:39 GMT\\r\\nConnection: keep-alive\\r\\n\\r\\n\\u001b[H\\u001b[JEvery 3s: curl -I http://localhost                          2017-09-06 15:49:42\\n\\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\\n                                 Dload  Upload   Total   Spent    Left  Speed\\n\\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\r  0  1663    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\nHTTP/1.1 200 OK\\r\\nX-Powered-By: Express\\r\\nAccept-Ranges: bytes\\r\\nCache-Control: public, max-age=0\\r\\nLast-Modified: Thu, 20 Jul 2017 21:57:04 GMT\\r\\nETag: W/\\\"67f-15d62011380\\\"\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-Length: 1663\\r\\nDate: Wed, 06 Sep 2017 15:49:42 GMT\\r\\nConnection: keep-alive\\r\\n\\r\\n\\u001b[H\\u001b[JEvery 3s: curl -I http://localhost                          2017-09-06 15:49:45\\n\\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\\n                                 Dload  Upload   Total   Spent    Left  Speed\\nHTTP/1.1 200 OK\\r\\nX-Powered-By: Express\\r\\nAccept-Ranges: bytes\\r\\nCache-Control: public, max-age=0\\r\\nLast-Modified: Thu, 20 Jul 2017 21:57:04 GMT\\r\\nETag: W/\\\"67f-15d62011380\\\"\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-Length: 1663\\r\\nDate: Wed, 06 Sep 2017 15:49:45 GMT\\r\\nConnection: keep-alive\\r\\n\\r\\n\\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\r  0  1663    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\n\\u001b[H\\u001b[JEvery 3s: curl -I http://localhost                          2017-09-06 15:49:48\\n\\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\\n                                 Dload  Upload   Total   Spent    Left  Speed\\n\\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\r  0  1663    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\nHTTP/1.1 200 OK\\r\\nX-Powered-By: Express\\r\\nAccept-Ranges: bytes\\r\\nCache-Control: public, max-age=0\\r\\nLast-Modified: Thu, 20 Jul 2017 21:57:04 GMT\\r\\nETag: W/\\\"67f-15d62011380\\\"\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-Length: 1663\\r\\nDate: Wed, 06 Sep 2017 15:49:48 GMT\\r\\nConnection: keep-alive\\r\\n\\r\\n\\u001b[H\\u001b[JEvery 3s: curl -I http://localhost                          2017-09-06 15:49:51\\n\\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\\n                                 Dload  Upload   Total   Spent    Left  Speed\\n\\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\r  0  1663    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\nHTTP/1.1 200 OK\\r\\nX-Powered-By: Express\\r\\nAccept-Ranges: bytes\\r\\nCache-Control: public, max-age=0\\r\\nLast-Modified: Thu, 20 Jul 2017 21:57:04 GMT\\r\\nETag: W/\\\"67f-15d62011380\\\"\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-Length: 1663\\r\\nDate: Wed, 06 Sep 2017 15:49:51 GMT\\r\\nConnection: keep-alive\\r\\n\\r\\n\"}"
+      "x-ms-request-id" : "westus:35fb0e11-736e-4f73-ab54-3e38e3f5f044",
+      "Body" : "{\"content\":\"\\u001b[H\\u001b[JEvery 3s: curl -I http://localhost                          2017-11-17 22:09:59\\n\\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\\n                                 Dload  Upload   Total   Spent    Left  Speed\\nHTTP/1.1 200 OK\\r\\nAccept-Ranges: bytes\\r\\nContent-Length: 1663\\r\\nContent-Type: text/html; charset=utf-8\\r\\nLast-Modified: Tue, 24 Oct 2017 20:54:14 GMT\\r\\nDate: Fri, 17 Nov 2017 22:09:59 GMT\\r\\n\\r\\n\\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\r  0  1663    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\r  0  1663    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\n\\u001b[H\\u001b[JEvery 3s: curl -I http://localhost                          2017-11-17 22:10:02\\n\\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\\n                                 Dload  Upload   Total   Spent    Left  Speed\\n\\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\r  0  1663    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\nHTTP/1.1 200 OK\\r\\nAccept-Ranges: bytes\\r\\nContent-Length: 1663\\r\\nContent-Type: text/html; charset=utf-8\\r\\nLast-Modified: Tue, 24 Oct 2017 20:54:14 GMT\\r\\nDate: Fri, 17 Nov 2017 22:10:02 GMT\\r\\n\\r\\n\\u001b[H\\u001b[JEvery 3s: curl -I http://localhost                          2017-11-17 22:10:05\\n\\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\\n                                 Dload  Upload   Total   Spent    Left  Speed\\n\\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\r  0  1663    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\nHTTP/1.1 200 OK\\r\\nAccept-Ranges: bytes\\r\\nContent-Length: 1663\\r\\nContent-Type: text/html; charset=utf-8\\r\\nLast-Modified: Tue, 24 Oct 2017 20:54:14 GMT\\r\\nDate: Fri, 17 Nov 2017 22:10:05 GMT\\r\\n\\r\\n\\u001b[H\\u001b[JEvery 3s: curl -I http://localhost                          2017-11-17 22:10:08\\n\\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\\n                                 Dload  Upload   Total   Spent    Left  Speed\\nHTTP/1.1 200 OK\\r\\nAccept-Ranges: bytes\\r\\nContent-Length: 1663\\r\\nContent-Type: text/html; charset=utf-8\\r\\nLast-Modified: Tue, 24 Oct 2017 20:54:14 GMT\\r\\nDate: Fri, 17 Nov 2017 22:10:08 GMT\\r\\n\\r\\n\\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\r  0  1663    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\n\\u001b[H\\u001b[JEvery 3s: curl -I http://localhost                          2017-11-17 22:10:11\\n\\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\\n                                 Dload  Upload   Total   Spent    Left  Speed\\n\\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\r  0  1663    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\nHTTP/1.1 200 OK\\r\\nAccept-Ranges: bytes\\r\\nContent-Length: 1663\\r\\nContent-Type: text/html; charset=utf-8\\r\\nLast-Modified: Tue, 24 Oct 2017 20:54:14 GMT\\r\\nDate: Fri, 17 Nov 2017 22:10:11 GMT\\r\\n\\r\\n\\u001b[H\\u001b[JEvery 3s: curl -I http://localhost                          2017-11-17 22:10:14\\n\\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\\n                                 Dload  Upload   Total   Spent    Left  Speed\\nHTTP/1.1 200 OK\\r\\n\\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\r  0  1663    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\nAccept-Ranges: bytes\\r\\nContent-Length: 1663\\r\\nContent-Type: text/html; charset=utf-8\\r\\nLast-Modified: Tue, 24 Oct 2017 20:54:14 GMT\\r\\nDate: Fri, 17 Nov 2017 22:10:14 GMT\\r\\n\\r\\n\\u001b[H\\u001b[JEvery 3s: curl -I http://localhost                          2017-11-17 22:10:17\\n\\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\\n                                 Dload  Upload   Total   Spent    Left  Speed\\nHTTP/1.1 200 OK\\r\\nAccept-Ranges: bytes\\r\\nContent-Length: 1663\\r\\nContent-Type: text/html; charset=utf-8\\r\\nLast-Modified: Tue, 24 Oct 2017 20:54:14 GMT\\r\\nDate: Fri, 17 Nov 2017 22:10:17 GMT\\r\\n\\r\\n\\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\r  0  1663    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\n\\u001b[H\\u001b[JEvery 3s: curl -I http://localhost                          2017-11-17 22:10:20\\n\\nHTTP/1.1 200 OK\\r\\nAccept-Ranges: bytes\\r\\nContent-Length: 1663\\r\\nContent-Type: text/html; charset=utf-8\\r\\nLast-Modified: Tue, 24 Oct 2017 20:54:14 GMT\\r\\nDate: Fri, 17 Nov 2017 22:10:20 GMT\\r\\n\\r\\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\\n                                 Dload  Upload   Total   Spent    Left  Speed\\n\\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\r  0  1663    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\n\\u001b[H\\u001b[JEvery 3s: curl -I http://localhost                          2017-11-17 22:10:23\\n\\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\\n                                 Dload  Upload   Total   Spent    Left  Speed\\n\\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\r  0  1663    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\\nHTTP/1.1 200 OK\\r\\nAccept-Ranges: bytes\\r\\nContent-Length: 1663\\r\\nContent-Type: text/html; charset=utf-8\\r\\nLast-Modified: Tue, 24 Oct 2017 20:54:14 GMT\\r\\nDate: Fri, 17 Nov 2017 22:10:23 GMT\\r\\n\\r\\n\"}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci38c18947a/providers/Microsoft.ContainerInstance/containerGroups/acisample87a266417?api-version=2017-08-01-preview",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacic57012283/providers/Microsoft.ContainerInstance/containerGroups/acisample28813612b?api-version=2017-08-01-preview",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.11.6 MacAddressHash:f3e724d972426a79006ddccaa8ceddefd1cc85387ab9dd050187dc3a455d02a7 Java:1.8.0_102 (ContainerInstanceManagementClient, 2017-08-01-preview)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.1 MacAddressHash:4c96cd5c5c153dd835711c3afa7639e14ca493239bd0cf0597a1733c30b1e2d2 Java:1.8.0_144 (ContainerInstanceManagementClient, 2017-08-01-preview)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Wed, 06 Sep 2017 15:49:53 GMT",
+      "date" : "Fri, 17 Nov 2017 22:10:25 GMT",
       "content-length" : "2685",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
@@ -113,22 +115,24 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "8680e799-73c8-4e33-b94b-c7c379c17da8",
-      "x-ms-routing-request-id" : "WESTUS2:20170906T154954Z:8680e799-73c8-4e33-b94b-c7c379c17da8",
+      "x-ms-correlation-request-id" : "1ea5d278-ef12-4ce3-a61c-9b0579e74ff6",
+      "x-ms-ratelimit-remaining-subscription-resource-requests-pt1h" : "149",
+      "x-ms-ratelimit-remaining-subscription-resource-requests-pt5m" : "49",
+      "x-ms-routing-request-id" : "WESTUS2:20171117T221025Z:1ea5d278-ef12-4ce3-a61c-9b0579e74ff6",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:a2c79bd7-8d0e-4f9f-aa0f-bfd043ce1e8d",
-      "Body" : "{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"acisample87a266417-1\",\"properties\":{\"image\":\"microsoft/aci-helloworld\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2017-09-06T15:49:36Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2017-09-06T15:49:29Z\",\"lastTimestamp\":\"2017-09-06T15:49:29Z\",\"message\":\"Pulling: pulling image \\\"microsoft/aci-helloworld\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2017-09-06T15:49:36Z\",\"lastTimestamp\":\"2017-09-06T15:49:36Z\",\"message\":\"Pulled: Successfully pulled image \\\"microsoft/aci-helloworld\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2017-09-06T15:49:36Z\",\"lastTimestamp\":\"2017-09-06T15:49:36Z\",\"message\":\"Created: Created container with id caac8630c915b94180c3eba24c38a867faf4e7a8fec31c4374acf61c03782837\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2017-09-06T15:49:36Z\",\"lastTimestamp\":\"2017-09-06T15:49:36Z\",\"message\":\"Started: Started container with id caac8630c915b94180c3eba24c38a867faf4e7a8fec31c4374acf61c03782837\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":0.75,\"cpu\":0.5}}}},{\"name\":\"acisample87a266417-2\",\"properties\":{\"image\":\"microsoft/aci-tutorial-sidecar\",\"ports\":[],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2017-09-06T15:49:39Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2017-09-06T15:49:36Z\",\"lastTimestamp\":\"2017-09-06T15:49:36Z\",\"message\":\"Pulling: pulling image \\\"microsoft/aci-tutorial-sidecar\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2017-09-06T15:49:39Z\",\"lastTimestamp\":\"2017-09-06T15:49:39Z\",\"message\":\"Pulled: Successfully pulled image \\\"microsoft/aci-tutorial-sidecar\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2017-09-06T15:49:39Z\",\"lastTimestamp\":\"2017-09-06T15:49:39Z\",\"message\":\"Created: Created container with id 77981e4e05c1ec74ddcad75400e60146c188ab5c3a1ba05f44b33b5c1aab882d\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2017-09-06T15:49:39Z\",\"lastTimestamp\":\"2017-09-06T15:49:39Z\",\"message\":\"Started: Started container with id 77981e4e05c1ec74ddcad75400e60146c188ab5c3a1ba05f44b33b5c1aab882d\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":0.75,\"cpu\":0.5}}}}],\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"23.99.52.245\",\"type\":\"Public\"},\"osType\":\"Linux\",\"state\":\"Running\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci38c18947a/providers/Microsoft.ContainerInstance/containerGroups/acisample87a266417\",\"name\":\"acisample87a266417\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{}}"
+      "x-ms-request-id" : "westus:4d630f32-257f-4c23-b12c-fa324a1e6a23",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"acisample28813612b-1\",\"properties\":{\"image\":\"microsoft/aci-helloworld\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2017-11-17T22:09:58Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2017-11-17T22:09:54Z\",\"lastTimestamp\":\"2017-11-17T22:09:54Z\",\"message\":\"Pulling: pulling image \\\"microsoft/aci-helloworld\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2017-11-17T22:09:57Z\",\"lastTimestamp\":\"2017-11-17T22:09:57Z\",\"message\":\"Pulled: Successfully pulled image \\\"microsoft/aci-helloworld\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2017-11-17T22:09:57Z\",\"lastTimestamp\":\"2017-11-17T22:09:57Z\",\"message\":\"Created: Created container with id b699949f5a8e505bbe559d81ae1189270707c20af8ac3523774b476270f9b76b\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2017-11-17T22:09:58Z\",\"lastTimestamp\":\"2017-11-17T22:09:58Z\",\"message\":\"Started: Started container with id b699949f5a8e505bbe559d81ae1189270707c20af8ac3523774b476270f9b76b\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":0.8,\"cpu\":0.5}}}},{\"name\":\"acisample28813612b-2\",\"properties\":{\"image\":\"microsoft/aci-tutorial-sidecar\",\"ports\":[],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2017-11-17T22:09:59Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2017-11-17T22:09:58Z\",\"lastTimestamp\":\"2017-11-17T22:09:58Z\",\"message\":\"Pulling: pulling image \\\"microsoft/aci-tutorial-sidecar\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2017-11-17T22:09:59Z\",\"lastTimestamp\":\"2017-11-17T22:09:59Z\",\"message\":\"Pulled: Successfully pulled image \\\"microsoft/aci-tutorial-sidecar\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2017-11-17T22:09:59Z\",\"lastTimestamp\":\"2017-11-17T22:09:59Z\",\"message\":\"Created: Created container with id 66fc459d10bdd951fab0d2da061787233becc506ed6f652aadbb2b604858607e\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2017-11-17T22:09:59Z\",\"lastTimestamp\":\"2017-11-17T22:09:59Z\",\"message\":\"Started: Started container with id 66fc459d10bdd951fab0d2da061787233becc506ed6f652aadbb2b604858607e\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":0.8,\"cpu\":0.5}}}}],\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"40.118.134.175\",\"type\":\"Public\"},\"osType\":\"Linux\",\"state\":\"Running\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacic57012283/providers/Microsoft.ContainerInstance/containerGroups/acisample28813612b\",\"name\":\"acisample28813612b\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{}}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgaci38c18947a?api-version=2016-09-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgacic57012283?api-version=2016-09-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.11.6 MacAddressHash:f3e724d972426a79006ddccaa8ceddefd1cc85387ab9dd050187dc3a455d02a7 Java:1.8.0_102 (ResourceManagementClient, 2016-09-01)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.1 MacAddressHash:4c96cd5c5c153dd835711c3afa7639e14ca493239bd0cf0597a1733c30b1e2d2 Java:1.8.0_144 (ResourceManagementClient, 2016-09-01)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Wed, 06 Sep 2017 15:49:53 GMT",
+      "date" : "Fri, 17 Nov 2017 22:10:27 GMT",
       "content-length" : "0",
       "expires" : "-1",
       "x-ms-ratelimit-remaining-subscription-writes" : "1196",
@@ -136,13 +140,13 @@
       "StatusCode" : "202",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "f368c119-da03-4fb5-a3ff-8c019f1aaa1a",
-      "x-ms-routing-request-id" : "WESTUS2:20170906T154954Z:f368c119-da03-4fb5-a3ff-8c019f1aaa1a",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1SR0FDSTM4QzE4OTQ3QS1XRVNUVVMiLCJqb2JMb2NhdGlvbiI6Indlc3R1cyJ9?api-version=2016-09-01",
+      "x-ms-correlation-request-id" : "2e1de5c8-b340-45ae-bd89-6a9c6f53fecf",
+      "x-ms-routing-request-id" : "WESTUS2:20171117T221027Z:2e1de5c8-b340-45ae-bd89-6a9c6f53fecf",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1SR0FDSUM1NzAxMjI4My1XRVNUVVMiLCJqb2JMb2NhdGlvbiI6Indlc3R1cyJ9?api-version=2016-09-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "f368c119-da03-4fb5-a3ff-8c019f1aaa1a",
+      "x-ms-request-id" : "2e1de5c8-b340-45ae-bd89-6a9c6f53fecf",
       "Body" : ""
     }
   } ],
-  "variables" : [ "rgaci38c18947a", "acisample87a266417" ]
+  "variables" : [ "rgacic57012283", "acisample28813612b", "c02cfbc6-b26f-46c0-9af0-2c0a17d8abfd", "bd7370df-495f-4b2e-abb3-ce0aa3e42908" ]
 }

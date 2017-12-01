@@ -27,6 +27,11 @@ public abstract class IndexableRefreshableWrapperImpl<FluentModelT, InnerModelT>
         this.setInner(innerObject);
     }
 
+    protected IndexableRefreshableWrapperImpl(String key, InnerModelT innerObject) {
+        super(key);
+        this.setInner(innerObject);
+    }
+
     @Override
     public InnerModelT inner() {
         return this.innerObject;

@@ -27,12 +27,6 @@ public class ErrorDetails {
     private String message;
 
     /**
-     * The target of the particular error.
-     */
-    @JsonProperty(value = "target", access = JsonProperty.Access.WRITE_ONLY)
-    private String target;
-
-    /**
      * Get the code value.
      *
      * @return the code value
@@ -48,15 +42,6 @@ public class ErrorDetails {
      */
     public String message() {
         return this.message;
-    }
-
-    /**
-     * Get the target value.
-     *
-     * @return the target value
-     */
-    public String target() {
-        return this.target;
     }
 
 }

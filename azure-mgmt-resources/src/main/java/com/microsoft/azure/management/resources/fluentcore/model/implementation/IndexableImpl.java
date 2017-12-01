@@ -17,7 +17,11 @@ abstract class IndexableImpl implements Indexable {
     protected String key;
 
     protected IndexableImpl() {
-        this.key = UUID.randomUUID().toString();
+        this(UUID.randomUUID().toString());
+    }
+
+    protected IndexableImpl(String key) {
+        this.key = key;
     }
 
     @Override

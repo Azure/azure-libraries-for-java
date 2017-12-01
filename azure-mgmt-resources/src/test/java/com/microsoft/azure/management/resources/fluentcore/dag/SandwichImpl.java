@@ -26,13 +26,13 @@ public class SandwichImpl
      * @param innerObject the inner model object
      */
     protected SandwichImpl(String name, SandwichInner innerObject) {
-        super(name, innerObject);
+        super(name, name, innerObject);
     }
 
 
     @Override
     public ISandwich withBreadSliceFromStore(Executable<IBreadSlice> breadFetcher) {
-        this.addExecutableDependency(breadFetcher);
+        this.addDependency(breadFetcher);
         return this;
     }
 

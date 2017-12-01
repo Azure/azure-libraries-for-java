@@ -39,7 +39,7 @@ class VirtualMachineExtensionsImpl extends
      * @param parent the parent virtual machine of the extensions
      */
     VirtualMachineExtensionsImpl(VirtualMachineExtensionsInner client, VirtualMachineImpl parent) {
-        super(parent, "VirtualMachineExtension");
+        super(parent,  parent.taskGroup(), "VirtualMachineExtension");
         this.client = client;
         this.cacheCollection();
     }
@@ -110,7 +110,8 @@ class VirtualMachineExtensionsImpl extends
      * @return the extension
      */
     public VirtualMachineExtensionImpl define(String name) {
-        return this.prepareDefine(name);
+        VirtualMachineExtensionImpl newExtension = this.prepareDefine(name);
+        return newExtension;
     }
 
     /**
@@ -147,12 +148,16 @@ class VirtualMachineExtensionsImpl extends
         if (parent().inner().resources() != null) {
             for (VirtualMachineExtensionInner inner : parent().inner().resources()) {
                 if (inner.name() == null) {
+                    // This extension exists in the parent VM extension collection as a reference id.
+                    //
                     inner.withLocation(parent().regionName());
                     childResources.add(new VirtualMachineExtensionImpl(ResourceUtils.nameFromResourceId(inner.id()),
                             this.parent(),
                             inner,
                             this.client));
                 } else {
+                    // This extension exists in the parent VM as a fully blown object
+                    //
                     childResources.add(new VirtualMachineExtensionImpl(inner.name(),
                             this.parent(),
                             inner,

@@ -54,6 +54,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.Callable;
 
 /**
@@ -83,9 +84,9 @@ abstract class WebAppBaseImpl<
     private Set<String> trafficManagerHostNamesSet;
     private Set<String> outboundIPAddressesSet;
     private Map<String, HostNameSslState> hostNameSslStateMap;
-    private Map<String, HostNameBindingImpl<FluentT, FluentImplT>> hostNameBindingsToCreate;
+    private TreeMap<String, HostNameBindingImpl<FluentT, FluentImplT>> hostNameBindingsToCreate;
     private List<String> hostNameBindingsToDelete;
-    private Map<String, HostNameSslBindingImpl<FluentT, FluentImplT>> sslBindingsToCreate;
+    private TreeMap<String, HostNameSslBindingImpl<FluentT, FluentImplT>> sslBindingsToCreate;
 
     private Map<String, String> appSettingsToAdd;
     private List<String> appSettingsToRemove;
@@ -118,7 +119,7 @@ abstract class WebAppBaseImpl<
 
     @SuppressWarnings("unchecked")
     private FluentT normalizeProperties() {
-        this.hostNameBindingsToCreate = new HashMap<>();
+        this.hostNameBindingsToCreate = new TreeMap<>();
         this.hostNameBindingsToDelete = new ArrayList<>();
         this.appSettingsToAdd = new HashMap<>();
         this.appSettingsToRemove = new ArrayList<>();
@@ -129,7 +130,7 @@ abstract class WebAppBaseImpl<
         this.sourceControl = null;
         this.sourceControlToDelete = false;
         this.authenticationToUpdate = false;
-        this.sslBindingsToCreate = new HashMap<>();
+        this.sslBindingsToCreate = new TreeMap<>();
         if (inner().hostNames() != null) {
             this.hostNamesSet = Sets.newHashSet(inner().hostNames());
         }

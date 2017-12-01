@@ -31,7 +31,7 @@ class DnsRecordSetsImpl extends
      * @param parent the parent DNS zone of the record set
      */
     DnsRecordSetsImpl(DnsZoneImpl parent) {
-        super(parent, "RecordSet");
+        super(parent, parent.taskGroup(), "RecordSet");
     }
 
     DnsRecordSetImpl defineARecordSet(String name) {
@@ -138,10 +138,6 @@ class DnsRecordSetsImpl extends
 
     void withoutTxtRecordSet(String name, String eTagValue) {
         prepareRemove(TxtRecordSetImpl.newRecordSet(name, this.parent()).withETagOnDelete(eTagValue));
-    }
-
-    final void clearPendingOperations() {
-        this.childCollection.clear();
     }
 
     private DnsRecordSetImpl setDefaults(DnsRecordSetImpl recordSet) {

@@ -16,7 +16,7 @@ class PulletImpl extends ExternalChildResourceImpl<Pullet, Object, ChickenImpl, 
     private FailFlag failFlag = FailFlag.None;
 
     PulletImpl(String name, ChickenImpl parent) {
-        super(name, parent, new Object());
+        super(name, name, parent, new Object());
     }
 
     public PulletImpl withAge(Integer age) {

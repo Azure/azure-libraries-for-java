@@ -246,7 +246,7 @@ class ApplicationGatewayImpl
     protected void beforeCreating()  {
         // Process created PIPs
         for (Entry<String, String> frontendPipPair : this.creatablePipsByFrontend.entrySet()) {
-            Resource createdPip = this.createdResource(frontendPipPair.getValue());
+            Resource createdPip = this.<Resource>taskResult(frontendPipPair.getValue());
             this.updateFrontend(frontendPipPair.getKey()).withExistingPublicIPAddress(createdPip.id());
         }
         this.creatablePipsByFrontend.clear();
@@ -986,8 +986,7 @@ class ApplicationGatewayImpl
     @Override
     public ApplicationGatewayImpl withNewPublicIPAddress(Creatable<PublicIPAddress> creatable) {
         final String name = ensureDefaultPublicFrontend().name();
-        this.creatablePipsByFrontend.put(name, creatable.key());
-        this.addCreatableDependency(creatable);
+        this.creatablePipsByFrontend.put(name, this.addDependency(creatable));
         return this;
     }
 

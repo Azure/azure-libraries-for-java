@@ -10,17 +10,20 @@ import com.microsoft.azure.keyvault.models.Attributes;
 import com.microsoft.azure.keyvault.models.KeyAttributes;
 import com.microsoft.azure.keyvault.models.KeyBundle;
 import com.microsoft.azure.keyvault.requests.CreateKeyRequest;
+import com.microsoft.azure.keyvault.requests.ImportKeyRequest;
 import com.microsoft.azure.keyvault.requests.UpdateKeyRequest;
 import com.microsoft.azure.keyvault.webkey.JsonWebKey;
 import com.microsoft.azure.keyvault.webkey.JsonWebKeyOperation;
 import com.microsoft.azure.keyvault.webkey.JsonWebKeyType;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.keyvault.Key;
+import com.microsoft.azure.management.keyvault.Key.DefinitionStages.WithImport;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
 import rx.functions.Action0;
+import rx.functions.Func0;
 import rx.functions.Func1;
 
 import java.util.List;
@@ -43,6 +46,7 @@ class KeyImpl
     private final Vault vault;
     private CreateKeyRequest.Builder createKeyRequest;
     private UpdateKeyRequest.Builder updateKeyRequest;
+    private ImportKeyRequest.Builder importKeyRequest;
 
     KeyImpl(String name, KeyBundle innerObject, Vault vault) {
         super(name, innerObject);
@@ -82,8 +86,15 @@ class KeyImpl
 
     @Override
     public KeyImpl withTags(Map<String, String> tags) {
-        createKeyRequest.withTags(tags);
-        updateKeyRequest.withTags(tags);
+        if (isInCreateMode()) {
+            if (createKeyRequest != null) {
+                createKeyRequest.withTags(tags);
+            } else {
+                importKeyRequest.withTags(tags);
+            }
+        } else {
+            updateKeyRequest.withTags(tags);
+        }
         return this;
     }
 
@@ -94,21 +105,38 @@ class KeyImpl
 
     @Override
     public Observable<Key> createResourceAsync() {
-        return Observable.from(vault.client().createKeyAsync(createKeyRequest.build(), null))
-                .map(innerToFluentMap(this))
-                .doOnCompleted(new Action0() {
-                    @Override
-                    public void call() {
-                        createKeyRequest = null;
-                        updateKeyRequest = new UpdateKeyRequest.Builder(vault.vaultUri(), name());
-                    }
-                });
+        return Observable.defer(new Func0<Observable<Key>>() {
+            @Override
+            public Observable<Key> call() {
+                if (createKeyRequest != null) {
+                    return Observable.from(vault.client().createKeyAsync(createKeyRequest.build(), null))
+                            .map(innerToFluentMap(KeyImpl.this))
+                            .doOnCompleted(new Action0() {
+                                @Override
+                                public void call() {
+                                    createKeyRequest = null;
+                                    updateKeyRequest = new UpdateKeyRequest.Builder(vault.vaultUri(), name());
+                                }
+                            });
+                } else {
+                    return Observable.from(vault.client().importKeyAsync(importKeyRequest.build(), null))
+                            .map(innerToFluentMap(KeyImpl.this))
+                            .doOnCompleted(new Action0() {
+                                @Override
+                                public void call() {
+                                    importKeyRequest = null;
+                                    updateKeyRequest = new UpdateKeyRequest.Builder(vault.vaultUri(), name());
+                                }
+                            });
+                }
+            }
+        });
     }
 
     @Override
     public Observable<Key> updateResourceAsync() {
         Observable<Key> set = Observable.just((Key) this);
-        if (createKeyRequest != null) {
+        if (createKeyRequest != null || importKeyRequest != null) {
             set = createResourceAsync();
         }
         return set.flatMap(new Func1<Key, Observable<KeyBundle>>() {
@@ -132,18 +160,43 @@ class KeyImpl
 
     @Override
     public KeyImpl withAttributes(Attributes attributes) {
-        createKeyRequest.withAttributes(attributes);
-        updateKeyRequest.withAttributes(attributes);
+        if (isInCreateMode()) {
+            if (createKeyRequest != null) {
+                createKeyRequest.withAttributes(attributes);
+            } else {
+                updateKeyRequest.withAttributes(attributes);
+            }
+        } else {
+            updateKeyRequest.withAttributes(attributes);
+        }
         return this;
     }
 
     @Override
     public KeyImpl withKeyType(JsonWebKeyType keyType) {
-        return null;
+        createKeyRequest = new CreateKeyRequest.Builder(vault.vaultUri(), name(), keyType);
+        return this;
+    }
+
+    @Override
+    public WithImport withKey(JsonWebKey key) {
+        importKeyRequest = new ImportKeyRequest.Builder(vault.vaultUri(), name(), key);
+        return this;
     }
 
     @Override
     public KeyImpl withKeyOperations(List<JsonWebKeyOperation> keyOperations) {
-        return null;
+        if (isInCreateMode()) {
+            createKeyRequest.withKeyOperations(keyOperations);
+        } else {
+            updateKeyRequest.withKeyOperations(keyOperations);
+        }
+        return this;
+    }
+
+    @Override
+    public WithImport withHsm(boolean isHsm) {
+        importKeyRequest.withHsm(isHsm);
+        return this;
     }
 }

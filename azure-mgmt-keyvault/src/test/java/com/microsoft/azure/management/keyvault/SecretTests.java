@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.keyvault;
 
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
+import com.microsoft.azure.keyvault.SecretIdentifier;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
@@ -50,5 +51,12 @@ public class SecretTests extends KeyVaultManagementTest {
                 .apply();
 
         Assert.assertEquals("Some updated value", secret.value());
+
+        List<SecretIdentifier> versions = secret.listVersions();
+
+        for (SecretIdentifier identifier : versions) {
+
+        }
+
     }
 }

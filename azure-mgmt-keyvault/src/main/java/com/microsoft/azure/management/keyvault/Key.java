@@ -13,6 +13,7 @@ import com.microsoft.azure.keyvault.webkey.JsonWebKey;
 import com.microsoft.azure.keyvault.webkey.JsonWebKeyOperation;
 import com.microsoft.azure.keyvault.webkey.JsonWebKeyType;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.keyvault.Key.DefinitionStages.WithKey;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -57,20 +58,26 @@ public interface Key extends
 
     interface Definition extends
             DefinitionStages.Blank,
-            DefinitionStages.WithKeyType,
+            WithKey,
+            DefinitionStages.WithImport,
             DefinitionStages.WithCreate {
     }
 
     interface DefinitionStages {
-        interface Blank extends WithKeyType {
+        interface Blank extends WithKey {
         }
 
-        interface WithKeyType {
+        interface WithKey {
             WithCreate withKeyType(JsonWebKeyType keyType);
+            WithImport withKey(JsonWebKey key);
         }
 
         interface WithKeyOperations {
             WithCreate withKeyOperations(List<JsonWebKeyOperation> keyOperations);
+        }
+
+        interface WithHsm {
+            WithImport withHsm(boolean isHsm);
         }
 
         interface WithAttributes {
@@ -84,6 +91,14 @@ public interface Key extends
         interface WithCreate extends
                 Creatable<Key>,
                 WithKeyOperations,
+                WithAttributes,
+                WithTags {
+
+        }
+
+        interface WithImport extends
+                Creatable<Key>,
+                WithHsm,
                 WithAttributes,
                 WithTags {
 

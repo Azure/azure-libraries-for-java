@@ -49,13 +49,13 @@ public class ManageContainerInstanceWithMultipleContainerImages {
                     .withImage(containerImageName1)
                     .withExternalTcpPort(80)
                     .withCpuCoreCount(.5)
-                    .withMemorySizeInGB(.75)
+                    .withMemorySizeInGB(0.8)
                     .attach()
                 .defineContainerInstance(aciName + "-2")
                     .withImage(containerImageName2)
                     .withoutPorts()
                     .withCpuCoreCount(.5)
-                    .withMemorySizeInGB(.75)
+                    .withMemorySizeInGB(0.8)
                     .attach()
                 .create();
 

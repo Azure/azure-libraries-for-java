@@ -167,28 +167,28 @@ public class WebhookImpl
     @Override
     public void enable() {
         this.update()
-            .withDefaultStatus(WebhookStatus.ENABLED)
+            .enabled(true)
             .apply();
     }
 
     @Override
     public Completable enableAsync() {
         return this.update()
-            .withDefaultStatus(WebhookStatus.ENABLED)
+            .enabled(true)
             .applyAsync().toCompletable();
     }
 
     @Override
     public void disable() {
         this.update()
-            .withDefaultStatus(WebhookStatus.DISABLED)
+            .enabled(false)
             .apply();
     }
 
     @Override
     public Completable disableAsync() {
         return this.update()
-            .withDefaultStatus(WebhookStatus.DISABLED)
+            .enabled(false)
             .applyAsync().toCompletable();
     }
 
@@ -215,8 +215,8 @@ public class WebhookImpl
         final WebhookImpl self = this;
         final PagedListConverter<EventInner, WebhookEventInfo> converter = new PagedListConverter<EventInner, WebhookEventInfo>() {
             @Override
-            public WebhookEventInfo typeConvert(EventInner inner) {
-                return new WebhookEventInfoImpl(inner);
+            public Observable<WebhookEventInfo> typeConvertAsync(EventInner inner) {
+                return Observable.just((WebhookEventInfo) new WebhookEventInfoImpl(inner));
             }
         };
         return converter.convert(this.containerRegistryManager.inner().webhooks()
@@ -480,13 +480,12 @@ public class WebhookImpl
     }
 
     @Override
-    public WebhookImpl withDefaultStatus(WebhookStatus defaultStatus) {
-        if (defaultStatus != null) {
-            if (this.isInCreateMode) {
-                ensureWebhookCreateParametersInner().withStatus(defaultStatus);
-            } else {
-                ensureWebhookUpdateParametersInner().withStatus(defaultStatus);
-            }
+    public WebhookImpl enabled(boolean defaultStatus) {
+        WebhookStatus status = defaultStatus ? WebhookStatus.ENABLED : WebhookStatus.DISABLED;
+        if (this.isInCreateMode) {
+            ensureWebhookCreateParametersInner().withStatus(status);
+        } else {
+            ensureWebhookUpdateParametersInner().withStatus(status);
         }
         return this;
     }

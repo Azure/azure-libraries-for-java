@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.resources.childresource;
 
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import rx.Completable;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -17,7 +16,7 @@ class PulletImpl extends ExternalChildResourceImpl<Pullet, Object, ChickenImpl, 
     private FailFlag failFlag = FailFlag.None;
 
     PulletImpl(String name, ChickenImpl parent) {
-        super(name, parent, new Object());
+        super(name, name, parent, new Object());
     }
 
     public PulletImpl withAge(Integer age) {

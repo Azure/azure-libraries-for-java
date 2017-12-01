@@ -28,6 +28,7 @@ import com.microsoft.azure.management.network.IPAllocationMethod;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.Subnet;
+import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
@@ -40,8 +41,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeSet;
 
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
@@ -243,7 +246,7 @@ class ApplicationGatewayImpl
     protected void beforeCreating()  {
         // Process created PIPs
         for (Entry<String, String> frontendPipPair : this.creatablePipsByFrontend.entrySet()) {
-            Resource createdPip = this.createdResource(frontendPipPair.getValue());
+            Resource createdPip = this.<Resource>taskResult(frontendPipPair.getValue());
             this.updateFrontend(frontendPipPair.getKey()).withExistingPublicIPAddress(createdPip.id());
         }
         this.creatablePipsByFrontend.clear();
@@ -983,8 +986,7 @@ class ApplicationGatewayImpl
     @Override
     public ApplicationGatewayImpl withNewPublicIPAddress(Creatable<PublicIPAddress> creatable) {
         final String name = ensureDefaultPublicFrontend().name();
-        this.creatablePipsByFrontend.put(name, creatable.key());
-        this.addCreatableDependency(creatable);
+        this.creatablePipsByFrontend.put(name, this.addDependency(creatable));
         return this;
     }
 
@@ -1097,6 +1099,17 @@ class ApplicationGatewayImpl
     @Override
     public ApplicationGatewayImpl withoutBackend(String backendName) {
         this.backends.remove(backendName);
+        return this;
+    }
+
+    @Override
+    public ApplicationGatewayImpl withAvailabilityZone(AvailabilityZoneId zoneId) {
+        if (this.inner().zones() == null) {
+            this.inner().withZones(new ArrayList<String>());
+        }
+        if (!this.inner().zones().contains(zoneId.toString())) {
+            this.inner().zones().add(zoneId.toString());
+        }
         return this;
     }
 
@@ -1233,6 +1246,17 @@ class ApplicationGatewayImpl
     @Override
     public Map<String, ApplicationGatewayAuthenticationCertificate> authenticationCertificates() {
         return Collections.unmodifiableMap(this.authCertificates);
+    }
+
+    @Override
+    public Set<AvailabilityZoneId> availabilityZones() {
+        Set<AvailabilityZoneId> zones = new TreeSet<>();
+        if (this.inner().zones() != null) {
+            for (String zone : this.inner().zones()) {
+                zones.add(AvailabilityZoneId.fromString(zone));
+            }
+        }
+        return Collections.unmodifiableSet(zones);
     }
 
     @Override

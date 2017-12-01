@@ -8,6 +8,7 @@ package com.microsoft.azure.management.resources.fluentcore.dag;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreateUpdateTask;
 import org.junit.Assert;
 import rx.Observable;
 import rx.functions.Func1;
@@ -26,7 +27,7 @@ class PizzaImpl
     boolean prepareCalled = false;
 
     public PizzaImpl(String name) {
-        super(name, new PizzaInner());
+        super(name, name, new PizzaInner());
         delayedPizzas = new ArrayList<>();
     }
 
@@ -38,13 +39,13 @@ class PizzaImpl
      */
     @Override
     public PizzaImpl withInstantPizza(Creatable<IPizza> pizza) {
-        this.addCreatableDependency(pizza);
+        this.addDependency(pizza);
         return this;
     }
 
     /**
      * a pizza specified via this wither will not be added immediately as a dependency, will be added only
-     * inside prepare {@link com.microsoft.azure.management.resources.fluentcore.model.implementation.CreateUpdateTask.ResourceCreatorUpdator#prepare()}
+     * inside beforeGroupCreateOrUpdate {@link CreateUpdateTask.ResourceCreatorUpdater#beforeGroupCreateOrUpdate()}
      *
      * @param pizza the pizza
      * @return the next stage of pizza
@@ -53,6 +54,19 @@ class PizzaImpl
     public PizzaImpl withDelayedPizza(Creatable<IPizza> pizza) {
         this.delayedPizzas.add(pizza);
         return this;
+    }
+
+    @Override
+    public void beforeGroupCreateOrUpdate() {
+        Assert.assertFalse("PizzaImpl::beforeGroupCreateOrUpdate() should not be called multiple times", this.prepareCalled);
+        prepareCalled = true;
+        int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
+        for(Creatable<IPizza> pizza : this.delayedPizzas) {
+            this.addDependency(pizza);
+        }
+        int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
+        System.out.println("Pizza(" + this.name() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPizzas.size()
+                + " 'dependency count [old, new]': [" + oldCount + "," + newCount + "]");
     }
 
     @Override
@@ -66,19 +80,6 @@ class PizzaImpl
                         return pizza;
                     }
                 });
-    }
-
-    @Override
-    public void prepare() {
-        Assert.assertFalse("PizzaImpl::prepare() should not be called multiple times", this.prepareCalled);
-        prepareCalled = true;
-        int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
-        for(Creatable<IPizza> pizza : this.delayedPizzas) {
-            this.addCreatableDependency(pizza);
-        }
-        int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
-        System.out.println("Pizza(" + this.name() + ")::prepare() 'delayedSize':" + this.delayedPizzas.size()
-                + " 'dependency count [old, new]': [" + oldCount + "," + newCount + "]");
     }
 
     @Override

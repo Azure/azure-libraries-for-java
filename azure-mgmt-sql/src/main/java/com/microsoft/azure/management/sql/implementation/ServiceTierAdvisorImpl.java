@@ -103,9 +103,8 @@ class ServiceTierAdvisorImpl
         if (sloUsageMetrics == null) {
             PagedListConverter<SloUsageMetric, SloUsageMetricInterface> converter = new PagedListConverter<SloUsageMetric, SloUsageMetricInterface>() {
                 @Override
-                public SloUsageMetricInterface typeConvert(SloUsageMetric sloUsageMetricInner) {
-
-                    return new SloUsageMetricImpl(sloUsageMetricInner);
+                public Observable<SloUsageMetricInterface> typeConvertAsync(SloUsageMetric sloUsageMetricInner) {
+                    return Observable.just((SloUsageMetricInterface) new SloUsageMetricImpl(sloUsageMetricInner));
                 }
             };
 

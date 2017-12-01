@@ -7,6 +7,8 @@
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreateUpdateTask;
 import org.junit.Assert;
 import rx.Observable;
 import rx.functions.Func1;
@@ -19,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  * Implementation of {@link IPasta}
  */
 class PastaImpl
-        extends CreatableUpdatableLCAImpl<IPasta, PastaInner>
+        extends CreatableUpdatableImpl<IPasta, PastaInner, PastaImpl>
         implements IPasta {
     final List<Creatable<IPasta>> delayedPastas;
     final long eventDelayInMilliseconds;
@@ -31,7 +33,7 @@ class PastaImpl
     }
 
     public PastaImpl(String name, long eventDelayInMilliseconds, boolean fault) {
-        super(name, new PastaInner());
+        super(name, name, new PastaInner());
         this.eventDelayInMilliseconds = eventDelayInMilliseconds;
         if (fault) {
             this.errorToThrow = new RuntimeException(name);
@@ -49,13 +51,13 @@ class PastaImpl
      */
     @Override
     public PastaImpl withInstantPasta(Creatable<IPasta> pasta) {
-        this.addCreatableDependency(pasta);
+        this.addDependency(pasta);
         return this;
     }
 
     /**
      * a pancake specified via this wither will not be added immediately as a dependency, will be added only
-     * inside prepare {@link com.microsoft.azure.management.resources.fluentcore.model.implementation.CreateUpdateTask.ResourceCreatorUpdator#prepare()}
+     * inside beforeGroupCreateOrUpdate {@link CreateUpdateTask.ResourceCreatorUpdater#beforeGroupCreateOrUpdate()}
      *
      * @param pasta the pasta
      * @return the next stage of pasta
@@ -64,6 +66,20 @@ class PastaImpl
     public PastaImpl withDelayedPasta(Creatable<IPasta> pasta) {
         this.delayedPastas.add(pasta);
         return this;
+    }
+
+
+    @Override
+    public void beforeGroupCreateOrUpdate() {
+        Assert.assertFalse("PastaImpl::beforeGroupCreateOrUpdate() should not be called multiple times", this.prepareCalled);
+        prepareCalled = true;
+        int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
+        for(Creatable<IPasta> pancake : this.delayedPastas) {
+            this.addDependency(pancake);
+        }
+        int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
+        System.out.println("Pasta(" + this.name() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPastas.size()
+                + " 'dependency count [old, new]': [" + oldCount + "," + newCount + "]");
     }
 
     @Override
@@ -89,19 +105,6 @@ class PastaImpl
                         }
                     });
         }
-    }
-
-    @Override
-    public void prepare() {
-        Assert.assertFalse("PastaImpl::prepare() should not be called multiple times", this.prepareCalled);
-        prepareCalled = true;
-        int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
-        for(Creatable<IPasta> pancake : this.delayedPastas) {
-            this.addCreatableDependency(pancake);
-        }
-        int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
-        System.out.println("Pasta(" + this.name() + ")::prepare() 'delayedSize':" + this.delayedPastas.size()
-                + " 'dependency count [old, new]': [" + oldCount + "," + newCount + "]");
     }
 
     @Override

@@ -17,7 +17,7 @@ import java.util.List;
  * Status of packet capture session.
  */
 @Fluent
-@Beta
+@Beta(Beta.SinceVersion.V1_2_0)
 public interface PacketCaptureStatus extends HasInner<PacketCaptureQueryStatusResultInner> {
     /**
      * @return the name of the packet capture resource
@@ -35,8 +35,7 @@ public interface PacketCaptureStatus extends HasInner<PacketCaptureQueryStatusRe
     DateTime captureStartTime();
 
     /**
-     * Get the status of the packet capture session. Possible values include:
-     * 'NotStarted', 'Running', 'Stopped', 'Error', 'Unknown'.
+     * Get the status of the packet capture session.
      *
      * @return the packetCaptureStatus value
      */

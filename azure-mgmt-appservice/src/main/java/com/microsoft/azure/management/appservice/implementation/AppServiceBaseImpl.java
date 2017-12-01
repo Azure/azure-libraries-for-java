@@ -354,7 +354,7 @@ abstract class AppServiceBaseImpl<
     }
 
     public FluentImplT withNewAppServicePlan(Creatable<AppServicePlan> appServicePlanCreatable) {
-        addCreatableDependency(appServicePlanCreatable);
+        this.addDependency(appServicePlanCreatable);
         String id = ResourceUtils.constructResourceId(this.manager().subscriptionId(),
                 resourceGroupName(), "Microsoft.Web", "serverFarms", appServicePlanCreatable.name(), "");
         inner().withServerFarmId(id);

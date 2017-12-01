@@ -13,6 +13,7 @@ import com.microsoft.azure.management.appservice.AppServiceDomains;
 import com.microsoft.azure.management.appservice.DomainLegalAgreement;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
+import rx.Observable;
 
 /**
  * The implementation for AppServiceDomains.
@@ -54,8 +55,8 @@ class AppServiceDomainsImpl
     public PagedList<DomainLegalAgreement> listAgreements(String topLevelExtension) {
         return new PagedListConverter<TldLegalAgreementInner, DomainLegalAgreement>() {
             @Override
-            public DomainLegalAgreement typeConvert(TldLegalAgreementInner tldLegalAgreementInner) {
-                return new DomainLegalAgreementImpl(tldLegalAgreementInner);
+            public Observable<DomainLegalAgreement> typeConvertAsync(TldLegalAgreementInner tldLegalAgreementInner) {
+                return Observable.just((DomainLegalAgreement) new DomainLegalAgreementImpl(tldLegalAgreementInner));
             }
         }.convert(this.manager().inner().topLevelDomains().listAgreements(topLevelExtension, new TopLevelDomainAgreementOptionInner()));
     }

@@ -99,6 +99,14 @@ public interface NetworkWatcher extends
     ConnectivityCheck.DefinitionStages.ToDestination checkConnectivity();
 
     /**
+     * Initiate troubleshooting on a specified resource (virtual network gateway or virtual network gateway connection).
+     * @return troubleshooting result information
+     */
+    @Beta(SinceVersion.V1_4_0)
+    @Method
+    Troubleshooting.DefinitionStages.WithTargetResource troubleshoot();
+
+    /**
      * Container interface for all the definitions.
      */
     interface Definition extends

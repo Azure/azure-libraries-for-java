@@ -43,16 +43,20 @@ class CdnProfileImpl
             CdnProfile.Definition,
             CdnProfile.Update {
 
-    private CdnEndpointsImpl endpointsImpl;
+    private CdnEndpointsImpl endpoints;
 
     CdnProfileImpl(String name, final ProfileInner innerModel, final CdnManager cdnManager) {
         super(name, innerModel, cdnManager);
-        this.endpointsImpl = new CdnEndpointsImpl(this);
+        this.endpoints = new CdnEndpointsImpl(this);
     }
 
     @Override
     public Map<String, CdnEndpoint> endpoints() {
-        return this.endpointsImpl.endpointsAsMap();
+        // This is not right, The endpoints are not inline children of profile (hence they are
+        // not ached) but CdnEndpointsImpl today is deriving from ExternalChildResourceCachedImpl
+        // instead it should derive from ExternalChildResourceNonCachedImpl
+        //
+        return this.endpoints.endpointsAsMap();
     }
 
     @Override
@@ -114,8 +118,8 @@ class CdnProfileImpl
     public PagedList<ResourceUsage> listResourceUsage() {
         return (new PagedListConverter<ResourceUsageInner, ResourceUsage>() {
             @Override
-            public ResourceUsage typeConvert(ResourceUsageInner inner) {
-                return new ResourceUsage(inner);
+            public Observable<ResourceUsage> typeConvertAsync(ResourceUsageInner inner) {
+                return Observable.just((ResourceUsage) new ResourceUsage(inner));
             }
         }).convert(this.manager().inner().profiles().listResourceUsage(
                 this.resourceGroupName(),
@@ -230,10 +234,23 @@ class CdnProfileImpl
     }
 
     @Override
+    public CdnProfileImpl update() {
+        this.endpoints.enableCommitMode();
+        return super.update();
+    }
+
+
+    @Override
+    public Observable<CdnProfile> createResourceAsync() {
+        return this.manager().inner().profiles().createAsync(resourceGroupName(), name(), inner())
+                .map(innerToFluentMap(this));
+    }
+
+    @Override
     public Observable<CdnProfile> updateResourceAsync() {
         final CdnProfileImpl self = this;
         final ProfilesInner innerCollection = this.manager().inner().profiles();
-        return self.endpointsImpl.commitAndGetAllAsync()
+        return self.endpoints.commitAndGetAllAsync()
                 .flatMap(new Func1<List<CdnEndpointImpl>, Observable<? extends CdnProfile>>() {
                     public Observable<? extends CdnProfile> call(List<CdnEndpointImpl> endpoints) {
                         return innerCollection.updateAsync(resourceGroupName(), name(), inner().getTags())
@@ -249,27 +266,24 @@ class CdnProfileImpl
     }
 
     @Override
-    public Observable<CdnProfile> createResourceAsync() {
-        final CdnProfileImpl self = this;
-        return this.manager().inner().profiles().createAsync(resourceGroupName(), name(), inner())
-                .map(new Func1<ProfileInner, CdnProfile>() {
-                    @Override
-                    public CdnProfile call(ProfileInner profileInner) {
-                        self.setInner(profileInner);
-                        return self;
-                    }
-                }).flatMap(new Func1<CdnProfile, Observable<? extends CdnProfile>>() {
-                    @Override
-                    public Observable<? extends CdnProfile> call(CdnProfile profile) {
-                        return self.endpointsImpl.commitAndGetAllAsync()
-                                .map(new Func1<List<CdnEndpointImpl>, CdnProfile>() {
-                                    @Override
-                                    public CdnProfile call(List<CdnEndpointImpl> endpoints) {
-                                        return self;
-                                    }
-                                });
-                    }
-                });
+    public Completable afterPostRunAsync(final boolean isGroupFaulted) {
+        if (isGroupFaulted) {
+            endpoints.clear();
+            return Completable.complete();
+        } else {
+            return this.refreshAsync().toCompletable();
+        }
+    }
+
+    @Override
+    public Observable<CdnProfile> refreshAsync() {
+        return super.refreshAsync().map(new Func1<CdnProfile, CdnProfile>() {
+            @Override
+            public CdnProfile call(CdnProfile profile) {
+                endpoints.refresh();
+                return profile;
+            }
+        });
     }
 
     @Override
@@ -298,24 +312,24 @@ class CdnProfileImpl
 
     @Override
     public CdnProfileImpl withNewEndpoint(String endpointOriginHostname) {
-        CdnEndpointImpl endpoint = this.endpointsImpl.defineNewEndpointWithOriginHostname(endpointOriginHostname);
-        this.endpointsImpl.addEndpoint(endpoint);
+        CdnEndpointImpl endpoint = this.endpoints.defineNewEndpointWithOriginHostname(endpointOriginHostname);
+        this.endpoints.addEndpoint(endpoint);
         return this;
     }
 
     @Override
     public CdnEndpointImpl defineNewEndpoint() {
-        return this.endpointsImpl.defineNewEndpoint();
+        return this.endpoints.defineNewEndpoint();
     }
 
     @Override
     public CdnEndpointImpl defineNewEndpoint(String name) {
-        return this.endpointsImpl.defineNewEndpoint(name);
+        return this.endpoints.defineNewEndpoint(name);
     }
 
     @Override
     public CdnEndpointImpl defineNewEndpoint(String name, String endpointOriginHostname) {
-        return this.endpointsImpl.defineNewEndpoint(name, endpointOriginHostname);
+        return this.endpoints.defineNewEndpoint(name, endpointOriginHostname);
     }
 
     @Override
@@ -325,7 +339,7 @@ class CdnProfileImpl
 
     @Override
     public CdnEndpointImpl defineNewPremiumEndpoint() {
-        return this.endpointsImpl.defineNewEndpoint();
+        return this.endpoints.defineNewEndpoint();
     }
 
     @Override
@@ -340,22 +354,22 @@ class CdnProfileImpl
 
     @Override
     public CdnEndpointImpl updateEndpoint(String name) {
-        return this.endpointsImpl.updateEndpoint(name);
+        return this.endpoints.updateEndpoint(name);
     }
 
     @Override
     public CdnEndpointImpl updatePremiumEndpoint(String name) {
-        return this.endpointsImpl.updateEndpoint(name);
+        return this.endpoints.updateEndpoint(name);
     }
 
     @Override
     public Update withoutEndpoint(String name) {
-        this.endpointsImpl.remove(name);
+        this.endpoints.remove(name);
         return this;
     }
 
     CdnProfileImpl withEndpoint(CdnEndpointImpl endpoint) {
-        this.endpointsImpl.addEndpoint(endpoint);
+        this.endpoints.addEndpoint(endpoint);
         return this;
     }
 }

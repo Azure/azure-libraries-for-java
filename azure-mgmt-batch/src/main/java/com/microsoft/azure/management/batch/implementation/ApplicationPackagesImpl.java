@@ -26,11 +26,11 @@ class ApplicationPackagesImpl extends
                 ApplicationPackage,
                 ApplicationPackageInner,
                 ApplicationImpl,
-                        Application> {
+                Application> {
     private final ApplicationImpl parent;
 
     ApplicationPackagesImpl(ApplicationImpl parent) {
-        super(parent, "ApplicationPackage");
+        super(parent, parent.taskGroup(), "ApplicationPackage");
         this.parent = parent;
         this.cacheCollection();
     }

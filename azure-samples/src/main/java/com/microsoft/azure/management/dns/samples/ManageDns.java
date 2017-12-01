@@ -112,7 +112,7 @@ public class ManageDns {
 
             // Waiting for a minute for DNS CName entry to propagate
             System.out.println("Waiting a minute for CName record entry to propagate...");
-            Thread.sleep(60 * 1000);
+            SdkContext.sleep(60 * 1000);
 
             // Step 2: Adds a web app host name binding for www.[customDomainName]
             //         This binding action will fail if the CName record propagation is not yet completed

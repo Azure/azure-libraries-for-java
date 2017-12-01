@@ -80,7 +80,7 @@ public final class ManageServicePrincipalCredentials {
 
             System.out.println("Creating a Contributor role assignment " + raName + " for the service principal...");
 
-            Thread.sleep(15000);
+            SdkContext.sleep(15000);
 
             RoleAssignment roleAssignment = authenticated.roleAssignments()
                     .define(raName)

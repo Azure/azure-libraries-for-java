@@ -101,8 +101,8 @@ class FunctionAppImpl
 
     @Override
     Observable<SiteInner> submitAppSettings(final SiteInner site) {
-        if (storageAccountCreatable != null && createdResource(storageAccountCreatable.key()) != null) {
-            storageAccountToSet = (StorageAccount) createdResource(storageAccountCreatable.key());
+        if (storageAccountCreatable != null && this.taskResult(storageAccountCreatable.key()) != null) {
+            storageAccountToSet = this.<StorageAccount>taskResult(storageAccountCreatable.key());
         }
         if (storageAccountToSet == null) {
             return super.submitAppSettings(site);
@@ -173,7 +173,7 @@ class FunctionAppImpl
                 .withGeneralPurposeAccountKind()
                 .withSku(sku);
         }
-        addCreatableDependency(storageAccountCreatable);
+        this.addDependency(storageAccountCreatable);
         return this;
     }
 

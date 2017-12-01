@@ -29,6 +29,12 @@
     "package": "com.microsoft.azure.management.batch",
     "args": "--payload-flattening-threshold=1 --tag=package-2017-05"
   },
+  "batchai": {
+    "dir": "azure-mgmt-batchai",
+    "source": "specification/batchai/resource-manager/readme.md",
+    "package": "com.microsoft.azure.management.batchai",
+    "args": "--payload-flattening-threshold=1 --tag=package-2017-09-preview"    
+  },
   "batchService": {
     "dir": "azure-batch",
     "source": "specification/batch/data-plane/readme.md",
@@ -64,7 +70,7 @@
     "dir": "azure-mgmt-consumption",
     "source": "specification/consumption/resource-manager/readme.md",
     "package": "com.microsoft.azure.management.consumption",
-    "args": "--payload-flattening-threshold=1 --tag=package-2017-04-preview"
+    "args": "--payload-flattening-threshold=1 --tag=package-2017-11"
   },
   "containerinstance": {
       "dir": "azure-mgmt-containerinstance",
@@ -77,6 +83,12 @@
     "source": "specification/containerregistry/resource-manager/readme.md",
     "package": "com.microsoft.azure.management.containerregistry",
     "args": "--payload-flattening-threshold=1 --tag=package-2017-10"
+  },
+  "containerservice": {
+    "dir": "azure-mgmt-containerservice",
+    "source": "specification/compute/resource-manager/readme.md",
+    "package": "com.microsoft.azure.management.containerservice",
+    "args": "--payload-flattening-threshold=1 --tag=package-container-service-2017-09 --title=ContainerServiceManagementClient --description=\"Container Service Client\""
   },
   "cosmosdb": {
     "dir": "azure-mgmt-cosmosdb",

@@ -6,7 +6,6 @@
 package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.network.ConnectivityCheck;
 import com.microsoft.azure.management.network.FlowLogSettings;
 import com.microsoft.azure.management.network.NetworkWatcher;
 import com.microsoft.azure.management.network.SecurityGroupView;
@@ -111,8 +110,13 @@ class NetworkWatcherImpl
     }
 
     @Override
-    public ConnectivityCheck.DefinitionStages.ToDestination checkConnectivity() {
+    public ConnectivityCheckImpl checkConnectivity() {
         return new ConnectivityCheckImpl(this);
+    }
+
+    @Override
+    public TroubleshootingImpl troubleshoot() {
+        return new TroubleshootingImpl(this);
     }
 
     @Override

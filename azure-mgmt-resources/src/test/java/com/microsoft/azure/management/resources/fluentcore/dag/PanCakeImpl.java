@@ -8,9 +8,12 @@ package com.microsoft.azure.management.resources.fluentcore.dag;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreateUpdateTask;
 import org.junit.Assert;
 import rx.Observable;
+import rx.Scheduler;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +35,7 @@ class PancakeImpl
     }
 
     public PancakeImpl(String name, long eventDelayInMilliseconds, boolean fault) {
-        super(name, new PancakeInner());
+        super(name, name, new PancakeInner());
         this.eventDelayInMilliseconds = eventDelayInMilliseconds;
         if (fault) {
             this.errorToThrow = new RuntimeException(name);
@@ -50,13 +53,13 @@ class PancakeImpl
      */
     @Override
     public PancakeImpl withInstantPancake(Creatable<IPancake> pancake) {
-        this.addCreatableDependency(pancake);
+        this.addDependency(pancake);
         return this;
     }
 
     /**
      * a pancake specified via this wither will not be added immediately as a dependency, will be added only
-     * inside prepare {@link com.microsoft.azure.management.resources.fluentcore.model.implementation.CreateUpdateTask.ResourceCreatorUpdator#prepare()}
+     * inside beforeGroupCreateOrUpdate {@link CreateUpdateTask.ResourceCreatorUpdater#beforeGroupCreateOrUpdate()}
      *
      * @param pancake the pancake
      * @return the next stage of pancake
@@ -65,6 +68,19 @@ class PancakeImpl
     public PancakeImpl withDelayedPancake(Creatable<IPancake> pancake) {
         this.delayedPancakes.add(pancake);
         return this;
+    }
+
+    @Override
+    public void beforeGroupCreateOrUpdate() {
+        Assert.assertFalse("PancakeImpl::beforeGroupCreateOrUpdate() should not be called multiple times", this.prepareCalled);
+        prepareCalled = true;
+        int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
+        for(Creatable<IPancake> pancake : this.delayedPancakes) {
+            this.addDependency(pancake);
+        }
+        int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
+        System.out.println("Pancake(" + this.name() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPancakes.size()
+                + " 'dependency count [old, new]': [" + oldCount + "," + newCount + "]");
     }
 
     @Override
@@ -90,19 +106,6 @@ class PancakeImpl
                         }
                     });
         }
-    }
-
-    @Override
-    public void prepare() {
-        Assert.assertFalse("PancakeImpl::prepare() should not be called multiple times", this.prepareCalled);
-        prepareCalled = true;
-        int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
-        for(Creatable<IPancake> pancake : this.delayedPancakes) {
-            this.addCreatableDependency(pancake);
-        }
-        int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
-        System.out.println("Pancake(" + this.name() + ")::prepare() 'delayedSize':" + this.delayedPancakes.size()
-                + " 'dependency count [old, new]': [" + oldCount + "," + newCount + "]");
     }
 
     @Override

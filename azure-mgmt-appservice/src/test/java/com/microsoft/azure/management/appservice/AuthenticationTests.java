@@ -59,9 +59,10 @@ public class AuthenticationTests extends AppServiceTest {
 
         // Update
         webApp1.update()
-                .updateAuthentication()
+                .defineAuthentication()
                     .withAnonymousAuthentication()
-                    .parent()
+                    .withFacebook("appId", "appSecret")
+                    .attach()
                 .apply();
 
         request = new Request.Builder().url("http://" + webApp1.defaultHostName()).get().build();

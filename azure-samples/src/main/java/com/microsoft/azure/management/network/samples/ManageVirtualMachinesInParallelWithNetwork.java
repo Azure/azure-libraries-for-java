@@ -44,8 +44,8 @@ public final class ManageVirtualMachinesInParallelWithNetwork {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final int frontendVMCount = 10;
-        final int backendVMCount = 10;
+        final int frontendVMCount = 4;
+        final int backendVMCount = 4;
         final String rgName = SdkContext.randomResourceName("rgNEPP", 24);
         final String frontEndNsgName = SdkContext.randomResourceName("fensg", 24);
         final String backEndNsgName = SdkContext.randomResourceName("bensg", 24);

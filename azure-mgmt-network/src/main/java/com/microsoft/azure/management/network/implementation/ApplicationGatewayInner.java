@@ -139,6 +139,12 @@ public class ApplicationGatewayInner extends Resource {
     private String etag;
 
     /**
+     * A list of availability zones denoting where the resource needs to come from..
+     */
+    @JsonProperty(value = "zones")
+    private List<String> zones;
+
+    /**
      * Get the sku value.
      *
      * @return the sku value
@@ -507,4 +513,23 @@ public class ApplicationGatewayInner extends Resource {
         return this;
     }
 
+    /**
+     * Get the zones value.
+     *
+     * @return the zones value
+     */
+    public List<String> zones() {
+        return this.zones;
+    }
+
+    /**
+     * Set the zones value.
+     *
+     * @param zones the zones value to set
+     * @return the ApplicationGatewayInner object itself.
+     */
+    public ApplicationGatewayInner withZones(List<String> zones) {
+        this.zones = zones;
+        return this;
+    }
 }

@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Defines values for LoadBalancerSkuType.
  */
-@LangDefinition
+@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Network.Fluent.Models")
 @Beta(Beta.SinceVersion.V1_3_0)
 public final class LoadBalancerSkuType {
     // This needs to be at the beginning for the initialization to happen correctly

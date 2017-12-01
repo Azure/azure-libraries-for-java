@@ -9,8 +9,8 @@ package com.microsoft.azure.management.appservice.implementation;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.FunctionApp;
-import com.microsoft.azure.management.appservice.FunctionDeploymentSlots;
 import com.microsoft.azure.management.appservice.FunctionDeploymentSlot;
+import com.microsoft.azure.management.appservice.FunctionDeploymentSlots;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.IndependentChildResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.rest.ServiceCallback;
@@ -43,14 +43,19 @@ class FunctionDeploymentSlotsImpl
         final WebAppsInner innerCollection = this.inner();
         converter = new PagedListConverter<SiteInner, FunctionDeploymentSlot>() {
             @Override
-            public FunctionDeploymentSlot typeConvert(SiteInner siteInner) {
-                return wrapModelWithConfigChange(siteInner, innerCollection, parent);
+            public Observable<FunctionDeploymentSlot> typeConvertAsync(final SiteInner siteInner) {
+                return innerCollection.getConfigurationSlotAsync(
+                        siteInner.resourceGroup(),
+                        parent.name(),
+                        siteInner.name().replaceAll(".*/", ""))
+                        .map(new Func1<SiteConfigResourceInner, FunctionDeploymentSlot>() {
+                            @Override
+                            public FunctionDeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner) {
+                                return wrapModel(siteInner, siteConfigResourceInner);
+                            }
+                        });
             }
         };
-    }
-
-    private FunctionDeploymentSlot wrapModelWithConfigChange(SiteInner siteInner, WebAppsInner innerCollection, FunctionAppImpl parent) {
-        return wrapModel(siteInner, innerCollection.getConfigurationSlot(siteInner.resourceGroup(), parent.name(), siteInner.name().replaceAll(".*/", ""))).cacheSiteProperties().toBlocking().single();
     }
 
     @Override
@@ -86,10 +91,10 @@ class FunctionDeploymentSlotsImpl
                     return null;
                 }
                 return innerCollection.getConfigurationSlotAsync(resourceGroup, parentName, name)
-                        .flatMap(new Func1<SiteConfigResourceInner, Observable<FunctionDeploymentSlot>>() {
+                        .map(new Func1<SiteConfigResourceInner, FunctionDeploymentSlot>() {
                             @Override
-                            public Observable<FunctionDeploymentSlot> call(SiteConfigResourceInner siteConfigInner) {
-                                return wrapModel(siteInner, siteConfigInner).cacheSiteProperties();
+                            public FunctionDeploymentSlot call(SiteConfigResourceInner siteConfigInner) {
+                                return wrapModel(siteInner, siteConfigInner);
                             }
                         });
             }
@@ -138,12 +143,13 @@ class FunctionDeploymentSlotsImpl
 
     @Override
     public Observable<FunctionDeploymentSlot> listAsync() {
-        return convertPageToInnerAsync(innerCollection.listSlotsAsync(parent.resourceGroupName(), parent.name())).map(new Func1<SiteInner, FunctionDeploymentSlot>() {
-            @Override
-            public FunctionDeploymentSlot call(SiteInner siteInner) {
-                return wrapModelWithConfigChange(siteInner, innerCollection, parent);
-            }
-        });
+        return convertPageToInnerAsync(innerCollection.listSlotsAsync(parent.resourceGroupName(), parent.name()))
+                .flatMap(new Func1<SiteInner, Observable<FunctionDeploymentSlot>>() {
+                    @Override
+                    public Observable<FunctionDeploymentSlot> call(SiteInner siteInner) {
+                        return converter.typeConvertAsync(siteInner);
+                    }
+                });
     }
 
     private FunctionDeploymentSlotImpl wrapModel(SiteInner inner, SiteConfigResourceInner configResourceInner) {

@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class BreadSliceImpl extends ExecutableImpl<IBreadSlice> implements IBreadSlice {
     private final String name;
     public BreadSliceImpl(String name) {
+        super(name);
         this.name = name;
     }
 
@@ -30,21 +31,21 @@ public class BreadSliceImpl extends ExecutableImpl<IBreadSlice> implements IBrea
                 .delay(250, TimeUnit.MILLISECONDS)
                 .map(new Func1<BreadSliceImpl, IBreadSlice>() {
                     @Override
-                    public IBreadSlice call(BreadSliceImpl sandwich) {
-                        return sandwich;
+                    public IBreadSlice call(BreadSliceImpl breadSlice) {
+                        return breadSlice;
                     }
                 });
     }
 
     @Override
     public IBreadSlice withAnotherSliceFromStore(Executable<IBreadSlice> breadFetcher) {
-        this.addExecutableDependency(breadFetcher);
+        this.addDependency(breadFetcher);
         return this;
     }
 
     @Override
     public IBreadSlice withNewOrder(Creatable<IOrder> order) {
-        this.addCreatableDependency(order);
+        this.addDependency(order);
         return this;
     }
 }

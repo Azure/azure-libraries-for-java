@@ -43,14 +43,19 @@ class DeploymentSlotsImpl
         final WebAppsInner innerCollection = this.inner();
         converter = new PagedListConverter<SiteInner, DeploymentSlot>() {
             @Override
-            public DeploymentSlot typeConvert(SiteInner siteInner) {
-                return wrapModelWithConfigChange(siteInner, innerCollection, parent);
+            public Observable<DeploymentSlot> typeConvertAsync(final SiteInner siteInner) {
+                return innerCollection.getConfigurationSlotAsync(
+                        siteInner.resourceGroup(),
+                        parent.name(),
+                        siteInner.name().replaceAll(".*/", ""))
+                        .map(new Func1<SiteConfigResourceInner, DeploymentSlot>() {
+                            @Override
+                            public DeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner) {
+                                return wrapModel(siteInner, siteConfigResourceInner);
+                            }
+                        });
             }
         };
-    }
-
-    private DeploymentSlot wrapModelWithConfigChange(SiteInner siteInner, WebAppsInner innerCollection, WebAppImpl parent) {
-        return wrapModel(siteInner, innerCollection.getConfigurationSlot(siteInner.resourceGroup(), parent.name(), siteInner.name().replaceAll(".*/", ""))).cacheSiteProperties().toBlocking().single();
     }
 
     @Override
@@ -83,10 +88,10 @@ class DeploymentSlotsImpl
                     return null;
                 }
                 return innerCollection.getConfigurationSlotAsync(resourceGroup, parentName, name)
-                        .flatMap(new Func1<SiteConfigResourceInner, Observable<DeploymentSlot>>() {
+                        .map(new Func1<SiteConfigResourceInner, DeploymentSlot>() {
                     @Override
-                    public Observable<DeploymentSlot> call(SiteConfigResourceInner siteConfigInner) {
-                        return wrapModel(siteInner, siteConfigInner).cacheSiteProperties();
+                    public DeploymentSlot call(SiteConfigResourceInner siteConfigInner) {
+                        return wrapModel(siteInner, siteConfigInner);
                     }
                 });
             }
@@ -135,12 +140,13 @@ class DeploymentSlotsImpl
 
     @Override
     public Observable<DeploymentSlot> listAsync() {
-        return convertPageToInnerAsync(innerCollection.listSlotsAsync(parent.resourceGroupName(), parent.name())).map(new Func1<SiteInner, DeploymentSlot>() {
-            @Override
-            public DeploymentSlot call(SiteInner siteInner) {
-                return wrapModelWithConfigChange(siteInner, innerCollection, parent);
-            }
-        });
+        return convertPageToInnerAsync(innerCollection.listSlotsAsync(parent.resourceGroupName(), parent.name()))
+                .flatMap(new Func1<SiteInner, Observable<DeploymentSlot>>() {
+                    @Override
+                    public Observable<DeploymentSlot> call(SiteInner siteInner) {
+                        return converter.typeConvertAsync(siteInner);
+                    }
+                });
     }
 
     private DeploymentSlotImpl wrapModel(SiteInner inner, SiteConfigResourceInner configResourceInner) {

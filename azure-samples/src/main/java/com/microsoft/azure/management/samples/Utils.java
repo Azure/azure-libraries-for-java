@@ -25,8 +25,6 @@ import com.microsoft.azure.management.batch.ApplicationPackage;
 import com.microsoft.azure.management.batch.BatchAccount;
 import com.microsoft.azure.management.batch.BatchAccountKeys;
 import com.microsoft.azure.management.compute.AvailabilitySet;
-import com.microsoft.azure.management.compute.ContainerService;
-import com.microsoft.azure.management.compute.ContainerServiceOrchestratorTypes;
 import com.microsoft.azure.management.compute.DataDisk;
 import com.microsoft.azure.management.compute.ImageDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachine;
@@ -41,6 +39,9 @@ import com.microsoft.azure.management.containerinstance.VolumeMount;
 import com.microsoft.azure.management.containerregistry.AccessKeyType;
 import com.microsoft.azure.management.containerregistry.Registry;
 import com.microsoft.azure.management.containerregistry.RegistryCredentials;
+import com.microsoft.azure.management.containerservice.ContainerService;
+import com.microsoft.azure.management.containerservice.ContainerServiceOrchestratorTypes;
+import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
 import com.microsoft.azure.management.dns.ARecordSet;
 import com.microsoft.azure.management.dns.AaaaRecordSet;
@@ -66,6 +67,7 @@ import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.graphrbac.implementation.PermissionInner;
 import com.microsoft.azure.management.keyvault.AccessPolicy;
 import com.microsoft.azure.management.keyvault.Vault;
+import com.microsoft.azure.management.locks.ManagementLock;
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayBackend;
 import com.microsoft.azure.management.network.ApplicationGatewayBackendAddress;
@@ -547,6 +549,18 @@ public final class Utils {
     }
 
     /**
+     * Print management lock.
+     * @param lock a management lock
+     */
+    public static void print(ManagementLock lock) {
+        StringBuilder info = new StringBuilder();
+        info.append("\nLock ID: ").append(lock.id())
+            .append("\nLocked resource ID: ").append(lock.lockedResourceId())
+            .append("\nLevel: ").append(lock.level());
+        System.out.println(info.toString());
+    }
+
+    /**
      * Print load balancer.
      *
      * @param resource a load balancer
@@ -875,11 +889,11 @@ public final class Utils {
             }
         }
         builder = builder.append("\n\tApp settings: ");
-        for (AppSetting setting : resource.appSettings().values()) {
+        for (AppSetting setting : resource.getAppSettings().values()) {
             builder = builder.append("\n\t\t" + setting.key() + ": " + setting.value() + (setting.sticky() ? " - slot setting" : ""));
         }
         builder = builder.append("\n\tConnection strings: ");
-        for (ConnectionString conn : resource.connectionStrings().values()) {
+        for (ConnectionString conn : resource.getConnectionStrings().values()) {
             builder = builder.append("\n\t\t" + conn.name() + ": " + conn.value() + " - " + conn.type() + (conn.sticky() ? " - slot setting" : ""));
         }
         System.out.println(builder.toString());
@@ -1123,16 +1137,40 @@ public final class Utils {
             .append("\n\tWith orchestration: ").append(containerService.orchestratorType().toString())
             .append("\n\tMaster FQDN: ").append(containerService.masterFqdn())
             .append("\n\tMaster node count: ").append(containerService.masterNodeCount())
-            .append("\n\tMaster leaf domain label: ").append(containerService.masterLeafDomainLabel())
-            .append("\n\t\tWith Agent pool name: ").append(containerService.agentPoolName())
-            .append("\n\t\tAgent pool count: ").append(containerService.agentPoolCount())
-            .append("\n\t\tAgent pool count: ").append(containerService.agentPoolVMSize().toString())
-            .append("\n\t\tAgent pool FQDN: ").append(containerService.agentPoolFqdn())
-            .append("\n\t\tAgent pool leaf domain label: ").append(containerService.agentPoolLeafDomainLabel())
+            .append("\n\tMaster domain label prefix: ").append(containerService.masterDnsPrefix())
+            .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(containerService.agentPools().keySet()).get(0))
+            .append("\n\t\tAgent pool count: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).count())
+            .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).vmSize().toString())
+            .append("\n\t\tAgent pool FQDN: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).fqdn())
+            .append("\n\t\tAgent pool domain label prefix: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).dnsPrefix())
             .append("\n\tLinux user name: ").append(containerService.linuxRootUsername())
             .append("\n\tSSH key: ").append(containerService.sshKey());
         if (containerService.orchestratorType() == ContainerServiceOrchestratorTypes.KUBERNETES) {
             info.append("\n\tName: ").append(containerService.servicePrincipalClientId());
+        }
+
+        System.out.println(info.toString());
+    }
+
+    /**
+     * Print an Azure Container Service (AKS).
+     * @param kubernetesCluster a managed container service
+     */
+    public static void print(KubernetesCluster kubernetesCluster) {
+        StringBuilder info = new StringBuilder();
+
+        info.append("Azure Container Service: ").append(kubernetesCluster.id())
+            .append("\n\tName: ").append(kubernetesCluster.name())
+            .append("\n\tFQDN: ").append(kubernetesCluster.fqdn())
+            .append("\n\tDNS prefix label: ").append(kubernetesCluster.dnsPrefix())
+            .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(kubernetesCluster.agentPools().keySet()).get(0))
+            .append("\n\t\tAgent pool count: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).count())
+            .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).vmSize().toString())
+            .append("\n\tLinux user name: ").append(kubernetesCluster.linuxRootUsername())
+            .append("\n\tSSH key: ").append(kubernetesCluster.sshKey())
+            .append("\n\tService principal client ID: ").append(kubernetesCluster.servicePrincipalClientId());
+        if (kubernetesCluster.keyVaultSecretReference() != null) {
+            info.append("\n\tKeyVault reference: ").append(kubernetesCluster.keyVaultSecretReference().vaultID());
         }
 
         System.out.println(info.toString());

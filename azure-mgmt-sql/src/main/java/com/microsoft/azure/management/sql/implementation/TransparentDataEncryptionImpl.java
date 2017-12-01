@@ -14,6 +14,7 @@ import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConver
 import com.microsoft.azure.management.sql.TransparentDataEncryption;
 import com.microsoft.azure.management.sql.TransparentDataEncryptionActivity;
 import com.microsoft.azure.management.sql.TransparentDataEncryptionStates;
+import rx.Observable;
 
 import java.util.List;
 
@@ -80,9 +81,9 @@ class TransparentDataEncryptionImpl
         PagedListConverter<TransparentDataEncryptionActivityInner, TransparentDataEncryptionActivity> converter
                 = new PagedListConverter<TransparentDataEncryptionActivityInner, TransparentDataEncryptionActivity>() {
             @Override
-            public TransparentDataEncryptionActivity typeConvert(TransparentDataEncryptionActivityInner transparentDataEncryptionActivityInner) {
+            public Observable<TransparentDataEncryptionActivity> typeConvertAsync(TransparentDataEncryptionActivityInner transparentDataEncryptionActivityInner) {
 
-                return new TransparentDataEncryptionActivityImpl(transparentDataEncryptionActivityInner);
+                return Observable.just((TransparentDataEncryptionActivity) new TransparentDataEncryptionActivityImpl(transparentDataEncryptionActivityInner));
             }
         };
         return converter.convert(ReadableWrappersImpl.convertToPagedList(

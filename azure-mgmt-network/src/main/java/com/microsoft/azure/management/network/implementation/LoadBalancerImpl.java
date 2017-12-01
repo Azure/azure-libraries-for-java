@@ -187,7 +187,7 @@ class LoadBalancerImpl
         // Account for the newly created public IPs
         if (this.creatablePIPKeys != null) {
             for (Entry<String, String> pipFrontendAssociation : this.creatablePIPKeys.entrySet()) {
-                PublicIPAddress pip = (PublicIPAddress) this.createdResource(pipFrontendAssociation.getKey());
+                PublicIPAddress pip = this.<PublicIPAddress>taskResult(pipFrontendAssociation.getKey());
                 if (pip != null) {
                     withExistingPublicIPAddress(pip.id(), pipFrontendAssociation.getValue());
                 }
@@ -468,8 +468,7 @@ class LoadBalancerImpl
 
         if (existingPipFrontendName == null) {
             // No frontend associated with this PIP yet so create new association
-            this.creatablePIPKeys.put(creatablePip.key(), frontendName);
-            this.addCreatableDependency(creatablePip);
+            this.creatablePIPKeys.put(this.addDependency(creatablePip), frontendName);
         } else if (!existingPipFrontendName.equalsIgnoreCase(frontendName)) {
             // Existing PIP definition already in use but under a different frontend, so error
             throw new IllegalArgumentException("This public IP address definition is already associated with a frontend under a different name.");

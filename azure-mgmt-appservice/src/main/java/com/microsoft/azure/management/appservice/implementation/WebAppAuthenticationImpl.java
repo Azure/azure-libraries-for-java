@@ -27,8 +27,7 @@ class WebAppAuthenticationImpl<
     implements
         WebAppAuthentication,
         WebAppAuthentication.Definition<WebAppBase.DefinitionStages.WithCreate<FluentT>>,
-        WebAppAuthentication.UpdateDefinition<WebAppBase.Update<FluentT>>,
-        WebAppAuthentication.Update<WebAppBase.Update<FluentT>> {
+        WebAppAuthentication.UpdateDefinition<WebAppBase.Update<FluentT>> {
 
     private final WebAppBaseImpl<FluentT, FluentImplT> parent;
 

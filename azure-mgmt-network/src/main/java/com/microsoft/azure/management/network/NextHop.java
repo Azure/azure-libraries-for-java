@@ -14,7 +14,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Executable;
  * A client-side representation allowing user to get next hop for a packet from specific vm.
  */
 @Fluent
-@Beta
+@Beta(Beta.SinceVersion.V1_2_0)
 public interface NextHop extends Executable<NextHop>,
         HasParent<NetworkWatcher> {
     /**
@@ -68,7 +68,6 @@ public interface NextHop extends Executable<NextHop>,
             DefinitionStages.WithDestinationIP,
             DefinitionStages.WithExecute {
     }
-
 
     /**
      * Grouping of next hop definition stages.

@@ -12,6 +12,7 @@ import com.microsoft.azure.management.appservice.WebApp;
 import com.microsoft.azure.management.appservice.WebApps;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -37,15 +38,21 @@ class WebAppsImpl
         super(manager.inner().webApps(), manager);
         converter = new PagedListConverter<SiteInner, WebApp>() {
             @Override
-            public WebApp typeConvert(SiteInner siteInner) {
-                WebAppImpl impl = wrapModel(siteInner, manager.inner().webApps().getConfiguration(siteInner.resourceGroup(), siteInner.name()));
-                return impl.cacheSiteProperties().toBlocking().single();
-            }
-
-            @Override
             protected boolean filter(SiteInner inner) {
                 List<String> kinds = Arrays.asList(inner.kind().split(","));
                 return kinds.contains("app");
+            }
+
+            @Override
+            public Observable<WebApp> typeConvertAsync(final SiteInner siteInner) {
+                return manager.inner().webApps().getConfigurationAsync(siteInner.resourceGroup(), siteInner.name())
+                        .subscribeOn(SdkContext.getRxScheduler())
+                        .map(new Func1<SiteConfigResourceInner, WebApp>() {
+                            @Override
+                            public WebApp call(SiteConfigResourceInner siteConfigResourceInner) {
+                                return wrapModel(siteInner, siteConfigResourceInner);
+                            }
+                        });
             }
         };
     }
@@ -59,10 +66,10 @@ class WebAppsImpl
                 if (siteInner == null) {
                     return null;
                 }
-                return self.inner().getConfigurationAsync(groupName, name).flatMap(new Func1<SiteConfigResourceInner, Observable<WebApp>>() {
+                return self.inner().getConfigurationAsync(groupName, name).map(new Func1<SiteConfigResourceInner, WebApp>() {
                     @Override
-                    public Observable<WebApp> call(SiteConfigResourceInner siteConfigInner) {
-                        return wrapModel(siteInner, siteConfigInner).cacheSiteProperties();
+                    public WebApp call(SiteConfigResourceInner siteConfigInner) {
+                        return wrapModel(siteInner, siteConfigInner);
                     }
                 });
             }

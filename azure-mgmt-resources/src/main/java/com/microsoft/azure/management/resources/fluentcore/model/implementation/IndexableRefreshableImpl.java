@@ -21,6 +21,10 @@ public abstract class IndexableRefreshableImpl<T>
     protected IndexableRefreshableImpl() {
     }
 
+    protected IndexableRefreshableImpl(String key) {
+        super(key);
+    }
+
     @Override
     public abstract T refresh();
 }

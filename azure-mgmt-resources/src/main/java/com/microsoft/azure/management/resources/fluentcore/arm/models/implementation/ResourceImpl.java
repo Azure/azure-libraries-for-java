@@ -173,8 +173,4 @@ public abstract class ResourceImpl<
             return inners;
         }
     }
-
-    protected Resource createdResource(String key) {
-        return super.createdModel(key);
-    }
 }

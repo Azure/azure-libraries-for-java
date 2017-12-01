@@ -25,13 +25,13 @@ import java.util.List;
 @LangDefinition
 public class ApplicationImpl
         extends ExternalChildResourceImpl<Application,
-                ApplicationInner,
-                BatchAccountImpl,
-                BatchAccount>
+        ApplicationInner,
+        BatchAccountImpl,
+        BatchAccount>
         implements Application,
-                Application.Definition<BatchAccount.DefinitionStages.WithApplicationAndStorage>,
-                Application.UpdateDefinition<BatchAccount.Update>,
-                Application.Update {
+        Application.Definition<BatchAccount.DefinitionStages.WithApplicationAndStorage>,
+        Application.UpdateDefinition<BatchAccount.Update>,
+        Application.Update {
     private final ApplicationPackagesImpl applicationPackages;
 
     protected ApplicationImpl(
@@ -40,6 +40,7 @@ public class ApplicationImpl
             ApplicationInner inner) {
         super(name, batchAccount, inner);
         applicationPackages = new ApplicationPackagesImpl(this);
+        applicationPackages.enableCommitMode();
     }
 
     @Override
@@ -108,10 +109,10 @@ public class ApplicationImpl
         updateParameter.withAllowUpdates(this.inner().allowUpdates());
 
         return RXMapper.map(this.parent().manager().inner().applications().updateAsync(
-                    this.parent().resourceGroupName(),
-                    this.parent().name(),
-                    this.name(),
-                    updateParameter), self)
+                this.parent().resourceGroupName(),
+                this.parent().name(),
+                this.name(),
+                updateParameter), self)
                 .flatMap(new Func1<Application, Observable<? extends Application>>() {
                     @Override
                     public Observable<? extends Application> call(Application application) {

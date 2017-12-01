@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.batch;
 
+import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
@@ -155,7 +156,19 @@ public class BatchAccountOperationsTests extends BatchManagementTest {
                     .withoutApplicationPackage(applicationPackage1Name)
                 .parent()
                 .apply();
-        batchManager.batchAccounts().deleteByResourceGroup(batchAccount.resourceGroupName(), batchAccount.name());
+        try {
+            batchManager.batchAccounts().deleteByResourceGroup(batchAccount.resourceGroupName(), batchAccount.name());
+        } catch (CloudException cloudException) {
+            // Service bud: LRO fail with error
+            //      {
+            //          "error":
+            //              {
+            //                 "code":"ResourceNotFound",
+            //                  "message":"The Resource 'Microsoft.Batch/batchAccounts/javabatch78086' under resource group 'javabatchrg43b36438' was not found."
+            //               }
+            //      }
+            //
+        }
 
         batchAccount = batchManager.batchAccounts().getById(batchAccount.id());
         Assert.assertNull(batchAccount);

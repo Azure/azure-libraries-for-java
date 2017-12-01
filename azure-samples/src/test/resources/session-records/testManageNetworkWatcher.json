@@ -1,0 +1,75 @@
+{
+  "networkCallRecords" : [ {
+    "Method" : "PUT",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/nw09689group?api-version=2016-09-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (ResourceManagementClient, 2016-09-01)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Fri, 17 Nov 2017 01:27:22 GMT",
+      "content-length" : "185",
+      "expires" : "-1",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
+      "retry-after" : "0",
+      "StatusCode" : "201",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "6f3e465e-fed7-42aa-8316-72837c6f88e2",
+      "x-ms-routing-request-id" : "WESTUS2:20171117T012723Z:6f3e465e-fed7-42aa-8316-72837c6f88e2",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "6f3e465e-fed7-42aa-8316-72837c6f88e2",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw09689group\",\"name\":\"nw09689group\",\"location\":\"northcentralus\",\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+    }
+  }, {
+    "Method" : "PUT",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw09689group/providers/Microsoft.Network/networkWatchers/nw09689?api-version=2017-08-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (NetworkManagementClient)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Fri, 17 Nov 2017 01:27:24 GMT",
+      "content-length" : "190",
+      "server" : "Microsoft-HTTPAPI/2.0",
+      "expires" : "-1",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1198",
+      "retry-after" : "0",
+      "StatusCode" : "400",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "08999b57-cd1b-4b47-b0fc-4654696d1a85",
+      "x-ms-routing-request-id" : "WESTUS2:20171117T012725Z:08999b57-cd1b-4b47-b0fc-4654696d1a85",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "bbcaa4c6-d634-4cfa-a7dc-0767b99d67d0",
+      "Body" : "{\r\n  \"error\": {\r\n    \"code\": \"NetworkWatcherCountLimitReached\",\r\n    \"message\": \"Cannot create more than 1 network watchers for this subscription in this region.\",\r\n    \"details\": []\r\n  }\r\n}"
+    }
+  }, {
+    "Method" : "DELETE",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgbcf333628107db6?api-version=2016-09-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (ResourceManagementClient, 2016-09-01)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Fri, 17 Nov 2017 01:27:24 GMT",
+      "content-length" : "109",
+      "expires" : "-1",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1197",
+      "retry-after" : "0",
+      "StatusCode" : "404",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "b2463962-336b-43df-9421-1c8e056bcf3b",
+      "x-ms-failure-cause" : "gateway",
+      "x-ms-routing-request-id" : "WESTUS2:20171117T012725Z:b2463962-336b-43df-9421-1c8e056bcf3b",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "b2463962-336b-43df-9421-1c8e056bcf3b",
+      "Body" : "{\"error\":{\"code\":\"ResourceGroupNotFound\",\"message\":\"Resource group 'rgbcf333628107db6' could not be found.\"}}"
+    }
+  } ],
+  "variables" : [ "nw09689", "vnet5f450906a802", "pipdns55d93789ccb", "nsg2f941922ac78", "rgbcf333628107db6", "sa3e430938d81ad20", "vm3d3810325b47259", "pc36627", "975a3019-9fef-4d0e-a791-f3638a675118", "bdccbde1-0583-442a-99c7-e2994241b3ce" ]
+}

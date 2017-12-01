@@ -135,7 +135,7 @@ public abstract class GroupableResourceImpl<
     public final FluentModelImplT withNewResourceGroup(Creatable<ResourceGroup> creatable) {
         this.groupName = creatable.name();
         this.creatableGroup = creatable;
-        addCreatableDependency(creatable);
+        this.addDependency(creatable);
         return (FluentModelImplT) this;
     }
 

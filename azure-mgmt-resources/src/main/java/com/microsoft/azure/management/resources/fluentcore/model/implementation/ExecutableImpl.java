@@ -7,14 +7,18 @@
 package com.microsoft.azure.management.resources.fluentcore.model.implementation;
 
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroupTerminateOnErrorStrategy;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskItem;
+import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
+import rx.Completable;
 import rx.Observable;
+import rx.functions.Func1;
+
+import java.util.Objects;
 
 /**
  * The base class for all executable model.
@@ -22,61 +26,156 @@ import rx.Observable;
  * @param <FluentModelT> the fluent model type
  */
 public abstract class ExecutableImpl<FluentModelT extends Indexable>
-        extends IndexableImpl
+        extends
+        IndexableImpl
         implements
+        TaskGroup.HasTaskGroup,
         Executable<FluentModelT>,
-        TaskGroup.HasTaskGroup<FluentModelT, ExecuteTask<FluentModelT>>,
         ExecuteTask.Executor<FluentModelT> {
     /**
      * The group of tasks to the produces this result and it's dependencies results.
      */
-    private final TaskGroup<FluentModelT, ExecuteTask<FluentModelT>> taskGroup;
+    private final TaskGroup taskGroup;
 
     /**
      * Creates ExecutableImpl.
      */
     protected ExecutableImpl() {
-        taskGroup = new TaskGroup<>(this.key(),
-                new ExecuteTask<>(this),
-                TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_INPROGRESS_TASKS_COMPLETION);
+        this(SdkContext.randomUuid());
+    }
+
+    /**
+     * Creates ExecutableImpl.
+     *
+     * @param key the task group key for the executable
+     */
+    protected ExecutableImpl(String key) {
+        super(key);
+        taskGroup = new TaskGroup(this.key(),
+                new ExecuteTask(this));
     }
 
     @Override
-    public TaskGroup<FluentModelT, ExecuteTask<FluentModelT>> taskGroup() {
+    public TaskGroup taskGroup() {
         return this.taskGroup;
     }
 
     /**
-     * Add a creatable dependency for the executable model.
+     * Add a dependency for this model.
      *
-     * @param creatable the creatable dependency.
+     * @param dependency the dependency.
+     * @return key to be used as parameter to taskResult(string) method to retrieve result of root
+     * task in the given dependency task group
      */
-    @SuppressWarnings("unchecked")
-    protected void addCreatableDependency(Creatable<? extends Indexable> creatable) {
-        TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>> dependency =
-                (TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>>) creatable;
-
-        Executable<FluentModelT> that = this;
-        TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>> thisExecutable =
-                (TaskGroup.HasTaskGroup<FluentModelT, TaskItem<FluentModelT>>) that;
-
-        thisExecutable.taskGroup().addDependencyTaskGroup(dependency.taskGroup());
+    protected String addDependency(TaskGroup.HasTaskGroup dependency) {
+        Objects.requireNonNull(dependency);
+        this.taskGroup.addDependencyTaskGroup(dependency.taskGroup());
+        return dependency.taskGroup().key();
     }
 
     /**
-     * Add an executable dependency for this executable model.
+     * Add a creatable dependency for this executable model.
      *
-     * @param executable the executable dependency
+     * @param creatable the creatable dependency.
+     * @return the key to be used as parameter to taskResult(string) method to retrieve created dependency
      */
     @SuppressWarnings("unchecked")
-    protected void addExecutableDependency(Executable<? extends Indexable> executable) {
-        TaskGroup.HasTaskGroup<FluentModelT, ExecuteTask<FluentModelT>> dependency =
-                (TaskGroup.HasTaskGroup<FluentModelT, ExecuteTask<FluentModelT>>) executable;
-        this.taskGroup().addDependencyTaskGroup(dependency.taskGroup());
+    protected String addDependency(Creatable<? extends Indexable> creatable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) creatable;
+        return this.addDependency(dependency);
+    }
+
+    /**
+     * Add an updatable dependency for this executable.
+     *
+     * @param appliable the appliable dependency.
+     * @return the key to be used as parameter to taskResult(string) method to retrieve updated dependency
+     */
+    @SuppressWarnings("unchecked")
+    protected String addeDependency(Appliable<? extends Indexable> appliable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) appliable;
+        return this.addDependency(dependency);
+    }
+
+    /**
+     * Add an executable dependency for this executable.
+     *
+     * @param executable the executable dependency
+     * @return the key to be used as parameter to taskResult(string) method to retrieve result of executing
+     * the given executable dependency
+     */
+    @SuppressWarnings("unchecked")
+    protected String addDependency(Executable<? extends Indexable> executable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) executable;
+        return this.addDependency(dependency);
+    }
+
+    /**
+     * Add a "post-run" dependent for this model.
+     *
+     * @return key to be used as parameter to taskResult(string) method to retrieve result of root
+     * task in the dependent task group
+     */
+    protected String addPostRunDependent(TaskGroup.HasTaskGroup dependent) {
+        Objects.requireNonNull(dependent);
+        this.taskGroup.addPostRunDependentTaskGroup(dependent.taskGroup());
+        return dependent.taskGroup().key();
+    }
+
+    /**
+     * Add a creatable "post-run" dependent for this executable model.
+     *
+     * @return the key to be used as parameter to taskResult(string) method to retrieve created "post-run" dependent
+     */
+    @SuppressWarnings("unchecked")
+    protected String addPostRunDependent(Creatable<? extends Indexable> creatable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) creatable;
+        return this.addPostRunDependent(dependency);
+    }
+
+    /**
+     * Add an appliable "post-run" dependent for this executable.
+     *
+     * @return the key to be used as parameter to taskResult(string) method to retrieve updated "post-run" dependent
+     */
+    @SuppressWarnings("unchecked")
+    protected String addPostRunDependent(Appliable<? extends Indexable> appliable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) appliable;
+        return this.addPostRunDependent(dependency);
+    }
+
+    /**
+     * Add an executable "post-run" dependent for this executable.
+     *
+     * @return the key to be used as parameter to taskResult(string) method to retrieve result of executing
+     * the executable "post-run" dependent
+     */
+    @SuppressWarnings("unchecked")
+    protected String addPostRunDependent(Executable<? extends Indexable> executable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) executable;
+        return this.addPostRunDependent(dependency);
+    }
+
+    /**
+     * Get result of one of the task that belongs to this task's task group.
+     *
+     * @param key the task key
+     * @param <T> the actual type of the task result
+     * @return the task result, null will be returned if task has not produced a result yet
+     */
+    @SuppressWarnings("unchecked")
+    protected <T extends Indexable> T taskResult(String key) {
+        Indexable result = this.taskGroup.taskResult(key);
+        if (result == null) {
+            return null;
+        } else {
+            T castedResult = (T) result;
+            return castedResult;
+        }
     }
 
     @Override
-    public void prepare() {
+    public void beforeGroupExecute() {
     }
 
     @Override
@@ -86,7 +185,14 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
 
     @Override
     public Observable<FluentModelT> executeAsync() {
-        return taskGroup.invokeAsync(taskGroup.newInvocationContext()).last();
+        return taskGroup.invokeAsync(taskGroup.newInvocationContext())
+                .last()
+                .map(new Func1<Indexable, FluentModelT>() {
+                    @Override
+                    public FluentModelT call(Indexable indexable) {
+                        return (FluentModelT) indexable;
+                    }
+                });
     }
 
     @Override
@@ -97,5 +203,10 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
     @Override
     public ServiceFuture<FluentModelT> executeAsync(ServiceCallback<FluentModelT> callback) {
         return ServiceFuture.fromBody(executeAsync(), callback);
+    }
+
+    @Override
+    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+        return Completable.complete();
     }
 }

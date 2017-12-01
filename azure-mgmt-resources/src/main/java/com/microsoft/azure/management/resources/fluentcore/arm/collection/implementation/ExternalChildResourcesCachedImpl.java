@@ -7,6 +7,8 @@ package com.microsoft.azure.management.resources.fluentcore.arm.collection.imple
 
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
+
 import java.util.List;
 import java.util.Map;
 
@@ -37,10 +39,11 @@ public abstract class ExternalChildResourcesCachedImpl<
      * Creates a new ExternalChildResourcesImpl.
      *
      * @param parent the parent Azure resource
+     * @param parentTaskGroup the TaskGroup the parent Azure resource belongs to
      * @param childResourceName the child resource name
      */
-    protected ExternalChildResourcesCachedImpl(ParentImplT parent, String childResourceName) {
-        super(parent, childResourceName);
+    protected ExternalChildResourcesCachedImpl(ParentImplT parent, TaskGroup parentTaskGroup, String childResourceName) {
+        super(parent, parentTaskGroup, childResourceName);
     }
 
     /**
@@ -80,7 +83,7 @@ public abstract class ExternalChildResourcesCachedImpl<
         }
         FluentModelTImpl childResource = newChildResource(name);
         childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeCreated);
-        return childResource;
+        return super.prepareForFutureCommitOrPostRun(childResource);
     }
 
     /**
@@ -110,7 +113,7 @@ public abstract class ExternalChildResourcesCachedImpl<
             throw new IllegalArgumentException("A child resource ('" + childResourceName + "') with name (key) '" + name + " (" + key + ")' is marked for deletion");
         }
         childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeUpdated);
-        return childResource;
+        return super.prepareForFutureCommitOrPostRun(childResource);
     }
 
     /**
@@ -135,6 +138,7 @@ public abstract class ExternalChildResourcesCachedImpl<
             throw new IllegalArgumentException("A child resource ('" + childResourceName + "') with name (key) '" + name + " (" + key + ")' not found");
         }
         childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeRemoved);
+        super.prepareForFutureCommitOrPostRun(childResource);
     }
 
     /**
@@ -160,7 +164,7 @@ public abstract class ExternalChildResourcesCachedImpl<
      * Initializes the external child resource collection.
      */
     protected void cacheCollection() {
-        this.childCollection.clear();
+        this.clear();
         for (FluentModelTImpl childResource : this.listChildResources()) {
             this.childCollection.put(childResource.childResourceKey(), childResource);
         }

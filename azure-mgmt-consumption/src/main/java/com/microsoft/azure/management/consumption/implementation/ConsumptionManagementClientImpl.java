@@ -28,11 +28,11 @@ public class ConsumptionManagementClientImpl extends AzureServiceClient {
         return this.azureClient;
     }
 
-    /** Version of the API to be used with the client request. The current version is 2017-02-27-preview. */
+    /** Version of the API to be used with the client request. The current version is 2017-11-30. */
     private String apiVersion;
 
     /**
-     * Gets Version of the API to be used with the client request. The current version is 2017-02-27-preview.
+     * Gets Version of the API to be used with the client request. The current version is 2017-11-30.
      *
      * @return the apiVersion value.
      */
@@ -189,7 +189,7 @@ public class ConsumptionManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2017-04-24-preview";
+        this.apiVersion = "2017-11-30";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
@@ -205,6 +205,6 @@ public class ConsumptionManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "ConsumptionManagementClient", "2017-04-24-preview");
+        return String.format("%s (%s, %s)", super.userAgent(), "ConsumptionManagementClient", "2017-11-30");
     }
 }

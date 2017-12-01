@@ -31,15 +31,15 @@ import java.util.Map;
 @LangDefinition
 public class BatchAccountImpl
         extends
-            GroupableResourceImpl<
-                    BatchAccount,
-                    BatchAccountInner,
-                    BatchAccountImpl,
-                    BatchManager>
+        GroupableResourceImpl<
+                BatchAccount,
+                BatchAccountInner,
+                BatchAccountImpl,
+                BatchManager>
         implements
-            BatchAccount,
-            BatchAccount.Definition,
-            BatchAccount.Update {
+        BatchAccount,
+        BatchAccount.Definition,
+        BatchAccount.Update {
     private final StorageManager storageManager;
     private String creatableStorageAccountKey;
     private StorageAccount existingStorageAccountToAssociate;
@@ -53,6 +53,7 @@ public class BatchAccountImpl
         super(name, innerObject, manager);
         this.storageManager = storageManager;
         this.applicationsImpl = new ApplicationsImpl(this);
+        this.applicationsImpl.enableCommitMode();
     }
 
     @Override
@@ -206,8 +207,7 @@ public class BatchAccountImpl
     public BatchAccountImpl withNewStorageAccount(Creatable<StorageAccount> creatable) {
         // This method's effect is NOT additive.
         if (this.creatableStorageAccountKey == null) {
-            this.creatableStorageAccountKey = creatable.key();
-            this.addCreatableDependency(creatable);
+            this.creatableStorageAccountKey = this.addDependency(creatable);
         }
         this.existingStorageAccountToAssociate = null;
         return this;
@@ -255,7 +255,7 @@ public class BatchAccountImpl
     private void handleStorageSettings() {
         StorageAccount storageAccount;
         if (this.creatableStorageAccountKey != null) {
-            storageAccount = (StorageAccount) this.createdResource(this.creatableStorageAccountKey);
+            storageAccount = this.<StorageAccount>taskResult(this.creatableStorageAccountKey);
             existingStorageAccountToAssociate = storageAccount;
         } else if (this.existingStorageAccountToAssociate != null) {
             storageAccount = this.existingStorageAccountToAssociate;

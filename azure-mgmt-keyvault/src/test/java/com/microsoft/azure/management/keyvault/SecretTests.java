@@ -52,11 +52,18 @@ public class SecretTests extends KeyVaultManagementTest {
 
         Assert.assertEquals("Some updated value", secret.value());
 
-        List<SecretIdentifier> versions = secret.listVersions();
+        List<Secret> versions = secret.listVersions();
 
-        for (SecretIdentifier identifier : versions) {
-
+        int count = 2;
+        for (Secret version : versions) {
+            if ("Some secret value".equals(version.value())) {
+                count --;
+            }
+            if ("Some updated value".equals(version.value())) {
+                count --;
+            }
         }
+        Assert.assertEquals(0, count);
 
     }
 }

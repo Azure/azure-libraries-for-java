@@ -65,9 +65,9 @@ public interface Secret extends
      */
     boolean managed();
 
-    PagedList<SecretIdentifier> listVersions();
+    PagedList<Secret> listVersions();
 
-    Observable<SecretIdentifier> listVersionsAsync();
+    Observable<Secret> listVersionsAsync();
 
     interface Definition extends
             DefinitionStages.Blank,

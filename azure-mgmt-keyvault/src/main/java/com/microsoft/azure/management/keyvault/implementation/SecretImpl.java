@@ -25,6 +25,7 @@ import com.microsoft.azure.management.keyvault.implementation.KeyVaultFutures.Ke
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.rest.ServiceFuture;
 import rx.Observable;
 import rx.functions.Action0;
 import rx.functions.Func1;
@@ -92,18 +93,29 @@ class SecretImpl
     }
 
     @Override
-    public PagedList<SecretIdentifier> listVersions() {
-        return new PagedListConverter<SecretItem, SecretIdentifier>() {
+    public PagedList<Secret> listVersions() {
+        return new PagedListConverter<SecretItem, Secret>() {
 
             @Override
-            public SecretIdentifier typeConvert(SecretItem secretItem) {
-                return secretItem.identifier();
+            public Observable<Secret> typeConvertAsync(final SecretItem secretItem) {
+                return new KeyVaultFutures.ServiceFutureConverter<SecretBundle, Secret>() {
+
+                    @Override
+                    protected ServiceFuture<SecretBundle> callAsync() {
+                        return vault.client().getSecretAsync(secretItem.identifier().identifier(), null);
+                    }
+
+                    @Override
+                    protected Secret wrapModel(SecretBundle secretBundle) {
+                        return new SecretImpl(secretBundle.secretIdentifier().name(), secretBundle, vault);
+                    }
+                }.toObservable();
             }
         }.convert(vault.client().listSecretVersions(vault.vaultUri(), name()));
     }
 
     @Override
-    public Observable<SecretIdentifier> listVersionsAsync() {
+    public Observable<Secret> listVersionsAsync() {
         return new KeyVaultFutures.ListCallbackObserver<SecretItem, SecretIdentifier>() {
 
             @Override
@@ -115,7 +127,24 @@ class SecretImpl
             protected SecretIdentifier wrapModel(SecretItem o) {
                 return o.identifier();
             }
-        }.toObservable();
+        }.toObservable()
+                .flatMap(new Func1<SecretIdentifier, Observable<Secret>>() {
+                    @Override
+                    public Observable<Secret> call(final SecretIdentifier secretIdentifier) {
+                        return new KeyVaultFutures.ServiceFutureConverter<SecretBundle, Secret>() {
+
+                            @Override
+                            protected ServiceFuture<SecretBundle> callAsync() {
+                                return vault.client().getSecretAsync(secretIdentifier.identifier(), null);
+                            }
+
+                            @Override
+                            protected Secret wrapModel(SecretBundle secretBundle) {
+                                return new SecretImpl(secretIdentifier.name(), secretBundle, vault);
+                            }
+                        }.toObservable();
+                    }
+                });
     }
 
     @Override

@@ -41,8 +41,8 @@ class SecretsImpl
 
     private final PagedListConverter<SecretItem, Secret> itemConverter = new PagedListConverter<SecretItem, Secret>() {
         @Override
-        public Secret typeConvert(SecretItem inner) {
-            return wrapModel(inner);
+        public Observable<Secret> typeConvertAsync(SecretItem inner) {
+            return Observable.just((Secret) wrapModel(inner));
         }
     };
 

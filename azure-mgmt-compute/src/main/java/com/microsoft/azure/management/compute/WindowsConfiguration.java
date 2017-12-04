@@ -12,38 +12,42 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Describes Windows Configuration of the OS Profile.
+ * Specifies Windows operating system settings on the virtual machine.
  */
 public class WindowsConfiguration {
     /**
-     * Indicates whether the virtual machine agent should be provisioned on the
-     * Virtual Machine. If not specified, then the default behavior is to set
-     * it to true.
+     * Indicates whether virtual machine agent should be provisioned on the
+     * virtual machine. &lt;br&gt;&lt;br&gt; When this property is not
+     * specified in the request body, default behavior is to set it to true.
+     * This will ensure that VM Agent is installed on the VM so that extensions
+     * can be added to the VM later.
      */
     @JsonProperty(value = "provisionVMAgent")
     private Boolean provisionVMAgent;
 
     /**
-     * Indicates whether Windows updates are automatically installed on the VM.
+     * Indicates whether virtual machine is enabled for automatic updates.
      */
     @JsonProperty(value = "enableAutomaticUpdates")
     private Boolean enableAutomaticUpdates;
 
     /**
-     * The time zone of the VM.
+     * Specifies the time zone of the virtual machine. e.g. "Pacific Standard
+     * Time".
      */
     @JsonProperty(value = "timeZone")
     private String timeZone;
 
     /**
-     * Additional base-64 encoded XML formatted information that can be
-     * included in the Unattend.xml file.
+     * Specifies additional base-64 encoded XML formatted information that can
+     * be included in the Unattend.xml file, which is used by Windows Setup.
      */
     @JsonProperty(value = "additionalUnattendContent")
     private List<AdditionalUnattendContent> additionalUnattendContent;
 
     /**
-     * The Windows Remote Management configuration of the VM.
+     * Specifies the Windows Remote Management listeners. This enables remote
+     * Windows PowerShell.
      */
     @JsonProperty(value = "winRM")
     private WinRMConfiguration winRM;

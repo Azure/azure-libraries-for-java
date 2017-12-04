@@ -15,7 +15,9 @@ import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
 
 /**
- * Describes an Image.
+ * The source user image virtual hard disk. The virtual hard disk will be
+ * copied before being attached to the virtual machine. If SourceImage is
+ * provided, the destination virtual hard drive must not exist.
  */
 @JsonFlatten
 public class ImageInner extends Resource {
@@ -26,7 +28,7 @@ public class ImageInner extends Resource {
     private SubResource sourceVirtualMachine;
 
     /**
-     * The storage profile.
+     * Specifies the storage settings for the virtual machine disks.
      */
     @JsonProperty(value = "properties.storageProfile")
     private ImageStorageProfile storageProfile;

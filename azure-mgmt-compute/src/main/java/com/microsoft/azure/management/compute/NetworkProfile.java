@@ -13,11 +13,11 @@ import com.microsoft.azure.management.compute.implementation.NetworkInterfaceRef
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Describes a network profile.
+ * Specifies the network interfaces of the virtual machine.
  */
 public class NetworkProfile {
     /**
-     * Specifies the list of resource IDs for the network interfaces associated
+     * Specifies the list of resource Ids for the network interfaces associated
      * with the virtual machine.
      */
     @JsonProperty(value = "networkInterfaces")

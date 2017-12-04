@@ -13,23 +13,33 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Describes a storage profile.
+ * Specifies the storage settings for the virtual machine disks.
  */
 public class StorageProfile {
     /**
-     * The image reference.
+     * Specifies information about the image to use. You can specify
+     * information about platform images, marketplace images, or virtual
+     * machine images. This element is required when you want to use a platform
+     * image, marketplace image, or virtual machine image, but is not used in
+     * other creation operations.
      */
     @JsonProperty(value = "imageReference")
     private ImageReferenceInner imageReference;
 
     /**
-     * The OS disk.
+     * Specifies information about the operating system disk used by the
+     * virtual machine. &lt;br&gt;&lt;br&gt; For more information about disks,
+     * see [About disks and VHDs for Azure virtual
+     * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
      */
     @JsonProperty(value = "osDisk")
     private OSDisk osDisk;
 
     /**
-     * The data disks.
+     * Specifies the parameters that are used to add a data disk to a virtual
+     * machine. &lt;br&gt;&lt;br&gt; For more information about disks, see
+     * [About disks and VHDs for Azure virtual
+     * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
      */
     @JsonProperty(value = "dataDisks")
     private List<DataDisk> dataDisks;

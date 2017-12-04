@@ -12,17 +12,25 @@ import com.microsoft.azure.management.compute.implementation.ManagedDiskParamete
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Describes an Operating System disk.
+ * Specifies information about the operating system disk used by the virtual
+ * machine. &lt;br&gt;&lt;br&gt; For more information about disks, see [About
+ * disks and VHDs for Azure virtual
+ * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
  */
 public class OSDisk {
     /**
-     * The Operating System type. Possible values include: 'Windows', 'Linux'.
+     * This property allows you to specify the type of the OS that is included
+     * in the disk if creating a VM from user-image or a specialized VHD.
+     * &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt;
+     * **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include:
+     * 'Windows', 'Linux'.
      */
     @JsonProperty(value = "osType")
     private OperatingSystemTypes osType;
 
     /**
-     * The disk encryption settings.
+     * Specifies the encryption settings for the OS Disk. &lt;br&gt;&lt;br&gt;
+     * Minimum api-version: 2015-06-15.
      */
     @JsonProperty(value = "encryptionSettings")
     private DiskEncryptionSettings encryptionSettings;
@@ -41,29 +49,40 @@ public class OSDisk {
 
     /**
      * The source user image virtual hard disk. The virtual hard disk will be
-     * copied before using it to attach to the virtual machine. If SourceImage
-     * is provided, the destination virtual hard disk must not exist.
+     * copied before being attached to the virtual machine. If SourceImage is
+     * provided, the destination virtual hard drive must not exist.
      */
     @JsonProperty(value = "image")
     private VirtualHardDisk image;
 
     /**
-     * The caching type. Possible values include: 'None', 'ReadOnly',
-     * 'ReadWrite'.
+     * Specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values
+     * are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly**
+     * &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None
+     * for Standard storage. ReadOnly for Premium storage**. Possible values
+     * include: 'None', 'ReadOnly', 'ReadWrite'.
      */
     @JsonProperty(value = "caching")
     private CachingTypes caching;
 
     /**
-     * The create option. Possible values include: 'fromImage', 'empty',
-     * 'attach'.
+     * Specifies how the virtual machine should be created.&lt;br&gt;&lt;br&gt;
+     * Possible values are:&lt;br&gt;&lt;br&gt; **Attach** \u2013 This value is
+     * used when you are using a specialized disk to create the virtual
+     * machine.&lt;br&gt;&lt;br&gt; **FromImage** \u2013 This value is used
+     * when you are using an image to create the virtual machine. If you are
+     * using a platform image, you also use the imageReference element
+     * described above. If you are using a marketplace image, you  also use the
+     * plan element previously described. Possible values include: 'FromImage',
+     * 'Empty', 'Attach'.
      */
     @JsonProperty(value = "createOption", required = true)
     private DiskCreateOptionTypes createOption;
 
     /**
-     * The initial disk size, in GB, for blank data disks, and the new desired
-     * size for resizing existing OS and data disks.
+     * Specifies the size of an empty data disk in gigabytes. This element can
+     * be used to overwrite the name of the disk in a virtual machine image.
+     * &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
      */
     @JsonProperty(value = "diskSizeGB")
     private Integer diskSizeGB;

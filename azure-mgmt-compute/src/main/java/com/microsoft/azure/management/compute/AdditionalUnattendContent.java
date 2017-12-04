@@ -11,15 +11,14 @@ package com.microsoft.azure.management.compute;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional XML formatted information that can be included in the
+ * Specifies additional XML formatted information that can be included in the
  * Unattend.xml file, which is used by Windows Setup. Contents are defined by
- * setting name, component name, and the pass in which the content is a
- * applied.
+ * setting name, component name, and the pass in which the content is applied.
  */
 public class AdditionalUnattendContent {
     /**
-     * The pass name. Currently, the only allowable value is oobeSystem.
-     * Possible values include: 'oobeSystem'.
+     * The pass name. Currently, the only allowable value is OobeSystem.
+     * Possible values include: 'OobeSystem'.
      */
     @JsonProperty(value = "passName")
     private PassNames passName;
@@ -33,17 +32,18 @@ public class AdditionalUnattendContent {
     private ComponentNames componentName;
 
     /**
-     * Setting name (e.g. FirstLogonCommands, AutoLogon ). Possible values
-     * include: 'AutoLogon', 'FirstLogonCommands'.
+     * Specifies the name of the setting to which the content applies. Possible
+     * values are: FirstLogonCommands and AutoLogon. Possible values include:
+     * 'AutoLogon', 'FirstLogonCommands'.
      */
     @JsonProperty(value = "settingName")
     private SettingNames settingName;
 
     /**
-     * XML formatted content that is added to the unattend.xml file in the
-     * specified pass and component. The XML must be less than 4 KB and must
-     * include the root element for the setting or feature that is being
-     * inserted.
+     * Specifies the XML formatted content that is added to the unattend.xml
+     * file for the specified path and component. The XML must be less than 4KB
+     * and must include the root element for the setting or feature that is
+     * being inserted.
      */
     @JsonProperty(value = "content")
     private String content;

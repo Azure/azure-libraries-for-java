@@ -32,20 +32,23 @@ public class VirtualMachineExtensionInner extends Resource {
     private String publisher;
 
     /**
-     * The type of the extension handler.
+     * Specifies the type of the extension; an example is
+     * "CustomScriptExtension".
      */
     @JsonProperty(value = "properties.type")
     private String virtualMachineExtensionType;
 
     /**
-     * The type version of the extension handler.
+     * Specifies the version of the script handler.
      */
     @JsonProperty(value = "properties.typeHandlerVersion")
     private String typeHandlerVersion;
 
     /**
-     * Whether the extension handler should be automatically upgraded across
-     * minor versions.
+     * Indicates whether the extension should use a newer minor version if one
+     * is available at deployment time. Once deployed, however, the extension
+     * will not upgrade minor versions unless redeployed, even with this
+     * property set to true.
      */
     @JsonProperty(value = "properties.autoUpgradeMinorVersion")
     private Boolean autoUpgradeMinorVersion;
@@ -57,7 +60,8 @@ public class VirtualMachineExtensionInner extends Resource {
     private Object settings;
 
     /**
-     * Json formatted protected settings for the extension.
+     * The extension can contain either protectedSettings or
+     * protectedSettingsFromKeyVault or no protected settings at all.
      */
     @JsonProperty(value = "properties.protectedSettings")
     private Object protectedSettings;

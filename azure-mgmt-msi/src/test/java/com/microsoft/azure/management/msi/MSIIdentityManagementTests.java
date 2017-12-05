@@ -23,7 +23,7 @@ import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 import rx.functions.Action1;
 
@@ -38,9 +38,15 @@ public class MSIIdentityManagementTests extends TestBase {
     private MSIManager msiManager;
     private ResourceManager resourceManager;
 
+    @Before
+    public void beforeTest() throws IOException {
+        super.setBaseUri("https:/centraluseuap.management.azure.com/");
+        super.beforeTest();
+    }
+
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) throws IOException {
-        this.msiManager = this.msiManager();
+        this.msiManager = MSIManager.authenticate(restClient, defaultSubscription);
         this.resourceManager = msiManager.resourceManager();
     }
 
@@ -50,7 +56,6 @@ public class MSIIdentityManagementTests extends TestBase {
     }
 
     @Test
-    @Ignore("Test will be enabled once the MSI service is fully deployed")
     public void canCreateGetListDeleteIdentity() throws Exception {
         RG_NAME = generateRandomResourceName("javaismrg", 15);
         String identityName = generateRandomResourceName("msi-id", 15);
@@ -105,7 +110,6 @@ public class MSIIdentityManagementTests extends TestBase {
     }
 
     @Test
-    @Ignore("Test will be enabled once the MSI service is fully deployed")
     public void canAssignCurrentResourceGroupAccessRoleToIdentity() throws Exception {
         RG_NAME = generateRandomResourceName("javaismrg", 15);
         String identityName = generateRandomResourceName("msi-id", 15);
@@ -158,7 +162,6 @@ public class MSIIdentityManagementTests extends TestBase {
     }
 
     @Test
-    @Ignore("Test will be enabled once the MSI service is fully deployed")
     public void canAssignRolesToIdentity() throws Exception {
         RG_NAME = generateRandomResourceName("javaismrg", 15);
         String identityName = generateRandomResourceName("msi-id", 15);
@@ -202,9 +205,7 @@ public class MSIIdentityManagementTests extends TestBase {
                 roleAssignmentResourcesCount++;
             } else if (resource instanceof Identity) {
                 identityResourcesCount++;
-                if (identity == null) {
-                    identity = (Identity) resource;
-                }
+                identity = (Identity) resource;
             }
         }
 
@@ -236,11 +237,18 @@ public class MSIIdentityManagementTests extends TestBase {
         }
         Assert.assertTrue("Expected role assignment not found for the resource group resource", found);
 
+        identity = identity
+                .update()
+                .withTag("a", "bb")
+                .apply();
+
+        Assert.assertNotNull(identity.tags());
+        Assert.assertTrue(identity.tags().containsKey("a"));
+
         resourceManager.resourceGroups().deleteByName(anotherRgName);
     }
 
-
-    private MSIManager msiManager() {
+    private static MSIManager msiManager() {
         try {
             AzureCliCredentials azureCliCredentials = AzureCliCredentials.create();
             RestClient client = new RestClient.Builder()

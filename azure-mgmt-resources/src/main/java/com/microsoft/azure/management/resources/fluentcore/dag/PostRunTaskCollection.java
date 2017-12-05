@@ -6,8 +6,6 @@
 
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -45,14 +43,8 @@ public final class PostRunTaskCollection {
      *
      * @param taskItem the "Post Run" task
      */
-    public void add(final PostRunTaskItem taskItem) {
-        IndexableTaskItem indexableTaskItem = new IndexableTaskItem() {
-            @Override
-            protected rx.Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
-                return taskItem.call(new PostRunTaskItem.Context(this));
-            }
-        };
-        add(indexableTaskItem);
+    public void add(final FunctionalTaskItem taskItem) {
+        add(IndexableTaskItem.create(taskItem));
     }
 
     /**

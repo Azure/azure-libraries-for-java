@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.model.implementation;
 
+import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
@@ -83,6 +84,17 @@ public abstract class CreatableUpdatableImpl<
     }
 
     /**
+     * Add a dependency task item for this model.
+     *
+     * @param dependency the dependency task item.
+     * @return key to be used as parameter to taskResult(string) method to retrieve result the task item
+     */
+    protected String addDependency(FunctionalTaskItem dependency) {
+        Objects.requireNonNull(dependency);
+        return this.taskGroup.addDependency(dependency);
+    }
+
+    /**
      * Add a dependency task group for this model.
      *
      * @param dependency the dependency.
@@ -130,6 +142,18 @@ public abstract class CreatableUpdatableImpl<
     protected String addDependency(Executable<? extends Indexable> executable) {
         TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) executable;
         return this.addDependency(dependency);
+    }
+
+    /**
+     * Add a "post-run" dependent task item for this model.
+     *
+     * @param dependent the "post-run" dependent task item.
+     * @return key to be used as parameter to taskResult(string) method to retrieve result of root
+     * task in the given dependent task group
+     */
+    public String addPostRunDependent(FunctionalTaskItem dependent) {
+        Objects.requireNonNull(dependent);
+        return this.taskGroup().addPostRunDependent(dependent);
     }
 
     /**

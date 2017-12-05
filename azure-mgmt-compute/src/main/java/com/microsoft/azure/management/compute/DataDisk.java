@@ -16,7 +16,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class DataDisk {
     /**
-     * The logical unit number.
+     * Specifies the logical unit number of the data disk. This value is used
+     * to identify data disks within the VM and therefore must be unique for
+     * each data disk attached to a VM.
      */
     @JsonProperty(value = "lun", required = true)
     private int lun;
@@ -34,30 +36,41 @@ public class DataDisk {
     private VirtualHardDisk vhd;
 
     /**
-     * The source user image virtual hard disk. This virtual hard disk will be
-     * copied before using it to attach to the virtual machine. If SourceImage
-     * is provided, the destination virtual hard disk must not exist.
+     * The source user image virtual hard disk. The virtual hard disk will be
+     * copied before being attached to the virtual machine. If SourceImage is
+     * provided, the destination virtual hard drive must not exist.
      */
     @JsonProperty(value = "image")
     private VirtualHardDisk image;
 
     /**
-     * The caching type. Possible values include: 'None', 'ReadOnly',
-     * 'ReadWrite'.
+     * Specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values
+     * are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly**
+     * &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None
+     * for Standard storage. ReadOnly for Premium storage**. Possible values
+     * include: 'None', 'ReadOnly', 'ReadWrite'.
      */
     @JsonProperty(value = "caching")
     private CachingTypes caching;
 
     /**
-     * The create option. Possible values include: 'fromImage', 'empty',
-     * 'attach'.
+     * Specifies how the virtual machine should be created.&lt;br&gt;&lt;br&gt;
+     * Possible values are:&lt;br&gt;&lt;br&gt; **Attach** \u2013 This value is
+     * used when you are using a specialized disk to create the virtual
+     * machine.&lt;br&gt;&lt;br&gt; **FromImage** \u2013 This value is used
+     * when you are using an image to create the virtual machine. If you are
+     * using a platform image, you also use the imageReference element
+     * described above. If you are using a marketplace image, you  also use the
+     * plan element previously described. Possible values include: 'FromImage',
+     * 'Empty', 'Attach'.
      */
     @JsonProperty(value = "createOption", required = true)
     private DiskCreateOptionTypes createOption;
 
     /**
-     * The initial disk size in GB for blank data disks, and the new desired
-     * size for resizing existing OS and data disks.
+     * Specifies the size of an empty data disk in gigabytes. This element can
+     * be used to overwrite the name of the disk in a virtual machine image.
+     * &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
      */
     @JsonProperty(value = "diskSizeGB")
     private Integer diskSizeGB;

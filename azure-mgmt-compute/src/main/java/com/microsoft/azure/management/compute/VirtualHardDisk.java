@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class VirtualHardDisk {
     /**
-     * The virtual hard disk's URI. Must be a valid URI to a virtual hard disk.
+     * Specifies the virtual hard disk's uri.
      */
     @JsonProperty(value = "uri")
     private String uri;

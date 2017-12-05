@@ -11,7 +11,11 @@ package com.microsoft.azure.management.compute;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Describes Boot Diagnostics.
+ * Boot Diagnostics is a debugging feature which allows you to view Console
+ * Output and Screenshot to diagnose VM status. &lt;br&gt;&lt;br&gt; For Linux
+ * Virtual Machines, you can easily view the output of your console log.
+ * &lt;br&gt;&lt;br&gt; For both Windows and Linux virtual machines, Azure also
+ * enables you to see a screenshot of the VM from the hypervisor.
  */
 public class BootDiagnostics {
     /**
@@ -21,7 +25,7 @@ public class BootDiagnostics {
     private Boolean enabled;
 
     /**
-     * URI of the storage account to use for placing the console output and
+     * Uri of the storage account to use for placing the console output and
      * screenshot.
      */
     @JsonProperty(value = "storageUri")

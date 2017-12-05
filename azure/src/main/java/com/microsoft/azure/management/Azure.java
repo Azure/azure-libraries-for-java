@@ -21,6 +21,7 @@ import com.microsoft.azure.management.batch.implementation.BatchManager;
 import com.microsoft.azure.management.cdn.CdnProfiles;
 import com.microsoft.azure.management.cdn.implementation.CdnManager;
 import com.microsoft.azure.management.compute.AvailabilitySets;
+import com.microsoft.azure.management.compute.ComputeSkus;
 import com.microsoft.azure.management.compute.ComputeUsages;
 import com.microsoft.azure.management.compute.Disks;
 import com.microsoft.azure.management.compute.Snapshots;
@@ -613,6 +614,13 @@ public final class Azure {
      */
     public Snapshots snapshots() {
         return computeManager.snapshots();
+    }
+
+    /**
+     * @return the compute service SKU management API entry point
+     */
+    public ComputeSkus computeSkus() {
+        return computeManager.computeSkus();
     }
 
     /**

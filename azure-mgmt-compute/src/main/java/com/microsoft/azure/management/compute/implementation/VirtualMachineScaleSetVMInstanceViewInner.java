@@ -12,6 +12,7 @@ import com.microsoft.azure.management.compute.VirtualMachineAgentInstanceView;
 import java.util.List;
 import com.microsoft.azure.management.compute.DiskInstanceView;
 import com.microsoft.azure.management.compute.VirtualMachineExtensionInstanceView;
+import com.microsoft.azure.management.compute.VirtualMachineHealthStatus;
 import com.microsoft.azure.management.compute.BootDiagnosticsInstanceView;
 import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -57,7 +58,18 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     private List<VirtualMachineExtensionInstanceView> extensions;
 
     /**
-     * The boot diagnostics.
+     * The health status for the VM.
+     */
+    @JsonProperty(value = "vmHealth", access = JsonProperty.Access.WRITE_ONLY)
+    private VirtualMachineHealthStatus vmHealth;
+
+    /**
+     * Boot Diagnostics is a debugging feature which allows you to view Console
+     * Output and Screenshot to diagnose VM status. &lt;br&gt;&lt;br&gt; For
+     * Linux Virtual Machines, you can easily view the output of your console
+     * log. &lt;br&gt;&lt;br&gt; For both Windows and Linux virtual machines,
+     * Azure also enables you to see a screenshot of the VM from the
+     * hypervisor.
      */
     @JsonProperty(value = "bootDiagnostics")
     private BootDiagnosticsInstanceView bootDiagnostics;
@@ -193,6 +205,15 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     public VirtualMachineScaleSetVMInstanceViewInner withExtensions(List<VirtualMachineExtensionInstanceView> extensions) {
         this.extensions = extensions;
         return this;
+    }
+
+    /**
+     * Get the vmHealth value.
+     *
+     * @return the vmHealth value
+     */
+    public VirtualMachineHealthStatus vmHealth() {
+        return this.vmHealth;
     }
 
     /**

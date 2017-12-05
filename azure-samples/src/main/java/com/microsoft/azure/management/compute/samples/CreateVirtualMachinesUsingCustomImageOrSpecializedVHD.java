@@ -51,7 +51,7 @@ public final class CreateVirtualMachinesUsingCustomImageOrSpecializedVHD {
         final String userName = "tirekicker";
         final String password = "12NewPA$$w0rd!";
 
-        final String apacheInstallScript = "https://raw.githubusercontent.com/Azure/azure-sdk-for-java/master/azure-samples/src/main/resources/install_apache.sh";
+        final String apacheInstallScript = "https://raw.githubusercontent.com/Azure/azure-libraries-for-java/master/azure-samples/src/main/resources/install_apache.sh";
         final String apacheInstallCommand = "bash install_apache.sh";
         List<String> apacheInstallScriptUris = new ArrayList<>();
         apacheInstallScriptUris.add(apacheInstallScript);

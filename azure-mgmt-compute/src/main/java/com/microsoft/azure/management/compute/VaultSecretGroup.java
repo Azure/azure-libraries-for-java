@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class VaultSecretGroup {
     /**
-     * The Relative URL of the Key Vault containing all of the certificates in
+     * The relative URL of the Key Vault containing all of the certificates in
      * VaultCertificates.
      */
     @JsonProperty(value = "sourceVault")

@@ -16,16 +16,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SshPublicKey {
     /**
-     * Specifies the full path on the created VM where SSH public key is
+     * Specifies the full path on the created VM where ssh public key is
      * stored. If the file already exists, the specified key is appended to the
-     * file.
+     * file. Example: /home/user/.ssh/authorized_keys.
      */
     @JsonProperty(value = "path")
     private String path;
 
     /**
-     * Certificate public key used to authenticate to the VM through SSH. The
-     * certificate must be in Pem format with or without headers.
+     * SSH public key certificate used to authenticate with the VM through ssh.
+     * The key needs to be at least 2048-bit and in ssh-rsa format.
+     * &lt;br&gt;&lt;br&gt; For creating ssh keys, see [Create SSH keys on
+     * Linux and Mac for Linux VMs in
+     * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
      */
     @JsonProperty(value = "keyData")
     private String keyData;

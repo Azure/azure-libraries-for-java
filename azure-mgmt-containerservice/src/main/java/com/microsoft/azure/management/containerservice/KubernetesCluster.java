@@ -137,7 +137,7 @@ public interface KubernetesCluster extends
              *
              * @return the next stage of the definition
              */
-            WithDnsPrefix withVersion(KubernetesVersion kubernetesVersion);
+            WithLinuxRootUsername withVersion(KubernetesVersion kubernetesVersion);
 
             /**
              * Uses the latest version for the Kubernetes cluster.

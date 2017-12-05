@@ -6,16 +6,17 @@
 
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A collection of "Post Run" tasks.
- *
- * @param <T> the post run task item
  */
-public class PostRunTaskCollection<T extends IndexableTaskItem> {
-    private final List<T> collection;
+public final class PostRunTaskCollection {
+    private final List<IndexableTaskItem> collection;
     private final TaskGroup dependsOnTaskGroup;
 
     /**
@@ -24,6 +25,7 @@ public class PostRunTaskCollection<T extends IndexableTaskItem> {
      * @param dependsOnTaskGroup the task group in which "Post Run" tasks in the collection depends on
      */
     public PostRunTaskCollection(final TaskGroup dependsOnTaskGroup) {
+        Objects.requireNonNull(dependsOnTaskGroup);
         this.collection = new ArrayList<>();
         this.dependsOnTaskGroup = dependsOnTaskGroup;
     }
@@ -33,9 +35,24 @@ public class PostRunTaskCollection<T extends IndexableTaskItem> {
      *
      * @param taskItem the "Post Run" task
      */
-    public void add(final T taskItem) {
+    public void add(final IndexableTaskItem taskItem) {
         this.dependsOnTaskGroup.addPostRunDependentTaskGroup(taskItem.taskGroup());
         this.collection.add(taskItem);
+    }
+
+    /**
+     * Adds a "Post Run" task to the collection.
+     *
+     * @param taskItem the "Post Run" task
+     */
+    public void add(final PostRunTaskItem taskItem) {
+        IndexableTaskItem indexableTaskItem = new IndexableTaskItem() {
+            @Override
+            protected rx.Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
+                return taskItem.call(new PostRunTaskItem.Context(this));
+            }
+        };
+        add(indexableTaskItem);
     }
 
     /**

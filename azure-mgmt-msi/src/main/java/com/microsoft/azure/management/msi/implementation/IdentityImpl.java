@@ -6,25 +6,18 @@
 
 package com.microsoft.azure.management.msi.implementation;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.management.msi.Identity;
-import com.microsoft.azure.management.resources.Deployment;
-import com.microsoft.azure.management.resources.DeploymentMode;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import rx.Completable;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Observable;
 import rx.functions.Func1;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The implementation for Identity and its create and update interfaces.
@@ -38,7 +31,10 @@ final class IdentityImpl
 
     protected IdentityImpl(String name, IdentityInner innerObject, MSIManager manager) {
         super(name, innerObject, manager);
-        this.roleAssignmentHelper = new RoleAssignmentHelper(manager.graphRbacManager(), this);
+
+        this.roleAssignmentHelper = new RoleAssignmentHelper(manager.graphRbacManager(),
+                this.taskGroup(),
+                this.idProvider());
     }
 
     @Override
@@ -122,20 +118,18 @@ final class IdentityImpl
     }
 
     @Override
-    public Completable afterPostRunAsync(boolean isFaulted) {
-        this.roleAssignmentHelper.clear();
-        return Completable.complete();
-    }
-
-    @Override
     public Observable<Identity> createResourceAsync() {
-        final IdentityImpl self = this;
-        return deployIdentityTemplateAsync()
-                .flatMap(new Func1<Indexable, Observable<Identity>>() {
+        return this.manager().inner().userAssignedIdentities()
+                .createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
+                .map(innerToFluentMap(this))
+                .flatMap(new Func1<Identity, Observable<Identity>>() {
                     @Override
-                    public Observable<Identity> call(Indexable indexable) {
-                        return getInnerAsync()
-                                .map(innerToFluentMap(self));
+                    public Observable<Identity> call(Identity identity) {
+                        // Often getting 'Principal xxx does not exist in the directory yyy'
+                        // error when attempting to create role assignments just after identity
+                        // creation, so delaying here for some time.
+                        //
+                        return Observable.just(identity).delay(30, TimeUnit.SECONDS, SdkContext.getRxScheduler());
                     }
                 });
     }
@@ -148,46 +142,20 @@ final class IdentityImpl
                 .getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
-    /**
-     * Prepare an ARM template for identity resource and deploy it.
-     *
-     * TODO: Replace template with imperative calls -
-     * This is a temporary solution as the MSI resource provider has a bug that requires passing
-     * empty properties section. This method will be replaced with imperative call once the service
-     * fixes the issue.
-     *
-     * @return an ARM template deployment representing identity deployment.
-     */
-    private Observable<Indexable> deployIdentityTemplateAsync() {
-        String templateStr;
-        try {
-            InputStream embeddedTemplate = IdentityImpl.class.getResourceAsStream("/identity.json");
-            final ObjectMapper mapper = new ObjectMapper();
-            final JsonNode template = mapper.readTree(embeddedTemplate);
-            final ObjectNode locationParam = mapper.createObjectNode();
-            locationParam.put("type", "string");
-            locationParam.put("defaultValue", this.regionName());
-            ObjectNode.class.cast(template.get("parameters")).replace("location", locationParam);
-
-            final ObjectNode identityNameParam = mapper.createObjectNode();
-            identityNameParam.put("type", "string");
-            identityNameParam.put("defaultValue", this.name());
-            ObjectNode.class.cast(template.get("parameters")).replace("identityName", identityNameParam);
-            templateStr = template.toString();
-        } catch (IOException ioException) {
-            return Observable.error(new Throwable("client error: Failed to prepare identity template", ioException));
-        }
-
-        Creatable<Deployment> deploymentCreatable = null;
-        try {
-            deploymentCreatable = this.manager().resourceManager().deployments().define(this.name())
-                    .withExistingResourceGroup(this.resourceGroupName())
-                    .withTemplate(templateStr)
-                    .withParameters("{}")
-                    .withMode(DeploymentMode.INCREMENTAL);
-        } catch (IOException e) {
-            Observable.error(new Throwable("Client error: Failed to serialize identity template : " + templateStr, e));
-        }
-        return deploymentCreatable.createAsync().last();
+    private RoleAssignmentHelper.IdProvider idProvider() {
+        return new RoleAssignmentHelper.IdProvider() {
+            @Override
+            public String principalId() {
+                Objects.requireNonNull(inner());
+                Objects.requireNonNull(inner().principalId());
+                return inner().principalId().toString();
+            }
+            @Override
+            public String resourceId() {
+                Objects.requireNonNull(inner());
+                Objects.requireNonNull(inner().id());
+                return inner().id();
+            }
+        };
     }
 }

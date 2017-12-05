@@ -13,45 +13,52 @@ import com.microsoft.azure.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.management.graphrbac.RoleDefinition;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.dag.IndexableTaskItem;
+import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Observable;
 import rx.functions.Func1;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 /**
  * A utility class to operate on identity role assignments.
  */
 @LangDefinition
 final class RoleAssignmentHelper {
+    /**
+     * A type that provide the service principal id (object id) and ARM resource
+     * id of the resource for which role assignments needs to be done.
+     */
+    interface IdProvider {
+        /**
+         * @return the service principal id (object id)
+         */
+        String principalId();
+        /**
+         * @return ARM resource id of the resource
+         */
+        String resourceId();
+    }
+
     private static final String CURRENT_RESOURCE_GROUP_SCOPE = "CURRENT_RESOURCE_GROUP";
 
     private final GraphRbacManager rbacManager;
-    private final IdentityImpl identity;
-
-    private List<RoleAssignmentCreator> rolesAssignmentsToCreate;
-    private List<RoleAssignmentCreator> roleDefinitionsAssignmentsToCreate;
-    private List<RoleAssignmentRemover> rolesAssignmentsToRemove;
+    private final IdProvider idProvider;
+    private final TaskGroup preRunTaskGroup;
 
     /**
      * Creates RoleAssignmentHelper.
      *
      * @param rbacManager the graph rbac manager
-     * @param identity the identity for which role assignments needs to be created or removed
+     * @param taskGroup the pre-run task group after which role assignments create/remove tasks should run
+     * @param idProvider the provider that provides service principal id and resource id
      */
-    RoleAssignmentHelper(final GraphRbacManager rbacManager, IdentityImpl identity) {
+    RoleAssignmentHelper(final GraphRbacManager rbacManager,
+                         TaskGroup taskGroup,
+                         IdProvider idProvider) {
         this.rbacManager = rbacManager;
-        this.identity = identity;
-
-        this.rolesAssignmentsToCreate = new ArrayList<>();
-        this.roleDefinitionsAssignmentsToCreate = new ArrayList<>();
-        this.rolesAssignmentsToRemove = new ArrayList<>();
-        clear();
+        this.idProvider = idProvider;
+        this.preRunTaskGroup = taskGroup;
     }
 
     /**
@@ -75,14 +82,38 @@ final class RoleAssignmentHelper {
      * @param asRole access role to assigned to the identity
      * @return RoleAssignmentHelper
      */
-    RoleAssignmentHelper withRoleBasedAccessTo(String scope, BuiltInRole asRole) {
-        RoleAssignmentCreator creator = new RoleAssignmentCreator(rbacManager,
-                asRole.toString(),
-                scope,
-                true,
-                this.identity);
-        this.identity.taskGroup().addPostRunDependentTaskGroup(creator.taskGroup());
-        this.rolesAssignmentsToCreate.add(creator);
+    RoleAssignmentHelper withRoleBasedAccessTo(final String scope, final BuiltInRole asRole) {
+        FunctionalTaskItem creator = new FunctionalTaskItem() {
+            @Override
+            public Observable<Indexable> call(final Context cxt) {
+                final String roleAssignmentName = SdkContext.randomUuid();
+                final String managedServiceIdentityPrincipalId = idProvider.principalId();
+                final String resourceScope;
+                if (scope == CURRENT_RESOURCE_GROUP_SCOPE) {
+                    resourceScope = resourceGroupId(idProvider.resourceId());
+                } else {
+                    resourceScope = scope;
+                }
+                return rbacManager
+                        .roleAssignments()
+                        .define(roleAssignmentName)
+                        .forObjectId(managedServiceIdentityPrincipalId)
+                        .withBuiltInRole(asRole)
+                        .withScope(resourceScope)
+                        .createAsync()
+                        .last()
+                        .onErrorResumeNext(new Func1<Throwable, Observable<Indexable>>() {
+                            @Override
+                            public Observable<Indexable> call(Throwable throwable) {
+                                if (isRoleAssignmentExists(throwable)) {
+                                    return cxt.voidObservable();
+                                }
+                                return Observable.<Indexable>error(throwable);
+                            }
+                        });
+            }
+        };
+        this.preRunTaskGroup.addPostRunDependent(creator);
         return this;
     }
 
@@ -107,14 +138,38 @@ final class RoleAssignmentHelper {
      * @param roleDefinitionId access role definition to assigned to the identity
      * @return RoleAssignmentHelper
      */
-    RoleAssignmentHelper withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId) {
-        RoleAssignmentCreator creator = new RoleAssignmentCreator(rbacManager,
-                roleDefinitionId,
-                scope,
-                false,
-                this.identity);
-        this.identity.taskGroup().addPostRunDependentTaskGroup(creator.taskGroup());
-        this.roleDefinitionsAssignmentsToCreate.add(creator);
+    RoleAssignmentHelper withRoleDefinitionBasedAccessTo(final String scope, final String roleDefinitionId) {
+        FunctionalTaskItem creator = new FunctionalTaskItem() {
+            @Override
+            public Observable<Indexable> call(final Context cxt) {
+                final String roleAssignmentName = SdkContext.randomUuid();
+                final String managedServiceIdentityPrincipalId = idProvider.principalId();
+                final String resourceScope;
+                if (scope == CURRENT_RESOURCE_GROUP_SCOPE) {
+                    resourceScope = resourceGroupId(idProvider.resourceId());
+                } else {
+                    resourceScope = scope;
+                }
+                return rbacManager
+                        .roleAssignments()
+                        .define(roleAssignmentName)
+                        .forObjectId(managedServiceIdentityPrincipalId)
+                        .withRoleDefinition(roleDefinitionId)
+                        .withScope(resourceScope)
+                        .createAsync()
+                        .last()
+                        .onErrorResumeNext(new Func1<Throwable, Observable<Indexable>>() {
+                            @Override
+                            public Observable<Indexable> call(Throwable throwable) {
+                                if (isRoleAssignmentExists(throwable)) {
+                                    return cxt.voidObservable();
+                                }
+                                return Observable.<Indexable>error(throwable);
+                            }
+                        });
+            }
+        };
+        this.preRunTaskGroup.addPostRunDependent(creator);
         return this;
     }
 
@@ -124,17 +179,22 @@ final class RoleAssignmentHelper {
      * @param roleAssignment a role assigned to the identity
      * @return RoleAssignmentHelper
      */
-    RoleAssignmentHelper withoutRoleAssignment(RoleAssignment roleAssignment) {
-        if (!roleAssignment.principalId().equalsIgnoreCase(this.identity.principalId())) {
-            return this;
-        } else {
-            RoleAssignmentRemover remover = new RoleAssignmentRemover(rbacManager,
-                    roleAssignment,
-                    this.identity);
-            this.identity.taskGroup().addPostRunDependentTaskGroup(remover.taskGroup());
-            this.rolesAssignmentsToRemove.add(remover);
+    RoleAssignmentHelper withoutRoleAssignment(final RoleAssignment roleAssignment) {
+        if (!roleAssignment.principalId().equalsIgnoreCase(idProvider.principalId())) {
             return this;
         }
+        FunctionalTaskItem remover = new FunctionalTaskItem() {
+            @Override
+            public Observable<Indexable> call(final Context cxt) {
+                return rbacManager
+                        .roleAssignments()
+                        .deleteByIdAsync(roleAssignment.id())
+                        .<Indexable>toObservable()
+                        .switchIfEmpty(cxt.voidObservable());
+            }
+        };
+        this.preRunTaskGroup.addPostRunDependent(remover);
+        return this;
     }
 
     /**
@@ -144,180 +204,13 @@ final class RoleAssignmentHelper {
      * @param asRole the role of the role assignment
      * @return RoleAssignmentHelper
      */
-    RoleAssignmentHelper withoutRoleAssignment(String scope, BuiltInRole asRole) {
-        RoleAssignmentRemover remover = new RoleAssignmentRemover(rbacManager,
-                asRole.toString(),
-                scope,
-                this.identity);
-        this.identity.taskGroup().addPostRunDependentTaskGroup(remover.taskGroup());
-        this.rolesAssignmentsToRemove.add(remover);
-        return this;
-    }
-
-    /**
-     * An instance of RoleAssignmentHelper will be composed by an instance of IdentityImpl.
-     * This same composed instance will be used to perform msi related actions as part of
-     * that Identity's create and update actions. Hence once one of these actions
-     * (Identity create, Identity update) is done, this method must be invoked to clear
-     * the msi related states specific to that action.
-     */
-    public  void clear() {
-        for (RoleAssignmentCreator role : rolesAssignmentsToCreate) {
-            role.clear();
-        }
-        this.rolesAssignmentsToCreate.clear();
-        for (RoleAssignmentCreator role : roleDefinitionsAssignmentsToCreate) {
-            role.clear();
-        }
-        this.roleDefinitionsAssignmentsToCreate.clear();
-        for (RoleAssignmentRemover role : rolesAssignmentsToRemove) {
-            role.clear();
-        }
-        this.rolesAssignmentsToRemove.clear();
-    }
-
-    /**
-     * TaskItem in the graph that creates role assignment for the MSI service principal.
-     */
-    private static class RoleAssignmentCreator extends IndexableTaskItem {
-        private final GraphRbacManager rbacManager;
-        private final String roleOrRoleDefinition;
-        private final String scope;
-        private final boolean isRole;
-        private final IdentityImpl identity;
-
-        RoleAssignmentCreator(final GraphRbacManager rbacManager,
-                              final String roleOrRoleDefinition,
-                              final String scope,
-                              final boolean isRole,
-                              final IdentityImpl identity) {
-            this.rbacManager = rbacManager;
-            this.roleOrRoleDefinition = roleOrRoleDefinition;
-            this.scope = scope;
-            this.isRole = isRole;
-            this.identity = identity;
-        }
-
-        @Override
-        public Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
-            final String roleAssignmentName = SdkContext.randomUuid();
-            final String managedServiceIdentityPrincipalId = identity.principalId().toString();
-            final String resourceScope;
-            if (scope == CURRENT_RESOURCE_GROUP_SCOPE) {
-                resourceScope = resourceGroupId(identity.id());
-            } else {
-                resourceScope = scope;
-            }
-
-            if (isRole) {
-                final BuiltInRole role = BuiltInRole.fromString(roleOrRoleDefinition);
-                return this.rbacManager
-                        .roleAssignments()
-                        .define(roleAssignmentName)
-                        .forObjectId(managedServiceIdentityPrincipalId)
-                        .withBuiltInRole(role)
-                        .withScope(resourceScope)
-                        .createAsync()
-                        .last()
-                        .onErrorResumeNext(checkRoleAssignmentError());
-            } else {
-                final String roleDefinitionId = roleOrRoleDefinition;
-                return this.rbacManager
-                        .roleAssignments()
-                        .define(roleAssignmentName)
-                        .forObjectId(managedServiceIdentityPrincipalId)
-                        .withRoleDefinition(roleDefinitionId)
-                        .withScope(resourceScope)
-                        .createAsync()
-                        .last()
-                        .onErrorResumeNext(checkRoleAssignmentError());
-            }
-        }
-
-        /**
-         * This method returns ARM id of the resource group from the given ARM id of a resource
-         * in the resource group.
-         *
-         * @param id ARM id
-         * @return the ARM id of resource group
-         */
-        private String resourceGroupId(String id) {
-            final ResourceId resourceId = ResourceId.fromString(id);
-            final StringBuilder builder = new StringBuilder();
-            builder.append("/subscriptions/")
-                    .append(resourceId.subscriptionId())
-                    .append("/resourceGroups/")
-                    .append(resourceId.resourceGroupName());
-            return builder.toString();
-        }
-
-        /**
-         * @return a void observable if given throwable indicates role assignment already exists,
-         * error observable otherwise.
-         */
-        private Func1<Throwable, Observable<Indexable>> checkRoleAssignmentError() {
-            return new Func1<Throwable, Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call(Throwable throwable) {
-                    if (throwable instanceof CloudException) {
-                        CloudException exception = (CloudException) throwable;
-                        if (exception.body() != null
-                                && exception.body().code() != null
-                                && exception.body().code().equalsIgnoreCase("RoleAssignmentExists")) {
-                            return voidObservable();
-                        }
-                    }
-                    return Observable.<Indexable>error(throwable);
-                }
-            };
-        }
-    }
-
-
-    /**
-     * TaskItem in the graph that removes role assignment for a MSI service principal.
-     */
-    private static class RoleAssignmentRemover extends IndexableTaskItem {
-        private final GraphRbacManager rbacManager;
-        private final String role;
-        private final String scope;
-        private final RoleAssignment roleAssignment;
-        private final IdentityImpl identity;
-
-        RoleAssignmentRemover(final GraphRbacManager rbacManager,
-                              final String role,
-                              final String scope,
-                              final IdentityImpl identity) {
-            this.rbacManager = rbacManager;
-            this.role = role;
-            this.scope = scope;
-            this.identity = identity;
-            this.roleAssignment = null;
-        }
-
-        RoleAssignmentRemover(final GraphRbacManager rbacManager,
-                              final RoleAssignment roleAssignment,
-                              final IdentityImpl identity) {
-            this.rbacManager = rbacManager;
-            this.role = null;
-            this.scope = null;
-            this.identity = identity;
-            this.roleAssignment = roleAssignment;
-        }
-
-        @Override
-        protected Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
-            if (this.roleAssignment != null) {
+    RoleAssignmentHelper withoutRoleAssignment(final String scope, final BuiltInRole asRole) {
+        FunctionalTaskItem remover = new FunctionalTaskItem() {
+            @Override
+            public Observable<Indexable> call(final Context cxt) {
                 return rbacManager
-                        .roleAssignments()
-                        .deleteByIdAsync(roleAssignment.id())
-                        .<Indexable>toObservable();
-            } else {
-                Objects.requireNonNull(role);
-
-                return this.rbacManager
                         .roleDefinitions()
-                        .getByScopeAndRoleNameAsync(this.scope, role)
+                        .getByScopeAndRoleNameAsync(scope, asRole.toString())
                         .flatMap(new Func1<RoleDefinition, Observable<RoleAssignment>>() {
                             @Override
                             public Observable<RoleAssignment> call(final RoleDefinition roleDefinition) {
@@ -329,7 +222,7 @@ final class RoleAssignmentHelper {
                                             public Boolean call(RoleAssignment roleAssignment) {
                                                 if (roleDefinition != null && roleAssignment != null) {
                                                     return roleAssignment.roleDefinitionId().equalsIgnoreCase(roleDefinition.id())
-                                                            && roleAssignment.principalId().equalsIgnoreCase(identity.principalId());
+                                                            && roleAssignment.principalId().equalsIgnoreCase(idProvider.principalId());
                                                 } else {
                                                     return false;
                                                 }
@@ -344,10 +237,48 @@ final class RoleAssignmentHelper {
                                 return rbacManager
                                         .roleAssignments()
                                         .deleteByIdAsync(roleAssignment.id())
-                                        .<Indexable>toObservable();
+                                        .<Indexable>toObservable()
+                                        .switchIfEmpty(cxt.voidObservable());
                             }
                         });
             }
+        };
+        this.preRunTaskGroup.addPostRunDependent(remover);
+        return this;
+    }
+
+    /**
+     * This method returns ARM id of the resource group from the given ARM id of a resource
+     * in the resource group.
+     *
+     * @param id ARM id
+     * @return the ARM id of resource group
+     */
+    private static String resourceGroupId(String id) {
+        final ResourceId resourceId = ResourceId.fromString(id);
+        final StringBuilder builder = new StringBuilder();
+        builder.append("/subscriptions/")
+                .append(resourceId.subscriptionId())
+                .append("/resourceGroups/")
+                .append(resourceId.resourceGroupName());
+        return builder.toString();
+    }
+
+    /**
+     * Checks whether the given exception indicates role assignment already exists or not.
+     *
+     * @param throwable the exception to check
+     * @return true if role assignment exists, false otherwise
+     */
+    private static boolean isRoleAssignmentExists(Throwable throwable) {
+        if (throwable instanceof CloudException) {
+            CloudException exception = (CloudException) throwable;
+            if (exception.body() != null
+                    && exception.body().code() != null
+                    && exception.body().code().equalsIgnoreCase("RoleAssignmentExists")) {
+                return true;
+            }
         }
+        return false;
     }
 }

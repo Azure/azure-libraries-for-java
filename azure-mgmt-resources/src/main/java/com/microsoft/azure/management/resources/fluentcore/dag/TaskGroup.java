@@ -153,6 +153,31 @@ public class TaskGroup
     }
 
     /**
+     * Mark root of this task task group depends on the given TaskItem.
+     * This ensure this task group's root get picked for execution only after the completion
+     * of invocation of provided TaskItem.
+     *
+     * @param dependencyTaskItem the task item that this task group depends on
+     * @return the key of the dependency
+     */
+    public String addDependency(FunctionalTaskItem dependencyTaskItem) {
+        IndexableTaskItem dependency = IndexableTaskItem.create(dependencyTaskItem);
+        this.addDependency(dependency);
+        return dependency.key();
+    }
+
+    /**
+     * Mark root of this task task group depends on the given item's taskGroup.
+     * This ensure this task group's root get picked for execution only after the completion
+     * of invocation of provided TaskItem.
+     *
+     * @param hasTaskGroup an item with taskGroup that this task group depends on
+     */
+    public void addDependency(TaskGroup.HasTaskGroup hasTaskGroup) {
+        this.addDependencyTaskGroup(hasTaskGroup.taskGroup());
+    }
+
+    /**
      * Mark root of this task task group depends on the given task group's root.
      * This ensure this task group's root get picked for execution only after the completion
      * of all tasks in the given group.
@@ -166,6 +191,28 @@ public class TaskGroup
             DAGraph<TaskItem, TaskGroupEntry<TaskItem>> dependencyGraph = dependencyTaskGroup;
             super.addDependencyGraph(dependencyGraph);
         }
+    }
+
+    /**
+     * Mark the given TaskItem depends on this taskGroup.
+     *
+     * @param dependentTaskItem the task item that depends on this task group
+     * @return key to be used as parameter to taskResult(string) method to retrieve result of
+     * invocation of given task item.
+     */
+    public String addPostRunDependent(FunctionalTaskItem dependentTaskItem) {
+        IndexableTaskItem taskItem = IndexableTaskItem.create(dependentTaskItem);
+        this.addPostRunDependent(taskItem);
+        return taskItem.key();
+    }
+
+    /**
+     * Mark the given item with taskGroup depends on this taskGroup.
+     *
+     * @param hasTaskGroup an item with as task group that depends on this task group
+     */
+    public void addPostRunDependent(TaskGroup.HasTaskGroup hasTaskGroup) {
+        this.addPostRunDependentTaskGroup(hasTaskGroup.taskGroup());
     }
 
     /**

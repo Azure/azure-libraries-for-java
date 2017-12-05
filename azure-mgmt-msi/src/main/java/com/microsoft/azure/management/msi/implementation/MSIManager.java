@@ -99,8 +99,10 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
      * @return entry point to Azure MSI Identity resource management API
      */
     public Identities identities() {
-        // TODO
-        return null;
+        if (identities == null) {
+            this.identities = new IdentitesImpl(this.inner().userAssignedIdentities(), this);
+        }
+        return this.identities;
     }
 
     /**

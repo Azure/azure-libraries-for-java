@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.msi;
 
-import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
@@ -19,9 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import rx.Observable;
 
-import java.util.UUID;
 
 /**
  * An immutable client-side representation of an Azure Managed Service Identity (MSI) Identity resource.
@@ -35,32 +32,22 @@ public interface Identity
     /**
      * @return id of the Azure Active Directory tenant to which the identity belongs to
      */
-    UUID tenantId();
+    String tenantId();
 
     /**
      * @return id of the Azure Active Directory service principal object associated with the identity
      */
-     UUID principalId();
+    String principalId();
 
     /**
      * @return id of the Azure Active Directory application associated with the identity
      */
-     UUID clientId();
+    String clientId();
 
     /**
      * @return the url that can be queried to obtain the identity credentials
      */
      String clientSecretUrl();
-
-    /**
-     * @return the list of role assignments for this identity
-     */
-    PagedList<RoleAssignment> listAssignedRoles();
-
-    /**
-     * @return an observable that emits the the role assignments for this identity
-     */
-    Observable<RoleAssignment> listAssignedRolesAsync();
 
     /**
      * Container interface for all the definitions related to identity.

@@ -8,9 +8,9 @@
 
 package com.microsoft.azure.management.msi.implementation;
 
-import java.util.Map;
 import java.util.UUID;
-import com.microsoft.azure.management.msi.UserAssignedIdentities;
+
+import com.microsoft.azure.Resource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -18,31 +18,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * Describes an identity resource.
  */
 @JsonFlatten
-public class IdentityInner {
-    /**
-     * The id of the created identity.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private String id;
-
-    /**
-     * The name of the created identity.
-     */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
-
-    /**
-     * The Azure region where the identity lives.
-     */
-    @JsonProperty(value = "location")
-    private String location;
-
-    /**
-     * Resource tags.
-     */
-    @JsonProperty(value = "tags")
-    private Map<String, String> tags;
-
+public class IdentityInner extends Resource {
     /**
      * The id of the tenant which the identity belongs to.
      */
@@ -69,72 +45,6 @@ public class IdentityInner {
      */
     @JsonProperty(value = "properties.clientSecretUrl", access = JsonProperty.Access.WRITE_ONLY)
     private String clientSecretUrl;
-
-    /**
-     * The type of resource i.e.
-     * Microsoft.ManagedIdentity/userAssignedIdentities. Possible values
-     * include: 'Microsoft.ManagedIdentity/userAssignedIdentities'.
-     */
-    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
-    private UserAssignedIdentities type;
-
-    /**
-     * Get the id value.
-     *
-     * @return the id value
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
-     * Get the name value.
-     *
-     * @return the name value
-     */
-    public String name() {
-        return this.name;
-    }
-
-    /**
-     * Get the location value.
-     *
-     * @return the location value
-     */
-    public String location() {
-        return this.location;
-    }
-
-    /**
-     * Set the location value.
-     *
-     * @param location the location value to set
-     * @return the IdentityInner object itself.
-     */
-    public IdentityInner withLocation(String location) {
-        this.location = location;
-        return this;
-    }
-
-    /**
-     * Get the tags value.
-     *
-     * @return the tags value
-     */
-    public Map<String, String> tags() {
-        return this.tags;
-    }
-
-    /**
-     * Set the tags value.
-     *
-     * @param tags the tags value to set
-     * @return the IdentityInner object itself.
-     */
-    public IdentityInner withTags(Map<String, String> tags) {
-        this.tags = tags;
-        return this;
-    }
 
     /**
      * Get the tenantId value.
@@ -171,14 +81,4 @@ public class IdentityInner {
     public String clientSecretUrl() {
         return this.clientSecretUrl;
     }
-
-    /**
-     * Get the type value.
-     *
-     * @return the type value
-     */
-    public UserAssignedIdentities type() {
-        return this.type;
-    }
-
 }

@@ -8,8 +8,8 @@ package com.microsoft.azure.management.msi;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.msi.implementation.IdentityInner;
 import com.microsoft.azure.management.msi.implementation.MSIManager;
+import com.microsoft.azure.management.msi.implementation.UserAssignedIdentitiesInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
@@ -38,5 +38,5 @@ public interface Identities extends
         SupportsBatchCreation<Identity>,
         SupportsBatchDeletion,
         HasManager<MSIManager>,
-        HasInner<IdentityInner> {
+        HasInner<UserAssignedIdentitiesInner> {
 }

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.model.implementation;
 
+import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
@@ -61,7 +62,18 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
     }
 
     /**
-     * Add a dependency for this model.
+     * Add a dependency task item for this executable.
+     *
+     * @param dependency the dependency task item.
+     * @return key to be used as parameter to taskResult(string) method to retrieve result the task item
+     */
+    protected String addDependency(FunctionalTaskItem dependency) {
+        Objects.requireNonNull(dependency);
+        return this.taskGroup.addDependency(dependency);
+    }
+
+    /**
+     * Add a dependency for this executable.
      *
      * @param dependency the dependency.
      * @return key to be used as parameter to taskResult(string) method to retrieve result of root
@@ -74,7 +86,7 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
     }
 
     /**
-     * Add a creatable dependency for this executable model.
+     * Add a creatable dependency for this executable.
      *
      * @param creatable the creatable dependency.
      * @return the key to be used as parameter to taskResult(string) method to retrieve created dependency
@@ -111,7 +123,19 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
     }
 
     /**
-     * Add a "post-run" dependent for this model.
+     * Add a "post-run" dependent task item for this executable.
+     *
+     * @param dependent the "post-run" dependent task item.
+     * @return key to be used as parameter to taskResult(string) method to retrieve result of root
+     * task in the given dependent task group
+     */
+    public String addPostRunDependent(FunctionalTaskItem dependent) {
+        Objects.requireNonNull(dependent);
+        return this.taskGroup().addPostRunDependent(dependent);
+    }
+
+    /**
+     * Add a "post-run" dependent for this executable.
      *
      * @return key to be used as parameter to taskResult(string) method to retrieve result of root
      * task in the dependent task group
@@ -123,7 +147,7 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
     }
 
     /**
-     * Add a creatable "post-run" dependent for this executable model.
+     * Add a creatable "post-run" dependent for this executable.
      *
      * @return the key to be used as parameter to taskResult(string) method to retrieve created "post-run" dependent
      */

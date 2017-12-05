@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.compute;
 
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -15,24 +16,37 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class VirtualMachineScaleSetIdentity {
     /**
-     * The principal id of virtual machine scale set identity.
+     * The principal id of virtual machine scale set identity. This property
+     * will only be provided for a system assigned identity.
      */
     @JsonProperty(value = "principalId", access = JsonProperty.Access.WRITE_ONLY)
     private String principalId;
 
     /**
-     * The tenant id associated with the virtual machine scale set.
+     * The tenant id associated with the virtual machine scale set. This
+     * property will only be provided for a system assigned identity.
      */
     @JsonProperty(value = "tenantId", access = JsonProperty.Access.WRITE_ONLY)
     private String tenantId;
 
     /**
-     * The type of identity used for the virtual machine scale set. Currently,
-     * the only supported type is 'SystemAssigned', which implicitly creates an
-     * identity. Possible values include: 'SystemAssigned'.
+     * The type of identity used for the virtual machine scale set. The type
+     * 'SystemAssigned, UserAssigned' includes both an implicitly created
+     * identity and a set of user assigned identities. The type 'None' will
+     * remove any identities from the virtual machine scale set. Possible
+     * values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
+     * UserAssigned', 'None'.
      */
     @JsonProperty(value = "type")
     private ResourceIdentityType type;
+
+    /**
+     * The list of user identities associated with the virtual machine scale
+     * set. The user identity references will be ARM resource ids in the form:
+     * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/identities/{identityName}'.
+     */
+    @JsonProperty(value = "identityIds")
+    private List<String> identityIds;
 
     /**
      * Get the principalId value.
@@ -72,4 +86,23 @@ public class VirtualMachineScaleSetIdentity {
         return this;
     }
 
+    /**
+     * Get the identityIds value.
+     *
+     * @return the identityIds value
+     */
+    public List<String> identityIds() {
+        return this.identityIds;
+    }
+
+    /**
+     * Set the identityIds value.
+     *
+     * @param identityIds the identityIds value to set
+     * @return the VirtualMachineScaleSetIdentity object itself.
+     */
+    public VirtualMachineScaleSetIdentity withIdentityIds(List<String> identityIds) {
+        this.identityIds = identityIds;
+        return this;
+    }
 }

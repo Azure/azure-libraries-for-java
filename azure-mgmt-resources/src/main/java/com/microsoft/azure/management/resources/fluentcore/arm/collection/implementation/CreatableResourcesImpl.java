@@ -180,28 +180,26 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
         public List<ResourceT> createdTopLevelResources() {
             List<ResourceT> resources = new ArrayList<>();
             for (String resourceKey : keys) {
-                resources.add((ResourceT) createdModel(resourceKey));
+                resources.add(this.<ResourceT>taskResult(resourceKey));
             }
             return Collections.unmodifiableList(resources);
         }
 
         @Override
         public Indexable createdRelatedResource(String key) {
-            return createdModel(key);
+            return this.<Indexable>taskResult(key);
         }
 
         @SuppressWarnings("unchecked")
         void addCreatableDependencies(Creatable<T> ... creatables) {
             for (Creatable<T> item : creatables) {
-                this.keys.add(item.key());
-                this.addCreatableDependency((item));
+                this.keys.add(this.addDependency(item));
             }
         }
 
         void addCreatableDependencies(List<Creatable<T>> creatables) {
             for (Creatable<T> item : creatables) {
-                this.keys.add(item.key());
-                this.addCreatableDependency((item));
+                this.keys.add(this.addDependency(item));
             }
         }
 

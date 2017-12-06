@@ -59,7 +59,12 @@ public class VirtualMachineInstanceView {
     private List<VirtualMachineExtensionInstanceView> extensions;
 
     /**
-     * The boot diagnostics.
+     * Boot Diagnostics is a debugging feature which allows you to view Console
+     * Output and Screenshot to diagnose VM status. &lt;br&gt;&lt;br&gt; For
+     * Linux Virtual Machines, you can easily view the output of your console
+     * log. &lt;br&gt;&lt;br&gt; For both Windows and Linux virtual machines,
+     * Azure also enables you to see a screenshot of the VM from the
+     * hypervisor.
      */
     @JsonProperty(value = "bootDiagnostics")
     private BootDiagnosticsInstanceView bootDiagnostics;

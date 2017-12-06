@@ -28,14 +28,14 @@ public class VirtualMachineScaleSetIPConfigurationInner extends SubResource {
     private String name;
 
     /**
-     * The subnet.
+     * Specifies the identifier of the subnet.
      */
     @JsonProperty(value = "properties.subnet")
     private ApiEntityReference subnet;
 
     /**
-     * Specifies the primary IP Configuration in case the network interface has
-     * more than one IP Configuration.
+     * Specifies the primary network interface in case the virtual machine has
+     * more than 1 network interface.
      */
     @JsonProperty(value = "properties.primary")
     private Boolean primary;
@@ -56,19 +56,28 @@ public class VirtualMachineScaleSetIPConfigurationInner extends SubResource {
     private IPVersion privateIPAddressVersion;
 
     /**
-     * The application gateway backend address pools.
+     * Specifies an array of references to backend address pools of application
+     * gateways. A scale set can reference backend address pools of multiple
+     * application gateways. Multiple scale sets cannot use the same
+     * application gateway.
      */
     @JsonProperty(value = "properties.applicationGatewayBackendAddressPools")
     private List<SubResource> applicationGatewayBackendAddressPools;
 
     /**
-     * The load balancer backend address pools.
+     * Specifies an array of references to backend address pools of load
+     * balancers. A scale set can reference backend address pools of one public
+     * and one internal load balancer. Multiple scale sets cannot use the same
+     * load balancer.
      */
     @JsonProperty(value = "properties.loadBalancerBackendAddressPools")
     private List<SubResource> loadBalancerBackendAddressPools;
 
     /**
-     * The load balancer inbound nat pools.
+     * Specifies an array of references to inbound Nat pools of the load
+     * balancers. A scale set can reference inbound nat pools of one public and
+     * one internal load balancer. Multiple scale sets cannot use the same load
+     * balancer.
      */
     @JsonProperty(value = "properties.loadBalancerInboundNatPools")
     private List<SubResource> loadBalancerInboundNatPools;

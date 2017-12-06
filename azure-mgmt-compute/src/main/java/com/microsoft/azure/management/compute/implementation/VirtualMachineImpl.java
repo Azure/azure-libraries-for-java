@@ -177,10 +177,11 @@ class VirtualMachineImpl
             }
         };
         this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(computeManager.inner().virtualMachineExtensions(), this);
+
         this.managedDataDisks = new ManagedDataDiskCollection(this);
         initializeDataDisks();
         this.bootDiagnosticsHandler = new BootDiagnosticsHandler(this);
-        this.virtualMachineMsiHelper = new VirtualMachineMsiHelper(rbacManager);
+        this.virtualMachineMsiHelper = new VirtualMachineMsiHelper(rbacManager, this);
     }
 
     // Verbs
@@ -190,11 +191,9 @@ class VirtualMachineImpl
         return super.refreshAsync().map(new Func1<VirtualMachine, VirtualMachine>() {
             @Override
             public VirtualMachine call(VirtualMachine virtualMachine) {
-                final VirtualMachineImpl impl = (VirtualMachineImpl) virtualMachine;
-                reset(impl.inner());
-                // TODO - ans - We need to call refreshAsync here.
-                impl.virtualMachineExtensions.refresh();
-                return impl;
+                reset(virtualMachine.inner());
+                virtualMachineExtensions.refresh();
+                return virtualMachine;
             }
         });
     }
@@ -451,8 +450,7 @@ class VirtualMachineImpl
     public VirtualMachineImpl withNewPrimaryPublicIPAddress(Creatable<PublicIPAddress> creatable) {
         Creatable<NetworkInterface> nicCreatable = this.nicDefinitionWithCreate
                 .withNewPrimaryPublicIPAddress(creatable);
-        this.creatablePrimaryNetworkInterfaceKey = nicCreatable.key();
-        this.addCreatableDependency(nicCreatable);
+        this.creatablePrimaryNetworkInterfaceKey = this.addDependency(nicCreatable);
         return this;
     }
 
@@ -472,8 +470,7 @@ class VirtualMachineImpl
         //
         Creatable<NetworkInterface> nicCreatable = this.nicDefinitionWithCreate
                 .withNewPrimaryPublicIPAddress(this.implicitPipCreatable);
-        this.creatablePrimaryNetworkInterfaceKey = nicCreatable.key();
-        this.addCreatableDependency(nicCreatable);
+        this.creatablePrimaryNetworkInterfaceKey = this.addDependency(nicCreatable);
         return this;
     }
 
@@ -481,16 +478,14 @@ class VirtualMachineImpl
     public VirtualMachineImpl withExistingPrimaryPublicIPAddress(PublicIPAddress publicIPAddress) {
         Creatable<NetworkInterface> nicCreatable = this.nicDefinitionWithCreate
                 .withExistingPrimaryPublicIPAddress(publicIPAddress);
-        this.creatablePrimaryNetworkInterfaceKey = nicCreatable.key();
-        this.addCreatableDependency(nicCreatable);
+        this.creatablePrimaryNetworkInterfaceKey = this.addDependency(nicCreatable);
         return this;
     }
 
     @Override
     public VirtualMachineImpl withoutPrimaryPublicIPAddress() {
         Creatable<NetworkInterface> nicCreatable = this.nicDefinitionWithCreate;
-        this.creatablePrimaryNetworkInterfaceKey = nicCreatable.key();
-        this.addCreatableDependency(nicCreatable);
+        this.creatablePrimaryNetworkInterfaceKey = this.addDependency(nicCreatable);
         return this;
     }
 
@@ -498,8 +493,7 @@ class VirtualMachineImpl
     //
     @Override
     public VirtualMachineImpl withNewPrimaryNetworkInterface(Creatable<NetworkInterface> creatable) {
-        this.creatablePrimaryNetworkInterfaceKey = creatable.key();
-        this.addCreatableDependency(creatable);
+        this.creatablePrimaryNetworkInterfaceKey = this.addDependency(creatable);
         return this;
     }
 
@@ -732,7 +726,7 @@ class VirtualMachineImpl
 
     @Override
     public VirtualMachineImpl withSize(String sizeName) {
-        this.inner().hardwareProfile().withVmSize(new VirtualMachineSizeTypes(sizeName));
+        this.inner().hardwareProfile().withVmSize(VirtualMachineSizeTypes.fromString(sizeName));
         return this;
     }
 
@@ -924,8 +918,7 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withNewDataDisk(Creatable<Disk> creatable) {
         throwIfManagedDiskDisabled(ManagedUnmanagedDiskErrors.VM_BOTH_UNMANAGED_AND_MANAGED_DISK_NOT_ALLOWED);
-        addCreatableDependency(creatable);
-        this.managedDataDisks.newDisksToAttach.put(creatable.key(),
+        this.managedDataDisks.newDisksToAttach.put(this.addDependency(creatable),
                 new DataDisk().withLun(-1));
         return this;
     }
@@ -933,8 +926,7 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withNewDataDisk(Creatable<Disk> creatable, int lun, CachingTypes cachingType) {
         throwIfManagedDiskDisabled(ManagedUnmanagedDiskErrors.VM_BOTH_UNMANAGED_AND_MANAGED_DISK_NOT_ALLOWED);
-        addCreatableDependency(creatable);
-        this.managedDataDisks.newDisksToAttach.put(creatable.key(),
+        this.managedDataDisks.newDisksToAttach.put(this.addDependency(creatable),
                 new DataDisk()
                         .withLun(lun)
                         .withCaching(cachingType));
@@ -1113,8 +1105,7 @@ class VirtualMachineImpl
     public VirtualMachineImpl withNewStorageAccount(Creatable<StorageAccount> creatable) {
         // This method's effect is NOT additive.
         if (this.creatableStorageAccountKey == null) {
-            this.creatableStorageAccountKey = creatable.key();
-            this.addCreatableDependency(creatable);
+            this.creatableStorageAccountKey = this.addDependency(creatable);
         }
         return this;
     }
@@ -1147,8 +1138,7 @@ class VirtualMachineImpl
     public VirtualMachineImpl withNewAvailabilitySet(Creatable<AvailabilitySet> creatable) {
         // This method's effect is NOT additive.
         if (this.creatableAvailabilitySetKey == null) {
-            this.creatableAvailabilitySetKey = creatable.key();
-            this.addCreatableDependency(creatable);
+            this.creatableAvailabilitySetKey = this.addDependency(creatable);
         }
         return this;
     }
@@ -1182,8 +1172,7 @@ class VirtualMachineImpl
 
     @Override
     public VirtualMachineImpl withNewSecondaryNetworkInterface(Creatable<NetworkInterface> creatable) {
-        this.creatableSecondaryNetworkInterfaceKeys.add(creatable.key());
-        this.addCreatableDependency(creatable);
+        this.creatableSecondaryNetworkInterfaceKeys.add(this.addDependency(creatable));
         return this;
     }
 
@@ -1284,13 +1273,13 @@ class VirtualMachineImpl
 
     @Override
     public VirtualMachineImpl withManagedServiceIdentity() {
-        this.virtualMachineMsiHelper.withManagedServiceIdentity(this.inner());
+        this.virtualMachineMsiHelper.withManagedServiceIdentity();
         return this;
     }
 
     @Override
     public VirtualMachineImpl withManagedServiceIdentity(int tokenPort) {
-        this.virtualMachineMsiHelper.withManagedServiceIdentity(tokenPort, this.inner());
+        this.virtualMachineMsiHelper.withManagedServiceIdentity(tokenPort);
         return this;
     }
 
@@ -1363,7 +1352,18 @@ class VirtualMachineImpl
 
     @Override
     public OperatingSystemTypes osType() {
-        return inner().storageProfile().osDisk().osType();
+        if (inner().storageProfile().osDisk().osType() != null) {
+            return inner().storageProfile().osDisk().osType();
+        }
+        if (inner().osProfile() != null) {
+            if (inner().osProfile().linuxConfiguration() != null) {
+                return OperatingSystemTypes.LINUX;
+            }
+            if (inner().osProfile().windowsConfiguration() != null) {
+                return OperatingSystemTypes.WINDOWS;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -1595,7 +1595,36 @@ class VirtualMachineImpl
         return null;
     }
 
-    // CreateUpdateTaskGroup.ResourceCreator.createResourceAsync implementation
+    // CreateUpdateTaskGroup.ResourceCreator.beforeGroupCreateOrUpdate implementation
+    //
+    @Override
+    public void beforeGroupCreateOrUpdate() {
+        // [1]. StorageProfile: If implicit storage account creation is required then add Creatable<StorageAccount>.
+        //
+        if (creatableStorageAccountKey == null && existingStorageAccountToAssociate == null) {
+            if (osDiskRequiresImplicitStorageAccountCreation()
+                    || dataDisksRequiresImplicitStorageAccountCreation()) {
+                Creatable<StorageAccount> storageAccountCreatable = null;
+                if (this.creatableGroup != null) {
+                    storageAccountCreatable = this.storageManager.storageAccounts()
+                            .define(this.namer.randomName("stg", 24).replace("-", ""))
+                            .withRegion(this.regionName())
+                            .withNewResourceGroup(this.creatableGroup);
+                } else {
+                    storageAccountCreatable = this.storageManager.storageAccounts()
+                            .define(this.namer.randomName("stg", 24).replace("-", ""))
+                            .withRegion(this.regionName())
+                            .withExistingResourceGroup(this.resourceGroupName());
+                }
+                this.creatableStorageAccountKey = this.addDependency(storageAccountCreatable);
+            }
+        }
+        // [2]. BootDiagnosticsProfile: If any implicit resource creation is required then add Creatable<?>.
+        //
+        this.bootDiagnosticsHandler.prepare();
+    }
+
+    // [2]. CreateUpdateTaskGroup.ResourceCreator.createResourceAsync implementation
     //
     @Override
     public Observable<VirtualMachine> createResourceAsync() {
@@ -1615,8 +1644,8 @@ class VirtualMachineImpl
         this.handleAvailabilitySettings();
 
         final VirtualMachineImpl self = this;
-        final VirtualMachinesInner client = this.manager().inner().virtualMachines();
-        return client.createOrUpdateAsync(resourceGroupName(), vmName, inner())
+        return this.manager().inner().virtualMachines()
+                .createOrUpdateAsync(resourceGroupName(), vmName, inner())
                 .map(new Func1<VirtualMachineInner, VirtualMachine>() {
                     @Override
                     public VirtualMachine call(VirtualMachineInner virtualMachineInner) {
@@ -1624,34 +1653,21 @@ class VirtualMachineImpl
                         return self;
                     }
 
-            }).flatMap(new Func1<VirtualMachine, Observable<? extends VirtualMachine>>() {
-                @Override
-                public Observable<? extends VirtualMachine> call(VirtualMachine virtualMachine) {
-                    return self.virtualMachineExtensions.commitAndGetAllAsync()
-                            .map(new Func1<List<VirtualMachineExtensionImpl>, VirtualMachine>() {
-                                @Override
-                                public VirtualMachine call(List<VirtualMachineExtensionImpl> virtualMachineExtensions) {
-                                    return self;
-                                }
-                            });
-                }
-            }).flatMap(new Func1<VirtualMachine, Observable<? extends VirtualMachine>>() {
-                @Override
-                public Observable<? extends VirtualMachine> call(VirtualMachine virtualMachine) {
-                    return virtualMachineMsiHelper.setupVirtualMachineMSIResourcesAsync(self)
-                            .flatMap(new Func1<VirtualMachineMsiHelper.MSIResourcesSetupResult, Observable<VirtualMachine>>() {
-                                @Override
-                                public Observable<VirtualMachine> call(VirtualMachineMsiHelper.MSIResourcesSetupResult result) {
-                                    if (result.isExtensionInstalledOrUpdated) {
-                                        return refreshAsync();
-                                    } else {
-                                        return Observable.just((VirtualMachine) self);
-                                    }
-                                }
-                            });
-                }
-            });
+                });
     }
+
+    // CreateUpdateTaskGroup.ResourceCreator.afterPostRunAsync implementation
+    //
+        @Override
+        public Completable afterPostRunAsync(boolean isGroupFaulted) {
+            this.virtualMachineExtensions.clear();
+            this.virtualMachineMsiHelper.clear();
+            if (isGroupFaulted) {
+                return Completable.complete();
+            } else {
+                return this.refreshAsync().toCompletable();
+            }
+        }
 
     // Helpers
     VirtualMachineImpl withExtension(VirtualMachineExtensionImpl extension) {
@@ -1839,34 +1855,6 @@ class VirtualMachineImpl
         }
     }
 
-    @Override
-    public void prepare() {
-        // Add delayed dependencies for StorageProfile
-        //
-        if (creatableStorageAccountKey == null && existingStorageAccountToAssociate == null) {
-            if (osDiskRequiresImplicitStorageAccountCreation()
-                    || dataDisksRequiresImplicitStorageAccountCreation()) {
-                Creatable<StorageAccount> storageAccountCreatable = null;
-                if (this.creatableGroup != null) {
-                    storageAccountCreatable = this.storageManager.storageAccounts()
-                            .define(this.namer.randomName("stg", 24).replace("-", ""))
-                            .withRegion(this.regionName())
-                            .withNewResourceGroup(this.creatableGroup);
-                } else {
-                    storageAccountCreatable = this.storageManager.storageAccounts()
-                            .define(this.namer.randomName("stg", 24).replace("-", ""))
-                            .withRegion(this.regionName())
-                            .withExistingResourceGroup(this.resourceGroupName());
-                }
-                this.creatableStorageAccountKey = storageAccountCreatable.key();
-                this.addCreatableDependency(storageAccountCreatable);
-            }
-        }
-        // Add delayed dependencies for DiagnosticsProfile
-        //
-        this.bootDiagnosticsHandler.prepare();
-    }
-
     /**
      * Prepare virtual machine disks profile (StorageProfile).
      */
@@ -1877,7 +1865,7 @@ class VirtualMachineImpl
         }
         StorageAccount storageAccount = null;
         if (this.creatableStorageAccountKey != null) {
-            storageAccount = (StorageAccount) this.createdResource(this.creatableStorageAccountKey);
+            storageAccount = this.<StorageAccount>taskResult(this.creatableStorageAccountKey);
         } else if (this.existingStorageAccountToAssociate != null) {
             storageAccount = this.existingStorageAccountToAssociate;
         }
@@ -1905,7 +1893,7 @@ class VirtualMachineImpl
         if (isInCreateMode()) {
             NetworkInterface primaryNetworkInterface = null;
             if (this.creatablePrimaryNetworkInterfaceKey != null) {
-                primaryNetworkInterface = (NetworkInterface) this.createdResource(this.creatablePrimaryNetworkInterfaceKey);
+                primaryNetworkInterface = this.<NetworkInterface>taskResult(this.creatablePrimaryNetworkInterfaceKey);
             } else if (this.existingPrimaryNetworkInterfaceToAssociate != null) {
                 primaryNetworkInterface = this.existingPrimaryNetworkInterfaceToAssociate;
             }
@@ -1921,7 +1909,7 @@ class VirtualMachineImpl
         // sets the virtual machine secondary network interfaces
         //
         for (String creatableSecondaryNetworkInterfaceKey : this.creatableSecondaryNetworkInterfaceKeys) {
-            NetworkInterface secondaryNetworkInterface = (NetworkInterface) this.createdResource(creatableSecondaryNetworkInterfaceKey);
+            NetworkInterface secondaryNetworkInterface = this.<NetworkInterface>taskResult(creatableSecondaryNetworkInterfaceKey);
             NetworkInterfaceReferenceInner nicReference = new NetworkInterfaceReferenceInner();
             nicReference.withPrimary(false);
             nicReference.withId(secondaryNetworkInterface.id());
@@ -1943,7 +1931,7 @@ class VirtualMachineImpl
 
         AvailabilitySet availabilitySet = null;
         if (this.creatableAvailabilitySetKey != null) {
-            availabilitySet = (AvailabilitySet) this.createdResource(this.creatableAvailabilitySetKey);
+            availabilitySet = this.<AvailabilitySet>taskResult(this.creatableAvailabilitySetKey);
         } else if (this.existingAvailabilitySetToAssociate != null) {
             availabilitySet = this.existingAvailabilitySetToAssociate;
         }
@@ -2265,7 +2253,7 @@ class VirtualMachineImpl
         private void setAttachableNewDataDisks(Func0<Integer> nextLun) {
             List<DataDisk> dataDisks = vm.inner().storageProfile().dataDisks();
             for (Map.Entry<String, DataDisk> entry : this.newDisksToAttach.entrySet()) {
-                Disk managedDisk = (Disk) vm.createdResource(entry.getKey());
+                Disk managedDisk = vm.<Disk>taskResult(entry.getKey());
                 DataDisk dataDisk = entry.getValue();
                 dataDisk.withCreateOption(DiskCreateOptionTypes.ATTACH);
                 if (dataDisk.lun() == -1) {
@@ -2401,8 +2389,7 @@ class VirtualMachineImpl
             // Diagnostics storage uri will be set later by this.handleDiagnosticsSettings(..)
             //
             this.enableDisable(true);
-            this.creatableDiagnosticsStorageAccountKey = creatable.key();
-            this.vmImpl.addCreatableDependency(creatable);
+            this.creatableDiagnosticsStorageAccountKey = this.vmImpl.addDependency(creatable);
             return this;
         }
 
@@ -2453,8 +2440,7 @@ class VirtualMachineImpl
                         .withRegion(this.vmImpl.regionName())
                         .withExistingResourceGroup(this.vmImpl.resourceGroupName());
             }
-            this.creatableDiagnosticsStorageAccountKey = storageAccountCreatable.key();
-            this.vmImpl.addCreatableDependency(storageAccountCreatable);
+            this.creatableDiagnosticsStorageAccountKey = this.vmImpl.addDependency(storageAccountCreatable);
         }
 
         void handleDiagnosticsSettings() {
@@ -2470,9 +2456,9 @@ class VirtualMachineImpl
             }
             StorageAccount storageAccount = null;
             if (creatableDiagnosticsStorageAccountKey != null) {
-                storageAccount = (StorageAccount) this.vmImpl.createdResource(creatableDiagnosticsStorageAccountKey);
+                storageAccount = this.vmImpl.<StorageAccount>taskResult(creatableDiagnosticsStorageAccountKey);
             } else if (this.vmImpl.creatableStorageAccountKey != null) {
-                storageAccount = (StorageAccount) this.vmImpl.createdResource(this.vmImpl.creatableStorageAccountKey);
+                storageAccount = this.vmImpl.<StorageAccount>taskResult(this.vmImpl.creatableStorageAccountKey);
             } else if (this.vmImpl.existingStorageAccountToAssociate != null) {
                 storageAccount = this.vmImpl.existingStorageAccountToAssociate;
             }

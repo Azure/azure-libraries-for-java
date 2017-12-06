@@ -17,6 +17,7 @@ import org.junit.Test;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class VirtualMachineExtensionOperationsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
@@ -77,6 +78,23 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .withProtectedSetting("storageAccountEndPoint", "https://core.windows.net:443/")
                 .attach()
                 .apply();
+
+        Map<String, VirtualMachineExtension> extensions = vm.listExtensions();
+        Assert.assertNotNull(extensions);
+        Assert.assertFalse(extensions.isEmpty());
+        VirtualMachineExtension diagExtension = extensions.get("LinuxDiagnostic");
+        Assert.assertNotNull(diagExtension);
+        Assert.assertNotNull(diagExtension.publicSettings());
+        Assert.assertFalse(diagExtension.publicSettings().isEmpty());
+
+        vm.refresh();
+        extensions = vm.listExtensions();
+        Assert.assertNotNull(extensions);
+        Assert.assertFalse(extensions.isEmpty());
+        diagExtension = extensions.get("LinuxDiagnostic");
+        Assert.assertNotNull(diagExtension);
+        Assert.assertNotNull(diagExtension.publicSettings());
+        Assert.assertFalse(diagExtension.publicSettings().isEmpty());
     }
 
 
@@ -172,6 +190,9 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .withoutExtension("CustomScriptForLinux")
                 .apply();
 
+        Assert.assertTrue(vm.listExtensions().size() == 0);
+
+        vm.refresh();
         Assert.assertTrue(vm.listExtensions().size() == 0);
     }
 

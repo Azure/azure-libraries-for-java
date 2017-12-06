@@ -142,7 +142,7 @@ public class VirtualMachineExtensionImagesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         return service.get(location, publisherName, type, version, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineExtensionImageInner>>>() {
                 @Override
@@ -226,7 +226,7 @@ public class VirtualMachineExtensionImagesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         return service.listTypes(location, publisherName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<VirtualMachineExtensionImageInner>>>>() {
                 @Override
@@ -317,7 +317,7 @@ public class VirtualMachineExtensionImagesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         final String filter = null;
         final Integer top = null;
         final String orderby = null;
@@ -416,7 +416,7 @@ public class VirtualMachineExtensionImagesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         return service.listVersions(location, publisherName, type, this.client.subscriptionId(), filter, top, orderby, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<VirtualMachineExtensionImageInner>>>>() {
                 @Override

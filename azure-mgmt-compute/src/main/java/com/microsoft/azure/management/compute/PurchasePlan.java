@@ -28,7 +28,8 @@ public class PurchasePlan {
     private String name;
 
     /**
-     * The product ID.
+     * Specifies the product of the image from the marketplace. This is the
+     * same value as Offer under the imageReference element.
      */
     @JsonProperty(value = "product", required = true)
     private String product;

@@ -23,6 +23,12 @@ import com.microsoft.azure.Resource;
 @JsonFlatten
 public class SnapshotInner extends Resource {
     /**
+     * Unused. Always Null.
+     */
+    @JsonProperty(value = "managedBy", access = JsonProperty.Access.WRITE_ONLY)
+    private String managedBy;
+
+    /**
      * The sku property.
      */
     @JsonProperty(value = "sku")
@@ -68,6 +74,15 @@ public class SnapshotInner extends Resource {
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
+
+    /**
+     * Get the managedBy value.
+     *
+     * @return the managedBy value
+     */
+    public String managedBy() {
+        return this.managedBy;
+    }
 
     /**
      * Get the sku value.

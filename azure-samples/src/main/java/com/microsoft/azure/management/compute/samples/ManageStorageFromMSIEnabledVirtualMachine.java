@@ -67,8 +67,8 @@ public final class ManageStorageFromMSIEnabledVirtualMachine {
                         .withRootPassword(password)
                         .withSize(VirtualMachineSizeTypes.STANDARD_DS2_V2)
                         .withOSDiskCaching(CachingTypes.READ_WRITE)
-                        .withManagedServiceIdentity()
-                        .withRoleBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
+                        .withLocalManagedServiceIdentity()
+                        .withLocalIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
                         .create();
 
             System.out.println("Created virtual machine with MSI enabled");
@@ -78,8 +78,8 @@ public final class ManageStorageFromMSIEnabledVirtualMachine {
             //
             final String stgName = Utils.createRandomName("st44");
             installCommand = installCommand.replace("{stgName}", stgName)
-                            .replace("{rgName}", rgName)
-                            .replace("{location}", region.name());
+                    .replace("{rgName}", rgName)
+                    .replace("{location}", region.name());
 
             // Update the VM by installing custom script extension.
             //
@@ -88,15 +88,15 @@ public final class ManageStorageFromMSIEnabledVirtualMachine {
 
             virtualMachine
                     .update()
-                    .defineNewExtension("CustomScriptForLinux")
-                        .withPublisher("Microsoft.OSTCExtensions")
-                        .withType("CustomScriptForLinux")
-                        .withVersion("1.4")
-                        .withMinorVersionAutoUpgrade()
-                        .withPublicSetting("fileUris", fileUris)
-                        .withPublicSetting("commandToExecute", installCommand)
-                        .attach()
-                    .apply();
+                        .defineNewExtension("CustomScriptForLinux")
+                            .withPublisher("Microsoft.OSTCExtensions")
+                            .withType("CustomScriptForLinux")
+                            .withVersion("1.4")
+                            .withMinorVersionAutoUpgrade()
+                            .withPublicSetting("fileUris", fileUris)
+                            .withPublicSetting("commandToExecute", installCommand)
+                            .attach()
+                        .apply();
 
             // Retrieve the storage account created by az cli using MSI credentials
             //

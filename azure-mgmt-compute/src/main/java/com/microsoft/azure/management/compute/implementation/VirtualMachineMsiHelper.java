@@ -11,7 +11,6 @@ import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.ResourceIdentityType;
 import com.microsoft.azure.management.compute.VirtualMachineExtension;
 import com.microsoft.azure.management.compute.VirtualMachineIdentity;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.microsoft.azure.management.resources.fluentcore.dag.IndexableTaskItem;
@@ -59,7 +58,7 @@ class VirtualMachineMsiHelper extends RoleAssignmentHelper {
      *
      * @return VirtualMachineMsiHelper
      */
-     VirtualMachineMsiHelper withLocalManagedServiceIdentity() {
+    VirtualMachineMsiHelper withLocalManagedServiceIdentity() {
         return withLocalManagedServiceIdentity(null);
     }
 
@@ -73,79 +72,25 @@ class VirtualMachineMsiHelper extends RoleAssignmentHelper {
      * @return VirtualMachineMsiHelper
      */
     VirtualMachineMsiHelper withLocalManagedServiceIdentity(Integer port) {
-        VirtualMachineInner virtualMachineInner = this.virtualMachine.inner();
-        if (virtualMachineInner.identity() == null) {
-            virtualMachineInner.withIdentity(new VirtualMachineIdentity());
+        if (this.msiExtensionInstaller != null) {
+            return this;
+        } else {
+            VirtualMachineInner virtualMachineInner = this.virtualMachine.inner();
+            if (virtualMachineInner.identity() == null) {
+                virtualMachineInner.withIdentity(new VirtualMachineIdentity());
+            }
+            if (virtualMachineInner.identity().type() == null) {
+                virtualMachineInner.identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED);
+            }
+            this.msiExtensionInstaller = new MSIExtensionInstaller(this.virtualMachine);
+            this.msiExtensionInstaller.withTokenPort(port);
+            this.virtualMachine.taskGroup().addPostRunDependent(this.msiExtensionInstaller);
+            return this;
         }
-        if (virtualMachineInner.identity().type() == null) {
-            virtualMachineInner.identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED);
-        }
-        this.msiExtensionInstaller = new MSIExtensionInstaller(this.virtualMachine);
-        this.msiExtensionInstaller.withTokenPort(port);
-        this.virtualMachine.taskGroup().addPostRunDependent(this.msiExtensionInstaller);
-        return this;
     }
 
     /**
-     * Specifies that applications running on the virtual machine requires the given access role
-     * with scope of access limited to the current resource group that the virtual machine
-     * resides.
-     *
-     * @param asRole access role to assigned to the virtual machine
-     * @return VirtualMachineMsiHelper
-     */
-    VirtualMachineMsiHelper withLocalIdentityBasedAccessToCurrentResourceGroup(BuiltInRole asRole) {
-        super.withAccessToCurrentResourceGroup(asRole);
-        return this;
-    }
-
-    /**
-     * Specifies that applications running on the virtual machine requires the given access role
-     * with scope of access limited to the arm resource identified by the resource id specified
-     * in the scope parameter.
-     *
-     * @param scope scope of the access represented in arm resource id format
-     * @param asRole access role to assigned to the virtual machine
-     * @return VirtualMachineMsiHelper
-     */
-    VirtualMachineMsiHelper withLocalIdentityBasedAccessTo(String scope, BuiltInRole asRole) {
-        super.withAccessTo(scope, asRole);
-        return this;
-    }
-
-    /**
-     * Specifies that applications running on the virtual machine requires the given access role
-     * with scope of access limited to the current resource group that the virtual machine
-     * resides.
-     *
-     * @param roleDefinitionId access role definition to assigned to the virtual machine
-     * @return VirtualMachineMsiHelper
-     */
-    VirtualMachineMsiHelper withLocalIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
-        super.withAccessToCurrentResourceGroup(roleDefinitionId);
-        return this;
-    }
-
-    /**
-     * Specifies that applications running on the virtual machine requires the access described
-     * in the given role definition with scope of access limited to the arm resource identified
-     * by the resource id specified in the scope parameter.
-     *
-     * @param scope scope of the access represented in arm resource id format
-     * @param roleDefinitionId access role definition to assigned to the virtual machine
-     * @return VirtualMachineMsiHelper
-     */
-    VirtualMachineMsiHelper withLocalIdentityBasedAccessTo(String scope, String roleDefinitionId) {
-        super.withAccessTo(scope, roleDefinitionId);
-        return this;
-    }
-
-    /**
-     * An instance of VirtualMachineMsiHelper will be composed by an instance of
-     * VirtualMachineImpl. This same composed instance will be used to perform msi
-     * related actions as part of that VM's create and update actions. Hence once
-     * one of these actions (VM create, VM update) is done, this method must be
-     * invoked to clear the msi related states specific to that action.
+     * Clear VirtualMachineMsiHelper internal state.
      */
     public  void clear() {
         if (this.msiExtensionInstaller != null) {
@@ -200,12 +145,12 @@ class VirtualMachineMsiHelper extends RoleAssignmentHelper {
                     return updateMSIExtensionAsync((VirtualMachineExtension) extension);
                 }
             })
-            .switchIfEmpty(Observable.defer(new Func0<Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call() {
-                    return installMSIExtensionAsync();
-                }
-            }));
+                    .switchIfEmpty(Observable.defer(new Func0<Observable<Indexable>>() {
+                        @Override
+                        public Observable<Indexable> call() {
+                            return installMSIExtensionAsync();
+                        }
+                    }));
         }
 
         private Observable<Indexable> getMSIExtensionAsync() {

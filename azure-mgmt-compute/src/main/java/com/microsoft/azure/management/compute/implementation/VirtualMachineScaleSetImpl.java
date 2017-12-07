@@ -95,8 +95,8 @@ public class VirtualMachineScaleSetImpl
         VirtualMachineScaleSet.DefinitionManaged,
         VirtualMachineScaleSet.DefinitionUnmanaged,
         VirtualMachineScaleSet.Update,
-        VirtualMachineScaleSet.DefinitionStages.WithRoleAndScopeOrCreate,
-        VirtualMachineScaleSet.UpdateStages.WithRoleAndScopeOrApply {
+        VirtualMachineScaleSet.DefinitionStages.WithLocalIdentityBasedAccessOrCreate,
+        VirtualMachineScaleSet.UpdateStages.WithLocalIdentityBasedAccessOrApply {
     // Clients
     private final StorageManager storageManager;
     private final NetworkManager networkManager;
@@ -1010,12 +1010,12 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public boolean isManagedServiceIdentityEnabled() {
-        return this.managedServiceIdentityPrincipalId() != null
-                && this.managedServiceIdentityTenantId() != null;
+        return this.localManagedServiceIdentityPrincipalId() != null
+                && this.localManagedServiceIdentityTenantId() != null;
     }
 
     @Override
-    public String managedServiceIdentityTenantId() {
+    public String localManagedServiceIdentityTenantId() {
         if (this.inner().identity() != null) {
             return this.inner().identity().tenantId();
         }
@@ -1023,7 +1023,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public String managedServiceIdentityPrincipalId() {
+    public String localManagedServiceIdentityPrincipalId() {
         if (this.inner().identity() != null) {
             return this.inner().identity().principalId();
         }
@@ -1244,38 +1244,38 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withManagedServiceIdentity() {
+    public VirtualMachineScaleSetImpl withLocalManagedServiceIdentity() {
         this.virtualMachineScaleSetMsiHelper.withLocalManagedServiceIdentity(this.inner());
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withManagedServiceIdentity(int tokenPort) {
+    public VirtualMachineScaleSetImpl withLocalManagedServiceIdentity(int tokenPort) {
         this.virtualMachineScaleSetMsiHelper.withLocalManagedServiceIdentity(tokenPort, this.inner());
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withRoleBasedAccessTo(String scope, BuiltInRole asRole) {
-        this.virtualMachineScaleSetMsiHelper.withLocalIdentityBasedAccessTo(scope, asRole);
+    public VirtualMachineScaleSetImpl withLocalIdentityBasedAccessTo(String resourceId, BuiltInRole role) {
+        this.virtualMachineScaleSetMsiHelper.withAccessTo(resourceId, role);
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withRoleBasedAccessToCurrentResourceGroup(BuiltInRole asRole) {
-        this.virtualMachineScaleSetMsiHelper.withLocalIdentityBasedAccessToCurrentResourceGroup(asRole);
+    public VirtualMachineScaleSetImpl withLocalIdentityBasedAccessToCurrentResourceGroup(BuiltInRole asRole) {
+        this.virtualMachineScaleSetMsiHelper.withAccessToCurrentResourceGroup(asRole);
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId) {
-        this.virtualMachineScaleSetMsiHelper.withLocalIdentityBasedAccessTo(scope, roleDefinitionId);
+    public VirtualMachineScaleSetImpl withLocalIdentityBasedAccessTo(String scope, String roleDefinitionId) {
+        this.virtualMachineScaleSetMsiHelper.withAccessTo(scope, roleDefinitionId);
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withRoleDefinitionBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
-        this.virtualMachineScaleSetMsiHelper.withLocalIdentityBasedAccessToCurrentResourceGroup(roleDefinitionId);
+    public VirtualMachineScaleSetImpl withLocalIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
+        this.virtualMachineScaleSetMsiHelper.withAccessToCurrentResourceGroup(roleDefinitionId);
         return this;
     }
 

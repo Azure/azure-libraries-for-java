@@ -85,18 +85,18 @@ import java.util.Set;
 @LangDefinition
 public class VirtualMachineScaleSetImpl
         extends GroupableParentResourceImpl<
-                VirtualMachineScaleSet,
-                VirtualMachineScaleSetInner,
-                VirtualMachineScaleSetImpl,
-                ComputeManager>
+        VirtualMachineScaleSet,
+        VirtualMachineScaleSetInner,
+        VirtualMachineScaleSetImpl,
+        ComputeManager>
         implements
         VirtualMachineScaleSet,
         VirtualMachineScaleSet.DefinitionManagedOrUnmanaged,
         VirtualMachineScaleSet.DefinitionManaged,
         VirtualMachineScaleSet.DefinitionUnmanaged,
         VirtualMachineScaleSet.Update,
-        VirtualMachineScaleSet.DefinitionStages.WithRoleAndScopeOrCreate,
-        VirtualMachineScaleSet.UpdateStages.WithRoleAndScopeOrApply {
+        VirtualMachineScaleSet.DefinitionStages.WithLocalIdentityBasedAccessOrCreate,
+        VirtualMachineScaleSet.UpdateStages.WithLocalIdentityBasedAccessOrApply {
     // Clients
     private final StorageManager storageManager;
     private final NetworkManager networkManager;
@@ -176,15 +176,15 @@ public class VirtualMachineScaleSetImpl
         }
     }
 
-   @Override
-   public VirtualMachineScaleSetVMs virtualMachines() {
+    @Override
+    public VirtualMachineScaleSetVMs virtualMachines() {
         return new VirtualMachineScaleSetVMsImpl(this, this.manager().inner().virtualMachineScaleSetVMs(), this.myManager);
-   }
+    }
 
-   @Override
-   public PagedList<VirtualMachineScaleSetSku> listAvailableSkus() {
+    @Override
+    public PagedList<VirtualMachineScaleSetSku> listAvailableSkus() {
         return this.skuConverter.convert(this.manager().inner().virtualMachineScaleSets().listSkus(this.resourceGroupName(), this.name()));
-   }
+    }
 
     @Override
     public void deallocate() {
@@ -309,8 +309,8 @@ public class VirtualMachineScaleSetImpl
         String subnetId = primaryNicDefaultIPConfiguration().subnet().id();
         String virtualNetworkId = ResourceUtils.parentResourceIdFromResourceId(subnetId);
         return this.networkManager
-                    .networks()
-                    .getById(virtualNetworkId);
+                .networks()
+                .getById(virtualNetworkId);
     }
 
     @Override
@@ -923,7 +923,7 @@ public class VirtualMachineScaleSetImpl
         this.inner()
                 .sku().withCapacity(new Long(capacity));
         return this;
-   }
+    }
 
     @Override
     public VirtualMachineScaleSetImpl withNewStorageAccount(String name) {
@@ -1010,12 +1010,12 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public boolean isManagedServiceIdentityEnabled() {
-        return this.managedServiceIdentityPrincipalId() != null
-                && this.managedServiceIdentityTenantId() != null;
+        return this.localManagedServiceIdentityPrincipalId() != null
+                && this.localManagedServiceIdentityTenantId() != null;
     }
 
     @Override
-    public String managedServiceIdentityTenantId() {
+    public String localManagedServiceIdentityTenantId() {
         if (this.inner().identity() != null) {
             return this.inner().identity().tenantId();
         }
@@ -1023,7 +1023,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public String managedServiceIdentityPrincipalId() {
+    public String localManagedServiceIdentityPrincipalId() {
         if (this.inner().identity() != null) {
             return this.inner().identity().principalId();
         }
@@ -1244,38 +1244,38 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withManagedServiceIdentity() {
+    public VirtualMachineScaleSetImpl withLocalManagedServiceIdentity() {
         this.virtualMachineScaleSetMsiHelper.withLocalManagedServiceIdentity(this.inner());
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withManagedServiceIdentity(int tokenPort) {
+    public VirtualMachineScaleSetImpl withLocalManagedServiceIdentity(int tokenPort) {
         this.virtualMachineScaleSetMsiHelper.withLocalManagedServiceIdentity(tokenPort, this.inner());
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withRoleBasedAccessTo(String scope, BuiltInRole asRole) {
-        this.virtualMachineScaleSetMsiHelper.withLocalIdentityBasedAccessTo(scope, asRole);
+    public VirtualMachineScaleSetImpl withLocalIdentityBasedAccessTo(String resourceId, BuiltInRole role) {
+        this.virtualMachineScaleSetMsiHelper.withAccessTo(resourceId, role);
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withRoleBasedAccessToCurrentResourceGroup(BuiltInRole asRole) {
-        this.virtualMachineScaleSetMsiHelper.withLocalIdentityBasedAccessToCurrentResourceGroup(asRole);
+    public VirtualMachineScaleSetImpl withLocalIdentityBasedAccessToCurrentResourceGroup(BuiltInRole asRole) {
+        this.virtualMachineScaleSetMsiHelper.withAccessToCurrentResourceGroup(asRole);
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId) {
-        this.virtualMachineScaleSetMsiHelper.withLocalIdentityBasedAccessTo(scope, roleDefinitionId);
+    public VirtualMachineScaleSetImpl withLocalIdentityBasedAccessTo(String scope, String roleDefinitionId) {
+        this.virtualMachineScaleSetMsiHelper.withAccessTo(scope, roleDefinitionId);
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withRoleDefinitionBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
-        this.virtualMachineScaleSetMsiHelper.withLocalIdentityBasedAccessToCurrentResourceGroup(roleDefinitionId);
+    public VirtualMachineScaleSetImpl withLocalIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
+        this.virtualMachineScaleSetMsiHelper.withAccessToCurrentResourceGroup(roleDefinitionId);
         return this;
     }
 
@@ -1714,13 +1714,13 @@ public class VirtualMachineScaleSetImpl
         }
 
         LoadBalancer loadBalancer2 = this.networkManager
-            .loadBalancers()
-            .getById(secondLoadBalancerId);
+                .loadBalancers()
+                .getById(secondLoadBalancerId);
         if (loadBalancer2.publicIPAddressIds() != null && loadBalancer2.publicIPAddressIds().size() > 0) {
             this.primaryInternetFacingLoadBalancer = loadBalancer2;
-         } else {
+        } else {
             this.primaryInternalLoadBalancer = loadBalancer2;
-         }
+        }
     }
 
     private VirtualMachineScaleSetIPConfigurationInner primaryNicDefaultIPConfiguration() {
@@ -1747,8 +1747,8 @@ public class VirtualMachineScaleSetImpl
     }
 
     private static void associateBackEndsToIpConfiguration(String loadBalancerId,
-                                                    VirtualMachineScaleSetIPConfigurationInner ipConfig,
-                                                    String... backendNames) {
+                                                           VirtualMachineScaleSetIPConfigurationInner ipConfig,
+                                                           String... backendNames) {
         List<SubResource> backendSubResourcesToAssociate = new ArrayList<>();
         for (String backendName : backendNames) {
             String backendPoolId = mergePath(loadBalancerId, "backendAddressPools", backendName);
@@ -1770,8 +1770,8 @@ public class VirtualMachineScaleSetImpl
     }
 
     private static void associateInboundNATPoolsToIpConfiguration(String loadBalancerId,
-                                                    VirtualMachineScaleSetIPConfigurationInner ipConfig,
-                                                    String... inboundNatPools) {
+                                                                  VirtualMachineScaleSetIPConfigurationInner ipConfig,
+                                                                  String... inboundNatPools) {
         List<SubResource> inboundNatPoolSubResourcesToAssociate = new ArrayList<>();
         for (String inboundNatPool : inboundNatPools) {
             String inboundNatPoolId = mergePath(loadBalancerId, "inboundNatPools", inboundNatPool);
@@ -1793,7 +1793,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     private static Map<String, LoadBalancerBackend> getBackendsAssociatedWithIpConfiguration(LoadBalancer loadBalancer,
-                                                                                 VirtualMachineScaleSetIPConfigurationInner ipConfig) {
+                                                                                             VirtualMachineScaleSetIPConfigurationInner ipConfig) {
         String loadBalancerId = loadBalancer.id();
         Map<String, LoadBalancerBackend> attachedBackends = new HashMap<>();
         Map<String, LoadBalancerBackend> lbBackends = loadBalancer.backends();
@@ -1809,7 +1809,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     private static Map<String, LoadBalancerInboundNatPool> getInboundNatPoolsAssociatedWithIpConfiguration(LoadBalancer loadBalancer,
-                                                                                               VirtualMachineScaleSetIPConfigurationInner ipConfig) {
+                                                                                                           VirtualMachineScaleSetIPConfigurationInner ipConfig) {
         String loadBalancerId = loadBalancer.id();
         Map<String, LoadBalancerInboundNatPool> attachedInboundNatPools = new HashMap<>();
         Map<String, LoadBalancerInboundNatPool> lbInboundNatPools = loadBalancer.inboundNatPools();
@@ -1886,8 +1886,8 @@ public class VirtualMachineScaleSetImpl
     }
 
     private static void removeBackendsFromIpConfiguration(String loadBalancerId,
-                                                   VirtualMachineScaleSetIPConfigurationInner ipConfig,
-                                                   String... backendNames) {
+                                                          VirtualMachineScaleSetIPConfigurationInner ipConfig,
+                                                          String... backendNames) {
         List<SubResource> toRemove = new ArrayList<>();
         for (String backendName : backendNames) {
             String backendPoolId = mergePath(loadBalancerId, "backendAddressPools", backendName);
@@ -1905,8 +1905,8 @@ public class VirtualMachineScaleSetImpl
     }
 
     private static void removeInboundNatPoolsFromIpConfiguration(String loadBalancerId,
-                                                          VirtualMachineScaleSetIPConfigurationInner ipConfig,
-                                                          String... inboundNatPoolNames) {
+                                                                 VirtualMachineScaleSetIPConfigurationInner ipConfig,
+                                                                 String... inboundNatPoolNames) {
         List<SubResource> toRemove = new ArrayList<>();
         for (String natPoolName : inboundNatPoolNames) {
             String inboundNatPoolId = mergePath(loadBalancerId, "inboundNatPools", natPoolName);

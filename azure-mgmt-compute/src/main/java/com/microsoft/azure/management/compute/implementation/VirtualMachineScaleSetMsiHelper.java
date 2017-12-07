@@ -12,7 +12,6 @@ import com.microsoft.azure.management.compute.ResourceIdentityType;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetExtension;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetIdentity;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
@@ -74,60 +73,6 @@ class VirtualMachineScaleSetMsiHelper extends RoleAssignmentHelper {
         if (scaleSetInner.identity().type() == null) {
             scaleSetInner.identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED);
         }
-        return this;
-    }
-
-    /**
-     * Specifies that applications running on the virtual machine scale set instance requires
-     * the given access role with scope of access limited to the current resource group that
-     * the virtual machine resides.
-     *
-     * @param asRole access role to assigned to the virtual machine
-     * @return VirtualMachineScaleSetMsiHelper
-     */
-    VirtualMachineScaleSetMsiHelper withLocalIdentityBasedAccessToCurrentResourceGroup(BuiltInRole asRole) {
-        super.withAccessToCurrentResourceGroup(asRole);
-        return this;
-    }
-
-    /**
-     * Specifies that applications running on the virtual machine scale set instance requires the
-     * given access role with scope of access limited to the arm resource identified by the resource
-     * id specified in the scope parameter.
-     *
-     * @param scope scope of the access represented in arm resource id format
-     * @param asRole access role to assigned to the virtual machine scale set
-     * @return VirtualMachineScaleSetMsiHelper
-     */
-    VirtualMachineScaleSetMsiHelper withLocalIdentityBasedAccessTo(String scope, BuiltInRole asRole) {
-        super.withAccessTo(scope, asRole);
-        return this;
-    }
-
-    /**
-     * Specifies that applications running on the virtual machine scale set instance requires
-     * the access described in the given role definition with scope of access limited to the
-     * current resource group that the virtual machine resides.
-     *
-     * @param roleDefinitionId the role definition to assigned to the virtual machine
-     * @return VirtualMachineScaleSetMsiHelper
-     */
-    VirtualMachineScaleSetMsiHelper withLocalIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
-        super.withAccessToCurrentResourceGroup(roleDefinitionId);
-        return this;
-    }
-
-    /**
-     * Specifies that applications running on the virtual machine scale set instance requires
-     * the access described in the given role definition with scope of access limited to the
-     * arm resource identified by the resource id specified in the scope parameter.
-     *
-     * @param scope scope of the access represented in arm resource id format
-     * @param roleDefinition access role definition to assigned to the virtual machine scale set
-     * @return VirtualMachineMsiHelper
-     */
-    VirtualMachineScaleSetMsiHelper withLocalIdentityBasedAccessTo(String scope, String roleDefinition) {
-        super.withAccessTo(scope, roleDefinition);
         return this;
     }
 

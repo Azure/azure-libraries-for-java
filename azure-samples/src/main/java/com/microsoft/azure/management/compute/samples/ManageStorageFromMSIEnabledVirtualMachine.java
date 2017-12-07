@@ -67,8 +67,8 @@ public final class ManageStorageFromMSIEnabledVirtualMachine {
                         .withRootPassword(password)
                         .withSize(VirtualMachineSizeTypes.STANDARD_DS2_V2)
                         .withOSDiskCaching(CachingTypes.READ_WRITE)
-                        .withManagedServiceIdentity()
-                        .withRoleBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
+                        .withLocalManagedServiceIdentity()
+                        .withLocalIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
                         .create();
 
             System.out.println("Created virtual machine with MSI enabled");

@@ -53,6 +53,7 @@ import com.microsoft.azure.management.compute.WinRMListener;
 import com.microsoft.azure.management.compute.WindowsConfiguration;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.PublicIPAddress;
@@ -1273,38 +1274,38 @@ class VirtualMachineImpl
 
     @Override
     public VirtualMachineImpl withManagedServiceIdentity() {
-        this.virtualMachineMsiHelper.withManagedServiceIdentity();
+        this.virtualMachineMsiHelper.withLocalManagedServiceIdentity();
         return this;
     }
 
     @Override
     public VirtualMachineImpl withManagedServiceIdentity(int tokenPort) {
-        this.virtualMachineMsiHelper.withManagedServiceIdentity(tokenPort);
+        this.virtualMachineMsiHelper.withLocalManagedServiceIdentity(tokenPort);
         return this;
     }
 
 
     @Override
     public VirtualMachineImpl withRoleBasedAccessTo(String scope, BuiltInRole asRole) {
-        this.virtualMachineMsiHelper.withRoleBasedAccessTo(scope, asRole);
+        this.virtualMachineMsiHelper.withLocalIdentityBasedAccessTo(scope, asRole);
         return this;
     }
 
     @Override
     public VirtualMachineImpl withRoleBasedAccessToCurrentResourceGroup(BuiltInRole asRole) {
-        this.virtualMachineMsiHelper.withRoleBasedAccessToCurrentResourceGroup(asRole);
+        this.virtualMachineMsiHelper.withLocalIdentityBasedAccessToCurrentResourceGroup(asRole);
         return this;
     }
 
     @Override
     public VirtualMachineImpl withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId) {
-        this.virtualMachineMsiHelper.withRoleDefinitionBasedAccessTo(scope, roleDefinitionId);
+        this.virtualMachineMsiHelper.withLocalIdentityBasedAccessTo(scope, roleDefinitionId);
         return this;
     }
 
     @Override
     public VirtualMachineImpl withRoleDefinitionBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
-        this.virtualMachineMsiHelper.withRoleDefinitionBasedAccessToCurrentResourceGroup(roleDefinitionId);
+        this.virtualMachineMsiHelper.withLocalIdentityBasedAccessToCurrentResourceGroup(roleDefinitionId);
         return this;
     }
 
@@ -2140,6 +2141,29 @@ class VirtualMachineImpl
 
     private boolean isInUpdateMode() {
         return !this.isInCreateMode();
+    }
+
+
+    RoleAssignmentHelper.IdProvider idProvider() {
+        return new RoleAssignmentHelper.IdProvider() {
+            @Override
+            public String principalId() {
+                if (inner() != null && inner().identity() != null) {
+                    return inner().identity().principalId();
+                } else {
+                    return null;
+                }
+            }
+
+            @Override
+            public String resourceId() {
+                if (inner() != null) {
+                    return inner().id();
+                } else {
+                    return null;
+                }
+            }
+        };
     }
 
     /**

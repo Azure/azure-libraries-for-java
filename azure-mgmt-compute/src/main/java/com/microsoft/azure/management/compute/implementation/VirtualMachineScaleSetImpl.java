@@ -43,8 +43,8 @@ import com.microsoft.azure.management.compute.WinRMConfiguration;
 import com.microsoft.azure.management.compute.WinRMListener;
 import com.microsoft.azure.management.compute.WindowsConfiguration;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.microsoft.azure.management.network.LoadBalancerBackend;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
 import com.microsoft.azure.management.network.LoadBalancerPrivateFrontend;
@@ -160,7 +160,7 @@ public class VirtualMachineScaleSetImpl
             }
         };
         this.managedDataDisks = new ManagedDataDiskCollection(this);
-        this.virtualMachineScaleSetMsiHelper = new VirtualMachineScaleSetMsiHelper(rbacManager);
+        this.virtualMachineScaleSetMsiHelper = new VirtualMachineScaleSetMsiHelper(rbacManager, this.taskGroup(), this.idProvider());
         this.bootDiagnosticsHandler = new BootDiagnosticsHandler(this);
     }
 
@@ -1245,37 +1245,37 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public VirtualMachineScaleSetImpl withManagedServiceIdentity() {
-        this.virtualMachineScaleSetMsiHelper.withManagedServiceIdentity(this.inner());
+        this.virtualMachineScaleSetMsiHelper.withLocalManagedServiceIdentity(this.inner());
         return this;
     }
 
     @Override
     public VirtualMachineScaleSetImpl withManagedServiceIdentity(int tokenPort) {
-        this.virtualMachineScaleSetMsiHelper.withManagedServiceIdentity(tokenPort, this.inner());
+        this.virtualMachineScaleSetMsiHelper.withLocalManagedServiceIdentity(tokenPort, this.inner());
         return this;
     }
 
     @Override
     public VirtualMachineScaleSetImpl withRoleBasedAccessTo(String scope, BuiltInRole asRole) {
-        this.virtualMachineScaleSetMsiHelper.withRoleBasedAccessTo(scope, asRole);
+        this.virtualMachineScaleSetMsiHelper.withLocalIdentityBasedAccessTo(scope, asRole);
         return this;
     }
 
     @Override
     public VirtualMachineScaleSetImpl withRoleBasedAccessToCurrentResourceGroup(BuiltInRole asRole) {
-        this.virtualMachineScaleSetMsiHelper.withRoleBasedAccessToCurrentResourceGroup(asRole);
+        this.virtualMachineScaleSetMsiHelper.withLocalIdentityBasedAccessToCurrentResourceGroup(asRole);
         return this;
     }
 
     @Override
     public VirtualMachineScaleSetImpl withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId) {
-        this.virtualMachineScaleSetMsiHelper.withRoleDefinitionBasedAccessTo(scope, roleDefinitionId);
+        this.virtualMachineScaleSetMsiHelper.withLocalIdentityBasedAccessTo(scope, roleDefinitionId);
         return this;
     }
 
     @Override
     public VirtualMachineScaleSetImpl withRoleDefinitionBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
-        this.virtualMachineScaleSetMsiHelper.withRoleDefinitionBasedAccessToCurrentResourceGroup(roleDefinitionId);
+        this.virtualMachineScaleSetMsiHelper.withLocalIdentityBasedAccessToCurrentResourceGroup(roleDefinitionId);
         return this;
     }
 
@@ -1312,24 +1312,8 @@ public class VirtualMachineScaleSetImpl
         }
         this.handleUnManagedOSDiskContainers();
         this.bootDiagnosticsHandler.handleDiagnosticsSettings();
-        final VirtualMachineScaleSetsInner client = this.manager().inner().virtualMachineScaleSets();
-        final VirtualMachineScaleSet self = this;
-        return client.createOrUpdateAsync(resourceGroupName(), name(), inner())
-                .flatMap(new Func1<VirtualMachineScaleSetInner, Observable<VirtualMachineScaleSetInner>>() {
-                    @Override
-                    public Observable<VirtualMachineScaleSetInner> call(final VirtualMachineScaleSetInner scaleSetInner) {
-                        setInner(scaleSetInner);  // Inner has to be updated so that virtualMachineScaleSetMsiHelper can fetch MSI identity
-                        return virtualMachineScaleSetMsiHelper.createMSIRbacRoleAssignmentsAsync(self)
-                                .switchIfEmpty(Observable.<RoleAssignment>just(null))
-                                .last()
-                                .map(new Func1<RoleAssignment, VirtualMachineScaleSetInner>() {
-                                    @Override
-                                    public VirtualMachineScaleSetInner call(RoleAssignment roleAssignment) {
-                                        return scaleSetInner;
-                                    }
-                                });
-                    }
-                });
+        return this.manager().inner().virtualMachineScaleSets()
+                .createOrUpdateAsync(resourceGroupName(), name(), inner());
     }
 
     @Override
@@ -1963,6 +1947,28 @@ public class VirtualMachineScaleSetImpl
             merged = merged.substring(0, merged.length() - 1);
         }
         return merged;
+    }
+
+    private RoleAssignmentHelper.IdProvider idProvider() {
+        return new RoleAssignmentHelper.IdProvider() {
+            @Override
+            public String principalId() {
+                if (inner() != null && inner().identity() != null) {
+                    return inner().identity().principalId();
+                } else {
+                    return null;
+                }
+            }
+
+            @Override
+            public String resourceId() {
+                if (inner() != null) {
+                    return inner().id();
+                } else {
+                    return null;
+                }
+            }
+        };
     }
 
     protected VirtualMachineScaleSetImpl withUnmanagedDataDisk(VirtualMachineScaleSetUnmanagedDataDiskImpl unmanagedDisk) {

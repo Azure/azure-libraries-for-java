@@ -8,55 +8,37 @@
 
 package com.microsoft.azure.management.appservice;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for RouteType.
  */
-public final class RouteType {
+public final class RouteType extends ExpandableStringEnum<RouteType> {
     /** Static value DEFAULT for RouteType. */
-    public static final RouteType DEFAULT = new RouteType("DEFAULT");
+    public static final RouteType DEFAULT = fromString("DEFAULT");
 
     /** Static value INHERITED for RouteType. */
-    public static final RouteType INHERITED = new RouteType("INHERITED");
+    public static final RouteType INHERITED = fromString("INHERITED");
 
     /** Static value STATIC for RouteType. */
-    public static final RouteType STATIC = new RouteType("STATIC");
-
-    private String value;
+    public static final RouteType STATIC = fromString("STATIC");
 
     /**
-     * Creates a custom value for RouteType.
-     * @param value the custom value
+     * Creates or finds a RouteType from its string representation.
+     * @param name a name to look for
+     * @return the corresponding RouteType
      */
-    public RouteType(String value) {
-        this.value = value;
+    @JsonCreator
+    public static RouteType fromString(String name) {
+        return fromString(name, RouteType.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof RouteType)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        RouteType rhs = (RouteType) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known RouteType values
+     */
+    public static Collection<RouteType> values() {
+        return values(RouteType.class);
     }
 }

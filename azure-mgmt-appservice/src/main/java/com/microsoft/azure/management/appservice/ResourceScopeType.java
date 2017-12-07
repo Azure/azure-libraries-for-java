@@ -8,55 +8,37 @@
 
 package com.microsoft.azure.management.appservice;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ResourceScopeType.
  */
-public final class ResourceScopeType {
+public final class ResourceScopeType extends ExpandableStringEnum<ResourceScopeType> {
     /** Static value ServerFarm for ResourceScopeType. */
-    public static final ResourceScopeType SERVER_FARM = new ResourceScopeType("ServerFarm");
+    public static final ResourceScopeType SERVER_FARM = fromString("ServerFarm");
 
     /** Static value Subscription for ResourceScopeType. */
-    public static final ResourceScopeType SUBSCRIPTION = new ResourceScopeType("Subscription");
+    public static final ResourceScopeType SUBSCRIPTION = fromString("Subscription");
 
     /** Static value WebSite for ResourceScopeType. */
-    public static final ResourceScopeType WEB_SITE = new ResourceScopeType("WebSite");
-
-    private String value;
+    public static final ResourceScopeType WEB_SITE = fromString("WebSite");
 
     /**
-     * Creates a custom value for ResourceScopeType.
-     * @param value the custom value
+     * Creates or finds a ResourceScopeType from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ResourceScopeType
      */
-    public ResourceScopeType(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ResourceScopeType fromString(String name) {
+        return fromString(name, ResourceScopeType.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ResourceScopeType)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ResourceScopeType rhs = (ResourceScopeType) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ResourceScopeType values
+     */
+    public static Collection<ResourceScopeType> values() {
+        return values(ResourceScopeType.class);
     }
 }

@@ -11,13 +11,13 @@ package com.microsoft.azure.management.appservice.implementation;
 import com.microsoft.azure.management.appservice.OperationStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * MySQL migration status.
  */
 @JsonFlatten
-public class MigrateMySqlStatusInner extends Resource {
+public class MigrateMySqlStatusInner extends ProxyOnlyResource {
     /**
      * Status of the migration task. Possible values include: 'InProgress',
      * 'Failed', 'Succeeded', 'TimedOut', 'Created'.

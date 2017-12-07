@@ -172,7 +172,7 @@ abstract class AppServiceBaseImpl<
     }
 
     public Observable<PublishingProfile> getPublishingProfileAsync() {
-        return manager().inner().webApps().listPublishingProfileXmlWithSecretsAsync(resourceGroupName(), name(), new CsmPublishingProfileOptionsInner())
+        return manager().inner().webApps().listPublishingProfileXmlWithSecretsAsync(resourceGroupName(), name())
                 .map(new Func1<InputStream, PublishingProfile>() {
                     @Override
                     public PublishingProfile call(InputStream stream) {
@@ -216,7 +216,6 @@ abstract class AppServiceBaseImpl<
     @Override
     public Completable verifyDomainOwnershipAsync(String certificateOrderName, String domainVerificationToken) {
         IdentifierInner identifierInner = new IdentifierInner().withIdentifierId(domainVerificationToken);
-        identifierInner.withLocation("global");
         return this.manager().inner().webApps().createOrUpdateDomainOwnershipIdentifierAsync(resourceGroupName(), name(), certificateOrderName, identifierInner)
                 .map(new Func1<IdentifierInner, Void>() {
                     @Override

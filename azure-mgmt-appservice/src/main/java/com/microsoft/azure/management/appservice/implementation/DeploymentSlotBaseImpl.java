@@ -96,7 +96,7 @@ class DeploymentSlotBaseImpl<
     }
 
     public Observable<PublishingProfile> getPublishingProfileAsync() {
-        return manager().inner().webApps().listPublishingProfileXmlWithSecretsSlotAsync(resourceGroupName(), this.parent().name(), name(), new CsmPublishingProfileOptionsInner())
+        return manager().inner().webApps().listPublishingProfileXmlWithSecretsSlotAsync(resourceGroupName(), this.parent().name(), name())
                 .map(new Func1<InputStream, PublishingProfile>() {
                     @Override
                     public PublishingProfile call(InputStream stream) {
@@ -391,7 +391,6 @@ class DeploymentSlotBaseImpl<
     @Override
     public Completable verifyDomainOwnershipAsync(String certificateOrderName, String domainVerificationToken) {
         IdentifierInner identifierInner = new IdentifierInner().withIdentifierId(domainVerificationToken);
-        identifierInner.withLocation("global");
         return manager().inner().webApps().createOrUpdateDomainOwnershipIdentifierSlotAsync(resourceGroupName(), parent().name(), name(), certificateOrderName, identifierInner)
                 .map(new Func1<IdentifierInner, Void>() {
                     @Override

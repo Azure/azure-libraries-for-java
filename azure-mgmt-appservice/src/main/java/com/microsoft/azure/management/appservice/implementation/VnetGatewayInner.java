@@ -10,14 +10,14 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * The Virtual Network gateway contract. This is used to give the Virtual
  * Network gateway access to the VPN package.
  */
 @JsonFlatten
-public class VnetGatewayInner extends Resource {
+public class VnetGatewayInner extends ProxyOnlyResource {
     /**
      * The Virtual Network name.
      */
@@ -27,7 +27,7 @@ public class VnetGatewayInner extends Resource {
     /**
      * The URI where the VPN package can be downloaded.
      */
-    @JsonProperty(value = "properties.vpnPackageUri")
+    @JsonProperty(value = "properties.vpnPackageUri", required = true)
     private String vpnPackageUri;
 
     /**

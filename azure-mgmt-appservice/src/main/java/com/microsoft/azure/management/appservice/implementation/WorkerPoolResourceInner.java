@@ -13,13 +13,13 @@ import java.util.List;
 import com.microsoft.azure.management.appservice.SkuDescription;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Worker pool of an App Service Environment ARM resource.
  */
 @JsonFlatten
-public class WorkerPoolResourceInner extends Resource {
+public class WorkerPoolResourceInner extends ProxyOnlyResource {
     /**
      * Worker size ID for referencing this worker pool.
      */

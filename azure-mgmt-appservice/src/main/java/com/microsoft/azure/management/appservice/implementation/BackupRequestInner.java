@@ -14,17 +14,17 @@ import com.microsoft.azure.management.appservice.DatabaseBackupSetting;
 import com.microsoft.azure.management.appservice.BackupRestoreOperationType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Description of a backup which will be performed.
  */
 @JsonFlatten
-public class BackupRequestInner extends Resource {
+public class BackupRequestInner extends ProxyOnlyResource {
     /**
      * Name of the backup.
      */
-    @JsonProperty(value = "properties.name")
+    @JsonProperty(value = "properties.name", required = true)
     private String backupRequestName;
 
     /**
@@ -37,7 +37,7 @@ public class BackupRequestInner extends Resource {
     /**
      * SAS URL to the container.
      */
-    @JsonProperty(value = "properties.storageAccountUrl")
+    @JsonProperty(value = "properties.storageAccountUrl", required = true)
     private String storageAccountUrl;
 
     /**

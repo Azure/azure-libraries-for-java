@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.appservice;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ValidateResourceTypes.
  */
-public final class ValidateResourceTypes {
+public final class ValidateResourceTypes extends ExpandableStringEnum<ValidateResourceTypes> {
     /** Static value ServerFarm for ValidateResourceTypes. */
-    public static final ValidateResourceTypes SERVER_FARM = new ValidateResourceTypes("ServerFarm");
+    public static final ValidateResourceTypes SERVER_FARM = fromString("ServerFarm");
 
     /** Static value Site for ValidateResourceTypes. */
-    public static final ValidateResourceTypes SITE = new ValidateResourceTypes("Site");
-
-    private String value;
+    public static final ValidateResourceTypes SITE = fromString("Site");
 
     /**
-     * Creates a custom value for ValidateResourceTypes.
-     * @param value the custom value
+     * Creates or finds a ValidateResourceTypes from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ValidateResourceTypes
      */
-    public ValidateResourceTypes(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ValidateResourceTypes fromString(String name) {
+        return fromString(name, ValidateResourceTypes.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ValidateResourceTypes)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ValidateResourceTypes rhs = (ValidateResourceTypes) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ValidateResourceTypes values
+     */
+    public static Collection<ValidateResourceTypes> values() {
+        return values(ValidateResourceTypes.class);
     }
 }

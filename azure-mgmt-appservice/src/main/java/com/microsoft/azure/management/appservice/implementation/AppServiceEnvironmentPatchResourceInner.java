@@ -18,59 +18,62 @@ import com.microsoft.azure.management.appservice.VirtualIPMapping;
 import com.microsoft.azure.management.appservice.NetworkAccessControlEntry;
 import com.microsoft.azure.management.appservice.NameValuePair;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
- * Description of an App Service Environment.
+ * ARM resource for a app service enviroment.
  */
-public class AppServiceEnvironmentInner {
+@JsonFlatten
+public class AppServiceEnvironmentPatchResourceInner extends ProxyOnlyResource {
     /**
      * Name of the App Service Environment.
      */
-    @JsonProperty(value = "name", required = true)
-    private String name;
+    @JsonProperty(value = "properties.name", required = true)
+    private String appServiceEnvironmentPatchResourceName;
 
     /**
      * Location of the App Service Environment, e.g. "West US".
      */
-    @JsonProperty(value = "location", required = true)
+    @JsonProperty(value = "properties.location", required = true)
     private String location;
 
     /**
      * Provisioning state of the App Service Environment. Possible values
      * include: 'Succeeded', 'Failed', 'Canceled', 'InProgress', 'Deleting'.
      */
-    @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /**
      * Current status of the App Service Environment. Possible values include:
      * 'Preparing', 'Ready', 'Scaling', 'Deleting'.
      */
-    @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.status", access = JsonProperty.Access.WRITE_ONLY)
     private HostingEnvironmentStatus status;
 
     /**
      * Name of the Virtual Network for the App Service Environment.
      */
-    @JsonProperty(value = "vnetName")
+    @JsonProperty(value = "properties.vnetName")
     private String vnetName;
 
     /**
      * Resource group of the Virtual Network.
      */
-    @JsonProperty(value = "vnetResourceGroupName")
+    @JsonProperty(value = "properties.vnetResourceGroupName")
     private String vnetResourceGroupName;
 
     /**
      * Subnet of the Virtual Network.
      */
-    @JsonProperty(value = "vnetSubnetName")
+    @JsonProperty(value = "properties.vnetSubnetName")
     private String vnetSubnetName;
 
     /**
      * Description of the Virtual Network.
      */
-    @JsonProperty(value = "virtualNetwork", required = true)
+    @JsonProperty(value = "properties.virtualNetwork", required = true)
     private VirtualNetworkProfile virtualNetwork;
 
     /**
@@ -78,152 +81,152 @@ public class AppServiceEnvironmentInner {
      * the App Service Environment. Possible values include: 'None', 'Web',
      * 'Publishing'.
      */
-    @JsonProperty(value = "internalLoadBalancingMode")
+    @JsonProperty(value = "properties.internalLoadBalancingMode")
     private InternalLoadBalancingMode internalLoadBalancingMode;
 
     /**
      * Front-end VM size, e.g. "Medium", "Large".
      */
-    @JsonProperty(value = "multiSize")
+    @JsonProperty(value = "properties.multiSize")
     private String multiSize;
 
     /**
      * Number of front-end instances.
      */
-    @JsonProperty(value = "multiRoleCount")
+    @JsonProperty(value = "properties.multiRoleCount")
     private Integer multiRoleCount;
 
     /**
      * Description of worker pools with worker size IDs, VM sizes, and number
      * of workers in each pool.
      */
-    @JsonProperty(value = "workerPools", required = true)
+    @JsonProperty(value = "properties.workerPools", required = true)
     private List<WorkerPool> workerPools;
 
     /**
      * Number of IP SSL addresses reserved for the App Service Environment.
      */
-    @JsonProperty(value = "ipsslAddressCount")
+    @JsonProperty(value = "properties.ipsslAddressCount")
     private Integer ipsslAddressCount;
 
     /**
      * Edition of the metadata database for the App Service Environment, e.g.
      * "Standard".
      */
-    @JsonProperty(value = "databaseEdition", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.databaseEdition", access = JsonProperty.Access.WRITE_ONLY)
     private String databaseEdition;
 
     /**
      * Service objective of the metadata database for the App Service
      * Environment, e.g. "S0".
      */
-    @JsonProperty(value = "databaseServiceObjective", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.databaseServiceObjective", access = JsonProperty.Access.WRITE_ONLY)
     private String databaseServiceObjective;
 
     /**
      * Number of upgrade domains of the App Service Environment.
      */
-    @JsonProperty(value = "upgradeDomains", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.upgradeDomains", access = JsonProperty.Access.WRITE_ONLY)
     private Integer upgradeDomains;
 
     /**
      * Subscription of the App Service Environment.
      */
-    @JsonProperty(value = "subscriptionId", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.subscriptionId", access = JsonProperty.Access.WRITE_ONLY)
     private String subscriptionId;
 
     /**
      * DNS suffix of the App Service Environment.
      */
-    @JsonProperty(value = "dnsSuffix")
+    @JsonProperty(value = "properties.dnsSuffix")
     private String dnsSuffix;
 
     /**
      * Last deployment action on the App Service Environment.
      */
-    @JsonProperty(value = "lastAction", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.lastAction", access = JsonProperty.Access.WRITE_ONLY)
     private String lastAction;
 
     /**
      * Result of the last deployment action on the App Service Environment.
      */
-    @JsonProperty(value = "lastActionResult", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.lastActionResult", access = JsonProperty.Access.WRITE_ONLY)
     private String lastActionResult;
 
     /**
      * List of comma separated strings describing which VM sizes are allowed
      * for front-ends.
      */
-    @JsonProperty(value = "allowedMultiSizes", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.allowedMultiSizes", access = JsonProperty.Access.WRITE_ONLY)
     private String allowedMultiSizes;
 
     /**
      * List of comma separated strings describing which VM sizes are allowed
      * for workers.
      */
-    @JsonProperty(value = "allowedWorkerSizes", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.allowedWorkerSizes", access = JsonProperty.Access.WRITE_ONLY)
     private String allowedWorkerSizes;
 
     /**
      * Maximum number of VMs in the App Service Environment.
      */
-    @JsonProperty(value = "maximumNumberOfMachines", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.maximumNumberOfMachines", access = JsonProperty.Access.WRITE_ONLY)
     private Integer maximumNumberOfMachines;
 
     /**
      * Description of IP SSL mapping for the App Service Environment.
      */
-    @JsonProperty(value = "vipMappings", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.vipMappings", access = JsonProperty.Access.WRITE_ONLY)
     private List<VirtualIPMapping> vipMappings;
 
     /**
      * Current total, used, and available worker capacities.
      */
-    @JsonProperty(value = "environmentCapacities", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.environmentCapacities", access = JsonProperty.Access.WRITE_ONLY)
     private List<StampCapacityInner> environmentCapacities;
 
     /**
      * Access control list for controlling traffic to the App Service
      * Environment.
      */
-    @JsonProperty(value = "networkAccessControlList")
+    @JsonProperty(value = "properties.networkAccessControlList")
     private List<NetworkAccessControlEntry> networkAccessControlList;
 
     /**
      * True/false indicating whether the App Service Environment is healthy.
      */
-    @JsonProperty(value = "environmentIsHealthy", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.environmentIsHealthy", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean environmentIsHealthy;
 
     /**
      * Detailed message about with results of the last check of the App Service
      * Environment.
      */
-    @JsonProperty(value = "environmentStatus", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.environmentStatus", access = JsonProperty.Access.WRITE_ONLY)
     private String environmentStatus;
 
     /**
      * Resource group of the App Service Environment.
      */
-    @JsonProperty(value = "resourceGroup", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.resourceGroup", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGroup;
 
     /**
      * Scale factor for front-ends.
      */
-    @JsonProperty(value = "frontEndScaleFactor")
+    @JsonProperty(value = "properties.frontEndScaleFactor")
     private Integer frontEndScaleFactor;
 
     /**
      * Default Scale Factor for FrontEnds.
      */
-    @JsonProperty(value = "defaultFrontEndScaleFactor", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.defaultFrontEndScaleFactor", access = JsonProperty.Access.WRITE_ONLY)
     private Integer defaultFrontEndScaleFactor;
 
     /**
      * API Management Account associated with the App Service Environment.
      */
-    @JsonProperty(value = "apiManagementAccountId")
+    @JsonProperty(value = "properties.apiManagementAccountId")
     private String apiManagementAccountId;
 
     /**
@@ -233,7 +236,7 @@ public class AppServiceEnvironmentInner {
      * available
      * (most likely because NSG blocked the incoming traffic).
      */
-    @JsonProperty(value = "suspended")
+    @JsonProperty(value = "properties.suspended")
     private Boolean suspended;
 
     /**
@@ -242,33 +245,39 @@ public class AppServiceEnvironmentInner {
      * longer available
      * (most likely because NSG blocked the incoming traffic).
      */
-    @JsonProperty(value = "dynamicCacheEnabled")
+    @JsonProperty(value = "properties.dynamicCacheEnabled")
     private Boolean dynamicCacheEnabled;
 
     /**
      * Custom settings for changing the behavior of the App Service
      * Environment.
      */
-    @JsonProperty(value = "clusterSettings")
+    @JsonProperty(value = "properties.clusterSettings")
     private List<NameValuePair> clusterSettings;
 
     /**
-     * Get the name value.
-     *
-     * @return the name value
+     * User added ip ranges to whitelist on ASE db.
      */
-    public String name() {
-        return this.name;
+    @JsonProperty(value = "properties.userWhitelistedIpRanges")
+    private List<String> userWhitelistedIpRanges;
+
+    /**
+     * Get the appServiceEnvironmentPatchResourceName value.
+     *
+     * @return the appServiceEnvironmentPatchResourceName value
+     */
+    public String appServiceEnvironmentPatchResourceName() {
+        return this.appServiceEnvironmentPatchResourceName;
     }
 
     /**
-     * Set the name value.
+     * Set the appServiceEnvironmentPatchResourceName value.
      *
-     * @param name the name value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @param appServiceEnvironmentPatchResourceName the appServiceEnvironmentPatchResourceName value to set
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withName(String name) {
-        this.name = name;
+    public AppServiceEnvironmentPatchResourceInner withAppServiceEnvironmentPatchResourceName(String appServiceEnvironmentPatchResourceName) {
+        this.appServiceEnvironmentPatchResourceName = appServiceEnvironmentPatchResourceName;
         return this;
     }
 
@@ -285,9 +294,9 @@ public class AppServiceEnvironmentInner {
      * Set the location value.
      *
      * @param location the location value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withLocation(String location) {
+    public AppServiceEnvironmentPatchResourceInner withLocation(String location) {
         this.location = location;
         return this;
     }
@@ -323,9 +332,9 @@ public class AppServiceEnvironmentInner {
      * Set the vnetName value.
      *
      * @param vnetName the vnetName value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withVnetName(String vnetName) {
+    public AppServiceEnvironmentPatchResourceInner withVnetName(String vnetName) {
         this.vnetName = vnetName;
         return this;
     }
@@ -343,9 +352,9 @@ public class AppServiceEnvironmentInner {
      * Set the vnetResourceGroupName value.
      *
      * @param vnetResourceGroupName the vnetResourceGroupName value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withVnetResourceGroupName(String vnetResourceGroupName) {
+    public AppServiceEnvironmentPatchResourceInner withVnetResourceGroupName(String vnetResourceGroupName) {
         this.vnetResourceGroupName = vnetResourceGroupName;
         return this;
     }
@@ -363,9 +372,9 @@ public class AppServiceEnvironmentInner {
      * Set the vnetSubnetName value.
      *
      * @param vnetSubnetName the vnetSubnetName value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withVnetSubnetName(String vnetSubnetName) {
+    public AppServiceEnvironmentPatchResourceInner withVnetSubnetName(String vnetSubnetName) {
         this.vnetSubnetName = vnetSubnetName;
         return this;
     }
@@ -383,9 +392,9 @@ public class AppServiceEnvironmentInner {
      * Set the virtualNetwork value.
      *
      * @param virtualNetwork the virtualNetwork value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withVirtualNetwork(VirtualNetworkProfile virtualNetwork) {
+    public AppServiceEnvironmentPatchResourceInner withVirtualNetwork(VirtualNetworkProfile virtualNetwork) {
         this.virtualNetwork = virtualNetwork;
         return this;
     }
@@ -403,9 +412,9 @@ public class AppServiceEnvironmentInner {
      * Set the internalLoadBalancingMode value.
      *
      * @param internalLoadBalancingMode the internalLoadBalancingMode value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withInternalLoadBalancingMode(InternalLoadBalancingMode internalLoadBalancingMode) {
+    public AppServiceEnvironmentPatchResourceInner withInternalLoadBalancingMode(InternalLoadBalancingMode internalLoadBalancingMode) {
         this.internalLoadBalancingMode = internalLoadBalancingMode;
         return this;
     }
@@ -423,9 +432,9 @@ public class AppServiceEnvironmentInner {
      * Set the multiSize value.
      *
      * @param multiSize the multiSize value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withMultiSize(String multiSize) {
+    public AppServiceEnvironmentPatchResourceInner withMultiSize(String multiSize) {
         this.multiSize = multiSize;
         return this;
     }
@@ -443,9 +452,9 @@ public class AppServiceEnvironmentInner {
      * Set the multiRoleCount value.
      *
      * @param multiRoleCount the multiRoleCount value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withMultiRoleCount(Integer multiRoleCount) {
+    public AppServiceEnvironmentPatchResourceInner withMultiRoleCount(Integer multiRoleCount) {
         this.multiRoleCount = multiRoleCount;
         return this;
     }
@@ -463,9 +472,9 @@ public class AppServiceEnvironmentInner {
      * Set the workerPools value.
      *
      * @param workerPools the workerPools value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withWorkerPools(List<WorkerPool> workerPools) {
+    public AppServiceEnvironmentPatchResourceInner withWorkerPools(List<WorkerPool> workerPools) {
         this.workerPools = workerPools;
         return this;
     }
@@ -483,9 +492,9 @@ public class AppServiceEnvironmentInner {
      * Set the ipsslAddressCount value.
      *
      * @param ipsslAddressCount the ipsslAddressCount value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withIpsslAddressCount(Integer ipsslAddressCount) {
+    public AppServiceEnvironmentPatchResourceInner withIpsslAddressCount(Integer ipsslAddressCount) {
         this.ipsslAddressCount = ipsslAddressCount;
         return this;
     }
@@ -539,9 +548,9 @@ public class AppServiceEnvironmentInner {
      * Set the dnsSuffix value.
      *
      * @param dnsSuffix the dnsSuffix value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withDnsSuffix(String dnsSuffix) {
+    public AppServiceEnvironmentPatchResourceInner withDnsSuffix(String dnsSuffix) {
         this.dnsSuffix = dnsSuffix;
         return this;
     }
@@ -622,9 +631,9 @@ public class AppServiceEnvironmentInner {
      * Set the networkAccessControlList value.
      *
      * @param networkAccessControlList the networkAccessControlList value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withNetworkAccessControlList(List<NetworkAccessControlEntry> networkAccessControlList) {
+    public AppServiceEnvironmentPatchResourceInner withNetworkAccessControlList(List<NetworkAccessControlEntry> networkAccessControlList) {
         this.networkAccessControlList = networkAccessControlList;
         return this;
     }
@@ -669,9 +678,9 @@ public class AppServiceEnvironmentInner {
      * Set the frontEndScaleFactor value.
      *
      * @param frontEndScaleFactor the frontEndScaleFactor value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withFrontEndScaleFactor(Integer frontEndScaleFactor) {
+    public AppServiceEnvironmentPatchResourceInner withFrontEndScaleFactor(Integer frontEndScaleFactor) {
         this.frontEndScaleFactor = frontEndScaleFactor;
         return this;
     }
@@ -698,9 +707,9 @@ public class AppServiceEnvironmentInner {
      * Set the apiManagementAccountId value.
      *
      * @param apiManagementAccountId the apiManagementAccountId value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withApiManagementAccountId(String apiManagementAccountId) {
+    public AppServiceEnvironmentPatchResourceInner withApiManagementAccountId(String apiManagementAccountId) {
         this.apiManagementAccountId = apiManagementAccountId;
         return this;
     }
@@ -718,9 +727,9 @@ public class AppServiceEnvironmentInner {
      * Set the suspended value.
      *
      * @param suspended the suspended value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withSuspended(Boolean suspended) {
+    public AppServiceEnvironmentPatchResourceInner withSuspended(Boolean suspended) {
         this.suspended = suspended;
         return this;
     }
@@ -738,9 +747,9 @@ public class AppServiceEnvironmentInner {
      * Set the dynamicCacheEnabled value.
      *
      * @param dynamicCacheEnabled the dynamicCacheEnabled value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withDynamicCacheEnabled(Boolean dynamicCacheEnabled) {
+    public AppServiceEnvironmentPatchResourceInner withDynamicCacheEnabled(Boolean dynamicCacheEnabled) {
         this.dynamicCacheEnabled = dynamicCacheEnabled;
         return this;
     }
@@ -758,10 +767,30 @@ public class AppServiceEnvironmentInner {
      * Set the clusterSettings value.
      *
      * @param clusterSettings the clusterSettings value to set
-     * @return the AppServiceEnvironmentInner object itself.
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
      */
-    public AppServiceEnvironmentInner withClusterSettings(List<NameValuePair> clusterSettings) {
+    public AppServiceEnvironmentPatchResourceInner withClusterSettings(List<NameValuePair> clusterSettings) {
         this.clusterSettings = clusterSettings;
+        return this;
+    }
+
+    /**
+     * Get the userWhitelistedIpRanges value.
+     *
+     * @return the userWhitelistedIpRanges value
+     */
+    public List<String> userWhitelistedIpRanges() {
+        return this.userWhitelistedIpRanges;
+    }
+
+    /**
+     * Set the userWhitelistedIpRanges value.
+     *
+     * @param userWhitelistedIpRanges the userWhitelistedIpRanges value to set
+     * @return the AppServiceEnvironmentPatchResourceInner object itself.
+     */
+    public AppServiceEnvironmentPatchResourceInner withUserWhitelistedIpRanges(List<String> userWhitelistedIpRanges) {
+        this.userWhitelistedIpRanges = userWhitelistedIpRanges;
         return this;
     }
 

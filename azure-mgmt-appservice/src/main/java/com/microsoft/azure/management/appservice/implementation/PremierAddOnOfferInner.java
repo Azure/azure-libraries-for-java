@@ -11,33 +11,33 @@ package com.microsoft.azure.management.appservice.implementation;
 import com.microsoft.azure.management.appservice.AppServicePlanRestrictions;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Premier add-on offer.
  */
 @JsonFlatten
-public class PremierAddOnOfferInner extends Resource {
+public class PremierAddOnOfferInner extends ProxyOnlyResource {
     /**
-     * SKU.
+     * Premier add on SKU.
      */
     @JsonProperty(value = "properties.sku")
     private String sku;
 
     /**
-     * Product.
+     * Premier add on offer Product.
      */
     @JsonProperty(value = "properties.product")
     private String product;
 
     /**
-     * Vendor.
+     * Premier add on offer Vendor.
      */
     @JsonProperty(value = "properties.vendor")
     private String vendor;
 
     /**
-     * Name.
+     * Premier add on offer Name.
      */
     @JsonProperty(value = "properties.name")
     private String premierAddOnOfferName;
@@ -50,7 +50,7 @@ public class PremierAddOnOfferInner extends Resource {
     private Boolean promoCodeRequired;
 
     /**
-     * Quota.
+     * Premier add on offer Quota.
      */
     @JsonProperty(value = "properties.quota")
     private Integer quota;

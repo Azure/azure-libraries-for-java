@@ -14,19 +14,13 @@ import com.microsoft.azure.management.appservice.HostNameType;
 import com.microsoft.azure.management.appservice.SslState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * A hostname binding object.
  */
 @JsonFlatten
-public class HostNameBindingInner extends Resource {
-    /**
-     * Hostname.
-     */
-    @JsonProperty(value = "properties.name")
-    private String hostNameBindingName;
-
+public class HostNameBindingInner extends ProxyOnlyResource {
     /**
      * App Service app name.
      */
@@ -80,28 +74,8 @@ public class HostNameBindingInner extends Resource {
     /**
      * Virtual IP address assigned to the hostname if IP based SSL is enabled.
      */
-    @JsonProperty(value = "properties.virtualIP")
+    @JsonProperty(value = "properties.virtualIP", access = JsonProperty.Access.WRITE_ONLY)
     private String virtualIP;
-
-    /**
-     * Get the hostNameBindingName value.
-     *
-     * @return the hostNameBindingName value
-     */
-    public String hostNameBindingName() {
-        return this.hostNameBindingName;
-    }
-
-    /**
-     * Set the hostNameBindingName value.
-     *
-     * @param hostNameBindingName the hostNameBindingName value to set
-     * @return the HostNameBindingInner object itself.
-     */
-    public HostNameBindingInner withHostNameBindingName(String hostNameBindingName) {
-        this.hostNameBindingName = hostNameBindingName;
-        return this;
-    }
 
     /**
      * Get the siteName value.
@@ -270,17 +244,6 @@ public class HostNameBindingInner extends Resource {
      */
     public String virtualIP() {
         return this.virtualIP;
-    }
-
-    /**
-     * Set the virtualIP value.
-     *
-     * @param virtualIP the virtualIP value to set
-     * @return the HostNameBindingInner object itself.
-     */
-    public HostNameBindingInner withVirtualIP(String virtualIP) {
-        this.virtualIP = virtualIP;
-        return this;
     }
 
 }

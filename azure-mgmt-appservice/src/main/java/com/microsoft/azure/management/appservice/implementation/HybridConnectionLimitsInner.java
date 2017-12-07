@@ -10,14 +10,14 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Hybrid Connection limits contract. This is used to return the plan limits of
  * Hybrid Connections.
  */
 @JsonFlatten
-public class HybridConnectionLimitsInner extends Resource {
+public class HybridConnectionLimitsInner extends ProxyOnlyResource {
     /**
      * The current number of Hybrid Connections.
      */

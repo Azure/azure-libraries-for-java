@@ -8,19 +8,19 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
-import com.microsoft.azure.management.appservice.CloningInfo;
-import com.microsoft.azure.management.appservice.HostNameSslState;
-import com.microsoft.azure.management.appservice.HostingEnvironmentProfile;
-import com.microsoft.azure.management.appservice.SiteAvailabilityState;
-import com.microsoft.azure.management.appservice.SiteConfig;
-import com.microsoft.azure.management.appservice.SlotSwapStatus;
-import com.microsoft.azure.management.appservice.UsageState;
-import com.microsoft.rest.serializer.JsonFlatten;
-import org.joda.time.DateTime;
-
 import java.util.List;
+import com.microsoft.azure.management.appservice.UsageState;
+import com.microsoft.azure.management.appservice.SiteAvailabilityState;
+import com.microsoft.azure.management.appservice.HostNameSslState;
+import org.joda.time.DateTime;
+import com.microsoft.azure.management.appservice.SiteConfig;
+import com.microsoft.azure.management.appservice.HostingEnvironmentProfile;
+import com.microsoft.azure.management.appservice.CloningInfo;
+import com.microsoft.azure.management.appservice.SlotSwapStatus;
+import com.microsoft.azure.management.appservice.ManagedServiceIdentity;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * A web app, a mobile app backend, or an API app.
@@ -120,12 +120,6 @@ public class SiteInner extends Resource {
     private List<String> trafficManagerHostNames;
 
     /**
-     * Indicates whether app is deployed as a premium app.
-     */
-    @JsonProperty(value = "properties.premiumAppDeployed", access = JsonProperty.Access.WRITE_ONLY)
-    private Boolean premiumAppDeployed;
-
-    /**
      * &lt;code&gt;true&lt;/code&gt; to stop SCM (KUDU) site when the app is
      * stopped; otherwise, &lt;code&gt;false&lt;/code&gt;. The default is
      * &lt;code&gt;false&lt;/code&gt;.
@@ -144,18 +138,6 @@ public class SiteInner extends Resource {
      */
     @JsonProperty(value = "properties.hostingEnvironmentProfile")
     private HostingEnvironmentProfile hostingEnvironmentProfile;
-
-    /**
-     * Micro services like apps, logic apps.
-     */
-    @JsonProperty(value = "properties.microService")
-    private String microService;
-
-    /**
-     * Name of gateway app associated with the app.
-     */
-    @JsonProperty(value = "properties.gatewaySiteName")
-    private String gatewaySiteName;
 
     /**
      * &lt;code&gt;true&lt;/code&gt; to enable client affinity;
@@ -186,10 +168,18 @@ public class SiteInner extends Resource {
 
     /**
      * List of IP addresses that the app uses for outbound connections (e.g.
-     * database access). Read-only.
+     * database access). Includes VIPs from tenants that site can be hosted
+     * with current settings. Read-only.
      */
     @JsonProperty(value = "properties.outboundIpAddresses", access = JsonProperty.Access.WRITE_ONLY)
     private String outboundIpAddresses;
+
+    /**
+     * List of IP addresses that the app uses for outbound connections (e.g.
+     * database access). Includes VIPs from all tenants. Read-only.
+     */
+    @JsonProperty(value = "properties.possibleOutboundIpAddresses", access = JsonProperty.Access.WRITE_ONLY)
+    private String possibleOutboundIpAddresses;
 
     /**
      * Size of the function container.
@@ -224,6 +214,13 @@ public class SiteInner extends Resource {
     private CloningInfo cloningInfo;
 
     /**
+     * If specified during app creation, the app is created from a previous
+     * snapshot.
+     */
+    @JsonProperty(value = "properties.snapshotInfo")
+    private SnapshotRecoveryRequestInner snapshotInfo;
+
+    /**
      * Name of the resource group the app belongs to. Read-only.
      */
     @JsonProperty(value = "properties.resourceGroup", access = JsonProperty.Access.WRITE_ONLY)
@@ -249,6 +246,20 @@ public class SiteInner extends Resource {
     private SlotSwapStatus slotSwapStatus;
 
     /**
+     * HttpsOnly: configures a web site to accept only https requests. Issues
+     * redirect for
+     * http requests.
+     */
+    @JsonProperty(value = "properties.httpsOnly")
+    private Boolean httpsOnly;
+
+    /**
+     * The identity property.
+     */
+    @JsonProperty(value = "identity")
+    private ManagedServiceIdentity identity;
+
+    /**
      * Get the kind value.
      *
      * @return the kind value
@@ -267,7 +278,7 @@ public class SiteInner extends Resource {
         this.kind = kind;
         return this;
     }
-
+    
     /**
      * Get the state value.
      *
@@ -441,15 +452,6 @@ public class SiteInner extends Resource {
     }
 
     /**
-     * Get the premiumAppDeployed value.
-     *
-     * @return the premiumAppDeployed value
-     */
-    public Boolean premiumAppDeployed() {
-        return this.premiumAppDeployed;
-    }
-
-    /**
      * Get the scmSiteAlsoStopped value.
      *
      * @return the scmSiteAlsoStopped value
@@ -495,46 +497,6 @@ public class SiteInner extends Resource {
      */
     public SiteInner withHostingEnvironmentProfile(HostingEnvironmentProfile hostingEnvironmentProfile) {
         this.hostingEnvironmentProfile = hostingEnvironmentProfile;
-        return this;
-    }
-
-    /**
-     * Get the microService value.
-     *
-     * @return the microService value
-     */
-    public String microService() {
-        return this.microService;
-    }
-
-    /**
-     * Set the microService value.
-     *
-     * @param microService the microService value to set
-     * @return the SiteInner object itself.
-     */
-    public SiteInner withMicroService(String microService) {
-        this.microService = microService;
-        return this;
-    }
-
-    /**
-     * Get the gatewaySiteName value.
-     *
-     * @return the gatewaySiteName value
-     */
-    public String gatewaySiteName() {
-        return this.gatewaySiteName;
-    }
-
-    /**
-     * Set the gatewaySiteName value.
-     *
-     * @param gatewaySiteName the gatewaySiteName value to set
-     * @return the SiteInner object itself.
-     */
-    public SiteInner withGatewaySiteName(String gatewaySiteName) {
-        this.gatewaySiteName = gatewaySiteName;
         return this;
     }
 
@@ -605,6 +567,15 @@ public class SiteInner extends Resource {
      */
     public String outboundIpAddresses() {
         return this.outboundIpAddresses;
+    }
+
+    /**
+     * Get the possibleOutboundIpAddresses value.
+     *
+     * @return the possibleOutboundIpAddresses value
+     */
+    public String possibleOutboundIpAddresses() {
+        return this.possibleOutboundIpAddresses;
     }
 
     /**
@@ -686,6 +657,26 @@ public class SiteInner extends Resource {
     }
 
     /**
+     * Get the snapshotInfo value.
+     *
+     * @return the snapshotInfo value
+     */
+    public SnapshotRecoveryRequestInner snapshotInfo() {
+        return this.snapshotInfo;
+    }
+
+    /**
+     * Set the snapshotInfo value.
+     *
+     * @param snapshotInfo the snapshotInfo value to set
+     * @return the SiteInner object itself.
+     */
+    public SiteInner withSnapshotInfo(SnapshotRecoveryRequestInner snapshotInfo) {
+        this.snapshotInfo = snapshotInfo;
+        return this;
+    }
+
+    /**
      * Get the resourceGroup value.
      *
      * @return the resourceGroup value
@@ -719,6 +710,46 @@ public class SiteInner extends Resource {
      */
     public SlotSwapStatus slotSwapStatus() {
         return this.slotSwapStatus;
+    }
+
+    /**
+     * Get the httpsOnly value.
+     *
+     * @return the httpsOnly value
+     */
+    public Boolean httpsOnly() {
+        return this.httpsOnly;
+    }
+
+    /**
+     * Set the httpsOnly value.
+     *
+     * @param httpsOnly the httpsOnly value to set
+     * @return the SiteInner object itself.
+     */
+    public SiteInner withHttpsOnly(Boolean httpsOnly) {
+        this.httpsOnly = httpsOnly;
+        return this;
+    }
+
+    /**
+     * Get the identity value.
+     *
+     * @return the identity value
+     */
+    public ManagedServiceIdentity identity() {
+        return this.identity;
+    }
+
+    /**
+     * Set the identity value.
+     *
+     * @param identity the identity value to set
+     * @return the SiteInner object itself.
+     */
+    public SiteInner withIdentity(ManagedServiceIdentity identity) {
+        this.identity = identity;
+        return this;
     }
 
 }

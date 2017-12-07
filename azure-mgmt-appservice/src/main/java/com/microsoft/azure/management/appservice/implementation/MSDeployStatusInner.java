@@ -12,13 +12,13 @@ import com.microsoft.azure.management.appservice.MSDeployProvisioningState;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * MSDeploy ARM response.
  */
 @JsonFlatten
-public class MSDeployStatusInner extends Resource {
+public class MSDeployStatusInner extends ProxyOnlyResource {
     /**
      * Username of deployer.
      */

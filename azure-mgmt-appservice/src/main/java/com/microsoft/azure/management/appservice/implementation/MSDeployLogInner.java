@@ -11,15 +11,18 @@ package com.microsoft.azure.management.appservice.implementation;
 import java.util.List;
 import com.microsoft.azure.management.appservice.MSDeployLogEntry;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * MSDeploy log.
  */
-public class MSDeployLogInner {
+@JsonFlatten
+public class MSDeployLogInner extends ProxyOnlyResource {
     /**
      * List of log entry messages.
      */
-    @JsonProperty(value = "entries", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.entries", access = JsonProperty.Access.WRITE_ONLY)
     private List<MSDeployLogEntry> entries;
 
     /**

@@ -49,7 +49,6 @@ class AppServiceDomainImpl
 
     AppServiceDomainImpl(String name, DomainInner innerObject, AppServiceManager manager) {
         super(name, innerObject, manager);
-        inner().withLocation("global");
         if (inner().managedHostNames() != null) {
             this.hostNameMap = Maps.uniqueIndex(inner().managedHostNames(), new Function<HostName, String>() {
                 @Override
@@ -181,7 +180,6 @@ class AppServiceDomainImpl
     @Override
     public Completable verifyDomainOwnershipAsync(String certificateOrderName, String domainVerificationToken) {
         DomainOwnershipIdentifierInner identifierInner = new DomainOwnershipIdentifierInner().withOwnershipId(domainVerificationToken);
-        identifierInner.withLocation("global");
         return this.manager().inner().domains().createOrUpdateOwnershipIdentifierAsync(resourceGroupName(), name(), certificateOrderName, identifierInner)
                 .map(new Func1<DomainOwnershipIdentifierInner, Void>() {
                     @Override

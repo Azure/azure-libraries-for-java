@@ -215,11 +215,6 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
-    public boolean isPremiumApp() {
-        return Utils.toPrimitiveBoolean(inner().premiumAppDeployed());
-    }
-
-    @Override
     public boolean scmSiteAlsoStopped() {
         return inner().scmSiteAlsoStopped();
     }
@@ -227,16 +222,6 @@ abstract class WebAppBaseImpl<
     @Override
     public String targetSwapSlot() {
         return inner().targetSwapSlot();
-    }
-
-    @Override
-    public String microService() {
-        return inner().microService();
-    }
-
-    @Override
-    public String gatewaySiteName() {
-        return inner().gatewaySiteName();
     }
 
     @Override
@@ -666,7 +651,6 @@ abstract class WebAppBaseImpl<
         if (siteConfig == null) {
             return Observable.just(site);
         }
-        siteConfig.withLocation(inner().location());
         return createOrUpdateSiteConfig(siteConfig)
                 .flatMap(new Func1<SiteConfigResourceInner, Observable<SiteInner>>() {
                     @Override
@@ -686,7 +670,6 @@ abstract class WebAppBaseImpl<
                     public Observable<StringDictionaryInner> call(StringDictionaryInner stringDictionaryInner) {
                         if (stringDictionaryInner == null) {
                             stringDictionaryInner = new StringDictionaryInner();
-                            stringDictionaryInner.withLocation(regionName());
                         }
                         if (stringDictionaryInner.properties() == null) {
                             stringDictionaryInner.withProperties(new HashMap<String, String>());
@@ -716,7 +699,6 @@ abstract class WebAppBaseImpl<
                     public Observable<ConnectionStringDictionaryInner> call(ConnectionStringDictionaryInner dictionaryInner) {
                         if (dictionaryInner == null) {
                             dictionaryInner = new ConnectionStringDictionaryInner();
-                            dictionaryInner.withLocation(regionName());
                         }
                         if (dictionaryInner.properties() == null) {
                             dictionaryInner.withProperties(new HashMap<String, ConnStringValueTypePair>());
@@ -746,7 +728,6 @@ abstract class WebAppBaseImpl<
                     public Observable<SlotConfigNamesResourceInner> call(SlotConfigNamesResourceInner slotConfigNamesResourceInner) {
                         if (slotConfigNamesResourceInner == null) {
                             slotConfigNamesResourceInner = new SlotConfigNamesResourceInner();
-                            slotConfigNamesResourceInner.withLocation(regionName());
                         }
                         if (slotConfigNamesResourceInner.appSettingNames() == null) {
                             slotConfigNamesResourceInner.withAppSettingNames(new ArrayList<String>());
@@ -875,7 +856,6 @@ abstract class WebAppBaseImpl<
     public HostNameBindingImpl<FluentT, FluentImplT> defineHostnameBinding() {
         HostNameBindingInner inner = new HostNameBindingInner();
         inner.withSiteName(name());
-        inner.withLocation(regionName());
         inner.withAzureResourceType(AzureResourceType.WEBSITE);
         inner.withAzureResourceName(name());
         inner.withHostNameType(HostNameType.VERIFIED);
@@ -1183,7 +1163,6 @@ abstract class WebAppBaseImpl<
 
     public WebAppSourceControlImpl<FluentT, FluentImplT> defineSourceControl() {
         SiteSourceControlInner sourceControlInner = new SiteSourceControlInner();
-        sourceControlInner.withLocation(regionName());
         return new WebAppSourceControlImpl<>(sourceControlInner, this);
     }
 

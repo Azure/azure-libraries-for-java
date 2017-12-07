@@ -60,7 +60,7 @@ public class Contact {
     private String nameMiddle;
 
     /**
-     * Organization.
+     * Organization contact belongs to.
      */
     @JsonProperty(value = "organization")
     private String organization;

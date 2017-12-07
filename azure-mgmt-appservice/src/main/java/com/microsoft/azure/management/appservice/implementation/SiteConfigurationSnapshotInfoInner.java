@@ -11,13 +11,13 @@ package com.microsoft.azure.management.appservice.implementation;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * A snapshot of a web app configuration.
  */
 @JsonFlatten
-public class SiteConfigurationSnapshotInfoInner extends Resource {
+public class SiteConfigurationSnapshotInfoInner extends ProxyOnlyResource {
     /**
      * The time the snapshot was taken.
      */

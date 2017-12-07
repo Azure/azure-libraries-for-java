@@ -11,18 +11,18 @@ package com.microsoft.azure.management.appservice.implementation;
 import com.microsoft.azure.management.appservice.PublicCertificateLocation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Public certificate object.
  */
 @JsonFlatten
-public class PublicCertificateInner extends Resource {
+public class PublicCertificateInner extends ProxyOnlyResource {
     /**
      * Public Certificate byte array.
      */
     @JsonProperty(value = "properties.blob")
-    private String blob;
+    private byte[] blob;
 
     /**
      * Public Certificate Location. Possible values include: 'CurrentUserMy',
@@ -42,7 +42,7 @@ public class PublicCertificateInner extends Resource {
      *
      * @return the blob value
      */
-    public String blob() {
+    public byte[] blob() {
         return this.blob;
     }
 
@@ -52,7 +52,7 @@ public class PublicCertificateInner extends Resource {
      * @param blob the blob value to set
      * @return the PublicCertificateInner object itself.
      */
-    public PublicCertificateInner withBlob(String blob) {
+    public PublicCertificateInner withBlob(byte[] blob) {
         this.blob = blob;
         return this;
     }

@@ -89,11 +89,6 @@ public interface WebAppBase extends
     Set<String> trafficManagerHostNames();
 
     /**
-     * @return whether web app is deployed as a premium app
-     */
-    boolean isPremiumApp();
-
-    /**
      * @return whether to stop SCM (KUDU) site when the web app is
      * stopped. Default is false.
      */
@@ -103,16 +98,6 @@ public interface WebAppBase extends
      * @return which slot this app will swap into
      */
     String targetSwapSlot();
-
-    /**
-     * @return the micro-service name
-     */
-    String microService();
-
-    /**
-     * @return name of gateway app associated with web app
-     */
-    String gatewaySiteName();
 
     /**
      * @return if the client affinity is enabled when load balancing http

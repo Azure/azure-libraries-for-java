@@ -15,37 +15,37 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Address {
     /**
-     * Address 1.
+     * First line of an Address.
      */
     @JsonProperty(value = "address1", required = true)
     private String address1;
 
     /**
-     * Address 2.
+     * The second line of the Address. Optional.
      */
     @JsonProperty(value = "address2")
     private String address2;
 
     /**
-     * City.
+     * The city for the address.
      */
     @JsonProperty(value = "city", required = true)
     private String city;
 
     /**
-     * Country.
+     * The country for the address.
      */
     @JsonProperty(value = "country", required = true)
     private String country;
 
     /**
-     * Postal code.
+     * The postal code for the address.
      */
     @JsonProperty(value = "postalCode", required = true)
     private String postalCode;
 
     /**
-     * State.
+     * The state or province for the address.
      */
     @JsonProperty(value = "state", required = true)
     private String state;

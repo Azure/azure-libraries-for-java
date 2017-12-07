@@ -21,7 +21,7 @@ public class SlowRequestsBasedTrigger {
     private String timeTaken;
 
     /**
-     * Count.
+     * Request Count.
      */
     @JsonProperty(value = "count")
     private Integer count;

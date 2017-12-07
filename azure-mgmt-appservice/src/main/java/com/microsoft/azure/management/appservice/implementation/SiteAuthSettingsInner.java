@@ -13,14 +13,14 @@ import java.util.List;
 import com.microsoft.azure.management.appservice.BuiltInAuthenticationProvider;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Configuration settings for the Azure App Service Authentication /
  * Authorization feature.
  */
 @JsonFlatten
-public class SiteAuthSettingsInner extends Resource {
+public class SiteAuthSettingsInner extends ProxyOnlyResource {
     /**
      * &lt;code&gt;true&lt;/code&gt; if the Authentication / Authorization
      * feature is enabled for the current app; otherwise,

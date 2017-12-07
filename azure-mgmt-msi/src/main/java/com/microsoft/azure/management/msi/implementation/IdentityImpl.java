@@ -9,6 +9,7 @@ package com.microsoft.azure.management.msi.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.RoleAssignment;
+import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
@@ -31,10 +32,7 @@ final class IdentityImpl
 
     protected IdentityImpl(String name, IdentityInner innerObject, MSIManager manager) {
         super(name, innerObject, manager);
-
-        this.roleAssignmentHelper = new RoleAssignmentHelper(manager.graphRbacManager(),
-                this.taskGroup(),
-                this.idProvider());
+        this.roleAssignmentHelper = new RoleAssignmentHelper(manager.graphRbacManager(), this.taskGroup(), this.idProvider());
     }
 
     @Override
@@ -70,50 +68,50 @@ final class IdentityImpl
     }
 
     @Override
-    public IdentityImpl withRoleBasedAccessTo(Resource resource, BuiltInRole asRole) {
-        this.roleAssignmentHelper.withRoleBasedAccessTo(resource.id(), asRole);
+    public IdentityImpl withAccessTo(Resource resource, BuiltInRole role) {
+        this.roleAssignmentHelper.withAccessTo(resource.id(), role);
         return this;
     }
 
     @Override
-    public IdentityImpl withRoleBasedAccessTo(String scope, BuiltInRole asRole) {
-        this.roleAssignmentHelper.withRoleBasedAccessTo(scope, asRole);
+    public IdentityImpl withAccessTo(String resourceId, BuiltInRole role) {
+        this.roleAssignmentHelper.withAccessTo(resourceId, role);
         return this;
     }
 
     @Override
-    public IdentityImpl withRoleBasedAccessToCurrentResourceGroup(BuiltInRole asRole) {
-        this.roleAssignmentHelper.withRoleBasedAccessToCurrentResourceGroup(asRole);
+    public IdentityImpl withAccessToCurrentResourceGroup(BuiltInRole role) {
+        this.roleAssignmentHelper.withAccessToCurrentResourceGroup(role);
         return this;
     }
 
     @Override
-    public IdentityImpl withRoleDefinitionBasedAccessTo(Resource resource, String roleDefinitionId) {
-        this.roleAssignmentHelper.withRoleDefinitionBasedAccessTo(resource.id(), roleDefinitionId);
+    public IdentityImpl withAccessTo(Resource resource, String roleDefinitionId) {
+        this.roleAssignmentHelper.withAccessTo(resource.id(), roleDefinitionId);
         return this;
     }
 
     @Override
-    public IdentityImpl withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId) {
-        this.roleAssignmentHelper.withRoleDefinitionBasedAccessTo(scope, roleDefinitionId);
+    public IdentityImpl withAccessTo(String resourceId, String roleDefinitionId) {
+        this.roleAssignmentHelper.withAccessTo(resourceId, roleDefinitionId);
         return this;
     }
 
     @Override
-    public IdentityImpl withRoleDefinitionBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
-        this.roleAssignmentHelper.withRoleDefinitionBasedAccessToCurrentResourceGroup(roleDefinitionId);
+    public IdentityImpl withAccessToCurrentResourceGroup(String roleDefinitionId) {
+        this.roleAssignmentHelper.withAccessToCurrentResourceGroup(roleDefinitionId);
         return this;
     }
 
     @Override
-    public IdentityImpl withoutRoleAssignment(RoleAssignment roleAssignment) {
-        this.roleAssignmentHelper.withoutRoleAssignment(roleAssignment);
+    public IdentityImpl withoutAccess(RoleAssignment access) {
+        this.roleAssignmentHelper.withoutAccessTo(access);
         return this;
     }
 
     @Override
-    public IdentityImpl withoutRoleAssignment(String scope, BuiltInRole asRole) {
-        this.roleAssignmentHelper.withoutRoleAssignment(scope, asRole);
+    public IdentityImpl withoutAccessTo(String resourceId, BuiltInRole role) {
+        this.roleAssignmentHelper.withoutAccessTo(resourceId, role);
         return this;
     }
 
@@ -126,8 +124,9 @@ final class IdentityImpl
                     @Override
                     public Observable<Identity> call(Identity identity) {
                         // Often getting 'Principal xxx does not exist in the directory yyy'
-                        // error when attempting to create role assignments just after identity
-                        // creation, so delaying here for some time.
+                        // error when attempting to create role (access) assignments just
+                        // after identity creation, so delaying here for some time before
+                        // proceeding with next operation.
                         //
                         return Observable.just(identity).delay(30, TimeUnit.SECONDS, SdkContext.getRxScheduler());
                     }

@@ -54,7 +54,7 @@ public final class ManageVirtualMachineFromMSIEnabledVirtualMachine {
 //                    .withRootUsername("<user-name>")
 //                    .withRootPassword("<password>")
 //                    .withManagedServiceIdentity()
-//                    .withRoleBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
+//                    .withAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
 //                    .create();
 
 

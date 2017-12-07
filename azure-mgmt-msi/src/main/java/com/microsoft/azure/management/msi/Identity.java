@@ -75,78 +75,82 @@ public interface Identity
         }
 
         /**
-         * The stage of the identity definition allowing to set role assignment for a scope.
+         * The stage of the identity definition allowing to set access role (permission) for it
+         * to access a resource.
          */
         @Beta // TODO Add since v1.5 param
-        interface WithRoleAndScope {
+        interface WithAccess {
             /**
-             * Specifies that applications running on an Azure service with this identity requires
-             * the given access role with scope of access limited to an ARM resource.
+             * Specifies that the identity should have the given access (described by the role)
+             * on an ARM resource. An applications running on an Azure service with this identity
+             * can use this permission to access the resource.
+             *
+             * @param resource the resource to access
+             * @param role access role to assigned to the identity
+             * @return the next stage of the definition
+             */
+            @Beta // TODO Add since v1.5 param
+            WithCreate withAccessTo(Resource resource, BuiltInRole role);
+
+            /**
+             * Specifies that the identity should have the given access (described by the role)
+             * on an ARM resource identified by the given resource id. An applications running
+             * on an Azure service with this identity can use this permission to access the resource.
+             *
+             * @param resourceId id of the resource to access
+             * @param role access role to assigned to the identity
+             * @return the next stage of the definition
+             */
+            @Beta // TODO Add since v1.5 param
+            WithCreate withAccessTo(String resourceId, BuiltInRole role);
+
+            /**
+             * Specifies that the identity should have the given access (described by the role)
+             * on the resource group that identity resides. An applications running on an Azure
+             * service with this identity can use this permission to access the resource group.
+             *
+             * @param role access role to assigned to the identity
+             * @return the next stage of the definition
+             */
+            @Beta // TODO Add since v1.5 param
+            WithCreate withAccessToCurrentResourceGroup(BuiltInRole role);
+
+            /**
+             * Specifies that the identity should have the given access (described by the role
+             * definition) on an ARM resource. An applications running on an Azure service with
+             * this identity can use this permission to access the resource.
              *
              * @param resource scope of the access represented as ARM resource
-             * @param asRole access role to assigned to the identity
-             * @return the next stage of the definition
-             */
-            @Beta // TODO Add since v1.5 param
-            WithCreate withRoleBasedAccessTo(Resource resource, BuiltInRole asRole);
-
-            /**
-             * Specifies that applications running on an Azure service with this identity requires
-             * the given access role with scope of access limited to the ARM resource identified by
-             * the resource ID specified in the scope parameter.
-             *
-             * @param scope scope of the access represented in ARM resource ID format
-             * @param asRole access role to assigned to the identity
-             * @return the next stage of the definition
-             */
-            @Beta // TODO Add since v1.5 param
-            WithCreate withRoleBasedAccessTo(String scope, BuiltInRole asRole);
-
-            /**
-             * Specifies that applications running on an Azure service with this identity requires
-             * the given access role with scope of access limited to the current resource group that
-             * the identity resides.
-             *
-             * @param asRole access role to assigned to the identity
-             * @return the next stage of the definition
-             */
-            @Beta // TODO Add since v1.5 param
-            WithCreate withRoleBasedAccessToCurrentResourceGroup(BuiltInRole asRole);
-
-            /**
-             * Specifies that applications running on an Azure service with this identity requires
-             * the access described in the given role definition with scope of access limited
-             * to an ARM resource.
-             *
-             * @param resource scope of the access represented as ARM resource
              * @param roleDefinitionId access role definition to assigned to the identity
              * @return the next stage of the definition
              */
             @Beta // TODO Add since v1.5 param
-            WithCreate withRoleDefinitionBasedAccessTo(Resource resource, String roleDefinitionId);
+            WithCreate withAccessTo(Resource resource, String roleDefinitionId);
 
             /**
-             * Specifies that applications running on an Azure service with this identity requires the
-             * access described in the given role definition with scope of access limited to the ARM
-             * resource identified by the resource ID specified in the scope parameter.
+             * Specifies that the identity should have the given access (described by the role
+             * definition) on an ARM resource identified by the given resource id. An applications
+             * running on an Azure service with this identity can use this permission to access
+             * the resource.
              *
-             * @param scope scope of the access represented in ARM resource ID format
+             * @param resourceId id of the resource to access
              * @param roleDefinitionId access role definition to assigned to the identity
              * @return the next stage of the definition
              */
             @Beta // TODO Add since v1.5 param
-            WithCreate withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId);
+            WithCreate withAccessTo(String resourceId, String roleDefinitionId);
 
             /**
-             * Specifies that applications running on an Azure service requires the access described
-             * in the given role definition with scope of access limited to the current resource group
-             * that the identity resides.
+             * Specifies that the identity should have the given access (described by the role
+             * definition) on the resource group that identity resides. An applications running
+             * on an Azure service with this identity can use this permission to access the
+             * resource group.
              *
              * @param roleDefinitionId access role definition to assigned to the identity
              * @return the next stage of the definition
              */
             @Beta // TODO Add since v1.5 param
-            WithCreate withRoleDefinitionBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+            WithCreate withAccessToCurrentResourceGroup(String roleDefinitionId);
         }
 
         /**
@@ -156,7 +160,7 @@ public interface Identity
         interface WithCreate extends
                 Resource.DefinitionWithTags<WithCreate>,
                 Creatable<Identity>,
-                DefinitionStages.WithRoleAndScope {
+                DefinitionStages.WithAccess {
         }
     }
 
@@ -165,97 +169,101 @@ public interface Identity
      */
     interface UpdateStages {
         /**
-         * The stage of the identity update allowing to set role assignment for a scope.
+         * The stage of the identity update allowing to set access role (permission) for it
+         * to access a resource or remove an assigned role.
          */
         @Beta // TODO Add since v1.5 param
-        interface WithRoleAndScope {
+        interface WithAccess {
             /**
-             * Specifies that applications running on an Azure service with this identity requires
-             * the given access role with scope of access limited to an ARM resource.
+             * Specifies that the identity should have the given access (described by the role)
+             * on an ARM resource. An applications running on an Azure service with this identity
+             * can use this permission to access the resource.
+             *
+             * @param resource the resource to access
+             * @param role access role to assigned to the identity
+             * @return the next stage of the update
+             */
+            @Beta // TODO Add since v1.5 param
+            Update withAccessTo(Resource resource, BuiltInRole role);
+
+            /**
+             * Specifies that the identity should have the given access (described by the role)
+             * on an ARM resource identified by the given resource id. An applications running
+             * on an Azure service with this identity can use this permission to access the resource.
+             *
+             * @param resourceId id of the resource to access
+             * @param role access role to assigned to the identity
+             * @return the next stage of the update
+             */
+            @Beta // TODO Add since v1.5 param
+            Update withAccessTo(String resourceId, BuiltInRole role);
+
+            /**
+             * Specifies that the identity should have the given access (described by the role)
+             * on the resource group that identity resides. An applications running on an Azure
+             * service with this identity can use this permission to access the resource group.
+             *
+             * @param role access role to assigned to the identity
+             * @return the next stage of the update
+             */
+            @Beta // TODO Add since v1.5 param
+            Update withAccessToCurrentResourceGroup(BuiltInRole role);
+
+            /**
+             * Specifies that the identity should have the given access (described by the role
+             * definition) on an ARM resource. An applications running on an Azure service with
+             * this identity can use this permission to access the resource.
              *
              * @param resource scope of the access represented as ARM resource
-             * @param asRole access role to assigned to the identity
-             * @return the next stage of the update
-             */
-            @Beta // TODO Add since v1.5 param
-            Update withRoleBasedAccessTo(Resource resource, BuiltInRole asRole);
-
-            /**
-             * Specifies that applications running on an Azure service with this identity requires
-             * the given access role with scope of access limited to the ARM resource identified by
-             * the resource ID specified in the scope parameter.
-             *
-             * @param scope scope of the access represented in ARM resource ID format
-             * @param asRole access role to assigned to the identity
-             * @return the next stage of the update
-             */
-            @Beta // TODO Add since v1.5 param
-            Update withRoleBasedAccessTo(String scope, BuiltInRole asRole);
-
-            /**
-             * Specifies that applications running on an Azure service with this identity requires
-             * the given access role with scope of access limited to the current resource group that
-             * the identity resides.
-             *
-             * @param asRole access role to assigned to the identity
-             * @return the next stage of the update
-             */
-            @Beta // TODO Add since v1.5 param
-            Update withRoleBasedAccessToCurrentResourceGroup(BuiltInRole asRole);
-
-            /**
-             * Specifies that applications running on an Azure service with this identity requires
-             * the access described in the given role definition with scope of access limited
-             * to an ARM resource.
-             *
-             * @param resource scope of the access represented as ARM resource
              * @param roleDefinitionId access role definition to assigned to the identity
              * @return the next stage of the update
              */
             @Beta // TODO Add since v1.5 param
-            Update withRoleDefinitionBasedAccessTo(Resource resource, String roleDefinitionId);
+            Update withAccessTo(Resource resource, String roleDefinitionId);
 
             /**
-             * Specifies that applications running on an Azure service with this identity requires the
-             * access described in the given role definition with scope of access limited to the ARM
-             * resource identified by the resource ID specified in the scope parameter.
+             * Specifies that the identity should have the given access (described by the role
+             * definition) on an ARM resource identified by the given resource id. An applications
+             * running on an Azure service with this identity can use this permission to access
+             * the resource.
              *
-             * @param scope scope of the access represented in ARM resource ID format
+             * @param resourceId id of the resource to access
              * @param roleDefinitionId access role definition to assigned to the identity
              * @return the next stage of the update
              */
             @Beta // TODO Add since v1.5 param
-            Update withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId);
+            Update withAccessTo(String resourceId, String roleDefinitionId);
 
             /**
-             * Specifies that applications running on an Azure service requires the access described
-             * in the given role definition with scope of access limited to the current resource group
-             * that the identity resides.
+             * Specifies that the identity should have the given access (described by the role
+             * definition) on the resource group that identity resides. An applications running
+             * on an Azure service with this identity can use this permission to access the
+             * resource group.
              *
              * @param roleDefinitionId access role definition to assigned to the identity
              * @return the next stage of the update
              */
             @Beta // TODO Add since v1.5 param
-            Update withRoleDefinitionBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+            Update withAccessToCurrentResourceGroup(String roleDefinitionId);
 
             /**
-             * Specifies that a role assigned to the identity should be removed.
+             * Specifies that an access role assigned to the identity should be removed.
              *
-             * @param roleAssignment a role assigned to the identity
+             * @param roleAssignment describes an existing role assigned to the identity
              * @return the next stage of the update
              */
             @Beta // TODO Add since v1.5 param
-            Update withoutRoleAssignment(RoleAssignment roleAssignment);
+            Update withoutAccess(RoleAssignment roleAssignment);
 
             /**
-             * Specifies that a role assigned to the identity should be removed.
+             * Specifies that an access role assigned to the identity should be removed.
              *
-             * @param scope the scope of the role assignment
-             * @param asRole the role of the role assignment
+             * @param resourceId id of the resource that identity has access
+             * @param role the access role assigned to the identity
              * @return the next stage of the update
              */
             @Beta // TODO Add since v1.5 param
-            Update withoutRoleAssignment(String scope, BuiltInRole asRole);
+            Update withoutAccessTo(String resourceId, BuiltInRole role);
         }
     }
 
@@ -264,7 +272,7 @@ public interface Identity
      */
     interface Update extends
             Appliable<Identity>,
-            UpdateStages.WithRoleAndScope,
+            UpdateStages.WithAccess,
             Resource.UpdateWithTags<Update> {
     }
 }

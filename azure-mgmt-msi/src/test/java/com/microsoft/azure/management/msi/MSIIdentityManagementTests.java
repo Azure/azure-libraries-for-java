@@ -122,7 +122,7 @@ public class MSIIdentityManagementTests extends TestBase {
                 .define(identityName)
                 .withRegion(region)
                 .withNewResourceGroup(creatableRG)
-                .withRoleBasedAccessToCurrentResourceGroup(BuiltInRole.READER)
+                .withAccessToCurrentResourceGroup(BuiltInRole.READER)
                 .create();
 
         // Ensure role assigned
@@ -139,7 +139,7 @@ public class MSIIdentityManagementTests extends TestBase {
         Assert.assertTrue("Expected role assignment not found for the resource group that identity belongs to", found);
 
         identity.update()
-                .withoutRoleAssignment(resourceGroup.id(), BuiltInRole.READER)
+                .withoutAccessTo(resourceGroup.id(), BuiltInRole.READER)
                 .apply();
 
         SdkContext.sleep(30 * 1000);
@@ -183,8 +183,8 @@ public class MSIIdentityManagementTests extends TestBase {
                 .define(identityName)
                 .withRegion(region)
                 .withNewResourceGroup(creatableRG)
-                .withRoleBasedAccessToCurrentResourceGroup(BuiltInRole.READER)
-                .withRoleBasedAccessTo(anotherResourceGroup, BuiltInRole.CONTRIBUTOR)
+                .withAccessToCurrentResourceGroup(BuiltInRole.READER)
+                .withAccessTo(anotherResourceGroup, BuiltInRole.CONTRIBUTOR)
                 .createAsync()
                 .doOnNext(new Action1<Indexable>() {
                     @Override

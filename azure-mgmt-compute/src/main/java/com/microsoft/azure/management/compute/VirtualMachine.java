@@ -13,6 +13,7 @@ import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineInner;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.PublicIPAddress;
@@ -424,6 +425,11 @@ public interface VirtualMachine extends
      */
     @Beta(Beta.SinceVersion.V1_4_0)
     ResourceIdentityType managedServiceIdentityType();
+
+    /**
+     * @return the resource ids of External Managed Service Identities associated with the virtual machine.
+     */
+    Set<String> externalManagedServiceIdentityIds();
 
     // Setters
     //
@@ -1584,6 +1590,27 @@ public interface VirtualMachine extends
         }
 
         /**
+         * The stage of the virtual machine definition allowing to specify External Managed Service Identities.
+         */
+        @Beta // TODO Add since version 1.5
+        interface WithExternalManagedServiceIdentity {
+            /**
+             * Specifies the definition of a not-yet-created identity to be associated with the virtual machine.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the virtual machine definition
+             */
+            WithCreate withNewExternalManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing identity to be associated with the virtual machine.
+             * @param identity the identity
+             * @return the next stage of the virtual machine definition
+             */
+            WithCreate withExistingExternalManagedServiceIdentity(Identity identity);
+        }
+
+        /**
          * The stage of the VM definition allowing to specify availability zone.
          */
         @Beta(Beta.SinceVersion.V1_3_0)
@@ -1665,7 +1692,8 @@ public interface VirtualMachine extends
                 DefinitionStages.WithExtension,
                 DefinitionStages.WithPlan,
                 DefinitionStages.WithBootDiagnostics,
-                DefinitionStages.WithLocalManagedServiceIdentity {
+                DefinitionStages.WithLocalManagedServiceIdentity,
+                DefinitionStages.WithExternalManagedServiceIdentity {
         }
     }
 
@@ -2046,6 +2074,34 @@ public interface VirtualMachine extends
             @Beta // TODO Add since version 1.5
             WithLocalIdentityBasedAccessOrUpdate withLocalIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
+
+        /**
+         * The stage of the virtual machine update allowing to add or remove External Managed Service Identities.
+         */
+        @Beta // TODO Add since version 1.5
+        interface WithExternalManagedServiceIdentity {
+            /**
+             * Specifies the definition of a not-yet-created identity to be associated with the virtual machine.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the virtual machine update
+             */
+            Update withNewExternalManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing identity to be associated with the virtual machine.
+             * @param identity the identity
+             * @return the next stage of the virtual machine update
+             */
+            Update withExistingExternalManagedServiceIdentity(Identity identity);
+
+            /**
+             * Specifies that an external identity associated with the virtual machine should be removed.
+             * @param identityId ARM resource id of the identity
+             * @return the next stage of the virtual machine update
+             */
+            Update withoutExternalManagedServiceIdentity(String identityId);
+        }
     }
 
     /**
@@ -2059,7 +2115,8 @@ public interface VirtualMachine extends
             UpdateStages.WithSecondaryNetworkInterface,
             UpdateStages.WithExtension,
             UpdateStages.WithBootDiagnostics,
-            UpdateStages.WithLocalManagedServiceIdentity {
+            UpdateStages.WithLocalManagedServiceIdentity,
+            UpdateStages.WithExternalManagedServiceIdentity {
 
         /**
          * Specifies the encryption settings for the OS Disk.

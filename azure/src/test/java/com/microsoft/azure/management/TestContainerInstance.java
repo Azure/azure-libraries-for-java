@@ -83,6 +83,8 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
         ContainerGroup containerGroup2 = containerGroups.getByResourceGroup(rgName, cgName);
 
         List<ContainerGroup> containerGroupList = containerGroups.listByResourceGroup(rgName);
+        Assert.assertTrue(containerGroupList.size() > 0);
+        Assert.assertNotNull(containerGroupList.get(0).state());
 
         containerGroup.refresh();
 

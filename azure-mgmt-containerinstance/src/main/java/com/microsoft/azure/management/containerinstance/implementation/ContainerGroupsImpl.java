@@ -7,11 +7,13 @@
 package com.microsoft.azure.management.containerinstance.implementation;
 
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
 import com.microsoft.azure.management.containerinstance.ContainerGroups;
 import com.microsoft.azure.management.containerinstance.Operation;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import rx.Completable;
 import rx.Observable;
@@ -121,5 +123,49 @@ public class ContainerGroupsImpl
                         : new HashSet<Operation>());
                 }
             });
+    }
+
+    @Override
+    public Observable<ContainerGroup> listAsync() {
+        return wrapPageAsync(inner().listAsync())
+            .flatMap(new Func1<ContainerGroup, Observable<ContainerGroup>>() {
+                @Override
+                public Observable<ContainerGroup> call(ContainerGroup containerGroup) {
+                    return containerGroup.refreshAsync();
+                }
+            });
+    }
+
+    @Override
+    public Observable<ContainerGroup> listByResourceGroupAsync(String resourceGroupName) {
+        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroupName))
+            .flatMap(new Func1<ContainerGroup, Observable<ContainerGroup>>() {
+                @Override
+                public Observable<ContainerGroup> call(ContainerGroup containerGroup) {
+                    return containerGroup.refreshAsync();
+                }
+            });
+    }
+
+    @Override
+    public final PagedList<ContainerGroup> list() {
+        final PagedListConverter<ContainerGroupInner, ContainerGroup> converter = new PagedListConverter<ContainerGroupInner, ContainerGroup>() {
+            @Override
+            public Observable<ContainerGroup> typeConvertAsync(ContainerGroupInner inner) {
+                return wrapModel(inner).refreshAsync();
+            }
+        };
+        return converter.convert(this.inner().list());
+    }
+
+    @Override
+    public PagedList<ContainerGroup> listByResourceGroup(String resourceGroupName) {
+        final PagedListConverter<ContainerGroupInner, ContainerGroup> converter = new PagedListConverter<ContainerGroupInner, ContainerGroup>() {
+            @Override
+            public Observable<ContainerGroup> typeConvertAsync(ContainerGroupInner inner) {
+                return wrapModel(inner).refreshAsync();
+            }
+        };
+        return converter.convert(this.inner().listByResourceGroup(resourceGroupName));
     }
 }

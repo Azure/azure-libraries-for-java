@@ -15,13 +15,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ResourceRequirements {
     /**
-     * The resource requests of this container.
+     * The resource requests of this container instance.
      */
     @JsonProperty(value = "requests", required = true)
     private ResourceRequests requests;
 
     /**
-     * The resource limits of this container.
+     * The resource limits of this container instance.
      */
     @JsonProperty(value = "limits")
     private ResourceLimits limits;

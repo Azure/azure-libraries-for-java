@@ -22,6 +22,8 @@ import com.microsoft.azure.management.resources.fluentcore.collection.SupportsLi
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import rx.Observable;
 
+import java.util.Set;
+
 /**
  * Entry point to the container instance management API.
  */
@@ -85,4 +87,18 @@ public interface ContainerGroups extends
      * @return a representation of the future computation of this call
      */
     Observable<String> getLogContentAsync(String resourceGroupName, String containerName, String containerGroupName, int tailLineCount);
+
+    /**
+     * Lists all operations for Azure Container Instance service.
+     *
+     * @return all operations for Azure Container Instance service
+     */
+    Set<Operation> listOperations();
+
+    /**
+     * Lists all operations for Azure Container Instance service.
+     *
+     * @return a representation of the future computation of this call
+     */
+    Observable<Set<Operation>> listOperationsAsync();
 }

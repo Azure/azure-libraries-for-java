@@ -11,29 +11,31 @@ package com.microsoft.azure.management.containerinstance;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The Azure file volume.
+ * The properties of the Azure File volume. Azure File shares are mounted as
+ * volumes.
  */
 public class AzureFileVolume {
     /**
-     * The Azure file share name.
+     * The name of the Azure File share to be mounted as a volume.
      */
     @JsonProperty(value = "shareName", required = true)
     private String shareName;
 
     /**
-     * The flag indicating whether the Azure file volume is read only.
+     * The flag indicating whether the Azure File shared mounted as a volume is
+     * read-only.
      */
     @JsonProperty(value = "readOnly")
     private Boolean readOnly;
 
     /**
-     * The storage account name to access to the Azure file.
+     * The name of the storage account that contains the Azure File share.
      */
     @JsonProperty(value = "storageAccountName", required = true)
     private String storageAccountName;
 
     /**
-     * The storage account key to access to the Azure file.
+     * The storage account access key used to access the Azure File share.
      */
     @JsonProperty(value = "storageAccountKey")
     private String storageAccountKey;

@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.containerinstance;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ContainerGroupNetworkProtocol.
  */
-public final class ContainerGroupNetworkProtocol {
+public final class ContainerGroupNetworkProtocol extends ExpandableStringEnum<ContainerGroupNetworkProtocol> {
     /** Static value TCP for ContainerGroupNetworkProtocol. */
-    public static final ContainerGroupNetworkProtocol TCP = new ContainerGroupNetworkProtocol("TCP");
+    public static final ContainerGroupNetworkProtocol TCP = fromString("TCP");
 
     /** Static value UDP for ContainerGroupNetworkProtocol. */
-    public static final ContainerGroupNetworkProtocol UDP = new ContainerGroupNetworkProtocol("UDP");
-
-    private String value;
+    public static final ContainerGroupNetworkProtocol UDP = fromString("UDP");
 
     /**
-     * Creates a custom value for ContainerGroupNetworkProtocol.
-     * @param value the custom value
+     * Creates or finds a ContainerGroupNetworkProtocol from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ContainerGroupNetworkProtocol
      */
-    public ContainerGroupNetworkProtocol(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ContainerGroupNetworkProtocol fromString(String name) {
+        return fromString(name, ContainerGroupNetworkProtocol.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ContainerGroupNetworkProtocol)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ContainerGroupNetworkProtocol rhs = (ContainerGroupNetworkProtocol) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ContainerGroupNetworkProtocol values
+     */
+    public static Collection<ContainerGroupNetworkProtocol> values() {
+        return values(ContainerGroupNetworkProtocol.class);
     }
 }

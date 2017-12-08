@@ -10,11 +10,16 @@ package com.microsoft.azure.management.containerinstance.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
 import com.microsoft.azure.management.containerinstance.ContainerGroups;
+import com.microsoft.azure.management.containerinstance.Operation;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Implementation for ContainerGroups.
@@ -62,12 +67,16 @@ public class ContainerGroupsImpl
 
     @Override
     public String getLogContent(String resourceGroupName, String containerName, String containerGroupName) {
-        return this.manager().inner().containerLogs().list(resourceGroupName, containerName, containerGroupName).content();
+        LogsInner logsInner = this.manager().inner().containerLogs().list(resourceGroupName, containerName, containerGroupName);
+
+        return logsInner != null ? logsInner.content() : null;
     }
 
     @Override
     public String getLogContent(String resourceGroupName, String containerName, String containerGroupName, int tailLineCount) {
-        return this.manager().inner().containerLogs().list(resourceGroupName, containerName, containerGroupName, tailLineCount).content();
+        LogsInner logsInner = this.manager().inner().containerLogs().list(resourceGroupName, containerName, containerGroupName, tailLineCount);
+
+        return logsInner != null ? logsInner.content() : null;
     }
 
     @Override
@@ -88,6 +97,28 @@ public class ContainerGroupsImpl
                 @Override
                 public String call(LogsInner logsInner) {
                     return logsInner.content();
+                }
+            });
+    }
+
+    @Override
+    public Set<Operation> listOperations() {
+        OperationListResultInner operationListResultInner = this.manager().inner().operations().list();
+
+        return Collections.unmodifiableSet(operationListResultInner != null && operationListResultInner.value() != null
+            ? new HashSet<Operation>(operationListResultInner.value())
+            : new HashSet<Operation>());
+    }
+
+    @Override
+    public Observable<Set<Operation>> listOperationsAsync() {
+        return this.manager().inner().operations().listAsync()
+            .map(new Func1<OperationListResultInner, Set<Operation>>() {
+                @Override
+                public Set<Operation> call(OperationListResultInner operationListResultInner) {
+                    return Collections.unmodifiableSet(operationListResultInner != null && operationListResultInner.value() != null
+                        ? new HashSet<Operation>(operationListResultInner.value())
+                        : new HashSet<Operation>());
                 }
             });
     }

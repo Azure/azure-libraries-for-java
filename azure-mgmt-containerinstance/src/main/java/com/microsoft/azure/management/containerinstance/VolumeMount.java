@@ -11,24 +11,24 @@ package com.microsoft.azure.management.containerinstance;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The volume mount.
+ * The properties of the volume mount.
  */
 public class VolumeMount {
     /**
-     * The volume mount name.
+     * The name of the volume mount.
      */
     @JsonProperty(value = "name", required = true)
     private String name;
 
     /**
-     * The path with in the container at which the volume should be mounted.
-     * Must not contain ':'.
+     * The path within the container where the volume should be mounted. Must
+     * not contain colon (:).
      */
     @JsonProperty(value = "mountPath", required = true)
     private String mountPath;
 
     /**
-     * The flag indicating whether the volume mount is read only.
+     * The flag indicating whether the volume mount is read-only.
      */
     @JsonProperty(value = "readOnly")
     private Boolean readOnly;

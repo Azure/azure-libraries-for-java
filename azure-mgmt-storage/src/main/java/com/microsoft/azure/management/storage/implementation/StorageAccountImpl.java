@@ -13,6 +13,7 @@ import com.microsoft.azure.management.storage.CustomDomain;
 import com.microsoft.azure.management.storage.Encryption;
 import com.microsoft.azure.management.storage.EncryptionService;
 import com.microsoft.azure.management.storage.EncryptionServices;
+import com.microsoft.azure.management.storage.KeySource;
 import com.microsoft.azure.management.storage.StorageAccountEncryptionKeySource;
 import com.microsoft.azure.management.storage.StorageAccountEncryptionStatus;
 import com.microsoft.azure.management.storage.Kind;
@@ -71,7 +72,7 @@ class StorageAccountImpl
 
     @Override
     public Sku sku() {
-        return this.inner().sku();
+        return new Sku().withName(this.inner().sku().name());
     }
 
     @Override
@@ -118,7 +119,7 @@ class StorageAccountImpl
                 || this.inner().encryption().keySource() == null) {
             return null;
         }
-        return StorageAccountEncryptionKeySource.fromString(this.inner().encryption().keySource());
+        return StorageAccountEncryptionKeySource.fromString(this.inner().encryption().keySource().toString());
     }
 
     @Override
@@ -203,9 +204,9 @@ class StorageAccountImpl
     @Override
     public StorageAccountImpl withSku(SkuName skuName) {
         if (isInCreateMode()) {
-            createParameters.withSku(new Sku().withName(skuName));
+            createParameters.withSku(new SkuInner().withName(skuName));
         } else {
-            updateParameters.withSku(new Sku().withName(skuName));
+            updateParameters.withSku(new SkuInner().withName(skuName));
         }
         return this;
     }
@@ -234,7 +235,7 @@ class StorageAccountImpl
             encryption.withServices(new EncryptionServices());
         }
         if (encryption.keySource() == null) {
-            encryption.withKeySource("Microsoft.Storage");
+            encryption.withKeySource(KeySource.MICROSOFT_STORAGE);
         }
         // Enable encryption for blob service
         //

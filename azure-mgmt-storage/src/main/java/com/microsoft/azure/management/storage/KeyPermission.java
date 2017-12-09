@@ -15,11 +15,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for KeyPermission.
  */
 public enum KeyPermission {
-    /** Enum value READ. */
-    READ("READ"),
+    /** Enum value Read. */
+    READ("Read"),
 
-    /** Enum value FULL. */
-    FULL("FULL");
+    /** Enum value Full. */
+    FULL("Full");
 
     /** The actual serialized value for a KeyPermission instance. */
     private String value;

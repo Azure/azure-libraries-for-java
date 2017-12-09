@@ -8,11 +8,12 @@
 
 package com.microsoft.azure.management.storage.implementation;
 
-import com.microsoft.azure.management.storage.Sku;
 import java.util.Map;
+import com.microsoft.azure.management.storage.Identity;
 import com.microsoft.azure.management.storage.CustomDomain;
 import com.microsoft.azure.management.storage.Encryption;
 import com.microsoft.azure.management.storage.AccessTier;
+import com.microsoft.azure.management.storage.NetworkRuleSet;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -28,7 +29,7 @@ public class StorageAccountUpdateParametersInner {
      * updated to any other value.
      */
     @JsonProperty(value = "sku")
-    private Sku sku;
+    private SkuInner sku;
 
     /**
      * Gets or sets a list of key value pairs that describe the resource. These
@@ -39,6 +40,12 @@ public class StorageAccountUpdateParametersInner {
      */
     @JsonProperty(value = "tags")
     private Map<String, String> tags;
+
+    /**
+     * The identity of the resource.
+     */
+    @JsonProperty(value = "identity")
+    private Identity identity;
 
     /**
      * Custom domain assigned to the storage account by the user. Name is the
@@ -64,11 +71,23 @@ public class StorageAccountUpdateParametersInner {
     private AccessTier accessTier;
 
     /**
+     * Allows https traffic only to storage service if sets to true.
+     */
+    @JsonProperty(value = "properties.supportsHttpsTrafficOnly")
+    private Boolean enableHttpsTrafficOnly;
+
+    /**
+     * Network rule set.
+     */
+    @JsonProperty(value = "properties.networkAcls")
+    private NetworkRuleSet networkRuleSet;
+
+    /**
      * Get the sku value.
      *
      * @return the sku value
      */
-    public Sku sku() {
+    public SkuInner sku() {
         return this.sku;
     }
 
@@ -78,7 +97,7 @@ public class StorageAccountUpdateParametersInner {
      * @param sku the sku value to set
      * @return the StorageAccountUpdateParametersInner object itself.
      */
-    public StorageAccountUpdateParametersInner withSku(Sku sku) {
+    public StorageAccountUpdateParametersInner withSku(SkuInner sku) {
         this.sku = sku;
         return this;
     }
@@ -100,6 +119,26 @@ public class StorageAccountUpdateParametersInner {
      */
     public StorageAccountUpdateParametersInner withTags(Map<String, String> tags) {
         this.tags = tags;
+        return this;
+    }
+
+    /**
+     * Get the identity value.
+     *
+     * @return the identity value
+     */
+    public Identity identity() {
+        return this.identity;
+    }
+
+    /**
+     * Set the identity value.
+     *
+     * @param identity the identity value to set
+     * @return the StorageAccountUpdateParametersInner object itself.
+     */
+    public StorageAccountUpdateParametersInner withIdentity(Identity identity) {
+        this.identity = identity;
         return this;
     }
 
@@ -160,6 +199,46 @@ public class StorageAccountUpdateParametersInner {
      */
     public StorageAccountUpdateParametersInner withAccessTier(AccessTier accessTier) {
         this.accessTier = accessTier;
+        return this;
+    }
+
+    /**
+     * Get the enableHttpsTrafficOnly value.
+     *
+     * @return the enableHttpsTrafficOnly value
+     */
+    public Boolean enableHttpsTrafficOnly() {
+        return this.enableHttpsTrafficOnly;
+    }
+
+    /**
+     * Set the enableHttpsTrafficOnly value.
+     *
+     * @param enableHttpsTrafficOnly the enableHttpsTrafficOnly value to set
+     * @return the StorageAccountUpdateParametersInner object itself.
+     */
+    public StorageAccountUpdateParametersInner withEnableHttpsTrafficOnly(Boolean enableHttpsTrafficOnly) {
+        this.enableHttpsTrafficOnly = enableHttpsTrafficOnly;
+        return this;
+    }
+
+    /**
+     * Get the networkRuleSet value.
+     *
+     * @return the networkRuleSet value
+     */
+    public NetworkRuleSet networkRuleSet() {
+        return this.networkRuleSet;
+    }
+
+    /**
+     * Set the networkRuleSet value.
+     *
+     * @param networkRuleSet the networkRuleSet value to set
+     * @return the StorageAccountUpdateParametersInner object itself.
+     */
+    public StorageAccountUpdateParametersInner withNetworkRuleSet(NetworkRuleSet networkRuleSet) {
+        this.networkRuleSet = networkRuleSet;
         return this;
     }
 

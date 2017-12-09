@@ -11,17 +11,17 @@ package com.microsoft.azure.management.storage;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The StorageAccountCheckNameAvailabilityParameters model.
+ * The parameters used to check the availabity of the storage account name.
  */
 public class StorageAccountCheckNameAvailabilityParameters {
     /**
-     * The name property.
+     * The storage account name.
      */
     @JsonProperty(value = "name", required = true)
     private String name;
 
     /**
-     * The type property.
+     * The type of resource, Microsoft.Storage/storageAccounts.
      */
     @JsonProperty(value = "type", required = true)
     private String type;

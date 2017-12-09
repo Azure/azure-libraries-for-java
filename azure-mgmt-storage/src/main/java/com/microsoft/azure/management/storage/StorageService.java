@@ -25,6 +25,9 @@ public class StorageService extends ExpandableStringEnum<StorageService> {
     /** Static value Queue for StorageService. */
     public static final StorageService QUEUE = fromString("Queue");
 
+    /** Static value File for StorageService. */
+    public static final StorageService FILE = fromString("File");
+
     /**
      * Creates or finds a service service type based on its name.
      *

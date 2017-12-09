@@ -21,6 +21,24 @@ public class EncryptionServices {
     private EncryptionService blob;
 
     /**
+     * The encryption function of the file storage service.
+     */
+    @JsonProperty(value = "file")
+    private EncryptionService file;
+
+    /**
+     * The encryption function of the table storage service.
+     */
+    @JsonProperty(value = "table", access = JsonProperty.Access.WRITE_ONLY)
+    private EncryptionService table;
+
+    /**
+     * The encryption function of the queue storage service.
+     */
+    @JsonProperty(value = "queue", access = JsonProperty.Access.WRITE_ONLY)
+    private EncryptionService queue;
+
+    /**
      * Get the blob value.
      *
      * @return the blob value
@@ -38,6 +56,44 @@ public class EncryptionServices {
     public EncryptionServices withBlob(EncryptionService blob) {
         this.blob = blob;
         return this;
+    }
+
+    /**
+     * Get the file value.
+     *
+     * @return the file value
+     */
+    public EncryptionService file() {
+        return this.file;
+    }
+
+    /**
+     * Set the file value.
+     *
+     * @param file the file value to set
+     * @return the EncryptionServices object itself.
+     */
+    public EncryptionServices withFile(EncryptionService file) {
+        this.file = file;
+        return this;
+    }
+
+    /**
+     * Get the table value.
+     *
+     * @return the table value
+     */
+    public EncryptionService table() {
+        return this.table;
+    }
+
+    /**
+     * Get the queue value.
+     *
+     * @return the queue value
+     */
+    public EncryptionService queue() {
+        return this.queue;
     }
 
 }

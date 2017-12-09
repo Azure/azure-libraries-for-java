@@ -441,7 +441,7 @@ final class StorageNetworkRulesHelper {
         } else {
             NetworkRuleSet currentRuleSet = this.inner.networkRuleSet();
 
-            final boolean hasNoExistingException = currentRuleSet.bypass() == null;
+            final boolean hasNoExistingException = currentRuleSet != null && currentRuleSet.bypass() == null;
             boolean hasExistingRules = false;
 
             if (currentRuleSet != null) {

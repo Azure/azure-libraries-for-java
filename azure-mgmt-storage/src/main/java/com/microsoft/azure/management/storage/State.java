@@ -12,32 +12,41 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for AccountStatus.
+ * Defines values for State.
  */
-public enum AccountStatus {
-    /** Enum value available. */
-    AVAILABLE("available"),
+public enum State {
+    /** Enum value provisioning. */
+    PROVISIONING("provisioning"),
 
-    /** Enum value unavailable. */
-    UNAVAILABLE("unavailable");
+    /** Enum value deprovisioning. */
+    DEPROVISIONING("deprovisioning"),
 
-    /** The actual serialized value for a AccountStatus instance. */
+    /** Enum value succeeded. */
+    SUCCEEDED("succeeded"),
+
+    /** Enum value failed. */
+    FAILED("failed"),
+
+    /** Enum value networkSourceDeleted. */
+    NETWORK_SOURCE_DELETED("networkSourceDeleted");
+
+    /** The actual serialized value for a State instance. */
     private String value;
 
-    AccountStatus(String value) {
+    State(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a AccountStatus instance.
+     * Parses a serialized value to a State instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed AccountStatus object, or null if unable to parse.
+     * @return the parsed State object, or null if unable to parse.
      */
     @JsonCreator
-    public static AccountStatus fromString(String value) {
-        AccountStatus[] items = AccountStatus.values();
-        for (AccountStatus item : items) {
+    public static State fromString(String value) {
+        State[] items = State.values();
+        for (State item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

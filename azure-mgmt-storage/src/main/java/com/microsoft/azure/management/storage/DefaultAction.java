@@ -12,32 +12,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for AccountStatus.
+ * Defines values for DefaultAction.
  */
-public enum AccountStatus {
-    /** Enum value available. */
-    AVAILABLE("available"),
+public enum DefaultAction {
+    /** Enum value Allow. */
+    ALLOW("Allow"),
 
-    /** Enum value unavailable. */
-    UNAVAILABLE("unavailable");
+    /** Enum value Deny. */
+    DENY("Deny");
 
-    /** The actual serialized value for a AccountStatus instance. */
+    /** The actual serialized value for a DefaultAction instance. */
     private String value;
 
-    AccountStatus(String value) {
+    DefaultAction(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a AccountStatus instance.
+     * Parses a serialized value to a DefaultAction instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed AccountStatus object, or null if unable to parse.
+     * @return the parsed DefaultAction object, or null if unable to parse.
      */
     @JsonCreator
-    public static AccountStatus fromString(String value) {
-        AccountStatus[] items = AccountStatus.values();
-        for (AccountStatus item : items) {
+    public static DefaultAction fromString(String value) {
+        DefaultAction[] items = DefaultAction.values();
+        for (DefaultAction item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

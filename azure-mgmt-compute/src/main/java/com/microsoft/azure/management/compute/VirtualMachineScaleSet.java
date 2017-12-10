@@ -12,6 +12,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineScaleSetInner;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.network.LoadBalancerBackend;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
 import com.microsoft.azure.management.network.LoadBalancer;
@@ -336,6 +337,12 @@ public interface VirtualMachineScaleSet extends
      */
     @Beta(Beta.SinceVersion.V1_4_0)
     ResourceIdentityType managedServiceIdentityType();
+
+    /**
+     * @return the resource ids of External Managed Service Identities associated with the virtual machine scale set.
+     */
+    @Beta // TODO Add since version 1.5
+    Set<String> externalManagedServiceIdentityIds();
 
     /**
      * @return the availability zones assigned to virtual machine scale set.
@@ -1413,6 +1420,28 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of the virtual machine scale set definition allowing to specify External Managed Service Identities.
+         */
+        @Beta // TODO Add since version 1.5
+        interface WithExternalManagedServiceIdentity {
+            /**
+             * Specifies the definition of a not-yet-created identity to be associated with the virtual machine
+             * scale set.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the virtual machine scale set definition
+             */
+            WithCreate withNewExternalManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing identity to be associated with the virtual machine scale set.
+             * @param identity the identity
+             * @return the next stage of the virtual machine scale set definition
+             */
+            WithCreate withExistingExternalManagedServiceIdentity(Identity identity);
+        }
+
+        /**
          * The stage of the virtual machine scale set definition allowing to enable boot diagnostics.
          */
         @Beta(Beta.SinceVersion.V1_4_0)
@@ -1469,6 +1498,7 @@ public interface VirtualMachineScaleSet extends
                 DefinitionStages.WithCustomData,
                 DefinitionStages.WithExtension,
                 DefinitionStages.WithLocalManagedServiceIdentity,
+                DefinitionStages.WithExternalManagedServiceIdentity,
                 DefinitionStages.WithBootDiagnostics,
                 Resource.DefinitionWithTags<VirtualMachineScaleSet.DefinitionStages.WithCreate> {
         }
@@ -1796,6 +1826,34 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of the virtual machine update allowing to add or remove External Managed Service Identities.
+         */
+        @Beta // TODO Add since version 1.5
+        interface WithExternalManagedServiceIdentity {
+            /**
+             * Specifies the definition of a not-yet-created identity to be associated with the virtual machine.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the virtual machine scale set update
+             */
+            WithApply withNewExternalManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing identity to be associated with the virtual machine.
+             * @param identity the identity
+             * @return the next stage of the virtual machine scale set update
+             */
+            WithApply withExistingExternalManagedServiceIdentity(Identity identity);
+
+            /**
+             * Specifies that an external identity associated with the virtual machine should be removed.
+             * @param identityId ARM resource id of the identity
+             * @return the next stage of the virtual machine scale set update
+             */
+            WithApply withoutExternalManagedServiceIdentity(String identityId);
+        }
+
+        /**
          * The stage of the virtual machine scale set definition allowing to enable boot diagnostics.
          */
         @Beta(Beta.SinceVersion.V1_4_0)
@@ -1961,6 +2019,7 @@ public interface VirtualMachineScaleSet extends
                 UpdateStages.WithoutPrimaryLoadBalancerBackend,
                 UpdateStages.WithoutPrimaryLoadBalancerNatPool,
                 UpdateStages.WithLocalManagedServiceIdentity,
+                UpdateStages.WithExternalManagedServiceIdentity,
                 UpdateStages.WithBootDiagnostics,
                 UpdateStages.WithAvailabilityZone {
         }

@@ -25,6 +25,7 @@ import java.util.Map;
  *  - Create a storage account
  *  - Get | regenerate storage account access keys
  *  - Create another storage account
+ *  - Create another storage account of V2 kind
  *  - List storage accounts
  *  - Delete a storage account.
  */
@@ -38,6 +39,7 @@ public final class ManageStorageAccount {
     public static boolean runSample(Azure azure) {
         final String storageAccountName = Utils.createRandomName("sa");
         final String storageAccountName2 = Utils.createRandomName("sa2");
+        final String storageAccountName3 = Utils.createRandomName("sa3");
         final String rgName = Utils.createRandomName("rgSTMS");
         try {
 
@@ -88,16 +90,28 @@ public final class ManageStorageAccount {
             // ============================================================
             // Update storage account by enabling encryption
 
-            System.out.println("Enabling encryption for the storage account: " + storageAccount2.name());
+            System.out.println("Enabling blob encryption for the storage account: " + storageAccount2.name());
 
             storageAccount2.update()
-                    .withEncryption()
+                    .withBlobEncryption()
                     .apply();
 
             for (Map.Entry<StorageService, StorageAccountEncryptionStatus> encryptionStatus : storageAccount2.encryptionStatuses().entrySet()) {
                 String status = encryptionStatus.getValue().isEnabled() ? "Enabled" : "Not enabled";
                 System.out.println("Encryption status of the service " + encryptionStatus.getKey() + ":" + status);
             }
+
+            // Create a V2 storage account
+
+            System.out.println("Creating a V2 Storage Account");
+
+            StorageAccount storageAccount3 = azure.storageAccounts().define(storageAccountName3)
+                    .withRegion(Region.US_EAST)
+                    .withNewResourceGroup(rgName)
+                    .withGeneralPurposeAccountKindV2()
+                    .create();
+
+            System.out.println("Created V2 Storage Account");
 
             // ============================================================
             // List storage accounts

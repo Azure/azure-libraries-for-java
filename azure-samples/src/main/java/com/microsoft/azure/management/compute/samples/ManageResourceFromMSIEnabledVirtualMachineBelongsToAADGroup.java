@@ -109,7 +109,7 @@ public final class ManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup {
                         .withRootPassword(password)
                         .withSize(VirtualMachineSizeTypes.STANDARD_DS2_V2)
                         .withOSDiskCaching(CachingTypes.READ_WRITE)
-                        .withLocalManagedServiceIdentity()
+                        .withSystemAssignedManagedServiceIdentity()
                         .create();
 
             System.out.println("Created virtual machine with MSI enabled");
@@ -121,7 +121,7 @@ public final class ManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup {
             System.out.println("Adding virtual machine MSI service principal to the AAD group");
 
             activeDirectoryGroup.update()
-                    .withMember(virtualMachine.localManagedServiceIdentityPrincipalId())
+                    .withMember(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId())
                     .apply();
 
             System.out.println("Added virtual machine MSI service principal to the AAD group");

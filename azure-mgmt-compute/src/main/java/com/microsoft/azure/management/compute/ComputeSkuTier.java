@@ -16,7 +16,7 @@ import java.util.Collection;
  * Compute resource sku tier.
  */
 @Fluent
-@Beta   // TODO Add since v1.5 param
+@Beta(Beta.SinceVersion.V1_5_0)
 public class ComputeSkuTier extends ExpandableStringEnum<ComputeSkuTier> {
     /**
      * Static value Basic for ComputeSkuTier.

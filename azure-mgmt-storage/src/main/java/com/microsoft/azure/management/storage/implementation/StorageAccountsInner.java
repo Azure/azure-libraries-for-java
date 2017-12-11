@@ -105,12 +105,20 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/regenerateKey")
         Observable<Response<ResponseBody>> regenerateKey(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body StorageAccountRegenerateKeyParameters regenerateKey, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts listAccountSAS" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListAccountSas")
+        Observable<Response<ResponseBody>> listAccountSAS(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body AccountSasParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts listServiceSAS" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListServiceSas")
+        Observable<Response<ResponseBody>> listServiceSAS(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body ServiceSasParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
     }
 
     /**
      * Checks that the storage account name is valid and is not already in use.
      *
-     * @param name the String value
+     * @param name The storage account name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -123,7 +131,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Checks that the storage account name is valid and is not already in use.
      *
-     * @param name the String value
+     * @param name The storage account name.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -135,7 +143,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Checks that the storage account name is valid and is not already in use.
      *
-     * @param name the String value
+     * @param name The storage account name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CheckNameAvailabilityResultInner object
      */
@@ -151,7 +159,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Checks that the storage account name is valid and is not already in use.
      *
-     * @param name the String value
+     * @param name The storage account name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CheckNameAvailabilityResultInner object
      */
@@ -191,7 +199,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @param parameters The parameters to provide for the created account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -206,7 +214,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @param parameters The parameters to provide for the created account.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -220,7 +228,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @param parameters The parameters to provide for the created account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -238,7 +246,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @param parameters The parameters to provide for the created account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -268,7 +276,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @param parameters The parameters to provide for the created account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -283,7 +291,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @param parameters The parameters to provide for the created account.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -297,7 +305,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @param parameters The parameters to provide for the created account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -315,7 +323,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @param parameters The parameters to provide for the created account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -363,7 +371,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Deletes a storage account in Microsoft Azure.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -376,7 +384,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Deletes a storage account in Microsoft Azure.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -389,7 +397,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Deletes a storage account in Microsoft Azure.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
@@ -406,7 +414,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Deletes a storage account in Microsoft Azure.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
@@ -449,7 +457,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -463,7 +471,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -476,7 +484,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the StorageAccountInner object
@@ -493,7 +501,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the StorageAccountInner object
@@ -535,7 +543,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @param parameters The parameters to provide for the updated account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -550,7 +558,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @param parameters The parameters to provide for the updated account.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -564,7 +572,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @param parameters The parameters to provide for the updated account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -582,7 +590,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @param parameters The parameters to provide for the updated account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -706,7 +714,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Lists all the storage accounts available under the given resource group. Note that storage keys are not returned; use the ListKeys operation for this.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @return the PagedList<StorageAccountInner> object if successful.
      */
     public PagedList<StorageAccountInner> listByResourceGroup(String resourceGroupName) {
@@ -724,7 +732,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Lists all the storage accounts available under the given resource group. Note that storage keys are not returned; use the ListKeys operation for this.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @return the {@link ServiceFuture} object
      */
@@ -735,7 +743,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Lists all the storage accounts available under the given resource group. Note that storage keys are not returned; use the ListKeys operation for this.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @return the observable to the List&lt;StorageAccountInner&gt; object
      */
     public Observable<Page<StorageAccountInner>> listByResourceGroupAsync(String resourceGroupName) {
@@ -752,7 +760,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Lists all the storage accounts available under the given resource group. Note that storage keys are not returned; use the ListKeys operation for this.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @return the observable to the List&lt;StorageAccountInner&gt; object
      */
     public Observable<ServiceResponse<List<StorageAccountInner>>> listByResourceGroupWithServiceResponseAsync(String resourceGroupName) {
@@ -790,7 +798,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Lists the access keys for the specified storage account.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -804,7 +812,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Lists the access keys for the specified storage account.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -817,7 +825,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Lists the access keys for the specified storage account.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the StorageAccountListKeysResultInner object
@@ -834,7 +842,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Lists the access keys for the specified storage account.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the StorageAccountListKeysResultInner object
@@ -876,9 +884,9 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Regenerates one of the access keys for the specified storage account.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param keyName the String value
+     * @param keyName The name of storage keys that want to be regenerated, possible vaules are key1, key2.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -891,9 +899,9 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Regenerates one of the access keys for the specified storage account.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param keyName the String value
+     * @param keyName The name of storage keys that want to be regenerated, possible vaules are key1, key2.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -905,9 +913,9 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Regenerates one of the access keys for the specified storage account.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param keyName the String value
+     * @param keyName The name of storage keys that want to be regenerated, possible vaules are key1, key2.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the StorageAccountListKeysResultInner object
      */
@@ -923,9 +931,9 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     /**
      * Regenerates one of the access keys for the specified storage account.
      *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param keyName the String value
+     * @param keyName The name of storage keys that want to be regenerated, possible vaules are key1, key2.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the StorageAccountListKeysResultInner object
      */
@@ -964,6 +972,194 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     private ServiceResponse<StorageAccountListKeysResultInner> regenerateKeyDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<StorageAccountListKeysResultInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<StorageAccountListKeysResultInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * List SAS credentials of a storage account.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param parameters The parameters to provide to list SAS credentials for the storage account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ListAccountSasResponseInner object if successful.
+     */
+    public ListAccountSasResponseInner listAccountSAS(String resourceGroupName, String accountName, AccountSasParametersInner parameters) {
+        return listAccountSASWithServiceResponseAsync(resourceGroupName, accountName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * List SAS credentials of a storage account.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param parameters The parameters to provide to list SAS credentials for the storage account.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ListAccountSasResponseInner> listAccountSASAsync(String resourceGroupName, String accountName, AccountSasParametersInner parameters, final ServiceCallback<ListAccountSasResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(listAccountSASWithServiceResponseAsync(resourceGroupName, accountName, parameters), serviceCallback);
+    }
+
+    /**
+     * List SAS credentials of a storage account.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param parameters The parameters to provide to list SAS credentials for the storage account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ListAccountSasResponseInner object
+     */
+    public Observable<ListAccountSasResponseInner> listAccountSASAsync(String resourceGroupName, String accountName, AccountSasParametersInner parameters) {
+        return listAccountSASWithServiceResponseAsync(resourceGroupName, accountName, parameters).map(new Func1<ServiceResponse<ListAccountSasResponseInner>, ListAccountSasResponseInner>() {
+            @Override
+            public ListAccountSasResponseInner call(ServiceResponse<ListAccountSasResponseInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * List SAS credentials of a storage account.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param parameters The parameters to provide to list SAS credentials for the storage account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ListAccountSasResponseInner object
+     */
+    public Observable<ServiceResponse<ListAccountSasResponseInner>> listAccountSASWithServiceResponseAsync(String resourceGroupName, String accountName, AccountSasParametersInner parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        return service.listAccountSAS(resourceGroupName, accountName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ListAccountSasResponseInner>>>() {
+                @Override
+                public Observable<ServiceResponse<ListAccountSasResponseInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<ListAccountSasResponseInner> clientResponse = listAccountSASDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<ListAccountSasResponseInner> listAccountSASDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ListAccountSasResponseInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ListAccountSasResponseInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * List service SAS credentials of a specific resource.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param parameters The parameters to provide to list service SAS credentials.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ListServiceSasResponseInner object if successful.
+     */
+    public ListServiceSasResponseInner listServiceSAS(String resourceGroupName, String accountName, ServiceSasParametersInner parameters) {
+        return listServiceSASWithServiceResponseAsync(resourceGroupName, accountName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * List service SAS credentials of a specific resource.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param parameters The parameters to provide to list service SAS credentials.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ListServiceSasResponseInner> listServiceSASAsync(String resourceGroupName, String accountName, ServiceSasParametersInner parameters, final ServiceCallback<ListServiceSasResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(listServiceSASWithServiceResponseAsync(resourceGroupName, accountName, parameters), serviceCallback);
+    }
+
+    /**
+     * List service SAS credentials of a specific resource.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param parameters The parameters to provide to list service SAS credentials.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ListServiceSasResponseInner object
+     */
+    public Observable<ListServiceSasResponseInner> listServiceSASAsync(String resourceGroupName, String accountName, ServiceSasParametersInner parameters) {
+        return listServiceSASWithServiceResponseAsync(resourceGroupName, accountName, parameters).map(new Func1<ServiceResponse<ListServiceSasResponseInner>, ListServiceSasResponseInner>() {
+            @Override
+            public ListServiceSasResponseInner call(ServiceResponse<ListServiceSasResponseInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * List service SAS credentials of a specific resource.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param parameters The parameters to provide to list service SAS credentials.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ListServiceSasResponseInner object
+     */
+    public Observable<ServiceResponse<ListServiceSasResponseInner>> listServiceSASWithServiceResponseAsync(String resourceGroupName, String accountName, ServiceSasParametersInner parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        return service.listServiceSAS(resourceGroupName, accountName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ListServiceSasResponseInner>>>() {
+                @Override
+                public Observable<ServiceResponse<ListServiceSasResponseInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<ListServiceSasResponseInner> clientResponse = listServiceSASDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<ListServiceSasResponseInner> listServiceSASDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ListServiceSasResponseInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ListServiceSasResponseInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

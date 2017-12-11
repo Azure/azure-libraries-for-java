@@ -53,8 +53,8 @@ public final class ManageVirtualMachineFromMSIEnabledVirtualMachine {
 //                    .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
 //                    .withRootUsername("<user-name>")
 //                    .withRootPassword("<password>")
-//                    .withLocalManagedServiceIdentity()
-//                    .withLocalIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
+//                    .withSystemAssignedManagedServiceIdentity()
+//                    .withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
 //                    .create();
 
 

@@ -22,17 +22,17 @@ public class Encryption {
 
     /**
      * The encryption keySource (provider). Possible values (case-insensitive):
-     * Microsoft.Storage.
+     * Microsoft.Storage, Microsoft.Keyvault. Possible values include:
+     * 'Microsoft.Storage', 'Microsoft.Keyvault'.
      */
     @JsonProperty(value = "keySource", required = true)
-    private String keySource;
+    private KeySource keySource;
 
     /**
-     * Creates an instance of Encryption class.
+     * Properties provided by key vault.
      */
-    public Encryption() {
-        keySource = "Microsoft.Storage";
-    }
+    @JsonProperty(value = "keyvaultproperties")
+    private KeyVaultProperties keyVaultProperties;
 
     /**
      * Get the services value.
@@ -59,7 +59,7 @@ public class Encryption {
      *
      * @return the keySource value
      */
-    public String keySource() {
+    public KeySource keySource() {
         return this.keySource;
     }
 
@@ -69,8 +69,28 @@ public class Encryption {
      * @param keySource the keySource value to set
      * @return the Encryption object itself.
      */
-    public Encryption withKeySource(String keySource) {
+    public Encryption withKeySource(KeySource keySource) {
         this.keySource = keySource;
+        return this;
+    }
+
+    /**
+     * Get the keyVaultProperties value.
+     *
+     * @return the keyVaultProperties value
+     */
+    public KeyVaultProperties keyVaultProperties() {
+        return this.keyVaultProperties;
+    }
+
+    /**
+     * Set the keyVaultProperties value.
+     *
+     * @param keyVaultProperties the keyVaultProperties value to set
+     * @return the Encryption object itself.
+     */
+    public Encryption withKeyVaultProperties(KeyVaultProperties keyVaultProperties) {
+        this.keyVaultProperties = keyVaultProperties;
         return this;
     }
 

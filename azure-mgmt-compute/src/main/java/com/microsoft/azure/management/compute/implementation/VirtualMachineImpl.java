@@ -53,6 +53,7 @@ import com.microsoft.azure.management.compute.WinRMListener;
 import com.microsoft.azure.management.compute.WindowsConfiguration;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.PublicIPAddress;
@@ -93,18 +94,18 @@ import java.util.UUID;
 @LangDefinition
 class VirtualMachineImpl
         extends GroupableResourceImpl<
-            VirtualMachine,
-            VirtualMachineInner,
-            VirtualMachineImpl,
-            ComputeManager>
+        VirtualMachine,
+        VirtualMachineInner,
+        VirtualMachineImpl,
+        ComputeManager>
         implements
-            VirtualMachine,
-            VirtualMachine.DefinitionManagedOrUnmanaged,
-            VirtualMachine.DefinitionManaged,
-            VirtualMachine.DefinitionUnmanaged,
-            VirtualMachine.Update,
-            VirtualMachine.DefinitionStages.WithRoleAndScopeOrCreate,
-            VirtualMachine.UpdateStages.WithRoleAndScopeOrUpdate {
+        VirtualMachine,
+        VirtualMachine.DefinitionManagedOrUnmanaged,
+        VirtualMachine.DefinitionManaged,
+        VirtualMachine.DefinitionUnmanaged,
+        VirtualMachine.Update,
+        VirtualMachine.DefinitionStages.WithSystemAssignedIdentityBasedAccessOrCreate,
+        VirtualMachine.UpdateStages.WithSystemAssignedIdentityBasedAccessOrUpdate {
     // Clients
     private final StorageManager storageManager;
     private final NetworkManager networkManager;
@@ -306,12 +307,12 @@ class VirtualMachineImpl
     @Override
     public Completable convertToManagedAsync() {
         return this.manager().inner().virtualMachines().convertToManagedDisksAsync(this.resourceGroupName(), this.name())
-            .flatMap(new Func1<OperationStatusResponseInner, Observable<?>>() {
-                @Override
-                public Observable<?> call(OperationStatusResponseInner operationStatusResponseInner) {
-                    return refreshAsync();
-                }
-            }).toCompletable();
+                .flatMap(new Func1<OperationStatusResponseInner, Observable<?>>() {
+                    @Override
+                    public Observable<?> call(OperationStatusResponseInner operationStatusResponseInner) {
+                        return refreshAsync();
+                    }
+                }).toCompletable();
     }
 
     @Override
@@ -351,21 +352,21 @@ class VirtualMachineImpl
         return this.manager().inner().virtualMachines().captureAsync(this.resourceGroupName(),
                 this.name(),
                 parameters)
-        .map(new Func1<VirtualMachineCaptureResultInner, String>() {
-            @Override
-            public String call(VirtualMachineCaptureResultInner innerResult) {
-                if (innerResult == null) {
-                    return null;
-                }
-                ObjectMapper mapper = new ObjectMapper();
-                //Object to JSON string
-                try {
-                    return mapper.writeValueAsString(innerResult.output());
-                } catch (JsonProcessingException e) {
-                    throw Exceptions.propagate(e);
-                }
-            }
-        });
+                .map(new Func1<VirtualMachineCaptureResultInner, String>() {
+                    @Override
+                    public String call(VirtualMachineCaptureResultInner innerResult) {
+                        if (innerResult == null) {
+                            return null;
+                        }
+                        ObjectMapper mapper = new ObjectMapper();
+                        //Object to JSON string
+                        try {
+                            return mapper.writeValueAsString(innerResult.output());
+                        } catch (JsonProcessingException e) {
+                            throw Exceptions.propagate(e);
+                        }
+                    }
+                });
     }
 
     @Override
@@ -974,8 +975,8 @@ class VirtualMachineImpl
         ManagedDiskParametersInner managedDiskParameters = new ManagedDiskParametersInner();
         managedDiskParameters.withId(disk.id());
         this.managedDataDisks.existingDisksToAttach.add(new DataDisk()
-            .withLun(-1)
-            .withManagedDisk(managedDiskParameters));
+                .withLun(-1)
+                .withManagedDisk(managedDiskParameters));
         return this;
     }
 
@@ -1272,39 +1273,39 @@ class VirtualMachineImpl
     }
 
     @Override
-    public VirtualMachineImpl withManagedServiceIdentity() {
-        this.virtualMachineMsiHelper.withManagedServiceIdentity();
+    public VirtualMachineImpl withSystemAssignedManagedServiceIdentity() {
+        this.virtualMachineMsiHelper.withLocalManagedServiceIdentity();
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withManagedServiceIdentity(int tokenPort) {
-        this.virtualMachineMsiHelper.withManagedServiceIdentity(tokenPort);
+    public VirtualMachineImpl withSystemAssignedManagedServiceIdentity(int tokenPort) {
+        this.virtualMachineMsiHelper.withLocalManagedServiceIdentity(tokenPort);
         return this;
     }
 
 
     @Override
-    public VirtualMachineImpl withRoleBasedAccessTo(String scope, BuiltInRole asRole) {
-        this.virtualMachineMsiHelper.withRoleBasedAccessTo(scope, asRole);
+    public VirtualMachineImpl withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role) {
+        this.virtualMachineMsiHelper.withAccessTo(resourceId, role);
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withRoleBasedAccessToCurrentResourceGroup(BuiltInRole asRole) {
-        this.virtualMachineMsiHelper.withRoleBasedAccessToCurrentResourceGroup(asRole);
+    public VirtualMachineImpl withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role) {
+        this.virtualMachineMsiHelper.withAccessToCurrentResourceGroup(role);
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId) {
-        this.virtualMachineMsiHelper.withRoleDefinitionBasedAccessTo(scope, roleDefinitionId);
+    public VirtualMachineImpl withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId) {
+        this.virtualMachineMsiHelper.withAccessTo(resourceId, roleDefinitionId);
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withRoleDefinitionBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
-        this.virtualMachineMsiHelper.withRoleDefinitionBasedAccessToCurrentResourceGroup(roleDefinitionId);
+    public VirtualMachineImpl withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
+        this.virtualMachineMsiHelper.withAccessToCurrentResourceGroup(roleDefinitionId);
         return this;
     }
 
@@ -1567,12 +1568,12 @@ class VirtualMachineImpl
 
     @Override
     public boolean isManagedServiceIdentityEnabled() {
-        return this.managedServiceIdentityPrincipalId() != null
-                && this.managedServiceIdentityTenantId() != null;
+        return this.systemAssignedManagedServiceIdentityPrincipalId() != null
+                && this.systemAssignedManagedServiceIdentityTenantId() != null;
     }
 
     @Override
-    public String managedServiceIdentityTenantId() {
+    public String systemAssignedManagedServiceIdentityTenantId() {
         if (this.inner().identity() != null) {
             return this.inner().identity().tenantId();
         }
@@ -1580,7 +1581,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public String managedServiceIdentityPrincipalId() {
+    public String systemAssignedManagedServiceIdentityPrincipalId() {
         if (this.inner().identity() != null) {
             return this.inner().identity().principalId();
         }
@@ -1658,16 +1659,16 @@ class VirtualMachineImpl
 
     // CreateUpdateTaskGroup.ResourceCreator.afterPostRunAsync implementation
     //
-        @Override
-        public Completable afterPostRunAsync(boolean isGroupFaulted) {
-            this.virtualMachineExtensions.clear();
-            this.virtualMachineMsiHelper.clear();
-            if (isGroupFaulted) {
-                return Completable.complete();
-            } else {
-                return this.refreshAsync().toCompletable();
-            }
+    @Override
+    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+        this.virtualMachineExtensions.clear();
+        this.virtualMachineMsiHelper.clear();
+        if (isGroupFaulted) {
+            return Completable.complete();
+        } else {
+            return this.refreshAsync().toCompletable();
         }
+    }
 
     // Helpers
     VirtualMachineImpl withExtension(VirtualMachineExtensionImpl extension) {
@@ -2142,6 +2143,29 @@ class VirtualMachineImpl
         return !this.isInCreateMode();
     }
 
+
+    RoleAssignmentHelper.IdProvider idProvider() {
+        return new RoleAssignmentHelper.IdProvider() {
+            @Override
+            public String principalId() {
+                if (inner() != null && inner().identity() != null) {
+                    return inner().identity().principalId();
+                } else {
+                    return null;
+                }
+            }
+
+            @Override
+            public String resourceId() {
+                if (inner() != null) {
+                    return inner().id();
+                } else {
+                    return null;
+                }
+            }
+        };
+    }
+
     /**
      * Class to manage Data disk collection.
      */
@@ -2466,9 +2490,9 @@ class VirtualMachineImpl
                 throw new IllegalStateException("Unable to retrieve expected storageAccount instance for BootDiagnostics");
             }
             vmInner()
-                .diagnosticsProfile()
-                .bootDiagnostics()
-                .withStorageUri(storageAccount.endPoints().primary().blob());
+                    .diagnosticsProfile()
+                    .bootDiagnostics()
+                    .withStorageUri(storageAccount.endPoints().primary().blob());
         }
 
         private VirtualMachineInner vmInner() {

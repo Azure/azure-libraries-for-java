@@ -406,18 +406,18 @@ public interface VirtualMachine extends
     boolean isManagedServiceIdentityEnabled();
 
     /**
-     * @return the Managed Service Identity specific Active Directory tenant ID assigned to the
-     * virtual machine.
-     */
-    @Beta(Beta.SinceVersion.V1_2_0)
-    String managedServiceIdentityTenantId();
-
-    /**
-     * @return the Managed Service Identity specific Active Directory service principal ID assigned
+     * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID assigned
      * to the virtual machine.
      */
-    @Beta(Beta.SinceVersion.V1_2_0)
-    String managedServiceIdentityPrincipalId();
+    @Beta(Beta.SinceVersion.V1_5_0)
+    String systemAssignedManagedServiceIdentityTenantId();
+
+    /**
+     * @return the System Assigned (Local) Managed Service Identity specific Active Directory service principal ID
+     * assigned to the virtual machine.
+     */
+    @Beta(Beta.SinceVersion.V1_5_0)
+    String systemAssignedManagedServiceIdentityPrincipalId();
 
     /**
      * @return the type of Managed Service Identity used for the virtual machine.
@@ -1508,79 +1508,80 @@ public interface VirtualMachine extends
         }
 
         /**
-         * The stage of the virtual machine definition allowing to enable Managed Service Identity.
+         * The stage of the virtual machine definition allowing to enable System Assigned (Local) Managed Service Identity.
          */
-        @Beta(Beta.SinceVersion.V1_2_0)
-        interface WithManagedServiceIdentity {
+        @Beta(Beta.SinceVersion.V1_5_0)
+        interface WithSystemAssignedManagedServiceIdentity {
             /**
-             * Specifies that Managed Service Identity needs to be enabled in the virtual machine.
+             * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the virtual machine.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrCreate withManagedServiceIdentity();
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity();
 
             /**
-             * Specifies that Managed Service Identity needs to be enabled in the virtual machine.
+             * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the virtual machine.
              *
              * @param tokenPort the port on the virtual machine where access token is available
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrCreate withManagedServiceIdentity(int tokenPort);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity(int tokenPort);
         }
 
         /**
-         * The stage of the Managed Service Identity enabled virtual machine allowing to set role
-         * assignment for a scope.
+         * The stage of the System Assigned (Local) Managed Service Identity enabled virtual machine allowing to
+         * set access role for the identity.
          */
-        @Beta(Beta.SinceVersion.V1_2_0)
-        interface WithRoleAndScopeOrCreate extends WithCreate {
+        @Beta(Beta.SinceVersion.V1_5_0)
+        interface WithSystemAssignedIdentityBasedAccessOrCreate extends WithCreate {
             /**
-             * Specifies that applications running on the virtual machine requires the given access role
-             * with scope of access limited to the ARM resource identified by the resource ID specified
-             * in the scope parameter.
+             * Specifies that virtual machine's system assigned (local) identity should have the given access
+             * (described by the role) on an ARM resource identified by the resource ID. Applications running
+             * on the virtual machine will have the same permission (role) on the ARM resource.
              *
-             * @param scope scope of the access represented in ARM resource ID format
-             * @param asRole access role to assigned to the virtual machine
+             * @param resourceId the ARM identifier of the resource
+             * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrCreate withRoleBasedAccessTo(String scope, BuiltInRole asRole);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
 
             /**
-             * Specifies that applications running on the virtual machine requires the given access role
-             * with scope of access limited to the current resource group that the virtual machine
-             * resides.
+             * Specifies that virtual machine's system assigned (local) identity should have the given access
+             * (described by the role) on the resource group that virtual machine resides. Applications running
+             * on the virtual machine will have the same permission (role) on the resource group.
              *
-             * @param asRole access role to assigned to the virtual machine
+             * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrCreate withRoleBasedAccessToCurrentResourceGroup(BuiltInRole asRole);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
-             * Specifies that applications running on the virtual machine requires the access described
-             * in the given role definition with scope of access limited to the ARM resource identified
-             * by the resource ID specified in the scope parameter.
+             * Specifies that virtual machine's system assigned (local) identity should have the access
+             * (described by the role definition) on an ARM resource identified by the resource ID.
+             * Applications running on the virtual machine will have the same permission (role) on the ARM resource.
              *
-             * @param scope scope of the access represented in ARM resource ID format
-             * @param roleDefinitionId access role definition to assigned to the virtual machine
+             * @param resourceId scope of the access represented in ARM resource ID format
+             * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrCreate withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
 
             /**
-             * Specifies that applications running on the virtual machine requires the access described
-             * in the given role definition with scope of access limited to the current resource group that
-             * the virtual machine resides.
+             * Specifies that virtual machine's system assigned (local) identity should have the access
+             * (described by the role definition) on the resource group that virtual machine resides.
+             * Applications running on the virtual machine will have the same permission (role) on the
+             * resource group.
              *
-             * @param roleDefinitionId access role definition to assigned to the virtual machine
+             * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrCreate withRoleDefinitionBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
 
         /**
@@ -1665,7 +1666,7 @@ public interface VirtualMachine extends
                 DefinitionStages.WithExtension,
                 DefinitionStages.WithPlan,
                 DefinitionStages.WithBootDiagnostics,
-                DefinitionStages.WithManagedServiceIdentity {
+                DefinitionStages.WithSystemAssignedManagedServiceIdentity {
         }
     }
 
@@ -1972,79 +1973,83 @@ public interface VirtualMachine extends
         }
 
         /**
-         * The stage of the virtual machine update allowing to enable Managed Service Identity.
+         * The stage of the virtual machine update allowing to enable System Assigned (Local) Managed Service Identity.
          */
-        @Beta(Beta.SinceVersion.V1_2_0)
-        interface WithManagedServiceIdentity {
+        @Beta(Beta.SinceVersion.V1_5_0)
+        interface WithSystemAssignedManagedServiceIdentity {
             /**
-             * Specifies that Managed Service Identity needs to be enabled in the virtual machine.
+             * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the
+             * virtual machine.
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrUpdate withManagedServiceIdentity();
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedManagedServiceIdentity();
 
             /**
-             * Specifies that Managed Service Identity needs to be enabled in the virtual machine.
+             * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in
+             * the virtual machine.
              *
              * @param tokenPort the port on the virtual machine where access token is available
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrUpdate withManagedServiceIdentity(int tokenPort);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedManagedServiceIdentity(int tokenPort);
         }
 
         /**
-         * The stage of the Managed Service Identity enabled virtual machine allowing to set role
-         * assignment for a scope.
+         * The stage of the System Assigned (Local) Managed Service Identity enabled virtual machine allowing
+         * to set access role for the identity.
          */
-        @Beta(Beta.SinceVersion.V1_2_0)
-        interface WithRoleAndScopeOrUpdate extends Update {
+        @Beta(Beta.SinceVersion.V1_5_0)
+        interface WithSystemAssignedIdentityBasedAccessOrUpdate extends Update {
             /**
-             * Specifies that applications running on the virtual machine requires the given access role
-             * with scope of access limited to the ARM resource identified by the resource ID specified
-             * in the scope parameter.
+             * Specifies that virtual machine's system assigned (local) identity should have the given
+             * access (described by the role) on an ARM resource identified by the resource ID.
+             * Applications running on the virtual machine will have the same permission (role) on
+             * the ARM resource.
              *
-             * @param scope scope of the access represented in ARM resource ID format
-             * @param asRole access role to assigned to the virtual machine
+             * @param resourceId the ARM identifier of the resource
+             * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrUpdate withRoleBasedAccessTo(String scope, BuiltInRole asRole);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
 
             /**
-             * Specifies that applications running on the virtual machine requires the given access role
-             * with scope of access limited to the current resource group that the virtual machine
-             * resides.
+             * Specifies that virtual machine's system assigned (local) identity should have the given access
+             * (described by the role) on the resource group that virtual machine resides. Applications running
+             * on the virtual machine will have the same permission (role) on the resource group.
              *
-             * @param asRole access role to assigned to the virtual machine
+             * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrUpdate withRoleBasedAccessToCurrentResourceGroup(BuiltInRole asRole);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
-             * Specifies that applications running on the virtual machine requires the given access role
-             * definition with scope of access limited to the ARM resource identified by the resource id
-             * specified in the scope parameter.
+             * Specifies that virtual machine's system assigned (local) identity should have the access
+             * (described by the role definition) on an ARM resource identified by the resource ID.
+             * Applications running on the virtual machine will have the same permission (role) on
+             * the ARM resource.
              *
-             * @param scope scope of the access represented in ARM resource ID format
-             * @param roleDefinitionId access role definition to assigned to the virtual machine
+             * @param resourceId scope of the access represented in ARM resource ID format
+             * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrUpdate withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
 
             /**
-             * Specifies that applications running on the virtual machine requires the given access role
-             * definition with scope of access limited to the current resource group that the virtual
-             * machine resides.
+             * Specifies that virtual machine's system assigned (local) identity should have the access (described by the
+             * role definition) on the resource group that virtual machine resides. Applications running
+             * on the virtual machine will have the same permission (role) on the resource group.
              *
-             * @param roleDefinitionId access role definition to assigned to the virtual machine
+             * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrUpdate withRoleDefinitionBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
     }
 
@@ -2059,7 +2064,7 @@ public interface VirtualMachine extends
             UpdateStages.WithSecondaryNetworkInterface,
             UpdateStages.WithExtension,
             UpdateStages.WithBootDiagnostics,
-            UpdateStages.WithManagedServiceIdentity {
+            UpdateStages.WithSystemAssignedManagedServiceIdentity {
 
         /**
          * Specifies the encryption settings for the OS Disk.

@@ -6,28 +6,22 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.ResourceIdentityType;
-import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineExtension;
 import com.microsoft.azure.management.compute.VirtualMachineIdentity;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
+import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.microsoft.azure.management.resources.fluentcore.dag.IndexableTaskItem;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.dag.VoidIndexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Observable;
 import rx.functions.Func0;
 import rx.functions.Func1;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,14 +30,9 @@ import java.util.Map;
  * associated with the virtual machine.
  */
 @LangDefinition
-class VirtualMachineMsiHelper {
-    private static final String CURRENT_RESOURCE_GROUP_SCOPE = "CURRENT_RESOURCE_GROUP";
-
-    private final GraphRbacManager rbacManager;
+class VirtualMachineMsiHelper extends RoleAssignmentHelper {
     private final VirtualMachineImpl virtualMachine;
 
-    private List<RoleAssignmentCreator> rolesToAssign;
-    private List<RoleAssignmentCreator> roleDefinitionsToAssign;
     private MSIExtensionInstaller msiExtensionInstaller;
 
     /**
@@ -53,12 +42,10 @@ class VirtualMachineMsiHelper {
      * @param virtualMachine the virtual machine to which MSI extension needs to be installed and
      *                       for which role assignments needs to be created
      */
-    VirtualMachineMsiHelper(final GraphRbacManager rbacManager, VirtualMachineImpl virtualMachine) {
-        this.rbacManager = rbacManager;
+    VirtualMachineMsiHelper(final GraphRbacManager rbacManager,
+                            VirtualMachineImpl virtualMachine) {
+        super(rbacManager, virtualMachine.taskGroup(), virtualMachine.idProvider());
         this.virtualMachine = virtualMachine;
-
-        this.rolesToAssign = new ArrayList<>();
-        this.roleDefinitionsToAssign = new ArrayList<>();
         this.msiExtensionInstaller = null;
         clear();
     }
@@ -71,8 +58,8 @@ class VirtualMachineMsiHelper {
      *
      * @return VirtualMachineMsiHelper
      */
-     VirtualMachineMsiHelper withManagedServiceIdentity() {
-        return withManagedServiceIdentity(null);
+    VirtualMachineMsiHelper withLocalManagedServiceIdentity() {
+        return withLocalManagedServiceIdentity(null);
     }
 
     /**
@@ -84,192 +71,31 @@ class VirtualMachineMsiHelper {
 
      * @return VirtualMachineMsiHelper
      */
-    VirtualMachineMsiHelper withManagedServiceIdentity(Integer port) {
-        VirtualMachineInner virtualMachineInner = this.virtualMachine.inner();
-        if (virtualMachineInner.identity() == null) {
-            virtualMachineInner.withIdentity(new VirtualMachineIdentity());
+    VirtualMachineMsiHelper withLocalManagedServiceIdentity(Integer port) {
+        if (this.msiExtensionInstaller != null) {
+            return this;
+        } else {
+            VirtualMachineInner virtualMachineInner = this.virtualMachine.inner();
+            if (virtualMachineInner.identity() == null) {
+                virtualMachineInner.withIdentity(new VirtualMachineIdentity());
+            }
+            if (virtualMachineInner.identity().type() == null) {
+                virtualMachineInner.identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED);
+            }
+            this.msiExtensionInstaller = new MSIExtensionInstaller(this.virtualMachine);
+            this.msiExtensionInstaller.withTokenPort(port);
+            this.virtualMachine.taskGroup().addPostRunDependent(this.msiExtensionInstaller);
+            return this;
         }
-        if (virtualMachineInner.identity().type() == null) {
-            virtualMachineInner.identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED);
-        }
-        this.msiExtensionInstaller = new MSIExtensionInstaller(this.virtualMachine);
-        this.msiExtensionInstaller.withTokenPort(port);
-        this.virtualMachine.taskGroup().addPostRunDependentTaskGroup(this.msiExtensionInstaller.taskGroup());
-        return this;
     }
 
     /**
-     * Specifies that applications running on the virtual machine requires the given access role
-     * with scope of access limited to the current resource group that the virtual machine
-     * resides.
-     *
-     * @param asRole access role to assigned to the virtual machine
-     * @return VirtualMachineMsiHelper
-     */
-    VirtualMachineMsiHelper withRoleBasedAccessToCurrentResourceGroup(BuiltInRole asRole) {
-        return this.withRoleBasedAccessTo(CURRENT_RESOURCE_GROUP_SCOPE, asRole);
-    }
-
-    /**
-     * Specifies that applications running on the virtual machine requires the given access role
-     * with scope of access limited to the arm resource identified by the resource id specified
-     * in the scope parameter.
-     *
-     * @param scope scope of the access represented in arm resource id format
-     * @param asRole access role to assigned to the virtual machine
-     * @return VirtualMachineMsiHelper
-     */
-    VirtualMachineMsiHelper withRoleBasedAccessTo(String scope, BuiltInRole asRole) {
-        RoleAssignmentCreator creator = new RoleAssignmentCreator(rbacManager,
-                asRole.toString(),
-                scope,
-                true,
-                this.virtualMachine.key());
-        this.virtualMachine.taskGroup().addPostRunDependentTaskGroup(creator.taskGroup());
-        this.rolesToAssign.add(creator);
-        return this;
-    }
-
-    /**
-     * Specifies that applications running on the virtual machine requires the given access role
-     * with scope of access limited to the current resource group that the virtual machine
-     * resides.
-     *
-     * @param roleDefinitionId access role definition to assigned to the virtual machine
-     * @return VirtualMachineMsiHelper
-     */
-    VirtualMachineMsiHelper withRoleDefinitionBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
-        return this.withRoleDefinitionBasedAccessTo(CURRENT_RESOURCE_GROUP_SCOPE, roleDefinitionId);
-    }
-
-    /**
-     * Specifies that applications running on the virtual machine requires the access described
-     * in the given role definition with scope of access limited to the arm resource identified
-     * by the resource id specified in the scope parameter.
-     *
-     * @param scope scope of the access represented in arm resource id format
-     * @param roleDefinitionId access role definition to assigned to the virtual machine
-     * @return VirtualMachineMsiHelper
-     */
-    VirtualMachineMsiHelper withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId) {
-        RoleAssignmentCreator creator = new RoleAssignmentCreator(rbacManager,
-                roleDefinitionId,
-                scope,
-                false,
-                this.virtualMachine.key());
-        this.virtualMachine.taskGroup().addPostRunDependentTaskGroup(creator.taskGroup());
-        this.roleDefinitionsToAssign.add(creator);
-        return this;
-    }
-
-    /**
-     * An instance of VirtualMachineMsiHelper will be composed by an instance of
-     * VirtualMachineImpl. This same composed instance will be used to perform msi
-     * related actions as part of that VM's create and update actions. Hence once
-     * one of these actions (VM create, VM update) is done, this method must be
-     * invoked to clear the msi related states specific to that action.
+     * Clear VirtualMachineMsiHelper internal state.
      */
     public  void clear() {
-        for (RoleAssignmentCreator roleToAssign : rolesToAssign) {
-            roleToAssign.clear();
-        }
-        this.rolesToAssign.clear();
-        for (RoleAssignmentCreator roleToAssign : roleDefinitionsToAssign) {
-            roleToAssign.clear();
-        }
-        this.roleDefinitionsToAssign.clear();
         if (this.msiExtensionInstaller != null) {
             this.msiExtensionInstaller.clear();
             this.msiExtensionInstaller = null;
-        }
-    }
-
-    /**
-     * TaskItem in the graph that creates role assignment for the MSI service principal
-     * associated with the virtual machine.
-     */
-    private static class RoleAssignmentCreator extends IndexableTaskItem {
-        private final GraphRbacManager rbacManager;
-        private final String roleOrRoleDefinition;
-        private final String scope;
-        private final boolean isRole;
-        private final String vmCreateUpdateTaskKey;
-
-        RoleAssignmentCreator(final GraphRbacManager rbacManager,
-                                     final String roleOrRoleDefinition,
-                                     final String scope,
-                                     final boolean isRole,
-                                     final String vmCreateUpdateTaskKey) {
-            this.rbacManager = rbacManager;
-            this.roleOrRoleDefinition = roleOrRoleDefinition;
-            this.scope = scope;
-            this.isRole = isRole;
-            this.vmCreateUpdateTaskKey = vmCreateUpdateTaskKey;
-        }
-
-        @Override
-        public Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
-            VirtualMachine virtualMachine = this.<VirtualMachine>taskResult(vmCreateUpdateTaskKey);
-
-            if (!virtualMachine.isManagedServiceIdentityEnabled()) {
-                return voidObservable();
-            }
-
-            final String roleAssignmentName = SdkContext.randomUuid();
-            final String managedServiceIdentityPrincipalId = virtualMachine.managedServiceIdentityPrincipalId();
-            String resourceScope = scope;
-            if (resourceScope == CURRENT_RESOURCE_GROUP_SCOPE) {
-                resourceScope = resourceGroupId(virtualMachine.id());
-            }
-
-            if (isRole) {
-                return this.rbacManager
-                        .roleAssignments()
-                        .define(roleAssignmentName)
-                        .forObjectId(managedServiceIdentityPrincipalId)
-                        .withBuiltInRole(BuiltInRole.fromString(roleOrRoleDefinition))
-                        .withScope(resourceScope)
-                        .createAsync()
-                        .last()
-                        .onErrorResumeNext(checkRoleAssignmentError());
-            } else {
-                return this.rbacManager
-                        .roleAssignments()
-                        .define(roleAssignmentName)
-                        .forObjectId(managedServiceIdentityPrincipalId)
-                        .withRoleDefinition(roleOrRoleDefinition)
-                        .withScope(resourceScope)
-                        .createAsync()
-                        .last()
-                        .onErrorResumeNext(checkRoleAssignmentError());
-            }
-        }
-
-        private String resourceGroupId(String virtualMachineId) {
-            final ResourceId vmId = ResourceId.fromString(virtualMachineId);
-            final StringBuilder builder = new StringBuilder();
-            builder.append("/subscriptions/")
-                    .append(vmId.subscriptionId())
-                    .append("/resourceGroups/")
-                    .append(vmId.resourceGroupName());
-            return builder.toString();
-        }
-
-        private Func1<Throwable, Observable<Indexable>> checkRoleAssignmentError() {
-            return new Func1<Throwable, Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call(Throwable throwable) {
-                    if (throwable instanceof CloudException) {
-                        CloudException exception = (CloudException) throwable;
-                        if (exception.body() != null
-                                && exception.body().code() != null
-                                && exception.body().code().equalsIgnoreCase("RoleAssignmentExists")) {
-                            return voidObservable();
-                        }
-                    }
-                    return Observable.<Indexable>error(throwable);
-                }
-            };
         }
     }
 
@@ -319,12 +145,12 @@ class VirtualMachineMsiHelper {
                     return updateMSIExtensionAsync((VirtualMachineExtension) extension);
                 }
             })
-            .switchIfEmpty(Observable.defer(new Func0<Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call() {
-                    return installMSIExtensionAsync();
-                }
-            }));
+                    .switchIfEmpty(Observable.defer(new Func0<Observable<Indexable>>() {
+                        @Override
+                        public Observable<Indexable> call() {
+                            return installMSIExtensionAsync();
+                        }
+                    }));
         }
 
         private Observable<Indexable> getMSIExtensionAsync() {

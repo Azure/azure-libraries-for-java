@@ -127,4 +127,25 @@ The following methods and/or types have been either renamed or removed in V1.5 c
     <td></td>
     <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/83">PR #83 </a><br/><a href="https://github.com/Azure/azure-libraries-for-java/pull/88">PR #88</a></td>
   </tr>
+  <tr>
+    <td><code>WebAppBase</code></td>
+    <td><code>.isPremiumApp()</code></td>
+    <td><code>Removed</code></td>
+    <td></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/92">PR #92 </a></td>
+  </tr>
+  <tr>
+    <td><code>WebAppBase</code></td>
+    <td><code>.microService()</code></td>
+    <td><code>Removed</code></td>
+    <td></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/92">PR #92 </a></td>
+  </tr>
+  <tr>
+    <td><code>WebAppBase</code></td>
+    <td><code>.gatewaySiteName()</code></td>
+    <td><code>Removed</code></td>
+    <td></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/92">PR #92 </a></td>
+  </tr>
 </table>

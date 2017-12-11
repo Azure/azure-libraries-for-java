@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.appservice;
 
 import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
@@ -305,24 +306,28 @@ public interface WebAppBase extends
     /**
      * @return the last lines of docker logs for a Linux web app
      */
+    @Beta(SinceVersion.V1_5_0)
     @Method
     byte[] getContainerLogs();
 
     /**
      * @return the last lines of docker logs for a Linux web app
      */
+    @Beta(SinceVersion.V1_5_0)
     @Method
     Observable<byte[]> getContainerLogsAsync();
 
     /**
      * @return the zipped archive of docker logs for a Linux web app
      */
+    @Beta(SinceVersion.V1_5_0)
     @Method
     byte[] getContainerLogsZip();
 
     /**
      * @return the zipped archive of docker logs for a Linux web app
      */
+    @Beta(SinceVersion.V1_5_0)
     @Method
     Observable<byte[]> getContainerLogsZipAsync();
 

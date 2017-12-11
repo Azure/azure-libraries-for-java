@@ -303,6 +303,30 @@ public interface WebAppBase extends
     WebDeployment.DefinitionStages.WithPackageUri deploy();
 
     /**
+     * @return the last lines of docker logs for a Linux web app
+     */
+    @Method
+    byte[] getContainerLogs();
+
+    /**
+     * @return the last lines of docker logs for a Linux web app
+     */
+    @Method
+    Observable<byte[]> getContainerLogsAsync();
+
+    /**
+     * @return the zipped archive of docker logs for a Linux web app
+     */
+    @Method
+    byte[] getContainerLogsZip();
+
+    /**
+     * @return the zipped archive of docker logs for a Linux web app
+     */
+    @Method
+    Observable<byte[]> getContainerLogsZipAsync();
+
+    /**
      * Verifies the ownership of the domain for a certificate order by verifying a hostname
      * of the domain is bound to this web app.
      * @param certificateOrderName the name of the certificate order

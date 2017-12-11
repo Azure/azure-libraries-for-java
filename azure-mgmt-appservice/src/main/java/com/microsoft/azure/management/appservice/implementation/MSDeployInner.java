@@ -8,13 +8,12 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.management.appservice.MSDeployCore;
-import com.microsoft.azure.management.appservice.ProxyOnlyResource;
-import com.microsoft.rest.serializer.JsonFlatten;
-
-import java.util.List;
 import java.util.Map;
+import java.util.List;
+import com.microsoft.azure.management.appservice.MSDeployCore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * MSDeploy ARM PUT information.

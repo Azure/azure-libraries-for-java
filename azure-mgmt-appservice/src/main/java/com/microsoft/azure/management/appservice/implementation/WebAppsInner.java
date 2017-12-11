@@ -247,10 +247,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
         @Streaming
         Observable<Response<ResponseBody>> getWebSiteContainerLogs(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps getContainerLogsZip" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps getWebSiteContainerLogsZip" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/containerlogs/zip/download")
         @Streaming
-        Observable<Response<ResponseBody>> getContainerLogsZip(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> getWebSiteContainerLogsZip(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps listContinuousWebJobs" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/continuouswebjobs")
@@ -800,10 +800,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
         @Streaming
         Observable<Response<ResponseBody>> getWebSiteContainerLogsSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps getContainerLogsZipSlot" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps getWebSiteContainerLogsZipSlot" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/containerlogs/zip/download")
         @Streaming
-        Observable<Response<ResponseBody>> getContainerLogsZipSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> getWebSiteContainerLogsZipSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps listContinuousWebJobsSlot" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/continuouswebjobs")
@@ -6461,8 +6461,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the InputStream object if successful.
      */
-    public InputStream getContainerLogsZip(String resourceGroupName, String name) {
-        return getContainerLogsZipWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
+    public InputStream getWebSiteContainerLogsZip(String resourceGroupName, String name) {
+        return getWebSiteContainerLogsZipWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
     }
 
     /**
@@ -6475,8 +6475,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<InputStream> getContainerLogsZipAsync(String resourceGroupName, String name, final ServiceCallback<InputStream> serviceCallback) {
-        return ServiceFuture.fromResponse(getContainerLogsZipWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    public ServiceFuture<InputStream> getWebSiteContainerLogsZipAsync(String resourceGroupName, String name, final ServiceCallback<InputStream> serviceCallback) {
+        return ServiceFuture.fromResponse(getWebSiteContainerLogsZipWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
     }
 
     /**
@@ -6488,8 +6488,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the InputStream object
      */
-    public Observable<InputStream> getContainerLogsZipAsync(String resourceGroupName, String name) {
-        return getContainerLogsZipWithServiceResponseAsync(resourceGroupName, name).map(new Func1<ServiceResponse<InputStream>, InputStream>() {
+    public Observable<InputStream> getWebSiteContainerLogsZipAsync(String resourceGroupName, String name) {
+        return getWebSiteContainerLogsZipWithServiceResponseAsync(resourceGroupName, name).map(new Func1<ServiceResponse<InputStream>, InputStream>() {
             @Override
             public InputStream call(ServiceResponse<InputStream> response) {
                 return response.body();
@@ -6506,7 +6506,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the InputStream object
      */
-    public Observable<ServiceResponse<InputStream>> getContainerLogsZipWithServiceResponseAsync(String resourceGroupName, String name) {
+    public Observable<ServiceResponse<InputStream>> getWebSiteContainerLogsZipWithServiceResponseAsync(String resourceGroupName, String name) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -6517,12 +6517,12 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2016-08-01";
-        return service.getContainerLogsZip(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.getWebSiteContainerLogsZip(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<InputStream>>>() {
                 @Override
                 public Observable<ServiceResponse<InputStream>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<InputStream> clientResponse = getContainerLogsZipDelegate(response);
+                        ServiceResponse<InputStream> clientResponse = getWebSiteContainerLogsZipDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -6531,7 +6531,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
             });
     }
 
-    private ServiceResponse<InputStream> getContainerLogsZipDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<InputStream> getWebSiteContainerLogsZipDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<InputStream, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<InputStream>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
@@ -21457,8 +21457,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the InputStream object if successful.
      */
-    public InputStream getContainerLogsZipSlot(String resourceGroupName, String name, String slot) {
-        return getContainerLogsZipSlotWithServiceResponseAsync(resourceGroupName, name, slot).toBlocking().single().body();
+    public InputStream getWebSiteContainerLogsZipSlot(String resourceGroupName, String name, String slot) {
+        return getWebSiteContainerLogsZipSlotWithServiceResponseAsync(resourceGroupName, name, slot).toBlocking().single().body();
     }
 
     /**
@@ -21472,8 +21472,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<InputStream> getContainerLogsZipSlotAsync(String resourceGroupName, String name, String slot, final ServiceCallback<InputStream> serviceCallback) {
-        return ServiceFuture.fromResponse(getContainerLogsZipSlotWithServiceResponseAsync(resourceGroupName, name, slot), serviceCallback);
+    public ServiceFuture<InputStream> getWebSiteContainerLogsZipSlotAsync(String resourceGroupName, String name, String slot, final ServiceCallback<InputStream> serviceCallback) {
+        return ServiceFuture.fromResponse(getWebSiteContainerLogsZipSlotWithServiceResponseAsync(resourceGroupName, name, slot), serviceCallback);
     }
 
     /**
@@ -21486,8 +21486,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the InputStream object
      */
-    public Observable<InputStream> getContainerLogsZipSlotAsync(String resourceGroupName, String name, String slot) {
-        return getContainerLogsZipSlotWithServiceResponseAsync(resourceGroupName, name, slot).map(new Func1<ServiceResponse<InputStream>, InputStream>() {
+    public Observable<InputStream> getWebSiteContainerLogsZipSlotAsync(String resourceGroupName, String name, String slot) {
+        return getWebSiteContainerLogsZipSlotWithServiceResponseAsync(resourceGroupName, name, slot).map(new Func1<ServiceResponse<InputStream>, InputStream>() {
             @Override
             public InputStream call(ServiceResponse<InputStream> response) {
                 return response.body();
@@ -21505,7 +21505,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the InputStream object
      */
-    public Observable<ServiceResponse<InputStream>> getContainerLogsZipSlotWithServiceResponseAsync(String resourceGroupName, String name, String slot) {
+    public Observable<ServiceResponse<InputStream>> getWebSiteContainerLogsZipSlotWithServiceResponseAsync(String resourceGroupName, String name, String slot) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -21519,12 +21519,12 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2016-08-01";
-        return service.getContainerLogsZipSlot(resourceGroupName, name, slot, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.getWebSiteContainerLogsZipSlot(resourceGroupName, name, slot, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<InputStream>>>() {
                 @Override
                 public Observable<ServiceResponse<InputStream>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<InputStream> clientResponse = getContainerLogsZipSlotDelegate(response);
+                        ServiceResponse<InputStream> clientResponse = getWebSiteContainerLogsZipSlotDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -21533,7 +21533,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
             });
     }
 
-    private ServiceResponse<InputStream> getContainerLogsZipSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<InputStream> getWebSiteContainerLogsZipSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<InputStream, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<InputStream>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())

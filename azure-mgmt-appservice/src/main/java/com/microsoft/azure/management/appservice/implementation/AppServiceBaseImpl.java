@@ -8,6 +8,7 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
+import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
@@ -23,6 +24,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Completable;
 import rx.Observable;
+import rx.exceptions.Exceptions;
 import rx.functions.Func1;
 
 import java.io.IOException;
@@ -319,6 +321,46 @@ abstract class AppServiceBaseImpl<
                         return refreshAsync();
                     }
                 }).toCompletable();
+    }
+
+    @Override
+    public byte[] getContainerLogs() {
+        return getContainerLogsAsync().toBlocking().single();
+    }
+
+    @Override
+    public Observable<byte[]> getContainerLogsAsync() {
+        return manager().inner().webApps().getWebSiteContainerLogsAsync(resourceGroupName(), name())
+                .map(new Func1<InputStream, byte[]>() {
+                    @Override
+                    public byte[] call(InputStream inputStream) {
+                        try {
+                            return ByteStreams.toByteArray(inputStream);
+                        } catch (IOException e) {
+                            throw Exceptions.propagate(e);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public byte[] getContainerLogsZip() {
+        return getContainerLogsZipAsync().toBlocking().single();
+    }
+
+    @Override
+    public Observable<byte[]> getContainerLogsZipAsync() {
+        return manager().inner().webApps().getWebSiteContainerLogsZipAsync(resourceGroupName(), name())
+                .map(new Func1<InputStream, byte[]>() {
+                    @Override
+                    public byte[] call(InputStream inputStream) {
+                        try {
+                            return ByteStreams.toByteArray(inputStream);
+                        } catch (IOException e) {
+                            throw Exceptions.propagate(e);
+                        }
+                    }
+                });
     }
 
     @SuppressWarnings("unchecked")

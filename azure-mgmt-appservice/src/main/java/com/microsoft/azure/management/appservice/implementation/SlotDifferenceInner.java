@@ -10,13 +10,13 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * A setting difference between two deployment slots of an app.
  */
 @JsonFlatten
-public class SlotDifferenceInner extends Resource {
+public class SlotDifferenceInner extends ProxyOnlyResource {
     /**
      * Type of the difference: Information, Warning or Error.
      */

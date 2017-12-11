@@ -11,13 +11,13 @@ package com.microsoft.azure.management.appservice.implementation;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Slot Config names azure resource.
  */
 @JsonFlatten
-public class SlotConfigNamesResourceInner extends Resource {
+public class SlotConfigNamesResourceInner extends ProxyOnlyResource {
     /**
      * List of connection string names.
      */

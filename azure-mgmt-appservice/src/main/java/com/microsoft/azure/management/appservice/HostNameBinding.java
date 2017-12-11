@@ -24,11 +24,6 @@ public interface HostNameBinding
         HasInner<HostNameBindingInner>,
         ExternalChildResource<HostNameBinding, WebAppBase>, Resource {
     /**
-     * @return the hostname to bind to
-     */
-    String hostName();
-
-    /**
      * @return the web app name
      */
     String webAppName();

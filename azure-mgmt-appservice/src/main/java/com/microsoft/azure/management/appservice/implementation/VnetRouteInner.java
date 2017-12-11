@@ -11,14 +11,14 @@ package com.microsoft.azure.management.appservice.implementation;
 import com.microsoft.azure.management.appservice.RouteType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Virtual Network route contract used to pass routing information for a
  * Virtual Network.
  */
 @JsonFlatten
-public class VnetRouteInner extends Resource {
+public class VnetRouteInner extends ProxyOnlyResource {
     /**
      * The name of this route. This is only returned by the server and does not
      * need to be set by the client.

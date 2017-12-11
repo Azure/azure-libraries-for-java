@@ -10,13 +10,13 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Instance of an app.
  */
 @JsonFlatten
-public class SiteInstanceInner extends Resource {
+public class SiteInstanceInner extends ProxyOnlyResource {
     /**
      * Name of instance.
      */

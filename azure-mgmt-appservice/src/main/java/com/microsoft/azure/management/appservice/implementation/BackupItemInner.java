@@ -14,13 +14,13 @@ import java.util.List;
 import com.microsoft.azure.management.appservice.DatabaseBackupSetting;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Backup description.
  */
 @JsonFlatten
-public class BackupItemInner extends Resource {
+public class BackupItemInner extends ProxyOnlyResource {
     /**
      * Id of the backup.
      */

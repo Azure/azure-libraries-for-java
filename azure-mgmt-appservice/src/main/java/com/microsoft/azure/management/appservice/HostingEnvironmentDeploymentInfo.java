@@ -11,20 +11,20 @@ package com.microsoft.azure.management.appservice;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * MSDeploy ARM PUT core information.
+ * Information needed to create resources on an App Service Environment.
  */
-public class MSDeployParameterEntry {
+public class HostingEnvironmentDeploymentInfo {
     /**
-     * Parameter name.
+     * Name of the App Service Environment.
      */
     @JsonProperty(value = "name")
     private String name;
 
     /**
-     * Parameter value.
+     * Location of the App Service Environment.
      */
-    @JsonProperty(value = "value")
-    private String value;
+    @JsonProperty(value = "location")
+    private String location;
 
     /**
      * Get the name value.
@@ -39,30 +39,30 @@ public class MSDeployParameterEntry {
      * Set the name value.
      *
      * @param name the name value to set
-     * @return the MSDeployParameterEntry object itself.
+     * @return the HostingEnvironmentDeploymentInfo object itself.
      */
-    public MSDeployParameterEntry withName(String name) {
+    public HostingEnvironmentDeploymentInfo withName(String name) {
         this.name = name;
         return this;
     }
 
     /**
-     * Get the value value.
+     * Get the location value.
      *
-     * @return the value value
+     * @return the location value
      */
-    public String value() {
-        return this.value;
+    public String location() {
+        return this.location;
     }
 
     /**
-     * Set the value value.
+     * Set the location value.
      *
-     * @param value the value value to set
-     * @return the MSDeployParameterEntry object itself.
+     * @param location the location value to set
+     * @return the HostingEnvironmentDeploymentInfo object itself.
      */
-    public MSDeployParameterEntry withValue(String value) {
-        this.value = value;
+    public HostingEnvironmentDeploymentInfo withLocation(String location) {
+        this.location = location;
         return this;
     }
 

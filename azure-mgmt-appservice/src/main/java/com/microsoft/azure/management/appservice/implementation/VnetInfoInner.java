@@ -10,21 +10,24 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Virtual Network information contract.
  */
-public class VnetInfoInner {
+@JsonFlatten
+public class VnetInfoInner extends ProxyOnlyResource {
     /**
      * The Virtual Network's resource ID.
      */
-    @JsonProperty(value = "vnetResourceId")
+    @JsonProperty(value = "properties.vnetResourceId")
     private String vnetResourceId;
 
     /**
      * The client certificate thumbprint.
      */
-    @JsonProperty(value = "certThumbprint", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.certThumbprint", access = JsonProperty.Access.WRITE_ONLY)
     private String certThumbprint;
 
     /**
@@ -32,27 +35,27 @@ public class VnetInfoInner {
      * key used to authenticate a
      * Point-To-Site VPN connection.
      */
-    @JsonProperty(value = "certBlob")
-    private String certBlob;
+    @JsonProperty(value = "properties.certBlob")
+    private byte[] certBlob;
 
     /**
      * The routes that this Virtual Network connection uses.
      */
-    @JsonProperty(value = "routes", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.routes", access = JsonProperty.Access.WRITE_ONLY)
     private List<VnetRouteInner> routes;
 
     /**
      * &lt;code&gt;true&lt;/code&gt; if a resync is required; otherwise,
      * &lt;code&gt;false&lt;/code&gt;.
      */
-    @JsonProperty(value = "resyncRequired", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.resyncRequired", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean resyncRequired;
 
     /**
      * DNS servers to be used by this Virtual Network. This should be a
      * comma-separated list of IP addresses.
      */
-    @JsonProperty(value = "dnsServers")
+    @JsonProperty(value = "properties.dnsServers")
     private String dnsServers;
 
     /**
@@ -89,7 +92,7 @@ public class VnetInfoInner {
      *
      * @return the certBlob value
      */
-    public String certBlob() {
+    public byte[] certBlob() {
         return this.certBlob;
     }
 
@@ -99,7 +102,7 @@ public class VnetInfoInner {
      * @param certBlob the certBlob value to set
      * @return the VnetInfoInner object itself.
      */
-    public VnetInfoInner withCertBlob(String certBlob) {
+    public VnetInfoInner withCertBlob(byte[] certBlob) {
         this.certBlob = certBlob;
         return this;
     }

@@ -10,13 +10,13 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Hybrid Connection for an App Service app.
  */
 @JsonFlatten
-public class RelayServiceConnectionEntityInner extends Resource {
+public class RelayServiceConnectionEntityInner extends ProxyOnlyResource {
     /**
      * The entityName property.
      */

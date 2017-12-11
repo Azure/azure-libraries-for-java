@@ -89,7 +89,7 @@ public interface AppServiceCertificate extends
     /**
      * @return the raw bytes of .cer file
      */
-    String certificateBlob();
+    byte[] certificateBlob();
 
     /**
      * @return the public key hash

@@ -11,14 +11,14 @@ package com.microsoft.azure.management.appservice.implementation;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Full view of network features for an app (presently VNET integration and
  * Hybrid Connections).
  */
 @JsonFlatten
-public class NetworkFeaturesInner extends Resource {
+public class NetworkFeaturesInner extends ProxyOnlyResource {
     /**
      * The Virtual Network name.
      */

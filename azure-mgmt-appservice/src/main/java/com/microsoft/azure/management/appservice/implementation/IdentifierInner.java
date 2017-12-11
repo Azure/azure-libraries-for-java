@@ -10,15 +10,15 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
- * Identifier.
+ * A domain specific resource identifier.
  */
 @JsonFlatten
-public class IdentifierInner extends Resource {
+public class IdentifierInner extends ProxyOnlyResource {
     /**
-     * ID.
+     * String representation of the identity.
      */
     @JsonProperty(value = "properties.id")
     private String identifierId;

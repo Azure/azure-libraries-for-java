@@ -12,13 +12,13 @@ import com.microsoft.azure.management.appservice.CertificateOrderActionType;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Certificate order action.
  */
 @JsonFlatten
-public class CertificateOrderActionInner extends Resource {
+public class CertificateOrderActionInner extends ProxyOnlyResource {
     /**
      * Action type. Possible values include: 'CertificateIssued',
      * 'CertificateOrderCanceled', 'CertificateOrderCreated',

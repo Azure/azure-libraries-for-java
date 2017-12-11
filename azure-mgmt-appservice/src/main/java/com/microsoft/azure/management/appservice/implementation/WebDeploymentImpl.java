@@ -7,7 +7,6 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.MSDeployCore;
-import com.microsoft.azure.management.appservice.MSDeployParameterEntry;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import com.microsoft.azure.management.appservice.WebDeployment;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
@@ -16,6 +15,7 @@ import rx.Observable;
 import rx.functions.Func1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Implementation of WebDeployment.
@@ -106,9 +106,9 @@ public class WebDeploymentImpl<
     @Override
     public WebDeploymentImpl<FluentT, FluentImplT> withSetParameter(String name, String value) {
         if (request.setParameters() == null) {
-            request.withSetParameters(new ArrayList<MSDeployParameterEntry>());
+            request.withSetParameters(new HashMap<String, String>());
         }
-        request.setParameters().add(new MSDeployParameterEntry().withName(name).withValue(value));
+        request.setParameters().put(name, value);
         return this;
     }
 }

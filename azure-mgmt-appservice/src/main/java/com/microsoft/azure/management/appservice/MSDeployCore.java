@@ -8,7 +8,7 @@
 
 package com.microsoft.azure.management.appservice;
 
-import java.util.List;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -44,18 +44,22 @@ public class MSDeployCore {
      * MSDeploy Parameters. Must not be set if SetParametersXmlFileUri is used.
      */
     @JsonProperty(value = "setParameters")
-    private List<MSDeployParameterEntry> setParameters;
+    private Map<String, String> setParameters;
 
     /**
-     * Controls whether the MSDeploy operation skips the AppData directory. If
-     * set to true, the existing AppData directory on the destination will not
-     * be deleted and overwritten.
+     * Controls whether the MSDeploy operation skips the App_Data directory.
+     * If set to &lt;code&gt;true&lt;/code&gt;, the existing App_Data directory
+     * on the destination
+     * will not be deleted, and any App_Data directory in the source will be
+     * ignored.
+     * Setting is &lt;code&gt;false&lt;/code&gt; by default.
      */
     @JsonProperty(value = "skipAppData")
     private Boolean skipAppData;
 
     /**
      * Sets the AppOffline rule while the MSDeploy operation executes.
+     * Setting is &lt;code&gt;false&lt;/code&gt; by default.
      */
     @JsonProperty(value = "appOffline")
     private Boolean appOffline;
@@ -145,7 +149,7 @@ public class MSDeployCore {
      *
      * @return the setParameters value
      */
-    public List<MSDeployParameterEntry> setParameters() {
+    public Map<String, String> setParameters() {
         return this.setParameters;
     }
 
@@ -155,7 +159,7 @@ public class MSDeployCore {
      * @param setParameters the setParameters value to set
      * @return the MSDeployCore object itself.
      */
-    public MSDeployCore withSetParameters(List<MSDeployParameterEntry> setParameters) {
+    public MSDeployCore withSetParameters(Map<String, String> setParameters) {
         this.setParameters = setParameters;
         return this;
     }

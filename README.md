@@ -2,7 +2,7 @@
 
 # Azure Management Libraries for Java
 
-This README is based on the released stable version (1.4.0). If you are looking for other releases, see [More Information](#more-information).
+This README is based on the released stable version (1.5.0). If you are looking for other releases, see [More Information](#more-information).
 
 The Azure Management Libraries for Java is a higher-level, object-oriented API for *managing* Azure resources, that is optimized for ease of use, succinctness and consistency.
 
@@ -24,7 +24,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
 * [More information](#more-information)
 
 ## Feature Availability and Road Map
-:triangular_flag_on_post: *as of Version 1.4*
+:triangular_flag_on_post: *as of Version 1.5*
 
 <table>
   <tr>
@@ -41,8 +41,8 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
   </tr>
   <tr>
     <td>Storage</td>
-    <td>Storage accounts<br>Encryption</td>
-    <td></td>
+    <td>Storage accounts<br>Encryption (<i>deprecated</i>)</td>
+    <td>Encryption (Blob)<br>Encryption (File)</td>
     <td></td>
   </tr>
   <tr>
@@ -562,13 +562,13 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 
 ### Latest stable release
 
-If you are using released builds from 1.4.0, add the following to your POM file:
+If you are using released builds from 1.5.0, add the following to your POM file:
 
 ```xml
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
 </dependency>
 ```
 
@@ -595,7 +595,7 @@ If you are using snapshots builds for this repo, add the following repository an
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure</artifactId>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.5.1-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.microsoft.azure</groupId>
@@ -622,7 +622,7 @@ If you are using snapshots builds for this repo, add the following repository an
 
 ## Upgrading from older versions
 
-If you are migrating your code from 1.3.x to 1.4.x, you can use these release notes for [preparing your code for 1.4.0 from 1.3.0](./notes/prepare-for-1.4.0.md).
+If you are migrating your code from 1.4.x to 1.5.x, you can use these release notes for [preparing your code for 1.5.0 from 1.4.0](./notes/prepare-for-1.5.0.md).
 
 In general, Azure Libraries for Java follow [semantic versioning](http://semver.org/), so user code should continue working in a compatible fashion between minor versions of the same major version release train, with the following caveats:
 
@@ -656,7 +656,8 @@ If you would like to become an active contributor to this project please follow 
 
 | Version           | SHA1                                                                                      | Remarks                                               |
 |-------------------|-------------------------------------------------------------------------------------------|-------------------------------------------------------|
-| 1.3.0       | [1.3.0](https://github.com/Azure/azure-sdk-for-java/tree/v1.3.0)               | Tagged release for 1.2.1 version of Azure management libraries |
+| 1.4.0       | [1.4.0](https://github.com/Azure/azure-sdk-for-java/tree/v1.4.0)               | Tagged release for 1.4.0 version of Azure management libraries |
+| 1.3.0       | [1.3.0](https://github.com/Azure/azure-sdk-for-java/tree/v1.3.0)               | Tagged release for 1.3.0 version of Azure management libraries |
 | 1.2.1       | [1.2.1](https://github.com/Azure/azure-sdk-for-java/tree/v1.2.1)               | Tagged release for 1.2.1 version of Azure management libraries |
 | 1.1.0       | [1.1.0](https://github.com/Azure/azure-sdk-for-java/tree/v1.1.0)               | Tagged release for 1.1.0 version of Azure management libraries |
 | 1.0.0       | [1.0.0](https://github.com/Azure/azure-sdk-for-java/tree/v1.0.0)               | Tagged release for 1.0.0 version of Azure management libraries |

@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
+import com.microsoft.azure.management.appservice.WebAppBase.DefinitionStages.WithCreate;
 import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
 import com.microsoft.azure.management.appservice.implementation.SiteInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -786,6 +787,13 @@ public interface WebAppBase extends
              */
             @Method
             WithCreate<FluentT> withContainerLoggingEnabled();
+
+            /**
+             * Disable the container logging for Linux web apps.
+             * @return the next stage of the web app definition
+             */
+            @Method
+            WithCreate<FluentT> withContainerLoggingDisabled();
         }
 
         /**
@@ -1213,6 +1221,13 @@ public interface WebAppBase extends
              */
             @Method
             Update<FluentT> withContainerLoggingEnabled();
+
+            /**
+             * Disable the container logging for Linux web apps.
+             * @return the next stage of the web app definition
+             */
+            @Method
+            WithCreate<FluentT> withContainerLoggingDisabled();
         }
     }
 

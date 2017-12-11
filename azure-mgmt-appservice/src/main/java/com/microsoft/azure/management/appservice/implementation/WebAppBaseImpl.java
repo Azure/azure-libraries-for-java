@@ -1261,4 +1261,13 @@ abstract class WebAppBaseImpl<
     public FluentImplT withContainerLoggingEnabled() {
         return withContainerLoggingEnabled(35, 0);
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public FluentImplT withContainerLoggingDisabled() {
+        siteLogsConfig = new SiteLogsConfigInner()
+                .withHttpLogs(new HttpLogsConfig().withFileSystem(
+                        new FileSystemHttpLogsConfig().withEnabled(false)));
+        return (FluentImplT) this;
+    }
 }

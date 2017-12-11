@@ -16,7 +16,7 @@ import java.util.Collection;
  * Storage resource types.
  */
 @Fluent
-@Beta   // TODO Add since v1.5 param
+@Beta(Beta.SinceVersion.V1_5_0)
 public class StorageResourceType extends ExpandableStringEnum<StorageResourceType> {
     /**
      * Static value storageAccounts for StorageResourceType.

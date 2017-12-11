@@ -18,7 +18,7 @@ import com.microsoft.azure.management.storage.implementation.StorageManager;
  * Entry point to storage service SKUs.
  */
 @Fluent
-@Beta // TODO Add since v1.5 param
+@Beta(Beta.SinceVersion.V1_5_0)
 public interface StorageSkus
         extends
         SupportsListing<StorageSku>,

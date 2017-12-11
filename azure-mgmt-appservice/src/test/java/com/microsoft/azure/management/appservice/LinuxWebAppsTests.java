@@ -85,10 +85,12 @@ public class LinuxWebAppsTests extends AppServiceTest {
         byte[] logs = webApp.getContainerLogs();
         Assert.assertTrue(logs.length > 0);
         byte[] logsZip = webApp.getContainerLogsZip();
-        ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(logsZip));
-        Assert.assertNotNull(zipInputStream.getNextEntry());
-        byte[] unzipped = ByteStreams.toByteArray(zipInputStream);
-        Assert.assertTrue(unzipped.length > 0);
+        if (!isPlaybackMode()) {
+            ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(logsZip));
+            Assert.assertNotNull(zipInputStream.getNextEntry());
+            byte[] unzipped = ByteStreams.toByteArray(zipInputStream);
+            Assert.assertTrue(unzipped.length > 0);
+        }
 
         // Update
         webApp1.update()

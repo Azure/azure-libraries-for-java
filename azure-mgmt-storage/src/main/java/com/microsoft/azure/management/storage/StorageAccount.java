@@ -51,7 +51,7 @@ public interface StorageAccount extends
     /**
      * @return the sku of this storage account.
      */
-    @Beta // TODO Add since v1.5 param
+    @Beta(Beta.SinceVersion.V1_5_0)
     StorageAccountSkuType skuType();
 
     /**
@@ -121,14 +121,14 @@ public interface StorageAccount extends
      * @return the Managed Service Identity specific Active Directory tenant ID assigned to the
      * storage account.
      */
-    @Beta   // TODO Add since v1.5 param
+    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityTenantId();
 
     /**
      * @return the Managed Service Identity specific Active Directory service principal ID assigned
      * to the storage account.
      */
-    @Beta   // TODO Add since v1.5 param
+    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityPrincipalId();
 
     /**
@@ -136,25 +136,25 @@ public interface StorageAccount extends
      * storage account, false if only application from whitelisted network (subnet, ip address,
      * ip address range) can access the storage account.
      */
-    @Beta   // TODO Add since v1.5 param
+    @Beta(Beta.SinceVersion.V1_5_0)
     boolean isAccessAllowedFromAllNetworks();
 
     /**
      * @return the list of resource id of virtual network subnet having access to the storage account.
      */
-    @Beta   // TODO Add since v1.5 param
+    @Beta(Beta.SinceVersion.V1_5_0)
     List<String> networkSubnetsWithAccess();
 
     /**
      * @return the list of ip addresses having access to the storage account.
      */
-    @Beta   // TODO Add since v1.5 param
+    @Beta(Beta.SinceVersion.V1_5_0)
     List<String> ipAddressesWithAccess();
 
     /**
      * @return the list of ip address ranges having access to the storage account.
      */
-    @Beta   // TODO Add since v1.5 param
+    @Beta(Beta.SinceVersion.V1_5_0)
     List<String> ipAddressRangesWithAccess();
 
     /**
@@ -162,7 +162,7 @@ public interface StorageAccount extends
      *
      * @return true if storage log entries can be read from any network, false otherwise
      */
-    @Beta   // TODO Add since v1.5 param
+    @Beta(Beta.SinceVersion.V1_5_0)
     boolean canReadLogEntriesFromAnyNetwork();
 
     /**
@@ -170,7 +170,7 @@ public interface StorageAccount extends
      *
      * @return true if storage metrics can be read from any network, false otherwise
      */
-    @Beta   // TODO Add since v1.5 param
+    @Beta(Beta.SinceVersion.V1_5_0)
     boolean canReadMetricsFromAnyNetwork();
 
     /**
@@ -178,7 +178,7 @@ public interface StorageAccount extends
      *
      * @return true if storage can be accessed from application running on azure, false otherwise
      */
-    @Beta   // TODO Add since v1.5 param
+    @Beta(Beta.SinceVersion.V1_5_0)
     boolean canAccessFromAzureServices();
 
     /**
@@ -274,7 +274,7 @@ public interface StorageAccount extends
              * @param sku the sku
              * @return the next stage of storage account definition
              */
-            @Beta   // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withSku(StorageAccountSkuType sku);
         }
 
@@ -330,7 +330,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta   // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withBlobEncryption();
 
             /**
@@ -338,7 +338,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withoutBlobEncryption();
 
             /**
@@ -346,7 +346,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withFileEncryption();
 
             /**
@@ -354,7 +354,7 @@ public interface StorageAccount extends
              *
              * @return he next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withoutFileEncryption();
 
             /**
@@ -365,7 +365,7 @@ public interface StorageAccount extends
              * @param keyVersion the KeyVault key version
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withEncryptionKeyFromKeyVault(String keyVaultUri, String keyName, String keyVersion);
         }
 
@@ -408,33 +408,35 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withSystemAssignedManagedServiceIdentity();
         }
 
         /**
          * The stage of storage account definition allowing to restrict access protocol.
          */
+        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithAccessTraffic {
             /**
              * Specifies that only https traffic should be allowed to storage account.
              *
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withOnlyHttpsTraffic();
         }
 
         /**
          * The stage of storage account definition allowing to configure network access settings.
          */
+        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithNetworkAccess {
             /**
              * Specifies that by default access to storage account should be allowed from all networks.
              *
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withAccessFromAllNetworks();
 
             /**
@@ -446,7 +448,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withAccessFromSelectedNetworks();
 
             /**
@@ -455,7 +457,7 @@ public interface StorageAccount extends
              * @param subnetId the virtual network subnet id
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withAccessFromNetworkSubnet(String subnetId);
 
             /**
@@ -464,7 +466,7 @@ public interface StorageAccount extends
              * @param ipAddress the ip address
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withAccessFromIpAddress(String ipAddress);
 
             /**
@@ -473,7 +475,7 @@ public interface StorageAccount extends
              * @param ipAddressCidr the ip address range expressed in cidr format
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withAccessFromIpAddressRange(String ipAddressCidr);
 
             /**
@@ -481,7 +483,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withReadAccessToLogEntriesFromAnyNetwork();
 
             /**
@@ -489,7 +491,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withReadAccessToMetricsFromAnyNetwork();
 
             /**
@@ -498,7 +500,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withAccessFromAzureServices();
         }
 
@@ -563,7 +565,7 @@ public interface StorageAccount extends
              * @param sku the sku
              * @return the next stage of storage account update
              */
-            @Beta   // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withSku(StorageAccountSkuType sku);
         }
 
@@ -615,7 +617,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withBlobEncryption();
 
             /**
@@ -623,7 +625,7 @@ public interface StorageAccount extends
              *
              * @return he next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withFileEncryption();
 
             /**
@@ -640,7 +642,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withoutBlobEncryption();
 
             /**
@@ -648,7 +650,7 @@ public interface StorageAccount extends
              *
              * @return he next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withoutFileEncryption();
 
             /**
@@ -659,7 +661,7 @@ public interface StorageAccount extends
              * @param keyVersion the KeyVault key version
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withEncryptionKeyFromKeyVault(String keyVaultUri, String keyName, String keyVersion);
         }
 
@@ -689,20 +691,21 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withSystemAssignedManagedServiceIdentity();
         }
 
         /**
          * The stage of the storage account update allowing to specify the protocol to be used to access account.
          */
+        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithAccessTraffic {
             /**
              * Specifies that only https traffic should be allowed to storage account.
              *
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withOnlyHttpsTraffic();
 
             /**
@@ -710,7 +713,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withHttpAndHttpsTraffic();
         }
 
@@ -718,6 +721,7 @@ public interface StorageAccount extends
         /**
          * The stage of storage account update allowing to configure network access.
          */
+        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithNetworkAccess {
             /**
              * Specifies that by default access to storage account should be allowed from
@@ -725,7 +729,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withAccessFromAllNetworks();
 
             /**
@@ -737,7 +741,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withAccessFromSelectedNetworks();
 
             /**
@@ -747,7 +751,7 @@ public interface StorageAccount extends
              * @param subnetId the virtual network subnet id
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withAccessFromNetworkSubnet(String subnetId);
 
             /**
@@ -756,7 +760,7 @@ public interface StorageAccount extends
              * @param ipAddress the ip address
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withAccessFromIpAddress(String ipAddress);
 
             /**
@@ -765,7 +769,7 @@ public interface StorageAccount extends
              * @param ipAddressCidr the ip address range expressed in cidr format
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withAccessFromIpAddressRange(String ipAddressCidr);
 
             /**
@@ -773,7 +777,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withReadAccessToLogEntriesFromAnyNetwork();
 
             /**
@@ -781,7 +785,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withReadAccessToMetricsFromAnyNetwork();
 
             /**
@@ -790,7 +794,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withAccessFromAzureServices();
 
             /**
@@ -799,7 +803,7 @@ public interface StorageAccount extends
              * @param subnetId the virtual network subnet id
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withoutNetworkSubnetAccess(String subnetId);
 
             /**
@@ -808,7 +812,7 @@ public interface StorageAccount extends
              * @param ipAddress the ip address
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withoutIpAddressAccess(String ipAddress);
 
             /**
@@ -817,7 +821,7 @@ public interface StorageAccount extends
              * @param ipAddressCidr the ip address range expressed in cidr format
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withoutIpAddressRangeAccess(String ipAddressCidr);
 
             /**
@@ -826,7 +830,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withoutReadAccessToLoggingFromAnyNetwork();
 
             /**
@@ -835,7 +839,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withoutReadAccessToMetricsFromAnyNetwork();
 
             /**
@@ -844,7 +848,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta // TODO Add since v1.5 param
+            @Beta(Beta.SinceVersion.V1_5_0)
             Update withoutAccessFromAzureServices();
         }
     }

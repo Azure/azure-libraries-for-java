@@ -321,14 +321,14 @@ public interface VirtualMachineScaleSet extends
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID
      * assigned to the virtual machine scale set.
      */
-    @Beta // TODO Add since version 1.5
+    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityTenantId();
 
     /**
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory service principal ID
      * assigned to the virtual machine scale set.
      */
-    @Beta // TODO Add since version 1.5
+    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityPrincipalId();
 
     /**
@@ -1340,7 +1340,7 @@ public interface VirtualMachineScaleSet extends
          * The stage of the virtual machine scale set definition allowing to enable System Assigned (Local) Managed
          * Service Identity.
          */
-        @Beta // TODO Add since version 1.5
+        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedManagedServiceIdentity {
             /**
              * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the virtual
@@ -1348,7 +1348,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity();
 
             /**
@@ -1358,7 +1358,7 @@ public interface VirtualMachineScaleSet extends
              * @param tokenPort the port on the virtual machine scale set instance where access token is available
              * @return the next stage of the definition
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity(int tokenPort);
         }
 
@@ -1366,7 +1366,7 @@ public interface VirtualMachineScaleSet extends
          * The stage of the System Assigned (Local) Managed Service Identity enabled virtual machine scale set
          * allowing to set access for the identity.
          */
-        @Beta // TODO Add since version 1.5
+        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedIdentityBasedAccessOrCreate extends WithCreate {
             /**
              * Specifies that virtual machine scale set's system assigned (local) identity should have the given
@@ -1377,7 +1377,7 @@ public interface VirtualMachineScaleSet extends
              * @param role access role to assigned to the scale set local identity
              * @return the next stage of the definition
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
 
             /**
@@ -1388,7 +1388,7 @@ public interface VirtualMachineScaleSet extends
              * @param role access role to assigned to the scale set local identity
              * @return the next stage of the definition
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
@@ -1400,7 +1400,7 @@ public interface VirtualMachineScaleSet extends
              * @param roleDefinitionId access role definition to assigned to the scale set local identity
              * @return the next stage of the definition
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
 
             /**
@@ -1411,7 +1411,7 @@ public interface VirtualMachineScaleSet extends
              * @param roleDefinitionId access role definition to assigned to the scale set local identity
              * @return the next stage of the definition
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
 
@@ -1725,7 +1725,7 @@ public interface VirtualMachineScaleSet extends
         /**
          * The stage of the virtual machine scale set update allowing to enable System Assigned (Local) Managed Service Identity.
          */
-        @Beta // TODO Add since version 1.5
+        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedManagedServiceIdentity {
             /**
              * Specifies that System assigned (Local) Managed Service Identity needs to be enabled in the
@@ -1733,7 +1733,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedManagedServiceIdentity();
 
             /**
@@ -1743,7 +1743,7 @@ public interface VirtualMachineScaleSet extends
              * @param tokenPort the port on the virtual machine scale set instance where access token is available
              * @return the next stage of the update
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedManagedServiceIdentity(int tokenPort);
         }
 
@@ -1751,7 +1751,7 @@ public interface VirtualMachineScaleSet extends
          * The stage of the System Assigned (Local) Managed Service Identity enabled virtual machine scale set
          * allowing to set access for the identity.
          */
-        @Beta // TODO Add since version 1.5
+        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedIdentityBasedAccessOrApply extends WithApply {
             /**
              * Specifies that virtual machine's system assigned (local) identity should have the given
@@ -1763,7 +1763,7 @@ public interface VirtualMachineScaleSet extends
              * @param role access role to assigned to the scale set local identity
              * @return the next stage of the update
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
 
             /**
@@ -1774,7 +1774,7 @@ public interface VirtualMachineScaleSet extends
              * @param role access role to assigned to the scale set local identity
              * @return the next stage of the update
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
@@ -1786,7 +1786,7 @@ public interface VirtualMachineScaleSet extends
              * @param roleDefinitionId access role definition to assigned to the scale set local identity
              * @return the next stage of the update
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
 
             /**
@@ -1797,7 +1797,7 @@ public interface VirtualMachineScaleSet extends
              * @param roleDefinitionId access role definition to assigned to the scale set local identity
              * @return the next stage of the update
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
 

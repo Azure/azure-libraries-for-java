@@ -18,7 +18,7 @@ import java.util.List;
  * Type representing sku for an Azure storage resource.
  */
 @Fluent
-@Beta   // TODO Add since v1.5 param
+@Beta(Beta.SinceVersion.V1_5_0)
 public interface StorageSku extends HasInner<SkuInner> {
     /**
      * @return the sku name

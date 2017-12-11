@@ -21,7 +21,7 @@ import java.util.Set;
  * Type representing sku for an Azure compute resource.
  */
 @Fluent
-@Beta   // TODO Add since v1.5 param
+@Beta(Beta.SinceVersion.V1_5_0)
 public interface ComputeSku extends HasInner<ResourceSkuInner> {
     /**
      * @return the sku name

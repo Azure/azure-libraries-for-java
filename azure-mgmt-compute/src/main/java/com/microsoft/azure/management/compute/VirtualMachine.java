@@ -409,14 +409,14 @@ public interface VirtualMachine extends
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID assigned
      * to the virtual machine.
      */
-    @Beta // TODO Add since version 1.5
+    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityTenantId();
 
     /**
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory service principal ID
      * assigned to the virtual machine.
      */
-    @Beta // TODO Add since version 1.5
+    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityPrincipalId();
 
     /**
@@ -1510,14 +1510,14 @@ public interface VirtualMachine extends
         /**
          * The stage of the virtual machine definition allowing to enable System Assigned (Local) Managed Service Identity.
          */
-        @Beta // TODO Add since version 1.5
+        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedManagedServiceIdentity {
             /**
              * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the virtual machine.
              *
              * @return the next stage of the definition
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity();
 
             /**
@@ -1526,7 +1526,7 @@ public interface VirtualMachine extends
              * @param tokenPort the port on the virtual machine where access token is available
              * @return the next stage of the definition
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity(int tokenPort);
         }
 
@@ -1534,7 +1534,7 @@ public interface VirtualMachine extends
          * The stage of the System Assigned (Local) Managed Service Identity enabled virtual machine allowing to
          * set access role for the identity.
          */
-        @Beta // TODO Add since version 1.5
+        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedIdentityBasedAccessOrCreate extends WithCreate {
             /**
              * Specifies that virtual machine's system assigned (local) identity should have the given access
@@ -1545,7 +1545,7 @@ public interface VirtualMachine extends
              * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
 
             /**
@@ -1556,7 +1556,7 @@ public interface VirtualMachine extends
              * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
@@ -1568,7 +1568,7 @@ public interface VirtualMachine extends
              * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta // TODO Add since 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
 
             /**
@@ -1580,7 +1580,7 @@ public interface VirtualMachine extends
              * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta // TODO Add since 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
 
@@ -1975,7 +1975,7 @@ public interface VirtualMachine extends
         /**
          * The stage of the virtual machine update allowing to enable System Assigned (Local) Managed Service Identity.
          */
-        @Beta // TODO Add since version 1.5
+        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedManagedServiceIdentity {
             /**
              * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the
@@ -1983,7 +1983,7 @@ public interface VirtualMachine extends
              *
              * @return the next stage of the update
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedManagedServiceIdentity();
 
             /**
@@ -1993,7 +1993,7 @@ public interface VirtualMachine extends
              * @param tokenPort the port on the virtual machine where access token is available
              * @return the next stage of the update
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedManagedServiceIdentity(int tokenPort);
         }
 
@@ -2001,7 +2001,7 @@ public interface VirtualMachine extends
          * The stage of the System Assigned (Local) Managed Service Identity enabled virtual machine allowing
          * to set access role for the identity.
          */
-        @Beta // TODO Add since version 1.5
+        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedIdentityBasedAccessOrUpdate extends Update {
             /**
              * Specifies that virtual machine's system assigned (local) identity should have the given
@@ -2013,7 +2013,7 @@ public interface VirtualMachine extends
              * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta // TODO Add since 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
 
             /**
@@ -2024,7 +2024,7 @@ public interface VirtualMachine extends
              * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
@@ -2037,7 +2037,7 @@ public interface VirtualMachine extends
              * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
 
             /**
@@ -2048,7 +2048,7 @@ public interface VirtualMachine extends
              * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta // TODO Add since version 1.5
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
     }

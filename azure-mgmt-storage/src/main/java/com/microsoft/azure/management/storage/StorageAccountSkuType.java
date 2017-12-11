@@ -13,7 +13,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
  * Defines sku values for storage account resource.
  */
 @LangDefinition
-@Beta // TODO Add since v1.5 param
+@Beta(Beta.SinceVersion.V1_5_0)
 public final class StorageAccountSkuType {
     /** Static value STANDARD_LRS for StorageAccountSkuType. */
     public static final StorageAccountSkuType STANDARD_LRS = new StorageAccountSkuType(SkuName.STANDARD_LRS);

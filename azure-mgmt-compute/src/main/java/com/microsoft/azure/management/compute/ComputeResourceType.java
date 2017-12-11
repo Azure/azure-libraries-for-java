@@ -16,7 +16,7 @@ import java.util.Collection;
  * Compute resource types.
  */
 @Fluent
-@Beta   // TODO Add since v1.5 param
+@Beta(Beta.SinceVersion.V1_5_0)
 public class ComputeResourceType  extends ExpandableStringEnum<ComputeResourceType> {
     /**
      * Static value availabilitySets for ComputeResourceType.

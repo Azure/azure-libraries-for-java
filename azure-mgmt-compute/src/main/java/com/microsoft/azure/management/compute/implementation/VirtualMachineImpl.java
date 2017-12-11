@@ -105,8 +105,8 @@ class VirtualMachineImpl
         VirtualMachine.DefinitionManaged,
         VirtualMachine.DefinitionUnmanaged,
         VirtualMachine.Update,
-        VirtualMachine.DefinitionStages.WithLocalIdentityBasedAccessOrCreate,
-        VirtualMachine.UpdateStages.WithLocalIdentityBasedAccessOrUpdate {
+        VirtualMachine.DefinitionStages.WithSystemAssignedIdentityBasedAccessOrCreate,
+        VirtualMachine.UpdateStages.WithSystemAssignedIdentityBasedAccessOrUpdate {
     // Clients
     private final StorageManager storageManager;
     private final NetworkManager networkManager;
@@ -1274,38 +1274,38 @@ class VirtualMachineImpl
     }
 
     @Override
-    public VirtualMachineImpl withLocalManagedServiceIdentity() {
-        this.virtualMachineMsiHandler.withLocalManagedServiceIdentity();
+    public VirtualMachineImpl withSystemAssignedManagedServiceIdentity() {
+            this.virtualMachineMsiHandler.withLocalManagedServiceIdentity();
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withLocalManagedServiceIdentity(int tokenPort) {
+    public VirtualMachineImpl withSystemAssignedManagedServiceIdentity(int tokenPort) {
         this.virtualMachineMsiHandler.withLocalManagedServiceIdentity(tokenPort);
         return this;
     }
 
 
     @Override
-    public VirtualMachineImpl withLocalIdentityBasedAccessTo(String resourceId, BuiltInRole role) {
+    public VirtualMachineImpl withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role) {
         this.virtualMachineMsiHandler.withAccessTo(resourceId, role);
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withLocalIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role) {
+    public VirtualMachineImpl withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role) {
         this.virtualMachineMsiHandler.withAccessToCurrentResourceGroup(role);
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withLocalIdentityBasedAccessTo(String resourceId, String roleDefinitionId) {
+    public VirtualMachineImpl withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId) {
         this.virtualMachineMsiHandler.withAccessTo(resourceId, roleDefinitionId);
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withLocalIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
+    public VirtualMachineImpl withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
         this.virtualMachineMsiHandler.withAccessToCurrentResourceGroup(roleDefinitionId);
         return this;
     }
@@ -1593,7 +1593,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public String localManagedServiceIdentityTenantId() {
+    public String systemAssignedManagedServiceIdentityTenantId() {
         if (this.inner().identity() != null) {
             return this.inner().identity().tenantId();
         }
@@ -1601,7 +1601,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public String localManagedServiceIdentityPrincipalId() {
+    public String systemAssignedManagedServiceIdentityPrincipalId() {
         if (this.inner().identity() != null) {
             return this.inner().identity().principalId();
         }

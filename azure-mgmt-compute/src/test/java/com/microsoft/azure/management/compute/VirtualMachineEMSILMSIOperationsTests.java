@@ -119,8 +119,8 @@ public class VirtualMachineEMSILMSIOperationsTests extends TestBase {
         Assert.assertNotNull(virtualMachine);
         Assert.assertNotNull(virtualMachine.inner());
         Assert.assertTrue(virtualMachine.isManagedServiceIdentityEnabled());
-        Assert.assertNull(virtualMachine.localManagedServiceIdentityPrincipalId()); // No Local MSI enabled
-        Assert.assertNull(virtualMachine.localManagedServiceIdentityTenantId());    // No Local MSI enabled
+        Assert.assertNull(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId()); // No Local MSI enabled
+        Assert.assertNull(virtualMachine.systemAssignedManagedServiceIdentityTenantId());    // No Local MSI enabled
 
         // Ensure the MSI extension is set
         //
@@ -233,16 +233,16 @@ public class VirtualMachineEMSILMSIOperationsTests extends TestBase {
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("abc!@#F0orL")
-                .withLocalManagedServiceIdentity()
-                .withLocalIdentityBasedAccessTo(network.id(), BuiltInRole.CONTRIBUTOR)
+                .withSystemAssignedManagedServiceIdentity()
+                .withSystemAssignedIdentityBasedAccessTo(network.id(), BuiltInRole.CONTRIBUTOR)
                 .withNewExternalManagedServiceIdentity(creatableIdentity)
                 .create();
 
         Assert.assertNotNull(virtualMachine);
         Assert.assertNotNull(virtualMachine.inner());
         Assert.assertTrue(virtualMachine.isManagedServiceIdentityEnabled());
-        Assert.assertNotNull(virtualMachine.localManagedServiceIdentityPrincipalId());
-        Assert.assertNotNull(virtualMachine.localManagedServiceIdentityTenantId());
+        Assert.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
+        Assert.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityTenantId());
 
         // Ensure the MSI extension is set
         //
@@ -275,12 +275,12 @@ public class VirtualMachineEMSILMSIOperationsTests extends TestBase {
                 .listByScope(network.id());
         boolean found = false;
         for (RoleAssignment roleAssignment : roleAssignmentsForStorage) {
-            if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(virtualMachine.localManagedServiceIdentityPrincipalId())) {
+            if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId())) {
                 found = true;
                 break;
             }
         }
-        Assert.assertTrue("Expected role assignment not found for the virtual network for local identity" + virtualMachine.localManagedServiceIdentityPrincipalId(), found);
+        Assert.assertTrue("Expected role assignment not found for the virtual network for local identity" + virtualMachine.systemAssignedManagedServiceIdentityPrincipalId(), found);
 
         // Ensure expected role assignment exists for EMSI
         //

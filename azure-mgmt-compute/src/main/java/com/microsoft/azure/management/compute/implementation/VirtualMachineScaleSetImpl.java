@@ -96,9 +96,9 @@ public class VirtualMachineScaleSetImpl
         VirtualMachineScaleSet.DefinitionManaged,
         VirtualMachineScaleSet.DefinitionUnmanaged,
         VirtualMachineScaleSet.Update,
-        VirtualMachineScaleSet.DefinitionStages.WithLocalIdentityBasedAccessOrCreate,
+        VirtualMachineScaleSet.DefinitionStages.WithSystemAssignedIdentityBasedAccessOrCreate,
         VirtualMachineScaleSet.DefinitionStages.WithExternalManagedServiceIdentity,
-        VirtualMachineScaleSet.UpdateStages.WithLocalIdentityBasedAccessOrApply,
+        VirtualMachineScaleSet.UpdateStages.WithSystemAssignedIdentityBasedAccessOrApply,
         VirtualMachineScaleSet.UpdateStages.WithExternalManagedServiceIdentity {
     // Clients
     private final StorageManager storageManager;
@@ -1019,7 +1019,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public String localManagedServiceIdentityTenantId() {
+    public String systemAssignedManagedServiceIdentityTenantId() {
         if (this.inner().identity() != null) {
             return this.inner().identity().tenantId();
         }
@@ -1027,7 +1027,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public String localManagedServiceIdentityPrincipalId() {
+    public String systemAssignedManagedServiceIdentityPrincipalId() {
         if (this.inner().identity() != null) {
             return this.inner().identity().principalId();
         }
@@ -1257,37 +1257,37 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withLocalManagedServiceIdentity() {
+    public VirtualMachineScaleSetImpl withSystemAssignedManagedServiceIdentity() {
         this.virtualMachineScaleSetMsiHandler.withLocalManagedServiceIdentity();
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withLocalManagedServiceIdentity(int tokenPort) {
+    public VirtualMachineScaleSetImpl withSystemAssignedManagedServiceIdentity(int tokenPort) {
         this.virtualMachineScaleSetMsiHandler.withLocalManagedServiceIdentity(tokenPort);
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withLocalIdentityBasedAccessTo(String resourceId, BuiltInRole role) {
+    public VirtualMachineScaleSetImpl withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role) {
         this.virtualMachineScaleSetMsiHandler.withAccessTo(resourceId, role);
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withLocalIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role) {
-        this.virtualMachineScaleSetMsiHandler.withAccessToCurrentResourceGroup(role);
+    public VirtualMachineScaleSetImpl withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole asRole) {
+        this.virtualMachineScaleSetMsiHandler.withAccessToCurrentResourceGroup(asRole);
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withLocalIdentityBasedAccessTo(String scope, String roleDefinitionId) {
+    public VirtualMachineScaleSetImpl withSystemAssignedIdentityBasedAccessTo(String scope, String roleDefinitionId) {
         this.virtualMachineScaleSetMsiHandler.withAccessTo(scope, roleDefinitionId);
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withLocalIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
+    public VirtualMachineScaleSetImpl withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
         this.virtualMachineScaleSetMsiHandler.withAccessToCurrentResourceGroup(roleDefinitionId);
         return this;
     }

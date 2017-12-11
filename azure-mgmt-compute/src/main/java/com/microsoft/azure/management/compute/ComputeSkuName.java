@@ -16,7 +16,7 @@ import java.util.Collection;
  * Compute resource sku names.
  */
 @Fluent
-@Beta   // TODO Add since v1.5 param
+@Beta(Beta.SinceVersion.V1_5_0)
 public class ComputeSkuName extends ExpandableStringEnum<ComputeSkuName> {
     /**
      * Static value Standard_F32s_v2 for ComputeSkuName.

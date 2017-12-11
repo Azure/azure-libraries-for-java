@@ -279,8 +279,8 @@ public final class Utils {
 
         StringBuilder msi = new StringBuilder().append("\n\tMSI: ");
         msi.append("\n\t\t\tMSI enabled:").append(resource.isManagedServiceIdentityEnabled());
-        msi.append("\n\t\t\tLocal MSI Active Directory Service Principal Id:").append(resource.localManagedServiceIdentityPrincipalId());
-        msi.append("\n\t\t\tLocal MSI Active Directory Tenant Id:").append(resource.localManagedServiceIdentityTenantId());
+        msi.append("\n\t\t\tSystem Assigned MSI Active Directory Service Principal Id:").append(resource.systemAssignedManagedServiceIdentityPrincipalId());
+        msi.append("\n\t\t\tSystem Assigned MSI Active Directory Tenant Id:").append(resource.systemAssignedManagedServiceIdentityTenantId());
 
         StringBuilder zones = new StringBuilder().append("\n\tZones: ");
         zones.append(resource.availabilityZones());

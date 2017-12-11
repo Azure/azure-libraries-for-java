@@ -91,6 +91,7 @@ import com.microsoft.azure.management.servicebus.implementation.ServiceBusManage
 import com.microsoft.azure.management.sql.SqlServers;
 import com.microsoft.azure.management.sql.implementation.SqlServerManager;
 import com.microsoft.azure.management.storage.StorageAccounts;
+import com.microsoft.azure.management.storage.StorageSkus;
 import com.microsoft.azure.management.storage.Usages;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerProfiles;
@@ -494,6 +495,13 @@ public final class Azure {
      */
     public Usages storageUsages() {
         return storageManager.usages();
+    }
+
+    /**
+     * @return entry point to managing storage service SKUs
+     */
+    public StorageSkus storageSkus() {
+        return storageManager.storageSkus();
     }
 
     /**

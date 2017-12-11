@@ -6,6 +6,6 @@
 
 /**
  * This package contains the classes for StorageManagementClient.
- * The Storage Management Client.
+ * The Azure Storage Management API.
  */
 package com.microsoft.azure.management.storage;

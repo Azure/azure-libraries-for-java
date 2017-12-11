@@ -93,6 +93,7 @@ public interface ContainerGroups extends
      *
      * @return all operations for Azure Container Instance service
      */
+    @Beta(Beta.SinceVersion.V1_5_0)
     Set<Operation> listOperations();
 
     /**
@@ -100,5 +101,6 @@ public interface ContainerGroups extends
      *
      * @return a representation of the future computation of this call
      */
+    @Beta(Beta.SinceVersion.V1_5_0)
     Observable<Set<Operation>> listOperationsAsync();
 }

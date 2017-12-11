@@ -41,7 +41,7 @@ public interface ContainerGroup extends
     /**
      * @return all the ports publicly exposed for this container group
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
+    @Beta(Beta.SinceVersion.V1_5_0)
     Set<Port> externalPorts();
 
     /**
@@ -68,7 +68,7 @@ public interface ContainerGroup extends
      * @return the container group restart policy
 
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
+    @Beta(Beta.SinceVersion.V1_5_0)
     ContainerGroupRestartPolicy restartPolicy();
 
     /**
@@ -99,7 +99,7 @@ public interface ContainerGroup extends
     /**
      * @return the container group events
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
+    @Beta(Beta.SinceVersion.V1_5_0)
     Set<Event> events();
 
 
@@ -732,7 +732,7 @@ public interface ContainerGroup extends
              * @param restartPolicy the restart policy for all the container instances within the container group
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_4_0)
+            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withRestartPolicy(ContainerGroupRestartPolicy restartPolicy);
         }
 

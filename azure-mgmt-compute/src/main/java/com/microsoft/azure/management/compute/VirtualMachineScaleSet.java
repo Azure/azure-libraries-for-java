@@ -339,10 +339,10 @@ public interface VirtualMachineScaleSet extends
     ResourceIdentityType managedServiceIdentityType();
 
     /**
-     * @return the resource ids of External Managed Service Identities associated with the virtual machine scale set.
+     * @return the resource ids of User Assigned Managed Service Identities associated with the virtual machine scale set.
      */
-    @Beta // TODO Add since version 1.5
-    Set<String> externalManagedServiceIdentityIds();
+    @Beta // TODO Add since version 1.6
+    Set<String> userAssignedManagedServiceIdentityIds();
 
     /**
      * @return the availability zones assigned to virtual machine scale set.
@@ -1423,25 +1423,29 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
-         * The stage of the virtual machine scale set definition allowing to specify External Managed Service Identities.
+         * The stage of the virtual machine scale set definition allowing to specify User Assigned (External)
+         * Managed Service Identities.
          */
-        @Beta // TODO Add since version 1.5
-        interface WithExternalManagedServiceIdentity {
+        @Beta // TODO Add since version 1.6
+        interface WithUserAssignedManagedServiceIdentity {
             /**
-             * Specifies the definition of a not-yet-created identity to be associated with the virtual machine
-             * scale set.
+             * Specifies the definition of a not-yet-created user assigned identity to be associated with the
+             * virtual machine scale set.
              *
              * @param creatableIdentity a creatable identity definition
              * @return the next stage of the virtual machine scale set definition
              */
-            WithCreate withNewExternalManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+            @Beta // TODO Add since version 1.6
+            WithCreate withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
 
             /**
-             * Specifies an existing identity to be associated with the virtual machine scale set.
+             * Specifies an existing user assigned identity to be associated with the virtual machine scale set.
+             *
              * @param identity the identity
              * @return the next stage of the virtual machine scale set definition
              */
-            WithCreate withExistingExternalManagedServiceIdentity(Identity identity);
+            @Beta // TODO Add since version 1.6
+            WithCreate withExistingUserAssignedManagedServiceIdentity(Identity identity);
         }
 
         /**
@@ -1501,7 +1505,7 @@ public interface VirtualMachineScaleSet extends
                 DefinitionStages.WithCustomData,
                 DefinitionStages.WithExtension,
                 DefinitionStages.WithSystemAssignedManagedServiceIdentity,
-                DefinitionStages.WithExternalManagedServiceIdentity,
+                DefinitionStages.WithUserAssignedManagedServiceIdentity,
                 DefinitionStages.WithBootDiagnostics,
                 Resource.DefinitionWithTags<VirtualMachineScaleSet.DefinitionStages.WithCreate> {
         }
@@ -1832,31 +1836,38 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
-         * The stage of the virtual machine update allowing to add or remove External Managed Service Identities.
+         * The stage of the virtual machine update allowing to add or remove User Assigned (External)
+         * Managed Service Identities.
          */
-        @Beta // TODO Add since version 1.5
-        interface WithExternalManagedServiceIdentity {
+        @Beta // TODO Add since version 1.6
+        interface WithUserAssignedManagedServiceIdentity {
             /**
-             * Specifies the definition of a not-yet-created identity to be associated with the virtual machine.
+             * Specifies the definition of a not-yet-created user assigned identity to be associated
+             * with the virtual machine.
              *
              * @param creatableIdentity a creatable identity definition
              * @return the next stage of the virtual machine scale set update
              */
-            WithApply withNewExternalManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+            @Beta // TODO Add since version 1.6
+            WithApply withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
 
             /**
-             * Specifies an existing identity to be associated with the virtual machine.
+             * Specifies an existing user assigned identity to be associated with the virtual machine.
+             *
              * @param identity the identity
              * @return the next stage of the virtual machine scale set update
              */
-            WithApply withExistingExternalManagedServiceIdentity(Identity identity);
+            @Beta // TODO Add since version 1.6
+            WithApply withExistingUserAssignedManagedServiceIdentity(Identity identity);
 
             /**
-             * Specifies that an external identity associated with the virtual machine should be removed.
+             * Specifies that an user assigned identity associated with the virtual machine should be removed.
+             *
              * @param identityId ARM resource id of the identity
              * @return the next stage of the virtual machine scale set update
              */
-            WithApply withoutExternalManagedServiceIdentity(String identityId);
+            @Beta // TODO Add since version 1.6
+            WithApply withoutUserAssignedManagedServiceIdentity(String identityId);
         }
 
         /**
@@ -2025,7 +2036,7 @@ public interface VirtualMachineScaleSet extends
                 UpdateStages.WithoutPrimaryLoadBalancerBackend,
                 UpdateStages.WithoutPrimaryLoadBalancerNatPool,
                 UpdateStages.WithSystemAssignedManagedServiceIdentity,
-                UpdateStages.WithExternalManagedServiceIdentity,
+                UpdateStages.WithUserAssignedManagedServiceIdentity,
                 UpdateStages.WithBootDiagnostics,
                 UpdateStages.WithAvailabilityZone {
         }

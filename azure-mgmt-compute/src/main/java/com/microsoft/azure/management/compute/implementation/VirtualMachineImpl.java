@@ -1311,19 +1311,19 @@ class VirtualMachineImpl
     }
 
     @Override
-    public VirtualMachineImpl withNewExternalManagedServiceIdentity(Creatable<Identity> creatableIdentity) {
+    public VirtualMachineImpl withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity) {
         this.virtualMachineMsiHandler.withNewExternalManagedServiceIdentity(creatableIdentity);
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withExistingExternalManagedServiceIdentity(Identity identity) {
+    public VirtualMachineImpl withExistingUserAssignedManagedServiceIdentity(Identity identity) {
         this.virtualMachineMsiHandler.withExistingExternalManagedServiceIdentity(identity);
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withoutExternalManagedServiceIdentity(String identityId) {
+    public VirtualMachineImpl withoutUserAssignedManagedServiceIdentity(String identityId) {
         this.virtualMachineMsiHandler.withoutExternalManagedServiceIdentity(identityId);
         return this;
     }
@@ -1617,7 +1617,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public Set<String> externalManagedServiceIdentityIds() {
+    public Set<String> userAssignedManagedServiceIdentityIds() {
         if (this.inner().identity() != null && this.inner().identity().identityIds() != null) {
             return Collections.unmodifiableSet(new HashSet<String>(this.inner().identity().identityIds()));
 

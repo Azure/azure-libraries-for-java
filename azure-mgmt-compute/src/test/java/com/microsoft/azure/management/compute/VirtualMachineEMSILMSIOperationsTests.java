@@ -112,8 +112,8 @@ public class VirtualMachineEMSILMSIOperationsTests extends TestBase {
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("abc!@#F0orL")
-                .withExistingExternalManagedServiceIdentity(createdIdentity)
-                .withNewExternalManagedServiceIdentity(creatableIdentity)
+                .withExistingUserAssignedManagedServiceIdentity(createdIdentity)
+                .withNewUserAssignedManagedServiceIdentity(creatableIdentity)
                 .create();
 
         Assert.assertNotNull(virtualMachine);
@@ -137,7 +137,7 @@ public class VirtualMachineEMSILMSIOperationsTests extends TestBase {
 
         // Ensure the "External MSI" id can be retrieved from the virtual machine
         //
-        Set<String> emsiIds = virtualMachine.externalManagedServiceIdentityIds();
+        Set<String> emsiIds = virtualMachine.userAssignedManagedServiceIdentityIds();
         Assert.assertNotNull(emsiIds);
         Assert.assertEquals(2, emsiIds.size());
 
@@ -221,7 +221,7 @@ public class VirtualMachineEMSILMSIOperationsTests extends TestBase {
                 .withExistingResourceGroup(resourceGroup)
                 .withAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR);
 
-        // Create a virtual machine and associate it with existing and yet-t-be-created identities
+        // Create a virtual machine and associate it with existing and yet-to-be-created identities
         //
         VirtualMachine virtualMachine = computeManager.virtualMachines()
                 .define(VMNAME)
@@ -235,7 +235,7 @@ public class VirtualMachineEMSILMSIOperationsTests extends TestBase {
                 .withRootPassword("abc!@#F0orL")
                 .withSystemAssignedManagedServiceIdentity()
                 .withSystemAssignedIdentityBasedAccessTo(network.id(), BuiltInRole.CONTRIBUTOR)
-                .withNewExternalManagedServiceIdentity(creatableIdentity)
+                .withNewUserAssignedManagedServiceIdentity(creatableIdentity)
                 .create();
 
         Assert.assertNotNull(virtualMachine);
@@ -259,7 +259,7 @@ public class VirtualMachineEMSILMSIOperationsTests extends TestBase {
 
         // Ensure the "External MSI" id can be retrieved from the virtual machine
         //
-        Set<String> emsiIds = virtualMachine.externalManagedServiceIdentityIds();
+        Set<String> emsiIds = virtualMachine.userAssignedManagedServiceIdentityIds();
         Assert.assertNotNull(emsiIds);
         Assert.assertEquals(1, emsiIds.size());
 
@@ -296,5 +296,23 @@ public class VirtualMachineEMSILMSIOperationsTests extends TestBase {
             }
         }
         Assert.assertTrue("Expected role assignment not found for the resource group for identity" + identity.name(), found);
+    }
+
+    @Test
+    @Ignore
+    public void canUpdateVirtualMachineWithEMSIAndLMSI() throws Exception {
+        RG_NAME = generateRandomResourceName("java-emsi-c-rg", 15);
+
+        VirtualMachine virtualMachine = computeManager.virtualMachines()
+                .define(VMNAME)
+                .withRegion(region)
+                .withNewResourceGroup(RG_NAME)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withoutPrimaryPublicIPAddress()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("Foo12")
+                .withRootPassword("abc!@#F0orL")
+                .create();
     }
 }

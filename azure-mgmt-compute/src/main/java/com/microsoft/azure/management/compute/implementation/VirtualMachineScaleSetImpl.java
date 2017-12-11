@@ -97,9 +97,9 @@ public class VirtualMachineScaleSetImpl
         VirtualMachineScaleSet.DefinitionUnmanaged,
         VirtualMachineScaleSet.Update,
         VirtualMachineScaleSet.DefinitionStages.WithSystemAssignedIdentityBasedAccessOrCreate,
-        VirtualMachineScaleSet.DefinitionStages.WithExternalManagedServiceIdentity,
+        VirtualMachineScaleSet.DefinitionStages.WithUserAssignedManagedServiceIdentity,
         VirtualMachineScaleSet.UpdateStages.WithSystemAssignedIdentityBasedAccessOrApply,
-        VirtualMachineScaleSet.UpdateStages.WithExternalManagedServiceIdentity {
+        VirtualMachineScaleSet.UpdateStages.WithUserAssignedManagedServiceIdentity {
     // Clients
     private final StorageManager storageManager;
     private final NetworkManager networkManager;
@@ -1043,7 +1043,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public Set<String> externalManagedServiceIdentityIds() {
+    public Set<String> userAssignedManagedServiceIdentityIds() {
         if (this.inner().identity() != null && this.inner().identity().identityIds() != null) {
             return Collections.unmodifiableSet(new HashSet<String>(this.inner().identity().identityIds()));
 
@@ -1293,19 +1293,19 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withNewExternalManagedServiceIdentity(Creatable<Identity> creatableIdentity) {
+    public VirtualMachineScaleSetImpl withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity) {
         this.virtualMachineScaleSetMsiHandler.withNewExternalManagedServiceIdentity(creatableIdentity);
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withExistingExternalManagedServiceIdentity(Identity identity) {
+    public VirtualMachineScaleSetImpl withExistingUserAssignedManagedServiceIdentity(Identity identity) {
         this.virtualMachineScaleSetMsiHandler.withExistingExternalManagedServiceIdentity(identity);
         return this;
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withoutExternalManagedServiceIdentity(String identityId) {
+    public VirtualMachineScaleSetImpl withoutUserAssignedManagedServiceIdentity(String identityId) {
         this.virtualMachineScaleSetMsiHandler.withoutExternalManagedServiceIdentity(identityId);
         return this;
     }

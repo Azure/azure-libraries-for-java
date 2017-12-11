@@ -8,11 +8,12 @@
 
 package com.microsoft.azure.management.storage.implementation;
 
-import com.microsoft.azure.management.storage.Sku;
 import com.microsoft.azure.management.storage.Kind;
 import java.util.Map;
+import com.microsoft.azure.management.storage.Identity;
 import com.microsoft.azure.management.storage.CustomDomain;
 import com.microsoft.azure.management.storage.Encryption;
+import com.microsoft.azure.management.storage.NetworkRuleSet;
 import com.microsoft.azure.management.storage.AccessTier;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -26,11 +27,11 @@ public class StorageAccountCreateParametersInner {
      * Required. Gets or sets the sku name.
      */
     @JsonProperty(value = "sku", required = true)
-    private Sku sku;
+    private SkuInner sku;
 
     /**
      * Required. Indicates the type of storage account. Possible values
-     * include: 'Storage', 'BlobStorage'.
+     * include: 'Storage', 'StorageV2', 'BlobStorage'.
      */
     @JsonProperty(value = "kind", required = true)
     private Kind kind;
@@ -56,6 +57,12 @@ public class StorageAccountCreateParametersInner {
     private Map<String, String> tags;
 
     /**
+     * The identity of the resource.
+     */
+    @JsonProperty(value = "identity")
+    private Identity identity;
+
+    /**
      * User domain assigned to the storage account. Name is the CNAME source.
      * Only one custom domain is supported per storage account at this time. To
      * clear the existing custom domain, use an empty string for the custom
@@ -73,6 +80,12 @@ public class StorageAccountCreateParametersInner {
     private Encryption encryption;
 
     /**
+     * Network rule set.
+     */
+    @JsonProperty(value = "properties.networkAcls")
+    private NetworkRuleSet networkRuleSet;
+
+    /**
      * Required for storage accounts where kind = BlobStorage. The access tier
      * used for billing. Possible values include: 'Hot', 'Cool'.
      */
@@ -80,11 +93,17 @@ public class StorageAccountCreateParametersInner {
     private AccessTier accessTier;
 
     /**
+     * Allows https traffic only to storage service if sets to true.
+     */
+    @JsonProperty(value = "properties.supportsHttpsTrafficOnly")
+    private Boolean enableHttpsTrafficOnly;
+
+    /**
      * Get the sku value.
      *
      * @return the sku value
      */
-    public Sku sku() {
+    public SkuInner sku() {
         return this.sku;
     }
 
@@ -94,7 +113,7 @@ public class StorageAccountCreateParametersInner {
      * @param sku the sku value to set
      * @return the StorageAccountCreateParametersInner object itself.
      */
-    public StorageAccountCreateParametersInner withSku(Sku sku) {
+    public StorageAccountCreateParametersInner withSku(SkuInner sku) {
         this.sku = sku;
         return this;
     }
@@ -160,6 +179,26 @@ public class StorageAccountCreateParametersInner {
     }
 
     /**
+     * Get the identity value.
+     *
+     * @return the identity value
+     */
+    public Identity identity() {
+        return this.identity;
+    }
+
+    /**
+     * Set the identity value.
+     *
+     * @param identity the identity value to set
+     * @return the StorageAccountCreateParametersInner object itself.
+     */
+    public StorageAccountCreateParametersInner withIdentity(Identity identity) {
+        this.identity = identity;
+        return this;
+    }
+
+    /**
      * Get the customDomain value.
      *
      * @return the customDomain value
@@ -200,6 +239,26 @@ public class StorageAccountCreateParametersInner {
     }
 
     /**
+     * Get the networkRuleSet value.
+     *
+     * @return the networkRuleSet value
+     */
+    public NetworkRuleSet networkRuleSet() {
+        return this.networkRuleSet;
+    }
+
+    /**
+     * Set the networkRuleSet value.
+     *
+     * @param networkRuleSet the networkRuleSet value to set
+     * @return the StorageAccountCreateParametersInner object itself.
+     */
+    public StorageAccountCreateParametersInner withNetworkRuleSet(NetworkRuleSet networkRuleSet) {
+        this.networkRuleSet = networkRuleSet;
+        return this;
+    }
+
+    /**
      * Get the accessTier value.
      *
      * @return the accessTier value
@@ -216,6 +275,26 @@ public class StorageAccountCreateParametersInner {
      */
     public StorageAccountCreateParametersInner withAccessTier(AccessTier accessTier) {
         this.accessTier = accessTier;
+        return this;
+    }
+
+    /**
+     * Get the enableHttpsTrafficOnly value.
+     *
+     * @return the enableHttpsTrafficOnly value
+     */
+    public Boolean enableHttpsTrafficOnly() {
+        return this.enableHttpsTrafficOnly;
+    }
+
+    /**
+     * Set the enableHttpsTrafficOnly value.
+     *
+     * @param enableHttpsTrafficOnly the enableHttpsTrafficOnly value to set
+     * @return the StorageAccountCreateParametersInner object itself.
+     */
+    public StorageAccountCreateParametersInner withEnableHttpsTrafficOnly(Boolean enableHttpsTrafficOnly) {
+        this.enableHttpsTrafficOnly = enableHttpsTrafficOnly;
         return this;
     }
 

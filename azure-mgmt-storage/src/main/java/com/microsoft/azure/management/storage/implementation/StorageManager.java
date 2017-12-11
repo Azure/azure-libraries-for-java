@@ -15,6 +15,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Ma
 import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
 import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
 import com.microsoft.azure.management.storage.StorageAccounts;
+import com.microsoft.azure.management.storage.StorageSkus;
 import com.microsoft.azure.management.storage.Usages;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.RestClient;
@@ -26,6 +27,7 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
     // Collections
     private StorageAccounts storageAccounts;
     private Usages storageUsages;
+    private StorageSkus storageSkus;
 
     /**
      * Get a Configurable instance that can be used to create StorageManager with optional configuration.
@@ -93,7 +95,7 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
                 restClient,
                 subscriptionId,
                 new StorageManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
-        }
+    }
 
     /**
      * @return the storage account management API entry point
@@ -106,12 +108,22 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
     }
 
     /**
-     * @return the storage resource usage management API entry point
+     * @return the storage service usage management API entry point
      */
     public Usages usages() {
         if (storageUsages == null) {
-            storageUsages = new UsagesImpl(super.innerManagementClient);
+            storageUsages = new UsagesImpl(this);
         }
         return storageUsages;
+    }
+
+    /**
+     * @return the storage service SKU management API entry point
+     */
+    public StorageSkus storageSkus() {
+        if (storageSkus == null) {
+            storageSkus = new StorageSkusImpl(this);
+        }
+        return storageSkus;
     }
 }

@@ -49,6 +49,7 @@ class AppServiceDomainImpl
 
     AppServiceDomainImpl(String name, DomainInner innerObject, AppServiceManager manager) {
         super(name, innerObject, manager);
+        inner().withLocation("global");
         if (inner().managedHostNames() != null) {
             this.hostNameMap = Maps.uniqueIndex(inner().managedHostNames(), new Function<HostName, String>() {
                 @Override

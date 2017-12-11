@@ -18,6 +18,7 @@ import rx.Observable;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * An immutable client-side representation of an Azure Container Group.
@@ -40,7 +41,8 @@ public interface ContainerGroup extends
     /**
      * @return all the ports publicly exposed for this container group
      */
-    Collection<Port> externalPorts();
+    @Beta(Beta.SinceVersion.V1_5_0)
+    Set<Port> externalPorts();
 
     /**
      * @return the TCP ports publicly exposed for this container group
@@ -63,10 +65,11 @@ public interface ContainerGroup extends
     Collection<String> imageRegistryServers();
 
     /**
-     * @return `always` Always restart
+     * @return the container group restart policy
 
      */
-    ContainerRestartPolicy restartPolicy();
+    @Beta(Beta.SinceVersion.V1_5_0)
+    ContainerGroupRestartPolicy restartPolicy();
 
     /**
      * @return the IP address
@@ -92,6 +95,12 @@ public interface ContainerGroup extends
      * @return the provisioningState of the container group
      */
     String provisioningState();
+
+    /**
+     * @return the container group events
+     */
+    @Beta(Beta.SinceVersion.V1_5_0)
+    Set<Event> events();
 
 
     /***********************************************************
@@ -351,9 +360,9 @@ public interface ContainerGroup extends
              */
             interface VolumeDefinition<ParentT> extends
                     VolumeDefinitionBlank<ParentT>,
-                WithAzureFileShare<ParentT>,
-                WithStorageAccountName<ParentT>,
-                WithStorageAccountKey<ParentT>,
+                    WithAzureFileShare<ParentT>,
+                    WithStorageAccountName<ParentT>,
+                    WithStorageAccountKey<ParentT>,
                     WithVolumeAttach<ParentT> {
             }
         }
@@ -706,11 +715,25 @@ public interface ContainerGroup extends
              */
             interface ContainerInstanceDefinition<ParentT> extends
                     ContainerInstanceDefinitionBlank<ParentT>,
-                WithImage<ParentT>,
-                WithOrWithoutPorts<ParentT>,
+                    WithImage<ParentT>,
+                    WithOrWithoutPorts<ParentT>,
                     WithPortsOrContainerInstanceAttach<ParentT>,
                     WithContainerInstanceAttach<ParentT> {
             }
+        }
+
+        /**
+         * The stage of the container group definition allowing to specify the container group restart policy.
+         */
+        interface WithRestartPolicy {
+            /**
+             * Specifies the restart policy for all the container instances within the container group.
+             *
+             * @param restartPolicy the restart policy for all the container instances within the container group
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withRestartPolicy(ContainerGroupRestartPolicy restartPolicy);
         }
 
         /**
@@ -718,6 +741,7 @@ public interface ContainerGroup extends
          *   (via {@link WithCreate#create()}), but also allows for any other optional settings to be specified.
          */
         interface WithCreate extends
+            WithRestartPolicy,
             Creatable<ContainerGroup>,
             Resource.DefinitionWithTags<WithCreate> {
         }

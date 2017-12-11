@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ImageRegistryCredential {
     /**
-     * Docker image registry server, without protocol such as "http" and
+     * The Docker image registry server without a protocol such as "http" and
      * "https".
      */
     @JsonProperty(value = "server", required = true)

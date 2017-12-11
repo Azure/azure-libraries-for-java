@@ -8,6 +8,7 @@ package com.microsoft.azure.management.containerinstance.samples;
 
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
+import com.microsoft.azure.management.containerinstance.ContainerGroupRestartPolicy;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.Utils;
@@ -18,6 +19,7 @@ import java.io.File;
 /**
  * Azure Container Instance sample for managing container instances.
  *    - Create an Azure container group with two container instances using Docker images "microsoft/aci-helloworld" and "microsoft/aci-tutorial-sidecar"
+ *    - Set the container group restart policy to "never"
  *    - Test that the container app can be reached via "curl" like HTTP GET calls
  *    - Retrieve container log content
  *    - Delete the container group resource
@@ -57,6 +59,7 @@ public class ManageContainerInstanceWithMultipleContainerImages {
                     .withCpuCoreCount(.5)
                     .withMemorySizeInGB(0.8)
                     .attach()
+                .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
                 .create();
 
             Utils.print(containerGroup);

@@ -10,7 +10,8 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerinstance.Container;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
 import com.microsoft.azure.management.containerinstance.ContainerGroupNetworkProtocol;
-import com.microsoft.azure.management.containerinstance.ContainerRestartPolicy;
+import com.microsoft.azure.management.containerinstance.ContainerGroupRestartPolicy;
+import com.microsoft.azure.management.containerinstance.Event;
 import com.microsoft.azure.management.containerinstance.ImageRegistryCredential;
 import com.microsoft.azure.management.containerinstance.OperatingSystemTypes;
 import com.microsoft.azure.management.containerinstance.Port;
@@ -37,8 +38,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
 
 /**
@@ -325,17 +328,22 @@ public class ContainerGroupImpl
     }
 
     @Override
+    public ContainerGroupImpl withRestartPolicy(ContainerGroupRestartPolicy restartPolicy) {
+        this.inner().withRestartPolicy(restartPolicy);
+
+        return this;
+    }
+
+    @Override
     public Map<String, Container> containers() {
         return Collections.unmodifiableMap(this.containers);
     }
 
     @Override
-    public Collection<Port> externalPorts() {
-        if (this.inner().ipAddress() != null && this.inner().ipAddress().ports() != null) {
-            return Collections.unmodifiableCollection(this.inner().ipAddress().ports());
-        } else {
-            return null;
-        }
+    public Set<Port> externalPorts() {
+        return Collections.unmodifiableSet(this.inner().ipAddress() != null && this.inner().ipAddress().ports() != null
+            ? new HashSet<Port>(this.inner().ipAddress().ports())
+            : new HashSet<Port>());
     }
 
     @Override
@@ -359,7 +367,7 @@ public class ContainerGroupImpl
     }
 
     @Override
-    public ContainerRestartPolicy restartPolicy() {
+    public ContainerGroupRestartPolicy restartPolicy() {
         return this.inner().restartPolicy();
     }
 
@@ -374,7 +382,7 @@ public class ContainerGroupImpl
 
     @Override
     public boolean isIPAddressPublic() {
-        return this.inner().ipAddress() != null && this.inner().ipAddress().type().toLowerCase().equals("public");
+        return this.inner().ipAddress() != null && this.inner().ipAddress().type() != null && this.inner().ipAddress().type().toLowerCase().equals("public");
     }
 
     @Override
@@ -384,8 +392,8 @@ public class ContainerGroupImpl
 
     @Override
     public String state() {
-        if (this.inner().state() != null) {
-            return this.inner().state();
+        if (this.inner().instanceView() != null && this.inner().instanceView().state() != null) {
+            return this.inner().instanceView().state();
         } else {
             return null;
         }
@@ -398,6 +406,13 @@ public class ContainerGroupImpl
         } else {
             return null;
         }
+    }
+
+    @Override
+    public Set<Event> events() {
+        return Collections.unmodifiableSet(this.inner().instanceView() != null && this.inner().instanceView().events() != null
+            ? new HashSet<Event>(this.inner().instanceView().events())
+            : new HashSet<Event>());
     }
 
     @Override
@@ -419,5 +434,4 @@ public class ContainerGroupImpl
     public Observable<String> getLogContentAsync(String containerName, int tailLineCount) {
         return this.manager().containerGroups().getLogContentAsync(this.resourceGroupName(), containerName, this.name(), tailLineCount);
     }
-
 }

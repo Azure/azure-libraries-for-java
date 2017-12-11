@@ -363,6 +363,11 @@ abstract class AppServiceBaseImpl<
                 });
     }
 
+    @Override
+    Observable<SiteLogsConfigInner> updateDiagnosticLogsConfig(SiteLogsConfigInner siteLogsConfigInner) {
+        return manager().inner().webApps().updateDiagnosticLogsConfigAsync(resourceGroupName(), name(), siteLogsConfigInner);
+    }
+
     @SuppressWarnings("unchecked")
     private AppServicePlanImpl newDefaultAppServicePlan() {
         String planName = SdkContext.randomResourceName(name() + "plan", 32);

@@ -766,6 +766,29 @@ public interface WebAppBase extends
         }
 
         /**
+         * A web app definition stage allowing diagnostic logging to be set.
+         * @param <FluentT> the type of the resource
+         */
+        @Beta(SinceVersion.V1_5_0)
+        interface WithDiagnosticLogging<FluentT> {
+            /**
+             * Specifies the configuration for container logging for Linux web apps.
+             * @param quotaInMB the limit that restricts file system usage by app diagnostics logs. Value can range from 25 MB and 100 MB.
+             * @param retentionDays maximum days of logs that will be available
+             * @return the next stage of the web app definition
+             */
+            WithCreate<FluentT> withContainerLoggingEnabled(int quotaInMB, int retentionDays);
+
+            /**
+             * Specifies the configuration for container logging for Linux web apps.
+             * Logs will be stored on the file system for up to 35 MB.
+             * @return the next stage of the web app definition
+             */
+            @Method
+            WithCreate<FluentT> withContainerLoggingEnabled();
+        }
+
+        /**
          * A site definition with sufficient inputs to create a new web app /
          * deployments slot in the cloud, but exposing additional optional
          * inputs to specify.
@@ -783,7 +806,8 @@ public interface WebAppBase extends
             WithSourceControl<FluentT>,
             WithHostNameBinding<FluentT>,
             WithHostNameSslBinding<FluentT>,
-            WithAuthentication<FluentT> {
+            WithAuthentication<FluentT>,
+            WithDiagnosticLogging<FluentT> {
         }
     }
 
@@ -1167,6 +1191,29 @@ public interface WebAppBase extends
              */
             Update<FluentT> withoutAuthentication();
         }
+
+        /**
+         * A web app definition stage allowing diagnostic logging to be set.
+         * @param <FluentT> the type of the resource
+         */
+        @Beta(SinceVersion.V1_5_0)
+        interface WithDiagnosticLogging<FluentT> {
+            /**
+             * Specifies the configuration for container logging for Linux web apps.
+             * @param quotaInMB the limit that restricts file system usage by app diagnostics logs. Value can range from 25 MB and 100 MB.
+             * @param retentionDays maximum days of logs that will be available
+             * @return the next stage of the web app definition
+             */
+            Update<FluentT> withContainerLoggingEnabled(int quotaInMB, int retentionDays);
+
+            /**
+             * Specifies the configuration for container logging for Linux web apps.
+             * Logs will be stored on the file system for up to 35 MB.
+             * @return the next stage of the web app definition
+             */
+            @Method
+            Update<FluentT> withContainerLoggingEnabled();
+        }
     }
 
     /**
@@ -1185,6 +1232,7 @@ public interface WebAppBase extends
         UpdateStages.WithSourceControl<FluentT>,
         UpdateStages.WithHostNameBinding<FluentT>,
         UpdateStages.WithHostNameSslBinding<FluentT>,
-        UpdateStages.WithAuthentication<FluentT> {
+        UpdateStages.WithAuthentication<FluentT>,
+        UpdateStages.WithDiagnosticLogging<FluentT> {
     }
 }

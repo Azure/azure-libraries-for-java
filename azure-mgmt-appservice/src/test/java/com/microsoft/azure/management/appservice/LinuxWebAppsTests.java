@@ -64,8 +64,10 @@ public class LinuxWebAppsTests extends AppServiceTest {
 
         // Create in a new group with existing app service plan
         WebApp webApp2 = appServiceManager.webApps().define(WEBAPP_NAME_2)
-                .withExistingWindowsPlan(plan1)
+                .withExistingLinuxPlan(plan1)
                 .withNewResourceGroup(RG_NAME_2)
+                .withPublicDockerHubImage("tomcat")
+                .withContainerLoggingEnabled()
                 .create();
         Assert.assertNotNull(webApp2);
         Assert.assertEquals(Region.US_WEST, webApp2.region());

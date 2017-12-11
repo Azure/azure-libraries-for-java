@@ -426,6 +426,11 @@ class DeploymentSlotBaseImpl<
     }
 
     @Override
+    Observable<SiteLogsConfigInner> updateDiagnosticLogsConfig(SiteLogsConfigInner siteLogsConfigInner) {
+        return manager().inner().webApps().updateDiagnosticLogsConfigSlotAsync(resourceGroupName(), parent().name(), name(), siteLogsConfigInner);
+    }
+
+    @Override
     public void verifyDomainOwnership(String certificateOrderName, String domainVerificationToken) {
         verifyDomainOwnershipAsync(certificateOrderName, domainVerificationToken).toObservable().toBlocking().subscribe();
     }

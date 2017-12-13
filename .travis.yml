@@ -4,7 +4,8 @@ jdk:
 - oraclejdk8
 - openjdk7
 before_script:
-- mvn jetty:run & echo "==> Starting a Jetty server on the background ==" ;
+- mvn jetty:run &
+- sleep 5
 script:
 - |-
   if [ ${TRAVIS_EVENT_TYPE} = "push" -o ${TRAVIS_EVENT_TYPE} = "pull_request" ]; then

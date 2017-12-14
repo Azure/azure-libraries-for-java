@@ -115,6 +115,11 @@ public interface Cluster extends
     NodeStateCounts nodeStateCounts();
 
     /**
+     * @return the entry point to virtual network gateway connections management API for this virtual network gateway
+     */
+    Jobs jobs();
+
+    /**
      * The entirety of a Batch AI cluster definition.
      */
     interface Definition extends

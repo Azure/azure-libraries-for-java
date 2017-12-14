@@ -17,47 +17,88 @@ import org.junit.Assert;
 /**
  * Test of Batch AI management.
  */
-public class TestBatchAI extends TestTemplate<Cluster, Clusters> {
-    @Override
-    public Cluster createResource(Clusters clusters) throws Exception {
-        final Region region = Region.US_EAST;
-        final String groupName = SdkContext.randomResourceName("rg", 10);
-        final String clusterName = SdkContext.randomResourceName("cluster", 15);
-        final String userName = "tirekicker";
+public class TestBatchAI {
+    public static class Basic extends TestTemplate<Cluster, Clusters> {
 
-        Cluster cluster = clusters.define(clusterName)
-                .withRegion(region)
-                .withNewResourceGroup(groupName)
-                .withVMSize(VirtualMachineSizeTypes.STANDARD_NC6.toString())
-                .withUserName(userName)
-                .withPassword("MyPassword")
-                .withAutoScale(1, 1)
-                .withLowPriority()
-                .defineSetupTask()
+        @Override
+        public Cluster createResource(Clusters clusters) throws Exception {
+            final Region region = Region.US_EAST;
+            final String groupName = SdkContext.randomResourceName("rg", 10);
+            final String clusterName = SdkContext.randomResourceName("cluster", 15);
+            final String userName = "tirekicker";
+
+            Cluster cluster = clusters.define(clusterName)
+                    .withRegion(region)
+                    .withNewResourceGroup(groupName)
+                    .withVMSize(VirtualMachineSizeTypes.STANDARD_NC6.toString())
+                    .withUserName(userName)
+                    .withPassword("MyPassword")
+                    .withAutoScale(1, 1)
+                    .withLowPriority()
+                    .defineSetupTask()
                     .withCommandLine("echo Hello World!")
                     .withStdOutErrPath("./outputpath")
                     .attach()
-                .withTag("tag1", "value1")
-                .create();
-        Assert.assertEquals("steady", cluster.allocationState().toString());
-        Assert.assertEquals(userName, cluster.adminUserName());
-        Assert.assertEquals(VmPriority.LOWPRIORITY, cluster.vmPriority());
-        return cluster;
+                    .withTag("tag1", "value1")
+                    .create();
+            Assert.assertEquals("steady", cluster.allocationState().toString());
+            Assert.assertEquals(userName, cluster.adminUserName());
+            Assert.assertEquals(VmPriority.LOWPRIORITY, cluster.vmPriority());
+            return cluster;
+        }
+
+        @Override
+        public Cluster updateResource(Cluster cluster) throws Exception {
+            cluster.update()
+                    .withAutoScale(1, 2, 2)
+                    .withTag("tag1", "value2")
+                    .apply();
+            Assert.assertEquals(2, cluster.scaleSettings().autoScale().maximumNodeCount());
+            Assert.assertEquals("value2", cluster.tags().get("tag1"));
+            return cluster;
+        }
+
+        @Override
+        public void print(Cluster resource) {
+            printBatchAICluster(resource);
+        }
     }
 
-    @Override
-    public Cluster updateResource(Cluster cluster) throws Exception {
-        cluster.update()
-                .withAutoScale(1, 2, 2)
-                .withTag("tag1", "value2")
-                .apply();
-        Assert.assertEquals(2, cluster.scaleSettings().autoScale().maximumNodeCount());
-        Assert.assertEquals("value2", cluster.tags().get("tag1"));
-        return cluster;
+    public static class JobCreate extends TestTemplate<Cluster, Clusters> {
+
+        @Override
+        public Cluster createResource(Clusters clusters) throws Exception {
+            final Region region = Region.US_EAST;
+            final String groupName = SdkContext.randomResourceName("rg", 10);
+            final String clusterName = SdkContext.randomResourceName("cluster", 15);
+            final String userName = "tirekicker";
+
+            Cluster cluster = clusters.define(clusterName)
+                    .withRegion(region)
+                    .withNewResourceGroup(groupName)
+                    .withVMSize(VirtualMachineSizeTypes.STANDARD_NC6.toString())
+                    .withUserName(userName)
+                    .withPassword("MyPassword")
+                    .withAutoScale(1, 1)
+                    .create();
+            Assert.assertEquals("steady", cluster.allocationState().toString());
+            Assert.assertEquals(userName, cluster.adminUserName());
+            cluster.jobs().define("myJob").withRegion(Region.US_WEST2).create();
+            return cluster;
+        }
+
+        @Override
+        public Cluster updateResource(Cluster cluster) throws Exception {
+            return cluster;
+        }
+
+        @Override
+        public void print(Cluster resource) {
+            printBatchAICluster(resource);
+        }
     }
 
-    @Override
-    public void print(Cluster cluster) {
+    private static void printBatchAICluster(Cluster cluster) {
         StringBuilder info = new StringBuilder();
         info.append("Batch AI Cluster: ").append(cluster.id())
                 .append("\n\tName: ").append(cluster.name())

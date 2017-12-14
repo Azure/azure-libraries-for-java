@@ -11,6 +11,7 @@ import com.microsoft.azure.management.batchai.AutoScaleSettings;
 import com.microsoft.azure.management.batchai.BatchAIError;
 import com.microsoft.azure.management.batchai.Cluster;
 import com.microsoft.azure.management.batchai.DeallocationOption;
+import com.microsoft.azure.management.batchai.Jobs;
 import com.microsoft.azure.management.batchai.ManualScaleSettings;
 import com.microsoft.azure.management.batchai.NodeSetup;
 import com.microsoft.azure.management.batchai.NodeSetupTask;
@@ -44,6 +45,8 @@ class ClusterImpl extends GroupableResourceImpl<
         Cluster.Update {
     private ClusterCreateParametersInner createParameters = new ClusterCreateParametersInner();
     private ClusterUpdateParametersInner updateParameters = new ClusterUpdateParametersInner();
+
+    private JobsImpl jobs;
 
     ClusterImpl(String name, ClusterInner innerObject, BatchAIManager manager) {
         super(name, innerObject, manager);
@@ -250,5 +253,13 @@ class ClusterImpl extends GroupableResourceImpl<
     @Override
     public NodeStateCounts nodeStateCounts() {
         return inner().nodeStateCounts();
+    }
+
+    @Override
+    public Jobs jobs() {
+        if (jobs == null) {
+            jobs = new JobsImpl(this);
+        }
+        return jobs;
     }
 }

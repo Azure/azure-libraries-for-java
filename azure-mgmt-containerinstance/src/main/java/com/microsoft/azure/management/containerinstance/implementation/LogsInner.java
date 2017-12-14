@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class LogsInner {
     /**
-     * content of the log.
+     * The content of the log.
      */
     @JsonProperty(value = "content")
     private String content;

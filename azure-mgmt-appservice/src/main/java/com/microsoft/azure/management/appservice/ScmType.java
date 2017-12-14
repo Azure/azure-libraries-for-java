@@ -8,85 +8,67 @@
 
 package com.microsoft.azure.management.appservice;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ScmType.
  */
-public final class ScmType {
+public final class ScmType extends ExpandableStringEnum<ScmType> {
     /** Static value None for ScmType. */
-    public static final ScmType NONE = new ScmType("None");
+    public static final ScmType NONE = fromString("None");
 
     /** Static value Dropbox for ScmType. */
-    public static final ScmType DROPBOX = new ScmType("Dropbox");
+    public static final ScmType DROPBOX = fromString("Dropbox");
 
     /** Static value Tfs for ScmType. */
-    public static final ScmType TFS = new ScmType("Tfs");
+    public static final ScmType TFS = fromString("Tfs");
 
     /** Static value LocalGit for ScmType. */
-    public static final ScmType LOCAL_GIT = new ScmType("LocalGit");
+    public static final ScmType LOCAL_GIT = fromString("LocalGit");
 
     /** Static value GitHub for ScmType. */
-    public static final ScmType GIT_HUB = new ScmType("GitHub");
+    public static final ScmType GIT_HUB = fromString("GitHub");
 
     /** Static value CodePlexGit for ScmType. */
-    public static final ScmType CODE_PLEX_GIT = new ScmType("CodePlexGit");
+    public static final ScmType CODE_PLEX_GIT = fromString("CodePlexGit");
 
     /** Static value CodePlexHg for ScmType. */
-    public static final ScmType CODE_PLEX_HG = new ScmType("CodePlexHg");
+    public static final ScmType CODE_PLEX_HG = fromString("CodePlexHg");
 
     /** Static value BitbucketGit for ScmType. */
-    public static final ScmType BITBUCKET_GIT = new ScmType("BitbucketGit");
+    public static final ScmType BITBUCKET_GIT = fromString("BitbucketGit");
 
     /** Static value BitbucketHg for ScmType. */
-    public static final ScmType BITBUCKET_HG = new ScmType("BitbucketHg");
+    public static final ScmType BITBUCKET_HG = fromString("BitbucketHg");
 
     /** Static value ExternalGit for ScmType. */
-    public static final ScmType EXTERNAL_GIT = new ScmType("ExternalGit");
+    public static final ScmType EXTERNAL_GIT = fromString("ExternalGit");
 
     /** Static value ExternalHg for ScmType. */
-    public static final ScmType EXTERNAL_HG = new ScmType("ExternalHg");
+    public static final ScmType EXTERNAL_HG = fromString("ExternalHg");
 
     /** Static value OneDrive for ScmType. */
-    public static final ScmType ONE_DRIVE = new ScmType("OneDrive");
+    public static final ScmType ONE_DRIVE = fromString("OneDrive");
 
     /** Static value VSO for ScmType. */
-    public static final ScmType VSO = new ScmType("VSO");
-
-    private String value;
+    public static final ScmType VSO = fromString("VSO");
 
     /**
-     * Creates a custom value for ScmType.
-     * @param value the custom value
+     * Creates or finds a ScmType from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ScmType
      */
-    public ScmType(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ScmType fromString(String name) {
+        return fromString(name, ScmType.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ScmType)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ScmType rhs = (ScmType) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ScmType values
+     */
+    public static Collection<ScmType> values() {
+        return values(ScmType.class);
     }
 }

@@ -18,49 +18,49 @@ import com.microsoft.rest.serializer.JsonFlatten;
 @JsonFlatten
 public class Container {
     /**
-     * The user-provided name of this container.
+     * The user-provided name of the container instance.
      */
     @JsonProperty(value = "name", required = true)
     private String name;
 
     /**
-     * The name of the image used when creating this container.
+     * The name of the image used to create the container instance.
      */
     @JsonProperty(value = "properties.image", required = true)
     private String image;
 
     /**
-     * Command array to execute within the container in exec form.
+     * The commands to execute within the container instance in exec form.
      */
     @JsonProperty(value = "properties.command")
     private List<String> command;
 
     /**
-     * The ports exposed by this container.
+     * The exposed ports on the container instance.
      */
     @JsonProperty(value = "properties.ports")
     private List<ContainerPort> ports;
 
     /**
-     * The environment variables to set in this container.
+     * The environment variables to set in the container instance.
      */
     @JsonProperty(value = "properties.environmentVariables")
     private List<EnvironmentVariable> environmentVariables;
 
     /**
-     * The instance view of the container. Only valid in response.
+     * The instance view of the container instance. Only valid in response.
      */
     @JsonProperty(value = "properties.instanceView", access = JsonProperty.Access.WRITE_ONLY)
     private ContainerPropertiesInstanceView instanceView;
 
     /**
-     * The resource requirements of this container.
+     * The resource requirements of the container instance.
      */
     @JsonProperty(value = "properties.resources", required = true)
     private ResourceRequirements resources;
 
     /**
-     * The volume mounts.
+     * The volume mounts available to the container instance.
      */
     @JsonProperty(value = "properties.volumeMounts")
     private List<VolumeMount> volumeMounts;

@@ -8,25 +8,18 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.management.appservice.MSDeployCore;
-import com.microsoft.azure.management.appservice.MSDeployParameterEntry;
-import com.microsoft.rest.serializer.JsonFlatten;
-
+import java.util.Map;
 import java.util.List;
+import com.microsoft.azure.management.appservice.MSDeployCore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * MSDeploy ARM PUT information.
  */
 @JsonFlatten
-public class MSDeployInner {
-    /**
-     * List of Add-On packages. Add-On packages implicitly enable the Do Not
-     * Delete MSDeploy rule.
-     */
-    @JsonProperty(value = "properties.addOnPackages")
-    private List<MSDeployCore> addOnPackages;
-
+public class MSDeployInner extends ProxyOnlyResource {
     /**
      * Package URI.
      */
@@ -56,41 +49,32 @@ public class MSDeployInner {
      * MSDeploy Parameters. Must not be set if SetParametersXmlFileUri is used.
      */
     @JsonProperty(value = "properties.setParameters")
-    private List<MSDeployParameterEntry> setParameters;
+    private Map<String, String> setParameters;
 
     /**
-     * Controls whether the MSDeploy operation skips the AppData directory. If
-     * set to true, the existing AppData directory on the destination will not
-     * be deleted and overwritten.
+     * Controls whether the MSDeploy operation skips the App_Data directory.
+     * If set to &lt;code&gt;true&lt;/code&gt;, the existing App_Data directory
+     * on the destination
+     * will not be deleted, and any App_Data directory in the source will be
+     * ignored.
+     * Setting is &lt;code&gt;false&lt;/code&gt; by default.
      */
     @JsonProperty(value = "properties.skipAppData")
     private Boolean skipAppData;
 
     /**
      * Sets the AppOffline rule while the MSDeploy operation executes.
+     * Setting is &lt;code&gt;false&lt;/code&gt; by default.
      */
     @JsonProperty(value = "properties.appOffline")
     private Boolean appOffline;
 
     /**
-     * Get the addOnPackages value.
-     *
-     * @return the addOnPackages value
+     * List of Add-On packages. Add-On packages implicitly enable the Do Not
+     * Delete MSDeploy rule.
      */
-    public List<MSDeployCore> addOnPackages() {
-        return this.addOnPackages;
-    }
-
-    /**
-     * Set the addOnPackages value.
-     *
-     * @param addOnPackages the addOnPackages value to set
-     * @return the MSDeployInner object itself.
-     */
-    public MSDeployInner withAddOnPackages(List<MSDeployCore> addOnPackages) {
-        this.addOnPackages = addOnPackages;
-        return this;
-    }
+    @JsonProperty(value = "properties.addOnPackages")
+    private List<MSDeployCore> addOnPackages;
 
     /**
      * Get the packageUri value.
@@ -177,7 +161,7 @@ public class MSDeployInner {
      *
      * @return the setParameters value
      */
-    public List<MSDeployParameterEntry> setParameters() {
+    public Map<String, String> setParameters() {
         return this.setParameters;
     }
 
@@ -187,7 +171,7 @@ public class MSDeployInner {
      * @param setParameters the setParameters value to set
      * @return the MSDeployInner object itself.
      */
-    public MSDeployInner withSetParameters(List<MSDeployParameterEntry> setParameters) {
+    public MSDeployInner withSetParameters(Map<String, String> setParameters) {
         this.setParameters = setParameters;
         return this;
     }
@@ -229,6 +213,26 @@ public class MSDeployInner {
      */
     public MSDeployInner withAppOffline(Boolean appOffline) {
         this.appOffline = appOffline;
+        return this;
+    }
+
+    /**
+     * Get the addOnPackages value.
+     *
+     * @return the addOnPackages value
+     */
+    public List<MSDeployCore> addOnPackages() {
+        return this.addOnPackages;
+    }
+
+    /**
+     * Set the addOnPackages value.
+     *
+     * @param addOnPackages the addOnPackages value to set
+     * @return the MSDeployInner object itself.
+     */
+    public MSDeployInner withAddOnPackages(List<MSDeployCore> addOnPackages) {
+        this.addOnPackages = addOnPackages;
         return this;
     }
 

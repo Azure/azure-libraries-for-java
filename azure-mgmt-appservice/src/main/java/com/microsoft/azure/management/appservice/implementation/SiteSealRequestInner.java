@@ -15,13 +15,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SiteSealRequestInner {
     /**
-     * Theme.
+     * If &lt;code&gt;true&lt;/code&gt; use the light color theme for site
+     * seal; otherwise, use the default color theme.
      */
     @JsonProperty(value = "lightTheme")
     private Boolean lightTheme;
 
     /**
-     * Locale.
+     * Locale of site seal.
      */
     @JsonProperty(value = "locale")
     private String locale;

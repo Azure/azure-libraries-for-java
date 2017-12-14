@@ -2,9 +2,11 @@ package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.containerinstance.Container;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
+import com.microsoft.azure.management.containerinstance.ContainerGroupRestartPolicy;
 import com.microsoft.azure.management.containerinstance.ContainerGroups;
 import com.microsoft.azure.management.containerinstance.ContainerPort;
 import com.microsoft.azure.management.containerinstance.EnvironmentVariable;
+import com.microsoft.azure.management.containerinstance.Operation;
 import com.microsoft.azure.management.containerinstance.Volume;
 import com.microsoft.azure.management.containerinstance.VolumeMount;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
@@ -12,6 +14,7 @@ import org.junit.Assert;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class TestContainerInstance extends TestTemplate<ContainerGroup, ContainerGroups> {
 
@@ -34,7 +37,8 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
                 .withImage("nginx")
                 .withExternalTcpPort(80)
                 .attach()
-                .withTag("tag1", "value1")
+            .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
+            .withTag("tag1", "value1")
             .create();
 
         Assert.assertEquals(cgName, containerGroup.name());
@@ -74,12 +78,18 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
         Assert.assertNotNull(nginxContainer.environmentVariables());
         Assert.assertEquals(0, nginxContainer.environmentVariables().size());
         Assert.assertTrue(containerGroup.tags().containsKey("tag1"));
+        Assert.assertEquals(ContainerGroupRestartPolicy.NEVER, containerGroup.restartPolicy());
 
         ContainerGroup containerGroup2 = containerGroups.getByResourceGroup(rgName, cgName);
 
         List<ContainerGroup> containerGroupList = containerGroups.listByResourceGroup(rgName);
+        Assert.assertTrue(containerGroupList.size() > 0);
+        Assert.assertNotNull(containerGroupList.get(0).state());
 
         containerGroup.refresh();
+
+        Set<Operation> containerGroupOperations = containerGroups.listOperations();
+        Assert.assertEquals(4, containerGroupOperations.size());
 
         return containerGroup;
     }

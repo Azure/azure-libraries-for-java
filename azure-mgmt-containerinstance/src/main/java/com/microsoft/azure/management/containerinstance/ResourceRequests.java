@@ -15,13 +15,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ResourceRequests {
     /**
-     * The memory request in GB of this container.
+     * The memory request in GB of this container instance.
      */
     @JsonProperty(value = "memoryInGB", required = true)
     private double memoryInGB;
 
     /**
-     * The CPU request of this container.
+     * The CPU request of this container instance.
      */
     @JsonProperty(value = "cpu", required = true)
     private double cpu;

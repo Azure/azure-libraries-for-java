@@ -29,6 +29,18 @@ public class GlobalCsmSkuDescription {
     private String tier;
 
     /**
+     * Size specifier of the resource SKU.
+     */
+    @JsonProperty(value = "size")
+    private String size;
+
+    /**
+     * Family code of the resource SKU.
+     */
+    @JsonProperty(value = "family")
+    private String family;
+
+    /**
      * Min, max, and default scale values of the SKU.
      */
     @JsonProperty(value = "capacity")
@@ -83,6 +95,46 @@ public class GlobalCsmSkuDescription {
      */
     public GlobalCsmSkuDescription withTier(String tier) {
         this.tier = tier;
+        return this;
+    }
+
+    /**
+     * Get the size value.
+     *
+     * @return the size value
+     */
+    public String size() {
+        return this.size;
+    }
+
+    /**
+     * Set the size value.
+     *
+     * @param size the size value to set
+     * @return the GlobalCsmSkuDescription object itself.
+     */
+    public GlobalCsmSkuDescription withSize(String size) {
+        this.size = size;
+        return this;
+    }
+
+    /**
+     * Get the family value.
+     *
+     * @return the family value
+     */
+    public String family() {
+        return this.family;
+    }
+
+    /**
+     * Set the family value.
+     *
+     * @param family the family value to set
+     * @return the GlobalCsmSkuDescription object itself.
+     */
+    public GlobalCsmSkuDescription withFamily(String family) {
+        this.family = family;
         return this;
     }
 

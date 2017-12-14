@@ -11,10 +11,11 @@ package com.microsoft.azure.management.containerinstance.implementation;
 import java.util.List;
 import com.microsoft.azure.management.containerinstance.Container;
 import com.microsoft.azure.management.containerinstance.ImageRegistryCredential;
-import com.microsoft.azure.management.containerinstance.ContainerRestartPolicy;
+import com.microsoft.azure.management.containerinstance.ContainerGroupRestartPolicy;
 import com.microsoft.azure.management.containerinstance.IpAddress;
 import com.microsoft.azure.management.containerinstance.OperatingSystemTypes;
 import com.microsoft.azure.management.containerinstance.Volume;
+import com.microsoft.azure.management.containerinstance.ContainerGroupPropertiesInstanceView;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -25,15 +26,16 @@ import com.microsoft.azure.Resource;
 @JsonFlatten
 public class ContainerGroupInner extends Resource {
     /**
-     * The provisioning state, which only appears in the response.
+     * The provisioning state of the container group. This only appears in the
+     * response.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
 
     /**
-     * The containers in this container group.
+     * The containers within the container group.
      */
-    @JsonProperty(value = "properties.containers")
+    @JsonProperty(value = "properties.containers", required = true)
     private List<Container> containers;
 
     /**
@@ -44,36 +46,40 @@ public class ContainerGroupInner extends Resource {
     private List<ImageRegistryCredential> imageRegistryCredentials;
 
     /**
-     * - `always` Always restart
-     * . Possible values include: 'always'.
+     * Restart policy for all containers within the container group.
+     * - `Always` Always restart
+     * - `OnFailure` Restart on failure
+     * - `Never` Never restart
+     * . Possible values include: 'Always', 'OnFailure', 'Never'.
      */
     @JsonProperty(value = "properties.restartPolicy")
-    private ContainerRestartPolicy restartPolicy;
+    private ContainerGroupRestartPolicy restartPolicy;
 
     /**
-     * The IP address type.
+     * The IP address type of the container group.
      */
     @JsonProperty(value = "properties.ipAddress")
     private IpAddress ipAddress;
 
     /**
-     * The base level OS type required by the containers in the group. Possible
-     * values include: 'Windows', 'Linux'.
+     * The operating system type required by the containers in the container
+     * group. Possible values include: 'Windows', 'Linux'.
      */
-    @JsonProperty(value = "properties.osType")
+    @JsonProperty(value = "properties.osType", required = true)
     private OperatingSystemTypes osType;
 
     /**
-     * The state of the container group. Only valid in response.
-     */
-    @JsonProperty(value = "properties.state", access = JsonProperty.Access.WRITE_ONLY)
-    private String state;
-
-    /**
-     * The volumes for this container group.
+     * The list of volumes that can be mounted by containers in this container
+     * group.
      */
     @JsonProperty(value = "properties.volumes")
     private List<Volume> volumes;
+
+    /**
+     * The instance view of the container group. Only valid in response.
+     */
+    @JsonProperty(value = "properties.instanceView", access = JsonProperty.Access.WRITE_ONLY)
+    private ContainerGroupPropertiesInstanceView instanceView;
 
     /**
      * Get the provisioningState value.
@@ -129,7 +135,7 @@ public class ContainerGroupInner extends Resource {
      *
      * @return the restartPolicy value
      */
-    public ContainerRestartPolicy restartPolicy() {
+    public ContainerGroupRestartPolicy restartPolicy() {
         return this.restartPolicy;
     }
 
@@ -139,7 +145,7 @@ public class ContainerGroupInner extends Resource {
      * @param restartPolicy the restartPolicy value to set
      * @return the ContainerGroupInner object itself.
      */
-    public ContainerGroupInner withRestartPolicy(ContainerRestartPolicy restartPolicy) {
+    public ContainerGroupInner withRestartPolicy(ContainerGroupRestartPolicy restartPolicy) {
         this.restartPolicy = restartPolicy;
         return this;
     }
@@ -185,15 +191,6 @@ public class ContainerGroupInner extends Resource {
     }
 
     /**
-     * Get the state value.
-     *
-     * @return the state value
-     */
-    public String state() {
-        return this.state;
-    }
-
-    /**
      * Get the volumes value.
      *
      * @return the volumes value
@@ -211,6 +208,15 @@ public class ContainerGroupInner extends Resource {
     public ContainerGroupInner withVolumes(List<Volume> volumes) {
         this.volumes = volumes;
         return this;
+    }
+
+    /**
+     * Get the instanceView value.
+     *
+     * @return the instanceView value
+     */
+    public ContainerGroupPropertiesInstanceView instanceView() {
+        return this.instanceView;
     }
 
 }

@@ -8,28 +8,27 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * A snapshot of an app.
  */
 @JsonFlatten
-public class SnapshotInner extends Resource {
+public class SnapshotInner extends ProxyOnlyResource {
     /**
      * The time the snapshot was taken.
      */
     @JsonProperty(value = "properties.time", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime time;
+    private String time;
 
     /**
      * Get the time value.
      *
      * @return the time value
      */
-    public DateTime time() {
+    public String time() {
         return this.time;
     }
 

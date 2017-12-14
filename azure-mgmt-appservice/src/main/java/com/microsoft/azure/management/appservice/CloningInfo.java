@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.appservice;
 
+import java.util.UUID;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,7 +22,7 @@ public class CloningInfo {
      * together to use the same snapshot.
      */
     @JsonProperty(value = "correlationId")
-    private String correlationId;
+    private UUID correlationId;
 
     /**
      * &lt;code&gt;true&lt;/code&gt; to overwrite destination app; otherwise,
@@ -103,7 +104,7 @@ public class CloningInfo {
      *
      * @return the correlationId value
      */
-    public String correlationId() {
+    public UUID correlationId() {
         return this.correlationId;
     }
 
@@ -113,7 +114,7 @@ public class CloningInfo {
      * @param correlationId the correlationId value to set
      * @return the CloningInfo object itself.
      */
-    public CloningInfo withCorrelationId(String correlationId) {
+    public CloningInfo withCorrelationId(UUID correlationId) {
         this.correlationId = correlationId;
         return this;
     }

@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class RequestsBasedTrigger {
     /**
-     * Count.
+     * Request Count.
      */
     @JsonProperty(value = "count")
     private Integer count;

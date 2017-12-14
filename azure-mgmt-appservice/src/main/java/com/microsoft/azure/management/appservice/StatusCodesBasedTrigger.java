@@ -21,7 +21,7 @@ public class StatusCodesBasedTrigger {
     private Integer status;
 
     /**
-     * SubStatus.
+     * Request Sub Status.
      */
     @JsonProperty(value = "subStatus")
     private Integer subStatus;
@@ -33,7 +33,7 @@ public class StatusCodesBasedTrigger {
     private Integer win32Status;
 
     /**
-     * Count.
+     * Request Count.
      */
     @JsonProperty(value = "count")
     private Integer count;

@@ -10,13 +10,13 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Used for getting PHP error logging flag.
  */
 @JsonFlatten
-public class SitePhpErrorLogFlagInner extends Resource {
+public class SitePhpErrorLogFlagInner extends ProxyOnlyResource {
     /**
      * Local log_errors setting.
      */

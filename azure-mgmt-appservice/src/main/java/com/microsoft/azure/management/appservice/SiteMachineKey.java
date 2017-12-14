@@ -27,7 +27,7 @@ public class SiteMachineKey {
     private String validationKey;
 
     /**
-     * Decryption.
+     * Algorithm used for decryption.
      */
     @JsonProperty(value = "decryption")
     private String decryption;

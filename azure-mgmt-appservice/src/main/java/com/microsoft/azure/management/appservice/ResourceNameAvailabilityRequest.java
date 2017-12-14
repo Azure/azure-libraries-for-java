@@ -22,7 +22,9 @@ public class ResourceNameAvailabilityRequest {
 
     /**
      * Resource type used for verification. Possible values include: 'Site',
-     * 'Slot', 'HostingEnvironment'.
+     * 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites',
+     * 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments',
+     * 'Microsoft.Web/publishingUsers'.
      */
     @JsonProperty(value = "type", required = true)
     private CheckNameResourceTypes type;

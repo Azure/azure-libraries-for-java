@@ -11,14 +11,41 @@ package com.microsoft.azure.management.containerinstance;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The container port.
+ * The port exposed on the container instance.
  */
 public class ContainerPort {
     /**
-     * Port number to expose within the container group.
+     * The protocol associated with the port. Possible values include: 'TCP',
+     * 'UDP'.
+     */
+    @JsonProperty(value = "protocol")
+    private ContainerNetworkProtocol protocol;
+
+    /**
+     * The port number exposed within the container group.
      */
     @JsonProperty(value = "port", required = true)
     private int port;
+
+    /**
+     * Get the protocol value.
+     *
+     * @return the protocol value
+     */
+    public ContainerNetworkProtocol protocol() {
+        return this.protocol;
+    }
+
+    /**
+     * Set the protocol value.
+     *
+     * @param protocol the protocol value to set
+     * @return the ContainerPort object itself.
+     */
+    public ContainerPort withProtocol(ContainerNetworkProtocol protocol) {
+        this.protocol = protocol;
+        return this;
+    }
 
     /**
      * Get the port value.

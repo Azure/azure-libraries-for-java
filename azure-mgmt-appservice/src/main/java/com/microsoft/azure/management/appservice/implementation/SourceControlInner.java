@@ -11,13 +11,13 @@ package com.microsoft.azure.management.appservice.implementation;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * The source control OAuth token.
  */
 @JsonFlatten
-public class SourceControlInner extends Resource {
+public class SourceControlInner extends ProxyOnlyResource {
     /**
      * Name or source control type.
      */

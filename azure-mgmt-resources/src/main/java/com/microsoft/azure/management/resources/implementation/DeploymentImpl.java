@@ -204,7 +204,7 @@ public final class DeploymentImpl extends
         this.creatableResourceGroup = this.resourceManager.resourceGroups()
                 .define(resourceGroupName)
                 .withRegion(region);
-        addCreatableDependency(this.creatableResourceGroup);
+        this.addDependency(this.creatableResourceGroup);
         this.resourceGroupName = resourceGroupName;
         return this;
     }
@@ -212,7 +212,7 @@ public final class DeploymentImpl extends
     @Override
     public DeploymentImpl withNewResourceGroup(Creatable<ResourceGroup> resourceGroupDefinition) {
         this.resourceGroupName = resourceGroupDefinition.name();
-        addCreatableDependency(resourceGroupDefinition);
+        this.addDependency(resourceGroupDefinition);
         this.creatableResourceGroup = resourceGroupDefinition;
         return this;
     }

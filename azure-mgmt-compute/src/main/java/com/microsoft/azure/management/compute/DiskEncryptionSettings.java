@@ -15,13 +15,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class DiskEncryptionSettings {
     /**
-     * The disk encryption key which is a Key Vault Secret.
+     * Specifies the location of the disk encryption key, which is a Key Vault
+     * Secret.
      */
     @JsonProperty(value = "diskEncryptionKey")
     private KeyVaultSecretReference diskEncryptionKey;
 
     /**
-     * The key encryption key which is Key Vault Key.
+     * Specifies the location of the key encryption key in Key Vault.
      */
     @JsonProperty(value = "keyEncryptionKey")
     private KeyVaultKeyReference keyEncryptionKey;

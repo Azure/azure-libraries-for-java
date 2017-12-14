@@ -29,7 +29,9 @@ public class VirtualMachineImageResourceInner extends SubResource {
     private String location;
 
     /**
-     * The tags attached to the resource.
+     * Specifies the tags that are assigned to the virtual machine. For more
+     * information about using tags, see [Using tags to organize your Azure
+     * resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md).
      */
     @JsonProperty(value = "tags")
     private Map<String, String> tags;

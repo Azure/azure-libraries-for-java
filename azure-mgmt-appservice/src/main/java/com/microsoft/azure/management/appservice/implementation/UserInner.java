@@ -10,13 +10,13 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * User crendentials used for publishing activity.
  */
 @JsonFlatten
-public class UserInner extends Resource {
+public class UserInner extends ProxyOnlyResource {
     /**
      * Username.
      */
@@ -26,7 +26,7 @@ public class UserInner extends Resource {
     /**
      * Username used for publishing.
      */
-    @JsonProperty(value = "properties.publishingUserName")
+    @JsonProperty(value = "properties.publishingUserName", required = true)
     private String publishingUserName;
 
     /**

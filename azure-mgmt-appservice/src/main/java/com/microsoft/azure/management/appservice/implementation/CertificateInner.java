@@ -78,7 +78,7 @@ public class CertificateInner extends Resource {
     /**
      * Certificate password.
      */
-    @JsonProperty(value = "properties.password")
+    @JsonProperty(value = "properties.password", required = true)
     private String password;
 
     /**
@@ -97,7 +97,7 @@ public class CertificateInner extends Resource {
      * Raw bytes of .cer file.
      */
     @JsonProperty(value = "properties.cerBlob", access = JsonProperty.Access.WRITE_ONLY)
-    private String cerBlob;
+    private byte[] cerBlob;
 
     /**
      * Public key hash.
@@ -140,12 +140,6 @@ public class CertificateInner extends Resource {
      */
     @JsonProperty(value = "properties.geoRegion", access = JsonProperty.Access.WRITE_ONLY)
     private String geoRegion;
-
-    /**
-     * Resource name of the certificate.
-     */
-    @JsonProperty(value = "properties.name", access = JsonProperty.Access.WRITE_ONLY)
-    private String certificateName;
 
     /**
      * Resource ID of the associated App Service plan, formatted as:
@@ -300,7 +294,7 @@ public class CertificateInner extends Resource {
      *
      * @return the cerBlob value
      */
-    public String cerBlob() {
+    public byte[] cerBlob() {
         return this.cerBlob;
     }
 
@@ -378,15 +372,6 @@ public class CertificateInner extends Resource {
      */
     public String geoRegion() {
         return this.geoRegion;
-    }
-
-    /**
-     * Get the certificateName value.
-     *
-     * @return the certificateName value
-     */
-    public String certificateName() {
-        return this.certificateName;
     }
 
     /**

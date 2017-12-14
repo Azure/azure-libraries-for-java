@@ -1000,7 +1000,7 @@ public class AzureTests extends TestBase {
                 .withRemotePort("443")
                 .execute();
         Assert.assertEquals(Access.ALLOW, verificationIPFlow.access());
-        Assert.assertEquals("DefaultRule_AllowInternetOutBound", verificationIPFlow.ruleName());
+        Assert.assertTrue("defaultSecurityRules/AllowInternetOutBound".equalsIgnoreCase(verificationIPFlow.ruleName()));
 
         // test packet capture
         List<PacketCapture> packetCaptures = nw.packetCaptures().list();
@@ -1042,6 +1042,9 @@ public class AzureTests extends TestBase {
     }
 
     @Test
+    @Ignore("Service has bug that cause 'InternalServerError' - record this once service is fixed")
+    //
+
     public void testNetworkWatcherTroubleshooting() throws Exception {
         String gatewayName = SdkContext.randomResourceName("vngw", 8);
         String connectionName = SdkContext.randomResourceName("vngwc", 8);
@@ -1345,6 +1348,7 @@ public class AzureTests extends TestBase {
     }
 
     @Test
+    @Ignore("QuotaExceeded error: Public preview limit of 5 for managed cluster(AKS) has been reached for subscription sub-id in location ukwest. Same error even after deleting all clusters")
     public void testKubernetesCluster() throws Exception {
         new TestKubernetesCluster()
             .runTest(azure.kubernetesClusters(), azure.resourceGroups());

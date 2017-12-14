@@ -256,7 +256,7 @@ class SqlDatabaseImpl
         final SqlDatabaseImpl self = this;
 
         if (this.elasticPoolCreatableKey != null) {
-            SqlElasticPool sqlElasticPool = (SqlElasticPool) this.createdResource(this.elasticPoolCreatableKey);
+            SqlElasticPool sqlElasticPool = this.<SqlElasticPool>taskResult(this.elasticPoolCreatableKey);
             withExistingElasticPool(sqlElasticPool);
         }
         if (this.inner().elasticPoolName() != null && !this.inner().elasticPoolName().isEmpty()) {
@@ -309,8 +309,7 @@ class SqlDatabaseImpl
     @Override
     public SqlDatabaseImpl withNewElasticPool(Creatable<SqlElasticPool> sqlElasticPool) {
         if (this.elasticPoolCreatableKey == null) {
-            this.elasticPoolCreatableKey = sqlElasticPool.key();
-            this.addCreatableDependency(sqlElasticPool);
+            this.elasticPoolCreatableKey = this.addDependency(sqlElasticPool);
         }
         return this;
     }

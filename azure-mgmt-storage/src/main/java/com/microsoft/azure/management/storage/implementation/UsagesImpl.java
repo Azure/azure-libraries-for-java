@@ -17,21 +17,22 @@ import rx.Observable;
  */
 @LangDefinition
 class UsagesImpl extends ReadableWrappersImpl<StorageUsage, UsageImpl, UsageInner>
-        implements Usages {
-    private final StorageManagementClientImpl client;
+        implements
+        Usages {
+    private final StorageManager manager;
 
-    UsagesImpl(StorageManagementClientImpl client) {
-        this.client = client;
+    UsagesImpl(StorageManager storageManager) {
+        this.manager = storageManager;
     }
 
     @Override
     public PagedList<StorageUsage> list() {
-        return wrapList(client.usages().list());
+        return wrapList(inner().list());
     }
 
     @Override
     public Observable<StorageUsage> listAsync() {
-        return wrapPageAsync(client.usages().listAsync());
+        return wrapPageAsync(inner().listAsync());
     }
 
     @Override
@@ -40,5 +41,15 @@ class UsagesImpl extends ReadableWrappersImpl<StorageUsage, UsageImpl, UsageInne
             return null;
         }
         return new UsageImpl(usageInner);
+    }
+
+    @Override
+    public UsagesInner inner() {
+        return this.manager.inner().usages();
+    }
+
+    @Override
+    public StorageManager manager() {
+        return this.manager;
     }
 }

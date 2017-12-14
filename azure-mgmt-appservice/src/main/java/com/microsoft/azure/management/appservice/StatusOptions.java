@@ -19,7 +19,10 @@ public enum StatusOptions {
     READY("Ready"),
 
     /** Enum value Pending. */
-    PENDING("Pending");
+    PENDING("Pending"),
+
+    /** Enum value Creating. */
+    CREATING("Creating");
 
     /** The actual serialized value for a StatusOptions instance. */
     private String value;

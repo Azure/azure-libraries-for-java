@@ -28,10 +28,10 @@ import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.blob.CloudBlob;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlobDirectory;
-import com.microsoft.azure.storage.blob.CloudBlockBlob;
 import com.microsoft.azure.storage.blob.ListBlobItem;
 import com.microsoft.rest.LogLevel;
 
@@ -82,6 +82,7 @@ public final class ManageNetworkWatcher {
         final String saName = SdkContext.randomResourceName("sa", 24);
         final String vmName = SdkContext.randomResourceName("vm", 24);
         final String packetCaptureName = SdkContext.randomResourceName("pc", 8);
+        final String packetCaptureStorageContainer = "packetcapture";
         // file name to save packet capture log locally
         final String packetCaptureFile = "packetcapture.cap";
         // file name to save flow log locally
@@ -161,6 +162,7 @@ public final class ManageNetworkWatcher {
                     .define(packetCaptureName)
                     .withTarget(vm.id())
                     .withStorageAccountId(storageAccount.id())
+                    .withStoragePath(storageAccount.endPoints().primary().blob() + packetCaptureStorageContainer)
                     .withTimeLimitInSeconds(1500)
                     .definePacketCaptureFilter()
                         .withProtocol(PcProtocol.TCP)
@@ -256,14 +258,14 @@ public final class ManageNetworkWatcher {
                     storageAccount.name(), accountKey);
             CloudStorageAccount account = CloudStorageAccount.parse(connectionString);
             CloudBlobClient cloudBlobClient = account.createCloudBlobClient();
-            CloudBlobContainer container = cloudBlobClient.getContainerReference("network-watcher-logs");
+            CloudBlobContainer container = cloudBlobClient.getContainerReference(packetCaptureStorageContainer);
             // iterate over subfolders structure to get the file
             ListBlobItem item = container.listBlobs().iterator().next();
             while (item instanceof CloudBlobDirectory) {
                 item = ((CloudBlobDirectory) item).listBlobs().iterator().next();
             }
             // download packet capture file
-            ((CloudBlockBlob) item).downloadToFile(packetCaptureFile);
+            ((CloudBlob) item).downloadToFile(packetCaptureFile);
             System.out.println("Packet capture log saved to ./" + packetCaptureFile);
 
             //============================================================
@@ -276,9 +278,9 @@ public final class ManageNetworkWatcher {
             }
 
             System.out.println("Flow log:");
-            ((CloudBlockBlob) item).download(System.out);
+            ((CloudBlob) item).download(System.out);
             // download flow file; note: this will download only one of the files
-            ((CloudBlockBlob) item).downloadToFile(flowLogFile);
+            ((CloudBlob) item).downloadToFile(flowLogFile);
             System.out.println("Flow log saved to ./" + flowLogFile);
 
             //============================================================

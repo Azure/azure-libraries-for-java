@@ -10,12 +10,12 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * String dictionary resource.
  */
-public class StringDictionaryInner extends Resource {
+public class StringDictionaryInner extends ProxyOnlyResource {
     /**
      * Settings.
      */

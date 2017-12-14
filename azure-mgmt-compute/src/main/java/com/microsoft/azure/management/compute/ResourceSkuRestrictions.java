@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ResourceSkuRestrictions {
     /**
-     * The type of restrictions. Possible values include: 'location'.
+     * The type of restrictions. Possible values include: 'Location'.
      */
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private ResourceSkuRestrictionsType type;

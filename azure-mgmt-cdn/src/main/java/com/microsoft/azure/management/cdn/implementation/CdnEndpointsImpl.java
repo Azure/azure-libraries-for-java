@@ -32,7 +32,7 @@ class CdnEndpointsImpl extends
                         CdnProfile> {
 
     CdnEndpointsImpl(CdnProfileImpl parent) {
-        super(parent, "Endpoint");
+        super(parent, parent.taskGroup(), "Endpoint");
         if (parent.id() != null) {
             this.cacheCollection();
         }

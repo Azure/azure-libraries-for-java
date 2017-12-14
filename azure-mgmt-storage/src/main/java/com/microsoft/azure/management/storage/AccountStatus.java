@@ -15,11 +15,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for AccountStatus.
  */
 public enum AccountStatus {
-    /** Enum value Available. */
-    AVAILABLE("Available"),
+    /** Enum value available. */
+    AVAILABLE("available"),
 
-    /** Enum value Unavailable. */
-    UNAVAILABLE("Unavailable");
+    /** Enum value unavailable. */
+    UNAVAILABLE("unavailable");
 
     /** The actual serialized value for a AccountStatus instance. */
     private String value;

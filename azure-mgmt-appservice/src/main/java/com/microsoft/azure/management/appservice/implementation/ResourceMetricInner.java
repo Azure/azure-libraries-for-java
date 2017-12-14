@@ -68,7 +68,7 @@ public class ResourceMetricInner {
     private List<ResourceMetricValue> metricValues;
 
     /**
-     * Properties.
+     * Resource metric properties collection.
      */
     @JsonProperty(value = "properties", access = JsonProperty.Access.WRITE_ONLY)
     private List<ResourceMetricProperty> properties;

@@ -52,8 +52,8 @@ public final class ManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup {
         final String password = "12NewPA$$w0rd!";
         final Region region = Region.US_WEST_CENTRAL;
 
-        final String installScript = "https://raw.githubusercontent.com/Azure/azure-sdk-for-java/master/azure-samples/src/main/resources/create_resources_with_msi.sh";
-        String installCommand = "bash create_resources_with_msi.sh {subscriptionID} {port} {stgName} {rgName} {location}";
+        final String installScript = "https://raw.githubusercontent.com/Azure/azure-libraries-for-java/master/azure-samples/src/main/resources/create_resources_with_msi.sh";
+        String installCommand = "bash create_resources_with_msi.sh {stgName} {rgName} {location}";
         List<String> fileUris = new ArrayList<>();
         fileUris.add(installScript);
 
@@ -109,7 +109,7 @@ public final class ManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup {
                         .withRootPassword(password)
                         .withSize(VirtualMachineSizeTypes.STANDARD_DS2_V2)
                         .withOSDiskCaching(CachingTypes.READ_WRITE)
-                        .withManagedServiceIdentity()
+                        .withSystemAssignedManagedServiceIdentity()
                         .create();
 
             System.out.println("Created virtual machine with MSI enabled");
@@ -121,7 +121,7 @@ public final class ManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup {
             System.out.println("Adding virtual machine MSI service principal to the AAD group");
 
             activeDirectoryGroup.update()
-                    .withMember(virtualMachine.managedServiceIdentityPrincipalId())
+                    .withMember(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId())
                     .apply();
 
             System.out.println("Added virtual machine MSI service principal to the AAD group");

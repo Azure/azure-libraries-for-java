@@ -16,13 +16,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ImageStorageProfile {
     /**
-     * The OS disk.
+     * Specifies information about the operating system disk used by the
+     * virtual machine. &lt;br&gt;&lt;br&gt; For more information about disks,
+     * see [About disks and VHDs for Azure virtual
+     * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
      */
     @JsonProperty(value = "osDisk", required = true)
     private ImageOSDisk osDisk;
 
     /**
-     * The data disks.
+     * Specifies the parameters that are used to add a data disk to a virtual
+     * machine. &lt;br&gt;&lt;br&gt; For more information about disks, see
+     * [About disks and VHDs for Azure virtual
+     * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
      */
     @JsonProperty(value = "dataDisks")
     private List<ImageDataDisk> dataDisks;

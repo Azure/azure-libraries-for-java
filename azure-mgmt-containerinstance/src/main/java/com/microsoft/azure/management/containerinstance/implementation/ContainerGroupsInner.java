@@ -95,7 +95,8 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given subscription.
+     * Get a list of container groups in the specified subscription.
+     * Get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -113,7 +114,8 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given subscription.
+     * Get a list of container groups in the specified subscription.
+     * Get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -132,7 +134,8 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given subscription.
+     * Get a list of container groups in the specified subscription.
+     * Get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ContainerGroupInner&gt; object
@@ -148,7 +151,8 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given subscription.
+     * Get a list of container groups in the specified subscription.
+     * Get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ContainerGroupInner&gt; object
@@ -168,7 +172,8 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given subscription.
+     * Get a list of container groups in the specified subscription.
+     * Get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ContainerGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -202,9 +207,10 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given resource group.
+     * Get a list of container groups in the specified subscription and resource group.
+     * Get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
-     * @param resourceGroupName Azure resource group name
+     * @param resourceGroupName The name of the resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -221,9 +227,10 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given resource group.
+     * Get a list of container groups in the specified subscription and resource group.
+     * Get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
-     * @param resourceGroupName Azure resource group name
+     * @param resourceGroupName The name of the resource group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -241,9 +248,10 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given resource group.
+     * Get a list of container groups in the specified subscription and resource group.
+     * Get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
-     * @param resourceGroupName Azure resource group name
+     * @param resourceGroupName The name of the resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ContainerGroupInner&gt; object
      */
@@ -258,9 +266,10 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given resource group.
+     * Get a list of container groups in the specified subscription and resource group.
+     * Get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
-     * @param resourceGroupName Azure resource group name
+     * @param resourceGroupName The name of the resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ContainerGroupInner&gt; object
      */
@@ -279,9 +288,10 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given resource group.
+     * Get a list of container groups in the specified subscription and resource group.
+     * Get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
-    ServiceResponse<PageImpl<ContainerGroupInner>> * @param resourceGroupName Azure resource group name
+    ServiceResponse<PageImpl<ContainerGroupInner>> * @param resourceGroupName The name of the resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ContainerGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -317,10 +327,11 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get details for this container group.
+     * Get the properties of the specified container group.
+     * Gets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
-     * @param resourceGroupName Azure resource group name
-     * @param containerGroupName Container group name
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -331,10 +342,11 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get details for this container group.
+     * Get the properties of the specified container group.
+     * Gets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
-     * @param resourceGroupName Azure resource group name
-     * @param containerGroupName Container group name
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -344,10 +356,11 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get details for this container group.
+     * Get the properties of the specified container group.
+     * Gets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
-     * @param resourceGroupName Azure resource group name
-     * @param containerGroupName Container group name
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ContainerGroupInner object
      */
@@ -361,10 +374,11 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get details for this container group.
+     * Get the properties of the specified container group.
+     * Gets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
-     * @param resourceGroupName Azure resource group name
-     * @param containerGroupName Container group name
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ContainerGroupInner object
      */
@@ -404,10 +418,11 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
 
     /**
      * Create or update container groups.
+     * Create or update container groups with specified configurations.
      *
-     * @param resourceGroupName Azure resource group name
-     * @param containerGroupName Container group name
-     * @param containerGroup Definition of the container to be created.
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @param containerGroup The properties of the container group to be created or updated.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -419,10 +434,11 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
 
     /**
      * Create or update container groups.
+     * Create or update container groups with specified configurations.
      *
-     * @param resourceGroupName Azure resource group name
-     * @param containerGroupName Container group name
-     * @param containerGroup Definition of the container to be created.
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @param containerGroup The properties of the container group to be created or updated.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -433,10 +449,11 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
 
     /**
      * Create or update container groups.
+     * Create or update container groups with specified configurations.
      *
-     * @param resourceGroupName Azure resource group name
-     * @param containerGroupName Container group name
-     * @param containerGroup Definition of the container to be created.
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @param containerGroup The properties of the container group to be created or updated.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ContainerGroupInner object
      */
@@ -451,10 +468,11 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
 
     /**
      * Create or update container groups.
+     * Create or update container groups with specified configurations.
      *
-     * @param resourceGroupName Azure resource group name
-     * @param containerGroupName Container group name
-     * @param containerGroup Definition of the container to be created.
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @param containerGroup The properties of the container group to be created or updated.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ContainerGroupInner object
      */
@@ -498,10 +516,11 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Delete container groups.
+     * Delete the specified container group.
+     * Delete the specified container group in the specified subscription and resource group. The operation does not delete other resources provided by the user, such as volumes.
      *
-     * @param resourceGroupName Azure resource group name
-     * @param containerGroupName Name of the container group to be deleted
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -512,10 +531,11 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Delete container groups.
+     * Delete the specified container group.
+     * Delete the specified container group in the specified subscription and resource group. The operation does not delete other resources provided by the user, such as volumes.
      *
-     * @param resourceGroupName Azure resource group name
-     * @param containerGroupName Name of the container group to be deleted
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -525,10 +545,11 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Delete container groups.
+     * Delete the specified container group.
+     * Delete the specified container group in the specified subscription and resource group. The operation does not delete other resources provided by the user, such as volumes.
      *
-     * @param resourceGroupName Azure resource group name
-     * @param containerGroupName Name of the container group to be deleted
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ContainerGroupInner object
      */
@@ -542,10 +563,11 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Delete container groups.
+     * Delete the specified container group.
+     * Delete the specified container group in the specified subscription and resource group. The operation does not delete other resources provided by the user, such as volumes.
      *
-     * @param resourceGroupName Azure resource group name
-     * @param containerGroupName Name of the container group to be deleted
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ContainerGroupInner object
      */
@@ -585,7 +607,8 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given subscription.
+     * Get a list of container groups in the specified subscription.
+     * Get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -604,7 +627,8 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given subscription.
+     * Get a list of container groups in the specified subscription.
+     * Get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -625,7 +649,8 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given subscription.
+     * Get a list of container groups in the specified subscription.
+     * Get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -642,7 +667,8 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given subscription.
+     * Get a list of container groups in the specified subscription.
+     * Get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -663,7 +689,8 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given subscription.
+     * Get a list of container groups in the specified subscription.
+     * Get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
     ServiceResponse<PageImpl<ContainerGroupInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -696,7 +723,8 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given resource group.
+     * Get a list of container groups in the specified subscription and resource group.
+     * Get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -715,7 +743,8 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given resource group.
+     * Get a list of container groups in the specified subscription and resource group.
+     * Get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -736,7 +765,8 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given resource group.
+     * Get a list of container groups in the specified subscription and resource group.
+     * Get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -753,7 +783,8 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given resource group.
+     * Get a list of container groups in the specified subscription and resource group.
+     * Get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -774,7 +805,8 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
     }
 
     /**
-     * Get the list of container groups in a given resource group.
+     * Get a list of container groups in the specified subscription and resource group.
+     * Get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
      *
     ServiceResponse<PageImpl<ContainerGroupInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

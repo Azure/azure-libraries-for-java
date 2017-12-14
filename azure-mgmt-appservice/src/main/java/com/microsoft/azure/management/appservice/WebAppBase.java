@@ -7,8 +7,10 @@
 package com.microsoft.azure.management.appservice;
 
 import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
+import com.microsoft.azure.management.appservice.WebAppBase.DefinitionStages.WithCreate;
 import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
 import com.microsoft.azure.management.appservice.implementation.SiteInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -89,11 +91,6 @@ public interface WebAppBase extends
     Set<String> trafficManagerHostNames();
 
     /**
-     * @return whether web app is deployed as a premium app
-     */
-    boolean isPremiumApp();
-
-    /**
      * @return whether to stop SCM (KUDU) site when the web app is
      * stopped. Default is false.
      */
@@ -103,16 +100,6 @@ public interface WebAppBase extends
      * @return which slot this app will swap into
      */
     String targetSwapSlot();
-
-    /**
-     * @return the micro-service name
-     */
-    String microService();
-
-    /**
-     * @return name of gateway app associated with web app
-     */
-    String gatewaySiteName();
 
     /**
      * @return if the client affinity is enabled when load balancing http
@@ -316,6 +303,34 @@ public interface WebAppBase extends
      */
     @Method
     WebDeployment.DefinitionStages.WithPackageUri deploy();
+
+    /**
+     * @return the last lines of docker logs for a Linux web app
+     */
+    @Beta(SinceVersion.V1_5_0)
+    @Method
+    byte[] getContainerLogs();
+
+    /**
+     * @return the last lines of docker logs for a Linux web app
+     */
+    @Beta(SinceVersion.V1_5_0)
+    @Method
+    Observable<byte[]> getContainerLogsAsync();
+
+    /**
+     * @return the zipped archive of docker logs for a Linux web app
+     */
+    @Beta(SinceVersion.V1_5_0)
+    @Method
+    byte[] getContainerLogsZip();
+
+    /**
+     * @return the zipped archive of docker logs for a Linux web app
+     */
+    @Beta(SinceVersion.V1_5_0)
+    @Method
+    Observable<byte[]> getContainerLogsZipAsync();
 
     /**
      * Verifies the ownership of the domain for a certificate order by verifying a hostname
@@ -752,6 +767,36 @@ public interface WebAppBase extends
         }
 
         /**
+         * A web app definition stage allowing diagnostic logging to be set.
+         * @param <FluentT> the type of the resource
+         */
+        @Beta(SinceVersion.V1_5_0)
+        interface WithDiagnosticLogging<FluentT> {
+            /**
+             * Specifies the configuration for container logging for Linux web apps.
+             * @param quotaInMB the limit that restricts file system usage by app diagnostics logs. Value can range from 25 MB and 100 MB.
+             * @param retentionDays maximum days of logs that will be available
+             * @return the next stage of the web app definition
+             */
+            WithCreate<FluentT> withContainerLoggingEnabled(int quotaInMB, int retentionDays);
+
+            /**
+             * Specifies the configuration for container logging for Linux web apps.
+             * Logs will be stored on the file system for up to 35 MB.
+             * @return the next stage of the web app definition
+             */
+            @Method
+            WithCreate<FluentT> withContainerLoggingEnabled();
+
+            /**
+             * Disable the container logging for Linux web apps.
+             * @return the next stage of the web app definition
+             */
+            @Method
+            WithCreate<FluentT> withContainerLoggingDisabled();
+        }
+
+        /**
          * A site definition with sufficient inputs to create a new web app /
          * deployments slot in the cloud, but exposing additional optional
          * inputs to specify.
@@ -769,7 +814,8 @@ public interface WebAppBase extends
             WithSourceControl<FluentT>,
             WithHostNameBinding<FluentT>,
             WithHostNameSslBinding<FluentT>,
-            WithAuthentication<FluentT> {
+            WithAuthentication<FluentT>,
+            WithDiagnosticLogging<FluentT> {
         }
     }
 
@@ -1153,6 +1199,36 @@ public interface WebAppBase extends
              */
             Update<FluentT> withoutAuthentication();
         }
+
+        /**
+         * A web app definition stage allowing diagnostic logging to be set.
+         * @param <FluentT> the type of the resource
+         */
+        @Beta(SinceVersion.V1_5_0)
+        interface WithDiagnosticLogging<FluentT> {
+            /**
+             * Specifies the configuration for container logging for Linux web apps.
+             * @param quotaInMB the limit that restricts file system usage by app diagnostics logs. Value can range from 25 MB and 100 MB.
+             * @param retentionDays maximum days of logs that will be available
+             * @return the next stage of the web app definition
+             */
+            Update<FluentT> withContainerLoggingEnabled(int quotaInMB, int retentionDays);
+
+            /**
+             * Specifies the configuration for container logging for Linux web apps.
+             * Logs will be stored on the file system for up to 35 MB.
+             * @return the next stage of the web app definition
+             */
+            @Method
+            Update<FluentT> withContainerLoggingEnabled();
+
+            /**
+             * Disable the container logging for Linux web apps.
+             * @return the next stage of the web app definition
+             */
+            @Method
+            WithCreate<FluentT> withContainerLoggingDisabled();
+        }
     }
 
     /**
@@ -1171,6 +1247,7 @@ public interface WebAppBase extends
         UpdateStages.WithSourceControl<FluentT>,
         UpdateStages.WithHostNameBinding<FluentT>,
         UpdateStages.WithHostNameSslBinding<FluentT>,
-        UpdateStages.WithAuthentication<FluentT> {
+        UpdateStages.WithAuthentication<FluentT>,
+        UpdateStages.WithDiagnosticLogging<FluentT> {
     }
 }

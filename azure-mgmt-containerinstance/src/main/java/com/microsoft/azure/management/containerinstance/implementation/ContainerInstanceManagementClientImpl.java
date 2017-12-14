@@ -146,6 +146,19 @@ public class ContainerInstanceManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The OperationsInner object to access its operations.
+     */
+    private OperationsInner operations;
+
+    /**
+     * Gets the OperationsInner object to access its operations.
+     * @return the OperationsInner object.
+     */
+    public OperationsInner operations() {
+        return this.operations;
+    }
+
+    /**
      * The ContainerLogsInner object to access its operations.
      */
     private ContainerLogsInner containerLogs;
@@ -189,11 +202,12 @@ public class ContainerInstanceManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2017-08-01-preview";
+        this.apiVersion = "2017-10-01-preview";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
         this.containerGroups = new ContainerGroupsInner(restClient().retrofit(), this);
+        this.operations = new OperationsInner(restClient().retrofit(), this);
         this.containerLogs = new ContainerLogsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
@@ -205,6 +219,6 @@ public class ContainerInstanceManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "ContainerInstanceManagementClient", "2017-08-01-preview");
+        return String.format("%s (%s, %s)", super.userAgent(), "ContainerInstanceManagementClient", "2017-10-01-preview");
     }
 }

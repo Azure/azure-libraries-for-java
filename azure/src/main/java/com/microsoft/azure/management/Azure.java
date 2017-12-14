@@ -23,6 +23,7 @@ import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.cdn.CdnProfiles;
 import com.microsoft.azure.management.cdn.implementation.CdnManager;
 import com.microsoft.azure.management.compute.AvailabilitySets;
+import com.microsoft.azure.management.compute.ComputeSkus;
 import com.microsoft.azure.management.compute.ComputeUsages;
 import com.microsoft.azure.management.compute.Disks;
 import com.microsoft.azure.management.compute.Snapshots;
@@ -90,6 +91,7 @@ import com.microsoft.azure.management.servicebus.implementation.ServiceBusManage
 import com.microsoft.azure.management.sql.SqlServers;
 import com.microsoft.azure.management.sql.implementation.SqlServerManager;
 import com.microsoft.azure.management.storage.StorageAccounts;
+import com.microsoft.azure.management.storage.StorageSkus;
 import com.microsoft.azure.management.storage.Usages;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerProfiles;
@@ -496,6 +498,13 @@ public final class Azure {
     }
 
     /**
+     * @return entry point to managing storage service SKUs
+     */
+    public StorageSkus storageSkus() {
+        return storageManager.storageSkus();
+    }
+
+    /**
      * @return entry point to managing availability sets
      */
     public AvailabilitySets availabilitySets() {
@@ -613,6 +622,13 @@ public final class Azure {
      */
     public Snapshots snapshots() {
         return computeManager.snapshots();
+    }
+
+    /**
+     * @return the compute service SKU management API entry point
+     */
+    public ComputeSkus computeSkus() {
+        return computeManager.computeSkus();
     }
 
     /**

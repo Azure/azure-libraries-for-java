@@ -164,6 +164,19 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The CertificateRegistrationProvidersInner object to access its operations.
+     */
+    private CertificateRegistrationProvidersInner certificateRegistrationProviders;
+
+    /**
+     * Gets the CertificateRegistrationProvidersInner object to access its operations.
+     * @return the CertificateRegistrationProvidersInner object.
+     */
+    public CertificateRegistrationProvidersInner certificateRegistrationProviders() {
+        return this.certificateRegistrationProviders;
+    }
+
+    /**
      * The DomainsInner object to access its operations.
      */
     private DomainsInner domains;
@@ -190,6 +203,19 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The DomainRegistrationProvidersInner object to access its operations.
+     */
+    private DomainRegistrationProvidersInner domainRegistrationProviders;
+
+    /**
+     * Gets the DomainRegistrationProvidersInner object to access its operations.
+     * @return the DomainRegistrationProvidersInner object.
+     */
+    public DomainRegistrationProvidersInner domainRegistrationProviders() {
+        return this.domainRegistrationProviders;
+    }
+
+    /**
      * The CertificatesInner object to access its operations.
      */
     private CertificatesInner certificates;
@@ -213,6 +239,19 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     public DeletedWebAppsInner deletedWebApps() {
         return this.deletedWebApps;
+    }
+
+    /**
+     * The DiagnosticsInner object to access its operations.
+     */
+    private DiagnosticsInner diagnostics;
+
+    /**
+     * Gets the DiagnosticsInner object to access its operations.
+     * @return the DiagnosticsInner object.
+     */
+    public DiagnosticsInner diagnostics() {
+        return this.diagnostics;
     }
 
     /**
@@ -315,10 +354,13 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
         this.appServiceCertificateOrders = new AppServiceCertificateOrdersInner(restClient().retrofit(), this);
+        this.certificateRegistrationProviders = new CertificateRegistrationProvidersInner(restClient().retrofit(), this);
         this.domains = new DomainsInner(restClient().retrofit(), this);
         this.topLevelDomains = new TopLevelDomainsInner(restClient().retrofit(), this);
+        this.domainRegistrationProviders = new DomainRegistrationProvidersInner(restClient().retrofit(), this);
         this.certificates = new CertificatesInner(restClient().retrofit(), this);
         this.deletedWebApps = new DeletedWebAppsInner(restClient().retrofit(), this);
+        this.diagnostics = new DiagnosticsInner(restClient().retrofit(), this);
         this.providers = new ProvidersInner(restClient().retrofit(), this);
         this.recommendations = new RecommendationsInner(restClient().retrofit(), this);
         this.webApps = new WebAppsInner(restClient().retrofit(), this);
@@ -359,6 +401,10 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
         @GET("providers/Microsoft.Web/sourcecontrols")
         Observable<Response<ResponseBody>> listSourceControls(@Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebSiteManagementClient getSourceControl" })
+        @GET("providers/Microsoft.Web/sourcecontrols/{sourceControlType}")
+        Observable<Response<ResponseBody>> getSourceControl(@Path("sourceControlType") String sourceControlType, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebSiteManagementClient updateSourceControl" })
         @PUT("providers/Microsoft.Web/sourcecontrols/{sourceControlType}")
         Observable<Response<ResponseBody>> updateSourceControl(@Path("sourceControlType") String sourceControlType, @Body SourceControlInner requestMessage, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -366,6 +412,10 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebSiteManagementClient checkNameAvailability" })
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.Web/checknameavailability")
         Observable<Response<ResponseBody>> checkNameAvailability(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body ResourceNameAvailabilityRequest request, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebSiteManagementClient getSubscriptionDeploymentLocations" })
+        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Web/deploymentLocations")
+        Observable<Response<ResponseBody>> getSubscriptionDeploymentLocations(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebSiteManagementClient listGeoRegions" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Web/geoRegions")
@@ -378,6 +428,10 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebSiteManagementClient listSkus" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Web/skus")
         Observable<Response<ResponseBody>> listSkus(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebSiteManagementClient verifyHostingEnvironmentVnet" })
+        @POST("subscriptions/{subscriptionId}/providers/Microsoft.Web/verifyHostingEnvironmentVnet")
+        Observable<Response<ResponseBody>> verifyHostingEnvironmentVnet(@Path("subscriptionId") String subscriptionId, @Body VnetParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebSiteManagementClient move" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/moveResources")
@@ -663,6 +717,84 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * Gets source control token.
+     * Gets source control token.
+     *
+     * @param sourceControlType Type of source control
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the SourceControlInner object if successful.
+     */
+    public SourceControlInner getSourceControl(String sourceControlType) {
+        return getSourceControlWithServiceResponseAsync(sourceControlType).toBlocking().single().body();
+    }
+
+    /**
+     * Gets source control token.
+     * Gets source control token.
+     *
+     * @param sourceControlType Type of source control
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<SourceControlInner> getSourceControlAsync(String sourceControlType, final ServiceCallback<SourceControlInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getSourceControlWithServiceResponseAsync(sourceControlType), serviceCallback);
+    }
+
+    /**
+     * Gets source control token.
+     * Gets source control token.
+     *
+     * @param sourceControlType Type of source control
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the SourceControlInner object
+     */
+    public Observable<SourceControlInner> getSourceControlAsync(String sourceControlType) {
+        return getSourceControlWithServiceResponseAsync(sourceControlType).map(new Func1<ServiceResponse<SourceControlInner>, SourceControlInner>() {
+            @Override
+            public SourceControlInner call(ServiceResponse<SourceControlInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets source control token.
+     * Gets source control token.
+     *
+     * @param sourceControlType Type of source control
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the SourceControlInner object
+     */
+    public Observable<ServiceResponse<SourceControlInner>> getSourceControlWithServiceResponseAsync(String sourceControlType) {
+        if (sourceControlType == null) {
+            throw new IllegalArgumentException("Parameter sourceControlType is required and cannot be null.");
+        }
+        final String apiVersion = "2016-03-01";
+        return service.getSourceControl(sourceControlType, apiVersion, this.acceptLanguage(), this.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SourceControlInner>>>() {
+                @Override
+                public Observable<ServiceResponse<SourceControlInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<SourceControlInner> clientResponse = getSourceControlDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<SourceControlInner> getSourceControlDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.restClient().responseBuilderFactory().<SourceControlInner, CloudException>newInstance(this.serializerAdapter())
+                .register(200, new TypeToken<SourceControlInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
      * Updates source control token.
      * Updates source control token.
      *
@@ -753,7 +885,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
      * Check if a resource name is available.
      *
      * @param name Resource name to verify.
-     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment'
+     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -768,7 +900,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
      * Check if a resource name is available.
      *
      * @param name Resource name to verify.
-     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment'
+     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -782,7 +914,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
      * Check if a resource name is available.
      *
      * @param name Resource name to verify.
-     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment'
+     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ResourceNameAvailabilityInner object
      */
@@ -800,7 +932,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
      * Check if a resource name is available.
      *
      * @param name Resource name to verify.
-     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment'
+     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ResourceNameAvailabilityInner object
      */
@@ -839,7 +971,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
      * Check if a resource name is available.
      *
      * @param name Resource name to verify.
-     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment'
+     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
      * @param isFqdn Is fully qualified domain name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -855,7 +987,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
      * Check if a resource name is available.
      *
      * @param name Resource name to verify.
-     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment'
+     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
      * @param isFqdn Is fully qualified domain name.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -870,7 +1002,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
      * Check if a resource name is available.
      *
      * @param name Resource name to verify.
-     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment'
+     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
      * @param isFqdn Is fully qualified domain name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ResourceNameAvailabilityInner object
@@ -889,7 +1021,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
      * Check if a resource name is available.
      *
      * @param name Resource name to verify.
-     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment'
+     * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
      * @param isFqdn Is fully qualified domain name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ResourceNameAvailabilityInner object
@@ -926,6 +1058,80 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
     private ServiceResponse<ResourceNameAvailabilityInner> checkNameAvailabilityDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.restClient().responseBuilderFactory().<ResourceNameAvailabilityInner, CloudException>newInstance(this.serializerAdapter())
                 .register(200, new TypeToken<ResourceNameAvailabilityInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets list of available geo regions plus ministamps.
+     * Gets list of available geo regions plus ministamps.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DeploymentLocationsInner object if successful.
+     */
+    public DeploymentLocationsInner getSubscriptionDeploymentLocations() {
+        return getSubscriptionDeploymentLocationsWithServiceResponseAsync().toBlocking().single().body();
+    }
+
+    /**
+     * Gets list of available geo regions plus ministamps.
+     * Gets list of available geo regions plus ministamps.
+     *
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DeploymentLocationsInner> getSubscriptionDeploymentLocationsAsync(final ServiceCallback<DeploymentLocationsInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getSubscriptionDeploymentLocationsWithServiceResponseAsync(), serviceCallback);
+    }
+
+    /**
+     * Gets list of available geo regions plus ministamps.
+     * Gets list of available geo regions plus ministamps.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DeploymentLocationsInner object
+     */
+    public Observable<DeploymentLocationsInner> getSubscriptionDeploymentLocationsAsync() {
+        return getSubscriptionDeploymentLocationsWithServiceResponseAsync().map(new Func1<ServiceResponse<DeploymentLocationsInner>, DeploymentLocationsInner>() {
+            @Override
+            public DeploymentLocationsInner call(ServiceResponse<DeploymentLocationsInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets list of available geo regions plus ministamps.
+     * Gets list of available geo regions plus ministamps.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DeploymentLocationsInner object
+     */
+    public Observable<ServiceResponse<DeploymentLocationsInner>> getSubscriptionDeploymentLocationsWithServiceResponseAsync() {
+        if (this.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2016-03-01";
+        return service.getSubscriptionDeploymentLocations(this.subscriptionId(), apiVersion, this.acceptLanguage(), this.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DeploymentLocationsInner>>>() {
+                @Override
+                public Observable<ServiceResponse<DeploymentLocationsInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<DeploymentLocationsInner> clientResponse = getSubscriptionDeploymentLocationsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<DeploymentLocationsInner> getSubscriptionDeploymentLocationsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.restClient().responseBuilderFactory().<DeploymentLocationsInner, CloudException>newInstance(this.serializerAdapter())
+                .register(200, new TypeToken<DeploymentLocationsInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1039,7 +1245,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
      * Get a list of available geographical regions.
      * Get a list of available geographical regions.
      *
-     * @param sku Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'Dynamic', 'Isolated'
+     * @param sku Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'PremiumV2', 'Dynamic', 'Isolated'
      * @param linuxWorkersEnabled Specify &lt;code&gt;true&lt;/code&gt; if you want to filter to only regions that support Linux workers.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -1060,7 +1266,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
      * Get a list of available geographical regions.
      * Get a list of available geographical regions.
      *
-     * @param sku Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'Dynamic', 'Isolated'
+     * @param sku Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'PremiumV2', 'Dynamic', 'Isolated'
      * @param linuxWorkersEnabled Specify &lt;code&gt;true&lt;/code&gt; if you want to filter to only regions that support Linux workers.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1082,7 +1288,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
      * Get a list of available geographical regions.
      * Get a list of available geographical regions.
      *
-     * @param sku Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'Dynamic', 'Isolated'
+     * @param sku Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'PremiumV2', 'Dynamic', 'Isolated'
      * @param linuxWorkersEnabled Specify &lt;code&gt;true&lt;/code&gt; if you want to filter to only regions that support Linux workers.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;GeoRegionInner&gt; object
@@ -1101,7 +1307,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
      * Get a list of available geographical regions.
      * Get a list of available geographical regions.
      *
-     * @param sku Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'Dynamic', 'Isolated'
+     * @param sku Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'PremiumV2', 'Dynamic', 'Isolated'
      * @param linuxWorkersEnabled Specify &lt;code&gt;true&lt;/code&gt; if you want to filter to only regions that support Linux workers.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;GeoRegionInner&gt; object
@@ -1124,7 +1330,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
      * Get a list of available geographical regions.
      * Get a list of available geographical regions.
      *
-    ServiceResponse<PageImpl<GeoRegionInner>> * @param sku Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'Dynamic', 'Isolated'
+    ServiceResponse<PageImpl<GeoRegionInner>> * @param sku Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'PremiumV2', 'Dynamic', 'Isolated'
     ServiceResponse<PageImpl<GeoRegionInner>> * @param linuxWorkersEnabled Specify &lt;code&gt;true&lt;/code&gt; if you want to filter to only regions that support Linux workers.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;GeoRegionInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -1335,6 +1541,88 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
     private ServiceResponse<SkuInfosInner> listSkusDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.restClient().responseBuilderFactory().<SkuInfosInner, CloudException>newInstance(this.serializerAdapter())
                 .register(200, new TypeToken<SkuInfosInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+     * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+     *
+     * @param parameters VNET information
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the VnetValidationFailureDetailsInner object if successful.
+     */
+    public VnetValidationFailureDetailsInner verifyHostingEnvironmentVnet(VnetParametersInner parameters) {
+        return verifyHostingEnvironmentVnetWithServiceResponseAsync(parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+     * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+     *
+     * @param parameters VNET information
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<VnetValidationFailureDetailsInner> verifyHostingEnvironmentVnetAsync(VnetParametersInner parameters, final ServiceCallback<VnetValidationFailureDetailsInner> serviceCallback) {
+        return ServiceFuture.fromResponse(verifyHostingEnvironmentVnetWithServiceResponseAsync(parameters), serviceCallback);
+    }
+
+    /**
+     * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+     * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+     *
+     * @param parameters VNET information
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the VnetValidationFailureDetailsInner object
+     */
+    public Observable<VnetValidationFailureDetailsInner> verifyHostingEnvironmentVnetAsync(VnetParametersInner parameters) {
+        return verifyHostingEnvironmentVnetWithServiceResponseAsync(parameters).map(new Func1<ServiceResponse<VnetValidationFailureDetailsInner>, VnetValidationFailureDetailsInner>() {
+            @Override
+            public VnetValidationFailureDetailsInner call(ServiceResponse<VnetValidationFailureDetailsInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+     * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+     *
+     * @param parameters VNET information
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the VnetValidationFailureDetailsInner object
+     */
+    public Observable<ServiceResponse<VnetValidationFailureDetailsInner>> verifyHostingEnvironmentVnetWithServiceResponseAsync(VnetParametersInner parameters) {
+        if (this.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2016-03-01";
+        return service.verifyHostingEnvironmentVnet(this.subscriptionId(), parameters, apiVersion, this.acceptLanguage(), this.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VnetValidationFailureDetailsInner>>>() {
+                @Override
+                public Observable<ServiceResponse<VnetValidationFailureDetailsInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<VnetValidationFailureDetailsInner> clientResponse = verifyHostingEnvironmentVnetDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<VnetValidationFailureDetailsInner> verifyHostingEnvironmentVnetDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.restClient().responseBuilderFactory().<VnetValidationFailureDetailsInner, CloudException>newInstance(this.serializerAdapter())
+                .register(200, new TypeToken<VnetValidationFailureDetailsInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

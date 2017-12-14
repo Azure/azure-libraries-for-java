@@ -15,9 +15,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class DataDiskImage {
     /**
-     * The LUN number for a data disk. This value is used to identify data disk
-     * image inside the VMImage and therefore it must be unique for each data
-     * disk.
+     * Specifies the logical unit number of the data disk. This value is used
+     * to identify data disks within the VM and therefore must be unique for
+     * each data disk attached to a VM.
      */
     @JsonProperty(value = "lun", access = JsonProperty.Access.WRITE_ONLY)
     private Integer lun;

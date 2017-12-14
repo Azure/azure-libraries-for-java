@@ -213,8 +213,7 @@ class NetworkInterfaceImpl
     @Override
     public NetworkInterfaceImpl withNewNetworkSecurityGroup(Creatable<NetworkSecurityGroup> creatable) {
         if (this.creatableNetworkSecurityGroupKey == null) {
-            this.creatableNetworkSecurityGroupKey = creatable.key();
-            this.addCreatableDependency(creatable);
+            this.creatableNetworkSecurityGroupKey = this.addDependency(creatable);
         }
         return this;
     }
@@ -459,11 +458,11 @@ class NetworkInterfaceImpl
     }
 
     void addToCreatableDependencies(Creatable<? extends Resource> creatableResource) {
-        super.addCreatableDependency(creatableResource);
+        this.addDependency(creatableResource);
     }
 
     Resource createdDependencyResource(String key) {
-        return super.createdResource(key);
+        return this.<Resource>taskResult(key);
     }
 
     Creatable<ResourceGroup> newGroup() {
@@ -484,7 +483,7 @@ class NetworkInterfaceImpl
     protected void beforeCreating() {
         NetworkSecurityGroup networkSecurityGroup = null;
         if (creatableNetworkSecurityGroupKey != null) {
-            networkSecurityGroup = (NetworkSecurityGroup) this.createdResource(creatableNetworkSecurityGroupKey);
+            networkSecurityGroup = this.<NetworkSecurityGroup>taskResult(creatableNetworkSecurityGroupKey);
         } else if (existingNetworkSecurityGroupToAssociate != null) {
             networkSecurityGroup = existingNetworkSecurityGroupToAssociate;
         }

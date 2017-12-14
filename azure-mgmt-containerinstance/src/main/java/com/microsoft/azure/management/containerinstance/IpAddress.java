@@ -12,17 +12,17 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * IP address for the group.
+ * IP address for the container group.
  */
 public class IpAddress {
     /**
-     * The ports.
+     * The list of ports exposed on the container group.
      */
     @JsonProperty(value = "ports", required = true)
     private List<Port> ports;
 
     /**
-     * Determines whether the IP is exposed to the public internet.
+     * Specifies if the IP is exposed to the public internet.
      */
     @JsonProperty(value = "type", required = true)
     private String type;

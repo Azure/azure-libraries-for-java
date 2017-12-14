@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import rx.Observable;
 import rx.functions.Func0;
 
@@ -15,15 +16,20 @@ import rx.functions.Func0;
  * 1. references to other {@link TaskGroupEntry} dependencies
  * 2. references to the other {@link TaskGroupEntry} dependents
  *
- * @param <ResultT> the type of the result produced by the task
  * @param <TaskT> the task type that can return a value
  */
-final class TaskGroupEntry<ResultT, TaskT extends TaskItem<ResultT>>
-        extends DAGNode<TaskT, TaskGroupEntry<ResultT, TaskT>> {
+final class TaskGroupEntry<TaskT extends TaskItem>
+        extends DAGNode<TaskT, TaskGroupEntry<TaskT>> {
+    /**
+     * The proxy entry for this entry if exists.
+     */
+    private TaskGroupEntry<TaskT> proxy;
+
     /**
      * indicates that one or more decedent dependency tasks are faulted.
      */
-    private boolean hasFaultedDescentDependencyTask;
+    private boolean hasFaultedDescentDependencyTasks;
+
     /**
      * Creates TaskGroupEntry.
      *
@@ -37,14 +43,38 @@ final class TaskGroupEntry<ResultT, TaskT extends TaskItem<ResultT>>
     @Override
     public void initialize() {
         super.initialize();
-        this.hasFaultedDescentDependencyTask = false;
+        this.hasFaultedDescentDependencyTasks = false;
+    }
+
+    /**
+     * Set the proxy entry for this entry.
+     *
+     * @param proxy the proxy entry
+     */
+    public void setProxy(TaskGroupEntry<TaskT> proxy) {
+        this.proxy = proxy;
+    }
+
+    /**
+     * @return the proxy entry if it is set, null if not set.
+     */
+    public TaskGroupEntry<TaskT> proxy() {
+        return this.proxy;
     }
 
     /**
      * @return the result produced by the task.
      */
-    public ResultT taskResult() {
+    public Indexable taskResult() {
         return taskItem().result();
+    }
+
+    /**
+     * @return true if one or more decedent dependency tasks are in faulted
+     * state, false otherwise.
+     */
+    public boolean hasFaultedDescentDependencyTasks() {
+        return this.hasFaultedDescentDependencyTasks;
     }
 
     /**
@@ -52,16 +82,18 @@ final class TaskGroupEntry<ResultT, TaskT extends TaskItem<ResultT>>
      * if the task cannot be invoked due to faulted dependencies then an observable that emit
      * {@link ErroredDependencyTaskException} will be returned.
      *
-     * @param ignoreCachedResult indicate that whether the cached result can be returned without
-     *                           invoking the task again
+     * @param ignoreCachedResult if the task is already invoked and has result cached then a value false for this
+     *                           parameter indicates the cached result can be returned without invoking task again,
+     *                           if true then cached result will be ignored and task will be invoked
      * @param context the context object shared across all the entries in the group that this entry belongs to,
      *                this will be passed to {@link TaskItem#invokeAsync(TaskGroup.InvocationContext)}
      *                method of the task item
      *
-     * @return the handle to the asynchronous execution of the task this entry holds.
+     * @return a cold Observable upon subscription invokes the task this entry hold, which produces a result of
+     * type {@link Indexable}.
      */
-    public Observable<ResultT> invokeTaskAsync(boolean ignoreCachedResult, final TaskGroup.InvocationContext context) {
-        if (hasFaultedDescentDependencyTask) {
+    public Observable<Indexable> invokeTaskAsync(boolean ignoreCachedResult, final TaskGroup.InvocationContext context) {
+        if (hasFaultedDescentDependencyTasks) {
             return Observable.error(new ErroredDependencyTaskException());
         }
         final TaskT taskItem = this.taskItem();
@@ -70,9 +102,9 @@ final class TaskGroupEntry<ResultT, TaskT extends TaskItem<ResultT>>
         }
         if (taskItem.isHot()) {
             // Convert hot task to cold to delay it's execution until subscription.
-            return Observable.defer(new Func0<Observable<ResultT>>() {
+            return Observable.defer(new Func0<Observable<Indexable>>() {
                 @Override
-                public Observable<ResultT> call() {
+                public Observable<Indexable> call() {
                     return taskItem.invokeAsync(context);
                 }
             });
@@ -84,7 +116,7 @@ final class TaskGroupEntry<ResultT, TaskT extends TaskItem<ResultT>>
     @Override
     protected void onFaultedResolution(String dependencyKey, Throwable throwable) {
         super.onFaultedResolution(dependencyKey, throwable);
-        this.hasFaultedDescentDependencyTask = true;
+        this.hasFaultedDescentDependencyTasks = true;
     }
 
     /**

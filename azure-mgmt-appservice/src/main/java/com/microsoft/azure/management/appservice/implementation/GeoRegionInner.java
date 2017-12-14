@@ -10,13 +10,13 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Geographical region.
  */
 @JsonFlatten
-public class GeoRegionInner extends Resource {
+public class GeoRegionInner extends ProxyOnlyResource {
     /**
      * Region name.
      */

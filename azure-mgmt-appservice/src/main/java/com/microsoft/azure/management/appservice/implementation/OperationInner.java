@@ -12,10 +12,11 @@ import com.microsoft.azure.management.appservice.OperationStatus;
 import java.util.List;
 import com.microsoft.azure.management.appservice.ErrorEntity;
 import org.joda.time.DateTime;
+import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Operation.
+ * An operation on a resource.
  */
 public class OperationInner {
     /**
@@ -65,7 +66,7 @@ public class OperationInner {
      * Applicable only for stamp operation ids.
      */
     @JsonProperty(value = "geoMasterOperationId")
-    private String geoMasterOperationId;
+    private UUID geoMasterOperationId;
 
     /**
      * Get the id value.
@@ -212,7 +213,7 @@ public class OperationInner {
      *
      * @return the geoMasterOperationId value
      */
-    public String geoMasterOperationId() {
+    public UUID geoMasterOperationId() {
         return this.geoMasterOperationId;
     }
 
@@ -222,7 +223,7 @@ public class OperationInner {
      * @param geoMasterOperationId the geoMasterOperationId value to set
      * @return the OperationInner object itself.
      */
-    public OperationInner withGeoMasterOperationId(String geoMasterOperationId) {
+    public OperationInner withGeoMasterOperationId(UUID geoMasterOperationId) {
         this.geoMasterOperationId = geoMasterOperationId;
         return this;
     }

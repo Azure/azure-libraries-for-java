@@ -172,7 +172,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, imageName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ImageInner>() { }.getType());
     }
@@ -247,7 +247,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         return service.beginCreateOrUpdate(resourceGroupName, imageName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ImageInner>>>() {
                 @Override
@@ -332,7 +332,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, imageName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<OperationStatusResponseInner>() { }.getType());
     }
@@ -399,7 +399,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         return service.beginDelete(resourceGroupName, imageName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<OperationStatusResponseInner>>>() {
                 @Override
@@ -485,7 +485,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         final String expand = null;
         return service.getByResourceGroup(resourceGroupName, imageName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ImageInner>>>() {
@@ -567,7 +567,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         return service.getByResourceGroup(resourceGroupName, imageName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ImageInner>>>() {
                 @Override
@@ -680,7 +680,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ImageInner>>>>() {
                 @Override
@@ -703,7 +703,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
     }
 
     /**
-     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is not null to fetch all the Images.
+     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -721,7 +721,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
     }
 
     /**
-     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is not null to fetch all the Images.
+     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -740,7 +740,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
     }
 
     /**
-     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is not null to fetch all the Images.
+     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ImageInner&gt; object
@@ -756,7 +756,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
     }
 
     /**
-     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is not null to fetch all the Images.
+     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ImageInner&gt; object
@@ -776,7 +776,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
     }
 
     /**
-     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is not null to fetch all the Images.
+     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ImageInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -785,7 +785,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ImageInner>>>>() {
                 @Override
@@ -919,7 +919,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
     }
 
     /**
-     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is not null to fetch all the Images.
+     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -938,7 +938,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
     }
 
     /**
-     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is not null to fetch all the Images.
+     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -959,7 +959,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
     }
 
     /**
-     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is not null to fetch all the Images.
+     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -976,7 +976,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
     }
 
     /**
-     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is not null to fetch all the Images.
+     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -997,7 +997,7 @@ public class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSupportsD
     }
 
     /**
-     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is not null to fetch all the Images.
+     * Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images.
      *
     ServiceResponse<PageImpl1<ImageInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

@@ -10,13 +10,13 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Response for a migration of app content request.
  */
 @JsonFlatten
-public class StorageMigrationResponseInner extends Resource {
+public class StorageMigrationResponseInner extends ProxyOnlyResource {
     /**
      * When server starts the migration process, it will return an operation ID
      * identifying that particular migration operation.

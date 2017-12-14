@@ -52,7 +52,7 @@ public class ResourceMetricValue {
     private Double count;
 
     /**
-     * Properties.
+     * Resource metric properties collection.
      */
     @JsonProperty(value = "properties", access = JsonProperty.Access.WRITE_ONLY)
     private List<ResourceMetricProperty> properties;

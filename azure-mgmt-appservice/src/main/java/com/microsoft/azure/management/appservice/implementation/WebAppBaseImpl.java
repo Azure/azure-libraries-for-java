@@ -19,9 +19,11 @@ import com.microsoft.azure.management.appservice.ConnStringValueTypePair;
 import com.microsoft.azure.management.appservice.ConnectionString;
 import com.microsoft.azure.management.appservice.ConnectionStringType;
 import com.microsoft.azure.management.appservice.CustomHostNameDnsRecordType;
+import com.microsoft.azure.management.appservice.FileSystemHttpLogsConfig;
 import com.microsoft.azure.management.appservice.HostNameBinding;
 import com.microsoft.azure.management.appservice.HostNameSslState;
 import com.microsoft.azure.management.appservice.HostNameType;
+import com.microsoft.azure.management.appservice.HttpLogsConfig;
 import com.microsoft.azure.management.appservice.JavaVersion;
 import com.microsoft.azure.management.appservice.ManagedPipelineMode;
 import com.microsoft.azure.management.appservice.NetFrameworkVersion;
@@ -54,6 +56,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.Callable;
 
 /**
@@ -83,9 +86,9 @@ abstract class WebAppBaseImpl<
     private Set<String> trafficManagerHostNamesSet;
     private Set<String> outboundIPAddressesSet;
     private Map<String, HostNameSslState> hostNameSslStateMap;
-    private Map<String, HostNameBindingImpl<FluentT, FluentImplT>> hostNameBindingsToCreate;
+    private TreeMap<String, HostNameBindingImpl<FluentT, FluentImplT>> hostNameBindingsToCreate;
     private List<String> hostNameBindingsToDelete;
-    private Map<String, HostNameSslBindingImpl<FluentT, FluentImplT>> sslBindingsToCreate;
+    private TreeMap<String, HostNameSslBindingImpl<FluentT, FluentImplT>> sslBindingsToCreate;
 
     private Map<String, String> appSettingsToAdd;
     private List<String> appSettingsToRemove;
@@ -98,6 +101,7 @@ abstract class WebAppBaseImpl<
     private MSDeployInner msDeploy;
     private WebAppAuthenticationImpl<FluentT, FluentImplT> authentication;
     private boolean authenticationToUpdate;
+    private SiteLogsConfigInner siteLogsConfig;
 
     WebAppBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
         super(name, innerObject, manager);
@@ -118,7 +122,7 @@ abstract class WebAppBaseImpl<
 
     @SuppressWarnings("unchecked")
     private FluentT normalizeProperties() {
-        this.hostNameBindingsToCreate = new HashMap<>();
+        this.hostNameBindingsToCreate = new TreeMap<>();
         this.hostNameBindingsToDelete = new ArrayList<>();
         this.appSettingsToAdd = new HashMap<>();
         this.appSettingsToRemove = new ArrayList<>();
@@ -129,7 +133,7 @@ abstract class WebAppBaseImpl<
         this.sourceControl = null;
         this.sourceControlToDelete = false;
         this.authenticationToUpdate = false;
-        this.sslBindingsToCreate = new HashMap<>();
+        this.sslBindingsToCreate = new TreeMap<>();
         if (inner().hostNames() != null) {
             this.hostNamesSet = Sets.newHashSet(inner().hostNames());
         }
@@ -214,11 +218,6 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
-    public boolean isPremiumApp() {
-        return Utils.toPrimitiveBoolean(inner().premiumAppDeployed());
-    }
-
-    @Override
     public boolean scmSiteAlsoStopped() {
         return inner().scmSiteAlsoStopped();
     }
@@ -226,16 +225,6 @@ abstract class WebAppBaseImpl<
     @Override
     public String targetSwapSlot() {
         return inner().targetSwapSlot();
-    }
-
-    @Override
-    public String microService() {
-        return inner().microService();
-    }
-
-    @Override
-    public String gatewaySiteName() {
-        return inner().gatewaySiteName();
     }
 
     @Override
@@ -515,6 +504,8 @@ abstract class WebAppBaseImpl<
 
     abstract Observable<MSDeployStatusInner> createMSDeploy(MSDeployInner msDeployInner);
 
+    abstract Observable<SiteLogsConfigInner> updateDiagnosticLogsConfig(SiteLogsConfigInner siteLogsConfigInner);
+
     @Override
     public Observable<FluentT> createResourceAsync() {
         if (hostNameSslStateMap.size() > 0) {
@@ -587,6 +578,13 @@ abstract class WebAppBaseImpl<
             @Override
             public Observable<SiteInner> call(SiteInner inner) {
                 return submitAuthentication(inner);
+            }
+        })
+        // logs
+        .flatMap(new Func1<SiteInner, Observable<SiteInner>>() {
+            @Override
+            public Observable<SiteInner> call(SiteInner siteInner) {
+                return submitLogConfiguration(siteInner);
             }
         })
         // convert from inner
@@ -665,7 +663,6 @@ abstract class WebAppBaseImpl<
         if (siteConfig == null) {
             return Observable.just(site);
         }
-        siteConfig.withLocation(inner().location());
         return createOrUpdateSiteConfig(siteConfig)
                 .flatMap(new Func1<SiteConfigResourceInner, Observable<SiteInner>>() {
                     @Override
@@ -685,7 +682,6 @@ abstract class WebAppBaseImpl<
                     public Observable<StringDictionaryInner> call(StringDictionaryInner stringDictionaryInner) {
                         if (stringDictionaryInner == null) {
                             stringDictionaryInner = new StringDictionaryInner();
-                            stringDictionaryInner.withLocation(regionName());
                         }
                         if (stringDictionaryInner.properties() == null) {
                             stringDictionaryInner.withProperties(new HashMap<String, String>());
@@ -715,7 +711,6 @@ abstract class WebAppBaseImpl<
                     public Observable<ConnectionStringDictionaryInner> call(ConnectionStringDictionaryInner dictionaryInner) {
                         if (dictionaryInner == null) {
                             dictionaryInner = new ConnectionStringDictionaryInner();
-                            dictionaryInner.withLocation(regionName());
                         }
                         if (dictionaryInner.properties() == null) {
                             dictionaryInner.withProperties(new HashMap<String, ConnStringValueTypePair>());
@@ -745,7 +740,6 @@ abstract class WebAppBaseImpl<
                     public Observable<SlotConfigNamesResourceInner> call(SlotConfigNamesResourceInner slotConfigNamesResourceInner) {
                         if (slotConfigNamesResourceInner == null) {
                             slotConfigNamesResourceInner = new SlotConfigNamesResourceInner();
-                            slotConfigNamesResourceInner.withLocation(regionName());
                         }
                         if (slotConfigNamesResourceInner.appSettingNames() == null) {
                             slotConfigNamesResourceInner.withAppSettingNames(new ArrayList<String>());
@@ -838,6 +832,20 @@ abstract class WebAppBaseImpl<
         });
     }
 
+    Observable<SiteInner> submitLogConfiguration(final SiteInner site) {
+        if (siteLogsConfig == null) {
+            return Observable.just(site);
+        }
+        return updateDiagnosticLogsConfig(siteLogsConfig)
+                .map(new Func1<SiteLogsConfigInner, SiteInner>() {
+                    @Override
+                    public SiteInner call(SiteLogsConfigInner siteLogsConfigInner) {
+                        siteLogsConfig = null;
+                        return site;
+                    }
+                });
+    }
+
     @Override
     public WebDeploymentImpl<FluentT, FluentImplT> deploy() {
         return new WebDeploymentImpl<>(this);
@@ -874,7 +882,6 @@ abstract class WebAppBaseImpl<
     public HostNameBindingImpl<FluentT, FluentImplT> defineHostnameBinding() {
         HostNameBindingInner inner = new HostNameBindingInner();
         inner.withSiteName(name());
-        inner.withLocation(regionName());
         inner.withAzureResourceType(AzureResourceType.WEBSITE);
         inner.withAzureResourceName(name());
         inner.withHostNameType(HostNameType.VERIFIED);
@@ -1182,7 +1189,6 @@ abstract class WebAppBaseImpl<
 
     public WebAppSourceControlImpl<FluentT, FluentImplT> defineSourceControl() {
         SiteSourceControlInner sourceControlInner = new SiteSourceControlInner();
-        sourceControlInner.withLocation(regionName());
         return new WebAppSourceControlImpl<>(sourceControlInner, this);
     }
 
@@ -1239,6 +1245,29 @@ abstract class WebAppBaseImpl<
     public FluentImplT withoutAuthentication() {
         this.authentication.inner().withEnabled(false);
         authenticationToUpdate = true;
+        return (FluentImplT) this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public FluentImplT withContainerLoggingEnabled(int quotaInMB, int retentionDays) {
+        siteLogsConfig = new SiteLogsConfigInner()
+                .withHttpLogs(new HttpLogsConfig().withFileSystem(
+                        new FileSystemHttpLogsConfig().withEnabled(true).withRetentionInMb(quotaInMB).withRetentionInDays(retentionDays)));
+        return (FluentImplT) this;
+    }
+
+    @Override
+    public FluentImplT withContainerLoggingEnabled() {
+        return withContainerLoggingEnabled(35, 0);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public FluentImplT withContainerLoggingDisabled() {
+        siteLogsConfig = new SiteLogsConfigInner()
+                .withHttpLogs(new HttpLogsConfig().withFileSystem(
+                        new FileSystemHttpLogsConfig().withEnabled(false)));
         return (FluentImplT) this;
     }
 }

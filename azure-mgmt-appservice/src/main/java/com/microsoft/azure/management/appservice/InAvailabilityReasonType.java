@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.appservice;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for InAvailabilityReasonType.
  */
-public final class InAvailabilityReasonType {
+public final class InAvailabilityReasonType extends ExpandableStringEnum<InAvailabilityReasonType> {
     /** Static value Invalid for InAvailabilityReasonType. */
-    public static final InAvailabilityReasonType INVALID = new InAvailabilityReasonType("Invalid");
+    public static final InAvailabilityReasonType INVALID = fromString("Invalid");
 
     /** Static value AlreadyExists for InAvailabilityReasonType. */
-    public static final InAvailabilityReasonType ALREADY_EXISTS = new InAvailabilityReasonType("AlreadyExists");
-
-    private String value;
+    public static final InAvailabilityReasonType ALREADY_EXISTS = fromString("AlreadyExists");
 
     /**
-     * Creates a custom value for InAvailabilityReasonType.
-     * @param value the custom value
+     * Creates or finds a InAvailabilityReasonType from its string representation.
+     * @param name a name to look for
+     * @return the corresponding InAvailabilityReasonType
      */
-    public InAvailabilityReasonType(String value) {
-        this.value = value;
+    @JsonCreator
+    public static InAvailabilityReasonType fromString(String name) {
+        return fromString(name, InAvailabilityReasonType.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof InAvailabilityReasonType)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        InAvailabilityReasonType rhs = (InAvailabilityReasonType) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known InAvailabilityReasonType values
+     */
+    public static Collection<InAvailabilityReasonType> values() {
+        return values(InAvailabilityReasonType.class);
     }
 }

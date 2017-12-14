@@ -8,55 +8,37 @@
 
 package com.microsoft.azure.management.appservice;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for PublishingProfileFormat.
  */
-public final class PublishingProfileFormat {
+public final class PublishingProfileFormat extends ExpandableStringEnum<PublishingProfileFormat> {
     /** Static value FileZilla3 for PublishingProfileFormat. */
-    public static final PublishingProfileFormat FILE_ZILLA3 = new PublishingProfileFormat("FileZilla3");
+    public static final PublishingProfileFormat FILE_ZILLA3 = fromString("FileZilla3");
 
     /** Static value WebDeploy for PublishingProfileFormat. */
-    public static final PublishingProfileFormat WEB_DEPLOY = new PublishingProfileFormat("WebDeploy");
+    public static final PublishingProfileFormat WEB_DEPLOY = fromString("WebDeploy");
 
     /** Static value Ftp for PublishingProfileFormat. */
-    public static final PublishingProfileFormat FTP = new PublishingProfileFormat("Ftp");
-
-    private String value;
+    public static final PublishingProfileFormat FTP = fromString("Ftp");
 
     /**
-     * Creates a custom value for PublishingProfileFormat.
-     * @param value the custom value
+     * Creates or finds a PublishingProfileFormat from its string representation.
+     * @param name a name to look for
+     * @return the corresponding PublishingProfileFormat
      */
-    public PublishingProfileFormat(String value) {
-        this.value = value;
+    @JsonCreator
+    public static PublishingProfileFormat fromString(String name) {
+        return fromString(name, PublishingProfileFormat.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PublishingProfileFormat)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        PublishingProfileFormat rhs = (PublishingProfileFormat) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known PublishingProfileFormat values
+     */
+    public static Collection<PublishingProfileFormat> values() {
+        return values(PublishingProfileFormat.class);
     }
 }

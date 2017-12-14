@@ -14,13 +14,13 @@ import com.microsoft.azure.management.appservice.ResourceMetricAvailability;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Metadata for the metrics.
  */
 @JsonFlatten
-public class ResourceMetricDefinitionInner extends Resource {
+public class ResourceMetricDefinitionInner extends ProxyOnlyResource {
     /**
      * Name of the metric.
      */
@@ -59,7 +59,7 @@ public class ResourceMetricDefinitionInner extends Resource {
     private String resourceMetricDefinitionId;
 
     /**
-     * Properties.
+     * Resource metric definition properties.
      */
     @JsonProperty(value = "properties.properties", access = JsonProperty.Access.WRITE_ONLY)
     private Map<String, String> properties;

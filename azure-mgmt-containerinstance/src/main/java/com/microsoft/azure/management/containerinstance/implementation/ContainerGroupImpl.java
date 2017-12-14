@@ -417,21 +417,21 @@ public class ContainerGroupImpl
 
     @Override
     public String getLogContent(String containerName) {
-        return this.manager().containerGroups().getLogContent(this.resourceGroupName(), containerName, this.name());
+        return this.manager().containerGroups().getLogContent(this.resourceGroupName(), this.name(), containerName);
     }
 
     @Override
     public String getLogContent(String containerName, int tailLineCount) {
-        return this.manager().containerGroups().getLogContent(this.resourceGroupName(), containerName, this.name(), tailLineCount);
+        return this.manager().containerGroups().getLogContent(this.resourceGroupName(), this.name(), containerName, tailLineCount);
     }
 
     @Override
     public Observable<String> getLogContentAsync(String containerName) {
-        return this.manager().containerGroups().getLogContentAsync(this.resourceGroupName(), containerName, this.name());
+        return this.manager().containerGroups().getLogContentAsync(this.resourceGroupName(), this.name(), containerName);
     }
 
     @Override
     public Observable<String> getLogContentAsync(String containerName, int tailLineCount) {
-        return this.manager().containerGroups().getLogContentAsync(this.resourceGroupName(), containerName, this.name(), tailLineCount);
+        return this.manager().containerGroups().getLogContentAsync(this.resourceGroupName(), this.name(), containerName, tailLineCount);
     }
 }

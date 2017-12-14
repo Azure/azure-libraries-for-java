@@ -785,7 +785,7 @@ public final class Azure {
     /**
      * @return entry point to managing Managed Service Identity (MSI) identities.
      */
-    @Beta // TODO Add since v1.5 param
+    @Beta(Beta.SinceVersion.V1_5_1)
     public Identities identities() {
         return msiManager.identities();
     }

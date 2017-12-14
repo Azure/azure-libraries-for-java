@@ -429,7 +429,7 @@ public interface VirtualMachine extends
     /**
      * @return the resource ids of User Assigned Managed Service Identities associated with the virtual machine.
      */
-    @Beta // TODO Add since version 1.6
+    @Beta(Beta.SinceVersion.V1_5_1)
     Set<String> userAssignedManagedServiceIdentityIds();
 
     // Setters
@@ -1594,7 +1594,7 @@ public interface VirtualMachine extends
         /**
          * The stage of the virtual machine definition allowing to specify User Assigned (External) Managed Service Identities.
          */
-        @Beta // TODO Add since version 1.6
+        @Beta(Beta.SinceVersion.V1_5_1)
         interface WithUserAssignedManagedServiceIdentity {
             /**
              * Specifies the definition of a not-yet-created user assigned identity to be associated with the virtual machine.
@@ -1602,7 +1602,7 @@ public interface VirtualMachine extends
              * @param creatableIdentity a creatable identity definition
              * @return the next stage of the virtual machine definition
              */
-            @Beta // TODO Add since version 1.6
+            @Beta(Beta.SinceVersion.V1_5_1)
             WithCreate withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
 
             /**
@@ -1611,7 +1611,7 @@ public interface VirtualMachine extends
              * @param identity the identity
              * @return the next stage of the virtual machine definition
              */
-            @Beta // TODO Add since version 1.6
+            @Beta(Beta.SinceVersion.V1_5_1)
             WithCreate withExistingUserAssignedManagedServiceIdentity(Identity identity);
         }
 
@@ -2087,7 +2087,7 @@ public interface VirtualMachine extends
         /**
          * The stage of the virtual machine update allowing to add or remove User Assigned (External) Managed Service Identities.
          */
-        @Beta // TODO Add since version 1.6
+        @Beta(Beta.SinceVersion.V1_5_1)
         interface WithUserAssignedManagedServiceIdentity {
             /**
              * Specifies the definition of a not-yet-created user assigned identity to be associated with the virtual machine.
@@ -2095,7 +2095,7 @@ public interface VirtualMachine extends
              * @param creatableIdentity a creatable identity definition
              * @return the next stage of the virtual machine update
              */
-            @Beta // TODO Add since version 1.6
+            @Beta(Beta.SinceVersion.V1_5_1)
             Update withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
 
             /**
@@ -2103,7 +2103,7 @@ public interface VirtualMachine extends
              * @param identity the identity
              * @return the next stage of the virtual machine update
              */
-            @Beta // TODO Add since version 1.6
+            @Beta(Beta.SinceVersion.V1_5_1)
             Update withExistingUserAssignedManagedServiceIdentity(Identity identity);
 
             /**
@@ -2112,7 +2112,7 @@ public interface VirtualMachine extends
              * @param identityId ARM resource id of the identity
              * @return the next stage of the virtual machine update
              */
-            @Beta // TODO Add since version 1.6
+            @Beta(Beta.SinceVersion.V1_5_1)
             Update withoutUserAssignedManagedServiceIdentity(String identityId);
         }
     }

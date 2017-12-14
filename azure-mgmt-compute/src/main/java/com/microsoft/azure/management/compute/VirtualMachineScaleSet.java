@@ -341,7 +341,7 @@ public interface VirtualMachineScaleSet extends
     /**
      * @return the resource ids of User Assigned Managed Service Identities associated with the virtual machine scale set.
      */
-    @Beta // TODO Add since version 1.6
+    @Beta(Beta.SinceVersion.V1_5_1)
     Set<String> userAssignedManagedServiceIdentityIds();
 
     /**
@@ -1426,7 +1426,7 @@ public interface VirtualMachineScaleSet extends
          * The stage of the virtual machine scale set definition allowing to specify User Assigned (External)
          * Managed Service Identities.
          */
-        @Beta // TODO Add since version 1.6
+        @Beta(Beta.SinceVersion.V1_5_1)
         interface WithUserAssignedManagedServiceIdentity {
             /**
              * Specifies the definition of a not-yet-created user assigned identity to be associated with the
@@ -1435,7 +1435,7 @@ public interface VirtualMachineScaleSet extends
              * @param creatableIdentity a creatable identity definition
              * @return the next stage of the virtual machine scale set definition
              */
-            @Beta // TODO Add since version 1.6
+            @Beta(Beta.SinceVersion.V1_5_1)
             WithCreate withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
 
             /**
@@ -1444,7 +1444,7 @@ public interface VirtualMachineScaleSet extends
              * @param identity the identity
              * @return the next stage of the virtual machine scale set definition
              */
-            @Beta // TODO Add since version 1.6
+            @Beta(Beta.SinceVersion.V1_5_1)
             WithCreate withExistingUserAssignedManagedServiceIdentity(Identity identity);
         }
 
@@ -1839,7 +1839,7 @@ public interface VirtualMachineScaleSet extends
          * The stage of the virtual machine update allowing to add or remove User Assigned (External)
          * Managed Service Identities.
          */
-        @Beta // TODO Add since version 1.6
+        @Beta(Beta.SinceVersion.V1_5_1)
         interface WithUserAssignedManagedServiceIdentity {
             /**
              * Specifies the definition of a not-yet-created user assigned identity to be associated
@@ -1848,7 +1848,7 @@ public interface VirtualMachineScaleSet extends
              * @param creatableIdentity a creatable identity definition
              * @return the next stage of the virtual machine scale set update
              */
-            @Beta // TODO Add since version 1.6
+            @Beta(Beta.SinceVersion.V1_5_1)
             WithApply withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
 
             /**
@@ -1857,7 +1857,7 @@ public interface VirtualMachineScaleSet extends
              * @param identity the identity
              * @return the next stage of the virtual machine scale set update
              */
-            @Beta // TODO Add since version 1.6
+            @Beta(Beta.SinceVersion.V1_5_1)
             WithApply withExistingUserAssignedManagedServiceIdentity(Identity identity);
 
             /**
@@ -1866,7 +1866,7 @@ public interface VirtualMachineScaleSet extends
              * @param identityId ARM resource id of the identity
              * @return the next stage of the virtual machine scale set update
              */
-            @Beta // TODO Add since version 1.6
+            @Beta(Beta.SinceVersion.V1_5_1)
             WithApply withoutUserAssignedManagedServiceIdentity(String identityId);
         }
 

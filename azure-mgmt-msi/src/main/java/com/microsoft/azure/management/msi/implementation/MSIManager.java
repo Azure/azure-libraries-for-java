@@ -98,6 +98,7 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
     /**
      * @return entry point to Azure MSI Identity resource management API
      */
+    @Beta(Beta.SinceVersion.V1_5_1)
     public Identities identities() {
         if (identities == null) {
             this.identities = new IdentitesImpl(this.inner().userAssignedIdentities(), this);
@@ -108,6 +109,7 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
     /**
      * @return the Graph RBAC manager.
      */
+    @Beta(Beta.SinceVersion.V1_5_1)
     public GraphRbacManager graphRbacManager() {
         return this.rbacManager;
     }

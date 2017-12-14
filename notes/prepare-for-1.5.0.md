@@ -149,3 +149,26 @@ The following methods and/or types have been either renamed or removed in V1.5 c
     <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/92">PR #92 </a></td>
   </tr>
 </table>
+
+## Changes in Input Parameters Order ##
+
+<table>
+  <tr>
+    <th align=left>Area</th>
+    <th align=left>Method</th>
+    <th align=left>Remarks</th>
+    <th align=left>Ref</th>
+  </tr>
+  <tr>
+    <td>ContainerGroups</td>
+    <td><code>getLogContent()</code></td>
+    <td><code>Second argument <i>containerName</i> and third argument <i>containerGroupName</i> were swapped</code></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/85">#85</a></td>
+  </tr>
+  <tr>
+    <td>ContainerGroups</td>
+    <td><code>getLogContentAsync()</code></td>
+    <td><code>Second argument <i>containerName</i> and third argument <i>containerGroupName</i> were swapped</code></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/85">#85</a></td>
+  </tr>
+</table>

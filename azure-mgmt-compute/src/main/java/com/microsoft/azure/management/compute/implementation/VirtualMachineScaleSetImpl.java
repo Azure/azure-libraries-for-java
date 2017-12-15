@@ -45,6 +45,7 @@ import com.microsoft.azure.management.compute.WindowsConfiguration;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.network.LoadBalancerBackend;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
 import com.microsoft.azure.management.network.LoadBalancerPrivateFrontend;
@@ -96,7 +97,9 @@ public class VirtualMachineScaleSetImpl
         VirtualMachineScaleSet.DefinitionUnmanaged,
         VirtualMachineScaleSet.Update,
         VirtualMachineScaleSet.DefinitionStages.WithSystemAssignedIdentityBasedAccessOrCreate,
-        VirtualMachineScaleSet.UpdateStages.WithSystemAssignedIdentityBasedAccessOrApply {
+        VirtualMachineScaleSet.DefinitionStages.WithUserAssignedManagedServiceIdentity,
+        VirtualMachineScaleSet.UpdateStages.WithSystemAssignedIdentityBasedAccessOrApply,
+        VirtualMachineScaleSet.UpdateStages.WithUserAssignedManagedServiceIdentity {
     // Clients
     private final StorageManager storageManager;
     private final NetworkManager networkManager;
@@ -138,7 +141,7 @@ public class VirtualMachineScaleSetImpl
     // To track the managed data disks
     private final ManagedDataDiskCollection managedDataDisks;
     // Utility to setup MSI for the virtual machine scale set
-    VirtualMachineScaleSetMsiHelper virtualMachineScaleSetMsiHelper;
+    VirtualMachineScaleSetMsiHandler virtualMachineScaleSetMsiHandler;
     // To manage boot diagnostics specific operations
     private final BootDiagnosticsHandler bootDiagnosticsHandler;
 
@@ -160,7 +163,7 @@ public class VirtualMachineScaleSetImpl
             }
         };
         this.managedDataDisks = new ManagedDataDiskCollection(this);
-        this.virtualMachineScaleSetMsiHelper = new VirtualMachineScaleSetMsiHelper(rbacManager, this.taskGroup(), this.idProvider());
+        this.virtualMachineScaleSetMsiHandler = new VirtualMachineScaleSetMsiHandler(rbacManager, this);
         this.bootDiagnosticsHandler = new BootDiagnosticsHandler(this);
     }
 
@@ -1010,8 +1013,9 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public boolean isManagedServiceIdentityEnabled() {
-        return this.systemAssignedManagedServiceIdentityPrincipalId() != null
-                && this.systemAssignedManagedServiceIdentityTenantId() != null;
+        ResourceIdentityType type = this.managedServiceIdentityType();
+        return type != null
+                && !type.equals(ResourceIdentityType.NONE);
     }
 
     @Override
@@ -1036,6 +1040,15 @@ public class VirtualMachineScaleSetImpl
             return this.inner().identity().type();
         }
         return null;
+    }
+
+    @Override
+    public Set<String> userAssignedManagedServiceIdentityIds() {
+        if (this.inner().identity() != null && this.inner().identity().identityIds() != null) {
+            return Collections.unmodifiableSet(new HashSet<String>(this.inner().identity().identityIds()));
+
+        }
+        return Collections.unmodifiableSet(new HashSet<String>());
     }
 
     @Override
@@ -1245,37 +1258,55 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public VirtualMachineScaleSetImpl withSystemAssignedManagedServiceIdentity() {
-        this.virtualMachineScaleSetMsiHelper.withLocalManagedServiceIdentity(this.inner());
+        this.virtualMachineScaleSetMsiHandler.withLocalManagedServiceIdentity();
         return this;
     }
 
     @Override
     public VirtualMachineScaleSetImpl withSystemAssignedManagedServiceIdentity(int tokenPort) {
-        this.virtualMachineScaleSetMsiHelper.withLocalManagedServiceIdentity(tokenPort, this.inner());
+        this.virtualMachineScaleSetMsiHandler.withLocalManagedServiceIdentity(tokenPort);
         return this;
     }
 
     @Override
     public VirtualMachineScaleSetImpl withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role) {
-        this.virtualMachineScaleSetMsiHelper.withAccessTo(resourceId, role);
+        this.virtualMachineScaleSetMsiHandler.withAccessTo(resourceId, role);
         return this;
     }
 
     @Override
     public VirtualMachineScaleSetImpl withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole asRole) {
-        this.virtualMachineScaleSetMsiHelper.withAccessToCurrentResourceGroup(asRole);
+        this.virtualMachineScaleSetMsiHandler.withAccessToCurrentResourceGroup(asRole);
         return this;
     }
 
     @Override
     public VirtualMachineScaleSetImpl withSystemAssignedIdentityBasedAccessTo(String scope, String roleDefinitionId) {
-        this.virtualMachineScaleSetMsiHelper.withAccessTo(scope, roleDefinitionId);
+        this.virtualMachineScaleSetMsiHandler.withAccessTo(scope, roleDefinitionId);
         return this;
     }
 
     @Override
     public VirtualMachineScaleSetImpl withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
-        this.virtualMachineScaleSetMsiHelper.withAccessToCurrentResourceGroup(roleDefinitionId);
+        this.virtualMachineScaleSetMsiHandler.withAccessToCurrentResourceGroup(roleDefinitionId);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity) {
+        this.virtualMachineScaleSetMsiHandler.withNewExternalManagedServiceIdentity(creatableIdentity);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withExistingUserAssignedManagedServiceIdentity(Identity identity) {
+        this.virtualMachineScaleSetMsiHandler.withExistingExternalManagedServiceIdentity(identity);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutUserAssignedManagedServiceIdentity(String identityId) {
+        this.virtualMachineScaleSetMsiHandler.withoutExternalManagedServiceIdentity(identityId);
         return this;
     }
 
@@ -1283,7 +1314,7 @@ public class VirtualMachineScaleSetImpl
     //
     @Override
     protected void beforeCreating() {
-        this.virtualMachineScaleSetMsiHelper.addOrUpdateMSIExtension(this);
+        this.virtualMachineScaleSetMsiHandler.addOrUpdateMSIExtension(this);
         if (this.extensions.size() > 0) {
             this.inner()
                     .virtualMachineProfile()
@@ -1312,6 +1343,7 @@ public class VirtualMachineScaleSetImpl
         }
         this.handleUnManagedOSDiskContainers();
         this.bootDiagnosticsHandler.handleDiagnosticsSettings();
+        this.virtualMachineScaleSetMsiHandler.handleExternalIdentitySettings();
         return this.manager().inner().virtualMachineScaleSets()
                 .createOrUpdateAsync(resourceGroupName(), name(), inner());
     }
@@ -1949,7 +1981,7 @@ public class VirtualMachineScaleSetImpl
         return merged;
     }
 
-    private RoleAssignmentHelper.IdProvider idProvider() {
+    RoleAssignmentHelper.IdProvider idProvider() {
         return new RoleAssignmentHelper.IdProvider() {
             @Override
             public String principalId() {

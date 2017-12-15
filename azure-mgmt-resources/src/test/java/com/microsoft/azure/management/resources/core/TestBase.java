@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class TestBase {
     private PrintStream out;
+    private String baseUri;
 
     public static String generateRandomResourceName(String prefix, int maxLen) {
         return SdkContext.randomResourceName(prefix, maxLen);
@@ -171,7 +172,7 @@ public abstract class TestBase {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
             credentials = ApplicationTokenCredentials.fromFile(credFile);
             restClient = buildRestClient(new RestClient.Builder()
-                    .withBaseUrl(AzureEnvironment.AZURE, AzureEnvironment.Endpoint.RESOURCE_MANAGER)
+                    .withBaseUrl(this.baseUri())
                     .withSerializerAdapter(new AzureJacksonAdapter())
                     .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
                     .withInterceptor(new ProviderRegistrationInterceptor(credentials))
@@ -186,7 +187,7 @@ public abstract class TestBase {
             defaultSubscription = credentials.defaultSubscriptionId();
             interceptorManager.addTextReplacementRule(defaultSubscription, ZERO_SUBSCRIPTION);
             interceptorManager.addTextReplacementRule(credentials.domain(), ZERO_TENANT);
-            interceptorManager.addTextReplacementRule("https://management.azure.com/", playbackUri + "/");
+            interceptorManager.addTextReplacementRule(baseUri(), playbackUri + "/");
             interceptorManager.addTextReplacementRule("https://graph.windows.net/", playbackUri + "/");
         }
         initializeClients(restClient, defaultSubscription, credentials.domain());
@@ -203,6 +204,18 @@ public abstract class TestBase {
 
     protected void addTextReplacementRule(String from, String to ) {
         interceptorManager.addTextReplacementRule(from, to);
+    }
+
+    protected void setBaseUri(String baseUri) {
+        this.baseUri = baseUri;
+    }
+
+    protected String baseUri() {
+        if (this.baseUri != null) {
+            return this.baseUri;
+        } else {
+            return AzureEnvironment.AZURE.url(AzureEnvironment.Endpoint.RESOURCE_MANAGER);
+        }
     }
 
     protected RestClient buildRestClient(RestClient.Builder builder, boolean isMocked) {

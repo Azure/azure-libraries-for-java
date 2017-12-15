@@ -10,6 +10,7 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.RoleAssignment;
+import com.microsoft.azure.management.graphrbac.RoleDefinition;
 import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.msi.implementation.MSIManager;
 import com.microsoft.azure.management.network.LoadBalancer;
@@ -23,8 +24,9 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import rx.Observable;
+import rx.functions.Func1;
 
 import java.io.IOException;
 import java.util.Map;
@@ -32,7 +34,7 @@ import java.util.Set;
 
 public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
     private static String RG_NAME = "";
-    private static Region region = Region.fromName("Central US EUAP");
+    private static Region region = Region.fromName("West Central US");
     private static final String VMSSNAME = "javavmss";
 
     private ComputeManager computeManager;
@@ -51,12 +53,6 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
     @Override
     protected void cleanUpResources() {
         this.resourceManager.resourceGroups().deleteByName(RG_NAME);
-    }
-
-    @Before
-    public void beforeTest() throws IOException {
-        super.setBaseUri("https:/brazilus.management.azure.com/");
-        super.beforeTest();
     }
 
     @Test
@@ -78,7 +74,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
                 .withExistingResourceGroup(resourceGroup)
                 .create();
 
-        // Create an "External MSI" residing in the above RG and assign reader access to the virtual network
+        // Create an "User Assigned (External) MSI" residing in the above RG and assign reader access to the virtual network
         //
         Identity createdIdentity = msiManager.identities()
                 .define(identityName1)
@@ -87,7 +83,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
                 .withAccessTo(network, BuiltInRole.READER)
                 .create();
 
-        // Prepare a definition for yet-to-be-created "External MSI" with contributor access to the resource group
+        // Prepare a definition for yet-to-be-created "User Assigned (External) MSI" with contributor access to the resource group
         // it resides
         //
         Creatable<Identity> creatableIdentity = msiManager.identities()
@@ -148,13 +144,13 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         }
         Assert.assertNotNull(msiExtension);
 
-        // Ensure the "External MSI" id can be retrieved from the virtual machine scale set
+        // Ensure the "User Assigned (External) MSI" id can be retrieved from the virtual machine scale set
         //
         Set<String> emsiIds = virtualMachineScaleSet.userAssignedManagedServiceIdentityIds();
         Assert.assertNotNull(emsiIds);
         Assert.assertEquals(2, emsiIds.size());
 
-        // Ensure the "External MSI"s matches with the those provided as part of VMSS create
+        // Ensure the "User Assigned (External) MSI"s matches with the those provided as part of VMSS create
         //
         Identity implicitlyCreatedIdentity = null;
         for (String emsiId : emsiIds) {
@@ -170,15 +166,14 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         }
         Assert.assertNotNull(implicitlyCreatedIdentity);
 
-
         // Ensure expected role assignment exists for explicitly created EMSI
         //
-        PagedList<RoleAssignment> roleAssignmentsForStorage = this.msiManager
+        PagedList<RoleAssignment> roleAssignmentsForNetwork = this.msiManager
                 .graphRbacManager()
                 .roleAssignments()
                 .listByScope(network.id());
         boolean found = false;
-        for (RoleAssignment roleAssignment : roleAssignmentsForStorage) {
+        for (RoleAssignment roleAssignment : roleAssignmentsForNetwork) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(createdIdentity.principalId())) {
                 found = true;
                 break;
@@ -186,12 +181,19 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         }
         Assert.assertTrue("Expected role assignment not found for the virtual network for identity" + createdIdentity.name(), found);
 
+        RoleAssignment assignment = lookupRoleAssignmentUsingScopeAndRoleAsync(network.id(), BuiltInRole.READER, createdIdentity.principalId())
+                .toBlocking()
+                .last();
+
+        Assert.assertNotNull("Expected role assignment with ROLE not found for the virtual network for identity", assignment);
+
         // Ensure expected role assignment exists for explicitly created EMSI
         //
         PagedList<RoleAssignment> roleAssignmentsForResourceGroup = this.msiManager
                 .graphRbacManager()
                 .roleAssignments()
-                .listByScope(resourceManager.resourceGroups().getByName(virtualMachineScaleSet.resourceGroupName()).id());
+                .listByScope(resourceGroup.id());
+
         found = false;
         for (RoleAssignment roleAssignment : roleAssignmentsForResourceGroup) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(implicitlyCreatedIdentity.principalId())) {
@@ -200,6 +202,12 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
             }
         }
         Assert.assertTrue("Expected role assignment not found for the resource group for identity" + implicitlyCreatedIdentity.name(), found);
+
+        assignment = lookupRoleAssignmentUsingScopeAndRoleAsync(resourceGroup.id(), BuiltInRole.CONTRIBUTOR, implicitlyCreatedIdentity.principalId())
+                .toBlocking()
+                .last();
+
+        Assert.assertNotNull("Expected role assignment with ROLE not found for the resource group for identity", assignment);
     }
 
 
@@ -225,7 +233,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
                 .withExistingResourceGroup(resourceGroup)
                 .create();
 
-        // Prepare a definition for yet-to-be-created "External MSI" with contributor access to the resource group
+        // Prepare a definition for yet-to-be-created "User Assigned (External) MSI" with contributor access to the resource group
         // it resides
         //
         Creatable<Identity> creatableIdentity = msiManager.identities()
@@ -287,7 +295,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         }
         Assert.assertNotNull(msiExtension);
 
-        // Ensure the "External MSI" id can be retrieved from the virtual machine
+        // Ensure the "User Assigned (External) MSI" id can be retrieved from the virtual machine
         //
         Set<String> emsiIds = virtualMachineScaleSet.userAssignedManagedServiceIdentityIds();
         Assert.assertNotNull(emsiIds);
@@ -299,18 +307,24 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
 
         // Ensure expected role assignment exists for LMSI
         //
-        PagedList<RoleAssignment> roleAssignmentsForStorage = this.msiManager
+        PagedList<RoleAssignment> roleAssignmentsForNetwork = this.msiManager
                 .graphRbacManager()
                 .roleAssignments()
                 .listByScope(network.id());
         boolean found = false;
-        for (RoleAssignment roleAssignment : roleAssignmentsForStorage) {
+        for (RoleAssignment roleAssignment : roleAssignmentsForNetwork) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId())) {
                 found = true;
                 break;
             }
         }
         Assert.assertTrue("Expected role assignment not found for the virtual network for local identity" + virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId(), found);
+
+        RoleAssignment assignment = lookupRoleAssignmentUsingScopeAndRoleAsync(network.id(), BuiltInRole.CONTRIBUTOR, virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId())
+                .toBlocking()
+                .last();
+
+        Assert.assertNotNull("Expected role assignment with ROLE not found for the virtual network for system assigned identity", assignment);
 
         // Ensure expected role assignment exists for EMSI
         //
@@ -326,6 +340,12 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
             }
         }
         Assert.assertTrue("Expected role assignment not found for the resource group for identity" + identity.name(), found);
+
+        assignment = lookupRoleAssignmentUsingScopeAndRoleAsync(resourceGroup.id(), BuiltInRole.CONTRIBUTOR, identity.principalId())
+                .toBlocking()
+                .last();
+
+        Assert.assertNotNull("Expected role assignment with ROLE not found for the resource group for system assigned identity", assignment);
     }
 
     @Test
@@ -372,7 +392,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
                 .withRootPassword("123OData!@#123")
                 .create();
 
-        // Prepare a definition for yet-to-be-created "External MSI" with contributor access to the resource group
+        // Prepare a definition for yet-to-be-created "User Assigned (External) MSI" with contributor access to the resource group
         // it resides
         //
         Creatable<Identity> creatableIdentity = msiManager.identities()
@@ -402,7 +422,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
 
         Assert.assertNotNull("Expected MSI extension not found in the virtual machine ", msiExtension);
 
-        // Ensure the "External MSI" id can be retrieved from the virtual machine
+        // Ensure the "User Assigned (External) MSI" id can be retrieved from the virtual machine
         //
         Set<String> emsiIds = virtualMachineScaleSet.userAssignedManagedServiceIdentityIds();
         Assert.assertNotNull(emsiIds);
@@ -428,7 +448,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
                 .withExistingUserAssignedManagedServiceIdentity(createdIdentity)
                 .apply();
 
-        // Ensure the "External MSI" id can be retrieved from the virtual machine
+        // Ensure the "User Assigned (External) MSI" id can be retrieved from the virtual machine
         //
         emsiIds = virtualMachineScaleSet.userAssignedManagedServiceIdentityIds();
         Assert.assertNotNull(emsiIds);
@@ -512,4 +532,28 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         return loadBalancer;
     }
 
+    private Observable<RoleAssignment> lookupRoleAssignmentUsingScopeAndRoleAsync(final String scope, BuiltInRole role, final String principalId) {
+        return this.msiManager.graphRbacManager()
+                .roleDefinitions()
+                .getByScopeAndRoleNameAsync(scope, role.toString())
+                .flatMap(new Func1<RoleDefinition, Observable<RoleAssignment>>() {
+                    @Override
+                    public Observable<RoleAssignment> call(final RoleDefinition roleDefinition) {
+                        return msiManager.graphRbacManager()
+                                .roleAssignments()
+                                .listByScopeAsync(scope)
+                                .filter(new Func1<RoleAssignment, Boolean>() {
+                                    @Override
+                                    public Boolean call(RoleAssignment roleAssignment) {
+                                        if (roleDefinition != null && roleAssignment != null) {
+                                            return roleAssignment.roleDefinitionId().equalsIgnoreCase(roleDefinition.id()) && roleAssignment.principalId().equalsIgnoreCase(principalId);
+                                        } else {
+                                            return false;
+                                        }
+                                    }
+                                });
+                    }
+                })
+                .switchIfEmpty(Observable.<RoleAssignment>just(null));
+    }
 }

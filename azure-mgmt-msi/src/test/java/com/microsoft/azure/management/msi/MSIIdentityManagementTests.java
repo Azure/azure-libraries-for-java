@@ -6,9 +6,7 @@
 
 package com.microsoft.azure.management.msi;
 
-import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.credentials.AzureCliCredentials;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.management.msi.implementation.MSIManager;
@@ -19,11 +17,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import rx.functions.Action1;
 
@@ -33,16 +28,10 @@ import java.util.List;
 
 public class MSIIdentityManagementTests extends TestBase {
     private static String RG_NAME = "";
-    private static Region region = Region.fromName("East US2 EUAP");
+    private static Region region = Region.fromName("West Central US");
 
     private MSIManager msiManager;
     private ResourceManager resourceManager;
-
-    @Before
-    public void beforeTest() throws IOException {
-        super.setBaseUri("https:/centraluseuap.management.azure.com/");
-        super.beforeTest();
-    }
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) throws IOException {
@@ -246,21 +235,5 @@ public class MSIIdentityManagementTests extends TestBase {
         Assert.assertTrue(identity.tags().containsKey("a"));
 
         resourceManager.resourceGroups().deleteByName(anotherRgName);
-    }
-
-    private static MSIManager msiManager() {
-        try {
-            AzureCliCredentials azureCliCredentials = AzureCliCredentials.create();
-            RestClient client = new RestClient.Builder()
-                    .withCredentials(azureCliCredentials)
-                    .withBaseUrl("https://centraluseuap.management.azure.com/")
-                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
-                    .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                    .withSerializerAdapter(new AzureJacksonAdapter())
-                    .build();
-            return MSIManager.authenticate(client, azureCliCredentials.defaultSubscriptionId());
-        } catch (IOException ioException) {
-            throw new RuntimeException(ioException);
-        }
     }
 }

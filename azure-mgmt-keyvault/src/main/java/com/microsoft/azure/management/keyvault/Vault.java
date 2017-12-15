@@ -32,6 +32,8 @@ public interface Vault extends
         Updatable<Vault.Update> {
     KeyVaultClient client();
 
+    Keys keys();
+
     Secrets secrets();
 
     /**

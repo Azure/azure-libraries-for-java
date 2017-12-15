@@ -14,6 +14,7 @@ import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.keyvault.AccessPolicy;
 import com.microsoft.azure.management.keyvault.AccessPolicyEntry;
+import com.microsoft.azure.management.keyvault.Keys;
 import com.microsoft.azure.management.keyvault.Secrets;
 import com.microsoft.azure.management.keyvault.Sku;
 import com.microsoft.azure.management.keyvault.SkuName;
@@ -49,6 +50,7 @@ class VaultImpl
     private List<AccessPolicyImpl> accessPolicies;
 
     private KeyVaultClient client;
+    private Keys keys;
     private Secrets secrets;
 
     VaultImpl(String key, VaultInner innerObject, KeyVaultManager manager, GraphRbacManager graphRbacManager) {
@@ -67,6 +69,14 @@ class VaultImpl
     @Override
     public KeyVaultClient client() {
         return client;
+    }
+
+    @Override
+    public Keys keys() {
+        if (keys == null) {
+            keys = new KeysImpl(client, this);
+        }
+        return keys;
     }
 
     @Override

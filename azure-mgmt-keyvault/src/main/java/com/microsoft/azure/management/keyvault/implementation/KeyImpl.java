@@ -56,6 +56,9 @@ class KeyImpl
 
     @Override
     public String id() {
+        if (inner().keyIdentifier() == null) {
+            return null;
+        }
         return inner().keyIdentifier().identifier();
     }
 

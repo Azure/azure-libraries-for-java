@@ -63,7 +63,6 @@ public class KeyTests extends KeyVaultManagementTest {
         Assert.assertEquals(1, key.jsonWebKey().keyOps().size());
     }
 
-
     @Test
     public void canImportKey() throws Exception {
         String vaultName = SdkContext.randomResourceName("vault", 20);

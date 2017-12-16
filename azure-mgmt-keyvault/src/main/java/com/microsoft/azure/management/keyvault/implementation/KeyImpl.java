@@ -6,9 +6,16 @@
 
 package com.microsoft.azure.management.keyvault.implementation;
 
+import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.PagedList;
+import com.microsoft.azure.keyvault.KeyIdentifier;
+import com.microsoft.azure.keyvault.SecretIdentifier;
 import com.microsoft.azure.keyvault.models.Attributes;
 import com.microsoft.azure.keyvault.models.KeyAttributes;
 import com.microsoft.azure.keyvault.models.KeyBundle;
+import com.microsoft.azure.keyvault.models.KeyItem;
+import com.microsoft.azure.keyvault.models.SecretBundle;
+import com.microsoft.azure.keyvault.models.SecretItem;
 import com.microsoft.azure.keyvault.requests.CreateKeyRequest;
 import com.microsoft.azure.keyvault.requests.ImportKeyRequest;
 import com.microsoft.azure.keyvault.requests.UpdateKeyRequest;
@@ -17,10 +24,14 @@ import com.microsoft.azure.keyvault.webkey.JsonWebKeyOperation;
 import com.microsoft.azure.keyvault.webkey.JsonWebKeyType;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.keyvault.Key;
+import com.microsoft.azure.management.keyvault.Key.DefinitionStages.WithCreate;
 import com.microsoft.azure.management.keyvault.Key.DefinitionStages.WithImport;
+import com.microsoft.azure.management.keyvault.Secret;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.rest.ServiceFuture;
 import rx.Observable;
 import rx.functions.Action0;
 import rx.functions.Func0;
@@ -41,7 +52,8 @@ class KeyImpl
         implements
                 Key,
                 Key.Definition,
-                Key.Update {
+                Key.UpdateWithCreate,
+                Key.UpdateWithImport {
 
     private final Vault vault;
     private CreateKeyRequest.Builder createKeyRequest;
@@ -80,6 +92,61 @@ class KeyImpl
     @Override
     public boolean managed() {
         return Utils.toPrimitiveBoolean(inner().managed());
+    }
+
+    @Override
+    public PagedList<Key> listVersions() {
+        return new PagedListConverter<KeyItem, Key>() {
+
+            @Override
+            public Observable<Key> typeConvertAsync(final KeyItem keyItem) {
+                return new KeyVaultFutures.ServiceFutureConverter<KeyBundle, Key>() {
+
+                    @Override
+                    protected ServiceFuture<KeyBundle> callAsync() {
+                        return vault.client().getKeyAsync(keyItem.identifier().identifier(), null);
+                    }
+
+                    @Override
+                    protected Key wrapModel(KeyBundle keyBundle) {
+                        return new KeyImpl(keyBundle.keyIdentifier().name(), keyBundle, vault);
+                    }
+                }.toObservable();
+            }
+        }.convert(vault.client().listKeyVersions(vault.vaultUri(), name()));
+    }
+
+    @Override
+    public Observable<Key> listVersionsAsync() {
+        return new KeyVaultFutures.ListCallbackObserver<KeyItem, KeyIdentifier>() {
+
+            @Override
+            protected void list(ListOperationCallback<KeyItem> callback) {
+                vault.client().listKeyVersionsAsync(vault.vaultUri(), name(), callback);
+            }
+
+            @Override
+            protected KeyIdentifier wrapModel(KeyItem o) {
+                return o.identifier();
+            }
+        }.toObservable()
+                .flatMap(new Func1<KeyIdentifier, Observable<Key>>() {
+                    @Override
+                    public Observable<Key> call(final KeyIdentifier keyIdentifier) {
+                        return new KeyVaultFutures.ServiceFutureConverter<KeyBundle, Key>() {
+
+                            @Override
+                            protected ServiceFuture<KeyBundle> callAsync() {
+                                return vault.client().getKeyAsync(keyIdentifier.identifier(), null);
+                            }
+
+                            @Override
+                            protected Key wrapModel(KeyBundle keyBundle) {
+                                return new KeyImpl(keyIdentifier.name(), keyBundle, vault);
+                            }
+                        }.toObservable();
+                    }
+                });
     }
 
     @Override
@@ -156,6 +223,7 @@ class KeyImpl
             @Override
             public void call() {
                 createKeyRequest = null;
+                importKeyRequest = null;
                 updateKeyRequest = new UpdateKeyRequest.Builder(vault.vaultUri(), name());
             }
         });
@@ -182,7 +250,7 @@ class KeyImpl
     }
 
     @Override
-    public WithImport withKey(JsonWebKey key) {
+    public KeyImpl withKey(JsonWebKey key) {
         importKeyRequest = new ImportKeyRequest.Builder(vault.vaultUri(), name(), key);
         return this;
     }
@@ -198,8 +266,13 @@ class KeyImpl
     }
 
     @Override
-    public WithImport withHsm(boolean isHsm) {
+    public KeyImpl withHsm(boolean isHsm) {
         importKeyRequest.withHsm(isHsm);
         return this;
+    }
+
+    @Override
+    public KeyImpl withKeySize(int size) {
+        createKeyRequest.withKeySize(size);
     }
 }

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.keyvault;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.keyvault.models.Attributes;
 import com.microsoft.azure.keyvault.models.KeyAttributes;
 import com.microsoft.azure.keyvault.models.KeyBundle;
@@ -13,6 +14,7 @@ import com.microsoft.azure.keyvault.webkey.JsonWebKey;
 import com.microsoft.azure.keyvault.webkey.JsonWebKeyOperation;
 import com.microsoft.azure.keyvault.webkey.JsonWebKeyType;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.keyvault.Key.DefinitionStages.WithCreate;
 import com.microsoft.azure.management.keyvault.Key.DefinitionStages.WithKey;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
@@ -21,6 +23,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import rx.Observable;
 
 import java.util.List;
 import java.util.Map;
@@ -56,6 +59,10 @@ public interface Key extends
      */
     boolean managed();
 
+    PagedList<Key> listVersions();
+
+    Observable<Key> listVersionsAsync();
+
     interface Definition extends
             DefinitionStages.Blank,
             WithKey,
@@ -70,6 +77,10 @@ public interface Key extends
         interface WithKey {
             WithCreate withKeyType(JsonWebKeyType keyType);
             WithImport withKey(JsonWebKey key);
+        }
+
+        interface WithKeySize {
+            WithCreate withKeySize(int size);
         }
 
         interface WithKeyOperations {
@@ -88,24 +99,39 @@ public interface Key extends
             WithCreate withTags(Map<String, String> tags);
         }
 
-        interface WithCreate extends
+        interface WithCreateBase extends
                 Creatable<Key>,
-                WithKeyOperations,
                 WithAttributes,
                 WithTags {
+        }
 
+        interface WithCreate extends
+                WithKeyOperations,
+                WithKeySize,
+                WithCreateBase {
         }
 
         interface WithImport extends
-                Creatable<Key>,
                 WithHsm,
-                WithAttributes,
-                WithTags {
-
+                WithCreateBase {
         }
     }
 
     interface UpdateStages {
+
+        interface WithKey {
+            UpdateWithCreate withKeyType(JsonWebKeyType keyType);
+            UpdateWithImport withKey(JsonWebKey key);
+        }
+
+        interface WithKeySize {
+            UpdateWithCreate withKeySize(int size);
+        }
+
+        interface WithHsm {
+            UpdateWithImport withHsm(boolean isHsm);
+        }
+
         interface WithKeyOperations {
             Update withKeyOperations(List<JsonWebKeyOperation> keyOperations);
         }
@@ -121,9 +147,20 @@ public interface Key extends
 
     interface Update extends
             Appliable<Key>,
+            UpdateStages.WithKey,
             UpdateStages.WithKeyOperations,
             UpdateStages.WithAttributes,
             UpdateStages.WithTags {
+    }
+
+    interface UpdateWithCreate extends
+            Update,
+            UpdateStages.WithKeySize {
+    }
+
+    interface UpdateWithImport extends
+            Update,
+            UpdateStages.WithHsm {
     }
 }
 

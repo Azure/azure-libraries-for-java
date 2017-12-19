@@ -8,6 +8,8 @@ package com.microsoft.azure.management.batchai.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.AllocationState;
 import com.microsoft.azure.management.batchai.AutoScaleSettings;
+import com.microsoft.azure.management.batchai.AzureBlobFileSystem;
+import com.microsoft.azure.management.batchai.AzureBlobFileSystemReference;
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAIError;
 import com.microsoft.azure.management.batchai.Cluster;
@@ -271,12 +273,26 @@ class ClusterImpl extends GroupableResourceImpl<
         return new AzureFileShareImpl(new AzureFileShareReference(), this);
     }
 
+
+    @Override
+    public AzureBlobFileSystem.DefinitionStages.Blank<Cluster.DefinitionStages.WithCreate> defineAzureBlobFileSystem() {
+        return new AzureBlobFileSystemImpl(new AzureBlobFileSystemReference(), this);
+    }
+
     void attachAzureFileShare(AzureFileShareImpl azureFileShare) {
         MountVolumes mountVolumes = ensureMountVolumes();
         if (mountVolumes.azureFileShares() == null) {
             mountVolumes.withAzureFileShares(new ArrayList<AzureFileShareReference>());
         }
         mountVolumes.azureFileShares().add(azureFileShare.inner());
+    }
+
+    void attachAzureBlobFileSystem(AzureBlobFileSystem azureBlobFileSystem) {
+        MountVolumes mountVolumes = ensureMountVolumes();
+        if (mountVolumes.azureBlobFileSystems() == null) {
+            mountVolumes.withAzureBlobFileSystems(new ArrayList<AzureBlobFileSystemReference>());
+        }
+        mountVolumes.azureBlobFileSystems().add(azureBlobFileSystem.inner());
     }
 
     private MountVolumes ensureMountVolumes() {

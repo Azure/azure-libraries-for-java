@@ -207,6 +207,10 @@ public interface Cluster extends
             AzureFileShare.DefinitionStages.Blank<WithCreate> defineAzureFileShare();
         }
 
+        interface WithAzureBlobFileSystem {
+            AzureBlobFileSystem.DefinitionStages.Blank<WithCreate> defineAzureBlobFileSystem();
+        }
+
         /**
          * The stage of the definition which contains all the minimum required inputs for the resource to be created
          * but also allows for any other optional settings to be specified.
@@ -217,6 +221,7 @@ public interface Cluster extends
                 DefinitionStages.WithVMPriority,
                 DefinitionStages.WithSetupTask,
                 DefinitionStages.WithAzureFileShare,
+                DefinitionStages.WithAzureBlobFileSystem,
                 Resource.DefinitionWithTags<WithCreate> {
         }
     }

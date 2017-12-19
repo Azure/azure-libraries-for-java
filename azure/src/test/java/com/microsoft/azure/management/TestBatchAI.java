@@ -6,26 +6,58 @@
 
 package com.microsoft.azure.management;
 
+import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.Cluster;
 import com.microsoft.azure.management.batchai.Clusters;
 import com.microsoft.azure.management.batchai.VmPriority;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.management.storage.StorageAccounts;
+import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.blob.CloudBlobClient;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
+import com.microsoft.azure.storage.file.CloudFileShare;
 import org.junit.Assert;
 
 /**
  * Test of Batch AI management.
  */
 public class TestBatchAI {
+    private static final Region region = Region.US_EAST;
+
     public static class Basic extends TestTemplate<Cluster, Clusters> {
+        private StorageAccounts storageAccounts;
+
+        public Basic(StorageAccounts storageAccounts) {
+            this.storageAccounts = storageAccounts;
+        }
 
         @Override
         public Cluster createResource(Clusters clusters) throws Exception {
-            final Region region = Region.US_EAST;
             final String groupName = SdkContext.randomResourceName("rg", 10);
             final String clusterName = SdkContext.randomResourceName("cluster", 15);
+            final String saName = SdkContext.randomResourceName("cluster", 15);
+            final String shareName = "myfileshare";
+            final String shareMountPath = "azurefileshare";
+            final String blobFileSystemPath = "myblobsystem";
+            final String containerName = "mycontainer";
             final String userName = "tirekicker";
+
+            String storageAccountKey = ensureStorageAccount(storageAccounts, saName, groupName, shareName);
+            String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s", saName, storageAccountKey);
+
+            CloudFileShare cloudFileShare = CloudStorageAccount.parse(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net",
+                    saName, storageAccountKey))
+                    .createCloudFileClient()
+                    .getShareReference(shareName);
+            cloudFileShare.create();
+
+            CloudStorageAccount account = CloudStorageAccount.parse(connectionString);
+            CloudBlobClient cloudBlobClient = account.createCloudBlobClient();
+            CloudBlobContainer container = cloudBlobClient.getContainerReference(containerName);
+            container.createIfNotExists();
 
             Cluster cluster = clusters.define(clusterName)
                     .withRegion(region)
@@ -39,11 +71,27 @@ public class TestBatchAI {
                         .withCommandLine("echo Hello World!")
                         .withStdOutErrPath("./outputpath")
                     .attach()
+                    .defineAzureFileShare()
+                        .withStorageAccountName(saName)
+                        .withAzureFileUrl(cloudFileShare.getStorageUri().getPrimaryUri().toString())
+                        .withRelativeMountPath(shareMountPath)
+                        .withAccountKey(storageAccountKey)
+                        .attach()
+                    .defineAzureBlobFileSystem()
+                        .withStorageAccountName(saName)
+                        .withContainerName(containerName)
+                        .withRelativeMountPath(blobFileSystemPath)
+                        .withAccountKey(storageAccountKey)
+                        .attach()
                     .withTag("tag1", "value1")
                     .create();
             Assert.assertEquals("steady", cluster.allocationState().toString());
             Assert.assertEquals(userName, cluster.adminUserName());
             Assert.assertEquals(VmPriority.LOWPRIORITY, cluster.vmPriority());
+            Assert.assertEquals(1, cluster.nodeSetup().mountVolumes().azureFileShares().size());
+            Assert.assertEquals(shareMountPath, cluster.nodeSetup().mountVolumes().azureFileShares().get(0).relativeMountPath());
+            Assert.assertEquals(1, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().size());
+            Assert.assertEquals(blobFileSystemPath, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().get(0).relativeMountPath());
             return cluster;
         }
 
@@ -68,7 +116,6 @@ public class TestBatchAI {
 
         @Override
         public Cluster createResource(Clusters clusters) throws Exception {
-            final Region region = Region.US_EAST;
             final String groupName = SdkContext.randomResourceName("rg", 10);
             final String clusterName = SdkContext.randomResourceName("cluster", 15);
             final String userName = "tirekicker";
@@ -103,6 +150,15 @@ public class TestBatchAI {
         }
     }
 
+    private static String ensureStorageAccount(StorageAccounts storageAccounts, String saName, String rgName, String shareName) throws Exception {
+        StorageAccount storageAccount = storageAccounts.define(saName)
+                .withRegion(region)
+                .withNewResourceGroup(rgName)
+                .create();
+
+        return storageAccount.getKeys().get(0).value();
+    }
+
     private static void printBatchAICluster(Cluster cluster) {
         StringBuilder info = new StringBuilder();
         info.append("Batch AI Cluster: ").append(cluster.id())
@@ -113,7 +169,14 @@ public class TestBatchAI {
                 .append("\n\tVM size: ").append(cluster.vmSize())
                 .append("\n\tAdmin user name: ").append(cluster.adminUserName())
                 .append("\n\tCreation time: ").append(cluster.creationTime());
-
+        if (cluster.nodeSetup() != null && cluster.nodeSetup().mountVolumes() != null && cluster.nodeSetup().mountVolumes().azureFileShares() != null) {
+            info.append("\n\tAzure file shares: ");
+            for (AzureFileShareReference fileShare : cluster.nodeSetup().mountVolumes().azureFileShares()) {
+                info.append("\n\t\tAccount name: ").append(fileShare.accountName())
+                    .append("\n\t\tAzure file url: ").append(fileShare.azureFileUrl())
+                    .append("\n\t\tRelative mount path: ").append(fileShare.relativeMountPath());
+            }
+        }
         System.out.println(info.toString());
     }
 }

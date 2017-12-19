@@ -57,7 +57,7 @@ public final class ManageBatchAI {
                     .withAutoScale(0, 2)
                     .defineAzureFileShare()
                         .withStorageAccountName(saName)
-                        .withAzureFileUrl(cloudFileShare.getStorageUri().getPrimaryUri().toString())
+                        .withAzureFileUrl(cloudFileShare.getUri().toString())
                         .withRelativeMountPath("azurefileshare")
                         .withAccountKey(storageAccountKey.value())
                         .attach()

@@ -203,6 +203,10 @@ public interface Cluster extends
             NodeSetupTask.DefinitionStages.Blank<WithCreate> defineSetupTask();
         }
 
+        interface WithAzureFileShare {
+            AzureFileShare.DefinitionStages.Blank<WithCreate> defineAzureFileShare();
+        }
+
         /**
          * The stage of the definition which contains all the minimum required inputs for the resource to be created
          * but also allows for any other optional settings to be specified.
@@ -212,6 +216,7 @@ public interface Cluster extends
                 DefinitionStages.WithUserCredentials,
                 DefinitionStages.WithVMPriority,
                 DefinitionStages.WithSetupTask,
+                DefinitionStages.WithAzureFileShare,
                 Resource.DefinitionWithTags<WithCreate> {
         }
     }

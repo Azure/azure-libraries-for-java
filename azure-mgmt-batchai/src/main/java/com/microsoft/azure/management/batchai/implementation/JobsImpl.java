@@ -59,8 +59,8 @@ class JobsImpl
     }
 
     @Override
-    public JobImpl define(String experimentNamename) {
-        return wrapModel(experimentNamename);
+    public JobImpl define(String name) {
+        return wrapModel(name);
     }
 
     @Override

@@ -12,10 +12,8 @@ import com.microsoft.azure.management.batchai.implementation.JobInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 
 /**
  * Client-side representation of Batch AI Job object, associated with Batch AI Cluster.
@@ -25,7 +23,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 public interface Job extends
         IndependentChildResource<BatchAIManager, JobInner>,
         Refreshable<Job>,
-        Updatable<Job.Update>,
         HasParent<Cluster> {
 
     /**
@@ -33,6 +30,9 @@ public interface Job extends
      */
     interface Definition extends
             DefinitionStages.Blank,
+            DefinitionStages.WithStdOutErrPathPrefix,
+            DefinitionStages.WithNodeCount,
+            DefinitionStages.WithJobSettings,
             DefinitionStages.WithCreate {
     }
 
@@ -43,9 +43,27 @@ public interface Job extends
         /**
          * The first stage of virtual network gateway connection definition.
          */
-        interface Blank extends DefinitionWithRegion<WithCreate> {
+        interface Blank extends DefinitionWithRegion<WithStdOutErrPathPrefix> {
         }
 
+        /**
+         * The stage of the setup task definition allowing to specify where Batch AI will upload stdout and stderr of the job.
+         */
+        interface WithStdOutErrPathPrefix {
+            /**
+             * @param stdOutErrPathPrefix the path where the Batch AI service will upload the stdout and stderror of the job
+             * @return the next stage of the definition
+             */
+            WithNodeCount withStdOutErrPathPrefix(String stdOutErrPathPrefix);
+        }
+
+        interface WithNodeCount {
+            WithJobSettings withNodeCount(int nodeCount);
+        }
+
+        interface WithJobSettings {
+            WithCreate withCognitiveToolikit();
+        }
 
         /**
          * The stage of a virtual network gateway connection definition with sufficient inputs to create a new connection in the cloud,
@@ -55,20 +73,5 @@ public interface Job extends
                 Creatable<Job>,
                 Resource.DefinitionWithTags<WithCreate> {
         }
-    }
-
-    /**
-     * Grouping of virtual network gateway connection update stages.
-     */
-    interface Update extends
-            Appliable<Job>,
-            Resource.UpdateWithTags<Update> {
-    }
-
-    /**
-     * Grouping of virtual network gateway connection update stages.
-     */
-    interface UpdateStages {
-
     }
 }

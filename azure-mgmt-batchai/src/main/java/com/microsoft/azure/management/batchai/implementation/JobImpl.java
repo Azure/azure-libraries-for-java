@@ -19,8 +19,7 @@ import rx.Observable;
 public class JobImpl
         extends GroupableResourceImpl<Job, JobInner, JobImpl, BatchAIManager>
         implements Job,
-        Job.Definition,
-        Job.Update {
+        Job.Definition {
     private final Cluster parent;
     private JobCreateParametersInner createParameters = new JobCreateParametersInner();
 
@@ -28,7 +27,6 @@ public class JobImpl
             ClusterImpl parent,
             JobInner inner) {
         super(name, inner, parent.manager());
-        createParameters.withExperimentName(name);
         this.parent = parent;
     }
 
@@ -49,5 +47,22 @@ public class JobImpl
         return myManager.inner().jobs().createAsync(
                 this.resourceGroupName(), this.name(), createParameters)
                 .map(innerToFluentMap(this));
+    }
+
+    @Override
+    public JobImpl withStdOutErrPathPrefix(String stdOutErrPathPrefix) {
+        createParameters.withStdOutErrPathPrefix(stdOutErrPathPrefix);
+        return this;
+    }
+
+    @Override
+    public JobImpl withNodeCount(int nodeCount) {
+        createParameters.withNodeCount(nodeCount);
+        return this;
+    }
+
+    @Override
+    public Job.DefinitionStages.WithCreate withCognitiveToolikit() {
+        return this;
     }
 }

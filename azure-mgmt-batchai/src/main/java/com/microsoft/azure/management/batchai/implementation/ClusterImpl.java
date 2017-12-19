@@ -8,11 +8,13 @@ package com.microsoft.azure.management.batchai.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.AllocationState;
 import com.microsoft.azure.management.batchai.AutoScaleSettings;
+import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAIError;
 import com.microsoft.azure.management.batchai.Cluster;
 import com.microsoft.azure.management.batchai.DeallocationOption;
 import com.microsoft.azure.management.batchai.Jobs;
 import com.microsoft.azure.management.batchai.ManualScaleSettings;
+import com.microsoft.azure.management.batchai.MountVolumes;
 import com.microsoft.azure.management.batchai.NodeSetup;
 import com.microsoft.azure.management.batchai.NodeSetupTask;
 import com.microsoft.azure.management.batchai.NodeStateCounts;
@@ -28,6 +30,7 @@ import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;
 import rx.Observable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -261,5 +264,25 @@ class ClusterImpl extends GroupableResourceImpl<
             jobs = new JobsImpl(this);
         }
         return jobs;
+    }
+
+    @Override
+    public AzureFileShareImpl defineAzureFileShare() {
+        return new AzureFileShareImpl(new AzureFileShareReference(), this);
+    }
+
+    void attachAzureFileShare(AzureFileShareImpl azureFileShare) {
+        MountVolumes mountVolumes = ensureMountVolumes();
+        if (mountVolumes.azureFileShares() == null) {
+            mountVolumes.withAzureFileShares(new ArrayList<AzureFileShareReference>());
+        }
+        mountVolumes.azureFileShares().add(azureFileShare.inner());
+    }
+
+    private MountVolumes ensureMountVolumes() {
+        if (ensureNodeSetup().mountVolumes() == null) {
+            createParameters.nodeSetup().withMountVolumes(new MountVolumes());
+        }
+        return createParameters.nodeSetup().mountVolumes();
     }
 }

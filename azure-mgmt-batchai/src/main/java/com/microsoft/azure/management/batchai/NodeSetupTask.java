@@ -57,7 +57,7 @@ public interface NodeSetupTask extends
         }
 
         /**
-         * The stage of the setup task definition allowing to specify where Batch AI will upload stdout and stderr of the job.
+         * The stage of the setup task definition allowing to specify where Batch AI will upload stdout and stderr of the setup task.
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithStdOutErrPath<ParentT> {

@@ -36,8 +36,8 @@ public class TestBatchAI {
                     .withAutoScale(1, 1)
                     .withLowPriority()
                     .defineSetupTask()
-                    .withCommandLine("echo Hello World!")
-                    .withStdOutErrPath("./outputpath")
+                        .withCommandLine("echo Hello World!")
+                        .withStdOutErrPath("./outputpath")
                     .attach()
                     .withTag("tag1", "value1")
                     .create();
@@ -83,7 +83,12 @@ public class TestBatchAI {
                     .create();
             Assert.assertEquals("steady", cluster.allocationState().toString());
             Assert.assertEquals(userName, cluster.adminUserName());
-            cluster.jobs().define("myJob").withRegion(Region.US_WEST2).create();
+//            cluster.jobs().define("myJob")
+//                    .withRegion(Region.US_WEST2)
+//                    .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
+//                    .withNodeCount(1)
+//                    .
+//                    .create();
             return cluster;
         }
 

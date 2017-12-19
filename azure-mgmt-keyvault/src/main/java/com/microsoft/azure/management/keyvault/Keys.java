@@ -10,6 +10,8 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
+import rx.Observable;
 
 /**
  * Entry point for key vaults management API.
@@ -18,5 +20,9 @@ import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDe
 public interface Keys extends
         SupportsCreating<Key.DefinitionStages.Blank>,
         SupportsDeletingById,
-        SupportsGettingById<Key> {
+        SupportsGettingById<Key>,
+        SupportsListing<Key> {
+    Key restore(byte[] backup);
+
+    Observable<Key> restoreAsync(byte[] backup);
 }

@@ -6,32 +6,32 @@
 package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.batchai.Cluster;
-import com.microsoft.azure.management.batchai.Job;
+import com.microsoft.azure.management.batchai.BatchAICluster;
+import com.microsoft.azure.management.batchai.BatchAIJob;
 import com.microsoft.azure.management.batchai.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Observable;
 
 /**
- * Implementation for Job and its create interface.
+ * Implementation for BatchAIJob and its create interface.
  */
 @LangDefinition
-public class JobImpl
-        extends GroupableResourceImpl<Job, JobInner, JobImpl, BatchAIManager>
-        implements Job,
-        Job.Definition {
-    private final Cluster parent;
+public class BatchAIJobImpl
+        extends GroupableResourceImpl<BatchAIJob, JobInner, BatchAIJobImpl, BatchAIManager>
+        implements BatchAIJob,
+        BatchAIJob.Definition {
+    private final BatchAICluster parent;
     private JobCreateParametersInner createParameters = new JobCreateParametersInner();
 
-    JobImpl(String name,
-            ClusterImpl parent,
-            JobInner inner) {
+    BatchAIJobImpl(String name,
+                   BatchAIClusterImpl parent,
+                   JobInner inner) {
         super(name, inner, parent.manager());
         this.parent = parent;
     }
 
     @Override
-    public Cluster parent() {
+    public BatchAICluster parent() {
         return parent;
     }
 
@@ -41,7 +41,7 @@ public class JobImpl
     }
 
     @Override
-    public Observable<Job> createResourceAsync() {
+    public Observable<BatchAIJob> createResourceAsync() {
         ResourceId resourceId = new ResourceId().withId(parent.id());
         createParameters.withCluster(resourceId).withLocation(inner().location());
         return myManager.inner().jobs().createAsync(
@@ -50,19 +50,19 @@ public class JobImpl
     }
 
     @Override
-    public JobImpl withStdOutErrPathPrefix(String stdOutErrPathPrefix) {
+    public BatchAIJobImpl withStdOutErrPathPrefix(String stdOutErrPathPrefix) {
         createParameters.withStdOutErrPathPrefix(stdOutErrPathPrefix);
         return this;
     }
 
     @Override
-    public JobImpl withNodeCount(int nodeCount) {
+    public BatchAIJobImpl withNodeCount(int nodeCount) {
         createParameters.withNodeCount(nodeCount);
         return this;
     }
 
     @Override
-    public Job.DefinitionStages.WithCreate withCognitiveToolikit() {
+    public BatchAIJob.DefinitionStages.WithCreate withCognitiveToolikit() {
         return this;
     }
 }

@@ -25,10 +25,10 @@ import java.util.List;
  */
 @Fluent
 @Beta()
-public interface Cluster extends
+public interface BatchAICluster extends
         GroupableResource<BatchAIManager, ClusterInner>,
-        Refreshable<Cluster>,
-        Updatable<Cluster.Update> {
+        Refreshable<BatchAICluster>,
+        Updatable<BatchAICluster.Update> {
     /**
      * All virtual machines in a cluster are the same size. For information
      * about available VM sizes for clusters using images from the Virtual
@@ -216,7 +216,7 @@ public interface Cluster extends
          * but also allows for any other optional settings to be specified.
          */
         interface WithCreate extends
-                Creatable<Cluster>,
+                Creatable<BatchAICluster>,
                 DefinitionStages.WithUserCredentials,
                 DefinitionStages.WithVMPriority,
                 DefinitionStages.WithSetupTask,
@@ -245,7 +245,7 @@ public interface Cluster extends
      * The template for an update operation, containing all the settings that can be modified.
      */
     interface Update extends
-            Appliable<Cluster>,
+            Appliable<BatchAICluster>,
             UpdateStages.WithScaleSettings,
             Resource.UpdateWithTags<Update> {
     }

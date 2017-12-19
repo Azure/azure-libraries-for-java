@@ -24,13 +24,13 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 @Fluent
 @Beta
 public interface Jobs extends
-        SupportsCreating<Job.DefinitionStages.Blank>,
-        SupportsListing<Job>,
-        SupportsGettingByName<Job>,
-        SupportsGettingById<Job>,
-        SupportsGettingByNameAsync<Job>,
+        SupportsCreating<BatchAIJob.DefinitionStages.Blank>,
+        SupportsListing<BatchAIJob>,
+        SupportsGettingByName<BatchAIJob>,
+        SupportsGettingById<BatchAIJob>,
+        SupportsGettingByNameAsync<BatchAIJob>,
         SupportsDeletingByName,
         SupportsDeletingById,
         HasInner<JobsInner>,
-        HasParent<Cluster> {
+        HasParent<BatchAICluster> {
 }

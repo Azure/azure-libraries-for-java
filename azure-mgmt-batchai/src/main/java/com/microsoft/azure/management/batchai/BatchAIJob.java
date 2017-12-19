@@ -20,10 +20,10 @@ import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
  */
 @Fluent
 @Beta
-public interface Job extends
+public interface BatchAIJob extends
         IndependentChildResource<BatchAIManager, JobInner>,
-        Refreshable<Job>,
-        HasParent<Cluster> {
+        Refreshable<BatchAIJob>,
+        HasParent<BatchAICluster> {
 
     /**
      * The entirety of the virtual network gateway connection definition.
@@ -70,7 +70,7 @@ public interface Job extends
          * but exposing additional optional settings to specify.
          */
         interface WithCreate extends
-                Creatable<Job>,
+                Creatable<BatchAIJob>,
                 Resource.DefinitionWithTags<WithCreate> {
         }
     }

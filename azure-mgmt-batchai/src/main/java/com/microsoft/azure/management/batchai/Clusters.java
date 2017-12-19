@@ -27,14 +27,14 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 @Fluent
 @Beta
 public interface Clusters extends
-        SupportsCreating<Cluster.DefinitionStages.Blank>,
-        SupportsListing<Cluster>,
-        SupportsListingByResourceGroup<Cluster>,
-        SupportsGettingByResourceGroup<Cluster>,
-        SupportsGettingById<Cluster>,
+        SupportsCreating<BatchAICluster.DefinitionStages.Blank>,
+        SupportsListing<BatchAICluster>,
+        SupportsListingByResourceGroup<BatchAICluster>,
+        SupportsGettingByResourceGroup<BatchAICluster>,
+        SupportsGettingById<BatchAICluster>,
         SupportsDeletingById,
         SupportsDeletingByResourceGroup,
-        SupportsBatchCreation<Cluster>,
+        SupportsBatchCreation<BatchAICluster>,
         SupportsBatchDeletion,
         HasManager<BatchAIManager>,
         HasInner<ClustersInner> {

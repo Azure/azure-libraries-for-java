@@ -11,8 +11,8 @@ import com.microsoft.azure.management.batchai.AutoScaleSettings;
 import com.microsoft.azure.management.batchai.AzureBlobFileSystem;
 import com.microsoft.azure.management.batchai.AzureBlobFileSystemReference;
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
+import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIError;
-import com.microsoft.azure.management.batchai.Cluster;
 import com.microsoft.azure.management.batchai.DeallocationOption;
 import com.microsoft.azure.management.batchai.Jobs;
 import com.microsoft.azure.management.batchai.ManualScaleSettings;
@@ -39,26 +39,26 @@ import java.util.List;
  * Implementation for Cluster and its create and update interfaces.
  */
 @LangDefinition
-class ClusterImpl extends GroupableResourceImpl<
-        Cluster,
+class BatchAIClusterImpl extends GroupableResourceImpl<
+        BatchAICluster,
         ClusterInner,
-        ClusterImpl,
+        BatchAIClusterImpl,
         BatchAIManager>
         implements
-        Cluster,
-        Cluster.Definition,
-        Cluster.Update {
+        BatchAICluster,
+        BatchAICluster.Definition,
+        BatchAICluster.Update {
     private ClusterCreateParametersInner createParameters = new ClusterCreateParametersInner();
     private ClusterUpdateParametersInner updateParameters = new ClusterUpdateParametersInner();
 
     private JobsImpl jobs;
 
-    ClusterImpl(String name, ClusterInner innerObject, BatchAIManager manager) {
+    BatchAIClusterImpl(String name, ClusterInner innerObject, BatchAIManager manager) {
         super(name, innerObject, manager);
     }
 
     @Override
-    public Observable<Cluster> createResourceAsync() {
+    public Observable<BatchAICluster> createResourceAsync() {
         createParameters.withLocation(this.regionName());
         createParameters.withTags(this.inner().getTags());
         return this.manager().inner().clusters().createAsync(resourceGroupName(), name(), createParameters)
@@ -66,7 +66,7 @@ class ClusterImpl extends GroupableResourceImpl<
     }
 
     @Override
-    public Observable<Cluster> updateResourceAsync() {
+    public Observable<BatchAICluster> updateResourceAsync() {
         updateParameters.withTags(this.inner().getTags());
         return this.manager().inner().clusters().updateAsync(resourceGroupName(), name(), updateParameters)
                 .map(innerToFluentMap(this));
@@ -78,25 +78,25 @@ class ClusterImpl extends GroupableResourceImpl<
     }
 
     @Override
-    public ClusterImpl withVMSize(String vmSize) {
+    public BatchAIClusterImpl withVMSize(String vmSize) {
         createParameters.withVmSize(vmSize);
         return this;
     }
 
     @Override
-    public ClusterImpl withUserName(String userName) {
+    public BatchAIClusterImpl withUserName(String userName) {
         ensureUserAccountSettings().withAdminUserName(userName);
         return this;
     }
 
     @Override
-    public Cluster.DefinitionStages.WithScaleSettings withPassword(String password) {
+    public BatchAICluster.DefinitionStages.WithScaleSettings withPassword(String password) {
         ensureUserAccountSettings().withAdminUserPassword(password);
         return this;
     }
 
     @Override
-    public Cluster.DefinitionStages.WithScaleSettings withSshPublicKey(String sshPublicKey) {
+    public BatchAICluster.DefinitionStages.WithScaleSettings withSshPublicKey(String sshPublicKey) {
         ensureUserAccountSettings().withAdminUserSshPublicKey(sshPublicKey);
         return this;
     }
@@ -109,7 +109,7 @@ class ClusterImpl extends GroupableResourceImpl<
     }
 
     @Override
-    public ClusterImpl withAutoScale(int minimumNodeCount, int maximumNodeCount) {
+    public BatchAIClusterImpl withAutoScale(int minimumNodeCount, int maximumNodeCount) {
         AutoScaleSettings autoScaleSettings = new AutoScaleSettings().withMinimumNodeCount(minimumNodeCount).withMaximumNodeCount(maximumNodeCount);
         if (isInCreateMode()) {
             ensureScaleSettings().withAutoScale(autoScaleSettings);
@@ -120,7 +120,7 @@ class ClusterImpl extends GroupableResourceImpl<
     }
 
     @Override
-    public ClusterImpl withAutoScale(int minimumNodeCount, int maximumNodeCount, int initialNodeCount) {
+    public BatchAIClusterImpl withAutoScale(int minimumNodeCount, int maximumNodeCount, int initialNodeCount) {
         AutoScaleSettings autoScaleSettings = new AutoScaleSettings()
                 .withMinimumNodeCount(minimumNodeCount)
                 .withMaximumNodeCount(maximumNodeCount)
@@ -134,7 +134,7 @@ class ClusterImpl extends GroupableResourceImpl<
     }
 
     @Override
-    public ClusterImpl withManualScale(int targetNodeCount) {
+    public BatchAIClusterImpl withManualScale(int targetNodeCount) {
         ManualScaleSettings manualScaleSettings = new ManualScaleSettings().withTargetNodeCount(targetNodeCount);
         if (isInCreateMode()) {
             ensureScaleSettings().withManual(manualScaleSettings);
@@ -145,7 +145,7 @@ class ClusterImpl extends GroupableResourceImpl<
     }
 
     @Override
-    public ClusterImpl withManualScale(int targetNodeCount, DeallocationOption deallocationOption) {
+    public BatchAIClusterImpl withManualScale(int targetNodeCount, DeallocationOption deallocationOption) {
         ManualScaleSettings manualScaleSettings = new ManualScaleSettings().withTargetNodeCount(targetNodeCount).withNodeDeallocationOption(deallocationOption);
         if (isInCreateMode()) {
             ensureScaleSettings().withManual(manualScaleSettings);
@@ -163,17 +163,17 @@ class ClusterImpl extends GroupableResourceImpl<
     }
 
     @Override
-    public Cluster.DefinitionStages.WithCreate withLowPriority() {
+    public BatchAICluster.DefinitionStages.WithCreate withLowPriority() {
         createParameters.withVmPriority(VmPriority.LOWPRIORITY);
         return this;
     }
 
     @Override
-    public NodeSetupTask.DefinitionStages.Blank<Cluster.DefinitionStages.WithCreate> defineSetupTask() {
+    public NodeSetupTask.DefinitionStages.Blank<BatchAICluster.DefinitionStages.WithCreate> defineSetupTask() {
         return new NodeSetupTaskImpl(new SetupTask(), this);
     }
 
-    ClusterImpl withSetupTask(NodeSetupTaskImpl setupTask) {
+    BatchAIClusterImpl withSetupTask(NodeSetupTaskImpl setupTask) {
         ensureNodeSetup().withSetupTask(setupTask.inner());
         return this;
     }
@@ -275,7 +275,7 @@ class ClusterImpl extends GroupableResourceImpl<
 
 
     @Override
-    public AzureBlobFileSystem.DefinitionStages.Blank<Cluster.DefinitionStages.WithCreate> defineAzureBlobFileSystem() {
+    public AzureBlobFileSystem.DefinitionStages.Blank<BatchAICluster.DefinitionStages.WithCreate> defineAzureBlobFileSystem() {
         return new AzureBlobFileSystemImpl(new AzureBlobFileSystemReference(), this);
     }
 

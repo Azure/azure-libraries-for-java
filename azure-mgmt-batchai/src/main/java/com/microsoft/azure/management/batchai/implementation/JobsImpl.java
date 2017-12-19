@@ -8,8 +8,8 @@ package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.batchai.Cluster;
-import com.microsoft.azure.management.batchai.Job;
+import com.microsoft.azure.management.batchai.BatchAICluster;
+import com.microsoft.azure.management.batchai.BatchAIJob;
 import com.microsoft.azure.management.batchai.Jobs;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
@@ -28,38 +28,38 @@ import java.util.List;
 @LangDefinition
 class JobsImpl
         extends GroupableResourcesImpl<
-        Job,
-        JobImpl,
+        BatchAIJob,
+        BatchAIJobImpl,
         JobInner,
         JobsInner,
         BatchAIManager>
         implements Jobs {
 
-    private final ClusterImpl parent;
+    private final BatchAIClusterImpl parent;
 
-    JobsImpl(final ClusterImpl parent) {
+    JobsImpl(final BatchAIClusterImpl parent) {
         super(parent.manager().inner().jobs(), parent.manager());
         this.parent = parent;
     }
 
 
     @Override
-    protected JobImpl wrapModel(String name) {
-        return new JobImpl(name, parent, new JobInner())
+    protected BatchAIJobImpl wrapModel(String name) {
+        return new BatchAIJobImpl(name, parent, new JobInner())
                 .withRegion(parent.regionName())
                 .withExistingResourceGroup(parent.resourceGroupName());
     }
 
     @Override
-    protected JobImpl wrapModel(JobInner inner) {
+    protected BatchAIJobImpl wrapModel(JobInner inner) {
         if (inner == null) {
             return null;
         }
-        return new JobImpl(inner.name(), parent, inner);
+        return new BatchAIJobImpl(inner.name(), parent, inner);
     }
 
     @Override
-    public JobImpl define(String name) {
+    public BatchAIJobImpl define(String name) {
         return wrapModel(name);
     }
 
@@ -79,33 +79,33 @@ class JobsImpl
     }
 
     @Override
-    public PagedList<Job> list() {
-        return new GroupPagedList<Job>(this.manager().resourceManager().resourceGroups().list()) {
+    public PagedList<BatchAIJob> list() {
+        return new GroupPagedList<BatchAIJob>(this.manager().resourceManager().resourceGroups().list()) {
             @Override
-            public List<Job> listNextGroup(String resourceGroupName) {
+            public List<BatchAIJob> listNextGroup(String resourceGroupName) {
                 return wrapList(JobsImpl.this.inner().listByResourceGroup(resourceGroupName));
             }
         };
     }
 
     @Override
-    public Job getByName(String name) {
+    public BatchAIJob getByName(String name) {
         JobInner inner = this.manager().inner().jobs()
                 .getByResourceGroup(this.parent().resourceGroupName(), name);
-        return new JobImpl(name, parent, inner);
+        return new BatchAIJobImpl(name, parent, inner);
     }
 
     @Override
-    public Cluster parent() {
+    public BatchAICluster parent() {
         return this.parent;
     }
 
     @Override
-    public Observable<Job> listAsync() {
+    public Observable<BatchAIJob> listAsync() {
         return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<Job>>() {
+                .flatMap(new Func1<ResourceGroup, Observable<BatchAIJob>>() {
                     @Override
-                    public Observable<Job> call(ResourceGroup resourceGroup) {
+                    public Observable<BatchAIJob> call(ResourceGroup resourceGroup) {
                         return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
                     }
                 });
@@ -122,11 +122,11 @@ class JobsImpl
     }
 
     @Override
-    public Observable<Job> getByNameAsync(String name) {
+    public Observable<BatchAIJob> getByNameAsync(String name) {
         return inner().getByResourceGroupAsync(parent.resourceGroupName(), name)
-                .map(new Func1<JobInner, Job>() {
+                .map(new Func1<JobInner, BatchAIJob>() {
                     @Override
-                    public Job call(JobInner inner) {
+                    public BatchAIJob call(JobInner inner) {
                         return wrapModel(inner);
                     }
                 });

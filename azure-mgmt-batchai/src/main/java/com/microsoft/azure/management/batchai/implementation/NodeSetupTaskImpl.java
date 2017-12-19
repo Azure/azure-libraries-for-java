@@ -6,7 +6,7 @@
 package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.batchai.Cluster;
+import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.EnvironmentSetting;
 import com.microsoft.azure.management.batchai.NodeSetupTask;
 import com.microsoft.azure.management.batchai.SetupTask;
@@ -23,16 +23,16 @@ class NodeSetupTaskImpl
         extends IndexableWrapperImpl<SetupTask>
         implements
         NodeSetupTask,
-        NodeSetupTask.Definition<Cluster.DefinitionStages.WithCreate> {
-    private ClusterImpl parent;
+        NodeSetupTask.Definition<BatchAICluster.DefinitionStages.WithCreate> {
+    private BatchAIClusterImpl parent;
 
-    NodeSetupTaskImpl(SetupTask inner, ClusterImpl parent) {
+    NodeSetupTaskImpl(SetupTask inner, BatchAIClusterImpl parent) {
         super(inner);
         this.parent = parent;
     }
 
     @Override
-    public ClusterImpl attach() {
+    public BatchAIClusterImpl attach() {
         return this.parent.withSetupTask(this);
     }
 
@@ -68,7 +68,7 @@ class NodeSetupTaskImpl
     }
 
     @Override
-    public Cluster parent() {
+    public BatchAICluster parent() {
         return parent;
     }
 }

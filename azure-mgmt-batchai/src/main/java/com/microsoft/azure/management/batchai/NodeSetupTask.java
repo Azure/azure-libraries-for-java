@@ -20,7 +20,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 public interface NodeSetupTask extends
         HasInner<SetupTask>,
         Indexable,
-        HasParent<Cluster> {
+        HasParent<BatchAICluster> {
     /**
      * Grouping of node setup definition stages.
      */

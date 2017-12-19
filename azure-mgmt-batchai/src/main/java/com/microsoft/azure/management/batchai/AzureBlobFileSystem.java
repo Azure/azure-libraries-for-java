@@ -18,7 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 @Fluent
 @Beta
 public interface AzureBlobFileSystem extends Indexable,
-        HasParent<Cluster>,
+        HasParent<BatchAICluster>,
         HasInner<AzureBlobFileSystemReference> {
 
     /**

@@ -6,7 +6,7 @@
 package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.batchai.Cluster;
+import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.Clusters;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
@@ -16,8 +16,8 @@ import com.microsoft.azure.management.resources.fluentcore.arm.collection.implem
 @LangDefinition
 class ClustersImpl
         extends TopLevelModifiableResourcesImpl<
-        Cluster,
-        ClusterImpl,
+        BatchAICluster,
+        BatchAIClusterImpl,
         ClusterInner,
         ClustersInner,
         BatchAIManager>
@@ -28,23 +28,23 @@ class ClustersImpl
     }
 
     @Override
-    public ClusterImpl define(String name) {
+    public BatchAIClusterImpl define(String name) {
         return wrapModel(name);
     }
 
     // Fluent model create helpers
 
     @Override
-    protected ClusterImpl wrapModel(String name) {
+    protected BatchAIClusterImpl wrapModel(String name) {
         ClusterInner inner = new ClusterInner();
-        return new ClusterImpl(name, inner, super.manager());
+        return new BatchAIClusterImpl(name, inner, super.manager());
     }
 
     @Override
-    protected ClusterImpl wrapModel(ClusterInner inner) {
+    protected BatchAIClusterImpl wrapModel(ClusterInner inner) {
         if (inner == null) {
             return null;
         }
-        return new ClusterImpl(inner.name(), inner, this.manager());
+        return new BatchAIClusterImpl(inner.name(), inner, this.manager());
     }
 }

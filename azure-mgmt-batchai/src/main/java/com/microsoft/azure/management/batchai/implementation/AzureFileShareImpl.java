@@ -9,7 +9,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.AzureFileShare;
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.AzureStorageCredentialsInfo;
-import com.microsoft.azure.management.batchai.Cluster;
+import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.KeyVaultSecretReference;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
@@ -20,45 +20,45 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
 public class AzureFileShareImpl extends IndexableWrapperImpl<AzureFileShareReference>
         implements
         AzureFileShare,
-        AzureFileShare.Definition<Cluster.DefinitionStages.WithCreate> {
-    private ClusterImpl parent;
+        AzureFileShare.Definition<BatchAICluster.DefinitionStages.WithCreate> {
+    private BatchAIClusterImpl parent;
 
-    AzureFileShareImpl(AzureFileShareReference inner, ClusterImpl parent) {
+    AzureFileShareImpl(AzureFileShareReference inner, BatchAIClusterImpl parent) {
         super(inner);
         this.parent = parent;
     }
 
     @Override
-    public Definition<Cluster.DefinitionStages.WithCreate> withStorageAccountName(String storageAccountName) {
+    public Definition<BatchAICluster.DefinitionStages.WithCreate> withStorageAccountName(String storageAccountName) {
         inner().withAccountName(storageAccountName);
         return this;
     }
 
     @Override
-    public Definition<Cluster.DefinitionStages.WithCreate> withAzureFileUrl(String azureFileUrl) {
+    public Definition<BatchAICluster.DefinitionStages.WithCreate> withAzureFileUrl(String azureFileUrl) {
         inner().withAzureFileUrl(azureFileUrl);
         return this;
     }
 
     @Override
-    public Definition<Cluster.DefinitionStages.WithCreate> withRelativeMountPath(String mountPath) {
+    public Definition<BatchAICluster.DefinitionStages.WithCreate> withRelativeMountPath(String mountPath) {
         inner().withRelativeMountPath(mountPath);
         return this;
     }
 
     @Override
-    public Cluster parent() {
+    public BatchAICluster parent() {
         return parent;
     }
 
     @Override
-    public Cluster.DefinitionStages.WithCreate attach() {
+    public BatchAICluster.DefinitionStages.WithCreate attach() {
         this.parent.attachAzureFileShare(this);
         return parent;
     }
 
     @Override
-    public DefinitionStages.WithAttach<Cluster.DefinitionStages.WithCreate> withAccountKey(String accountKey) {
+    public DefinitionStages.WithAttach<BatchAICluster.DefinitionStages.WithCreate> withAccountKey(String accountKey) {
         ensureCredentials().withAccountKey(accountKey);
         return this;
     }
@@ -71,19 +71,19 @@ public class AzureFileShareImpl extends IndexableWrapperImpl<AzureFileShareRefer
     }
 
     @Override
-    public DefinitionStages.WithAttach<Cluster.DefinitionStages.WithCreate> withKeyVaultSecretReference(KeyVaultSecretReference keyVaultSecretReference) {
+    public DefinitionStages.WithAttach<BatchAICluster.DefinitionStages.WithCreate> withKeyVaultSecretReference(KeyVaultSecretReference keyVaultSecretReference) {
         ensureCredentials().withAccountKeySecretReference(keyVaultSecretReference);
         return this;
     }
 
     @Override
-    public DefinitionStages.WithAttach<Cluster.DefinitionStages.WithCreate> withFileMode(String fileMode) {
+    public DefinitionStages.WithAttach<BatchAICluster.DefinitionStages.WithCreate> withFileMode(String fileMode) {
         inner().withFileMode(fileMode);
         return this;
     }
 
     @Override
-    public DefinitionStages.WithAttach<Cluster.DefinitionStages.WithCreate> withDirectoryMode(String directoryMode) {
+    public DefinitionStages.WithAttach<BatchAICluster.DefinitionStages.WithCreate> withDirectoryMode(String directoryMode) {
         inner().withDirectoryMode(directoryMode);
         return this;
     }

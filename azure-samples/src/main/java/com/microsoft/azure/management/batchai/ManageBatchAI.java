@@ -48,7 +48,7 @@ public final class ManageBatchAI {
                     .getShareReference(shareName);
             cloudFileShare.create();
 
-            Cluster cluster = azure.clusters().define(clusterName)
+            BatchAICluster cluster = azure.clusters().define(clusterName)
                     .withRegion(region)
                     .withNewResourceGroup(rgName)
                     .withVMSize(VirtualMachineSizeTypes.STANDARD_NC6.toString())

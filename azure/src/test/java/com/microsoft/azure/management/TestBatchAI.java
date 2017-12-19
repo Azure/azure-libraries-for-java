@@ -7,7 +7,7 @@
 package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
-import com.microsoft.azure.management.batchai.Cluster;
+import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.Clusters;
 import com.microsoft.azure.management.batchai.VmPriority;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
@@ -27,7 +27,7 @@ import org.junit.Assert;
 public class TestBatchAI {
     private static final Region region = Region.US_EAST;
 
-    public static class Basic extends TestTemplate<Cluster, Clusters> {
+    public static class Basic extends TestTemplate<BatchAICluster, Clusters> {
         private StorageAccounts storageAccounts;
 
         public Basic(StorageAccounts storageAccounts) {
@@ -35,7 +35,7 @@ public class TestBatchAI {
         }
 
         @Override
-        public Cluster createResource(Clusters clusters) throws Exception {
+        public BatchAICluster createResource(Clusters clusters) throws Exception {
             final String groupName = SdkContext.randomResourceName("rg", 10);
             final String clusterName = SdkContext.randomResourceName("cluster", 15);
             final String saName = SdkContext.randomResourceName("cluster", 15);
@@ -59,7 +59,7 @@ public class TestBatchAI {
             CloudBlobContainer container = cloudBlobClient.getContainerReference(containerName);
             container.createIfNotExists();
 
-            Cluster cluster = clusters.define(clusterName)
+            BatchAICluster cluster = clusters.define(clusterName)
                     .withRegion(region)
                     .withNewResourceGroup(groupName)
                     .withVMSize(VirtualMachineSizeTypes.STANDARD_NC6.toString())
@@ -96,7 +96,7 @@ public class TestBatchAI {
         }
 
         @Override
-        public Cluster updateResource(Cluster cluster) throws Exception {
+        public BatchAICluster updateResource(BatchAICluster cluster) throws Exception {
             cluster.update()
                     .withAutoScale(1, 2, 2)
                     .withTag("tag1", "value2")
@@ -107,20 +107,20 @@ public class TestBatchAI {
         }
 
         @Override
-        public void print(Cluster resource) {
+        public void print(BatchAICluster resource) {
             printBatchAICluster(resource);
         }
     }
 
-    public static class JobCreate extends TestTemplate<Cluster, Clusters> {
+    public static class JobCreate extends TestTemplate<BatchAICluster, Clusters> {
 
         @Override
-        public Cluster createResource(Clusters clusters) throws Exception {
+        public BatchAICluster createResource(Clusters clusters) throws Exception {
             final String groupName = SdkContext.randomResourceName("rg", 10);
             final String clusterName = SdkContext.randomResourceName("cluster", 15);
             final String userName = "tirekicker";
 
-            Cluster cluster = clusters.define(clusterName)
+            BatchAICluster cluster = clusters.define(clusterName)
                     .withRegion(region)
                     .withNewResourceGroup(groupName)
                     .withVMSize(VirtualMachineSizeTypes.STANDARD_NC6.toString())
@@ -140,12 +140,12 @@ public class TestBatchAI {
         }
 
         @Override
-        public Cluster updateResource(Cluster cluster) throws Exception {
+        public BatchAICluster updateResource(BatchAICluster cluster) throws Exception {
             return cluster;
         }
 
         @Override
-        public void print(Cluster resource) {
+        public void print(BatchAICluster resource) {
             printBatchAICluster(resource);
         }
     }
@@ -159,7 +159,7 @@ public class TestBatchAI {
         return storageAccount.getKeys().get(0).value();
     }
 
-    private static void printBatchAICluster(Cluster cluster) {
+    private static void printBatchAICluster(BatchAICluster cluster) {
         StringBuilder info = new StringBuilder();
         info.append("Batch AI Cluster: ").append(cluster.id())
                 .append("\n\tName: ").append(cluster.name())

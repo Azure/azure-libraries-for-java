@@ -11,7 +11,9 @@ import com.microsoft.azure.keyvault.models.Attributes;
 import com.microsoft.azure.keyvault.models.KeyAttributes;
 import com.microsoft.azure.keyvault.models.KeyBundle;
 import com.microsoft.azure.keyvault.webkey.JsonWebKey;
+import com.microsoft.azure.keyvault.webkey.JsonWebKeyEncryptionAlgorithm;
 import com.microsoft.azure.keyvault.webkey.JsonWebKeyOperation;
+import com.microsoft.azure.keyvault.webkey.JsonWebKeySignatureAlgorithm;
 import com.microsoft.azure.keyvault.webkey.JsonWebKeyType;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.keyvault.Key.DefinitionStages.WithCreate;
@@ -62,6 +64,34 @@ public interface Key extends
     PagedList<Key> listVersions();
 
     Observable<Key> listVersionsAsync();
+
+    byte[] backup();
+
+    Observable<byte[]> backupAsync();
+
+    byte[] encrypt(JsonWebKeyEncryptionAlgorithm algorithm, byte[] value);
+
+    Observable<byte[]> encryptAsync(JsonWebKeyEncryptionAlgorithm algorithm, byte[] value);
+
+    byte[] decrypt(JsonWebKeyEncryptionAlgorithm algorithm, byte[] value);
+
+    Observable<byte[]> decryptAsync(JsonWebKeyEncryptionAlgorithm algorithm, byte[] value);
+
+    byte[] sign(JsonWebKeySignatureAlgorithm algorithm, byte[] value);
+
+    Observable<byte[]> signAsync(JsonWebKeySignatureAlgorithm algorithm, byte[] value);
+
+    boolean verify(JsonWebKeySignatureAlgorithm algorithm, byte[] digest, byte[] value);
+
+    Observable<Boolean> verifyAsync(JsonWebKeySignatureAlgorithm algorithm, byte[] digest, byte[] value);
+
+    byte[] wrapKey(JsonWebKeyEncryptionAlgorithm algorithm, byte[] value);
+
+    Observable<byte[]> wrapKeyAsync(JsonWebKeyEncryptionAlgorithm algorithm, byte[] value);
+
+    byte[] unwrapKey(JsonWebKeyEncryptionAlgorithm algorithm, byte[] value);
+
+    Observable<byte[]> unwrapKeyAsync(JsonWebKeyEncryptionAlgorithm algorithm, byte[] value);
 
     interface Definition extends
             DefinitionStages.Blank,

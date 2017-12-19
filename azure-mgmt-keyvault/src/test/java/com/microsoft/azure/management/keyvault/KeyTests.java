@@ -43,6 +43,7 @@ public class KeyTests extends KeyVaultManagementTest {
 
         SdkContext.sleep(10000);
 
+        // Create
         Key key = vault.keys().define(keyName)
                 .withKeyType(JsonWebKeyType.RSA)
                 .withKeyOperations(Arrays.asList(JsonWebKeyOperation.SIGN, JsonWebKeyOperation.VERIFY))
@@ -52,15 +53,29 @@ public class KeyTests extends KeyVaultManagementTest {
         Assert.assertNotNull(key.id());
         Assert.assertEquals(2, key.jsonWebKey().keyOps().size());
 
+        // Get
         Key key1 = vault.keys().getById(key.id());
         Assert.assertNotNull(key1);
         Assert.assertEquals(key.id(), key1.id());
 
+        // Update
         key = key.update()
                 .withKeyOperations(Arrays.asList(JsonWebKeyOperation.ENCRYPT))
                 .apply();
 
         Assert.assertEquals(1, key.jsonWebKey().keyOps().size());
+
+        // New version
+        key = key.update()
+                .withKeyType(JsonWebKeyType.RSA)
+                .withKeyOperations(Arrays.asList(JsonWebKeyOperation.ENCRYPT, JsonWebKeyOperation.DECRYPT, JsonWebKeyOperation.SIGN))
+                .apply();
+
+        Assert.assertEquals(3, key.jsonWebKey().keyOps().size());
+
+        // List versions
+        List<Key> keys = key.listVersions();
+        Assert.assertEquals(2, keys.size());
     }
 
     @Test

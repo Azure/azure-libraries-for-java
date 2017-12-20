@@ -146,6 +146,32 @@ public class ConsumptionManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The ReservationsSummariesInner object to access its operations.
+     */
+    private ReservationsSummariesInner reservationsSummaries;
+
+    /**
+     * Gets the ReservationsSummariesInner object to access its operations.
+     * @return the ReservationsSummariesInner object.
+     */
+    public ReservationsSummariesInner reservationsSummaries() {
+        return this.reservationsSummaries;
+    }
+
+    /**
+     * The ReservationsDetailsInner object to access its operations.
+     */
+    private ReservationsDetailsInner reservationsDetails;
+
+    /**
+     * Gets the ReservationsDetailsInner object to access its operations.
+     * @return the ReservationsDetailsInner object.
+     */
+    public ReservationsDetailsInner reservationsDetails() {
+        return this.reservationsDetails;
+    }
+
+    /**
      * The OperationsInner object to access its operations.
      */
     private OperationsInner operations;
@@ -194,6 +220,8 @@ public class ConsumptionManagementClientImpl extends AzureServiceClient {
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
         this.usageDetails = new UsageDetailsInner(restClient().retrofit(), this);
+        this.reservationsSummaries = new ReservationsSummariesInner(restClient().retrofit(), this);
+        this.reservationsDetails = new ReservationsDetailsInner(restClient().retrofit(), this);
         this.operations = new OperationsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }

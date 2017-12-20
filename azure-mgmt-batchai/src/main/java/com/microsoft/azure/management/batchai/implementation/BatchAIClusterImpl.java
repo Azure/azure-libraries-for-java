@@ -13,8 +13,8 @@ import com.microsoft.azure.management.batchai.AzureBlobFileSystemReference;
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIError;
+import com.microsoft.azure.management.batchai.BatchAIJobs;
 import com.microsoft.azure.management.batchai.DeallocationOption;
-import com.microsoft.azure.management.batchai.Jobs;
 import com.microsoft.azure.management.batchai.ManualScaleSettings;
 import com.microsoft.azure.management.batchai.MountVolumes;
 import com.microsoft.azure.management.batchai.NodeSetup;
@@ -51,7 +51,7 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
     private ClusterCreateParametersInner createParameters = new ClusterCreateParametersInner();
     private ClusterUpdateParametersInner updateParameters = new ClusterUpdateParametersInner();
 
-    private JobsImpl jobs;
+    private BatchAIJobsImpl jobs;
 
     BatchAIClusterImpl(String name, ClusterInner innerObject, BatchAIManager manager) {
         super(name, innerObject, manager);
@@ -261,9 +261,9 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
     }
 
     @Override
-    public Jobs jobs() {
+    public BatchAIJobs jobs() {
         if (jobs == null) {
-            jobs = new JobsImpl(this);
+            jobs = new BatchAIJobsImpl(this);
         }
         return jobs;
     }

@@ -117,7 +117,7 @@ public interface BatchAICluster extends
     /**
      * @return the entry point to virtual network gateway connections management API for this virtual network gateway
      */
-    Jobs jobs();
+    BatchAIJobs jobs();
 
     /**
      * The entirety of a Batch AI cluster definition.

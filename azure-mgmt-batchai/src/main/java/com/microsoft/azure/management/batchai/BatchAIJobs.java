@@ -23,7 +23,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  */
 @Fluent
 @Beta
-public interface Jobs extends
+public interface BatchAIJobs extends
         SupportsCreating<BatchAIJob.DefinitionStages.Blank>,
         SupportsListing<BatchAIJob>,
         SupportsGettingByName<BatchAIJob>,

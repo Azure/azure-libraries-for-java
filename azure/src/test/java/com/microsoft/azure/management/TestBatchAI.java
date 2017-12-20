@@ -8,7 +8,7 @@ package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
-import com.microsoft.azure.management.batchai.Clusters;
+import com.microsoft.azure.management.batchai.BatchAIClusters;
 import com.microsoft.azure.management.batchai.VmPriority;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
@@ -27,7 +27,7 @@ import org.junit.Assert;
 public class TestBatchAI {
     private static final Region region = Region.US_EAST;
 
-    public static class Basic extends TestTemplate<BatchAICluster, Clusters> {
+    public static class Basic extends TestTemplate<BatchAICluster, BatchAIClusters> {
         private StorageAccounts storageAccounts;
 
         public Basic(StorageAccounts storageAccounts) {
@@ -35,7 +35,7 @@ public class TestBatchAI {
         }
 
         @Override
-        public BatchAICluster createResource(Clusters clusters) throws Exception {
+        public BatchAICluster createResource(BatchAIClusters clusters) throws Exception {
             final String groupName = SdkContext.randomResourceName("rg", 10);
             final String clusterName = SdkContext.randomResourceName("cluster", 15);
             final String saName = SdkContext.randomResourceName("cluster", 15);
@@ -112,10 +112,10 @@ public class TestBatchAI {
         }
     }
 
-    public static class JobCreate extends TestTemplate<BatchAICluster, Clusters> {
+    public static class JobCreate extends TestTemplate<BatchAICluster, BatchAIClusters> {
 
         @Override
-        public BatchAICluster createResource(Clusters clusters) throws Exception {
+        public BatchAICluster createResource(BatchAIClusters clusters) throws Exception {
             final String groupName = SdkContext.randomResourceName("rg", 10);
             final String clusterName = SdkContext.randomResourceName("cluster", 15);
             final String userName = "tirekicker";

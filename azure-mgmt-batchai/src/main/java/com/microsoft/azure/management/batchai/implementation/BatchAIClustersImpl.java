@@ -7,23 +7,23 @@ package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.BatchAICluster;
-import com.microsoft.azure.management.batchai.Clusters;
+import com.microsoft.azure.management.batchai.BatchAIClusters;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
- *  Implementation for Clusters.
+ *  Implementation for BatchAIClusters.
  */
 @LangDefinition
-class ClustersImpl
+class BatchAIClustersImpl
         extends TopLevelModifiableResourcesImpl<
         BatchAICluster,
         BatchAIClusterImpl,
         ClusterInner,
         ClustersInner,
         BatchAIManager>
-        implements Clusters {
+        implements BatchAIClusters {
 
-    ClustersImpl(final BatchAIManager batchAIManager) {
+    BatchAIClustersImpl(final BatchAIManager batchAIManager) {
         super(batchAIManager.inner().clusters(), batchAIManager);
     }
 

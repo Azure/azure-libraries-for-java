@@ -26,7 +26,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  */
 @Fluent
 @Beta
-public interface Clusters extends
+public interface BatchAIClusters extends
         SupportsCreating<BatchAICluster.DefinitionStages.Blank>,
         SupportsListing<BatchAICluster>,
         SupportsListingByResourceGroup<BatchAICluster>,

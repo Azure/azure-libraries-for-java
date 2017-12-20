@@ -10,7 +10,7 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIJob;
-import com.microsoft.azure.management.batchai.Jobs;
+import com.microsoft.azure.management.batchai.BatchAIJobs;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
@@ -26,18 +26,18 @@ import java.util.List;
  * The implementation of Jobs.
  */
 @LangDefinition
-class JobsImpl
+class BatchAIJobsImpl
         extends GroupableResourcesImpl<
         BatchAIJob,
         BatchAIJobImpl,
         JobInner,
         JobsInner,
         BatchAIManager>
-        implements Jobs {
+        implements BatchAIJobs {
 
     private final BatchAIClusterImpl parent;
 
-    JobsImpl(final BatchAIClusterImpl parent) {
+    BatchAIJobsImpl(final BatchAIClusterImpl parent) {
         super(parent.manager().inner().jobs(), parent.manager());
         this.parent = parent;
     }
@@ -83,7 +83,7 @@ class JobsImpl
         return new GroupPagedList<BatchAIJob>(this.manager().resourceManager().resourceGroups().list()) {
             @Override
             public List<BatchAIJob> listNextGroup(String resourceGroupName) {
-                return wrapList(JobsImpl.this.inner().listByResourceGroup(resourceGroupName));
+                return wrapList(BatchAIJobsImpl.this.inner().listByResourceGroup(resourceGroupName));
             }
         };
     }

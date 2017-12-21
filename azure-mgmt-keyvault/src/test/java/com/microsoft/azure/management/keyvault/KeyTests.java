@@ -16,6 +16,7 @@ import com.microsoft.azure.keyvault.webkey.JsonWebKeyType;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.crypto.Cipher;
@@ -31,7 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class KeyTests extends KeyVaultManagementTest {
-    @Test
+    @Ignore("Mock framework doesn't support data plane")
     public void canCRUDKey() throws Exception {
         Vault vault = createVault();
         String keyName = SdkContext.randomResourceName("key", 20);

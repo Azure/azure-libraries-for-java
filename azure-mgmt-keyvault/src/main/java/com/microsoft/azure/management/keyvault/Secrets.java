@@ -13,7 +13,7 @@ import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDe
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
 
 /**
- * Entry point for key vaults management API.
+ * Entry point for Key Vault secrets API.
  */
 @Fluent(ContainerName = "/Microsoft.Azure.Management.Fluent.KeyVault")
 public interface Secrets extends

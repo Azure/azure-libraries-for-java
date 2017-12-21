@@ -8,7 +8,6 @@ package com.microsoft.azure.management.keyvault.implementation;
 
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Emitter;
@@ -22,16 +21,16 @@ import rx.functions.Func1;
 import java.util.List;
 
 /**
- * The implementation of Vaults and its parent interfaces.
+ * A collection of utilities for converting futures in Key Vault client to observables.
  */
 @LangDefinition
-class KeyVaultFutures {
-    public static abstract class ServiceFutureConverter<TInner, T> {
-        protected abstract ServiceFuture<TInner> callAsync();
+final class KeyVaultFutures {
+    abstract static class ServiceFutureConverter<TInner, T> {
+        abstract ServiceFuture<TInner> callAsync();
 
-        protected abstract T wrapModel(TInner inner);
+        abstract T wrapModel(TInner inner);
 
-        public ServiceFuture<T> toFuture(final ServiceCallback<T> callback) {
+        ServiceFuture<T> toFuture(final ServiceCallback<T> callback) {
             final KeyVaultFuture<T> future = new KeyVaultFuture<>();
             Observable.from(callAsync())
                     .subscribe(new Action1<TInner>() {
@@ -65,12 +64,12 @@ class KeyVaultFutures {
         }
     }
 
-    public static abstract class ListCallbackObserver<TInner, T> {
-        protected abstract void list(ListOperationCallback<TInner> callback);
+    abstract static class ListCallbackObserver<TInner, T> {
+        abstract void list(ListOperationCallback<TInner> callback);
 
-        protected abstract Observable<T> typeConvertAsync(TInner inner);
+        abstract Observable<T> typeConvertAsync(TInner inner);
 
-        public Observable<T> toObservable() {
+        Observable<T> toObservable() {
             return Observable
                     .fromEmitter(new Action1<Emitter<List<TInner>>>() {
                         @Override

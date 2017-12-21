@@ -9,7 +9,6 @@ package com.microsoft.azure.management.keyvault.implementation;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.keyvault.KeyIdentifier;
-import com.microsoft.azure.keyvault.SecretIdentifier;
 import com.microsoft.azure.keyvault.models.Attributes;
 import com.microsoft.azure.keyvault.models.BackupKeyResult;
 import com.microsoft.azure.keyvault.models.KeyAttributes;
@@ -17,8 +16,6 @@ import com.microsoft.azure.keyvault.models.KeyBundle;
 import com.microsoft.azure.keyvault.models.KeyItem;
 import com.microsoft.azure.keyvault.models.KeyOperationResult;
 import com.microsoft.azure.keyvault.models.KeyVerifyResult;
-import com.microsoft.azure.keyvault.models.SecretBundle;
-import com.microsoft.azure.keyvault.models.SecretItem;
 import com.microsoft.azure.keyvault.requests.CreateKeyRequest;
 import com.microsoft.azure.keyvault.requests.ImportKeyRequest;
 import com.microsoft.azure.keyvault.requests.UpdateKeyRequest;
@@ -29,9 +26,6 @@ import com.microsoft.azure.keyvault.webkey.JsonWebKeySignatureAlgorithm;
 import com.microsoft.azure.keyvault.webkey.JsonWebKeyType;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.keyvault.Key;
-import com.microsoft.azure.management.keyvault.Key.DefinitionStages.WithCreate;
-import com.microsoft.azure.management.keyvault.Key.DefinitionStages.WithImport;
-import com.microsoft.azure.management.keyvault.Secret;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
@@ -175,17 +169,17 @@ class KeyImpl
     }
 
     @Override
-    public byte[] encrypt(JsonWebKeyEncryptionAlgorithm algorithm, byte[] value) {
-        return vault.client().encrypt(inner().keyIdentifier().identifier(), algorithm, value).result();
+    public byte[] encrypt(JsonWebKeyEncryptionAlgorithm algorithm, byte[] content) {
+        return vault.client().encrypt(inner().keyIdentifier().identifier(), algorithm, content).result();
     }
 
     @Override
-    public Observable<byte[]> encryptAsync(final JsonWebKeyEncryptionAlgorithm algorithm, final byte[] value) {
+    public Observable<byte[]> encryptAsync(final JsonWebKeyEncryptionAlgorithm algorithm, final byte[] content) {
         return new KeyVaultFutures.ServiceFutureConverter<KeyOperationResult, byte[]>() {
 
             @Override
             protected ServiceFuture<KeyOperationResult> callAsync() {
-                return vault.client().encryptAsync(inner().keyIdentifier().identifier(), algorithm, value, null);
+                return vault.client().encryptAsync(inner().keyIdentifier().identifier(), algorithm, content, null);
             }
 
             @Override
@@ -196,17 +190,17 @@ class KeyImpl
     }
 
     @Override
-    public byte[] decrypt(JsonWebKeyEncryptionAlgorithm algorithm, byte[] value) {
-        return vault.client().decrypt(inner().keyIdentifier().identifier(), algorithm, value).result();
+    public byte[] decrypt(JsonWebKeyEncryptionAlgorithm algorithm, byte[] content) {
+        return vault.client().decrypt(inner().keyIdentifier().identifier(), algorithm, content).result();
     }
 
     @Override
-    public Observable<byte[]> decryptAsync(final JsonWebKeyEncryptionAlgorithm algorithm, final byte[] value) {
+    public Observable<byte[]> decryptAsync(final JsonWebKeyEncryptionAlgorithm algorithm, final byte[] content) {
         return new KeyVaultFutures.ServiceFutureConverter<KeyOperationResult, byte[]>() {
 
             @Override
             protected ServiceFuture<KeyOperationResult> callAsync() {
-                return vault.client().decryptAsync(inner().keyIdentifier().identifier(), algorithm, value, null);
+                return vault.client().decryptAsync(inner().keyIdentifier().identifier(), algorithm, content, null);
             }
 
             @Override
@@ -217,17 +211,17 @@ class KeyImpl
     }
 
     @Override
-    public byte[] sign(JsonWebKeySignatureAlgorithm algorithm, byte[] value) {
-        return vault.client().sign(inner().keyIdentifier().identifier(), algorithm, value).result();
+    public byte[] sign(JsonWebKeySignatureAlgorithm algorithm, byte[] digest) {
+        return vault.client().sign(inner().keyIdentifier().identifier(), algorithm, digest).result();
     }
 
     @Override
-    public Observable<byte[]> signAsync(final JsonWebKeySignatureAlgorithm algorithm, final byte[] value) {
+    public Observable<byte[]> signAsync(final JsonWebKeySignatureAlgorithm algorithm, final byte[] digest) {
         return new KeyVaultFutures.ServiceFutureConverter<KeyOperationResult, byte[]>() {
 
             @Override
             protected ServiceFuture<KeyOperationResult> callAsync() {
-                return vault.client().signAsync(inner().keyIdentifier().identifier(), algorithm, value, null);
+                return vault.client().signAsync(inner().keyIdentifier().identifier(), algorithm, digest, null);
             }
 
             @Override
@@ -238,17 +232,17 @@ class KeyImpl
     }
 
     @Override
-    public boolean verify(JsonWebKeySignatureAlgorithm algorithm, byte[] digest, byte[] value) {
-        return vault.client().verify(inner().keyIdentifier().identifier(), algorithm, digest, value).value();
+    public boolean verify(JsonWebKeySignatureAlgorithm algorithm, byte[] digest, byte[] signature) {
+        return vault.client().verify(inner().keyIdentifier().identifier(), algorithm, digest, signature).value();
     }
 
     @Override
-    public Observable<Boolean> verifyAsync(final JsonWebKeySignatureAlgorithm algorithm, final byte[] digest, final byte[] value) {
+    public Observable<Boolean> verifyAsync(final JsonWebKeySignatureAlgorithm algorithm, final byte[] digest, final byte[] signature) {
         return new KeyVaultFutures.ServiceFutureConverter<KeyVerifyResult, Boolean>() {
 
             @Override
             protected ServiceFuture<KeyVerifyResult> callAsync() {
-                return vault.client().verifyAsync(inner().keyIdentifier().identifier(), algorithm, digest, value, null);
+                return vault.client().verifyAsync(inner().keyIdentifier().identifier(), algorithm, digest, signature, null);
             }
 
             @Override
@@ -259,17 +253,17 @@ class KeyImpl
     }
 
     @Override
-    public byte[] wrapKey(JsonWebKeyEncryptionAlgorithm algorithm, byte[] value) {
-        return vault.client().wrapKey(inner().keyIdentifier().identifier(), algorithm, value).result();
+    public byte[] wrapKey(JsonWebKeyEncryptionAlgorithm algorithm, byte[] key) {
+        return vault.client().wrapKey(inner().keyIdentifier().identifier(), algorithm, key).result();
     }
 
     @Override
-    public Observable<byte[]> wrapKeyAsync(final JsonWebKeyEncryptionAlgorithm algorithm, final byte[] value) {
+    public Observable<byte[]> wrapKeyAsync(final JsonWebKeyEncryptionAlgorithm algorithm, final byte[] key) {
         return new KeyVaultFutures.ServiceFutureConverter<KeyOperationResult, byte[]>() {
 
             @Override
             protected ServiceFuture<KeyOperationResult> callAsync() {
-                return vault.client().wrapKeyAsync(inner().keyIdentifier().identifier(), algorithm, value, null);
+                return vault.client().wrapKeyAsync(inner().keyIdentifier().identifier(), algorithm, key, null);
             }
 
             @Override
@@ -280,17 +274,17 @@ class KeyImpl
     }
 
     @Override
-    public byte[] unwrapKey(JsonWebKeyEncryptionAlgorithm algorithm, byte[] value) {
-        return vault.client().unwrapKey(inner().keyIdentifier().identifier(), algorithm, value).result();
+    public byte[] unwrapKey(JsonWebKeyEncryptionAlgorithm algorithm, byte[] key) {
+        return vault.client().unwrapKey(inner().keyIdentifier().identifier(), algorithm, key).result();
     }
 
     @Override
-    public Observable<byte[]> unwrapKeyAsync(final JsonWebKeyEncryptionAlgorithm algorithm, final byte[] value) {
+    public Observable<byte[]> unwrapKeyAsync(final JsonWebKeyEncryptionAlgorithm algorithm, final byte[] key) {
         return new KeyVaultFutures.ServiceFutureConverter<KeyOperationResult, byte[]>() {
 
             @Override
             protected ServiceFuture<KeyOperationResult> callAsync() {
-                return vault.client().unwrapKeyAsync(inner().keyIdentifier().identifier(), algorithm, value, null);
+                return vault.client().unwrapKeyAsync(inner().keyIdentifier().identifier(), algorithm, key, null);
             }
 
             @Override

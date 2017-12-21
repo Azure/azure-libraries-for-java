@@ -18,7 +18,7 @@ import java.io.File;
 import java.util.List;
 
 public class SecretTests extends KeyVaultManagementTest {
-    @Test
+    @Ignore("Mock framework doesn't support data plane")
     public void canCRUDSecret() throws Exception {
         String vaultName = SdkContext.randomResourceName("vault", 20);
         String secretName = SdkContext.randomResourceName("secret", 20);

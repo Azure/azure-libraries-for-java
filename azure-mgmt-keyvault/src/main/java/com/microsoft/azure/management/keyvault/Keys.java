@@ -6,6 +6,8 @@
 
 package com.microsoft.azure.management.keyvault;
 
+import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
@@ -16,6 +18,7 @@ import rx.Observable;
 /**
  * Entry point for Key Vault keys API.
  */
+@Beta(SinceVersion.V1_6_0)
 @Fluent(ContainerName = "/Microsoft.Azure.Management.Fluent.KeyVault")
 public interface Keys extends
         SupportsCreating<Key.DefinitionStages.Blank>,

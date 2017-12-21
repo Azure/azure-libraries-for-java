@@ -10,6 +10,8 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.azure.keyvault.models.Attributes;
 import com.microsoft.azure.keyvault.models.SecretAttributes;
 import com.microsoft.azure.keyvault.models.SecretBundle;
+import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
@@ -26,6 +28,7 @@ import java.util.Map;
 /**
  * An immutable client-side representation of an Azure Key Vault secret.
  */
+@Beta(SinceVersion.V1_6_0)
 @Fluent(ContainerName = "/Microsoft.Azure.Management.Fluent.KeyVault")
 public interface Secret extends
         Indexable,

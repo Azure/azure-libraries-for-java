@@ -12,7 +12,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.SubResource;
 
 /**
- * The image reference.
+ * Specifies information about the image to use. You can specify information
+ * about platform images, marketplace images, or virtual machine images. This
+ * element is required when you want to use a platform image, marketplace
+ * image, or virtual machine image, but is not used in other creation
+ * operations.
  */
 public class ImageReferenceInner extends SubResource {
     /**
@@ -22,7 +26,8 @@ public class ImageReferenceInner extends SubResource {
     private String publisher;
 
     /**
-     * The image offer.
+     * Specifies the offer of the platform image or marketplace image used to
+     * create the virtual machine.
      */
     @JsonProperty(value = "offer")
     private String offer;
@@ -34,9 +39,12 @@ public class ImageReferenceInner extends SubResource {
     private String sku;
 
     /**
-     * The image version. The allowed formats are Major.Minor.Build or
-     * 'latest'. Major, Minor and Build are decimal numbers. Specify 'latest'
-     * to use the latest version of the image.
+     * Specifies the version of the platform image or marketplace image used to
+     * create the virtual machine. The allowed formats are Major.Minor.Build or
+     * 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest'
+     * to use the latest version of an image available at deploy time. Even if
+     * you use 'latest', the VM image will not automatically update after
+     * deploy time even if a new version becomes available.
      */
     @JsonProperty(value = "version")
     private String version;

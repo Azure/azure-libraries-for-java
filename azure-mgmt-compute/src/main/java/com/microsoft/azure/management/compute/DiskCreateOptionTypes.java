@@ -15,14 +15,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for DiskCreateOptionTypes.
  */
 public enum DiskCreateOptionTypes {
-    /** Enum value fromImage. */
-    FROM_IMAGE("fromImage"),
+    /** Enum value FromImage. */
+    FROM_IMAGE("FromImage"),
 
-    /** Enum value empty. */
-    EMPTY("empty"),
+    /** Enum value Empty. */
+    EMPTY("Empty"),
 
-    /** Enum value attach. */
-    ATTACH("attach");
+    /** Enum value Attach. */
+    ATTACH("Attach");
 
     /** The actual serialized value for a DiskCreateOptionTypes instance. */
     private String value;

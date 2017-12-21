@@ -11,39 +11,39 @@ package com.microsoft.azure.management.appservice.implementation;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * User crendentials used for publishing activity.
  */
 @JsonFlatten
-public class DeploymentInner extends Resource {
+public class DeploymentInner extends ProxyOnlyResource {
     /**
-     * ID.
+     * Identifier for deployment.
      */
     @JsonProperty(value = "properties.id")
     private String deploymentId;
 
     /**
-     * Status.
+     * Deployment status.
      */
     @JsonProperty(value = "properties.status")
     private Integer status;
 
     /**
-     * Message.
+     * Details about deployment status.
      */
     @JsonProperty(value = "properties.message")
     private String message;
 
     /**
-     * Author.
+     * Who authored the deployment.
      */
     @JsonProperty(value = "properties.author")
     private String author;
 
     /**
-     * Deployer.
+     * Who performed the deployment.
      */
     @JsonProperty(value = "properties.deployer")
     private String deployer;
@@ -67,13 +67,14 @@ public class DeploymentInner extends Resource {
     private DateTime endTime;
 
     /**
-     * Active.
+     * True if deployment is currently active, false if completed and null if
+     * not started.
      */
     @JsonProperty(value = "properties.active")
     private Boolean active;
 
     /**
-     * Detail.
+     * Details on deployment.
      */
     @JsonProperty(value = "properties.details")
     private String details;

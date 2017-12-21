@@ -16,49 +16,49 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CertificateDetails {
     /**
-     * Version.
+     * Certificate Version.
      */
     @JsonProperty(value = "version", access = JsonProperty.Access.WRITE_ONLY)
     private Integer version;
 
     /**
-     * Serial Number.
+     * Certificate Serial Number.
      */
     @JsonProperty(value = "serialNumber", access = JsonProperty.Access.WRITE_ONLY)
     private String serialNumber;
 
     /**
-     * Thumbprint.
+     * Certificate Thumbprint.
      */
     @JsonProperty(value = "thumbprint", access = JsonProperty.Access.WRITE_ONLY)
     private String thumbprint;
 
     /**
-     * Subject.
+     * Certificate Subject.
      */
     @JsonProperty(value = "subject", access = JsonProperty.Access.WRITE_ONLY)
     private String subject;
 
     /**
-     * Valid from.
+     * Date Certificate is valid from.
      */
     @JsonProperty(value = "notBefore", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime notBefore;
 
     /**
-     * Valid to.
+     * Date Certificate is valid to.
      */
     @JsonProperty(value = "notAfter", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime notAfter;
 
     /**
-     * Signature algorithm.
+     * Certificate Signature algorithm.
      */
     @JsonProperty(value = "signatureAlgorithm", access = JsonProperty.Access.WRITE_ONLY)
     private String signatureAlgorithm;
 
     /**
-     * Issuer.
+     * Certificate Issuer.
      */
     @JsonProperty(value = "issuer", access = JsonProperty.Access.WRITE_ONLY)
     private String issuer;

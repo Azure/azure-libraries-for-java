@@ -9,22 +9,25 @@
 package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Push settings for the App.
  */
-public class PushSettingsInner {
+@JsonFlatten
+public class PushSettingsInner extends ProxyOnlyResource {
     /**
      * Gets or sets a flag indicating whether the Push endpoint is enabled.
      */
-    @JsonProperty(value = "isPushEnabled", required = true)
+    @JsonProperty(value = "properties.isPushEnabled", required = true)
     private boolean isPushEnabled;
 
     /**
      * Gets or sets a JSON string containing a list of tags that are
      * whitelisted for use by the push registration endpoint.
      */
-    @JsonProperty(value = "tagWhitelistJson")
+    @JsonProperty(value = "properties.tagWhitelistJson")
     private String tagWhitelistJson;
 
     /**
@@ -34,14 +37,14 @@ public class PushSettingsInner {
      * '_', '@', '#', '.', ':', '-'.
      * Validation should be performed at the PushRequestHandler.
      */
-    @JsonProperty(value = "tagsRequiringAuth")
+    @JsonProperty(value = "properties.tagsRequiringAuth")
     private String tagsRequiringAuth;
 
     /**
      * Gets or sets a JSON string containing a list of dynamic tags that will
      * be evaluated from user claims in the push registration endpoint.
      */
-    @JsonProperty(value = "dynamicTagsJson")
+    @JsonProperty(value = "properties.dynamicTagsJson")
     private String dynamicTagsJson;
 
     /**

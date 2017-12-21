@@ -11,7 +11,7 @@ package com.microsoft.azure.management.containerinstance;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The port.
+ * The port exposed on the container group.
  */
 public class Port {
     /**
@@ -22,7 +22,7 @@ public class Port {
     private ContainerGroupNetworkProtocol protocol;
 
     /**
-     * The port.
+     * The port number.
      */
     @JsonProperty(value = "port", required = true)
     private int port;

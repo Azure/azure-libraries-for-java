@@ -12,32 +12,32 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The instance view of the container. Only valid in response.
+ * The instance view of the container instance. Only valid in response.
  */
 public class ContainerPropertiesInstanceView {
     /**
-     * The number of times that the container has been restarted.
+     * The number of times that the container instance has been restarted.
      */
-    @JsonProperty(value = "restartCount")
+    @JsonProperty(value = "restartCount", access = JsonProperty.Access.WRITE_ONLY)
     private Integer restartCount;
 
     /**
-     * Current container state.
+     * Current container instance state.
      */
-    @JsonProperty(value = "currentState")
+    @JsonProperty(value = "currentState", access = JsonProperty.Access.WRITE_ONLY)
     private ContainerState currentState;
 
     /**
-     * Previous container state.
+     * Previous container instance state.
      */
-    @JsonProperty(value = "previousState")
+    @JsonProperty(value = "previousState", access = JsonProperty.Access.WRITE_ONLY)
     private ContainerState previousState;
 
     /**
-     * The events of this container instance.
+     * The events of the container instance.
      */
-    @JsonProperty(value = "events")
-    private List<ContainerEvent> events;
+    @JsonProperty(value = "events", access = JsonProperty.Access.WRITE_ONLY)
+    private List<Event> events;
 
     /**
      * Get the restartCount value.
@@ -46,17 +46,6 @@ public class ContainerPropertiesInstanceView {
      */
     public Integer restartCount() {
         return this.restartCount;
-    }
-
-    /**
-     * Set the restartCount value.
-     *
-     * @param restartCount the restartCount value to set
-     * @return the ContainerPropertiesInstanceView object itself.
-     */
-    public ContainerPropertiesInstanceView withRestartCount(Integer restartCount) {
-        this.restartCount = restartCount;
-        return this;
     }
 
     /**
@@ -69,17 +58,6 @@ public class ContainerPropertiesInstanceView {
     }
 
     /**
-     * Set the currentState value.
-     *
-     * @param currentState the currentState value to set
-     * @return the ContainerPropertiesInstanceView object itself.
-     */
-    public ContainerPropertiesInstanceView withCurrentState(ContainerState currentState) {
-        this.currentState = currentState;
-        return this;
-    }
-
-    /**
      * Get the previousState value.
      *
      * @return the previousState value
@@ -89,34 +67,12 @@ public class ContainerPropertiesInstanceView {
     }
 
     /**
-     * Set the previousState value.
-     *
-     * @param previousState the previousState value to set
-     * @return the ContainerPropertiesInstanceView object itself.
-     */
-    public ContainerPropertiesInstanceView withPreviousState(ContainerState previousState) {
-        this.previousState = previousState;
-        return this;
-    }
-
-    /**
      * Get the events value.
      *
      * @return the events value
      */
-    public List<ContainerEvent> events() {
+    public List<Event> events() {
         return this.events;
-    }
-
-    /**
-     * Set the events value.
-     *
-     * @param events the events value to set
-     * @return the ContainerPropertiesInstanceView object itself.
-     */
-    public ContainerPropertiesInstanceView withEvents(List<ContainerEvent> events) {
-        this.events = events;
-        return this;
     }
 
 }

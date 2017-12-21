@@ -11,7 +11,7 @@ package com.microsoft.azure.management.containerinstance;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Environment variable to set within the container.
+ * The environment variable to set within the container instance.
  */
 public class EnvironmentVariable {
     /**

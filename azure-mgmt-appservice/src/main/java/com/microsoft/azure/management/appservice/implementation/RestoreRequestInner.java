@@ -13,17 +13,17 @@ import com.microsoft.azure.management.appservice.DatabaseBackupSetting;
 import com.microsoft.azure.management.appservice.BackupRestoreOperationType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Description of a restore request.
  */
 @JsonFlatten
-public class RestoreRequestInner extends Resource {
+public class RestoreRequestInner extends ProxyOnlyResource {
     /**
      * SAS URL to the container.
      */
-    @JsonProperty(value = "properties.storageAccountUrl")
+    @JsonProperty(value = "properties.storageAccountUrl", required = true)
     private String storageAccountUrl;
 
     /**
@@ -38,8 +38,8 @@ public class RestoreRequestInner extends Resource {
      * &lt;code&gt;true&lt;/code&gt; is needed if trying to restore over an
      * existing app.
      */
-    @JsonProperty(value = "properties.overwrite")
-    private Boolean overwrite;
+    @JsonProperty(value = "properties.overwrite", required = true)
+    private boolean overwrite;
 
     /**
      * Name of an app.
@@ -69,6 +69,12 @@ public class RestoreRequestInner extends Resource {
      */
     @JsonProperty(value = "properties.ignoreDatabases")
     private Boolean ignoreDatabases;
+
+    /**
+     * Specify app service plan that will own restored site.
+     */
+    @JsonProperty(value = "properties.appServicePlan")
+    private String appServicePlan;
 
     /**
      * Operation type. Possible values include: 'Default', 'Clone',
@@ -136,7 +142,7 @@ public class RestoreRequestInner extends Resource {
      *
      * @return the overwrite value
      */
-    public Boolean overwrite() {
+    public boolean overwrite() {
         return this.overwrite;
     }
 
@@ -146,7 +152,7 @@ public class RestoreRequestInner extends Resource {
      * @param overwrite the overwrite value to set
      * @return the RestoreRequestInner object itself.
      */
-    public RestoreRequestInner withOverwrite(Boolean overwrite) {
+    public RestoreRequestInner withOverwrite(boolean overwrite) {
         this.overwrite = overwrite;
         return this;
     }
@@ -228,6 +234,26 @@ public class RestoreRequestInner extends Resource {
      */
     public RestoreRequestInner withIgnoreDatabases(Boolean ignoreDatabases) {
         this.ignoreDatabases = ignoreDatabases;
+        return this;
+    }
+
+    /**
+     * Get the appServicePlan value.
+     *
+     * @return the appServicePlan value
+     */
+    public String appServicePlan() {
+        return this.appServicePlan;
+    }
+
+    /**
+     * Set the appServicePlan value.
+     *
+     * @param appServicePlan the appServicePlan value to set
+     * @return the RestoreRequestInner object itself.
+     */
+    public RestoreRequestInner withAppServicePlan(String appServicePlan) {
+        this.appServicePlan = appServicePlan;
         return this;
     }
 

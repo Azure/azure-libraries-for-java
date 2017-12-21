@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.storage.implementation;
 
-import com.microsoft.azure.management.storage.Sku;
 import com.microsoft.azure.management.storage.Kind;
+import com.microsoft.azure.management.storage.Identity;
 import com.microsoft.azure.management.storage.ProvisioningState;
 import com.microsoft.azure.management.storage.Endpoints;
 import com.microsoft.azure.management.storage.AccountStatus;
@@ -17,6 +17,7 @@ import org.joda.time.DateTime;
 import com.microsoft.azure.management.storage.CustomDomain;
 import com.microsoft.azure.management.storage.Encryption;
 import com.microsoft.azure.management.storage.AccessTier;
+import com.microsoft.azure.management.storage.NetworkRuleSet;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -30,13 +31,20 @@ public class StorageAccountInner extends Resource {
      * Gets the SKU.
      */
     @JsonProperty(value = "sku", access = JsonProperty.Access.WRITE_ONLY)
-    private Sku sku;
+    private SkuInner sku;
 
     /**
-     * Gets the Kind. Possible values include: 'Storage', 'BlobStorage'.
+     * Gets the Kind. Possible values include: 'Storage', 'StorageV2',
+     * 'BlobStorage'.
      */
     @JsonProperty(value = "kind", access = JsonProperty.Access.WRITE_ONLY)
     private Kind kind;
+
+    /**
+     * The identity of the resource.
+     */
+    @JsonProperty(value = "identity")
+    private Identity identity;
 
     /**
      * Gets the status of the storage account at the time the operation was
@@ -63,7 +71,7 @@ public class StorageAccountInner extends Resource {
     /**
      * Gets the status indicating whether the primary location of the storage
      * account is available or unavailable. Possible values include:
-     * 'Available', 'Unavailable'.
+     * 'available', 'unavailable'.
      */
     @JsonProperty(value = "properties.statusOfPrimary", access = JsonProperty.Access.WRITE_ONLY)
     private AccountStatus statusOfPrimary;
@@ -88,8 +96,8 @@ public class StorageAccountInner extends Resource {
     /**
      * Gets the status indicating whether the secondary location of the storage
      * account is available or unavailable. Only available if the SKU name is
-     * Standard_GRS or Standard_RAGRS. Possible values include: 'Available',
-     * 'Unavailable'.
+     * Standard_GRS or Standard_RAGRS. Possible values include: 'available',
+     * 'unavailable'.
      */
     @JsonProperty(value = "properties.statusOfSecondary", access = JsonProperty.Access.WRITE_ONLY)
     private AccountStatus statusOfSecondary;
@@ -129,11 +137,23 @@ public class StorageAccountInner extends Resource {
     private AccessTier accessTier;
 
     /**
+     * Allows https traffic only to storage service if sets to true.
+     */
+    @JsonProperty(value = "properties.supportsHttpsTrafficOnly")
+    private Boolean enableHttpsTrafficOnly;
+
+    /**
+     * Network rule set.
+     */
+    @JsonProperty(value = "properties.networkAcls", access = JsonProperty.Access.WRITE_ONLY)
+    private NetworkRuleSet networkRuleSet;
+
+    /**
      * Get the sku value.
      *
      * @return the sku value
      */
-    public Sku sku() {
+    public SkuInner sku() {
         return this.sku;
     }
 
@@ -144,6 +164,26 @@ public class StorageAccountInner extends Resource {
      */
     public Kind kind() {
         return this.kind;
+    }
+
+    /**
+     * Get the identity value.
+     *
+     * @return the identity value
+     */
+    public Identity identity() {
+        return this.identity;
+    }
+
+    /**
+     * Set the identity value.
+     *
+     * @param identity the identity value to set
+     * @return the StorageAccountInner object itself.
+     */
+    public StorageAccountInner withIdentity(Identity identity) {
+        this.identity = identity;
+        return this;
     }
 
     /**
@@ -252,6 +292,35 @@ public class StorageAccountInner extends Resource {
      */
     public AccessTier accessTier() {
         return this.accessTier;
+    }
+
+    /**
+     * Get the enableHttpsTrafficOnly value.
+     *
+     * @return the enableHttpsTrafficOnly value
+     */
+    public Boolean enableHttpsTrafficOnly() {
+        return this.enableHttpsTrafficOnly;
+    }
+
+    /**
+     * Set the enableHttpsTrafficOnly value.
+     *
+     * @param enableHttpsTrafficOnly the enableHttpsTrafficOnly value to set
+     * @return the StorageAccountInner object itself.
+     */
+    public StorageAccountInner withEnableHttpsTrafficOnly(Boolean enableHttpsTrafficOnly) {
+        this.enableHttpsTrafficOnly = enableHttpsTrafficOnly;
+        return this;
+    }
+
+    /**
+     * Get the networkRuleSet value.
+     *
+     * @return the networkRuleSet value
+     */
+    public NetworkRuleSet networkRuleSet() {
+        return this.networkRuleSet;
     }
 
 }

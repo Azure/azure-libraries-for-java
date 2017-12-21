@@ -55,6 +55,23 @@ public abstract class IndexableTaskItem
     }
 
     /**
+     * Creates an IndexableTaskItem from provided FunctionalTaskItem.
+     *
+     * @param taskItem functional TaskItem
+     * @return IndexableTaskItem
+     */
+    public static IndexableTaskItem create(final FunctionalTaskItem taskItem) {
+        return new IndexableTaskItem() {
+            @Override
+            protected rx.Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
+                FunctionalTaskItem.Context fContext = new FunctionalTaskItem.Context(this);
+                fContext.setInnerContext(context);
+                return taskItem.call(fContext);
+            }
+        };
+    }
+
+    /**
      * @return the TaskGroup this this TaskItem as root.
      */
     @Override
@@ -72,6 +89,17 @@ public abstract class IndexableTaskItem
     @Override
     public String key() {
         return this.key;
+    }
+
+    /**
+     * Add a dependency task item for this task item.
+     *
+     * @param dependency the dependency task item.
+     * @return key to be used as parameter to taskResult(string) method to retrieve result the task item
+     */
+    protected String addDependency(FunctionalTaskItem dependency) {
+        Objects.requireNonNull(dependency);
+        return this.taskGroup.addDependency(dependency);
     }
 
     /**
@@ -125,7 +153,19 @@ public abstract class IndexableTaskItem
     }
 
     /**
-     * Add a {@link IndexableTaskItem} "post-run" dependency for this task item.
+     * Add a "post-run" dependent task item for this task item.
+     *
+     * @param dependent the "post-run" dependent task item.
+     * @return key to be used as parameter to taskResult(string) method to retrieve result of root
+     * task in the given dependent task group
+     */
+    public String addPostRunDependent(FunctionalTaskItem dependent) {
+        Objects.requireNonNull(dependent);
+        return this.taskGroup().addPostRunDependent(dependent);
+    }
+
+    /**
+     * Add a "post-run" dependent for this task item.
      *
      * @param dependent the "post-run" dependent.
      * @return key to be used as parameter to taskResult(string) method to retrieve result of root

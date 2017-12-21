@@ -29,7 +29,7 @@ public class VirtualMachineScaleSetSkuInner {
     private Sku sku;
 
     /**
-     * Available scaling information.
+     * Specifies the number of virtual machines in the scale set.
      */
     @JsonProperty(value = "capacity", access = JsonProperty.Access.WRITE_ONLY)
     private VirtualMachineScaleSetSkuCapacity capacity;

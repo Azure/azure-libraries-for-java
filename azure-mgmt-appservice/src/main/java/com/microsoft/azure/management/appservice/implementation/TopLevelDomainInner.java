@@ -10,13 +10,13 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * A top level domain object.
  */
 @JsonFlatten
-public class TopLevelDomainInner extends Resource {
+public class TopLevelDomainInner extends ProxyOnlyResource {
     /**
      * Name of the top level domain.
      */

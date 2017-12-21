@@ -28,25 +28,25 @@ public class DomainInner extends Resource {
     /**
      * Administrative contact.
      */
-    @JsonProperty(value = "properties.contactAdmin")
+    @JsonProperty(value = "properties.contactAdmin", required = true)
     private Contact contactAdmin;
 
     /**
      * Billing contact.
      */
-    @JsonProperty(value = "properties.contactBilling")
+    @JsonProperty(value = "properties.contactBilling", required = true)
     private Contact contactBilling;
 
     /**
      * Registrant contact.
      */
-    @JsonProperty(value = "properties.contactRegistrant")
+    @JsonProperty(value = "properties.contactRegistrant", required = true)
     private Contact contactRegistrant;
 
     /**
      * Technical contact.
      */
-    @JsonProperty(value = "properties.contactTech")
+    @JsonProperty(value = "properties.contactTech", required = true)
     private Contact contactTech;
 
     /**
@@ -123,7 +123,7 @@ public class DomainInner extends Resource {
     /**
      * Legal agreement consent.
      */
-    @JsonProperty(value = "properties.consent")
+    @JsonProperty(value = "properties.consent", required = true)
     private DomainPurchaseConsent consent;
 
     /**
@@ -155,7 +155,7 @@ public class DomainInner extends Resource {
     /**
      * The authCode property.
      */
-    @JsonProperty(value = "properties.authCode", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.authCode")
     private String authCode;
 
     /**
@@ -446,6 +446,17 @@ public class DomainInner extends Resource {
      */
     public String authCode() {
         return this.authCode;
+    }
+
+    /**
+     * Set the authCode value.
+     *
+     * @param authCode the authCode value to set
+     * @return the DomainInner object itself.
+     */
+    public DomainInner withAuthCode(String authCode) {
+        this.authCode = authCode;
+        return this;
     }
 
 }

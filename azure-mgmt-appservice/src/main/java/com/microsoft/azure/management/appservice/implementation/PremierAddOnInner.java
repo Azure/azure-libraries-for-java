@@ -19,49 +19,49 @@ import com.microsoft.azure.Resource;
 @JsonFlatten
 public class PremierAddOnInner extends Resource {
     /**
-     * SKU.
+     * Premier add on SKU.
      */
     @JsonProperty(value = "properties.sku")
     private String sku;
 
     /**
-     * Product.
+     * Premier add on Product.
      */
     @JsonProperty(value = "properties.product")
     private String product;
 
     /**
-     * Vendor.
+     * Premier add on Vendor.
      */
     @JsonProperty(value = "properties.vendor")
     private String vendor;
 
     /**
-     * Name.
+     * Premier add on Name.
      */
     @JsonProperty(value = "properties.name")
     private String premierAddOnName;
 
     /**
-     * Location.
+     * Premier add on Location.
      */
     @JsonProperty(value = "properties.location")
     private String premierAddOnLocation;
 
     /**
-     * Tags.
+     * Premier add on Tags.
      */
     @JsonProperty(value = "properties.tags")
     private Map<String, String> premierAddOnTags;
 
     /**
-     * Marketplace publisher.
+     * Premier add on Marketplace publisher.
      */
     @JsonProperty(value = "properties.marketplacePublisher")
     private String marketplacePublisher;
 
     /**
-     * Marketplace offer.
+     * Premier add on Marketplace offer.
      */
     @JsonProperty(value = "properties.marketplaceOffer")
     private String marketplaceOffer;

@@ -18,6 +18,9 @@ public enum Kind {
     /** Enum value Storage. */
     STORAGE("Storage"),
 
+    /** Enum value StorageV2. */
+    STORAGE_V2("StorageV2"),
+
     /** Enum value BlobStorage. */
     BLOB_STORAGE("BlobStorage");
 

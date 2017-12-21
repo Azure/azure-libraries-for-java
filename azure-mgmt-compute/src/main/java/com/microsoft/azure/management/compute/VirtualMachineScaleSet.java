@@ -12,6 +12,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineScaleSetInner;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.network.LoadBalancerBackend;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
 import com.microsoft.azure.management.network.LoadBalancer;
@@ -318,24 +319,30 @@ public interface VirtualMachineScaleSet extends
     boolean isManagedServiceIdentityEnabled();
 
     /**
-     * @return the Managed Service Identity specific Active Directory tenant ID assigned to the
-     * virtual machine scale set.
+     * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID
+     * assigned to the virtual machine scale set.
      */
-    @Beta(Beta.SinceVersion.V1_2_0)
-    String managedServiceIdentityTenantId();
+    @Beta(Beta.SinceVersion.V1_5_0)
+    String systemAssignedManagedServiceIdentityTenantId();
 
     /**
-     * @return the Managed Service Identity specific Active Directory service principal ID assigned
-     * to the virtual machine scale set.
+     * @return the System Assigned (Local) Managed Service Identity specific Active Directory service principal ID
+     * assigned to the virtual machine scale set.
      */
-    @Beta(Beta.SinceVersion.V1_2_0)
-    String managedServiceIdentityPrincipalId();
+    @Beta(Beta.SinceVersion.V1_5_0)
+    String systemAssignedManagedServiceIdentityPrincipalId();
 
     /**
      * @return the type of Managed Service Identity used for the virtual machine scale set.
      */
     @Beta(Beta.SinceVersion.V1_4_0)
     ResourceIdentityType managedServiceIdentityType();
+
+    /**
+     * @return the resource ids of User Assigned Managed Service Identities associated with the virtual machine scale set.
+     */
+    @Beta(Beta.SinceVersion.V1_5_1)
+    Set<String> userAssignedManagedServiceIdentityIds();
 
     /**
      * @return the availability zones assigned to virtual machine scale set.
@@ -576,7 +583,7 @@ public interface VirtualMachineScaleSet extends
              * @return the next stage of the definition
              */
             WithInternalInternalLoadBalancerNatPool withPrimaryInternalLoadBalancerBackends(String...backendNames);
-         }
+        }
 
         /**
          * The stage of the virtual machine scale set definition allowing to associate inbound NAT pools of the selected
@@ -1337,78 +1344,108 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
-         * The stage of the virtual machine scale set definition allowing to enable Managed Service Identity.
+         * The stage of the virtual machine scale set definition allowing to enable System Assigned (Local) Managed
+         * Service Identity.
          */
-        @Beta(Beta.SinceVersion.V1_2_0)
-        interface WithManagedServiceIdentity {
+        @Beta(Beta.SinceVersion.V1_5_0)
+        interface WithSystemAssignedManagedServiceIdentity {
             /**
-             * Specifies that Managed Service Identity needs to be enabled in the virtual machine scale set.
+             * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the virtual
+             * machine scale set.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrCreate withManagedServiceIdentity();
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity();
 
             /**
-             * Specifies that Managed Service Identity needs to be enabled in the virtual machine scale set.
+             * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the virtual
+             * machine scale set.
              *
              * @param tokenPort the port on the virtual machine scale set instance where access token is available
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrCreate withManagedServiceIdentity(int tokenPort);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity(int tokenPort);
         }
 
         /**
-         * The stage of the Managed Service Identity enabled virtual machine scale set allowing to set role
-         * assignment for a scope.
+         * The stage of the System Assigned (Local) Managed Service Identity enabled virtual machine scale set
+         * allowing to set access for the identity.
          */
-        @Beta(Beta.SinceVersion.V1_2_0)
-        interface WithRoleAndScopeOrCreate extends WithCreate {
+        @Beta(Beta.SinceVersion.V1_5_0)
+        interface WithSystemAssignedIdentityBasedAccessOrCreate extends WithCreate {
             /**
-             * Specifies that applications running on the virtual machine scale set instance requires the given
-             * access role with scope of access limited to the ARM resource identified by the resource id
-             * specified in the scope parameter.
+             * Specifies that virtual machine scale set's system assigned (local) identity should have the given
+             * access (described by the role) on an ARM resource identified by the resource ID. Applications
+             * running on the scale set VM instance will have the same permission (role) on the ARM resource.
              *
-             * @param scope scope of the access represented in ARM resource ID format
-             * @param asRole access role to assigned to the virtual machine scale set
+             * @param resourceId the ARM identifier of the resource
+             * @param role access role to assigned to the scale set local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrCreate withRoleBasedAccessTo(String scope, BuiltInRole asRole);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
 
             /**
-             * Specifies that applications running on the virtual machine scale set instance requires the given access
-             * role with scope of access limited to the current resource group that the virtual machine scale set resides.
+             * Specifies that virtual machine scale set's local identity should have the given access
+             * (described by the role) on the resource group that virtual machine resides. Applications
+             * running on the scale set VM instance will have the same permission (role) on the resource group.
              *
-             * @param asRole access role to assigned to the virtual machine scale set
+             * @param role access role to assigned to the scale set local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrCreate withRoleBasedAccessToCurrentResourceGroup(BuiltInRole asRole);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
-             * Specifies that applications running on the virtual machine scale set instance requires the access
-             * described in the given role definition with scope of access limited to the ARM resource identified by
-             * the resource ID specified in the scope parameter.
+             * Specifies that virtual machine scale set's system assigned (local) identity should have the access
+             * (described by the role definition) on an ARM resource identified by the resource ID.  Applications
+             * running on the scale set VM instance will have the same permission (role) on the ARM resource.
              *
-             * @param scope scope of the access represented in ARM resource ID format
-             * @param roleDefinitionId role definition to assigned to the virtual machine scale set
+             * @param resourceId scope of the access represented in ARM resource ID format
+             * @param roleDefinitionId access role definition to assigned to the scale set local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrCreate withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
 
             /**
-             * Specifies that applications running on the virtual machine scale set instance requires the access
-             * described in the given role definition with scope of access limited to the current resource group
-             * that the virtual machine scale set resides.
+             * Specifies that virtual machine scale set's system assigned (local) identity should have the access
+             * (described by the role definition) on the resource group that virtual machine resides. Applications
+             * running on the scale set VM instance will have the same permission (role) on the resource group.
              *
-             * @param roleDefinitionId role definition to assigned to the virtual machine scale set
+             * @param roleDefinitionId access role definition to assigned to the scale set local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrCreate withRoleDefinitionBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+        }
+
+        /**
+         * The stage of the virtual machine scale set definition allowing to specify User Assigned (External)
+         * Managed Service Identities.
+         */
+        @Beta(Beta.SinceVersion.V1_5_1)
+        interface WithUserAssignedManagedServiceIdentity {
+            /**
+             * Specifies the definition of a not-yet-created user assigned identity to be associated with the
+             * virtual machine scale set.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the virtual machine scale set definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            WithCreate withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing user assigned identity to be associated with the virtual machine scale set.
+             *
+             * @param identity the identity
+             * @return the next stage of the virtual machine scale set definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            WithCreate withExistingUserAssignedManagedServiceIdentity(Identity identity);
         }
 
         /**
@@ -1467,7 +1504,8 @@ public interface VirtualMachineScaleSet extends
                 DefinitionStages.WithStorageAccount,
                 DefinitionStages.WithCustomData,
                 DefinitionStages.WithExtension,
-                DefinitionStages.WithManagedServiceIdentity,
+                DefinitionStages.WithSystemAssignedManagedServiceIdentity,
+                DefinitionStages.WithUserAssignedManagedServiceIdentity,
                 DefinitionStages.WithBootDiagnostics,
                 Resource.DefinitionWithTags<VirtualMachineScaleSet.DefinitionStages.WithCreate> {
         }
@@ -1719,79 +1757,117 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
-         * The stage of the virtual machine scale set update allowing to enable Managed Service Identity.
+         * The stage of the virtual machine scale set update allowing to enable System Assigned (Local) Managed Service Identity.
          */
-        @Beta(Beta.SinceVersion.V1_2_0)
-        interface WithManagedServiceIdentity {
+        @Beta(Beta.SinceVersion.V1_5_0)
+        interface WithSystemAssignedManagedServiceIdentity {
             /**
-             * Specifies that Managed Service Identity needs to be enabled in the virtual machine scale set.
+             * Specifies that System assigned (Local) Managed Service Identity needs to be enabled in the
+             * virtual machine scale set.
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrApply withManagedServiceIdentity();
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedManagedServiceIdentity();
 
             /**
-             * Specifies that Managed Service Identity needs to be enabled in the virtual machine scale set.
+             * Specifies that System assigned (Local) Managed Service Identity needs to be enabled in the
+             * virtual machine scale set.
              *
              * @param tokenPort the port on the virtual machine scale set instance where access token is available
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrApply withManagedServiceIdentity(int tokenPort);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedManagedServiceIdentity(int tokenPort);
         }
 
         /**
-         * The stage of the Managed Service Identity enabled virtual machine allowing to set role
-         * assignment for a scope.
+         * The stage of the System Assigned (Local) Managed Service Identity enabled virtual machine scale set
+         * allowing to set access for the identity.
          */
-        @Beta(Beta.SinceVersion.V1_2_0)
-        interface WithRoleAndScopeOrApply extends WithApply {
+        @Beta(Beta.SinceVersion.V1_5_0)
+        interface WithSystemAssignedIdentityBasedAccessOrApply extends WithApply {
             /**
-             * Specifies that applications running on the virtual machine scale set instance requires
-             * the given access role with scope of access limited to the ARM resource identified by
-             * the resource ID specified in the scope parameter.
+             * Specifies that virtual machine's system assigned (local) identity should have the given
+             * access (described by the role) on an ARM resource identified by the resource ID.
+             * Applications running on the scale set VM instance will have the same permission (role)
+             * on the ARM resource.
              *
-             * @param scope scope of the access represented in ARM resource ID format
-             * @param asRole access role to assigned to the virtual machine scale set
+             * @param resourceId the ARM identifier of the resource
+             * @param role access role to assigned to the scale set local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrApply withRoleBasedAccessTo(String scope, BuiltInRole asRole);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
 
             /**
-             * Specifies that applications running on the virtual machine scale set instance requires
-             * the given access role with scope of access limited to the current resource group that
-             * the virtual machine scale set resides.
+             * Specifies that virtual machine scale set's system assigned (local) identity should have the given
+             * access (described by the role) on the resource group that virtual machine resides. Applications
+             * running on the scale set VM instance will have the same permission (role) on the resource group.
              *
-             * @param asRole access role to assigned to the virtual machine scale set
+             * @param role access role to assigned to the scale set local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrApply withRoleBasedAccessToCurrentResourceGroup(BuiltInRole asRole);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
-             * Specifies that applications running on the virtual machine scale set instance requires the access
-             * described in the given role definition with scope of access limited to the ARM resource identified by
-             * the resource ID specified in the scope parameter.
+             * Specifies that virtual machine scale set 's system assigned (local) identity should have the access
+             * (described by the role definition) on an ARM resource identified by the resource ID.  Applications
+             * running on the scale set VM instance will have the same permission (role) on the ARM resource.
              *
-             * @param scope scope of the access represented in ARM resource ID format
-             * @param roleDefinitionId role definition to assigned to the virtual machine scale set
+             * @param resourceId scope of the access represented in ARM resource ID format
+             * @param roleDefinitionId access role definition to assigned to the scale set local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrApply withRoleDefinitionBasedAccessTo(String scope, String roleDefinitionId);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
 
             /**
-             * Specifies that applications running on the virtual machine scale set instance requires the access
-             * described in the given role definition with scope of access limited to the current resource group
-             * that the virtual machine scale set resides.
+             * Specifies that virtual machine scale set's system assigned (local) identity should have the access
+             * (described by the role definition) on the resource group that virtual machine resides. Applications
+             * running on the scale set VM instance will have the same permission (role) on the resource group.
              *
-             * @param roleDefinitionId role definition to assigned to the virtual machine scale set
+             * @param roleDefinitionId access role definition to assigned to the scale set local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_2_0)
-            WithRoleAndScopeOrApply withRoleDefinitionBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+        }
+
+        /**
+         * The stage of the virtual machine update allowing to add or remove User Assigned (External)
+         * Managed Service Identities.
+         */
+        @Beta(Beta.SinceVersion.V1_5_1)
+        interface WithUserAssignedManagedServiceIdentity {
+            /**
+             * Specifies the definition of a not-yet-created user assigned identity to be associated
+             * with the virtual machine.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the virtual machine scale set update
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            WithApply withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing user assigned identity to be associated with the virtual machine.
+             *
+             * @param identity the identity
+             * @return the next stage of the virtual machine scale set update
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            WithApply withExistingUserAssignedManagedServiceIdentity(Identity identity);
+
+            /**
+             * Specifies that an user assigned identity associated with the virtual machine should be removed.
+             *
+             * @param identityId ARM resource id of the identity
+             * @return the next stage of the virtual machine scale set update
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            WithApply withoutUserAssignedManagedServiceIdentity(String identityId);
         }
 
         /**
@@ -1959,7 +2035,8 @@ public interface VirtualMachineScaleSet extends
                 UpdateStages.WithoutPrimaryLoadBalancer,
                 UpdateStages.WithoutPrimaryLoadBalancerBackend,
                 UpdateStages.WithoutPrimaryLoadBalancerNatPool,
-                UpdateStages.WithManagedServiceIdentity,
+                UpdateStages.WithSystemAssignedManagedServiceIdentity,
+                UpdateStages.WithUserAssignedManagedServiceIdentity,
                 UpdateStages.WithBootDiagnostics,
                 UpdateStages.WithAvailabilityZone {
         }

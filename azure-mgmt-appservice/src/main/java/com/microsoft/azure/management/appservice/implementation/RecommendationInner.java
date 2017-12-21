@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.appservice.implementation;
 
 import org.joda.time.DateTime;
+import java.util.UUID;
 import com.microsoft.azure.management.appservice.ResourceScopeType;
 import com.microsoft.azure.management.appservice.NotificationLevel;
 import com.microsoft.azure.management.appservice.Channels;
@@ -29,7 +30,7 @@ public class RecommendationInner {
      * A GUID value that each recommendation object is associated with.
      */
     @JsonProperty(value = "recommendationId")
-    private String recommendationId;
+    private UUID recommendationId;
 
     /**
      * Full ARM resource ID string that this recommendation object is
@@ -178,7 +179,7 @@ public class RecommendationInner {
      *
      * @return the recommendationId value
      */
-    public String recommendationId() {
+    public UUID recommendationId() {
         return this.recommendationId;
     }
 
@@ -188,7 +189,7 @@ public class RecommendationInner {
      * @param recommendationId the recommendationId value to set
      * @return the RecommendationInner object itself.
      */
-    public RecommendationInner withRecommendationId(String recommendationId) {
+    public RecommendationInner withRecommendationId(UUID recommendationId) {
         this.recommendationId = recommendationId;
         return this;
     }

@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.containerinstance;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for OperatingSystemTypes.
  */
-public final class OperatingSystemTypes {
+public final class OperatingSystemTypes extends ExpandableStringEnum<OperatingSystemTypes> {
     /** Static value Windows for OperatingSystemTypes. */
-    public static final OperatingSystemTypes WINDOWS = new OperatingSystemTypes("Windows");
+    public static final OperatingSystemTypes WINDOWS = fromString("Windows");
 
     /** Static value Linux for OperatingSystemTypes. */
-    public static final OperatingSystemTypes LINUX = new OperatingSystemTypes("Linux");
-
-    private String value;
+    public static final OperatingSystemTypes LINUX = fromString("Linux");
 
     /**
-     * Creates a custom value for OperatingSystemTypes.
-     * @param value the custom value
+     * Creates or finds a OperatingSystemTypes from its string representation.
+     * @param name a name to look for
+     * @return the corresponding OperatingSystemTypes
      */
-    public OperatingSystemTypes(String value) {
-        this.value = value;
+    @JsonCreator
+    public static OperatingSystemTypes fromString(String name) {
+        return fromString(name, OperatingSystemTypes.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof OperatingSystemTypes)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        OperatingSystemTypes rhs = (OperatingSystemTypes) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known OperatingSystemTypes values
+     */
+    public static Collection<OperatingSystemTypes> values() {
+        return values(OperatingSystemTypes.class);
     }
 }

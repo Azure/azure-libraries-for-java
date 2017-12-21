@@ -19,7 +19,10 @@ public enum UpgradeMode {
     AUTOMATIC("Automatic"),
 
     /** Enum value Manual. */
-    MANUAL("Manual");
+    MANUAL("Manual"),
+
+    /** Enum value Rolling. */
+    ROLLING("Rolling");
 
     /** The actual serialized value for a UpgradeMode instance. */
     private String value;

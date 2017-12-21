@@ -22,6 +22,8 @@ import com.microsoft.azure.management.resources.fluentcore.collection.SupportsLi
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import rx.Observable;
 
+import java.util.Set;
+
 /**
  * Entry point to the container instance management API.
  */
@@ -44,45 +46,65 @@ public interface ContainerGroups extends
      * Get the log content for the specified container instance within a container group.
      *
      * @param resourceGroupName the Azure resource group name
-     * @param containerName the container instance name
      * @param containerGroupName the container group name
+     * @param containerName the container instance name
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return all available log lines
      */
-    String getLogContent(String resourceGroupName, String containerName, String containerGroupName);
+    @Beta(Beta.SinceVersion.V1_5_0)
+    String getLogContent(String resourceGroupName, String containerGroupName, String containerName);
 
     /**
      * Get the log content for the specified container instance within a container group.
      *
      * @param resourceGroupName the Azure resource group name
-     * @param containerName the container instance name
      * @param containerGroupName the container group name
+     * @param containerName the container instance name
      * @param tailLineCount only get the last log lines up to this
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the log lines from the end, up to the number specified
      */
-    String getLogContent(String resourceGroupName, String containerName, String containerGroupName, int tailLineCount);
+    @Beta(Beta.SinceVersion.V1_5_0)
+    String getLogContent(String resourceGroupName, String containerGroupName, String containerName, int tailLineCount);
 
     /**
      * Get the log content for the specified container instance within a container group.
      *
      * @param resourceGroupName the Azure resource group name
-     * @param containerName the container instance name
      * @param containerGroupName the container group name
+     * @param containerName the container instance name
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return a representation of the future computation of this call
      */
-    Observable<String> getLogContentAsync(String resourceGroupName, String containerName, String containerGroupName);
+    @Beta(Beta.SinceVersion.V1_5_0)
+    Observable<String> getLogContentAsync(String resourceGroupName, String containerGroupName, String containerName);
 
     /**
      * Get the log content for the specified container instance within a container group.
      *
      * @param resourceGroupName the Azure resource group name
-     * @param containerName the container instance name
      * @param containerGroupName the container group name
+     * @param containerName the container instance name
      * @param tailLineCount only get the last log lines up to this
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return a representation of the future computation of this call
      */
-    Observable<String> getLogContentAsync(String resourceGroupName, String containerName, String containerGroupName, int tailLineCount);
+    @Beta(Beta.SinceVersion.V1_5_0)
+    Observable<String> getLogContentAsync(String resourceGroupName, String containerGroupName, String containerName, int tailLineCount);
+
+    /**
+     * Lists all operations for Azure Container Instance service.
+     *
+     * @return all operations for Azure Container Instance service
+     */
+    @Beta(Beta.SinceVersion.V1_5_0)
+    Set<Operation> listOperations();
+
+    /**
+     * Lists all operations for Azure Container Instance service.
+     *
+     * @return a representation of the future computation of this call
+     */
+    @Beta(Beta.SinceVersion.V1_5_0)
+    Observable<Set<Operation>> listOperationsAsync();
 }

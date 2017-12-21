@@ -122,7 +122,6 @@ class WebAppSourceControlImpl<
             return Observable.just(null);
         }
         SourceControlInner sourceControlInner = new SourceControlInner().withToken(githubAccessToken);
-        sourceControlInner.withLocation(parent().regionName());
         return this.parent().manager().inner().updateSourceControlAsync("Github", sourceControlInner);
     }
 }

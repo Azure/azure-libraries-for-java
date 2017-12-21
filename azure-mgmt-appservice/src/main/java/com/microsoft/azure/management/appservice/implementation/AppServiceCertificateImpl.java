@@ -106,7 +106,7 @@ class AppServiceCertificateImpl
     }
 
     @Override
-    public String certificateBlob() {
+    public byte[] certificateBlob() {
         return inner().cerBlob();
     }
 

@@ -114,12 +114,12 @@ public abstract class TopLevelModifiableResourcesImpl<
     }
 
     @Override
-    public final PagedList<T> list() {
+    public PagedList<T> list() {
         return wrapList(inner().list());
     }
 
     @Override
-    public final PagedList<T> listByResourceGroup(String resourceGroupName) {
+    public PagedList<T> listByResourceGroup(String resourceGroupName) {
         return wrapList(inner().listByResourceGroup(resourceGroupName));
     }
 }

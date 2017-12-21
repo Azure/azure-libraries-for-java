@@ -69,22 +69,17 @@ class HostNameBindingImpl<
 
     @Override
     public String regionName() {
-        return inner().location();
+        return parent().regionName();
     }
 
     @Override
     public Region region() {
-        return Region.fromName(inner().location());
+        return parent().region();
     }
 
     @Override
     public Map<String, String> tags() {
-        return inner().getTags();
-    }
-
-    @Override
-    public String hostName() {
-        return inner().hostNameBindingName();
+        return parent().tags();
     }
 
     @Override

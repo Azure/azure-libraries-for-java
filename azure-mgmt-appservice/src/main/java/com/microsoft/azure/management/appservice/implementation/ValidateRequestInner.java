@@ -56,6 +56,13 @@ public class ValidateRequestInner {
     private Boolean needLinuxWorkers;
 
     /**
+     * &lt;code&gt;true&lt;/code&gt; if App Service plan is for Spot instances;
+     * otherwise, &lt;code&gt;false&lt;/code&gt;.
+     */
+    @JsonProperty(value = "properties.isSpot")
+    private Boolean isSpot;
+
+    /**
      * Target capacity of the App Service plan (number of VM's).
      */
     @JsonProperty(value = "properties.capacity")
@@ -185,6 +192,26 @@ public class ValidateRequestInner {
      */
     public ValidateRequestInner withNeedLinuxWorkers(Boolean needLinuxWorkers) {
         this.needLinuxWorkers = needLinuxWorkers;
+        return this;
+    }
+
+    /**
+     * Get the isSpot value.
+     *
+     * @return the isSpot value
+     */
+    public Boolean isSpot() {
+        return this.isSpot;
+    }
+
+    /**
+     * Set the isSpot value.
+     *
+     * @param isSpot the isSpot value to set
+     * @return the ValidateRequestInner object itself.
+     */
+    public ValidateRequestInner withIsSpot(Boolean isSpot) {
+        this.isSpot = isSpot;
         return this;
     }
 

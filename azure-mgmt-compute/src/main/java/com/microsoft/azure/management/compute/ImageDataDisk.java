@@ -16,7 +16,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ImageDataDisk {
     /**
-     * The logical unit number.
+     * Specifies the logical unit number of the data disk. This value is used
+     * to identify data disks within the VM and therefore must be unique for
+     * each data disk attached to a VM.
      */
     @JsonProperty(value = "lun", required = true)
     private int lun;
@@ -40,22 +42,27 @@ public class ImageDataDisk {
     private String blobUri;
 
     /**
-     * The caching type. Possible values include: 'None', 'ReadOnly',
-     * 'ReadWrite'.
+     * Specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values
+     * are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly**
+     * &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None
+     * for Standard storage. ReadOnly for Premium storage**. Possible values
+     * include: 'None', 'ReadOnly', 'ReadWrite'.
      */
     @JsonProperty(value = "caching")
     private CachingTypes caching;
 
     /**
-     * The initial disk size in GB for blank data disks, and the new desired
-     * size for existing OS and Data disks.
+     * Specifies the size of empty data disks in gigabytes. This element can be
+     * used to overwrite the name of the disk in a virtual machine image.
+     * &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
      */
     @JsonProperty(value = "diskSizeGB")
     private Integer diskSizeGB;
 
     /**
-     * The Storage Account type. Possible values include: 'Standard_LRS',
-     * 'Premium_LRS'.
+     * Specifies the storage account type for the managed disk. Possible values
+     * are: Standard_LRS or Premium_LRS. Possible values include:
+     * 'Standard_LRS', 'Premium_LRS'.
      */
     @JsonProperty(value = "storageAccountType")
     private StorageAccountTypes storageAccountType;

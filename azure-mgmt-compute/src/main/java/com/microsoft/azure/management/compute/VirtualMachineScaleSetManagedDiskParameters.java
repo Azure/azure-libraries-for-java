@@ -15,8 +15,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class VirtualMachineScaleSetManagedDiskParameters {
     /**
-     * The Storage Account type. Possible values include: 'Standard_LRS',
-     * 'Premium_LRS'.
+     * Specifies the storage account type for the managed disk. Possible values
+     * are: Standard_LRS or Premium_LRS. Possible values include:
+     * 'Standard_LRS', 'Premium_LRS'.
      */
     @JsonProperty(value = "storageAccountType")
     private StorageAccountTypes storageAccountType;

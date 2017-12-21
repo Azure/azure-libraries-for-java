@@ -15,13 +15,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ResourceLimits {
     /**
-     * The memory limit in GB of this container.
+     * The memory limit in GB of this container instance.
      */
     @JsonProperty(value = "memoryInGB")
     private Double memoryInGB;
 
     /**
-     * The CPU limit of this container.
+     * The CPU limit of this container instance.
      */
     @JsonProperty(value = "cpu")
     private Double cpu;

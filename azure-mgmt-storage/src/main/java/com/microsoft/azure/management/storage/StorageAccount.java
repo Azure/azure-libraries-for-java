@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.storage;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
@@ -41,11 +42,17 @@ public interface StorageAccount extends
     AccountStatuses accountStatuses();
 
     /**
-     * @return the sku of this storage account. Possible names include:
-     * 'Standard_LRS', 'Standard_ZRS', 'Standard_GRS', 'Standard_RAGRS',
-     * 'Premium_LRS'. Possible tiers include: 'Standard', 'Premium'.
+     * @return the sku of this storage account.
+     * @deprecated use {@link StorageAccount#skuType()} instead.
      */
+    @Deprecated
     Sku sku();
+
+    /**
+     * @return the sku of this storage account.
+     */
+    @Beta(Beta.SinceVersion.V1_5_0)
+    StorageAccountSkuType skuType();
 
     /**
      * @return the kind of the storage account. Possible values are 'Storage',
@@ -87,8 +94,9 @@ public interface StorageAccount extends
 
     /**
      * @return the encryption settings on the account.
-     * TODO: This getter should be deprecated and removed (the new fully fluent encryption replaces this)
+     * @deprecated use {@link StorageAccount#encryptionKeySource()}, {@link StorageAccount#encryptionStatuses()} instead.
      */
+    @Deprecated
     Encryption encryption();
 
     /**
@@ -108,6 +116,70 @@ public interface StorageAccount extends
      * Possible values include: 'Hot', 'Cool'.
      */
     AccessTier accessTier();
+
+    /**
+     * @return the Managed Service Identity specific Active Directory tenant ID assigned to the
+     * storage account.
+     */
+    @Beta(Beta.SinceVersion.V1_5_0)
+    String systemAssignedManagedServiceIdentityTenantId();
+
+    /**
+     * @return the Managed Service Identity specific Active Directory service principal ID assigned
+     * to the storage account.
+     */
+    @Beta(Beta.SinceVersion.V1_5_0)
+    String systemAssignedManagedServiceIdentityPrincipalId();
+
+    /**
+     * @return true if authenticated application from any network is allowed to access the
+     * storage account, false if only application from whitelisted network (subnet, ip address,
+     * ip address range) can access the storage account.
+     */
+    @Beta(Beta.SinceVersion.V1_5_0)
+    boolean isAccessAllowedFromAllNetworks();
+
+    /**
+     * @return the list of resource id of virtual network subnet having access to the storage account.
+     */
+    @Beta(Beta.SinceVersion.V1_5_0)
+    List<String> networkSubnetsWithAccess();
+
+    /**
+     * @return the list of ip addresses having access to the storage account.
+     */
+    @Beta(Beta.SinceVersion.V1_5_0)
+    List<String> ipAddressesWithAccess();
+
+    /**
+     * @return the list of ip address ranges having access to the storage account.
+     */
+    @Beta(Beta.SinceVersion.V1_5_0)
+    List<String> ipAddressRangesWithAccess();
+
+    /**
+     * Checks storage log entries can be read from any network.
+     *
+     * @return true if storage log entries can be read from any network, false otherwise
+     */
+    @Beta(Beta.SinceVersion.V1_5_0)
+    boolean canReadLogEntriesFromAnyNetwork();
+
+    /**
+     * Checks storage metrics can be read from any network.
+     *
+     * @return true if storage metrics can be read from any network, false otherwise
+     */
+    @Beta(Beta.SinceVersion.V1_5_0)
+    boolean canReadMetricsFromAnyNetwork();
+
+    /**
+     * Checks storage account can be accessed from applications running on azure.
+     *
+     * @return true if storage can be accessed from application running on azure, false otherwise
+     */
+    @Beta(Beta.SinceVersion.V1_5_0)
+    boolean canAccessFromAzureServices();
 
     /**
      * Fetch the up-to-date access keys from Azure for this storage account.
@@ -177,27 +249,37 @@ public interface StorageAccount extends
         }
 
         /**
-         * A storage account definition allowing resource group to be set.
+         * The stage of a storage account definition allowing to specify the resource group.
          */
         interface WithGroup extends GroupableResource.DefinitionStages.WithGroup<WithCreate> {
         }
 
         /**
-         * A storage account definition allowing the sku to be set.
+         * The stage of a storage account definition allowing to specify sku.
          */
         interface WithSku {
             /**
-             * Specifies the sku of the storage account. This used to be called
-             * account types.
+             * Specifies the sku of the storage account.
+             * @deprecated use {@link WithSku#withSku(StorageAccountSkuType)} instead
              *
              * @param skuName the sku
              * @return the next stage of storage account definition
              */
+            @Deprecated
             WithCreate withSku(SkuName skuName);
+
+            /**
+             * Specifies the sku of the storage account.
+             *
+             * @param sku the sku
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withSku(StorageAccountSkuType sku);
         }
 
         /**
-         * A storage account definition specifying the account kind to be blob.
+         * The stage of a storage account definition allowing to specify account kind as blob storage.
          */
         interface WithBlobStorageAccountKind {
             /**
@@ -210,7 +292,7 @@ public interface StorageAccount extends
         }
 
         /**
-         * A storage account definition selecting the general purpose account kind.
+         * The stage of a storage account definition allowing to specify account kind as general purpose.
          */
         interface WithGeneralPurposeAccountKind {
             /**
@@ -220,22 +302,75 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             WithCreate withGeneralPurposeAccountKind();
-            }
 
-        /**
-         * A storage account definition specifying encryption setting.
-         */
-        interface WithEncryption {
             /**
-             * Enables encryption for all storage services in the account that supports encryption.
+             * Specifies the storage account kind to be "StorageV2", the kind for
+             * general purposes.
              *
              * @return the next stage of storage account definition
              */
-            WithCreate withEncryption();
+            WithCreate withGeneralPurposeAccountKindV2();
         }
 
         /**
-         * A storage account definition specifying a custom domain to associate with the account.
+         * The stage of a storage account definition allowing to specify encryption settings.
+         */
+        interface WithEncryption {
+            /**
+             * Specifies that encryption needs be enabled for blob service.
+             * @deprecated use {@link WithEncryption#withBlobEncryption()} instead.
+             *
+             * @return the next stage of storage account definition
+             */
+            @Deprecated
+            WithCreate withEncryption();
+
+            /**
+             * Specifies that encryption needs be enabled for blob service.
+             *
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withBlobEncryption();
+
+            /**
+             * Disables encryption for blob service.
+             *
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withoutBlobEncryption();
+
+            /**
+             * Specifies that encryption needs be enabled for file service.
+             *
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withFileEncryption();
+
+            /**
+             * Disables encryption for file service.
+             *
+             * @return he next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withoutFileEncryption();
+
+            /**
+             * Specifies the KeyVault key to be used as encryption key.
+             *
+             * @param keyVaultUri the uri to KeyVault
+             * @param keyName the KeyVault key name
+             * @param keyVersion the KeyVault key version
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withEncryptionKeyFromKeyVault(String keyVaultUri, String keyName, String keyVersion);
+        }
+
+        /**
+         * The stage of a storage account definition allowing to associate custom domain with the account.
          */
         interface WithCustomDomain {
             /**
@@ -265,22 +400,130 @@ public interface StorageAccount extends
         }
 
         /**
+         * The stage of a storage account definition allowing to enable implicit managed service identity (MSI).
+         */
+        interface WithManagedServiceIdentity {
+            /**
+             * Specifies that implicit managed service identity (MSI) needs to be enabled.
+             *
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withSystemAssignedManagedServiceIdentity();
+        }
+
+        /**
+         * The stage of storage account definition allowing to restrict access protocol.
+         */
+        @Beta(Beta.SinceVersion.V1_5_0)
+        interface WithAccessTraffic {
+            /**
+             * Specifies that only https traffic should be allowed to storage account.
+             *
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withOnlyHttpsTraffic();
+        }
+
+        /**
+         * The stage of storage account definition allowing to configure network access settings.
+         */
+        @Beta(Beta.SinceVersion.V1_5_0)
+        interface WithNetworkAccess {
+            /**
+             * Specifies that by default access to storage account should be allowed from all networks.
+             *
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withAccessFromAllNetworks();
+
+            /**
+             * Specifies that by default access to storage account should be denied from
+             * all networks except from those networks specified via
+             * {@link WithNetworkAccess#withAccessFromNetworkSubnet(String)}
+             * {@link WithNetworkAccess#withAccessFromIpAddress(String)} and
+             * {@link WithNetworkAccess#withAccessFromIpAddressRange(String)}.
+             *
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withAccessFromSelectedNetworks();
+
+            /**
+             * Specifies that access to the storage account from the specific virtual network subnet should be allowed.
+             *
+             * @param subnetId the virtual network subnet id
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withAccessFromNetworkSubnet(String subnetId);
+
+            /**
+             * Specifies that access to the storage account from the specific ip address should be allowed.
+             *
+             * @param ipAddress the ip address
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withAccessFromIpAddress(String ipAddress);
+
+            /**
+             * Specifies that access to the storage account from the specific ip range should be allowed.
+             *
+             * @param ipAddressCidr the ip address range expressed in cidr format
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withAccessFromIpAddressRange(String ipAddressCidr);
+
+            /**
+             * Specifies that read access to the storage logging should be allowed from any network.
+             *
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withReadAccessToLogEntriesFromAnyNetwork();
+
+            /**
+             * Specifies that read access to the storage metrics should be allowed from any network.
+             *
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withReadAccessToMetricsFromAnyNetwork();
+
+            /**
+             * Specifies that access to the storage account should be allowed from applications running
+             * on Microsoft Azure services.
+             *
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            WithCreate withAccessFromAzureServices();
+        }
+
+        /**
          * A storage account definition with sufficient inputs to create a new
          * storage account in the cloud, but exposing additional optional inputs to
          * specify.
          */
         interface WithCreate extends
-            Creatable<StorageAccount>,
-            DefinitionStages.WithSku,
-            DefinitionStages.WithBlobStorageAccountKind,
-            DefinitionStages.WithGeneralPurposeAccountKind,
-            DefinitionStages.WithEncryption,
-            DefinitionStages.WithCustomDomain,
-            Resource.DefinitionWithTags<WithCreate> {
+                Creatable<StorageAccount>,
+                DefinitionStages.WithSku,
+                DefinitionStages.WithBlobStorageAccountKind,
+                DefinitionStages.WithGeneralPurposeAccountKind,
+                DefinitionStages.WithEncryption,
+                DefinitionStages.WithCustomDomain,
+                DefinitionStages.WithManagedServiceIdentity,
+                DefinitionStages.WithAccessTraffic,
+                DefinitionStages.WithNetworkAccess,
+                Resource.DefinitionWithTags<WithCreate> {
         }
 
         /**
-         * A storage account definition allowing access tier to be set.
+         * The stage of storage account definition allowing to set access tier.
          */
         interface WithCreateAndAccessTier extends DefinitionStages.WithCreate {
             /**
@@ -302,20 +545,32 @@ public interface StorageAccount extends
      */
     interface UpdateStages {
         /**
-         * A storage account update stage allowing to change the parameters.
+         * The stage of the storage account update allowing to change the sku.
          */
         interface WithSku {
             /**
-             * Specifies the sku of the storage account. This used to be called
-             * account types.             *
+             * Specifies the sku of the storage account.
+             * @deprecated use {@link WithSku#withSku(StorageAccountSkuType)} instead.
+             *
              * @param skuName the sku
              * @return the next stage of storage account update
              */
+            @Deprecated
             Update withSku(SkuName skuName);
+
+
+            /**
+             * Specifies the sku of the storage account.
+             *
+             * @param sku the sku
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withSku(StorageAccountSkuType sku);
         }
 
         /**
-         * A storage account update stage allowing to change the parameters.
+         * The stage of the storage account update allowing to associate custom domain.
          */
         interface WithCustomDomain {
             /**
@@ -345,22 +600,69 @@ public interface StorageAccount extends
         }
 
         /**
-         * A storage account update allowing encryption to be specified.
+         * The stage of the storage account update allowing to configure encryption settings.
          */
         interface WithEncryption {
             /**
-             * Enables encryption for all storage services in the account that supports encryption.
+             * Enables encryption for blob service.
+             * @deprecated use {@link WithEncryption#withBlobEncryption()} instead.
              *
              * @return the next stage of storage account update
              */
+            @Deprecated
             Update withEncryption();
 
             /**
-             * Disables encryption for all storage services in the account that supports encryption.
+             * Enables encryption for blob service.
              *
              * @return the next stage of storage account update
              */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withBlobEncryption();
+
+            /**
+             * Enables encryption for file service.
+             *
+             * @return he next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withFileEncryption();
+
+            /**
+             * Disables encryption for blob service.
+             * @deprecated use {@link WithEncryption#withoutBlobEncryption()} instead.
+             *
+             * @return the next stage of storage account update
+             */
+            @Deprecated
             Update withoutEncryption();
+
+            /**
+             * Disables encryption for blob service.
+             *
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withoutBlobEncryption();
+
+            /**
+             * Disables encryption for file service.
+             *
+             * @return he next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withoutFileEncryption();
+
+            /**
+             * Specifies the KeyVault key to be used as key for encryption.
+             *
+             * @param keyVaultUri the uri to KeyVault
+             * @param keyName the KeyVault key name
+             * @param keyVersion the KeyVault key version
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withEncryptionKeyFromKeyVault(String keyVaultUri, String keyName, String keyVersion);
         }
 
         /**
@@ -379,6 +681,187 @@ public interface StorageAccount extends
              */
             Update withAccessTier(AccessTier accessTier);
         }
+
+        /**
+         * The stage of the storage account update allowing to enable managed service identity (MSI).
+         */
+        interface WithManagedServiceIdentity {
+            /**
+             * Specifies that implicit managed service identity (MSI) needs to be enabled.
+             *
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withSystemAssignedManagedServiceIdentity();
+        }
+
+        /**
+         * The stage of the storage account update allowing to specify the protocol to be used to access account.
+         */
+        @Beta(Beta.SinceVersion.V1_5_0)
+        interface WithAccessTraffic {
+            /**
+             * Specifies that only https traffic should be allowed to storage account.
+             *
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withOnlyHttpsTraffic();
+
+            /**
+             * Specifies that both http and https traffic should be allowed to storage account.
+             *
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withHttpAndHttpsTraffic();
+        }
+
+
+        /**
+         * The stage of storage account update allowing to configure network access.
+         */
+        @Beta(Beta.SinceVersion.V1_5_0)
+        interface WithNetworkAccess {
+            /**
+             * Specifies that by default access to storage account should be allowed from
+             * all networks.
+             *
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withAccessFromAllNetworks();
+
+            /**
+             * Specifies that by default access to storage account should be denied from
+             * all networks except from those networks specified via
+             * {@link WithNetworkAccess#withAccessFromNetworkSubnet(String)},
+             * {@link WithNetworkAccess#withAccessFromIpAddress(String)} and
+             * {@link WithNetworkAccess#withAccessFromIpAddressRange(String)}.
+             *
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withAccessFromSelectedNetworks();
+
+            /**
+             * Specifies that access to the storage account from a specific virtual network
+             * subnet should be allowed.
+             *
+             * @param subnetId the virtual network subnet id
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withAccessFromNetworkSubnet(String subnetId);
+
+            /**
+             * Specifies that access to the storage account from a specific ip address should be allowed.
+             *
+             * @param ipAddress the ip address
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withAccessFromIpAddress(String ipAddress);
+
+            /**
+             * Specifies that access to the storage account from a specific ip range should be allowed.
+             *
+             * @param ipAddressCidr the ip address range expressed in cidr format
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withAccessFromIpAddressRange(String ipAddressCidr);
+
+            /**
+             * Specifies that read access to the storage logging should be allowed from any network.
+             *
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withReadAccessToLogEntriesFromAnyNetwork();
+
+            /**
+             * Specifies that read access to the storage metrics should be allowed from any network.
+             *
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withReadAccessToMetricsFromAnyNetwork();
+
+            /**
+             * Specifies that access to the storage account should be allowed from applications running on
+             * Microsoft Azure services.
+             *
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withAccessFromAzureServices();
+
+            /**
+             * Specifies that previously allowed access from specific virtual network subnet should be removed.
+             *
+             * @param subnetId the virtual network subnet id
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withoutNetworkSubnetAccess(String subnetId);
+
+            /**
+             * Specifies that previously allowed access from specific ip address should be removed.
+             *
+             * @param ipAddress the ip address
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withoutIpAddressAccess(String ipAddress);
+
+            /**
+             * Specifies that previously allowed access from specific ip range should be removed.
+             *
+             * @param ipAddressCidr the ip address range expressed in cidr format
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withoutIpAddressRangeAccess(String ipAddressCidr);
+
+            /**
+             * Specifies that previously added read access exception to the storage logging from any network
+             * should be removed.
+             *
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withoutReadAccessToLoggingFromAnyNetwork();
+
+            /**
+             * Specifies that previously added read access exception to the storage metrics from any network
+             * should be removed.
+             *
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withoutReadAccessToMetricsFromAnyNetwork();
+
+            /**
+             * Specifies that previously added access exception to the storage account from application
+             * running on azure should be removed.
+             *
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            Update withoutAccessFromAzureServices();
+        }
+
+        @Beta(Beta.SinceVersion.V1_5_1)
+        interface WithUpgrade {
+            /**
+             * Specifies that the storage account should be upgraded to V2 kind.
+             *
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            Update upgradeToGeneralPurposeAccountKindV2();
+        }
     }
 
     /**
@@ -390,7 +873,10 @@ public interface StorageAccount extends
             UpdateStages.WithCustomDomain,
             UpdateStages.WithEncryption,
             UpdateStages.WithAccessTier,
+            UpdateStages.WithManagedServiceIdentity,
+            UpdateStages.WithAccessTraffic,
+            UpdateStages.WithNetworkAccess,
+            UpdateStages.WithUpgrade,
             Resource.UpdateWithTags<Update> {
     }
 }
-

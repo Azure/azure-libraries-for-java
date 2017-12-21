@@ -11,7 +11,13 @@ package com.microsoft.azure.management.compute;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Describes Windows configuration of the OS Profile.
+ * Specifies the Linux operating system settings on the virtual machine.
+ * &lt;br&gt;&lt;br&gt;For a list of supported Linux distributions, see [Linux
+ * on Azure-Endorsed
+ * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+ * &lt;br&gt;&lt;br&gt; For running non-endorsed distributions, see
+ * [Information for Non-Endorsed
+ * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
  */
 public class LinuxConfiguration {
     /**
@@ -21,7 +27,7 @@ public class LinuxConfiguration {
     private Boolean disablePasswordAuthentication;
 
     /**
-     * The SSH configuration for linux VMs.
+     * Specifies the ssh key configuration for a Linux OS.
      */
     @JsonProperty(value = "ssh")
     private SshConfiguration ssh;

@@ -127,8 +127,8 @@ class SecretsImpl
             }
 
             @Override
-            protected Secret wrapModel(SecretItem secretItem) {
-                return SecretsImpl.this.wrapModel(secretItem);
+            protected Observable<Secret> typeConvertAsync(SecretItem secretItem) {
+                return Observable.just((Secret) SecretsImpl.this.wrapModel(secretItem));
             }
         }.toObservable();
     }

@@ -124,8 +124,8 @@ class SecretImpl
             }
 
             @Override
-            protected SecretIdentifier wrapModel(SecretItem o) {
-                return o.identifier();
+            protected Observable<SecretIdentifier> typeConvertAsync(SecretItem o) {
+                return Observable.just(o.identifier());
             }
         }.toObservable()
                 .flatMap(new Func1<SecretIdentifier, Observable<Secret>>() {

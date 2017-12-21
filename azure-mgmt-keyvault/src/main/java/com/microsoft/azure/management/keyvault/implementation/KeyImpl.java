@@ -131,8 +131,8 @@ class KeyImpl
             }
 
             @Override
-            protected KeyIdentifier wrapModel(KeyItem o) {
-                return o.identifier();
+            protected Observable<KeyIdentifier> typeConvertAsync(KeyItem o) {
+                return Observable.just(o.identifier());
             }
         }.toObservable()
                 .flatMap(new Func1<KeyIdentifier, Observable<Key>>() {

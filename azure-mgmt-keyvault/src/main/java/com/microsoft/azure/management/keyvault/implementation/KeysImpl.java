@@ -12,22 +12,17 @@ import com.microsoft.azure.keyvault.KeyIdentifier;
 import com.microsoft.azure.keyvault.KeyVaultClient;
 import com.microsoft.azure.keyvault.models.KeyBundle;
 import com.microsoft.azure.keyvault.models.KeyItem;
-import com.microsoft.azure.keyvault.models.SecretBundle;
-import com.microsoft.azure.keyvault.models.SecretItem;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.keyvault.Key;
 import com.microsoft.azure.management.keyvault.Keys;
-import com.microsoft.azure.management.keyvault.Secret;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.protocol.SerializerAdapter;
 import rx.Completable;
 import rx.Observable;
-
-import java.io.IOException;
+import rx.functions.Func1;
 
 /**
  * The implementation of Vaults and its parent interfaces.
@@ -42,10 +37,28 @@ class KeysImpl
     private final KeyVaultClient inner;
     private final Vault vault;
 
-    private final PagedListConverter<KeyItem, Key> itemConverter = new PagedListConverter<KeyItem, Key>() {
+    private final Func1<KeyItem, Observable<Key>> converter = new Func1<KeyItem, Observable<Key>>() {
         @Override
-        public Observable<Key> typeConvertAsync(KeyItem inner) {
-            return Observable.just((Key) wrapModel(inner));
+        public Observable<Key> call(final KeyItem keyItem) {
+            return new KeyVaultFutures.ServiceFutureConverter<KeyBundle, Key>() {
+
+                @Override
+                protected ServiceFuture<KeyBundle> callAsync() {
+                    return vault.client().getKeyAsync(keyItem.identifier().identifier(), null);
+                }
+
+                @Override
+                protected Key wrapModel(KeyBundle keyBundle) {
+                    return KeysImpl.this.wrapModel(keyBundle);
+                }
+            }.toObservable();
+        }
+    };
+
+    private final PagedListConverter<KeyItem, Key> listConverter = new PagedListConverter<KeyItem, Key>() {
+        @Override
+        public Observable<Key> typeConvertAsync(final KeyItem inner) {
+            return converter.call(inner);
         }
     };
 
@@ -91,30 +104,21 @@ class KeysImpl
 
     @Override
     protected KeyImpl wrapModel(KeyBundle inner) {
-        return new KeyImpl(inner.keyIdentifier().name(), inner, vault);
-    }
-
-    private KeyImpl wrapModel(KeyItem inner) {
         if (inner == null) {
             return null;
         }
-        SerializerAdapter<?> serializer = vault.manager().inner().restClient().serializerAdapter();
-        try {
-            return wrapModel(serializer.<KeyBundle>deserialize(serializer.serialize(inner), KeyBundle.class));
-        } catch (IOException e) {
-            return null;
-        }
+        return new KeyImpl(inner.keyIdentifier().name(), inner, vault);
     }
 
     @Override
     public Completable deleteByIdAsync(String id) {
         KeyIdentifier identifier = new KeyIdentifier(id);
-        return Completable.fromFuture(inner.deleteSecretAsync(identifier.vault(), identifier.name(), null));
+        return Completable.fromFuture(inner.deleteKeyAsync(identifier.vault(), identifier.name(), null));
     }
 
     @Override
     public PagedList<Key> list() {
-        return itemConverter.convert(inner.listKeys(vault.vaultUri()));
+        return listConverter.convert(inner.listKeys(vault.vaultUri()));
     }
 
     @Override
@@ -126,8 +130,8 @@ class KeysImpl
             }
 
             @Override
-            protected Key wrapModel(KeyItem keyItem) {
-                return KeysImpl.this.wrapModel(keyItem);
+            protected Observable<Key> typeConvertAsync(KeyItem keyItem) {
+                return converter.call(keyItem);
             }
         }.toObservable();
     }

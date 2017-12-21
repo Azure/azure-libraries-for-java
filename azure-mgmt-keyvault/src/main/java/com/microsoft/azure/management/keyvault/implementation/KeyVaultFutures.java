@@ -8,6 +8,7 @@ package com.microsoft.azure.management.keyvault.implementation;
 
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Emitter;
@@ -67,7 +68,7 @@ class KeyVaultFutures {
     public static abstract class ListCallbackObserver<TInner, T> {
         protected abstract void list(ListOperationCallback<TInner> callback);
 
-        protected abstract T wrapModel(TInner inner);
+        protected abstract Observable<T> typeConvertAsync(TInner inner);
 
         public Observable<T> toObservable() {
             return Observable
@@ -98,10 +99,10 @@ class KeyVaultFutures {
                         public Observable<TInner> call(List<TInner> secretItems) {
                             return Observable.from(secretItems);
                         }
-                    }).map(new Func1<TInner, T>() {
+                    }).flatMap(new Func1<TInner, Observable<T>>() {
                         @Override
-                        public T call(TInner tInner) {
-                            return wrapModel(tInner);
+                        public Observable<T> call(TInner tInner) {
+                            return typeConvertAsync(tInner);
                         }
                     });
         }

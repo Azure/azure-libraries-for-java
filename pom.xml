@@ -6,7 +6,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.microsoft.azure</groupId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.2-SNAPSHOT</version>
   <artifactId>azure-parent</artifactId>
   <packaging>pom</packaging>
 
@@ -72,12 +72,12 @@
       <dependency>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-client-runtime</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.1</version>
       </dependency>
       <dependency>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-client-authentication</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.1</version>
       </dependency>
       <dependency>
         <groupId>com.google.guava</groupId>
@@ -100,7 +100,7 @@
       <dependency>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-annotations</artifactId>
-        <version>1.5.0</version>
+        <version>1.5.1</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -380,5 +380,6 @@
     <module>./azure-mgmt-storage</module>
     <module>./azure-mgmt-streamanalytics</module>
     <module>./azure-mgmt-trafficmanager</module>
+    <module>./azure-mgmt-msi</module>
   </modules>
 </project>

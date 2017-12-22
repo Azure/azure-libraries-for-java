@@ -13,16 +13,22 @@ import com.microsoft.azure.management.compute.VirtualMachineExtension;
 import com.microsoft.azure.management.compute.VirtualMachineIdentity;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.resources.fluentcore.dag.IndexableTaskItem;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.dag.VoidIndexable;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
 import rx.functions.Func0;
 import rx.functions.Func1;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Utility class to set Managed Service Identity (MSI) property on a virtual machine,
@@ -30,72 +36,163 @@ import java.util.Map;
  * associated with the virtual machine.
  */
 @LangDefinition
-class VirtualMachineMsiHelper extends RoleAssignmentHelper {
+class VirtualMachineMsiHandler extends RoleAssignmentHelper {
     private final VirtualMachineImpl virtualMachine;
 
     private MSIExtensionInstaller msiExtensionInstaller;
+    private List<String> creatableIdentityKeys;
 
     /**
-     * Creates VirtualMachineMsiHelper.
+     * Creates VirtualMachineMsiHandler.
      *
      * @param rbacManager the graph rbac manager
      * @param virtualMachine the virtual machine to which MSI extension needs to be installed and
      *                       for which role assignments needs to be created
      */
-    VirtualMachineMsiHelper(final GraphRbacManager rbacManager,
-                            VirtualMachineImpl virtualMachine) {
+    VirtualMachineMsiHandler(final GraphRbacManager rbacManager,
+                             VirtualMachineImpl virtualMachine) {
         super(rbacManager, virtualMachine.taskGroup(), virtualMachine.idProvider());
         this.virtualMachine = virtualMachine;
         this.msiExtensionInstaller = null;
-        clear();
+        this.creatableIdentityKeys = new ArrayList<>();
     }
 
     /**
-     * Specifies that Managed Service Identity property needs to be set in the virtual machine.
+     * Specifies that Local Managed Service Identity needs to be enabled in the virtual machine.
+     * If MSI extension is not already installed then it will be installed with access token
+     * port as 50342.
      *
-     * If MSI extension is already installed then the access token will be available in the virtual machine
-     * at port specified in the extension public setting, otherwise the port for new extension will be 50342.
-     *
-     * @return VirtualMachineMsiHelper
+     * @return VirtualMachineMsiHandler
      */
-    VirtualMachineMsiHelper withLocalManagedServiceIdentity() {
+    VirtualMachineMsiHandler withLocalManagedServiceIdentity() {
         return withLocalManagedServiceIdentity(null);
     }
 
     /**
-     * Specifies that Managed Service Identity property needs to be set in the virtual machine.
-     *
-     * The access token will be available in the virtual machine at given port.
+     * Specifies that Local Managed Service Identity property needs to be enabled in the virtual machine.
      *
      * @param port the port in the virtual machine to get the access token from
 
-     * @return VirtualMachineMsiHelper
+     * @return VirtualMachineMsiHandler
      */
-    VirtualMachineMsiHelper withLocalManagedServiceIdentity(Integer port) {
+    VirtualMachineMsiHandler withLocalManagedServiceIdentity(Integer port) {
+        this.initVMIdentity(ResourceIdentityType.SYSTEM_ASSIGNED);
+        this.scheduleMSIExtensionInstallation(port);
+        return this;
+    }
+
+    /**
+     * Specifies that given identity should be set as one of the External Managed Service Identity
+     * of the virtual machine.
+     *
+     * @param creatableIdentity yet-to-be-created identity to be associated with the virtual machine
+     * @return VirtualMachineMsiHandler
+     */
+    VirtualMachineMsiHandler withNewExternalManagedServiceIdentity(Creatable<Identity> creatableIdentity) {
+        this.initVMIdentity(ResourceIdentityType.USER_ASSIGNED);
+
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) creatableIdentity;
+        Objects.requireNonNull(dependency);
+
+        this.virtualMachine.taskGroup().addDependency(dependency);
+        this.creatableIdentityKeys.add(creatableIdentity.key());
+
+        this.scheduleMSIExtensionInstallation(null);
+        return this;
+    }
+
+    /**
+     * Specifies that given identity should be set as one of the External Managed Service Identity
+     * of the virtual machine.
+     *
+     * @param identity an identity to associate
+     * @return VirtualMachineMsiHandler
+     */
+    VirtualMachineMsiHandler withExistingExternalManagedServiceIdentity(Identity identity) {
+        this.initVMIdentity(ResourceIdentityType.USER_ASSIGNED);
+        Utils.addToListIfNotExists(this.virtualMachine.inner().identity().identityIds(), identity.id());
+        this.scheduleMSIExtensionInstallation(null);
+        return this;
+    }
+
+    /**
+     * Specifies that given identity should be removed from the list of External Managed Service Identity
+     * associated with the virtual machine machine.
+     *
+     * @param identityId resource id of the identity
+     * @return VirtualMachineMsiHandler
+     */
+    VirtualMachineMsiHandler withoutExternalManagedServiceIdentity(String identityId) {
+        VirtualMachineInner virtualMachineInner = this.virtualMachine.inner();
+        if (virtualMachineInner.identity() != null && virtualMachineInner.identity().identityIds() != null) {
+            Utils.removeFromList(this.virtualMachine.inner().identity().identityIds(), identityId);
+        }
+        return this;
+    }
+
+    /**
+     * Update the VM payload model using the created External Managed Service Identities.
+     */
+    void handleExternalIdentitySettings() {
+        for (String key : this.creatableIdentityKeys) {
+            Identity identity = (Identity) this.virtualMachine.taskGroup().taskResult(key);
+            Objects.requireNonNull(identity);
+            Utils.addToListIfNotExists(this.virtualMachine.inner().identity().identityIds(), identity.id());
+        }
+        this.creatableIdentityKeys.clear();
+    }
+
+    /**
+     * Clear VirtualMachineMsiHandler post-run specific internal state.
+     */
+    void clear() {
         if (this.msiExtensionInstaller != null) {
-            return this;
-        } else {
-            VirtualMachineInner virtualMachineInner = this.virtualMachine.inner();
-            if (virtualMachineInner.identity() == null) {
-                virtualMachineInner.withIdentity(new VirtualMachineIdentity());
-            }
-            if (virtualMachineInner.identity().type() == null) {
-                virtualMachineInner.identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED);
-            }
-            this.msiExtensionInstaller = new MSIExtensionInstaller(this.virtualMachine);
-            this.msiExtensionInstaller.withTokenPort(port);
-            this.virtualMachine.taskGroup().addPostRunDependent(this.msiExtensionInstaller);
-            return this;
+            this.msiExtensionInstaller.clear();
+            this.msiExtensionInstaller = null;
         }
     }
 
     /**
-     * Clear VirtualMachineMsiHelper internal state.
+     * Initialize VM's identity property.
+     *
+     * @param identityType the identity type to set
      */
-    public  void clear() {
-        if (this.msiExtensionInstaller != null) {
-            this.msiExtensionInstaller.clear();
-            this.msiExtensionInstaller = null;
+    private void initVMIdentity(ResourceIdentityType identityType) {
+        if (!identityType.equals(ResourceIdentityType.USER_ASSIGNED)
+                && !identityType.equals(ResourceIdentityType.SYSTEM_ASSIGNED)) {
+            throw new IllegalArgumentException("Invalid argument: " + identityType);
+        }
+
+        VirtualMachineInner virtualMachineInner = this.virtualMachine.inner();
+        if (virtualMachineInner.identity() == null) {
+            virtualMachineInner.withIdentity(new VirtualMachineIdentity());
+        }
+        if (virtualMachineInner.identity().type() == null
+                || virtualMachineInner.identity().type().equals(ResourceIdentityType.NONE)
+                || virtualMachineInner.identity().type().equals(identityType)) {
+            virtualMachineInner.identity().withType(identityType);
+        } else {
+            virtualMachineInner.identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED);
+        }
+        if (virtualMachineInner.identity().identityIds() == null) {
+            if (identityType.equals(ResourceIdentityType.USER_ASSIGNED)
+                    || identityType.equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED)) {
+                virtualMachineInner.identity().withIdentityIds(new ArrayList<String>());
+            }
+        }
+    }
+
+    /**
+     * Schedule a task to install MSI extension after VM createOrUpdate.
+     *
+     * @param port the port that future application running on the virtual machine uses
+     *             to get the token
+     */
+    private void scheduleMSIExtensionInstallation(Integer port) {
+        if (this.msiExtensionInstaller == null) {
+            this.msiExtensionInstaller = new MSIExtensionInstaller(this.virtualMachine);
+            this.msiExtensionInstaller.withTokenPort(port);
+            this.virtualMachine.taskGroup().addPostRunDependent(this.msiExtensionInstaller);
         }
     }
 

@@ -488,6 +488,12 @@ class StorageAccountImpl
         return this;
     }
 
+    @Override
+    public Update upgradeToGeneralPurposeAccountKindV2() {
+        updateParameters.withKind(Kind.STORAGE_V2);
+        return this;
+    }
+
     // CreateUpdateTaskGroup.ResourceCreator implementation
     @Override
     public Observable<StorageAccount> createResourceAsync() {

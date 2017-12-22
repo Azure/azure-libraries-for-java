@@ -851,6 +851,17 @@ public interface StorageAccount extends
             @Beta(Beta.SinceVersion.V1_5_0)
             Update withoutAccessFromAzureServices();
         }
+
+        @Beta(Beta.SinceVersion.V1_5_1)
+        interface WithUpgrade {
+            /**
+             * Specifies that the storage account should be upgraded to V2 kind.
+             *
+             * @return the next stage of storage account update
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            Update upgradeToGeneralPurposeAccountKindV2();
+        }
     }
 
     /**
@@ -865,6 +876,7 @@ public interface StorageAccount extends
             UpdateStages.WithManagedServiceIdentity,
             UpdateStages.WithAccessTraffic,
             UpdateStages.WithNetworkAccess,
+            UpdateStages.WithUpgrade,
             Resource.UpdateWithTags<Update> {
     }
 }

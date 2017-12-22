@@ -25,7 +25,7 @@ public class LinuxWebAppsTests extends AppServiceTest {
     private static String RG_NAME_2 = "";
     private static String WEBAPP_NAME_1 = "";
     private static String WEBAPP_NAME_2 = "";
-    private static OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(3, TimeUnit.MINUTES).build();
+    private static OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(5, TimeUnit.MINUTES).build();
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

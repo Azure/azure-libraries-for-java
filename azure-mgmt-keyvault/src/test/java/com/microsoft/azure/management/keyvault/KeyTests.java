@@ -72,7 +72,7 @@ public class KeyTests extends KeyVaultManagementTest {
         Assert.assertEquals(2, keys.size());
     }
 
-    @Test
+    @Ignore("Mock framework doesn't support data plane")
     public void canImportKey() throws Exception {
         Vault vault = createVault();
         String keyName = SdkContext.randomResourceName("key", 20);
@@ -85,7 +85,7 @@ public class KeyTests extends KeyVaultManagementTest {
         Assert.assertNotNull(key.id());
     }
 
-    @Test
+    @Ignore("Mock framework doesn't support data plane")
     public void canBackupAndRestore() throws Exception {
         Vault vault = createVault();
         String keyName = SdkContext.randomResourceName("key", 20);
@@ -108,7 +108,7 @@ public class KeyTests extends KeyVaultManagementTest {
         Assert.assertEquals(key.jsonWebKey(), keys.get(0).jsonWebKey());
     }
 
-    @Test
+    @Ignore("Mock framework doesn't support data plane")
     public void canEncryptAndDecrypt() throws Exception {
         Vault vault = createVault();
         String keyName = SdkContext.randomResourceName("key", 20);
@@ -140,7 +140,7 @@ public class KeyTests extends KeyVaultManagementTest {
         Assert.assertEquals(s, new String(decrypted));
     }
 
-    @Test
+    @Ignore("Mock framework doesn't support data plane")
     public void canSignAndVerify() throws Exception {
         Vault vault = createVault();
         String keyName = SdkContext.randomResourceName("key", 20);
@@ -169,7 +169,7 @@ public class KeyTests extends KeyVaultManagementTest {
         Assert.assertTrue(key.verify(JsonWebKeySignatureAlgorithm.RS256, digest, signature));
     }
 
-    @Test
+    @Ignore("Mock framework doesn't support data plane")
     public void canWrapAndUnwrap() throws Exception {
         Vault vault = createVault();
         String keyName = SdkContext.randomResourceName("key", 20);

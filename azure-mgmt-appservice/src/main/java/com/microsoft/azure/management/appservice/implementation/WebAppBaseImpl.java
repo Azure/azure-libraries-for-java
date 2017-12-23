@@ -26,6 +26,7 @@ import com.microsoft.azure.management.appservice.HostNameType;
 import com.microsoft.azure.management.appservice.HttpLogsConfig;
 import com.microsoft.azure.management.appservice.JavaVersion;
 import com.microsoft.azure.management.appservice.ManagedPipelineMode;
+import com.microsoft.azure.management.appservice.ManagedServiceIdentity;
 import com.microsoft.azure.management.appservice.NetFrameworkVersion;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PhpVersion;
@@ -411,6 +412,11 @@ abstract class WebAppBaseImpl<
         } else {
             return OperatingSystem.WINDOWS;
         }
+    }
+
+    @Override
+    public ManagedServiceIdentity managedServiceIdentity() {
+        return inner().identity();
     }
 
     @Override
@@ -1284,6 +1290,13 @@ abstract class WebAppBaseImpl<
         siteLogsConfig = new SiteLogsConfigInner()
                 .withHttpLogs(new HttpLogsConfig().withFileSystem(
                         new FileSystemHttpLogsConfig().withEnabled(false)));
+        return (FluentImplT) this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public FluentImplT withSystemAssignedManagedServiceIdentity() {
+        inner().withIdentity(new ManagedServiceIdentity().withType("SystemAssigned"));
         return (FluentImplT) this;
     }
 }

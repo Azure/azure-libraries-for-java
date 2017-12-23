@@ -217,6 +217,12 @@ public interface WebAppBase extends
     String autoSwapSlotName();
 
     /**
+     * @return the managed service identity in Azure Active Directory for this web app
+     */
+    @Beta(SinceVersion.V1_6_0)
+    ManagedServiceIdentity managedServiceIdentity();
+
+    /**
      * @return the app settings defined on the web app
      */
     Map<String, AppSetting> getAppSettings();
@@ -797,6 +803,20 @@ public interface WebAppBase extends
         }
 
         /**
+         * A web app definition stage allowing System Assigned Managed Service Identity to be set.
+         * @param <FluentT> the type of the resource
+         */
+        @Beta(SinceVersion.V1_6_0)
+        interface WithManagedServiceIdentity<FluentT> {
+            /**
+             * Specifies that System Assigned Managed Service Identity needs to be enabled in the web app
+             * @return the next stage of the web app definition
+             */
+            @Method
+            WithCreate<FluentT> withSystemAssignedManagedServiceIdentity();
+        }
+
+        /**
          * A site definition with sufficient inputs to create a new web app /
          * deployments slot in the cloud, but exposing additional optional
          * inputs to specify.
@@ -815,7 +835,8 @@ public interface WebAppBase extends
             WithHostNameBinding<FluentT>,
             WithHostNameSslBinding<FluentT>,
             WithAuthentication<FluentT>,
-            WithDiagnosticLogging<FluentT> {
+            WithDiagnosticLogging<FluentT>,
+            WithManagedServiceIdentity<FluentT> {
         }
     }
 
@@ -1229,6 +1250,34 @@ public interface WebAppBase extends
             @Method
             WithCreate<FluentT> withContainerLoggingDisabled();
         }
+
+        /**
+         * A web app definition stage allowing System Assigned Managed Service Identity to be set.
+         * @param <FluentT> the type of the resource
+         */
+        @Beta(SinceVersion.V1_6_0)
+        interface WithManagedServiceIdentity<FluentT> {
+            /**
+             * Specifies that System Assigned Managed Service Identity needs to be enabled in the web app
+             * @return the next stage of the web app definition
+             */
+            @Method
+            WithCreate<FluentT> withSystemAssignedManagedServiceIdentity();
+        }
+    }
+
+    /**
+     * A web app definition stage allowing System Assigned Managed Service Identity to be set.
+     * @param <FluentT> the type of the resource
+     */
+    @Beta(SinceVersion.V1_6_0)
+    interface WithManagedServiceIdentity<FluentT> {
+        /**
+         * Specifies that System Assigned Managed Service Identity needs to be enabled in the web app
+         * @return the next stage of the web app definition
+         */
+        @Method
+        WithCreate<FluentT> withSystemAssignedManagedServiceIdentity();
     }
 
     /**
@@ -1248,6 +1297,7 @@ public interface WebAppBase extends
         UpdateStages.WithHostNameBinding<FluentT>,
         UpdateStages.WithHostNameSslBinding<FluentT>,
         UpdateStages.WithAuthentication<FluentT>,
-        UpdateStages.WithDiagnosticLogging<FluentT> {
+        UpdateStages.WithDiagnosticLogging<FluentT>,
+        UpdateStages.WithManagedServiceIdentity<FluentT> {
     }
 }

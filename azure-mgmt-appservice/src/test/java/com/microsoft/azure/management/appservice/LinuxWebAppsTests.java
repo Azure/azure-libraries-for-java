@@ -10,13 +10,11 @@ import com.google.common.io.ByteStreams;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.rest.RestClient;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipInputStream;
 
@@ -119,10 +117,5 @@ public class LinuxWebAppsTests extends AppServiceTest {
             Assert.assertNotNull(body);
             Assert.assertTrue(body.contains("Hello world from linux 4"));
         }
-    }
-
-    private static Response curl(String url) throws IOException {
-        Request request = new Request.Builder().url(url).get().build();
-        return httpClient.newCall(request).execute();
     }
 }

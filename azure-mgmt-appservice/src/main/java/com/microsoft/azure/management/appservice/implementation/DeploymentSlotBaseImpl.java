@@ -181,9 +181,9 @@ class DeploymentSlotBaseImpl<
                 if (webAppBase == null || !isInCreateMode()) {
                     return Observable.just((Indexable) DeploymentSlotBaseImpl.this);
                 }
-                return webAppBase.getAppSettingsAsync().map(new Func1<Map<String, AppSetting>, Indexable>() {
+                return webAppBase.getAppSettingsAsync().flatMap(new Func1<Map<String, AppSetting>, Observable<Indexable>>() {
                     @Override
-                    public Indexable call(Map<String, AppSetting> stringAppSettingMap) {
+                    public Observable<Indexable> call(Map<String, AppSetting> stringAppSettingMap) {
                         for (AppSetting appSetting : stringAppSettingMap.values()) {
                             if (appSetting.sticky()) {
                                 withStickyAppSetting(appSetting.key(), appSetting.value());
@@ -191,7 +191,7 @@ class DeploymentSlotBaseImpl<
                                 withAppSetting(appSetting.key(), appSetting.value());
                             }
                         }
-                        return DeploymentSlotBaseImpl.this;
+                        return DeploymentSlotBaseImpl.super.submitAppSettings();
                     }
                 });
             }
@@ -205,9 +205,9 @@ class DeploymentSlotBaseImpl<
                 if (webAppBase == null || !isInCreateMode()) {
                     return Observable.just((Indexable) DeploymentSlotBaseImpl.this);
                 }
-                return webAppBase.getConnectionStringsAsync().map(new Func1<Map<String, ConnectionString>, Indexable>() {
+                return webAppBase.getConnectionStringsAsync().flatMap(new Func1<Map<String, ConnectionString>, Observable<Indexable>>() {
                     @Override
-                    public Indexable call(Map<String, ConnectionString> stringConnectionStringMap) {
+                    public Observable<Indexable> call(Map<String, ConnectionString> stringConnectionStringMap) {
                         for (ConnectionString connectionString : stringConnectionStringMap.values()) {
                             if (connectionString.sticky()) {
                                 withStickyConnectionString(connectionString.name(), connectionString.value(), connectionString.type());
@@ -215,7 +215,8 @@ class DeploymentSlotBaseImpl<
                                 withConnectionString(connectionString.name(), connectionString.value(), connectionString.type());
                             }
                         }
-                        return DeploymentSlotBaseImpl.this;
+                        return DeploymentSlotBaseImpl.super.submitConnectionStrings();
+
                     }
                 });
             }

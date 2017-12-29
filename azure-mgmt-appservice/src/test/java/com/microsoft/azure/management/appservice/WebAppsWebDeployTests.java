@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.appservice;
 
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.RestClient;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
@@ -57,6 +58,7 @@ public class WebAppsWebDeployTests extends AppServiceTest {
 
         Assert.assertNotNull(deployment);
         if (!isPlaybackMode()) {
+            SdkContext.sleep(10000);
             Response response = curl("http://" + webApp1.defaultHostName() + "/helloworld");
             Assert.assertEquals(200, response.code());
             String body = response.body().string();

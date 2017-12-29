@@ -107,6 +107,7 @@ abstract class WebAppBaseImpl<
     private WebAppAuthenticationImpl<FluentT, FluentImplT> authentication;
     private boolean authenticationToUpdate;
     private SiteLogsConfigInner siteLogsConfig;
+    private boolean isInCreateMode;
 
     WebAppBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
         super(name, innerObject, manager);
@@ -115,6 +116,11 @@ abstract class WebAppBaseImpl<
         }
         this.siteConfig = configObject;
         normalizeProperties();
+        isInCreateMode = inner() == null || inner().id() == null;
+    }
+
+    public boolean isInCreateMode() {
+        return isInCreateMode;
     }
 
     @Override
@@ -527,13 +533,6 @@ abstract class WebAppBaseImpl<
             public Observable<Indexable> call(Context context) {
                 // Submit hostname bindings
                 return submitHostNameBindings()
-                        // refresh after hostname bindings
-                        .flatMap(new Func1<Indexable, Observable<FluentT>>() {
-                            @Override
-                            public Observable<FluentT> call(Indexable indexable) {
-                                return refreshAsync();
-                            }
-                        })
                         // Submit SSL bindings
                         .flatMap(new Func1<FluentT, Observable<Indexable>>() {
                             @Override
@@ -605,6 +604,9 @@ abstract class WebAppBaseImpl<
 
     @Override
     public Completable afterPostRunAsync(boolean succeeded) {
+        if (succeeded) {
+            isInCreateMode = false;
+        }
         return Completable.fromAction(new Action0() {
             @Override
             public void call() {
@@ -626,7 +628,7 @@ abstract class WebAppBaseImpl<
             });
     }
 
-    Observable<Indexable> submitHostNameBindings() {
+    Observable<FluentT> submitHostNameBindings() {
         List<Observable<HostNameBinding>> bindingObservables = new ArrayList<>();
         for (HostNameBindingImpl<FluentT, FluentImplT> binding: hostNameBindingsToCreate.values()) {
             bindingObservables.add(Utils.<HostNameBinding>rootResource(binding.createAsync()));
@@ -640,12 +642,17 @@ abstract class WebAppBaseImpl<
             }));
         }
         if (bindingObservables.isEmpty()) {
-            return Observable.just((Indexable) this);
+            return Observable.just((FluentT) this);
         } else {
-            return Observable.zip(bindingObservables, new FuncN<Indexable>() {
+            return Observable.zip(bindingObservables, new FuncN<WebAppBaseImpl>() {
                 @Override
-                public Indexable call(Object... args) {
+                public WebAppBaseImpl call(Object... args) {
                     return WebAppBaseImpl.this;
+                }
+            }).flatMap(new Func1<WebAppBaseImpl, Observable<FluentT>>() {
+                @Override
+                public Observable<FluentT> call(WebAppBaseImpl webAppBase) {
+                    return webAppBase.refreshAsync();
                 }
             });
         }

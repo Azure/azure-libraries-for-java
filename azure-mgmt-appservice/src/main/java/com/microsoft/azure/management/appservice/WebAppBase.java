@@ -809,7 +809,7 @@ public interface WebAppBase extends
         @Beta(SinceVersion.V1_6_0)
         interface WithManagedServiceIdentity<FluentT> {
             /**
-             * Specifies that System Assigned Managed Service Identity needs to be enabled in the web app
+             * Specifies that System Assigned Managed Service Identity needs to be enabled in the web app.
              * @return the next stage of the web app definition
              */
             @Method
@@ -1258,26 +1258,12 @@ public interface WebAppBase extends
         @Beta(SinceVersion.V1_6_0)
         interface WithManagedServiceIdentity<FluentT> {
             /**
-             * Specifies that System Assigned Managed Service Identity needs to be enabled in the web app
+             * Specifies that System Assigned Managed Service Identity needs to be enabled in the web app.
              * @return the next stage of the web app definition
              */
             @Method
             WithCreate<FluentT> withSystemAssignedManagedServiceIdentity();
         }
-    }
-
-    /**
-     * A web app definition stage allowing System Assigned Managed Service Identity to be set.
-     * @param <FluentT> the type of the resource
-     */
-    @Beta(SinceVersion.V1_6_0)
-    interface WithManagedServiceIdentity<FluentT> {
-        /**
-         * Specifies that System Assigned Managed Service Identity needs to be enabled in the web app
-         * @return the next stage of the web app definition
-         */
-        @Method
-        WithCreate<FluentT> withSystemAssignedManagedServiceIdentity();
     }
 
     /**

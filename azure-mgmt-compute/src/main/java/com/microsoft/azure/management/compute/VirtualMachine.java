@@ -13,6 +13,7 @@ import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineInner;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.PublicIPAddress;
@@ -424,6 +425,12 @@ public interface VirtualMachine extends
      */
     @Beta(Beta.SinceVersion.V1_4_0)
     ResourceIdentityType managedServiceIdentityType();
+
+    /**
+     * @return the resource ids of User Assigned Managed Service Identities associated with the virtual machine.
+     */
+    @Beta(Beta.SinceVersion.V1_5_1)
+    Set<String> userAssignedManagedServiceIdentityIds();
 
     // Setters
     //
@@ -1585,6 +1592,30 @@ public interface VirtualMachine extends
         }
 
         /**
+         * The stage of the virtual machine definition allowing to specify User Assigned (External) Managed Service Identities.
+         */
+        @Beta(Beta.SinceVersion.V1_5_1)
+        interface WithUserAssignedManagedServiceIdentity {
+            /**
+             * Specifies the definition of a not-yet-created user assigned identity to be associated with the virtual machine.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the virtual machine definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            WithCreate withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing user assigned identity to be associated with the virtual machine.
+             *
+             * @param identity the identity
+             * @return the next stage of the virtual machine definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            WithCreate withExistingUserAssignedManagedServiceIdentity(Identity identity);
+        }
+
+        /**
          * The stage of the VM definition allowing to specify availability zone.
          */
         @Beta(Beta.SinceVersion.V1_3_0)
@@ -1666,7 +1697,8 @@ public interface VirtualMachine extends
                 DefinitionStages.WithExtension,
                 DefinitionStages.WithPlan,
                 DefinitionStages.WithBootDiagnostics,
-                DefinitionStages.WithSystemAssignedManagedServiceIdentity {
+                DefinitionStages.WithSystemAssignedManagedServiceIdentity,
+                DefinitionStages.WithUserAssignedManagedServiceIdentity {
         }
     }
 
@@ -2051,6 +2083,38 @@ public interface VirtualMachine extends
             @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
+
+        /**
+         * The stage of the virtual machine update allowing to add or remove User Assigned (External) Managed Service Identities.
+         */
+        @Beta(Beta.SinceVersion.V1_5_1)
+        interface WithUserAssignedManagedServiceIdentity {
+            /**
+             * Specifies the definition of a not-yet-created user assigned identity to be associated with the virtual machine.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the virtual machine update
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            Update withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing user assigned identity to be associated with the virtual machine.
+             * @param identity the identity
+             * @return the next stage of the virtual machine update
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            Update withExistingUserAssignedManagedServiceIdentity(Identity identity);
+
+            /**
+             * Specifies that an user assigned identity associated with the virtual machine should be removed.
+             *
+             * @param identityId ARM resource id of the identity
+             * @return the next stage of the virtual machine update
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            Update withoutUserAssignedManagedServiceIdentity(String identityId);
+        }
     }
 
     /**
@@ -2064,8 +2128,8 @@ public interface VirtualMachine extends
             UpdateStages.WithSecondaryNetworkInterface,
             UpdateStages.WithExtension,
             UpdateStages.WithBootDiagnostics,
-            UpdateStages.WithSystemAssignedManagedServiceIdentity {
-
+            UpdateStages.WithSystemAssignedManagedServiceIdentity,
+            UpdateStages.WithUserAssignedManagedServiceIdentity {
         /**
          * Specifies the encryption settings for the OS Disk.
          *

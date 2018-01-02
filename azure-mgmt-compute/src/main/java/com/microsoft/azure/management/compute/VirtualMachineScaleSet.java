@@ -12,6 +12,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineScaleSetInner;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.network.LoadBalancerBackend;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
 import com.microsoft.azure.management.network.LoadBalancer;
@@ -336,6 +337,12 @@ public interface VirtualMachineScaleSet extends
      */
     @Beta(Beta.SinceVersion.V1_4_0)
     ResourceIdentityType managedServiceIdentityType();
+
+    /**
+     * @return the resource ids of User Assigned Managed Service Identities associated with the virtual machine scale set.
+     */
+    @Beta(Beta.SinceVersion.V1_5_1)
+    Set<String> userAssignedManagedServiceIdentityIds();
 
     /**
      * @return the availability zones assigned to virtual machine scale set.
@@ -1416,6 +1423,32 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of the virtual machine scale set definition allowing to specify User Assigned (External)
+         * Managed Service Identities.
+         */
+        @Beta(Beta.SinceVersion.V1_5_1)
+        interface WithUserAssignedManagedServiceIdentity {
+            /**
+             * Specifies the definition of a not-yet-created user assigned identity to be associated with the
+             * virtual machine scale set.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the virtual machine scale set definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            WithCreate withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing user assigned identity to be associated with the virtual machine scale set.
+             *
+             * @param identity the identity
+             * @return the next stage of the virtual machine scale set definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            WithCreate withExistingUserAssignedManagedServiceIdentity(Identity identity);
+        }
+
+        /**
          * The stage of the virtual machine scale set definition allowing to enable boot diagnostics.
          */
         @Beta(Beta.SinceVersion.V1_4_0)
@@ -1471,7 +1504,8 @@ public interface VirtualMachineScaleSet extends
                 DefinitionStages.WithStorageAccount,
                 DefinitionStages.WithCustomData,
                 DefinitionStages.WithExtension,
-                WithSystemAssignedManagedServiceIdentity,
+                DefinitionStages.WithSystemAssignedManagedServiceIdentity,
+                DefinitionStages.WithUserAssignedManagedServiceIdentity,
                 DefinitionStages.WithBootDiagnostics,
                 Resource.DefinitionWithTags<VirtualMachineScaleSet.DefinitionStages.WithCreate> {
         }
@@ -1802,6 +1836,41 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of the virtual machine update allowing to add or remove User Assigned (External)
+         * Managed Service Identities.
+         */
+        @Beta(Beta.SinceVersion.V1_5_1)
+        interface WithUserAssignedManagedServiceIdentity {
+            /**
+             * Specifies the definition of a not-yet-created user assigned identity to be associated
+             * with the virtual machine.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the virtual machine scale set update
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            WithApply withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing user assigned identity to be associated with the virtual machine.
+             *
+             * @param identity the identity
+             * @return the next stage of the virtual machine scale set update
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            WithApply withExistingUserAssignedManagedServiceIdentity(Identity identity);
+
+            /**
+             * Specifies that an user assigned identity associated with the virtual machine should be removed.
+             *
+             * @param identityId ARM resource id of the identity
+             * @return the next stage of the virtual machine scale set update
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            WithApply withoutUserAssignedManagedServiceIdentity(String identityId);
+        }
+
+        /**
          * The stage of the virtual machine scale set definition allowing to enable boot diagnostics.
          */
         @Beta(Beta.SinceVersion.V1_4_0)
@@ -1966,7 +2035,8 @@ public interface VirtualMachineScaleSet extends
                 UpdateStages.WithoutPrimaryLoadBalancer,
                 UpdateStages.WithoutPrimaryLoadBalancerBackend,
                 UpdateStages.WithoutPrimaryLoadBalancerNatPool,
-                WithSystemAssignedManagedServiceIdentity,
+                UpdateStages.WithSystemAssignedManagedServiceIdentity,
+                UpdateStages.WithUserAssignedManagedServiceIdentity,
                 UpdateStages.WithBootDiagnostics,
                 UpdateStages.WithAvailabilityZone {
         }

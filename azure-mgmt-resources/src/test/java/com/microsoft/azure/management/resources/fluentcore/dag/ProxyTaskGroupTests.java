@@ -518,10 +518,10 @@ public class ProxyTaskGroupTests {
         Set<String> seen = new HashSet<>();
         // Test invocation order for "group-1 proxy"
         //
-        group1.proxyTaskGroupWrapper.proxyTaskGroup().prepareForEnumeration();
-        for (TaskGroupEntry<TaskItem> entry = group1.proxyTaskGroupWrapper.proxyTaskGroup().getNext();
+        group1.proxyTaskGroupWrapper.taskGroup().prepareForEnumeration();
+        for (TaskGroupEntry<TaskItem> entry = group1.proxyTaskGroupWrapper.taskGroup().getNext();
              entry != null;
-             entry = group1.proxyTaskGroupWrapper.proxyTaskGroup().getNext()) {
+             entry = group1.proxyTaskGroupWrapper.taskGroup().getNext()) {
             Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
             Assert.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
@@ -529,7 +529,7 @@ public class ProxyTaskGroupTests {
                 Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
             }
             seen.add(entry.key());
-            group1.proxyTaskGroupWrapper.proxyTaskGroup().reportCompletion(entry);
+            group1.proxyTaskGroupWrapper.taskGroup().reportCompletion(entry);
         }
 
         Assert.assertEquals(13, seen.size()); // 2 groups each with 6 nodes + 1 proxy (proxy-F)
@@ -845,9 +845,9 @@ public class ProxyTaskGroupTests {
         //
         Assert.assertEquals(2, group1.parentDAGs.size());
         Assert.assertTrue(group1.parentDAGs.contains(group3));
-        Assert.assertTrue(group1.parentDAGs.contains(group1.proxyTaskGroupWrapper.proxyTaskGroup()));
-        Assert.assertEquals(1, group1.proxyTaskGroupWrapper.proxyTaskGroup().parentDAGs.size());
-        Assert.assertTrue( group1.proxyTaskGroupWrapper.proxyTaskGroup().parentDAGs.contains(group2));
+        Assert.assertTrue(group1.parentDAGs.contains(group1.proxyTaskGroupWrapper.taskGroup()));
+        Assert.assertEquals(1, group1.proxyTaskGroupWrapper.taskGroup().parentDAGs.size());
+        Assert.assertTrue( group1.proxyTaskGroupWrapper.taskGroup().parentDAGs.contains(group2));
 
         Map<String, Set<String>> shouldNotSee = new HashMap<>();
         // NotSeen entries for group-1
@@ -938,7 +938,7 @@ public class ProxyTaskGroupTests {
         // Test invocation order for "group-1 proxy"
         //
         seen.clear();
-        TaskGroup group1Proxy = group1.proxyTaskGroupWrapper.proxyTaskGroup();
+        TaskGroup group1Proxy = group1.proxyTaskGroupWrapper.taskGroup();
         group1Proxy.prepareForEnumeration();
         for (TaskGroupEntry<TaskItem> entry = group1Proxy.getNext(); entry != null; entry = group1Proxy.getNext()) {
             Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
@@ -1096,9 +1096,9 @@ public class ProxyTaskGroupTests {
         //
         Assert.assertEquals(2, group1.parentDAGs.size());
         Assert.assertTrue(group1.parentDAGs.contains(group3));
-        Assert.assertTrue(group1.parentDAGs.contains(group1.proxyTaskGroupWrapper.proxyTaskGroup()));
-        Assert.assertEquals(1, group1.proxyTaskGroupWrapper.proxyTaskGroup().parentDAGs.size());
-        Assert.assertTrue( group1.proxyTaskGroupWrapper.proxyTaskGroup().parentDAGs.contains(group2));
+        Assert.assertTrue(group1.parentDAGs.contains(group1.proxyTaskGroupWrapper.taskGroup()));
+        Assert.assertEquals(1, group1.proxyTaskGroupWrapper.taskGroup().parentDAGs.size());
+        Assert.assertTrue( group1.proxyTaskGroupWrapper.taskGroup().parentDAGs.contains(group2));
 
 
         // Prepare group-4
@@ -1344,7 +1344,7 @@ public class ProxyTaskGroupTests {
         //
         //
         Set<String> seen = new HashSet<>();
-        TaskGroup group1Proxy = group1.proxyTaskGroupWrapper.proxyTaskGroup();
+        TaskGroup group1Proxy = group1.proxyTaskGroupWrapper.taskGroup();
         group1Proxy.prepareForEnumeration();
         for (TaskGroupEntry<TaskItem> entry = group1Proxy.getNext(); entry != null; entry = group1Proxy.getNext()) {
             Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
@@ -1373,7 +1373,7 @@ public class ProxyTaskGroupTests {
         // This cause -> group-1, group-4 and group-5 to invoked
         //
         seen.clear();
-        TaskGroup group4Proxy = group4.proxyTaskGroupWrapper.proxyTaskGroup();
+        TaskGroup group4Proxy = group4.proxyTaskGroupWrapper.taskGroup();
         group4Proxy.prepareForEnumeration();
         for (TaskGroupEntry<TaskItem> entry = group4Proxy.getNext(); entry != null; entry = group4Proxy.getNext()) {
             Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
@@ -1425,6 +1425,135 @@ public class ProxyTaskGroupTests {
 
         diff = Sets.difference(seen, expectedToSee);
         Assert.assertEquals(0, diff.size());
+    }
+
+    @Test
+    public void canHandleDependenciesAndPostRunDependentsInBeforeGroupInvoke() {
+        final IndexableTaskItem itiA = new IndexableTaskItem("A") {
+            @Override
+            protected Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
+                return this.voidObservable();
+            }
+        };
+
+        final int [] beforeGroupInvokeCntB = new int[1];
+        final IndexableTaskItem itiB = new IndexableTaskItem("B") {
+            @Override
+            public void beforeGroupInvoke() {
+                beforeGroupInvokeCntB[0]++;
+                this.addDependency(itiA);
+            }
+
+            @Override
+            protected Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
+                return this.voidObservable();
+            }
+        };
+
+        final int [] beforeGroupInvokeCntC = new int[1];
+        final IndexableTaskItem itiC = new IndexableTaskItem("C") {
+            @Override
+            public void beforeGroupInvoke() {
+                beforeGroupInvokeCntC[0]++;
+                this.addPostRunDependent(itiB);
+            }
+
+            @Override
+            protected Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
+                return this.voidObservable();
+            }
+        };
+
+        /**
+         *            C" ---------> C
+         *            |             ^
+         *            |             |
+         *            |             |
+         *            |-----------> B ----> A
+         */
+
+        final ArrayList<String> seen = new ArrayList<>();
+        itiC.taskGroup()
+                .invokeAsync(itiC.taskGroup().newInvocationContext())
+                .toBlocking()
+                .subscribe(new Action1<Indexable>() {
+                    @Override
+                    public void call(Indexable indexable) {
+                        seen.add(indexable.key());
+                    }
+                });
+
+        boolean b1 = seen.equals(new ArrayList<>(Arrays.asList(new String [] {"A", "C", "B", "C"})));
+        boolean b2 = seen.equals(new ArrayList<>(Arrays.asList(new String [] {"C", "A", "B", "C"})));
+
+        if (!b1 && !b2) {
+            Assert.assertTrue("Emission order should be either [A, C, B, C] or [C, A, B, C] but got " + seen, false);
+        }
+
+        Assert.assertEquals(beforeGroupInvokeCntB[0], 1);
+        Assert.assertEquals(beforeGroupInvokeCntC[0], 1);
+
+        // ------ //
+
+        final IndexableTaskItem itiD = new IndexableTaskItem("D") {
+            @Override
+            protected Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
+                return this.voidObservable();
+            }
+        };
+
+        final int [] beforeGroupInvokeCntE = new int[1];
+        final IndexableTaskItem itiE = new IndexableTaskItem("E") {
+            @Override
+            public void beforeGroupInvoke() {
+                beforeGroupInvokeCntE[0]++;
+                this.addPostRunDependent(itiD);
+            }
+
+            @Override
+            protected Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
+                return this.voidObservable();
+            }
+        };
+
+        final int [] beforeGroupInvokeCntF = new int[1];
+        final IndexableTaskItem itiF = new IndexableTaskItem("F") {
+            @Override
+            public void beforeGroupInvoke() {
+                beforeGroupInvokeCntF[0]++;
+                this.addDependency(itiE);
+            }
+
+            @Override
+            protected Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
+                return this.voidObservable();
+            }
+        };
+
+        /**
+         *  F-------->E" ---------> E
+         *            |             ^
+         *            |             |
+         *            |             |
+         *            |-----------> D
+         */
+
+        seen.clear();
+        itiF.taskGroup()
+                .invokeAsync(itiC.taskGroup().newInvocationContext())
+                .toBlocking()
+                .subscribe(new Action1<Indexable>() {
+                    @Override
+                    public void call(Indexable indexable) {
+                        seen.add(indexable.key());
+                    }
+                });
+
+        b1 = seen.equals(new ArrayList<>(Arrays.asList(new String [] {"E", "D", "E", "F"})));
+        Assert.assertTrue("Emission order should be [E, D, E, F] but got " + seen, b1);
+
+        Assert.assertEquals(beforeGroupInvokeCntE[0], 1);
+        Assert.assertEquals(beforeGroupInvokeCntF[0], 1);
     }
 
     private TaskGroup createSampleTaskGroup(String vertex1,

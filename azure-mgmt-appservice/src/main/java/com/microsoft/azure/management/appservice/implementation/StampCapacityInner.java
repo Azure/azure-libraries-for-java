@@ -49,7 +49,7 @@ public class StampCapacityInner {
 
     /**
      * Size of the machines. Possible values include: 'Default', 'Small',
-     * 'Medium', 'Large'.
+     * 'Medium', 'Large', 'D1', 'D2', 'D3'.
      */
     @JsonProperty(value = "workerSize")
     private WorkerSizeOptions workerSize;

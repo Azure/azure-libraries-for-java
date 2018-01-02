@@ -10,13 +10,13 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Hybrid Connection contract. This is used to configure a Hybrid Connection.
  */
 @JsonFlatten
-public class HybridConnectionInner extends Resource {
+public class HybridConnectionInner extends ProxyOnlyResource {
     /**
      * The name of the Service Bus namespace.
      */

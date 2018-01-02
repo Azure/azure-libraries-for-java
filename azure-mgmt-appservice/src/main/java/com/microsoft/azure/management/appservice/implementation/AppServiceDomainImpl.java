@@ -181,7 +181,6 @@ class AppServiceDomainImpl
     @Override
     public Completable verifyDomainOwnershipAsync(String certificateOrderName, String domainVerificationToken) {
         DomainOwnershipIdentifierInner identifierInner = new DomainOwnershipIdentifierInner().withOwnershipId(domainVerificationToken);
-        identifierInner.withLocation("global");
         return this.manager().inner().domains().createOrUpdateOwnershipIdentifierAsync(resourceGroupName(), name(), certificateOrderName, identifierInner)
                 .map(new Func1<DomainOwnershipIdentifierInner, Void>() {
                     @Override

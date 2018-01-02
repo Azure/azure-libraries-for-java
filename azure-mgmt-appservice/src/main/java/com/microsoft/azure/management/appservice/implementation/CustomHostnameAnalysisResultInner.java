@@ -13,13 +13,13 @@ import com.microsoft.azure.management.appservice.ErrorEntity;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Custom domain analysis.
  */
 @JsonFlatten
-public class CustomHostnameAnalysisResultInner extends Resource {
+public class CustomHostnameAnalysisResultInner extends ProxyOnlyResource {
     /**
      * &lt;code&gt;true&lt;/code&gt; if hostname is already verified;
      * otherwise, &lt;code&gt;false&lt;/code&gt;.

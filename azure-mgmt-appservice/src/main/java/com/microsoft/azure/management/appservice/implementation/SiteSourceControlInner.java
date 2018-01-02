@@ -10,13 +10,13 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Source control configuration for an app.
  */
 @JsonFlatten
-public class SiteSourceControlInner extends Resource {
+public class SiteSourceControlInner extends ProxyOnlyResource {
     /**
      * Repository or source control URL.
      */

@@ -23,7 +23,7 @@ import rx.Observable;
  * Entry point to compute service SKUs.
  */
 @Fluent
-@Beta // TODO Add since v1.5 param
+@Beta(Beta.SinceVersion.V1_5_0)
 public interface ComputeSkus
         extends SupportsListing<ComputeSku>,
         SupportsListingByRegion<ComputeSku>,

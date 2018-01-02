@@ -11,13 +11,13 @@ package com.microsoft.azure.management.appservice.implementation;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * SSL certificate email.
  */
 @JsonFlatten
-public class CertificateEmailInner extends Resource {
+public class CertificateEmailInner extends ProxyOnlyResource {
     /**
      * Email id.
      */

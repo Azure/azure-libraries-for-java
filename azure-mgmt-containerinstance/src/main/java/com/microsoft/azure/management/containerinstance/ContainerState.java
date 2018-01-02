@@ -12,35 +12,36 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The container state.
+ * The container instance state.
  */
 public class ContainerState {
     /**
-     * The state of this container.
+     * The state of the container instance.
      */
     @JsonProperty(value = "state")
     private String state;
 
     /**
-     * Date/time when the container state started.
+     * The date-time when the container instance state started.
      */
     @JsonProperty(value = "startTime")
     private DateTime startTime;
 
     /**
-     * The container exit code.
+     * The container instance exit codes correspond to those from the `docker
+     * run` command.
      */
     @JsonProperty(value = "exitCode")
     private Integer exitCode;
 
     /**
-     * Date/time when the container state finished.
+     * The date-time when the container instance state finished.
      */
     @JsonProperty(value = "finishTime")
     private DateTime finishTime;
 
     /**
-     * Human-readable status of this state.
+     * The human-readable status of the container instance state.
      */
     @JsonProperty(value = "detailStatus")
     private String detailStatus;

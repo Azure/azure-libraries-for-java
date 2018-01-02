@@ -12,13 +12,13 @@ import java.util.List;
 import com.microsoft.azure.management.appservice.MetricAvailabilily;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Metadata for a metric.
  */
 @JsonFlatten
-public class MetricDefinitionInner extends Resource {
+public class MetricDefinitionInner extends ProxyOnlyResource {
     /**
      * Name of the metric.
      */

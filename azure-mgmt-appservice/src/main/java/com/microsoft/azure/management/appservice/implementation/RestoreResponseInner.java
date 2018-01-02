@@ -10,13 +10,13 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Response for an app restore request.
  */
 @JsonFlatten
-public class RestoreResponseInner extends Resource {
+public class RestoreResponseInner extends ProxyOnlyResource {
     /**
      * When server starts the restore process, it will return an operation ID
      * identifying that particular restore operation.

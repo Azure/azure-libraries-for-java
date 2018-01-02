@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.appservice;
 
+import com.google.common.io.ByteStreams;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.rest.RestClient;
 import okhttp3.OkHttpClient;
@@ -14,8 +15,10 @@ import okhttp3.Response;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.ZipInputStream;
 
 public class LinuxWebAppsTests extends AppServiceTest {
     private static String RG_NAME_1 = "";
@@ -61,8 +64,10 @@ public class LinuxWebAppsTests extends AppServiceTest {
 
         // Create in a new group with existing app service plan
         WebApp webApp2 = appServiceManager.webApps().define(WEBAPP_NAME_2)
-                .withExistingWindowsPlan(plan1)
+                .withExistingLinuxPlan(plan1)
                 .withNewResourceGroup(RG_NAME_2)
+                .withPublicDockerHubImage("tomcat")
+                .withContainerLoggingEnabled()
                 .create();
         Assert.assertNotNull(webApp2);
         Assert.assertEquals(Region.US_WEST, webApp2.region());
@@ -73,6 +78,21 @@ public class LinuxWebAppsTests extends AppServiceTest {
         Assert.assertEquals(OperatingSystem.LINUX, webApp.operatingSystem());
         webApp = appServiceManager.webApps().getById(webApp2.id());
         Assert.assertEquals(OperatingSystem.LINUX, webApp.operatingSystem());
+
+        // View logs
+        if (!isPlaybackMode()) {
+            // warm up
+            curl("http://" + webApp.defaultHostName());
+        }
+        byte[] logs = webApp.getContainerLogs();
+        Assert.assertTrue(logs.length > 0);
+        byte[] logsZip = webApp.getContainerLogsZip();
+        if (!isPlaybackMode()) {
+            ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(logsZip));
+            Assert.assertNotNull(zipInputStream.getNextEntry());
+            byte[] unzipped = ByteStreams.toByteArray(zipInputStream);
+            Assert.assertTrue(unzipped.length > 0);
+        }
 
         // Update
         webApp1.update()

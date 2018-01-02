@@ -256,6 +256,12 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     private List<NameValuePair> clusterSettings;
 
     /**
+     * User added ip ranges to whitelist on ASE db.
+     */
+    @JsonProperty(value = "properties.userWhitelistedIpRanges")
+    private List<String> userWhitelistedIpRanges;
+
+    /**
      * Get the appServiceEnvironmentResourceName value.
      *
      * @return the appServiceEnvironmentResourceName value
@@ -765,6 +771,26 @@ public class AppServiceEnvironmentResourceInner extends Resource {
      */
     public AppServiceEnvironmentResourceInner withClusterSettings(List<NameValuePair> clusterSettings) {
         this.clusterSettings = clusterSettings;
+        return this;
+    }
+
+    /**
+     * Get the userWhitelistedIpRanges value.
+     *
+     * @return the userWhitelistedIpRanges value
+     */
+    public List<String> userWhitelistedIpRanges() {
+        return this.userWhitelistedIpRanges;
+    }
+
+    /**
+     * Set the userWhitelistedIpRanges value.
+     *
+     * @param userWhitelistedIpRanges the userWhitelistedIpRanges value to set
+     * @return the AppServiceEnvironmentResourceInner object itself.
+     */
+    public AppServiceEnvironmentResourceInner withUserWhitelistedIpRanges(List<String> userWhitelistedIpRanges) {
+        this.userWhitelistedIpRanges = userWhitelistedIpRanges;
         return this;
     }
 

@@ -21,7 +21,7 @@ public class NetworkAccessControlEntry {
     private AccessControlEntryAction action;
 
     /**
-     * Description.
+     * Description of network access control entry.
      */
     @JsonProperty(value = "description")
     private String description;

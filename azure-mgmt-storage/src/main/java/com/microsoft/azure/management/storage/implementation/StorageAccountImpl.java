@@ -11,8 +11,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.implementa
 import com.microsoft.azure.management.storage.AccessTier;
 import com.microsoft.azure.management.storage.CustomDomain;
 import com.microsoft.azure.management.storage.Encryption;
-import com.microsoft.azure.management.storage.EncryptionService;
-import com.microsoft.azure.management.storage.EncryptionServices;
+import com.microsoft.azure.management.storage.Identity;
 import com.microsoft.azure.management.storage.StorageAccountEncryptionKeySource;
 import com.microsoft.azure.management.storage.StorageAccountEncryptionStatus;
 import com.microsoft.azure.management.storage.Kind;
@@ -22,6 +21,7 @@ import com.microsoft.azure.management.storage.Sku;
 import com.microsoft.azure.management.storage.SkuName;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountKey;
+import com.microsoft.azure.management.storage.StorageAccountSkuType;
 import com.microsoft.azure.management.storage.StorageService;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
@@ -30,12 +30,11 @@ import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Implementation for StorageAccount and its parent interfaces.
+ * Implementation for {@link StorageAccount}.
  */
 @LangDefinition
 class StorageAccountImpl
@@ -53,12 +52,16 @@ class StorageAccountImpl
     private AccountStatuses accountStatuses;
     private StorageAccountCreateParametersInner createParameters;
     private StorageAccountUpdateParametersInner updateParameters;
+    private StorageNetworkRulesHelper networkRulesHelper;
+    private StorageEncryptionHelper encryptionHelper;
 
     StorageAccountImpl(String name,
                               StorageAccountInner innerModel,
                               final StorageManager storageManager) {
         super(name, innerModel, storageManager);
         this.createParameters = new StorageAccountCreateParametersInner();
+        this.networkRulesHelper = new StorageNetworkRulesHelper(this.createParameters);
+        this.encryptionHelper = new StorageEncryptionHelper(this.createParameters);
     }
 
     @Override
@@ -70,8 +73,17 @@ class StorageAccountImpl
     }
 
     @Override
+    @Deprecated
     public Sku sku() {
-        return this.inner().sku();
+        return new Sku().withName(this.inner().sku().name());
+    }
+
+    @Override
+    public StorageAccountSkuType skuType() {
+        // We deprecated the sku() getter. When we remove it we wanted to rename this
+        // 'beta' getter skuType() to sku().
+        //
+        return StorageAccountSkuType.fromSkuName(this.inner().sku().name());
     }
 
     @Override
@@ -108,37 +120,77 @@ class StorageAccountImpl
     }
 
     @Override
+    @Deprecated
     public Encryption encryption() {
         return inner().encryption();
     }
 
     @Override
     public StorageAccountEncryptionKeySource encryptionKeySource() {
-        if (this.inner().encryption() == null
-                || this.inner().encryption().keySource() == null) {
-            return null;
-        }
-        return StorageAccountEncryptionKeySource.fromString(this.inner().encryption().keySource());
+        return StorageEncryptionHelper.encryptionKeySource(this.inner());
     }
 
     @Override
     public Map<StorageService, StorageAccountEncryptionStatus> encryptionStatuses() {
-        HashMap<StorageService, StorageAccountEncryptionStatus> statuses = new HashMap<>();
-        if (this.inner().encryption() != null
-                && this.inner().encryption().services() != null) {
-            // Status of blob service
-            //
-            // Status for other service needs to be added as storage starts supporting it
-            statuses.put(StorageService.BLOB, new BlobServiceEncryptionStatusImpl(this.inner().encryption().services()));
-        } else {
-            statuses.put(StorageService.BLOB, new BlobServiceEncryptionStatusImpl(new EncryptionServices()));
-        }
-        return statuses;
+        return StorageEncryptionHelper.encryptionStatuses(this.inner());
     }
 
     @Override
     public AccessTier accessTier() {
         return inner().accessTier();
+    }
+
+    @Override
+    public String systemAssignedManagedServiceIdentityTenantId() {
+        if (this.inner().identity() == null) {
+            return null;
+        } else {
+            return this.inner().identity().tenantId();
+        }
+    }
+
+    @Override
+    public String systemAssignedManagedServiceIdentityPrincipalId() {
+        if (this.inner().identity() == null) {
+            return null;
+        } else {
+            return this.inner().identity().principalId();
+        }
+    }
+
+    @Override
+    public boolean isAccessAllowedFromAllNetworks() {
+        return StorageNetworkRulesHelper.isAccessAllowedFromAllNetworks(this.inner());
+    }
+
+    @Override
+    public List<String> networkSubnetsWithAccess() {
+        return StorageNetworkRulesHelper.networkSubnetsWithAccess(this.inner());
+    }
+
+    @Override
+    public List<String> ipAddressesWithAccess() {
+        return StorageNetworkRulesHelper.ipAddressesWithAccess(this.inner());
+    }
+
+    @Override
+    public List<String> ipAddressRangesWithAccess() {
+        return StorageNetworkRulesHelper.ipAddressRangesWithAccess(this.inner());
+    }
+
+    @Override
+    public boolean canReadLogEntriesFromAnyNetwork() {
+        return StorageNetworkRulesHelper.canReadLogEntriesFromAnyNetwork(this.inner());
+    }
+
+    @Override
+    public boolean canReadMetricsFromAnyNetwork() {
+        return StorageNetworkRulesHelper.canReadMetricsFromAnyNetwork(this.inner());
+    }
+
+    @Override
+    public boolean canAccessFromAzureServices() {
+        return StorageNetworkRulesHelper.canAccessFromAzureServices(this.inner());
     }
 
     @Override
@@ -201,11 +253,17 @@ class StorageAccountImpl
     }
 
     @Override
+    @Deprecated
     public StorageAccountImpl withSku(SkuName skuName) {
+        return withSku(StorageAccountSkuType.fromSkuName(skuName));
+    }
+
+    @Override
+    public StorageAccountImpl withSku(StorageAccountSkuType sku) {
         if (isInCreateMode()) {
-            createParameters.withSku(new Sku().withName(skuName));
+            createParameters.withSku(new SkuInner().withName(sku.name()));
         } else {
-            updateParameters.withSku(new Sku().withName(skuName));
+            updateParameters.withSku(new SkuInner().withName(sku.name()));
         }
         return this;
     }
@@ -223,51 +281,50 @@ class StorageAccountImpl
     }
 
     @Override
-    public StorageAccountImpl withEncryption() {
-        Encryption encryption;
-        if (this.inner().encryption() != null) {
-            encryption = this.inner().encryption();
-        } else {
-            encryption = new Encryption();
-        }
-        if (encryption.services() == null) {
-            encryption.withServices(new EncryptionServices());
-        }
-        if (encryption.keySource() == null) {
-            encryption.withKeySource("Microsoft.Storage");
-        }
-        // Enable encryption for blob service
-        //
-        if (encryption.services().blob() == null) {
-            encryption.services().withBlob(new EncryptionService());
-        }
-        encryption.services().blob().withEnabled(true);
-        // Code for enabling encryption for other service will be added as storage start supporting them.
-        //
-        if (isInCreateMode()) {
-            createParameters.withEncryption(encryption);
-        } else {
-            updateParameters.withEncryption(encryption);
-        }
+    public StorageAccountImpl withGeneralPurposeAccountKindV2() {
+        createParameters.withKind(Kind.STORAGE_V2);
         return this;
     }
 
     @Override
+    @Deprecated
+    public StorageAccountImpl withEncryption() {
+        return withBlobEncryption();
+    }
+
+    @Override
+    public StorageAccountImpl withBlobEncryption() {
+        this.encryptionHelper.withBlobEncryption();
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withFileEncryption() {
+        this.encryptionHelper.withFileEncryption();
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withEncryptionKeyFromKeyVault(String keyVaultUri, String keyName, String keyVersion) {
+        this.encryptionHelper.withEncryptionKeyFromKeyVault(keyVaultUri, keyName, keyVersion);
+        return this;
+    }
+
+    @Override
+    @Deprecated
     public StorageAccountImpl withoutEncryption() {
-        if (this.inner().encryption() == null
-                || this.inner().encryption().services() == null) {
-            return this;
-        }
-        Encryption encryption = this.inner().encryption();
-        // Disable encryption for blob service
-        //
-        if (encryption.services().blob() == null) {
-            return this;
-        }
-        encryption.services().blob().withEnabled(false);
-        // Code for disabling encryption for other service will be added as storage start supporting them.
-        //
-        updateParameters.withEncryption(encryption);
+        return withoutBlobEncryption();
+    }
+
+    @Override
+    public StorageAccountImpl withoutBlobEncryption() {
+        this.encryptionHelper.withoutBlobEncryption();
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withoutFileEncryption() {
+        this.encryptionHelper.withoutFileEncryption();
         return this;
     }
 
@@ -278,16 +335,11 @@ class StorageAccountImpl
 
     @Override
     public StorageAccountImpl update() {
+        createParameters = null;
         updateParameters = new StorageAccountUpdateParametersInner();
+        this.networkRulesHelper = new StorageNetworkRulesHelper(this.updateParameters, this.inner());
+        this.encryptionHelper = new StorageEncryptionHelper(this.updateParameters, this.inner());
         return super.update();
-    }
-
-    @Override
-    public Observable<StorageAccount> updateResourceAsync() {
-        updateParameters.withTags(this.inner().getTags());
-        return this.manager().inner().storageAccounts().updateAsync(
-                resourceGroupName(), name(), updateParameters)
-                .map(innerToFluentMap(this));
     }
 
     @Override
@@ -323,9 +375,129 @@ class StorageAccountImpl
         return this;
     }
 
+    @Override
+    public StorageAccountImpl withSystemAssignedManagedServiceIdentity() {
+        if (this.inner().identity() == null) {
+            if (isInCreateMode()) {
+                createParameters.withIdentity(new Identity().withType("SystemAssigned"));
+            } else {
+                updateParameters.withIdentity(new Identity().withType("SystemAssigned"));
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withOnlyHttpsTraffic() {
+        if (isInCreateMode()) {
+            createParameters.withEnableHttpsTrafficOnly(true);
+        } else {
+            updateParameters.withEnableHttpsTrafficOnly(true);
+        }
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withHttpAndHttpsTraffic() {
+        updateParameters.withEnableHttpsTrafficOnly(false);
+        return this;
+    }
+
+
+    @Override
+    public StorageAccountImpl withAccessFromAllNetworks() {
+        this.networkRulesHelper.withAccessFromAllNetworks();
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withAccessFromSelectedNetworks() {
+        this.networkRulesHelper.withAccessFromSelectedNetworks();
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withAccessFromNetworkSubnet(String subnetId) {
+        this.networkRulesHelper.withAccessFromNetworkSubnet(subnetId);
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withAccessFromIpAddress(String ipAddress) {
+        this.networkRulesHelper.withAccessFromIpAddress(ipAddress);
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withAccessFromIpAddressRange(String ipAddressCidr) {
+        this.networkRulesHelper.withAccessFromIpAddressRange(ipAddressCidr);
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withReadAccessToLogEntriesFromAnyNetwork() {
+        this.networkRulesHelper.withReadAccessToLoggingFromAnyNetwork();
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withReadAccessToMetricsFromAnyNetwork() {
+        this.networkRulesHelper.withReadAccessToMetricsFromAnyNetwork();
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withAccessFromAzureServices() {
+        this.networkRulesHelper.withAccessAllowedFromAzureServices();
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withoutNetworkSubnetAccess(String subnetId) {
+        this.networkRulesHelper.withoutNetworkSubnetAccess(subnetId);
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withoutIpAddressAccess(String ipAddress) {
+        this.networkRulesHelper.withoutIpAddressAccess(ipAddress);
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withoutIpAddressRangeAccess(String ipAddressCidr) {
+        this.networkRulesHelper.withoutIpAddressRangeAccess(ipAddressCidr);
+        return this;
+    }
+
+    @Override
+    public Update withoutReadAccessToLoggingFromAnyNetwork() {
+        this.networkRulesHelper.withoutReadAccessToLoggingFromAnyNetwork();
+        return this;
+    }
+
+    @Override
+    public Update withoutReadAccessToMetricsFromAnyNetwork() {
+        this.networkRulesHelper.withoutReadAccessToMetricsFromAnyNetwork();
+        return this;
+    }
+
+    @Override
+    public Update withoutAccessFromAzureServices() {
+        this.networkRulesHelper.withoutAccessFromAzureServices();
+        return this;
+    }
+
+    @Override
+    public Update upgradeToGeneralPurposeAccountKindV2() {
+        updateParameters.withKind(Kind.STORAGE_V2);
+        return this;
+    }
+
     // CreateUpdateTaskGroup.ResourceCreator implementation
     @Override
     public Observable<StorageAccount> createResourceAsync() {
+        this.networkRulesHelper.setDefaultActionIfRequired();
         createParameters.withLocation(this.regionName());
         createParameters.withTags(this.inner().getTags());
         final StorageAccountsInner client = this.manager().inner().storageAccounts();
@@ -337,6 +509,21 @@ class StorageAccountImpl
                         return client.getByResourceGroupAsync(resourceGroupName(), name());
                     }
                 })
+                .map(innerToFluentMap(this))
+                .doOnNext(new Action1<StorageAccount>() {
+                    @Override
+                    public void call(StorageAccount storageAccount) {
+                        clearWrapperProperties();
+                    }
+                });
+    }
+
+    @Override
+    public Observable<StorageAccount> updateResourceAsync() {
+        this.networkRulesHelper.setDefaultActionIfRequired();
+        updateParameters.withTags(this.inner().getTags());
+        return this.manager().inner().storageAccounts().updateAsync(
+                resourceGroupName(), name(), updateParameters)
                 .map(innerToFluentMap(this))
                 .doOnNext(new Action1<StorageAccount>() {
                     @Override

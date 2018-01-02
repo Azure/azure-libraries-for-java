@@ -199,15 +199,15 @@ public final class Utils {
                 storageProfile.append("\n\t\t\tEncryptionSettings: ");
                 storageProfile.append("\n\t\t\t\tEnabled: ").append(resource.storageProfile().osDisk().encryptionSettings().enabled());
                 storageProfile.append("\n\t\t\t\tDiskEncryptionKey Uri: ").append(resource
-                    .storageProfile()
-                    .osDisk()
-                    .encryptionSettings()
-                    .diskEncryptionKey().secretUrl());
+                        .storageProfile()
+                        .osDisk()
+                        .encryptionSettings()
+                        .diskEncryptionKey().secretUrl());
                 storageProfile.append("\n\t\t\t\tKeyEncryptionKey Uri: ").append(resource
-                    .storageProfile()
-                    .osDisk()
-                    .encryptionSettings()
-                    .keyEncryptionKey().keyUrl());
+                        .storageProfile()
+                        .osDisk()
+                        .encryptionSettings()
+                        .keyEncryptionKey().keyUrl());
             }
         }
 
@@ -241,17 +241,17 @@ public final class Utils {
             if (resource.osProfile().windowsConfiguration() != null) {
                 osProfile.append("\n\t\t\tWindowsConfiguration: ");
                 osProfile.append("\n\t\t\t\tProvisionVMAgent: ")
-                    .append(resource.osProfile().windowsConfiguration().provisionVMAgent());
+                        .append(resource.osProfile().windowsConfiguration().provisionVMAgent());
                 osProfile.append("\n\t\t\t\tEnableAutomaticUpdates: ")
-                    .append(resource.osProfile().windowsConfiguration().enableAutomaticUpdates());
+                        .append(resource.osProfile().windowsConfiguration().enableAutomaticUpdates());
                 osProfile.append("\n\t\t\t\tTimeZone: ")
-                    .append(resource.osProfile().windowsConfiguration().timeZone());
+                        .append(resource.osProfile().windowsConfiguration().timeZone());
             }
 
             if (resource.osProfile().linuxConfiguration() != null) {
                 osProfile.append("\n\t\t\tLinuxConfiguration: ");
                 osProfile.append("\n\t\t\t\tDisablePasswordAuthentication: ")
-                    .append(resource.osProfile().linuxConfiguration().disablePasswordAuthentication());
+                        .append(resource.osProfile().linuxConfiguration().disablePasswordAuthentication());
             }
         } else {
             // OSProfile will be null for a VM attached to specialized VHD.
@@ -267,38 +267,38 @@ public final class Utils {
         for (Map.Entry<String, VirtualMachineExtension> extensionEntry : resource.listExtensions().entrySet()) {
             VirtualMachineExtension extension = extensionEntry.getValue();
             extensions.append("\n\t\tExtension: ").append(extension.id())
-                .append("\n\t\t\tName: ").append(extension.name())
-                .append("\n\t\t\tTags: ").append(extension.tags())
-                .append("\n\t\t\tProvisioningState: ").append(extension.provisioningState())
-                .append("\n\t\t\tAuto upgrade minor version enabled: ").append(extension.autoUpgradeMinorVersionEnabled())
-                .append("\n\t\t\tPublisher: ").append(extension.publisherName())
-                .append("\n\t\t\tType: ").append(extension.typeName())
-                .append("\n\t\t\tVersion: ").append(extension.versionName())
-                .append("\n\t\t\tPublic Settings: ").append(extension.publicSettingsAsJsonString());
+                    .append("\n\t\t\tName: ").append(extension.name())
+                    .append("\n\t\t\tTags: ").append(extension.tags())
+                    .append("\n\t\t\tProvisioningState: ").append(extension.provisioningState())
+                    .append("\n\t\t\tAuto upgrade minor version enabled: ").append(extension.autoUpgradeMinorVersionEnabled())
+                    .append("\n\t\t\tPublisher: ").append(extension.publisherName())
+                    .append("\n\t\t\tType: ").append(extension.typeName())
+                    .append("\n\t\t\tVersion: ").append(extension.versionName())
+                    .append("\n\t\t\tPublic Settings: ").append(extension.publicSettingsAsJsonString());
         }
 
         StringBuilder msi = new StringBuilder().append("\n\tMSI: ");
         msi.append("\n\t\t\tMSI enabled:").append(resource.isManagedServiceIdentityEnabled());
-        msi.append("\n\t\t\tMSI Active Directory Service Principal Id:").append(resource.managedServiceIdentityPrincipalId());
-        msi.append("\n\t\t\tMSI Active Directory Tenant Id:").append(resource.managedServiceIdentityTenantId());
+        msi.append("\n\t\t\tSystem Assigned MSI Active Directory Service Principal Id:").append(resource.systemAssignedManagedServiceIdentityPrincipalId());
+        msi.append("\n\t\t\tSystem Assigned MSI Active Directory Tenant Id:").append(resource.systemAssignedManagedServiceIdentityTenantId());
 
         StringBuilder zones = new StringBuilder().append("\n\tZones: ");
         zones.append(resource.availabilityZones());
 
         System.out.println(new StringBuilder().append("Virtual Machine: ").append(resource.id())
-            .append("Name: ").append(resource.name())
-            .append("\n\tResource group: ").append(resource.resourceGroupName())
-            .append("\n\tRegion: ").append(resource.region())
-            .append("\n\tTags: ").append(resource.tags())
-            .append("\n\tHardwareProfile: ")
-            .append("\n\t\tSize: ").append(resource.size())
-            .append(storageProfile)
-            .append(osProfile)
-            .append(networkProfile)
-            .append(extensions)
-            .append(msi)
-            .append(zones)
-            .toString());
+                .append("Name: ").append(resource.name())
+                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tTags: ").append(resource.tags())
+                .append("\n\tHardwareProfile: ")
+                .append("\n\t\tSize: ").append(resource.size())
+                .append(storageProfile)
+                .append(osProfile)
+                .append(networkProfile)
+                .append(extensions)
+                .append(msi)
+                .append(zones)
+                .toString());
     }
 
 
@@ -310,13 +310,13 @@ public final class Utils {
     public static void print(AvailabilitySet resource) {
 
         System.out.println(new StringBuilder().append("Availability Set: ").append(resource.id())
-            .append("Name: ").append(resource.name())
-            .append("\n\tResource group: ").append(resource.resourceGroupName())
-            .append("\n\tRegion: ").append(resource.region())
-            .append("\n\tTags: ").append(resource.tags())
-            .append("\n\tFault domain count: ").append(resource.faultDomainCount())
-            .append("\n\tUpdate domain count: ").append(resource.updateDomainCount())
-            .toString());
+                .append("Name: ").append(resource.name())
+                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tTags: ").append(resource.tags())
+                .append("\n\tFault domain count: ").append(resource.faultDomainCount())
+                .append("\n\tUpdate domain count: ").append(resource.updateDomainCount())
+                .toString());
     }
 
     /**
@@ -328,17 +328,17 @@ public final class Utils {
     public static void print(Network resource) {
         StringBuilder info = new StringBuilder();
         info.append("Network: ").append(resource.id())
-            .append("Name: ").append(resource.name())
-            .append("\n\tResource group: ").append(resource.resourceGroupName())
-            .append("\n\tRegion: ").append(resource.region())
-            .append("\n\tTags: ").append(resource.tags())
-            .append("\n\tAddress spaces: ").append(resource.addressSpaces())
-            .append("\n\tDNS server IPs: ").append(resource.dnsServerIPs());
+                .append("Name: ").append(resource.name())
+                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tTags: ").append(resource.tags())
+                .append("\n\tAddress spaces: ").append(resource.addressSpaces())
+                .append("\n\tDNS server IPs: ").append(resource.dnsServerIPs());
 
         // Output subnets
         for (Subnet subnet : resource.subnets().values()) {
             info.append("\n\tSubnet: ").append(subnet.name())
-                .append("\n\t\tAddress prefix: ").append(subnet.addressPrefix());
+                    .append("\n\t\tAddress prefix: ").append(subnet.addressPrefix());
 
             // Output associated NSG
             NetworkSecurityGroup subnetNsg = subnet.getNetworkSecurityGroup();
@@ -356,10 +356,10 @@ public final class Utils {
         // Output peerings
         for (NetworkPeering peering : resource.peerings().list()) {
             info.append("\n\tPeering: ").append(peering.name())
-                .append("\n\t\tRemote network ID: ").append(peering.remoteNetworkId())
-                .append("\n\t\tPeering state: ").append(peering.state())
-                .append("\n\t\tIs traffic forwarded from remote network allowed? ").append(peering.isTrafficForwardingFromRemoteNetworkAllowed())
-                .append("\n\t\tGateway use: ").append(peering.gatewayUse());
+                    .append("\n\t\tRemote network ID: ").append(peering.remoteNetworkId())
+                    .append("\n\t\tPeering state: ").append(peering.state())
+                    .append("\n\t\tIs traffic forwarded from remote network allowed? ").append(peering.isTrafficForwardingFromRemoteNetworkAllowed())
+                    .append("\n\t\tGateway use: ").append(peering.gatewayUse());
         }
         System.out.println(info.toString());
     }
@@ -372,16 +372,16 @@ public final class Utils {
     public static void print(NetworkInterface resource) {
         StringBuilder info = new StringBuilder();
         info.append("NetworkInterface: ").append(resource.id())
-            .append("Name: ").append(resource.name())
-            .append("\n\tResource group: ").append(resource.resourceGroupName())
-            .append("\n\tRegion: ").append(resource.region())
-            .append("\n\tTags: ").append(resource.tags())
-            .append("\n\tInternal DNS name label: ").append(resource.internalDnsNameLabel())
-            .append("\n\tInternal FQDN: ").append(resource.internalFqdn())
-            .append("\n\tInternal domain name suffix: ").append(resource.internalDomainNameSuffix())
-            .append("\n\tNetwork security group: ").append(resource.networkSecurityGroupId())
-            .append("\n\tApplied DNS servers: ").append(resource.appliedDnsServers().toString())
-            .append("\n\tDNS server IPs: ");
+                .append("Name: ").append(resource.name())
+                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tTags: ").append(resource.tags())
+                .append("\n\tInternal DNS name label: ").append(resource.internalDnsNameLabel())
+                .append("\n\tInternal FQDN: ").append(resource.internalFqdn())
+                .append("\n\tInternal domain name suffix: ").append(resource.internalDomainNameSuffix())
+                .append("\n\tNetwork security group: ").append(resource.networkSecurityGroupId())
+                .append("\n\tApplied DNS servers: ").append(resource.appliedDnsServers().toString())
+                .append("\n\tDNS server IPs: ");
 
         // Output dns servers
         for (String dnsServerIp : resource.dnsServers()) {
@@ -389,12 +389,12 @@ public final class Utils {
         }
 
         info.append("\n\tIP forwarding enabled? ").append(resource.isIPForwardingEnabled())
-            .append("\n\tAccelerated networking enabled? ").append(resource.isAcceleratedNetworkingEnabled())
-            .append("\n\tMAC Address:").append(resource.macAddress())
-            .append("\n\tPrivate IP:").append(resource.primaryPrivateIP())
-            .append("\n\tPrivate allocation method:").append(resource.primaryPrivateIPAllocationMethod())
-            .append("\n\tPrimary virtual network ID: ").append(resource.primaryIPConfiguration().networkId())
-            .append("\n\tPrimary subnet name:").append(resource.primaryIPConfiguration().subnetName());
+                .append("\n\tAccelerated networking enabled? ").append(resource.isAcceleratedNetworkingEnabled())
+                .append("\n\tMAC Address:").append(resource.macAddress())
+                .append("\n\tPrivate IP:").append(resource.primaryPrivateIP())
+                .append("\n\tPrivate allocation method:").append(resource.primaryPrivateIPAllocationMethod())
+                .append("\n\tPrimary virtual network ID: ").append(resource.primaryIPConfiguration().networkId())
+                .append("\n\tPrimary subnet name:").append(resource.primaryIPConfiguration().subnetName());
 
         System.out.println(info.toString());
     }
@@ -407,22 +407,22 @@ public final class Utils {
     public static void print(NetworkSecurityGroup resource) {
         StringBuilder info = new StringBuilder();
         info.append("NSG: ").append(resource.id())
-            .append("Name: ").append(resource.name())
-            .append("\n\tResource group: ").append(resource.resourceGroupName())
-            .append("\n\tRegion: ").append(resource.region())
-            .append("\n\tTags: ").append(resource.tags());
+                .append("Name: ").append(resource.name())
+                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tTags: ").append(resource.tags());
 
         // Output security rules
         for (NetworkSecurityRule rule : resource.securityRules().values()) {
             info.append("\n\tRule: ").append(rule.name())
-                .append("\n\t\tAccess: ").append(rule.access())
-                .append("\n\t\tDirection: ").append(rule.direction())
-                .append("\n\t\tFrom address: ").append(rule.sourceAddressPrefix())
-                .append("\n\t\tFrom port range: ").append(rule.sourcePortRange())
-                .append("\n\t\tTo address: ").append(rule.destinationAddressPrefix())
-                .append("\n\t\tTo port: ").append(rule.destinationPortRange())
-                .append("\n\t\tProtocol: ").append(rule.protocol())
-                .append("\n\t\tPriority: ").append(rule.priority());
+                    .append("\n\t\tAccess: ").append(rule.access())
+                    .append("\n\t\tDirection: ").append(rule.direction())
+                    .append("\n\t\tFrom address: ").append(rule.sourceAddressPrefix())
+                    .append("\n\t\tFrom port range: ").append(rule.sourcePortRange())
+                    .append("\n\t\tTo address: ").append(rule.destinationAddressPrefix())
+                    .append("\n\t\tTo port: ").append(rule.destinationPortRange())
+                    .append("\n\t\tProtocol: ").append(rule.protocol())
+                    .append("\n\t\tPriority: ").append(rule.priority());
         }
 
         System.out.println(info.toString());
@@ -435,18 +435,18 @@ public final class Utils {
      */
     public static void print(PublicIPAddress resource) {
         System.out.println(new StringBuilder().append("Public IP Address: ").append(resource.id())
-            .append("Name: ").append(resource.name())
-            .append("\n\tResource group: ").append(resource.resourceGroupName())
-            .append("\n\tRegion: ").append(resource.region())
-            .append("\n\tTags: ").append(resource.tags())
-            .append("\n\tIP Address: ").append(resource.ipAddress())
-            .append("\n\tLeaf domain label: ").append(resource.leafDomainLabel())
-            .append("\n\tFQDN: ").append(resource.fqdn())
-            .append("\n\tReverse FQDN: ").append(resource.reverseFqdn())
-            .append("\n\tIdle timeout (minutes): ").append(resource.idleTimeoutInMinutes())
-            .append("\n\tIP allocation method: ").append(resource.ipAllocationMethod())
-            .append("\n\tZones: ").append(resource.availabilityZones())
-            .toString());
+                .append("Name: ").append(resource.name())
+                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tTags: ").append(resource.tags())
+                .append("\n\tIP Address: ").append(resource.ipAddress())
+                .append("\n\tLeaf domain label: ").append(resource.leafDomainLabel())
+                .append("\n\tFQDN: ").append(resource.fqdn())
+                .append("\n\tReverse FQDN: ").append(resource.reverseFqdn())
+                .append("\n\tIdle timeout (minutes): ").append(resource.idleTimeoutInMinutes())
+                .append("\n\tIP allocation method: ").append(resource.ipAllocationMethod())
+                .append("\n\tZones: ").append(resource.availabilityZones())
+                .toString());
     }
 
     /**
@@ -456,16 +456,16 @@ public final class Utils {
      */
     public static void print(Vault vault) {
         StringBuilder info = new StringBuilder().append("Key Vault: ").append(vault.id())
-            .append("Name: ").append(vault.name())
-            .append("\n\tResource group: ").append(vault.resourceGroupName())
-            .append("\n\tRegion: ").append(vault.region())
-            .append("\n\tSku: ").append(vault.sku().name()).append(" - ").append(vault.sku().family())
-            .append("\n\tVault URI: ").append(vault.vaultUri())
-            .append("\n\tAccess policies: ");
+                .append("Name: ").append(vault.name())
+                .append("\n\tResource group: ").append(vault.resourceGroupName())
+                .append("\n\tRegion: ").append(vault.region())
+                .append("\n\tSku: ").append(vault.sku().name()).append(" - ").append(vault.sku().family())
+                .append("\n\tVault URI: ").append(vault.vaultUri())
+                .append("\n\tAccess policies: ");
         for (AccessPolicy accessPolicy : vault.accessPolicies()) {
             info.append("\n\t\tIdentity:").append(accessPolicy.objectId())
-                .append("\n\t\tKey permissions: ").append(Joiner.on(", ").join(accessPolicy.permissions().keys()))
-                .append("\n\t\tSecret permissions: ").append(Joiner.on(", ").join(accessPolicy.permissions().secrets()));
+                    .append("\n\t\tKey permissions: ").append(Joiner.on(", ").join(accessPolicy.permissions().keys()))
+                    .append("\n\t\tSecret permissions: ").append(Joiner.on(", ").join(accessPolicy.permissions().secrets()));
         }
         System.out.println(info.toString());
     }
@@ -478,7 +478,7 @@ public final class Utils {
      */
     public static void print(StorageAccount storageAccount) {
         System.out.println(storageAccount.name()
-            + " created @ " + storageAccount.creationTime());
+                + " created @ " + storageAccount.creationTime());
     }
 
     /**
@@ -490,7 +490,7 @@ public final class Utils {
         for (int i = 0; i < storageAccountKeys.size(); i++) {
             StorageAccountKey storageAccountKey = storageAccountKeys.get(i);
             System.out.println("Key (" + i + ") " + storageAccountKey.keyName() + "="
-                + storageAccountKey.value());
+                    + storageAccountKey.value());
         }
     }
 
@@ -502,19 +502,19 @@ public final class Utils {
      */
     public static void print(RedisCache redisCache) {
         StringBuilder redisInfo = new StringBuilder()
-            .append("Redis Cache Name: ").append(redisCache.name())
-            .append("\n\tResource group: ").append(redisCache.resourceGroupName())
-            .append("\n\tRegion: ").append(redisCache.region())
-            .append("\n\tSKU Name: ").append(redisCache.sku().name())
-            .append("\n\tSKU Family: ").append(redisCache.sku().family())
-            .append("\n\tHost name: ").append(redisCache.hostName())
-            .append("\n\tSSL port: ").append(redisCache.sslPort())
-            .append("\n\tNon-SSL port (6379) enabled: ").append(redisCache.nonSslPort());
+                .append("Redis Cache Name: ").append(redisCache.name())
+                .append("\n\tResource group: ").append(redisCache.resourceGroupName())
+                .append("\n\tRegion: ").append(redisCache.region())
+                .append("\n\tSKU Name: ").append(redisCache.sku().name())
+                .append("\n\tSKU Family: ").append(redisCache.sku().family())
+                .append("\n\tHost name: ").append(redisCache.hostName())
+                .append("\n\tSSL port: ").append(redisCache.sslPort())
+                .append("\n\tNon-SSL port (6379) enabled: ").append(redisCache.nonSslPort());
         if (redisCache.redisConfiguration() != null && !redisCache.redisConfiguration().isEmpty()) {
             redisInfo.append("\n\tRedis Configuration:");
             for (Map.Entry<String, String> redisConfiguration : redisCache.redisConfiguration().entrySet()) {
                 redisInfo.append("\n\t  '").append(redisConfiguration.getKey())
-                    .append("' : '").append(redisConfiguration.getValue()).append("'");
+                        .append("' : '").append(redisConfiguration.getValue()).append("'");
             }
         }
         if (redisCache.isPremium()) {
@@ -524,9 +524,9 @@ public final class Utils {
                 redisInfo.append("\n\tRedis Patch Schedule:");
                 for (ScheduleEntry schedule : scheduleEntries) {
                     redisInfo.append("\n\t\tDay: '").append(schedule.dayOfWeek())
-                        .append("', start at: '").append(schedule.startHourUtc())
-                        .append("', maintenance window: '").append(schedule.maintenanceWindow())
-                        .append("'");
+                            .append("', start at: '").append(schedule.startHourUtc())
+                            .append("', maintenance window: '").append(schedule.maintenanceWindow())
+                            .append("'");
                 }
             }
         }
@@ -541,9 +541,9 @@ public final class Utils {
      */
     public static void print(RedisAccessKeys redisAccessKeys) {
         StringBuilder redisKeys = new StringBuilder()
-            .append("Redis Access Keys: ")
-            .append("\n\tPrimary Key: '").append(redisAccessKeys.primaryKey()).append("', ")
-            .append("\n\tSecondary Key: '").append(redisAccessKeys.secondaryKey()).append("', ");
+                .append("Redis Access Keys: ")
+                .append("\n\tPrimary Key: '").append(redisAccessKeys.primaryKey()).append("', ")
+                .append("\n\tSecondary Key: '").append(redisAccessKeys.secondaryKey()).append("', ");
 
         System.out.println(redisKeys.toString());
     }
@@ -555,8 +555,8 @@ public final class Utils {
     public static void print(ManagementLock lock) {
         StringBuilder info = new StringBuilder();
         info.append("\nLock ID: ").append(lock.id())
-            .append("\nLocked resource ID: ").append(lock.lockedResourceId())
-            .append("\nLevel: ").append(lock.level());
+                .append("\nLocked resource ID: ").append(lock.lockedResourceId())
+                .append("\nLevel: ").append(lock.level());
         System.out.println(info.toString());
     }
 
@@ -568,31 +568,31 @@ public final class Utils {
     public static void print(LoadBalancer resource) {
         StringBuilder info = new StringBuilder();
         info.append("Load balancer: ").append(resource.id())
-            .append("Name: ").append(resource.name())
-            .append("\n\tResource group: ").append(resource.resourceGroupName())
-            .append("\n\tRegion: ").append(resource.region())
-            .append("\n\tTags: ").append(resource.tags())
-            .append("\n\tBackends: ").append(resource.backends().keySet().toString());
+                .append("Name: ").append(resource.name())
+                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tTags: ").append(resource.tags())
+                .append("\n\tBackends: ").append(resource.backends().keySet().toString());
 
         // Show public IP addresses
         info.append("\n\tPublic IP address IDs: ")
-            .append(resource.publicIPAddressIds().size());
+                .append(resource.publicIPAddressIds().size());
         for (String pipId : resource.publicIPAddressIds()) {
             info.append("\n\t\tPIP id: ").append(pipId);
         }
 
         // Show TCP probes
         info.append("\n\tTCP probes: ")
-            .append(resource.tcpProbes().size());
+                .append(resource.tcpProbes().size());
         for (LoadBalancerTcpProbe probe : resource.tcpProbes().values()) {
             info.append("\n\t\tProbe name: ").append(probe.name())
-                .append("\n\t\t\tPort: ").append(probe.port())
-                .append("\n\t\t\tInterval in seconds: ").append(probe.intervalInSeconds())
-                .append("\n\t\t\tRetries before unhealthy: ").append(probe.numberOfProbes());
+                    .append("\n\t\t\tPort: ").append(probe.port())
+                    .append("\n\t\t\tInterval in seconds: ").append(probe.intervalInSeconds())
+                    .append("\n\t\t\tRetries before unhealthy: ").append(probe.numberOfProbes());
 
             // Show associated load balancing rules
             info.append("\n\t\t\tReferenced from load balancing rules: ")
-                .append(probe.loadBalancingRules().size());
+                    .append(probe.loadBalancingRules().size());
             for (LoadBalancingRule rule : probe.loadBalancingRules().values()) {
                 info.append("\n\t\t\t\tName: ").append(rule.name());
             }
@@ -600,17 +600,17 @@ public final class Utils {
 
         // Show HTTP probes
         info.append("\n\tHTTP probes: ")
-            .append(resource.httpProbes().size());
+                .append(resource.httpProbes().size());
         for (LoadBalancerHttpProbe probe : resource.httpProbes().values()) {
             info.append("\n\t\tProbe name: ").append(probe.name())
-                .append("\n\t\t\tPort: ").append(probe.port())
-                .append("\n\t\t\tInterval in seconds: ").append(probe.intervalInSeconds())
-                .append("\n\t\t\tRetries before unhealthy: ").append(probe.numberOfProbes())
-                .append("\n\t\t\tHTTP request path: ").append(probe.requestPath());
+                    .append("\n\t\t\tPort: ").append(probe.port())
+                    .append("\n\t\t\tInterval in seconds: ").append(probe.intervalInSeconds())
+                    .append("\n\t\t\tRetries before unhealthy: ").append(probe.numberOfProbes())
+                    .append("\n\t\t\tHTTP request path: ").append(probe.requestPath());
 
             // Show associated load balancing rules
             info.append("\n\t\t\tReferenced from load balancing rules: ")
-                .append(probe.loadBalancingRules().size());
+                    .append(probe.loadBalancingRules().size());
             for (LoadBalancingRule rule : probe.loadBalancingRules().values()) {
                 info.append("\n\t\t\t\tName: ").append(rule.name());
             }
@@ -618,13 +618,13 @@ public final class Utils {
 
         // Show load balancing rules
         info.append("\n\tLoad balancing rules: ")
-            .append(resource.loadBalancingRules().size());
+                .append(resource.loadBalancingRules().size());
         for (LoadBalancingRule rule : resource.loadBalancingRules().values()) {
             info.append("\n\t\tLB rule name: ").append(rule.name())
-                .append("\n\t\t\tProtocol: ").append(rule.protocol())
-                .append("\n\t\t\tFloating IP enabled? ").append(rule.floatingIPEnabled())
-                .append("\n\t\t\tIdle timeout in minutes: ").append(rule.idleTimeoutInMinutes())
-                .append("\n\t\t\tLoad distribution method: ").append(rule.loadDistribution().toString());
+                    .append("\n\t\t\tProtocol: ").append(rule.protocol())
+                    .append("\n\t\t\tFloating IP enabled? ").append(rule.floatingIPEnabled())
+                    .append("\n\t\t\tIdle timeout in minutes: ").append(rule.idleTimeoutInMinutes())
+                    .append("\n\t\t\tLoad distribution method: ").append(rule.loadDistribution().toString());
 
             LoadBalancerFrontend frontend = rule.frontend();
             info.append("\n\t\t\tFrontend: ");
@@ -657,36 +657,36 @@ public final class Utils {
 
         // Show frontends
         info.append("\n\tFrontends: ")
-            .append(resource.frontends().size());
+                .append(resource.frontends().size());
         for (LoadBalancerFrontend frontend : resource.frontends().values()) {
             info.append("\n\t\tFrontend name: ").append(frontend.name())
-                .append("\n\t\t\tInternet facing: ").append(frontend.isPublic());
+                    .append("\n\t\t\tInternet facing: ").append(frontend.isPublic());
             if (frontend.isPublic()) {
                 info.append("\n\t\t\tPublic IP Address ID: ").append(((LoadBalancerPublicFrontend) frontend).publicIPAddressId());
             } else {
                 info.append("\n\t\t\tVirtual network ID: ").append(((LoadBalancerPrivateFrontend) frontend).networkId())
-                    .append("\n\t\t\tSubnet name: ").append(((LoadBalancerPrivateFrontend) frontend).subnetName())
-                    .append("\n\t\t\tPrivate IP address: ").append(((LoadBalancerPrivateFrontend) frontend).privateIPAddress())
-                    .append("\n\t\t\tPrivate IP allocation method: ").append(((LoadBalancerPrivateFrontend) frontend).privateIPAllocationMethod());
+                        .append("\n\t\t\tSubnet name: ").append(((LoadBalancerPrivateFrontend) frontend).subnetName())
+                        .append("\n\t\t\tPrivate IP address: ").append(((LoadBalancerPrivateFrontend) frontend).privateIPAddress())
+                        .append("\n\t\t\tPrivate IP allocation method: ").append(((LoadBalancerPrivateFrontend) frontend).privateIPAllocationMethod());
             }
 
             // Inbound NAT pool references
             info.append("\n\t\t\tReferenced inbound NAT pools: ")
-                .append(frontend.inboundNatPools().size());
+                    .append(frontend.inboundNatPools().size());
             for (LoadBalancerInboundNatPool pool : frontend.inboundNatPools().values()) {
                 info.append("\n\t\t\t\tName: ").append(pool.name());
             }
 
             // Inbound NAT rule references
             info.append("\n\t\t\tReferenced inbound NAT rules: ")
-                .append(frontend.inboundNatRules().size());
+                    .append(frontend.inboundNatRules().size());
             for (LoadBalancerInboundNatRule rule : frontend.inboundNatRules().values()) {
                 info.append("\n\t\t\t\tName: ").append(rule.name());
             }
 
             // Load balancing rule references
             info.append("\n\t\t\tReferenced load balancing rules: ")
-                .append(frontend.loadBalancingRules().size());
+                    .append(frontend.loadBalancingRules().size());
             for (LoadBalancingRule rule : frontend.loadBalancingRules().values()) {
                 info.append("\n\t\t\t\tName: ").append(rule.name());
             }
@@ -694,58 +694,58 @@ public final class Utils {
 
         // Show inbound NAT rules
         info.append("\n\tInbound NAT rules: ")
-            .append(resource.inboundNatRules().size());
+                .append(resource.inboundNatRules().size());
         for (LoadBalancerInboundNatRule natRule : resource.inboundNatRules().values()) {
             info.append("\n\t\tInbound NAT rule name: ").append(natRule.name())
-                .append("\n\t\t\tProtocol: ").append(natRule.protocol().toString())
-                .append("\n\t\t\tFrontend: ").append(natRule.frontend().name())
-                .append("\n\t\t\tFrontend port: ").append(natRule.frontendPort())
-                .append("\n\t\t\tBackend port: ").append(natRule.backendPort())
-                .append("\n\t\t\tBackend NIC ID: ").append(natRule.backendNetworkInterfaceId())
-                .append("\n\t\t\tBackend NIC IP config name: ").append(natRule.backendNicIPConfigurationName())
-                .append("\n\t\t\tFloating IP? ").append(natRule.floatingIPEnabled())
-                .append("\n\t\t\tIdle timeout in minutes: ").append(natRule.idleTimeoutInMinutes());
+                    .append("\n\t\t\tProtocol: ").append(natRule.protocol().toString())
+                    .append("\n\t\t\tFrontend: ").append(natRule.frontend().name())
+                    .append("\n\t\t\tFrontend port: ").append(natRule.frontendPort())
+                    .append("\n\t\t\tBackend port: ").append(natRule.backendPort())
+                    .append("\n\t\t\tBackend NIC ID: ").append(natRule.backendNetworkInterfaceId())
+                    .append("\n\t\t\tBackend NIC IP config name: ").append(natRule.backendNicIPConfigurationName())
+                    .append("\n\t\t\tFloating IP? ").append(natRule.floatingIPEnabled())
+                    .append("\n\t\t\tIdle timeout in minutes: ").append(natRule.idleTimeoutInMinutes());
         }
 
         // Show inbound NAT pools
         info.append("\n\tInbound NAT pools: ")
-            .append(resource.inboundNatPools().size());
+                .append(resource.inboundNatPools().size());
         for (LoadBalancerInboundNatPool natPool : resource.inboundNatPools().values()) {
             info.append("\n\t\tInbound NAT pool name: ").append(natPool.name())
-                .append("\n\t\t\tProtocol: ").append(natPool.protocol().toString())
-                .append("\n\t\t\tFrontend: ").append(natPool.frontend().name())
-                .append("\n\t\t\tFrontend port range: ")
-                .append(natPool.frontendPortRangeStart())
-                .append("-")
-                .append(natPool.frontendPortRangeEnd())
-                .append("\n\t\t\tBackend port: ").append(natPool.backendPort());
+                    .append("\n\t\t\tProtocol: ").append(natPool.protocol().toString())
+                    .append("\n\t\t\tFrontend: ").append(natPool.frontend().name())
+                    .append("\n\t\t\tFrontend port range: ")
+                    .append(natPool.frontendPortRangeStart())
+                    .append("-")
+                    .append(natPool.frontendPortRangeEnd())
+                    .append("\n\t\t\tBackend port: ").append(natPool.backendPort());
         }
 
         // Show backends
         info.append("\n\tBackends: ")
-            .append(resource.backends().size());
+                .append(resource.backends().size());
         for (LoadBalancerBackend backend : resource.backends().values()) {
             info.append("\n\t\tBackend name: ").append(backend.name());
 
             // Show assigned backend NICs
             info.append("\n\t\t\tReferenced NICs: ")
-                .append(backend.backendNicIPConfigurationNames().entrySet().size());
+                    .append(backend.backendNicIPConfigurationNames().entrySet().size());
             for (Map.Entry<String, String> entry : backend.backendNicIPConfigurationNames().entrySet()) {
                 info.append("\n\t\t\t\tNIC ID: ").append(entry.getKey())
-                    .append(" - IP Config: ").append(entry.getValue());
+                        .append(" - IP Config: ").append(entry.getValue());
             }
 
             // Show assigned virtual machines
             Set<String> vmIds = backend.getVirtualMachineIds();
             info.append("\n\t\t\tReferenced virtual machine ids: ")
-                .append(vmIds.size());
+                    .append(vmIds.size());
             for (String vmId : vmIds) {
                 info.append("\n\t\t\t\tVM ID: ").append(vmId);
             }
 
             // Show assigned load balancing rules
             info.append("\n\t\t\tReferenced load balancing rules: ")
-                .append(new ArrayList<String>(backend.loadBalancingRules().keySet()));
+                    .append(new ArrayList<String>(backend.loadBalancingRules().keySet()));
         }
 
         System.out.println(info.toString());
@@ -758,7 +758,7 @@ public final class Utils {
      */
     public static void print(BatchAccountKeys batchAccountKeys) {
         System.out.println("Primary Key (" + batchAccountKeys.primary() + ") Secondary key = ("
-            + batchAccountKeys.secondary() + ")");
+                + batchAccountKeys.secondary() + ")");
     }
 
     /**
@@ -793,16 +793,16 @@ public final class Utils {
         }
 
         System.out.println(new StringBuilder().append("BatchAccount: ").append(batchAccount.id())
-            .append("Name: ").append(batchAccount.name())
-            .append("\n\tResource group: ").append(batchAccount.resourceGroupName())
-            .append("\n\tRegion: ").append(batchAccount.region())
-            .append("\n\tTags: ").append(batchAccount.tags())
-            .append("\n\tAccountEndpoint: ").append(batchAccount.accountEndpoint())
-            .append("\n\tPoolQuota: ").append(batchAccount.poolQuota())
-            .append("\n\tActiveJobAndJobScheduleQuota: ").append(batchAccount.activeJobAndJobScheduleQuota())
-            .append("\n\tStorageAccount: ").append(batchAccount.autoStorage() == null ? "No storage account attached" : batchAccount.autoStorage().storageAccountId())
-            .append(applicationsOutput)
-            .toString());
+                .append("Name: ").append(batchAccount.name())
+                .append("\n\tResource group: ").append(batchAccount.resourceGroupName())
+                .append("\n\tRegion: ").append(batchAccount.region())
+                .append("\n\tTags: ").append(batchAccount.tags())
+                .append("\n\tAccountEndpoint: ").append(batchAccount.accountEndpoint())
+                .append("\n\tPoolQuota: ").append(batchAccount.poolQuota())
+                .append("\n\tActiveJobAndJobScheduleQuota: ").append(batchAccount.activeJobAndJobScheduleQuota())
+                .append("\n\tStorageAccount: ").append(batchAccount.autoStorage() == null ? "No storage account attached" : batchAccount.autoStorage().storageAccountId())
+                .append(applicationsOutput)
+                .toString());
     }
 
     /**
@@ -812,12 +812,12 @@ public final class Utils {
      */
     public static void print(AppServiceDomain resource) {
         StringBuilder builder = new StringBuilder().append("Domain: ").append(resource.id())
-            .append("Name: ").append(resource.name())
-            .append("\n\tResource group: ").append(resource.resourceGroupName())
-            .append("\n\tRegion: ").append(resource.region())
-            .append("\n\tCreated time: ").append(resource.createdTime())
-            .append("\n\tExpiration time: ").append(resource.expirationTime())
-            .append("\n\tContact: ");
+                .append("Name: ").append(resource.name())
+                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tCreated time: ").append(resource.createdTime())
+                .append("\n\tExpiration time: ").append(resource.expirationTime())
+                .append("\n\tContact: ");
         Contact contact = resource.registrantContact();
         if (contact == null) {
             builder = builder.append("Private");
@@ -838,15 +838,15 @@ public final class Utils {
      */
     public static void print(AppServiceCertificateOrder resource) {
         StringBuilder builder = new StringBuilder().append("App service certificate order: ").append(resource.id())
-            .append("Name: ").append(resource.name())
-            .append("\n\tResource group: ").append(resource.resourceGroupName())
-            .append("\n\tRegion: ").append(resource.region())
-            .append("\n\tDistinguished name: ").append(resource.distinguishedName())
-            .append("\n\tProduct type: ").append(resource.productType())
-            .append("\n\tValid years: ").append(resource.validityInYears())
-            .append("\n\tStatus: ").append(resource.status())
-            .append("\n\tIssuance time: ").append(resource.lastCertificateIssuanceTime())
-            .append("\n\tSigned certificate: ").append(resource.signedCertificate() == null ? null : resource.signedCertificate().thumbprint());
+                .append("Name: ").append(resource.name())
+                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tDistinguished name: ").append(resource.distinguishedName())
+                .append("\n\tProduct type: ").append(resource.productType())
+                .append("\n\tValid years: ").append(resource.validityInYears())
+                .append("\n\tStatus: ").append(resource.status())
+                .append("\n\tIssuance time: ").append(resource.lastCertificateIssuanceTime())
+                .append("\n\tSigned certificate: ").append(resource.signedCertificate() == null ? null : resource.signedCertificate().thumbprint());
         System.out.println(builder.toString());
     }
 
@@ -857,10 +857,10 @@ public final class Utils {
      */
     public static void print(AppServicePlan resource) {
         StringBuilder builder = new StringBuilder().append("App service certificate order: ").append(resource.id())
-            .append("Name: ").append(resource.name())
-            .append("\n\tResource group: ").append(resource.resourceGroupName())
-            .append("\n\tRegion: ").append(resource.region())
-            .append("\n\tPricing tier: ").append(resource.pricingTier());
+                .append("Name: ").append(resource.name())
+                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tPricing tier: ").append(resource.pricingTier());
         System.out.println(builder.toString());
     }
 
@@ -871,13 +871,13 @@ public final class Utils {
      */
     public static void print(WebAppBase resource) {
         StringBuilder builder = new StringBuilder().append("Web app: ").append(resource.id())
-            .append("Name: ").append(resource.name())
-            .append("\n\tState: ").append(resource.state())
-            .append("\n\tResource group: ").append(resource.resourceGroupName())
-            .append("\n\tRegion: ").append(resource.region())
-            .append("\n\tDefault hostname: ").append(resource.defaultHostName())
-            .append("\n\tApp service plan: ").append(resource.appServicePlanId())
-            .append("\n\tHost name bindings: ");
+                .append("Name: ").append(resource.name())
+                .append("\n\tState: ").append(resource.state())
+                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tDefault hostname: ").append(resource.defaultHostName())
+                .append("\n\tApp service plan: ").append(resource.appServicePlanId())
+                .append("\n\tHost name bindings: ");
         for (HostNameBinding binding : resource.getHostNameBindings().values()) {
             builder = builder.append("\n\t\t" + binding.toString());
         }
@@ -907,18 +907,18 @@ public final class Utils {
     public static void print(TrafficManagerProfile profile) {
         StringBuilder info = new StringBuilder();
         info.append("Traffic Manager Profile: ").append(profile.id())
-            .append("\n\tName: ").append(profile.name())
-            .append("\n\tResource group: ").append(profile.resourceGroupName())
-            .append("\n\tRegion: ").append(profile.regionName())
-            .append("\n\tTags: ").append(profile.tags())
-            .append("\n\tDNSLabel: ").append(profile.dnsLabel())
-            .append("\n\tFQDN: ").append(profile.fqdn())
-            .append("\n\tTTL: ").append(profile.timeToLive())
-            .append("\n\tEnabled: ").append(profile.isEnabled())
-            .append("\n\tRoutingMethod: ").append(profile.trafficRoutingMethod())
-            .append("\n\tMonitor status: ").append(profile.monitorStatus())
-            .append("\n\tMonitoring port: ").append(profile.monitoringPort())
-            .append("\n\tMonitoring path: ").append(profile.monitoringPath());
+                .append("\n\tName: ").append(profile.name())
+                .append("\n\tResource group: ").append(profile.resourceGroupName())
+                .append("\n\tRegion: ").append(profile.regionName())
+                .append("\n\tTags: ").append(profile.tags())
+                .append("\n\tDNSLabel: ").append(profile.dnsLabel())
+                .append("\n\tFQDN: ").append(profile.fqdn())
+                .append("\n\tTTL: ").append(profile.timeToLive())
+                .append("\n\tEnabled: ").append(profile.isEnabled())
+                .append("\n\tRoutingMethod: ").append(profile.trafficRoutingMethod())
+                .append("\n\tMonitor status: ").append(profile.monitorStatus())
+                .append("\n\tMonitoring port: ").append(profile.monitoringPort())
+                .append("\n\tMonitoring path: ").append(profile.monitoringPath());
 
         Map<String, TrafficManagerAzureEndpoint> azureEndpoints = profile.azureEndpoints();
         if (!azureEndpoints.isEmpty()) {
@@ -926,14 +926,14 @@ public final class Utils {
             int idx = 1;
             for (TrafficManagerAzureEndpoint endpoint : azureEndpoints.values()) {
                 info.append("\n\t\tAzure endpoint: #").append(idx++)
-                    .append("\n\t\t\tId: ").append(endpoint.id())
-                    .append("\n\t\t\tType: ").append(endpoint.endpointType())
-                    .append("\n\t\t\tTarget resourceId: ").append(endpoint.targetAzureResourceId())
-                    .append("\n\t\t\tTarget resourceType: ").append(endpoint.targetResourceType())
-                    .append("\n\t\t\tMonitor status: ").append(endpoint.monitorStatus())
-                    .append("\n\t\t\tEnabled: ").append(endpoint.isEnabled())
-                    .append("\n\t\t\tRouting priority: ").append(endpoint.routingPriority())
-                    .append("\n\t\t\tRouting weight: ").append(endpoint.routingWeight());
+                        .append("\n\t\t\tId: ").append(endpoint.id())
+                        .append("\n\t\t\tType: ").append(endpoint.endpointType())
+                        .append("\n\t\t\tTarget resourceId: ").append(endpoint.targetAzureResourceId())
+                        .append("\n\t\t\tTarget resourceType: ").append(endpoint.targetResourceType())
+                        .append("\n\t\t\tMonitor status: ").append(endpoint.monitorStatus())
+                        .append("\n\t\t\tEnabled: ").append(endpoint.isEnabled())
+                        .append("\n\t\t\tRouting priority: ").append(endpoint.routingPriority())
+                        .append("\n\t\t\tRouting weight: ").append(endpoint.routingWeight());
             }
         }
 
@@ -943,14 +943,14 @@ public final class Utils {
             int idx = 1;
             for (TrafficManagerExternalEndpoint endpoint : externalEndpoints.values()) {
                 info.append("\n\t\tExternal endpoint: #").append(idx++)
-                    .append("\n\t\t\tId: ").append(endpoint.id())
-                    .append("\n\t\t\tType: ").append(endpoint.endpointType())
-                    .append("\n\t\t\tFQDN: ").append(endpoint.fqdn())
-                    .append("\n\t\t\tSource Traffic Location: ").append(endpoint.sourceTrafficLocation())
-                    .append("\n\t\t\tMonitor status: ").append(endpoint.monitorStatus())
-                    .append("\n\t\t\tEnabled: ").append(endpoint.isEnabled())
-                    .append("\n\t\t\tRouting priority: ").append(endpoint.routingPriority())
-                    .append("\n\t\t\tRouting weight: ").append(endpoint.routingWeight());
+                        .append("\n\t\t\tId: ").append(endpoint.id())
+                        .append("\n\t\t\tType: ").append(endpoint.endpointType())
+                        .append("\n\t\t\tFQDN: ").append(endpoint.fqdn())
+                        .append("\n\t\t\tSource Traffic Location: ").append(endpoint.sourceTrafficLocation())
+                        .append("\n\t\t\tMonitor status: ").append(endpoint.monitorStatus())
+                        .append("\n\t\t\tEnabled: ").append(endpoint.isEnabled())
+                        .append("\n\t\t\tRouting priority: ").append(endpoint.routingPriority())
+                        .append("\n\t\t\tRouting weight: ").append(endpoint.routingWeight());
             }
         }
 
@@ -960,15 +960,15 @@ public final class Utils {
             int idx = 1;
             for (TrafficManagerNestedProfileEndpoint endpoint : nestedProfileEndpoints.values()) {
                 info.append("\n\t\tNested profile endpoint: #").append(idx++)
-                    .append("\n\t\t\tId: ").append(endpoint.id())
-                    .append("\n\t\t\tType: ").append(endpoint.endpointType())
-                    .append("\n\t\t\tNested profileId: ").append(endpoint.nestedProfileId())
-                    .append("\n\t\t\tMinimum child threshold: ").append(endpoint.minimumChildEndpointCount())
-                    .append("\n\t\t\tSource Traffic Location: ").append(endpoint.sourceTrafficLocation())
-                    .append("\n\t\t\tMonitor status: ").append(endpoint.monitorStatus())
-                    .append("\n\t\t\tEnabled: ").append(endpoint.isEnabled())
-                    .append("\n\t\t\tRouting priority: ").append(endpoint.routingPriority())
-                    .append("\n\t\t\tRouting weight: ").append(endpoint.routingWeight());
+                        .append("\n\t\t\tId: ").append(endpoint.id())
+                        .append("\n\t\t\tType: ").append(endpoint.endpointType())
+                        .append("\n\t\t\tNested profileId: ").append(endpoint.nestedProfileId())
+                        .append("\n\t\t\tMinimum child threshold: ").append(endpoint.minimumChildEndpointCount())
+                        .append("\n\t\t\tSource Traffic Location: ").append(endpoint.sourceTrafficLocation())
+                        .append("\n\t\t\tMonitor status: ").append(endpoint.monitorStatus())
+                        .append("\n\t\t\tEnabled: ").append(endpoint.isEnabled())
+                        .append("\n\t\t\tRouting priority: ").append(endpoint.routingPriority())
+                        .append("\n\t\t\tRouting weight: ").append(endpoint.routingWeight());
             }
         }
         System.out.println(info.toString());
@@ -982,32 +982,32 @@ public final class Utils {
     public static void print(DnsZone dnsZone) {
         StringBuilder info = new StringBuilder();
         info.append("DNS Zone: ").append(dnsZone.id())
-            .append("\n\tName (Top level domain): ").append(dnsZone.name())
-            .append("\n\tResource group: ").append(dnsZone.resourceGroupName())
-            .append("\n\tRegion: ").append(dnsZone.regionName())
-            .append("\n\tTags: ").append(dnsZone.tags())
-            .append("\n\tName servers:");
+                .append("\n\tName (Top level domain): ").append(dnsZone.name())
+                .append("\n\tResource group: ").append(dnsZone.resourceGroupName())
+                .append("\n\tRegion: ").append(dnsZone.regionName())
+                .append("\n\tTags: ").append(dnsZone.tags())
+                .append("\n\tName servers:");
         for (String nameServer : dnsZone.nameServers()) {
             info.append("\n\t\t").append(nameServer);
         }
         SoaRecordSet soaRecordSet = dnsZone.getSoaRecordSet();
         SoaRecord soaRecord = soaRecordSet.record();
         info.append("\n\tSOA Record:")
-            .append("\n\t\tHost:").append(soaRecord.host())
-            .append("\n\t\tEmail:").append(soaRecord.email())
-            .append("\n\t\tExpire time (seconds):").append(soaRecord.expireTime())
-            .append("\n\t\tRefresh time (seconds):").append(soaRecord.refreshTime())
-            .append("\n\t\tRetry time (seconds):").append(soaRecord.retryTime())
-            .append("\n\t\tNegative response cache ttl (seconds):").append(soaRecord.minimumTtl())
-            .append("\n\t\tTTL (seconds):").append(soaRecordSet.timeToLive());
+                .append("\n\t\tHost:").append(soaRecord.host())
+                .append("\n\t\tEmail:").append(soaRecord.email())
+                .append("\n\t\tExpire time (seconds):").append(soaRecord.expireTime())
+                .append("\n\t\tRefresh time (seconds):").append(soaRecord.refreshTime())
+                .append("\n\t\tRetry time (seconds):").append(soaRecord.retryTime())
+                .append("\n\t\tNegative response cache ttl (seconds):").append(soaRecord.minimumTtl())
+                .append("\n\t\tTTL (seconds):").append(soaRecordSet.timeToLive());
 
         PagedList<ARecordSet> aRecordSets = dnsZone.aRecordSets().list();
         info.append("\n\tA Record sets:");
         for (ARecordSet aRecordSet : aRecordSets) {
             info.append("\n\t\tId: ").append(aRecordSet.id())
-                .append("\n\t\tName: ").append(aRecordSet.name())
-                .append("\n\t\tTTL (seconds): ").append(aRecordSet.timeToLive())
-                .append("\n\t\tIP v4 addresses: ");
+                    .append("\n\t\tName: ").append(aRecordSet.name())
+                    .append("\n\t\tTTL (seconds): ").append(aRecordSet.timeToLive())
+                    .append("\n\t\tIP v4 addresses: ");
             for (String ipAddress : aRecordSet.ipv4Addresses()) {
                 info.append("\n\t\t\t").append(ipAddress);
             }
@@ -1017,9 +1017,9 @@ public final class Utils {
         info.append("\n\tAAAA Record sets:");
         for (AaaaRecordSet aaaaRecordSet : aaaaRecordSets) {
             info.append("\n\t\tId: ").append(aaaaRecordSet.id())
-                .append("\n\t\tName: ").append(aaaaRecordSet.name())
-                .append("\n\t\tTTL (seconds): ").append(aaaaRecordSet.timeToLive())
-                .append("\n\t\tIP v6 addresses: ");
+                    .append("\n\t\tName: ").append(aaaaRecordSet.name())
+                    .append("\n\t\tTTL (seconds): ").append(aaaaRecordSet.timeToLive())
+                    .append("\n\t\tIP v6 addresses: ");
             for (String ipAddress : aaaaRecordSet.ipv6Addresses()) {
                 info.append("\n\t\t\t").append(ipAddress);
             }
@@ -1029,23 +1029,23 @@ public final class Utils {
         info.append("\n\tCNAME Record sets:");
         for (CNameRecordSet cnameRecordSet : cnameRecordSets) {
             info.append("\n\t\tId: ").append(cnameRecordSet.id())
-                .append("\n\t\tName: ").append(cnameRecordSet.name())
-                .append("\n\t\tTTL (seconds): ").append(cnameRecordSet.timeToLive())
-                .append("\n\t\tCanonical name: ").append(cnameRecordSet.canonicalName());
+                    .append("\n\t\tName: ").append(cnameRecordSet.name())
+                    .append("\n\t\tTTL (seconds): ").append(cnameRecordSet.timeToLive())
+                    .append("\n\t\tCanonical name: ").append(cnameRecordSet.canonicalName());
         }
 
         PagedList<MXRecordSet> mxRecordSets = dnsZone.mxRecordSets().list();
         info.append("\n\tMX Record sets:");
         for (MXRecordSet mxRecordSet : mxRecordSets) {
             info.append("\n\t\tId: ").append(mxRecordSet.id())
-                .append("\n\t\tName: ").append(mxRecordSet.name())
-                .append("\n\t\tTTL (seconds): ").append(mxRecordSet.timeToLive())
-                .append("\n\t\tRecords: ");
+                    .append("\n\t\tName: ").append(mxRecordSet.name())
+                    .append("\n\t\tTTL (seconds): ").append(mxRecordSet.timeToLive())
+                    .append("\n\t\tRecords: ");
             for (MxRecord mxRecord : mxRecordSet.records()) {
                 info.append("\n\t\t\tExchange server, Preference: ")
-                    .append(mxRecord.exchange())
-                    .append(" ")
-                    .append(mxRecord.preference());
+                        .append(mxRecord.exchange())
+                        .append(" ")
+                        .append(mxRecord.preference());
             }
         }
 
@@ -1053,9 +1053,9 @@ public final class Utils {
         info.append("\n\tNS Record sets:");
         for (NSRecordSet nsRecordSet : nsRecordSets) {
             info.append("\n\t\tId: ").append(nsRecordSet.id())
-                .append("\n\t\tName: ").append(nsRecordSet.name())
-                .append("\n\t\tTTL (seconds): ").append(nsRecordSet.timeToLive())
-                .append("\n\t\tName servers: ");
+                    .append("\n\t\tName: ").append(nsRecordSet.name())
+                    .append("\n\t\tTTL (seconds): ").append(nsRecordSet.timeToLive())
+                    .append("\n\t\tName servers: ");
             for (String nameServer : nsRecordSet.nameServers()) {
                 info.append("\n\t\t\t").append(nameServer);
             }
@@ -1065,9 +1065,9 @@ public final class Utils {
         info.append("\n\tPTR Record sets:");
         for (PtrRecordSet ptrRecordSet : ptrRecordSets) {
             info.append("\n\t\tId: ").append(ptrRecordSet.id())
-                .append("\n\t\tName: ").append(ptrRecordSet.name())
-                .append("\n\t\tTTL (seconds): ").append(ptrRecordSet.timeToLive())
-                .append("\n\t\tTarget domain names: ");
+                    .append("\n\t\tName: ").append(ptrRecordSet.name())
+                    .append("\n\t\tTTL (seconds): ").append(ptrRecordSet.timeToLive())
+                    .append("\n\t\tTarget domain names: ");
             for (String domainNames : ptrRecordSet.targetDomainNames()) {
                 info.append("\n\t\t\t").append(domainNames);
             }
@@ -1077,18 +1077,18 @@ public final class Utils {
         info.append("\n\tSRV Record sets:");
         for (SrvRecordSet srvRecordSet : srvRecordSets) {
             info.append("\n\t\tId: ").append(srvRecordSet.id())
-                .append("\n\t\tName: ").append(srvRecordSet.name())
-                .append("\n\t\tTTL (seconds): ").append(srvRecordSet.timeToLive())
-                .append("\n\t\tRecords: ");
+                    .append("\n\t\tName: ").append(srvRecordSet.name())
+                    .append("\n\t\tTTL (seconds): ").append(srvRecordSet.timeToLive())
+                    .append("\n\t\tRecords: ");
             for (SrvRecord srvRecord : srvRecordSet.records()) {
                 info.append("\n\t\t\tTarget, Port, Priority, Weight: ")
-                    .append(srvRecord.target())
-                    .append(", ")
-                    .append(srvRecord.port())
-                    .append(", ")
-                    .append(srvRecord.priority())
-                    .append(", ")
-                    .append(srvRecord.weight());
+                        .append(srvRecord.target())
+                        .append(", ")
+                        .append(srvRecord.port())
+                        .append(", ")
+                        .append(srvRecord.priority())
+                        .append(", ")
+                        .append(srvRecord.weight());
             }
         }
 
@@ -1096,9 +1096,9 @@ public final class Utils {
         info.append("\n\tTXT Record sets:");
         for (TxtRecordSet txtRecordSet : txtRecordSets) {
             info.append("\n\t\tId: ").append(txtRecordSet.id())
-                .append("\n\t\tName: ").append(txtRecordSet.name())
-                .append("\n\t\tTTL (seconds): ").append(txtRecordSet.timeToLive())
-                .append("\n\t\tRecords: ");
+                    .append("\n\t\tName: ").append(txtRecordSet.name())
+                    .append("\n\t\tTTL (seconds): ").append(txtRecordSet.timeToLive())
+                    .append("\n\t\tRecords: ");
             for (TxtRecord txtRecord : txtRecordSet.records()) {
                 if (txtRecord.value().size() > 0) {
                     info.append("\n\t\t\tValue: ").append(txtRecord.value().get(0));
@@ -1117,11 +1117,11 @@ public final class Utils {
 
         RegistryCredentials acrCredentials = azureRegistry.getCredentials();
         info.append("Azure Container Registry: ").append(azureRegistry.id())
-            .append("\n\tName: ").append(azureRegistry.name())
-            .append("\n\tServer Url: ").append(azureRegistry.loginServerUrl())
-            .append("\n\tUser: ").append(acrCredentials.username())
-            .append("\n\tFirst Password: ").append(acrCredentials.accessKeys().get(AccessKeyType.PRIMARY))
-            .append("\n\tSecond Password: ").append(acrCredentials.accessKeys().get(AccessKeyType.SECONDARY));
+                .append("\n\tName: ").append(azureRegistry.name())
+                .append("\n\tServer Url: ").append(azureRegistry.loginServerUrl())
+                .append("\n\tUser: ").append(acrCredentials.username())
+                .append("\n\tFirst Password: ").append(acrCredentials.accessKeys().get(AccessKeyType.PRIMARY))
+                .append("\n\tSecond Password: ").append(acrCredentials.accessKeys().get(AccessKeyType.SECONDARY));
         System.out.println(info.toString());
     }
 
@@ -1133,18 +1133,18 @@ public final class Utils {
         StringBuilder info = new StringBuilder();
 
         info.append("Azure Container Service: ").append(containerService.id())
-            .append("\n\tName: ").append(containerService.name())
-            .append("\n\tWith orchestration: ").append(containerService.orchestratorType().toString())
-            .append("\n\tMaster FQDN: ").append(containerService.masterFqdn())
-            .append("\n\tMaster node count: ").append(containerService.masterNodeCount())
-            .append("\n\tMaster domain label prefix: ").append(containerService.masterDnsPrefix())
-            .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(containerService.agentPools().keySet()).get(0))
-            .append("\n\t\tAgent pool count: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).count())
-            .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).vmSize().toString())
-            .append("\n\t\tAgent pool FQDN: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).fqdn())
-            .append("\n\t\tAgent pool domain label prefix: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).dnsPrefix())
-            .append("\n\tLinux user name: ").append(containerService.linuxRootUsername())
-            .append("\n\tSSH key: ").append(containerService.sshKey());
+                .append("\n\tName: ").append(containerService.name())
+                .append("\n\tWith orchestration: ").append(containerService.orchestratorType().toString())
+                .append("\n\tMaster FQDN: ").append(containerService.masterFqdn())
+                .append("\n\tMaster node count: ").append(containerService.masterNodeCount())
+                .append("\n\tMaster domain label prefix: ").append(containerService.masterDnsPrefix())
+                .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(containerService.agentPools().keySet()).get(0))
+                .append("\n\t\tAgent pool count: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).count())
+                .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).vmSize().toString())
+                .append("\n\t\tAgent pool FQDN: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).fqdn())
+                .append("\n\t\tAgent pool domain label prefix: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).dnsPrefix())
+                .append("\n\tLinux user name: ").append(containerService.linuxRootUsername())
+                .append("\n\tSSH key: ").append(containerService.sshKey());
         if (containerService.orchestratorType() == ContainerServiceOrchestratorTypes.KUBERNETES) {
             info.append("\n\tName: ").append(containerService.servicePrincipalClientId());
         }
@@ -1160,15 +1160,15 @@ public final class Utils {
         StringBuilder info = new StringBuilder();
 
         info.append("Azure Container Service: ").append(kubernetesCluster.id())
-            .append("\n\tName: ").append(kubernetesCluster.name())
-            .append("\n\tFQDN: ").append(kubernetesCluster.fqdn())
-            .append("\n\tDNS prefix label: ").append(kubernetesCluster.dnsPrefix())
-            .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(kubernetesCluster.agentPools().keySet()).get(0))
-            .append("\n\t\tAgent pool count: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).count())
-            .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).vmSize().toString())
-            .append("\n\tLinux user name: ").append(kubernetesCluster.linuxRootUsername())
-            .append("\n\tSSH key: ").append(kubernetesCluster.sshKey())
-            .append("\n\tService principal client ID: ").append(kubernetesCluster.servicePrincipalClientId());
+                .append("\n\tName: ").append(kubernetesCluster.name())
+                .append("\n\tFQDN: ").append(kubernetesCluster.fqdn())
+                .append("\n\tDNS prefix label: ").append(kubernetesCluster.dnsPrefix())
+                .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(kubernetesCluster.agentPools().keySet()).get(0))
+                .append("\n\t\tAgent pool count: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).count())
+                .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).vmSize().toString())
+                .append("\n\tLinux user name: ").append(kubernetesCluster.linuxRootUsername())
+                .append("\n\tSSH key: ").append(kubernetesCluster.sshKey())
+                .append("\n\tService principal client ID: ").append(kubernetesCluster.servicePrincipalClientId());
         if (kubernetesCluster.keyVaultSecretReference() != null) {
             info.append("\n\tKeyVault reference: ").append(kubernetesCluster.keyVaultSecretReference().vaultID());
         }
@@ -1186,18 +1186,18 @@ public final class Utils {
         List<QueryKey> queryKeys = searchService.listQueryKeys();
 
         info.append("Azure Search: ").append(searchService.id())
-            .append("\n\tResource group: ").append(searchService.resourceGroupName())
-            .append("\n\tRegion: ").append(searchService.region())
-            .append("\n\tTags: ").append(searchService.tags())
-            .append("\n\tSku: ").append(searchService.sku().name())
-            .append("\n\tStatus: ").append(searchService.status())
-            .append("\n\tProvisioning State: ").append(searchService.provisioningState())
-            .append("\n\tHosting Mode: ").append(searchService.hostingMode())
-            .append("\n\tReplicas: ").append(searchService.replicaCount())
-            .append("\n\tPartitions: ").append(searchService.partitionCount())
-            .append("\n\tPrimary Admin Key: ").append(adminKeys.primaryKey())
-            .append("\n\tSecondary Admin Key: ").append(adminKeys.secondaryKey())
-            .append("\n\tQuery keys:");
+                .append("\n\tResource group: ").append(searchService.resourceGroupName())
+                .append("\n\tRegion: ").append(searchService.region())
+                .append("\n\tTags: ").append(searchService.tags())
+                .append("\n\tSku: ").append(searchService.sku().name())
+                .append("\n\tStatus: ").append(searchService.status())
+                .append("\n\tProvisioning State: ").append(searchService.provisioningState())
+                .append("\n\tHosting Mode: ").append(searchService.hostingMode())
+                .append("\n\tReplicas: ").append(searchService.replicaCount())
+                .append("\n\tPartitions: ").append(searchService.partitionCount())
+                .append("\n\tPrimary Admin Key: ").append(adminKeys.primaryKey())
+                .append("\n\tSecondary Admin Key: ").append(adminKeys.secondaryKey())
+                .append("\n\tQuery keys:");
 
         for (QueryKey queryKey : queryKeys) {
             info.append("\n\t\tKey name: ").append(queryKey.name());
@@ -1504,8 +1504,8 @@ public final class Utils {
         info.append("\n\tIP configurations: ").append(ipConfigs.size());
         for (ApplicationGatewayIPConfiguration ipConfig : ipConfigs.values()) {
             info.append("\n\t\tName: ").append(ipConfig.name())
-                .append("\n\t\t\tNetwork id: ").append(ipConfig.networkId())
-                .append("\n\t\t\tSubnet name: ").append(ipConfig.subnetName());
+                    .append("\n\t\t\tNetwork id: ").append(ipConfig.networkId())
+                    .append("\n\t\t\tSubnet name: ").append(ipConfig.subnetName());
         }
 
         // Show frontends
@@ -1513,7 +1513,7 @@ public final class Utils {
         info.append("\n\tFrontends: ").append(frontends.size());
         for (ApplicationGatewayFrontend frontend : frontends.values()) {
             info.append("\n\t\tName: ").append(frontend.name())
-                .append("\n\t\t\tPublic? ").append(frontend.isPublic());
+                    .append("\n\t\t\tPublic? ").append(frontend.isPublic());
 
             if (frontend.isPublic()) {
                 // Show public frontend info
@@ -1523,9 +1523,9 @@ public final class Utils {
             if (frontend.isPrivate()) {
                 // Show private frontend info
                 info.append("\n\t\t\tPrivate IP address: ").append(frontend.privateIPAddress())
-                    .append("\n\t\t\tPrivate IP allocation method: ").append(frontend.privateIPAllocationMethod())
-                    .append("\n\t\t\tSubnet name: ").append(frontend.subnetName())
-                    .append("\n\t\t\tVirtual network ID: ").append(frontend.networkId());
+                        .append("\n\t\t\tPrivate IP allocation method: ").append(frontend.privateIPAllocationMethod())
+                        .append("\n\t\t\tSubnet name: ").append(frontend.subnetName())
+                        .append("\n\t\t\tVirtual network ID: ").append(frontend.networkId());
             }
         }
 
@@ -1534,14 +1534,14 @@ public final class Utils {
         info.append("\n\tBackends: ").append(backends.size());
         for (ApplicationGatewayBackend backend : backends.values()) {
             info.append("\n\t\tName: ").append(backend.name())
-                .append("\n\t\t\tAssociated NIC IP configuration IDs: ").append(backend.backendNicIPConfigurationNames().keySet());
+                    .append("\n\t\t\tAssociated NIC IP configuration IDs: ").append(backend.backendNicIPConfigurationNames().keySet());
 
             // Show addresses
             Collection<ApplicationGatewayBackendAddress> addresses = backend.addresses();
             info.append("\n\t\t\tAddresses: ").append(addresses.size());
             for (ApplicationGatewayBackendAddress address : addresses) {
                 info.append("\n\t\t\t\tFQDN: ").append(address.fqdn())
-                    .append("\n\t\t\t\tIP: ").append(address.ipAddress());
+                        .append("\n\t\t\t\tIP: ").append(address.ipAddress());
             }
         }
 
@@ -1550,15 +1550,15 @@ public final class Utils {
         info.append("\n\tHTTP Configurations: ").append(httpConfigs.size());
         for (ApplicationGatewayBackendHttpConfiguration httpConfig : httpConfigs.values()) {
             info.append("\n\t\tName: ").append(httpConfig.name())
-                .append("\n\t\t\tCookie based affinity: ").append(httpConfig.cookieBasedAffinity())
-                .append("\n\t\t\tPort: ").append(httpConfig.port())
-                .append("\n\t\t\tRequest timeout in seconds: ").append(httpConfig.requestTimeout())
-                .append("\n\t\t\tProtocol: ").append(httpConfig.protocol())
-                .append("\n\t\tHost header: ").append(httpConfig.hostHeader())
-                .append("\n\t\tHost header comes from backend? ").append(httpConfig.isHostHeaderFromBackend())
-                .append("\n\t\tConnection draining timeout in seconds: ").append(httpConfig.connectionDrainingTimeoutInSeconds())
-                .append("\n\t\tAffinity cookie name: ").append(httpConfig.affinityCookieName())
-                .append("\n\t\tPath: ").append(httpConfig.path());
+                    .append("\n\t\t\tCookie based affinity: ").append(httpConfig.cookieBasedAffinity())
+                    .append("\n\t\t\tPort: ").append(httpConfig.port())
+                    .append("\n\t\t\tRequest timeout in seconds: ").append(httpConfig.requestTimeout())
+                    .append("\n\t\t\tProtocol: ").append(httpConfig.protocol())
+                    .append("\n\t\tHost header: ").append(httpConfig.hostHeader())
+                    .append("\n\t\tHost header comes from backend? ").append(httpConfig.isHostHeaderFromBackend())
+                    .append("\n\t\tConnection draining timeout in seconds: ").append(httpConfig.connectionDrainingTimeoutInSeconds())
+                    .append("\n\t\tAffinity cookie name: ").append(httpConfig.affinityCookieName())
+                    .append("\n\t\tPath: ").append(httpConfig.path());
             ApplicationGatewayProbe probe = httpConfig.probe();
             if (probe != null) {
                 info.append("\n\t\tProbe: " + probe.name());
@@ -1571,7 +1571,7 @@ public final class Utils {
         info.append("\n\tSSL certificates: ").append(sslCerts.size());
         for (ApplicationGatewaySslCertificate cert : sslCerts.values()) {
             info.append("\n\t\tName: ").append(cert.name())
-                .append("\n\t\t\tCert data: ").append(cert.publicData());
+                    .append("\n\t\t\tCert data: ").append(cert.publicData());
         }
 
         // Show redirect configurations
@@ -1579,12 +1579,12 @@ public final class Utils {
         info.append("\n\tRedirect configurations: ").append(redirects.size());
         for (ApplicationGatewayRedirectConfiguration redirect : redirects.values()) {
             info.append("\n\t\tName: ").append(redirect.name())
-                .append("\n\t\tTarget URL: ").append(redirect.type())
-                .append("\n\t\tTarget URL: ").append(redirect.targetUrl())
-                .append("\n\t\tTarget listener: ").append(redirect.targetListener() != null ? redirect.targetListener().name() : null)
-                .append("\n\t\tIs path included? ").append(redirect.isPathIncluded())
-                .append("\n\t\tIs query string included? ").append(redirect.isQueryStringIncluded())
-                .append("\n\t\tReferencing request routing rules: ").append(redirect.requestRoutingRules().values());
+                    .append("\n\t\tTarget URL: ").append(redirect.type())
+                    .append("\n\t\tTarget URL: ").append(redirect.targetUrl())
+                    .append("\n\t\tTarget listener: ").append(redirect.targetListener() != null ? redirect.targetListener().name() : null)
+                    .append("\n\t\tIs path included? ").append(redirect.isPathIncluded())
+                    .append("\n\t\tIs query string included? ").append(redirect.isQueryStringIncluded())
+                    .append("\n\t\tReferencing request routing rules: ").append(redirect.requestRoutingRules().values());
         }
 
         // Show HTTP listeners
@@ -1592,15 +1592,15 @@ public final class Utils {
         info.append("\n\tHTTP listeners: ").append(listeners.size());
         for (ApplicationGatewayListener listener : listeners.values()) {
             info.append("\n\t\tName: ").append(listener.name())
-                .append("\n\t\t\tHost name: ").append(listener.hostName())
-                .append("\n\t\t\tServer name indication required? ").append(listener.requiresServerNameIndication())
-                .append("\n\t\t\tAssociated frontend name: ").append(listener.frontend().name())
-                .append("\n\t\t\tFrontend port name: ").append(listener.frontendPortName())
-                .append("\n\t\t\tFrontend port number: ").append(listener.frontendPortNumber())
-                .append("\n\t\t\tProtocol: ").append(listener.protocol().toString());
-                if (listener.sslCertificate() != null) {
-                    info.append("\n\t\t\tAssociated SSL certificate: ").append(listener.sslCertificate().name());
-                }
+                    .append("\n\t\t\tHost name: ").append(listener.hostName())
+                    .append("\n\t\t\tServer name indication required? ").append(listener.requiresServerNameIndication())
+                    .append("\n\t\t\tAssociated frontend name: ").append(listener.frontend().name())
+                    .append("\n\t\t\tFrontend port name: ").append(listener.frontendPortName())
+                    .append("\n\t\t\tFrontend port number: ").append(listener.frontendPortNumber())
+                    .append("\n\t\t\tProtocol: ").append(listener.protocol().toString());
+            if (listener.sslCertificate() != null) {
+                info.append("\n\t\t\tAssociated SSL certificate: ").append(listener.sslCertificate().name());
+            }
         }
 
         // Show probes
@@ -1608,13 +1608,13 @@ public final class Utils {
         info.append("\n\tProbes: ").append(probes.size());
         for (ApplicationGatewayProbe probe : probes.values()) {
             info.append("\n\t\tName: ").append(probe.name())
-                .append("\n\t\tProtocol:").append(probe.protocol().toString())
-                .append("\n\t\tInterval in seconds: ").append(probe.timeBetweenProbesInSeconds())
-                .append("\n\t\tRetries: ").append(probe.retriesBeforeUnhealthy())
-                .append("\n\t\tTimeout: ").append(probe.timeoutInSeconds())
-                .append("\n\t\tHost: ").append(probe.host())
-                .append("\n\t\tHealthy HTTP response status code ranges: ").append(probe.healthyHttpResponseStatusCodeRanges())
-                .append("\n\t\tHealthy HTTP response body contents: ").append(probe.healthyHttpResponseBodyContents());
+                    .append("\n\t\tProtocol:").append(probe.protocol().toString())
+                    .append("\n\t\tInterval in seconds: ").append(probe.timeBetweenProbesInSeconds())
+                    .append("\n\t\tRetries: ").append(probe.retriesBeforeUnhealthy())
+                    .append("\n\t\tTimeout: ").append(probe.timeoutInSeconds())
+                    .append("\n\t\tHost: ").append(probe.host())
+                    .append("\n\t\tHealthy HTTP response status code ranges: ").append(probe.healthyHttpResponseStatusCodeRanges())
+                    .append("\n\t\tHealthy HTTP response body contents: ").append(probe.healthyHttpResponseBodyContents());
         }
 
         // Show request routing rules
@@ -1622,23 +1622,23 @@ public final class Utils {
         info.append("\n\tRequest routing rules: ").append(rules.size());
         for (ApplicationGatewayRequestRoutingRule rule : rules.values()) {
             info.append("\n\t\tName: ").append(rule.name())
-                .append("\n\t\tType: ").append(rule.ruleType())
-                .append("\n\t\tPublic IP address ID: ").append(rule.publicIPAddressId())
-                .append("\n\t\tHost name: ").append(rule.hostName())
-                .append("\n\t\tServer name indication required? ").append(rule.requiresServerNameIndication())
-                .append("\n\t\tFrontend port: ").append(rule.frontendPort())
-                .append("\n\t\tFrontend protocol: ").append(rule.frontendProtocol().toString())
-                .append("\n\t\tBackend port: ").append(rule.backendPort())
-                .append("\n\t\tCookie based affinity enabled? ").append(rule.cookieBasedAffinity())
-                .append("\n\t\tRedirect configuration: ").append(rule.redirectConfiguration() != null ? rule.redirectConfiguration().name() : "(none)");
+                    .append("\n\t\tType: ").append(rule.ruleType())
+                    .append("\n\t\tPublic IP address ID: ").append(rule.publicIPAddressId())
+                    .append("\n\t\tHost name: ").append(rule.hostName())
+                    .append("\n\t\tServer name indication required? ").append(rule.requiresServerNameIndication())
+                    .append("\n\t\tFrontend port: ").append(rule.frontendPort())
+                    .append("\n\t\tFrontend protocol: ").append(rule.frontendProtocol().toString())
+                    .append("\n\t\tBackend port: ").append(rule.backendPort())
+                    .append("\n\t\tCookie based affinity enabled? ").append(rule.cookieBasedAffinity())
+                    .append("\n\t\tRedirect configuration: ").append(rule.redirectConfiguration() != null ? rule.redirectConfiguration().name() : "(none)");
 
             // Show backend addresses
             Collection<ApplicationGatewayBackendAddress> addresses = rule.backendAddresses();
             info.append("\n\t\t\tBackend addresses: ").append(addresses.size());
             for (ApplicationGatewayBackendAddress address : addresses) {
                 info.append("\n\t\t\t\t")
-                    .append(address.fqdn())
-                    .append(" [").append(address.ipAddress()).append("]");
+                        .append(address.fqdn())
+                        .append(" [").append(address.ipAddress()).append("]");
             }
 
             // Show SSL cert
@@ -2312,11 +2312,11 @@ public final class Utils {
      */
     public static void print(ContainerGroup resource) {
         StringBuilder info = new StringBuilder().append("Container Group: ").append(resource.id())
-            .append("Name: ").append(resource.name())
-            .append("\n\tResource group: ").append(resource.resourceGroupName())
-            .append("\n\tRegion: ").append(resource.region())
-            .append("\n\tTags: ").append(resource.tags())
-            .append("\n\tOS type: ").append(resource.osType());
+                .append("Name: ").append(resource.name())
+                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tTags: ").append(resource.tags())
+                .append("\n\tOS type: ").append(resource.osType());
 
         if (resource.ipAddress() != null) {
             info.append("\n\tPublic IP address: ").append(resource.ipAddress());

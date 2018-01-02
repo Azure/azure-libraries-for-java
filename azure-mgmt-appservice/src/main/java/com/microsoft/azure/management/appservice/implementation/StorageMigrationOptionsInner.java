@@ -10,23 +10,23 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Options for app content migration.
  */
 @JsonFlatten
-public class StorageMigrationOptionsInner extends Resource {
+public class StorageMigrationOptionsInner extends ProxyOnlyResource {
     /**
      * AzureFiles connection string.
      */
-    @JsonProperty(value = "properties.azurefilesConnectionString")
+    @JsonProperty(value = "properties.azurefilesConnectionString", required = true)
     private String azurefilesConnectionString;
 
     /**
      * AzureFiles share.
      */
-    @JsonProperty(value = "properties.azurefilesShare")
+    @JsonProperty(value = "properties.azurefilesShare", required = true)
     private String azurefilesShare;
 
     /**

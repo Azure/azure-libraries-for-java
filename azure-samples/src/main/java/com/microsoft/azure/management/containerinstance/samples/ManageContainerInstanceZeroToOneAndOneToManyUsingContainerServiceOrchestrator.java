@@ -271,7 +271,7 @@ public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOr
             System.out.println("Created Azure Container Service: (took " + ((t2.getTime() - t1.getTime()) / 1000) + " seconds) " + azureContainerService.id());
             Utils.print(azureContainerService);
 
-            SdkContext.sleep(30000);
+            SdkContext.sleep(120000);
 
 
             //=============================================================

@@ -13,13 +13,13 @@ import com.microsoft.azure.management.appservice.HttpLogsConfig;
 import com.microsoft.azure.management.appservice.EnabledConfig;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Configuration of App Service site logs.
  */
 @JsonFlatten
-public class SiteLogsConfigInner extends Resource {
+public class SiteLogsConfigInner extends ProxyOnlyResource {
     /**
      * Application logs configuration.
      */

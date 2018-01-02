@@ -11,20 +11,26 @@ package com.microsoft.azure.management.containerinstance;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The volume.
+ * The properties of the volume.
  */
 public class Volume {
     /**
-     * The volume name.
+     * The name of the volume.
      */
     @JsonProperty(value = "name", required = true)
     private String name;
 
     /**
-     * The Azure file volume.
+     * The name of the Azure File volume.
      */
-    @JsonProperty(value = "azureFile", required = true)
+    @JsonProperty(value = "azureFile")
     private AzureFileVolume azureFile;
+
+    /**
+     * The empty directory volume.
+     */
+    @JsonProperty(value = "emptyDir")
+    private Object emptyDir;
 
     /**
      * Get the name value.
@@ -63,6 +69,26 @@ public class Volume {
      */
     public Volume withAzureFile(AzureFileVolume azureFile) {
         this.azureFile = azureFile;
+        return this;
+    }
+
+    /**
+     * Get the emptyDir value.
+     *
+     * @return the emptyDir value
+     */
+    public Object emptyDir() {
+        return this.emptyDir;
+    }
+
+    /**
+     * Set the emptyDir value.
+     *
+     * @param emptyDir the emptyDir value to set
+     * @return the Volume object itself.
+     */
+    public Volume withEmptyDir(Object emptyDir) {
+        this.emptyDir = emptyDir;
         return this;
     }
 

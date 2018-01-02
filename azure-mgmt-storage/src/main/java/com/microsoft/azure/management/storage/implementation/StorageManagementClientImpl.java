@@ -133,6 +133,32 @@ public class StorageManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The OperationsInner object to access its operations.
+     */
+    private OperationsInner operations;
+
+    /**
+     * Gets the OperationsInner object to access its operations.
+     * @return the OperationsInner object.
+     */
+    public OperationsInner operations() {
+        return this.operations;
+    }
+
+    /**
+     * The SkusInner object to access its operations.
+     */
+    private SkusInner skus;
+
+    /**
+     * Gets the SkusInner object to access its operations.
+     * @return the SkusInner object.
+     */
+    public SkusInner skus() {
+        return this.skus;
+    }
+
+    /**
      * The StorageAccountsInner object to access its operations.
      */
     private StorageAccountsInner storageAccounts;
@@ -189,10 +215,12 @@ public class StorageManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2016-01-01";
+        this.apiVersion = "2017-10-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
+        this.operations = new OperationsInner(restClient().retrofit(), this);
+        this.skus = new SkusInner(restClient().retrofit(), this);
         this.storageAccounts = new StorageAccountsInner(restClient().retrofit(), this);
         this.usages = new UsagesInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
@@ -205,6 +233,6 @@ public class StorageManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "StorageManagementClient", "2016-01-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "StorageManagementClient", "2017-10-01");
     }
 }

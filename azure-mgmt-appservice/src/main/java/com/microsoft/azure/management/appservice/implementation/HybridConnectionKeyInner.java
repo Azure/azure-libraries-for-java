@@ -10,14 +10,14 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Hybrid Connection key contract. This has the send key name and value for a
  * Hybrid Connection.
  */
 @JsonFlatten
-public class HybridConnectionKeyInner extends Resource {
+public class HybridConnectionKeyInner extends ProxyOnlyResource {
     /**
      * The name of the send key.
      */

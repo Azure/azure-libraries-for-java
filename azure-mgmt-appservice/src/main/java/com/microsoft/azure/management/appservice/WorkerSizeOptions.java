@@ -25,7 +25,16 @@ public enum WorkerSizeOptions {
     MEDIUM("Medium"),
 
     /** Enum value Large. */
-    LARGE("Large");
+    LARGE("Large"),
+
+    /** Enum value D1. */
+    D1("D1"),
+
+    /** Enum value D2. */
+    D2("D2"),
+
+    /** Enum value D3. */
+    D3("D3");
 
     /** The actual serialized value for a WorkerSizeOptions instance. */
     private String value;

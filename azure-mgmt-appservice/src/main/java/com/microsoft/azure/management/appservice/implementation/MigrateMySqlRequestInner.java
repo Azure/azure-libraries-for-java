@@ -11,24 +11,24 @@ package com.microsoft.azure.management.appservice.implementation;
 import com.microsoft.azure.management.appservice.MySqlMigrationType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * MySQL migration request.
  */
 @JsonFlatten
-public class MigrateMySqlRequestInner extends Resource {
+public class MigrateMySqlRequestInner extends ProxyOnlyResource {
     /**
      * Connection string to the remote MySQL database.
      */
-    @JsonProperty(value = "properties.connectionString")
+    @JsonProperty(value = "properties.connectionString", required = true)
     private String connectionString;
 
     /**
      * The type of migration operation to be done. Possible values include:
      * 'LocalToRemote', 'RemoteToLocal'.
      */
-    @JsonProperty(value = "properties.migrationType")
+    @JsonProperty(value = "properties.migrationType", required = true)
     private MySqlMigrationType migrationType;
 
     /**

@@ -164,6 +164,46 @@ public final class Utils {
     }
 
     /**
+     * Adds a value to the list if does not already exists.
+     *
+     * @param list the list
+     * @param value value to add if not exists in the list
+     */
+    public static void addToListIfNotExists(List<String> list, String value) {
+        boolean found = false;
+        for (String item : list) {
+            if (item.equalsIgnoreCase(value)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            list.add(value);
+        }
+    }
+
+    /**
+     * Removes a value from the list.
+     *
+     * @param list the list
+     * @param value value to remove
+     */
+    public static void removeFromList(List<String> list, String value) {
+        int foundIndex = -1;
+        int i = 0;
+        for (String id : list) {
+            if (id.equalsIgnoreCase(value)) {
+                foundIndex = i;
+                break;
+            }
+            i++;
+        }
+        if (foundIndex != -1) {
+            list.remove(foundIndex);
+        }
+    }
+
+    /**
      * A Retrofit service used to download a file.
      */
     private interface FileService {

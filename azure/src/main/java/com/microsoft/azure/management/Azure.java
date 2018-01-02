@@ -52,6 +52,8 @@ import com.microsoft.azure.management.keyvault.Vaults;
 import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
 import com.microsoft.azure.management.locks.ManagementLocks;
 import com.microsoft.azure.management.locks.implementation.AuthorizationManager;
+import com.microsoft.azure.management.msi.Identities;
+import com.microsoft.azure.management.msi.implementation.MSIManager;
 import com.microsoft.azure.management.network.ApplicationGateways;
 import com.microsoft.azure.management.network.ExpressRouteCircuits;
 import com.microsoft.azure.management.network.LoadBalancers;
@@ -89,6 +91,7 @@ import com.microsoft.azure.management.servicebus.implementation.ServiceBusManage
 import com.microsoft.azure.management.sql.SqlServers;
 import com.microsoft.azure.management.sql.implementation.SqlServerManager;
 import com.microsoft.azure.management.storage.StorageAccounts;
+import com.microsoft.azure.management.storage.StorageSkus;
 import com.microsoft.azure.management.storage.Usages;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerProfiles;
@@ -122,6 +125,7 @@ public final class Azure {
     private final SearchServiceManager searchServiceManager;
     private final CosmosDBManager cosmosDBManager;
     private final AuthorizationManager authorizationManager;
+    private final MSIManager msiManager;
     private final String subscriptionId;
     private final Authenticated authenticated;
 
@@ -397,6 +401,7 @@ public final class Azure {
         this.cosmosDBManager = CosmosDBManager.authenticate(restClient, subscriptionId);
         this.searchServiceManager = SearchServiceManager.authenticate(restClient, subscriptionId);
         this.authorizationManager = AuthorizationManager.authenticate(restClient, subscriptionId);
+        this.msiManager = MSIManager.authenticate(restClient, subscriptionId);
         this.subscriptionId = subscriptionId;
         this.authenticated = authenticated;
     }
@@ -490,6 +495,13 @@ public final class Azure {
      */
     public Usages storageUsages() {
         return storageManager.usages();
+    }
+
+    /**
+     * @return entry point to managing storage service SKUs
+     */
+    public StorageSkus storageSkus() {
+        return storageManager.storageSkus();
     }
 
     /**
@@ -768,6 +780,14 @@ public final class Azure {
     @Beta(SinceVersion.V1_2_0)
     public SearchServices searchServices() {
         return searchServiceManager.searchServices();
+    }
+
+    /**
+     * @return entry point to managing Managed Service Identity (MSI) identities.
+     */
+    @Beta(Beta.SinceVersion.V1_5_1)
+    public Identities identities() {
+        return msiManager.identities();
     }
 
     /**

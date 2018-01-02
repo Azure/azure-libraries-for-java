@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -236,46 +237,78 @@ public class TaskGroup
      * @return an observable that emits the result of tasks in the order they finishes.
      */
     public Observable<Indexable> invokeAsync(final InvocationContext context) {
-        if (this.proxyTaskGroupWrapper.isActive()) {
-            return this.proxyTaskGroupWrapper.invokeAsync(context);
-        } else {
-            if (!isPreparer()) {
-                return Observable.error(new IllegalStateException("invokeAsync(cxt) can be called only from root TaskGroup"));
-            }
-            this.taskGroupTerminateOnErrorStrategy = context.terminateOnErrorStrategy();
-            return Observable.defer(new Func0<Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call() {
-                    isGroupCancelled.set(false);
-                    // Prepare tasks and queue the ready tasks (terminal tasks with no dependencies)
-                    //
-                    prepareTasks();
-                    // Runs the ready tasks concurrently
-                    //
-                    return invokeReadyTasksAsync(context);
+        return Observable.defer(new Func0<Observable<Indexable>>() {
+            @Override
+            public Observable<Indexable> call() {
+                if (proxyTaskGroupWrapper.isActive()) {
+                    return proxyTaskGroupWrapper.taskGroup()
+                            .invokeInternAsync(context, true, null);
+                } else {
+                    Set<String> processedKeys = runBeforeGroupInvoke(null);
+                    if (proxyTaskGroupWrapper.isActive()) {
+                        // If proxy got activated after 'runBeforeGroupInvoke()' stage due to the addition of direct
+                        // 'postRunDependent's then delegate group invocation to proxy group.
+                        //
+                        return proxyTaskGroupWrapper.taskGroup()
+                                .invokeInternAsync(context, true, processedKeys);
+                    } else {
+                        return invokeInternAsync(context, false, null);
+                    }
                 }
-            });
-        }
+            }
+        });
     }
 
     /**
-     * Run the prepare stage of the tasks in the group, during this stage {@link TaskItem#beforeGroupInvoke()} method
-     * of tasks will be invoked.
-     * <p>
-     * The tasks can use beforeGroupInvoke() method to add additional dependencies or dependents.
+     * Invokes tasks in the group.
+     *
+     * @param context group level shared context that need be passed to invokeAsync(cxt)
+     *                method of each task item in the group when it is selected for invocation.
+     * @param shouldRunBeforeGroupInvoke indicate whether to run the 'beforeGroupInvoke' method
+     *                                   of each tasks before invoking them
+     * @param skipBeforeGroupInvoke the tasks keys for which 'beforeGroupInvoke' should not be called
+     *                              before invoking them
+     * @return an observable that emits the result of tasks in the order they finishes.
      */
-    private void prepareTasks() {
-        boolean isPreparePending;
-        HashSet<String> preparedTasksKeys = new HashSet<>();
-        // Invokes 'prepare' on a subset of non-prepared tasks in the group. Initially preparation
-        // is pending on all task items.
+    private Observable<Indexable> invokeInternAsync(final InvocationContext context,
+                                                    final boolean shouldRunBeforeGroupInvoke,
+                                                    final Set<String> skipBeforeGroupInvoke) {
+        if (!isPreparer()) {
+            return Observable.error(new IllegalStateException("invokeInternAsync(cxt) can be called only from root TaskGroup"));
+        }
+        this.taskGroupTerminateOnErrorStrategy = context.terminateOnErrorStrategy();
+        if (shouldRunBeforeGroupInvoke) {
+            // Prepare tasks and queue the ready tasks (terminal tasks with no dependencies)
+            //
+            this.runBeforeGroupInvoke(skipBeforeGroupInvoke);
+        }
+        // Runs the ready tasks concurrently
+        //
+        return this.invokeReadyTasksAsync(context);
+    }
+
+    /**
+     * Run 'beforeGroupInvoke' method of the tasks in this group. The tasks can use beforeGroupInvoke()
+     * method to add additional dependencies or dependents.
+     *
+     * @param skip the keys of the tasks that are previously processed hence they must be skipped
+     * @return the keys of all the tasks those are processed (including previously processed items in skip param)
+     */
+    private Set<String> runBeforeGroupInvoke(final Set<String> skip) {
+        HashSet<String> processedEntryKeys = new HashSet<>();
+        if (skip != null) {
+            processedEntryKeys.addAll(skip);
+        }
         List<TaskGroupEntry<TaskItem>> entries = this.entriesSnapshot();
+        boolean hasMoreToProcess;
+        // Invokes 'beforeGroupInvoke' on a subset of non-processed tasks in the group.
+        // Initially processing is pending on all task items.
         do {
-            isPreparePending = false;
+            hasMoreToProcess = false;
             for (TaskGroupEntry<TaskItem> entry : entries) {
-                if (!preparedTasksKeys.contains(entry.key())) {
+                if (!processedEntryKeys.contains(entry.key())) {
                     entry.data().beforeGroupInvoke();
-                    preparedTasksKeys.add(entry.key());
+                    processedEntryKeys.add(entry.key());
                 }
             }
             int prevSize = entries.size();
@@ -284,14 +317,15 @@ public class TaskGroup
                 // If new task dependencies/dependents added in 'beforeGroupInvoke' then
                 // set the flag which indicates another pass is required to 'prepare' new
                 // task items
-                isPreparePending = true;
+                hasMoreToProcess = true;
             }
-        } while (isPreparePending);  // Run another pass if new dependencies/dependents were added in this pass
+        } while (hasMoreToProcess);  // Run another pass if new dependencies/dependents were added in this pass
         super.prepareForEnumeration();
+        return processedEntryKeys;
     }
 
     /**
-     * @return list with task entries in this task group
+     * @return list with current task entries in this task group
      */
     private List<TaskGroupEntry<TaskItem>> entriesSnapshot() {
         List<TaskGroupEntry<TaskItem>> entries = new ArrayList<>();
@@ -654,7 +688,7 @@ public class TaskGroup
         /**
          * @return the wrapped proxy task group.
          */
-        TaskGroup proxyTaskGroup() {
+        TaskGroup taskGroup() {
             return this.proxyTaskGroup;
         }
 
@@ -685,19 +719,6 @@ public class TaskGroup
                 throw new IllegalStateException("addDependentTaskGroup() cannot be called in a non-active ProxyTaskGroup");
             }
             dependentTaskGroup.addDependencyGraph(this.proxyTaskGroup);
-        }
-
-        /**
-         * Invokes the tasks grouped under the proxy TaskGroup.
-         *
-         * @param context the context shared across the the all task items in the group this task item belongs to.
-         * @return an observable that emits the invocation result of tasks in the TaskGroup.
-         */
-        Observable<Indexable> invokeAsync(InvocationContext context) {
-            if (this.proxyTaskGroup == null) {
-                throw new IllegalStateException("invokeAsync(cxt) cannot be called in a non-active ProxyTaskGroup");
-            }
-            return this.proxyTaskGroup.invokeAsync(context);
         }
 
         /**

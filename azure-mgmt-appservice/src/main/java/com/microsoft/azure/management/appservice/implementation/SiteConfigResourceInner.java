@@ -26,13 +26,13 @@ import com.microsoft.azure.management.appservice.ApiDefinitionInfo;
 import com.microsoft.azure.management.appservice.IpSecurityRestriction;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Web app configuration ARM resource.
  */
 @JsonFlatten
-public class SiteConfigResourceInner extends Resource {
+public class SiteConfigResourceInner extends ProxyOnlyResource {
     /**
      * Number of workers.
      */

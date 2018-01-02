@@ -68,7 +68,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
     interface DomainsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Domains checkAvailability" })
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/checkDomainAvailability")
-        Observable<Response<ResponseBody>> checkAvailability(@Path("subscriptionId") String subscriptionId, @Body NameIdentifierInner identifier, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> checkAvailability(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body NameIdentifierInner identifier, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Domains list" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/domains")
@@ -101,6 +101,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Domains delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("domainName") String domainName, @Path("subscriptionId") String subscriptionId, @Query("forceHardDeleteDomain") Boolean forceHardDeleteDomain, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Domains update" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}")
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("domainName") String domainName, @Path("subscriptionId") String subscriptionId, @Body DomainPatchResourceInner domain, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Domains listOwnershipIdentifiers" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers")
@@ -144,39 +148,36 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * Check if a domain is available for registration.
      * Check if a domain is available for registration.
      *
-     * @param identifier Name of the domain.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DomainAvailablilityCheckResultInner object if successful.
      */
-    public DomainAvailablilityCheckResultInner checkAvailability(NameIdentifierInner identifier) {
-        return checkAvailabilityWithServiceResponseAsync(identifier).toBlocking().single().body();
+    public DomainAvailablilityCheckResultInner checkAvailability() {
+        return checkAvailabilityWithServiceResponseAsync().toBlocking().single().body();
     }
 
     /**
      * Check if a domain is available for registration.
      * Check if a domain is available for registration.
      *
-     * @param identifier Name of the domain.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DomainAvailablilityCheckResultInner> checkAvailabilityAsync(NameIdentifierInner identifier, final ServiceCallback<DomainAvailablilityCheckResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(checkAvailabilityWithServiceResponseAsync(identifier), serviceCallback);
+    public ServiceFuture<DomainAvailablilityCheckResultInner> checkAvailabilityAsync(final ServiceCallback<DomainAvailablilityCheckResultInner> serviceCallback) {
+        return ServiceFuture.fromResponse(checkAvailabilityWithServiceResponseAsync(), serviceCallback);
     }
 
     /**
      * Check if a domain is available for registration.
      * Check if a domain is available for registration.
      *
-     * @param identifier Name of the domain.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DomainAvailablilityCheckResultInner object
      */
-    public Observable<DomainAvailablilityCheckResultInner> checkAvailabilityAsync(NameIdentifierInner identifier) {
-        return checkAvailabilityWithServiceResponseAsync(identifier).map(new Func1<ServiceResponse<DomainAvailablilityCheckResultInner>, DomainAvailablilityCheckResultInner>() {
+    public Observable<DomainAvailablilityCheckResultInner> checkAvailabilityAsync() {
+        return checkAvailabilityWithServiceResponseAsync().map(new Func1<ServiceResponse<DomainAvailablilityCheckResultInner>, DomainAvailablilityCheckResultInner>() {
             @Override
             public DomainAvailablilityCheckResultInner call(ServiceResponse<DomainAvailablilityCheckResultInner> response) {
                 return response.body();
@@ -188,20 +189,91 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * Check if a domain is available for registration.
      * Check if a domain is available for registration.
      *
-     * @param identifier Name of the domain.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DomainAvailablilityCheckResultInner object
      */
-    public Observable<ServiceResponse<DomainAvailablilityCheckResultInner>> checkAvailabilityWithServiceResponseAsync(NameIdentifierInner identifier) {
+    public Observable<ServiceResponse<DomainAvailablilityCheckResultInner>> checkAvailabilityWithServiceResponseAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (identifier == null) {
-            throw new IllegalArgumentException("Parameter identifier is required and cannot be null.");
-        }
-        Validator.validate(identifier);
         final String apiVersion = "2015-04-01";
-        return service.checkAvailability(this.client.subscriptionId(), identifier, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        final String name = null;
+        NameIdentifierInner identifier = new NameIdentifierInner();
+        identifier.withName(null);
+        return service.checkAvailability(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), identifier, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainAvailablilityCheckResultInner>>>() {
+                @Override
+                public Observable<ServiceResponse<DomainAvailablilityCheckResultInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<DomainAvailablilityCheckResultInner> clientResponse = checkAvailabilityDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Check if a domain is available for registration.
+     * Check if a domain is available for registration.
+     *
+     * @param name Name of the object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DomainAvailablilityCheckResultInner object if successful.
+     */
+    public DomainAvailablilityCheckResultInner checkAvailability(String name) {
+        return checkAvailabilityWithServiceResponseAsync(name).toBlocking().single().body();
+    }
+
+    /**
+     * Check if a domain is available for registration.
+     * Check if a domain is available for registration.
+     *
+     * @param name Name of the object.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DomainAvailablilityCheckResultInner> checkAvailabilityAsync(String name, final ServiceCallback<DomainAvailablilityCheckResultInner> serviceCallback) {
+        return ServiceFuture.fromResponse(checkAvailabilityWithServiceResponseAsync(name), serviceCallback);
+    }
+
+    /**
+     * Check if a domain is available for registration.
+     * Check if a domain is available for registration.
+     *
+     * @param name Name of the object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DomainAvailablilityCheckResultInner object
+     */
+    public Observable<DomainAvailablilityCheckResultInner> checkAvailabilityAsync(String name) {
+        return checkAvailabilityWithServiceResponseAsync(name).map(new Func1<ServiceResponse<DomainAvailablilityCheckResultInner>, DomainAvailablilityCheckResultInner>() {
+            @Override
+            public DomainAvailablilityCheckResultInner call(ServiceResponse<DomainAvailablilityCheckResultInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Check if a domain is available for registration.
+     * Check if a domain is available for registration.
+     *
+     * @param name Name of the object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DomainAvailablilityCheckResultInner object
+     */
+    public Observable<ServiceResponse<DomainAvailablilityCheckResultInner>> checkAvailabilityWithServiceResponseAsync(String name) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2015-04-01";
+        NameIdentifierInner identifier = new NameIdentifierInner();
+        identifier.withName(name);
+        return service.checkAvailability(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), identifier, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainAvailablilityCheckResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DomainAvailablilityCheckResultInner>> call(Response<ResponseBody> response) {
@@ -901,8 +973,8 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     private ServiceResponse<DomainInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DomainInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(202, new TypeToken<DomainInner>() { }.getType())
                 .register(200, new TypeToken<DomainInner>() { }.getType())
+                .register(202, new TypeToken<DomainInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1076,6 +1148,103 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Creates or updates a domain.
+     * Creates or updates a domain.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param domainName Name of the domain.
+     * @param domain Domain registration information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DomainInner object if successful.
+     */
+    public DomainInner update(String resourceGroupName, String domainName, DomainPatchResourceInner domain) {
+        return updateWithServiceResponseAsync(resourceGroupName, domainName, domain).toBlocking().single().body();
+    }
+
+    /**
+     * Creates or updates a domain.
+     * Creates or updates a domain.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param domainName Name of the domain.
+     * @param domain Domain registration information.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DomainInner> updateAsync(String resourceGroupName, String domainName, DomainPatchResourceInner domain, final ServiceCallback<DomainInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, domainName, domain), serviceCallback);
+    }
+
+    /**
+     * Creates or updates a domain.
+     * Creates or updates a domain.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param domainName Name of the domain.
+     * @param domain Domain registration information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DomainInner object
+     */
+    public Observable<DomainInner> updateAsync(String resourceGroupName, String domainName, DomainPatchResourceInner domain) {
+        return updateWithServiceResponseAsync(resourceGroupName, domainName, domain).map(new Func1<ServiceResponse<DomainInner>, DomainInner>() {
+            @Override
+            public DomainInner call(ServiceResponse<DomainInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Creates or updates a domain.
+     * Creates or updates a domain.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param domainName Name of the domain.
+     * @param domain Domain registration information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DomainInner object
+     */
+    public Observable<ServiceResponse<DomainInner>> updateWithServiceResponseAsync(String resourceGroupName, String domainName, DomainPatchResourceInner domain) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (domainName == null) {
+            throw new IllegalArgumentException("Parameter domainName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (domain == null) {
+            throw new IllegalArgumentException("Parameter domain is required and cannot be null.");
+        }
+        Validator.validate(domain);
+        final String apiVersion = "2015-04-01";
+        return service.update(resourceGroupName, domainName, this.client.subscriptionId(), domain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainInner>>>() {
+                @Override
+                public Observable<ServiceResponse<DomainInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<DomainInner> clientResponse = updateDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<DomainInner> updateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DomainInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<DomainInner>() { }.getType())
+                .register(202, new TypeToken<DomainInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

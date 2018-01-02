@@ -1298,12 +1298,17 @@ public class AzureTests extends TestBase {
 
     @Test
     public void testBatchAI() throws Exception {
-        new TestBatchAI.Basic(azure.storageAccounts()).runTest(azure.clusters(), azure.resourceGroups());
+        new TestBatchAI.Basic(azure.storageAccounts()).runTest(azure.batchAIClusters(), azure.resourceGroups());
     }
 
     @Test
     public void testBatchAIJob() throws Exception {
-        new TestBatchAI.JobCreate().runTest(azure.clusters(), azure.resourceGroups());
+        new TestBatchAI.JobCreate().runTest(azure.batchAIClusters(), azure.resourceGroups());
+    }
+
+    @Test
+    public void testBatchAIFileServer() throws Exception {
+        new TestBatchAIFileServers().runTest(azure.fileServers(), azure.resourceGroups());
     }
 
     @Test

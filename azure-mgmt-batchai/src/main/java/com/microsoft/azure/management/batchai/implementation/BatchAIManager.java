@@ -14,6 +14,7 @@ import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.batchai.BatchAIClusters;
+import com.microsoft.azure.management.batchai.FileServers;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -27,6 +28,7 @@ import com.microsoft.rest.RestClient;
 @Beta(SinceVersion.V1_4_0)
 public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagementClientImpl> {
     private BatchAIClusters batchAIClusters;
+    private FileServers fileServers;
 
     /**
     * Get a Configurable instance that can be used to create BatchAIManager with optional configuration.
@@ -91,12 +93,22 @@ public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagem
     }
 
     /**
-     * @return the batch account management API entry point
+     * @return the batch AI clusters management API entry point
      */
     public BatchAIClusters clusters() {
         if (batchAIClusters == null) {
             batchAIClusters = new BatchAIClustersImpl(this);
         }
         return batchAIClusters;
+    }
+
+    /**
+     * @return the batch AI file servers management API entry point
+     */
+    public FileServers fileServers() {
+        if (fileServers == null) {
+            fileServers = new FileServersImpl(this);
+        }
+        return fileServers;
     }
 }

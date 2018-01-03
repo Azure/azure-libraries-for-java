@@ -12,11 +12,15 @@ import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountKey;
 import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.file.CloudFileDirectory;
 import com.microsoft.azure.storage.file.CloudFileShare;
 import com.microsoft.rest.LogLevel;
 
 import java.io.File;
 
+/**
+ * Azure Batch AI sample.
+ */
 public final class ManageBatchAI {
     /**
      * Main function which runs the actual sample.
@@ -31,6 +35,7 @@ public final class ManageBatchAI {
         final String shareName = SdkContext.randomResourceName("fs", 20);
         final String clusterName = SdkContext.randomResourceName("cluster", 15);
         final String userName = "tirekicker";
+        final String sharePath = "mnistcntksample";
         try {
             //=============================================================
             // Create a new storage account and an Azure file share resource
@@ -48,6 +53,20 @@ public final class ManageBatchAI {
                     .getShareReference(shareName);
             cloudFileShare.create();
 
+            //Get a reference to the root directory for the share.
+            CloudFileDirectory rootDir = cloudFileShare.getRootDirectoryReference();
+
+            //Get a reference to the sampledir directory
+            CloudFileDirectory sampleDir = rootDir.getDirectoryReference(sharePath);
+            sampleDir.create();
+
+            // Define the path to a local file.
+            final String filePath = "C:\\stuff\\BatchAIQuickStart\\";
+
+            sampleDir.getFileReference("Train-28x28_cntk_text.txt").uploadFromFile(filePath + "Train-28x28_cntk_text.txt");
+            sampleDir.getFileReference("Test-28x28_cntk_text.txt").uploadFromFile(filePath + "Test-28x28_cntk_text.txt");
+            sampleDir.getFileReference("ConvNet_MNIST.py").uploadFromFile(filePath + "ConvNet_MNIST.py");
+
             BatchAICluster cluster = azure.batchAIClusters().define(clusterName)
                     .withRegion(region)
                     .withNewResourceGroup(rgName)
@@ -61,6 +80,18 @@ public final class ManageBatchAI {
                         .withRelativeMountPath("azurefileshare")
                         .withAccountKey(storageAccountKey.value())
                         .attach()
+                    .create();
+
+            cluster.jobs().define("myJob")
+                    .withRegion(region)
+                    .withNodeCount(1)
+                    .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
+                    .defineCognitiveToolkit()
+                        .withPython("$AZ_BATCHAI_INPUT_SAMPLE/ConvNet_MNIST.py")
+                        .attach()
+                    .withInputDirectory("SAMPLE", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/" + sharePath)
+                    .withOutputDirectory("MODEL", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/model")
+                    .withContainerImage("microsoft/cntk:2.1-gpu-python3.5-cuda8.0-cudnn6.0")
                     .create();
             return true;
         } catch (Exception e) {

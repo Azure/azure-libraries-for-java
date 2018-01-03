@@ -32,7 +32,7 @@ public interface BatchAIJob extends
             DefinitionStages.Blank,
             DefinitionStages.WithStdOutErrPathPrefix,
             DefinitionStages.WithNodeCount,
-            DefinitionStages.WithJobSettings,
+            DefinitionStages.WithToolType,
             DefinitionStages.WithCreate {
     }
 
@@ -43,7 +43,7 @@ public interface BatchAIJob extends
         /**
          * The first stage of virtual network gateway connection definition.
          */
-        interface Blank extends DefinitionWithRegion<WithStdOutErrPathPrefix> {
+        interface Blank extends DefinitionWithRegion<WithNodeCount> {
         }
 
         /**
@@ -54,24 +54,59 @@ public interface BatchAIJob extends
              * @param stdOutErrPathPrefix the path where the Batch AI service will upload the stdout and stderror of the job
              * @return the next stage of the definition
              */
-            WithNodeCount withStdOutErrPathPrefix(String stdOutErrPathPrefix);
+            WithToolType withStdOutErrPathPrefix(String stdOutErrPathPrefix);
         }
 
         interface WithNodeCount {
-            WithJobSettings withNodeCount(int nodeCount);
+            WithStdOutErrPathPrefix withNodeCount(int nodeCount);
         }
 
-        interface WithJobSettings {
-            WithCreate withCognitiveToolikit();
+        interface WithToolType {
+            CognitiveToolkit.DefinitionStages.Blank<WithCreate> defineCognitiveToolkit();
         }
 
+        interface WithInputDirectory {
+            WithCreate withInputDirectory(String id, String path);
+        }
+
+        interface WithOutputDirectory {
+            WithCreate withOutputDirectory(String id, String pathPrefix);
+        }
+
+        /**
+         * Specifies the command line to be executed before tool kit is launched.
+         * The specified actions will run on all the nodes that are part of the job.
+         */
+        interface WithJobPreparation {
+            /**
+             * @param commandLine command line to execute
+             * @return the next stage of the definition
+             */
+            WithCreate withCommandLine(String commandLine);
+        }
+
+        /**
+         * Specifies details of the container registry and image such as name, URL and credentials.
+         */
+        interface WithContainerSettings {
+            /**
+             *
+             * @param image the name of the image in image repository
+             * @return the next stage of the definition
+             */
+            WithCreate withContainerImage(String image);
+        }
         /**
          * The stage of a virtual network gateway connection definition with sufficient inputs to create a new connection in the cloud,
          * but exposing additional optional settings to specify.
          */
         interface WithCreate extends
                 Creatable<BatchAIJob>,
-                Resource.DefinitionWithTags<WithCreate> {
+                Resource.DefinitionWithTags<WithCreate>,
+                WithJobPreparation,
+                WithInputDirectory,
+                WithOutputDirectory,
+                WithContainerSettings {
         }
     }
 }

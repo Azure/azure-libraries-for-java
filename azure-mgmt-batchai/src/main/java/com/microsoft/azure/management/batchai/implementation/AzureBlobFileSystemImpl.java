@@ -53,7 +53,7 @@ public class AzureBlobFileSystemImpl extends IndexableWrapperImpl<AzureBlobFileS
     }
 
     @Override
-    public DefinitionStages.WithAttach<BatchAICluster.DefinitionStages.WithCreate> withAccountKey(String accountKey) {
+    public AzureBlobFileSystemImpl withAccountKey(String accountKey) {
         ensureCredentials().withAccountKey(accountKey);
         return this;
     }
@@ -66,19 +66,19 @@ public class AzureBlobFileSystemImpl extends IndexableWrapperImpl<AzureBlobFileS
     }
 
     @Override
-    public DefinitionStages.WithAttach<BatchAICluster.DefinitionStages.WithCreate> withKeyVaultSecretReference(KeyVaultSecretReference keyVaultSecretReference) {
+    public AzureBlobFileSystemImpl withKeyVaultSecretReference(KeyVaultSecretReference keyVaultSecretReference) {
         ensureCredentials().withAccountKeySecretReference(keyVaultSecretReference);
         return this;
     }
 
     @Override
-    public DefinitionStages.WithRelativeMountPath<BatchAICluster.DefinitionStages.WithCreate> withContainerName(String containerName) {
+    public AzureBlobFileSystemImpl withContainerName(String containerName) {
         inner().withContainerName(containerName);
         return this;
     }
 
     @Override
-    public DefinitionStages.WithAttach<BatchAICluster.DefinitionStages.WithCreate> withMountOptions(String mountOptions) {
+    public AzureBlobFileSystemImpl withMountOptions(String mountOptions) {
         inner().withMountOptions(mountOptions);
         return this;
     }

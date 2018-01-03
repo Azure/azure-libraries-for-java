@@ -3,9 +3,10 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.batchai;
+package com.microsoft.azure.management.batchai.samples;
 
 import com.microsoft.azure.management.Azure;
+import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;

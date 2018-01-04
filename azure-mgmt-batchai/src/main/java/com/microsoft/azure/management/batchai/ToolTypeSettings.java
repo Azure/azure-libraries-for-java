@@ -61,7 +61,7 @@ public interface ToolTypeSettings {
     }
 
     /**
-     * Client-side representation for Tensorflow settings.
+     * Specifies the settings for Tensor Flow job.
      */
     @Fluent
     @Beta
@@ -70,7 +70,7 @@ public interface ToolTypeSettings {
             HasInner<CNTKsettings> {
 
         /**
-         * Definition of Tensorflow settings.
+         * Definition of Tensorflow job settings.
          *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
@@ -80,7 +80,7 @@ public interface ToolTypeSettings {
         }
 
         /**
-         * Definition stages for Tensorflow settings.
+         * Definition stages for Tensorflow job settings.
          */
         interface DefinitionStages {
 
@@ -107,7 +107,7 @@ public interface ToolTypeSettings {
     }
 
     /**
-     * Client-side representation for Caffe settings.
+     * Specifies the settings for Caffe job.
      */
     @Fluent
     @Beta
@@ -152,7 +152,7 @@ public interface ToolTypeSettings {
     }
 
     /**
-     * Client-side representation for Caffe2 settings.
+     * Specifies the settings for Caffe2 job.
      */
     @Fluent
     @Beta
@@ -184,10 +184,53 @@ public interface ToolTypeSettings {
                     ToolTypeSettings.DefinitionStages.WithPythonInterpreter<WithAttach<ParentT>> {
             }
 
-            interface Blank<ParentT> extends WithFileType<ParentT> {
+            interface Blank<ParentT> extends WithPython<ParentT> {
             }
 
-            interface WithFileType<ParentT> {
+            interface WithPython<ParentT> {
+                WithAttachAndPythonInterpreter<ParentT> withPython(String pythonScriptFilePath);
+            }
+        }
+    }
+
+    /**
+     * Specifies the settings for Chainer job.
+     */
+    @Fluent
+    @Beta
+    interface Chainer extends Indexable,
+            HasParent<BatchAIJob>,
+            HasInner<ChainerSettings> {
+
+        /**
+         * Definition of Chainer settings.
+         *
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        interface Definition<ParentT> extends
+                DefinitionStages.Blank<ParentT>,
+                Chainer.DefinitionStages.WithAttachAndPythonInterpreter<ParentT> {
+        }
+
+        /**
+         * Definition stages for Chainer job settings.
+         */
+        interface DefinitionStages {
+
+            interface WithAttach<ParentT> extends
+                    Attachable.InDefinition<ParentT>,
+                    ToolTypeSettings.DefinitionStages.WithCommandLineArgs<WithAttach<ParentT>>,
+                    ToolTypeSettings.DefinitionStages.WithProcessCount<WithAttach<ParentT>> {
+            }
+
+            interface WithAttachAndPythonInterpreter<ParentT> extends WithAttach<ParentT>,
+                    ToolTypeSettings.DefinitionStages.WithPythonInterpreter<WithAttach<ParentT>> {
+            }
+
+            interface Blank<ParentT> extends WithPython<ParentT> {
+            }
+
+            interface WithPython<ParentT> {
                 WithAttachAndPythonInterpreter<ParentT> withPython(String pythonScriptFilePath);
             }
         }

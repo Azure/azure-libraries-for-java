@@ -69,6 +69,10 @@ public interface BatchAIJob extends
             ToolTypeSettings.Caffe.DefinitionStages.Blank<WithCreate> defineCaffe();
 
             ToolTypeSettings.Caffe2.DefinitionStages.Blank<WithCreate> defineCaffe2();
+
+            ToolTypeSettings.Chainer.DefinitionStages.Blank<WithCreate> defineChainer();
+
+            WithCreate withCustomCommandLine(String commandLine);
         }
 
         interface WithInputDirectory {

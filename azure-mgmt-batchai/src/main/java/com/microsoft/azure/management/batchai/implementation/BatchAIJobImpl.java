@@ -11,7 +11,9 @@ import com.microsoft.azure.management.batchai.BatchAIJob;
 import com.microsoft.azure.management.batchai.CNTKsettings;
 import com.microsoft.azure.management.batchai.Caffe2Settings;
 import com.microsoft.azure.management.batchai.CaffeSettings;
+import com.microsoft.azure.management.batchai.ChainerSettings;
 import com.microsoft.azure.management.batchai.ContainerSettings;
+import com.microsoft.azure.management.batchai.CustomToolkitSettings;
 import com.microsoft.azure.management.batchai.ImageSourceRegistry;
 import com.microsoft.azure.management.batchai.InputDirectory;
 import com.microsoft.azure.management.batchai.JobPreparation;
@@ -102,7 +104,7 @@ public class BatchAIJobImpl
     }
 
     @Override
-    public BatchAIJob.DefinitionStages.WithCreate withContainerImage(String image) {
+    public BatchAIJobImpl withContainerImage(String image) {
         if (ensureContainerSettings().imageSourceRegistry() == null) {
             createParameters.containerSettings().withImageSourceRegistry(new ImageSourceRegistry());
         }
@@ -137,6 +139,17 @@ public class BatchAIJobImpl
         return new Caffe2Impl(new Caffe2Settings(), this);
     }
 
+    @Override
+    public ToolTypeSettings.Chainer.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineChainer() {
+        return new ChainerImpl(new ChainerSettings(), this);
+    }
+
+    @Override
+    public BatchAIJobImpl withCustomCommandLine(String commandLine) {
+        inner().withCustomToolkitSettings(new CustomToolkitSettings().withCommandLine(commandLine));
+        return this;
+    }
+
     void attachCntkSettings(CognitiveToolkitImpl cognitiveToolkit) {
         createParameters.withCntkSettings(cognitiveToolkit.inner());
     }
@@ -147,5 +160,9 @@ public class BatchAIJobImpl
 
     void attachCaffe2Settings(Caffe2Impl caffe2) {
         createParameters.withCaffe2Settings(caffe2.inner());
+    }
+
+    void attachChainerSettings(ChainerImpl chainer) {
+        createParameters.withChainerSettings(chainer.inner());
     }
 }

@@ -83,11 +83,22 @@ public final class ManageBatchAI {
                         .attach()
                     .create();
 
+//            cluster.jobs().define("myJob")
+//                    .withRegion(region)
+//                    .withNodeCount(1)
+//                    .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
+//                    .defineCognitiveToolkit()
+//                        .withPython("$AZ_BATCHAI_INPUT_SAMPLE/ConvNet_MNIST.py")
+//                        .attach()
+//                    .withInputDirectory("SAMPLE", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/" + sharePath)
+//                    .withOutputDirectory("MODEL", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/model")
+//                    .withContainerImage("microsoft/cntk:2.1-gpu-python3.5-cuda8.0-cudnn6.0")
+//                    .create();
             cluster.jobs().define("myJob")
                     .withRegion(region)
                     .withNodeCount(1)
                     .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
-                    .defineCognitiveToolkit()
+                    .defineCaffe()
                         .withPython("$AZ_BATCHAI_INPUT_SAMPLE/ConvNet_MNIST.py")
                         .attach()
                     .withInputDirectory("SAMPLE", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/" + sharePath)

@@ -9,13 +9,15 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIJob;
 import com.microsoft.azure.management.batchai.CNTKsettings;
-import com.microsoft.azure.management.batchai.CognitiveToolkit;
+import com.microsoft.azure.management.batchai.Caffe2Settings;
+import com.microsoft.azure.management.batchai.CaffeSettings;
 import com.microsoft.azure.management.batchai.ContainerSettings;
 import com.microsoft.azure.management.batchai.ImageSourceRegistry;
 import com.microsoft.azure.management.batchai.InputDirectory;
 import com.microsoft.azure.management.batchai.JobPreparation;
 import com.microsoft.azure.management.batchai.OutputDirectory;
 import com.microsoft.azure.management.batchai.ResourceId;
+import com.microsoft.azure.management.batchai.ToolTypeSettings;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Observable;
 
@@ -116,11 +118,34 @@ public class BatchAIJobImpl
     }
 
     @Override
-    public CognitiveToolkit.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineCognitiveToolkit() {
+    public ToolTypeSettings.CognitiveToolkit.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineCognitiveToolkit() {
         return new CognitiveToolkitImpl(new CNTKsettings(), this);
     }
 
-    void attachAzureBlobFileSystem(CognitiveToolkitImpl cognitiveToolkit) {
+    @Override
+    public ToolTypeSettings.TensorFlow.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineTensorflow() {
+        return null;
+    }
+
+    @Override
+    public ToolTypeSettings.Caffe.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineCaffe() {
+        return new CaffeImpl(new CaffeSettings(), this);
+    }
+
+    @Override
+    public ToolTypeSettings.Caffe2.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineCaffe2() {
+        return new Caffe2Impl(new Caffe2Settings(), this);
+    }
+
+    void attachCntkSettings(CognitiveToolkitImpl cognitiveToolkit) {
         createParameters.withCntkSettings(cognitiveToolkit.inner());
+    }
+
+    void attachCaffeSettings(CaffeImpl caffe) {
+        createParameters.withCaffeSettings(caffe.inner());
+    }
+
+    void attachCaffe2Settings(Caffe2Impl caffe2) {
+        createParameters.withCaffe2Settings(caffe2.inner());
     }
 }

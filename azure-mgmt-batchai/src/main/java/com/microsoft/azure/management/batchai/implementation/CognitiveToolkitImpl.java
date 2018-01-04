@@ -8,7 +8,7 @@ package com.microsoft.azure.management.batchai.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.BatchAIJob;
 import com.microsoft.azure.management.batchai.CNTKsettings;
-import com.microsoft.azure.management.batchai.CognitiveToolkit;
+import com.microsoft.azure.management.batchai.ToolTypeSettings;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 /**
@@ -17,8 +17,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
 @LangDefinition
 public class CognitiveToolkitImpl extends IndexableWrapperImpl<CNTKsettings>
         implements
-        CognitiveToolkit,
-        CognitiveToolkit.Definition<BatchAIJob.DefinitionStages.WithCreate> {
+        ToolTypeSettings.CognitiveToolkit,
+        ToolTypeSettings.CognitiveToolkit.Definition<BatchAIJob.DefinitionStages.WithCreate> {
     private static final String BRAIN_SCRIPT = "BrainScript";
     private static final String PYTHON = "Python";
     private BatchAIJobImpl parent;
@@ -35,7 +35,7 @@ public class CognitiveToolkitImpl extends IndexableWrapperImpl<CNTKsettings>
 
     @Override
     public BatchAIJob.DefinitionStages.WithCreate attach() {
-        this.parent.attachAzureBlobFileSystem(this);
+        this.parent.attachCntkSettings(this);
         return parent;
     }
 

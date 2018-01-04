@@ -62,7 +62,13 @@ public interface BatchAIJob extends
         }
 
         interface WithToolType {
-            CognitiveToolkit.DefinitionStages.Blank<WithCreate> defineCognitiveToolkit();
+            ToolTypeSettings.CognitiveToolkit.DefinitionStages.Blank<WithCreate> defineCognitiveToolkit();
+
+            ToolTypeSettings.TensorFlow.DefinitionStages.Blank<WithCreate> defineTensorflow();
+
+            ToolTypeSettings.Caffe.DefinitionStages.Blank<WithCreate> defineCaffe();
+
+            ToolTypeSettings.Caffe2.DefinitionStages.Blank<WithCreate> defineCaffe2();
         }
 
         interface WithInputDirectory {

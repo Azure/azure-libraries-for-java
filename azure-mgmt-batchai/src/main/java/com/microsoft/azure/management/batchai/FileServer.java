@@ -21,7 +21,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
  * Entry point for Batch AI file server management API in Azure.
  */
 @Fluent
-@Beta()
+@Beta(Beta.SinceVersion.V1_6_0)
 public interface FileServer extends
         GroupableResource<BatchAIManager, FileServerInner>,
         Refreshable<FileServer>,

@@ -5,28 +5,45 @@
  */
 package com.microsoft.azure.management.batchai;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
+import com.microsoft.azure.management.batchai.implementation.FileInner;
 import com.microsoft.azure.management.batchai.implementation.JobInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import rx.Completable;
+import rx.Observable;
 
 /**
  * Client-side representation of Batch AI Job object, associated with Batch AI Cluster.
  */
 @Fluent
-@Beta
+@Beta(Beta.SinceVersion.V1_6_0)
 public interface BatchAIJob extends
         IndependentChildResource<BatchAIManager, JobInner>,
         Refreshable<BatchAIJob>,
         HasParent<BatchAICluster> {
 
+    @Method
+    void terminate();
+
+    @Method
+    Completable terminateAsync();
+
+    @Method
+    PagedList<OutputFile> listFiles(String outputDirectoryId);
+
+    @Method
+    Observable<OutputFile> listFilesAsync(String outputDirectoryId);
+
     /**
-     * The entirety of the virtual network gateway connection definition.
+     * The entirety of the Batch AI job definition.
      */
     interface Definition extends
             DefinitionStages.Blank,
@@ -37,11 +54,11 @@ public interface BatchAIJob extends
     }
 
     /**
-     * Grouping of virtual network gateway connection definition stages.
+     * Grouping of Batch AI job definition stages.
      */
     interface DefinitionStages {
         /**
-         * The first stage of virtual network gateway connection definition.
+         * The first stage of Batch AI job definition.
          */
         interface Blank extends DefinitionWithRegion<WithNodeCount> {
         }
@@ -57,7 +74,15 @@ public interface BatchAIJob extends
             WithToolType withStdOutErrPathPrefix(String stdOutErrPathPrefix);
         }
 
+        /**
+         * The stage of the definition allowing to specify number of compute nodes to run the job on.
+         * The job will be gang scheduled on that many compute nodes.
+         */
         interface WithNodeCount {
+            /**
+             * @param nodeCount number of nodes
+             * @return the next staeg of the definition
+             */
             WithStdOutErrPathPrefix withNodeCount(int nodeCount);
         }
 

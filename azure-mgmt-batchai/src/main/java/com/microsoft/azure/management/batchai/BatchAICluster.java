@@ -24,7 +24,7 @@ import java.util.List;
  * Entry point for Batch AI cluster management API in Azure.
  */
 @Fluent
-@Beta()
+@Beta(Beta.SinceVersion.V1_6_0)
 public interface BatchAICluster extends
         GroupableResource<BatchAIManager, ClusterInner>,
         Refreshable<BatchAICluster>,

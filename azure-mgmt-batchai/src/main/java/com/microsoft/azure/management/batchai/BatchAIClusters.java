@@ -25,7 +25,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  * Entry point to Batch AI cluster management API in Azure.
  */
 @Fluent
-@Beta
+@Beta(Beta.SinceVersion.V1_6_0)
 public interface BatchAIClusters extends
         SupportsCreating<BatchAICluster.DefinitionStages.Blank>,
         SupportsListing<BatchAICluster>,

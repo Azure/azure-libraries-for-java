@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.batchai.implementation;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIJob;
@@ -18,13 +19,19 @@ import com.microsoft.azure.management.batchai.ImageSourceRegistry;
 import com.microsoft.azure.management.batchai.InputDirectory;
 import com.microsoft.azure.management.batchai.JobPreparation;
 import com.microsoft.azure.management.batchai.OutputDirectory;
+import com.microsoft.azure.management.batchai.OutputFile;
 import com.microsoft.azure.management.batchai.ResourceId;
 import com.microsoft.azure.management.batchai.ToolTypeSettings;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
+import rx.Completable;
 import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl.convertPageToInnerAsync;
 
 /**
  * Implementation for BatchAIJob and its create interface.
@@ -164,5 +171,40 @@ public class BatchAIJobImpl
 
     void attachChainerSettings(ChainerImpl chainer) {
         createParameters.withChainerSettings(chainer.inner());
+    }
+
+    @Override
+    public void terminate() {
+        terminateAsync().await();
+    }
+
+    @Override
+    public Completable terminateAsync() {
+        Observable<Void> stopObservable = this.manager().inner().jobs().terminateAsync(this.resourceGroupName(), this.name());
+        Observable<BatchAIJob> refreshObservable = refreshAsync();
+        // Refresh after stop to ensure the job operational state is updated
+        return Observable.concat(stopObservable, refreshObservable).toCompletable();
+    }
+
+    @Override
+    public PagedList<OutputFile> listFiles(String outputDirectoryId) {
+        PagedListConverter<FileInner, OutputFile> converter = new PagedListConverter<FileInner, OutputFile>() {
+            @Override
+            public Observable<OutputFile> typeConvertAsync(FileInner fileInner) {
+                return Observable.just((OutputFile) new OutputFileImpl(fileInner));
+            }
+        };
+        return converter.convert(this.manager().inner().jobs().listOutputFiles(resourceGroupName(), name(), new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId)));
+    }
+
+    @Override
+    public Observable<OutputFile> listFilesAsync(String outputDirectoryId) {
+        return convertPageToInnerAsync(this.manager().inner().jobs().listOutputFilesAsync(resourceGroupName(), name(),
+                new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId))).map(new Func1<FileInner, OutputFile>() {
+            @Override
+            public OutputFile call(FileInner fileInner) {
+                return new OutputFileImpl(fileInner);
+            }
+        });
     }
 }

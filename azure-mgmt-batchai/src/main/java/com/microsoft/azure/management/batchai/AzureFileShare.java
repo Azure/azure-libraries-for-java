@@ -16,7 +16,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
  * Client-side representation for AzureFileShareReference.
  */
 @Fluent
-@Beta
+@Beta(Beta.SinceVersion.V1_6_0)
 public interface AzureFileShare extends Indexable,
         HasParent<BatchAICluster>,
         HasInner<AzureFileShareReference> {

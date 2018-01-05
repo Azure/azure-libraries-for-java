@@ -130,12 +130,18 @@ public class TestBatchAI {
                     .create();
             Assert.assertEquals("steady", cluster.allocationState().toString());
             Assert.assertEquals(userName, cluster.adminUserName());
-//            cluster.jobs().define("myJob")
-//                    .withRegion(Region.US_WEST2)
-//                    .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
-//                    .withNodeCount(1)
-//                    .
-//                    .create();
+            cluster.jobs().define("myJob")
+                    .withRegion(region)
+                    .withNodeCount(1)
+                    .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
+                    .defineCognitiveToolkit()
+                        .withPython("$AZ_BATCHAI_INPUT_SAMPLE/ConvNet_MNIST.py")
+                        .withCommandLineArgs("$AZ_BATCHAI_INPUT_SAMPLE $AZ_BATCHAI_OUTPUT_MODEL")
+                        .attach()
+                    .withInputDirectory("SAMPLE", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/mnistcntksample")
+                    .withOutputDirectory("MODEL", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/model")
+                    .withContainerImage("microsoft/cntk:2.1-gpu-python3.5-cuda8.0-cudnn6.0")
+                    .create();
             return cluster;
         }
 

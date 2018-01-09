@@ -209,6 +209,8 @@ public interface BatchAICluster extends
             AzureBlobFileSystem.DefinitionStages.Blank<WithCreate> defineAzureBlobFileSystem();
 
             BatchAIFileServer.DefinitionStages.Blank<WithCreate> defineFileServer();
+
+            WithCreate withUnmanagedFileSystem(String mountCommand, String relativeMountPath);
         }
 
         /**

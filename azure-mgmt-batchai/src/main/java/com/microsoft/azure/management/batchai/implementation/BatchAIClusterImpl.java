@@ -26,6 +26,7 @@ import com.microsoft.azure.management.batchai.ProvisioningState;
 import com.microsoft.azure.management.batchai.ResourceId;
 import com.microsoft.azure.management.batchai.ScaleSettings;
 import com.microsoft.azure.management.batchai.SetupTask;
+import com.microsoft.azure.management.batchai.UnmanagedFileSystemReference;
 import com.microsoft.azure.management.batchai.UserAccountSettings;
 import com.microsoft.azure.management.batchai.VirtualMachineConfiguration;
 import com.microsoft.azure.management.batchai.VmPriority;
@@ -277,13 +278,23 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
 
 
     @Override
-    public AzureBlobFileSystem.DefinitionStages.Blank<BatchAICluster.DefinitionStages.WithCreate> defineAzureBlobFileSystem() {
+    public AzureBlobFileSystemImpl defineAzureBlobFileSystem() {
         return new AzureBlobFileSystemImpl(new AzureBlobFileSystemReference(), this);
     }
 
     @Override
-    public BatchAIFileServer.DefinitionStages.Blank<BatchAICluster.DefinitionStages.WithCreate> defineFileServer() {
+    public BatchAIFileServerImpl defineFileServer() {
         return new BatchAIFileServerImpl(new FileServerReference(), this);
+    }
+
+    @Override
+    public BatchAIClusterImpl withUnmanagedFileSystem(String mountCommand, String relativeMountPath) {
+        MountVolumes mountVolumes = ensureMountVolumes();
+        if (mountVolumes.unmanagedFileSystems() == null) {
+            mountVolumes.withUnmanagedFileSystems(new ArrayList<UnmanagedFileSystemReference>());
+        }
+        mountVolumes.unmanagedFileSystems().add(new UnmanagedFileSystemReference().withMountCommand(mountCommand).withRelativeMountPath(relativeMountPath));
+        return this;
     }
 
     void attachAzureFileShare(AzureFileShareImpl azureFileShare) {

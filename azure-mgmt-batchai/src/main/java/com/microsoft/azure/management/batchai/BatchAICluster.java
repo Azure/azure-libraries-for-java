@@ -115,7 +115,7 @@ public interface BatchAICluster extends
     NodeStateCounts nodeStateCounts();
 
     /**
-     * @return the entry point to virtual network gateway connections management API for this virtual network gateway
+     * @return the entry point to Batch AI jobs management API for this cluster
      */
     BatchAIJobs jobs();
 

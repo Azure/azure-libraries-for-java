@@ -12,9 +12,10 @@ import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 
+/**
+ * Contains configuration definitions for different tool types.
+ */
 public interface ToolTypeSettings {
-
-
     /**
      * Client-side representation for Microsoft Cognitive Toolkit settings.
      */

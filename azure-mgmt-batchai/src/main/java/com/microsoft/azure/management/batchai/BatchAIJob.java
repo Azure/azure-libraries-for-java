@@ -29,15 +29,34 @@ public interface BatchAIJob extends
         Refreshable<BatchAIJob>,
         HasParent<BatchAICluster> {
 
+    /**
+     * Terminates a job.
+     */
     @Method
     void terminate();
 
+    /**
+     * Terminates a job.
+     * @return a representation of the deferred computation of this call
+     */
     @Method
     Completable terminateAsync();
 
+    /**
+     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * @param outputDirectoryId Id of the job output directory. This is the OutputDirectory--&gt;id
+     * parameter that is given by the user during Create Job.
+     * @return list of files inside the given output directory
+     */
     @Method
     PagedList<OutputFile> listFiles(String outputDirectoryId);
 
+    /**
+     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * @param outputDirectoryId Id of the job output directory. This is the OutputDirectory--&gt;id
+     * parameter that is given by the user during Create Job.
+     * @return an observable that emits output file information
+     */
     @Method
     Observable<OutputFile> listFilesAsync(String outputDirectoryId);
 

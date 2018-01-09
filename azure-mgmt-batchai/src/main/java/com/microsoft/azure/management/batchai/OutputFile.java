@@ -24,7 +24,7 @@ public interface OutputFile extends
         HasInner<FileInner>,
         HasName {
     /**
-     * file downloand url, example:
+     * @return file downloand url, example:
      * https://mystg.blob.core.windows.net/mycontainer/myModel_1.dnn.
      * This will be returned only if the model has been archived. During job
      * run, this won't be returned and customers can use SSH tunneling to
@@ -34,12 +34,12 @@ public interface OutputFile extends
     String downloadUrl();
 
     /**
-     * The time at which the file was last modified.
+     * @return the time at which the file was last modified.
      */
     DateTime lastModified();
 
     /**
-     * The file size.
+     * @return the file size.
      */
     long contentLength();
 }

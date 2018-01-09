@@ -21,6 +21,9 @@ import java.io.File;
 
 /**
  * Azure Batch AI sample.
+ *  - Create Storage account and Azure file share
+ *  - Create Batch AI cluster that uses Azure file share to host the training data and scripts for the learning job
+ *  - Create Microsoft Cognitive Toolkit job to run on the cluster
  */
 public final class ManageBatchAI {
     /**
@@ -68,6 +71,8 @@ public final class ManageBatchAI {
             sampleDir.getFileReference("Test-28x28_cntk_text.txt").uploadFromFile(filePath + "Test-28x28_cntk_text.txt");
             sampleDir.getFileReference("ConvNet_MNIST.py").uploadFromFile(filePath + "ConvNet_MNIST.py");
 
+            //=============================================================
+            // Create Batch AI cluster that uses Azure file share to host the training data and scripts for the learning job
             BatchAICluster cluster = azure.batchAIClusters().define(clusterName)
                     .withRegion(region)
                     .withNewResourceGroup(rgName)
@@ -83,6 +88,8 @@ public final class ManageBatchAI {
                         .attach()
                     .create();
 
+            // =============================================================
+            // Create Microsoft Cognitive Toolkit job to run on the cluster
             cluster.jobs().define("myJob")
                     .withRegion(region)
                     .withNodeCount(1)
@@ -102,7 +109,7 @@ public final class ManageBatchAI {
         } finally {
             try {
                 System.out.println("Deleting Resource Group: " + rgName);
-//                azure.resourceGroups().beginDeleteByName(rgName);
+                azure.resourceGroups().beginDeleteByName(rgName);
             } catch (NullPointerException npe) {
                 System.out.println("Did not create any resources in Azure. No clean up is necessary");
             } catch (Exception g) {

@@ -161,6 +161,10 @@ public class BatchAIJobImpl
         createParameters.withCntkSettings(cognitiveToolkit.inner());
     }
 
+    void attachTensorFlowSettings(TensorFlowImpl tensorFlow) {
+        createParameters.withTensorFlowSettings(tensorFlow.inner());
+    }
+
     void attachCaffeSettings(CaffeImpl caffe) {
         createParameters.withCaffeSettings(caffe.inner());
     }

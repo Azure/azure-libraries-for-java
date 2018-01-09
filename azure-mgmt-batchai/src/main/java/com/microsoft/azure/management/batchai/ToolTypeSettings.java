@@ -61,13 +61,13 @@ public interface ToolTypeSettings {
     }
 
     /**
-     * Specifies the settings for Tensor Flow job.
+     * Specifies the settings for TensorFlow job.
      */
     @Fluent
     @Beta
     interface TensorFlow extends Indexable,
             HasParent<BatchAIJob>,
-            HasInner<CNTKsettings> {
+            HasInner<TensorFlowSettings> {
 
         /**
          * Definition of Tensorflow job settings.
@@ -76,32 +76,36 @@ public interface ToolTypeSettings {
          */
         interface Definition<ParentT> extends
                 DefinitionStages.Blank<ParentT>,
-                CognitiveToolkit.DefinitionStages.WithAttachAndPythonInterpreter<ParentT> {
+                DefinitionStages.WithMasterCommandLineArgs<ParentT>,
+                DefinitionStages.WithAttach<ParentT> {
         }
 
         /**
-         * Definition stages for Tensorflow job settings.
+         * Definition stages for TensorFlow job settings.
          */
         interface DefinitionStages {
 
             interface WithAttach<ParentT> extends
-                    Attachable.InDefinition<ParentT> {
-                WithAttach<ParentT> withCommandLineArgs(String commandLineArgs);
-
-                WithAttach<ParentT> withProcessCount(int processCount);
-            }
-
-            interface WithAttachAndPythonInterpreter<ParentT> extends WithAttach<ParentT>,
+                    Attachable.InDefinition<ParentT>,
                     ToolTypeSettings.DefinitionStages.WithPythonInterpreter<WithAttach<ParentT>> {
+                WithAttach<ParentT> withWorkerCommandLineArgs(String commandLineArgs);
+
+                WithAttach<ParentT> withParameterServerCommandLineArgs(String commandLineArgs);
+
+                WithAttach<ParentT> withWorkerCount(int workerCount);
+
+                WithAttach<ParentT> withParameterServerCount(int parameterServerCount);
             }
 
-            interface Blank<ParentT> extends WithLanguageType<ParentT> {
+            interface Blank<ParentT> extends WithPython<ParentT> {
             }
 
-            interface WithLanguageType<ParentT> {
-                WithAttach<ParentT> withBrainScript(String configFilePath);
+            interface WithPython<ParentT> {
+                WithMasterCommandLineArgs<ParentT> withPython(String pythonScriptFilePath);
+            }
 
-                WithAttachAndPythonInterpreter<ParentT> withPython(String pythonScriptFilePath);
+            interface WithMasterCommandLineArgs<ParentT> {
+                WithAttach<ParentT> withMasterCommandLineArgs(String commandLineArgs);
             }
         }
     }

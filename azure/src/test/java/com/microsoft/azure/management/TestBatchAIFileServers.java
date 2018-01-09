@@ -26,7 +26,7 @@ public class TestBatchAIFileServers extends TestTemplate<FileServer, FileServers
                 .withDataDisks(10, 2, StorageAccountType.STANDARD_LRS)
                 .withVMSize(VirtualMachineSizeTypes.STANDARD_D1_V2.toString())
                 .withUserName(userName)
-                .withPassword("MyPassword")
+                .withPassword("MyPassword!")
                 .create();
         return fileServer;
     }

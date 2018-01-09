@@ -13,8 +13,10 @@ import com.microsoft.azure.management.batchai.AzureBlobFileSystemReference;
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIError;
+import com.microsoft.azure.management.batchai.BatchAIFileServer;
 import com.microsoft.azure.management.batchai.BatchAIJobs;
 import com.microsoft.azure.management.batchai.DeallocationOption;
+import com.microsoft.azure.management.batchai.FileServerReference;
 import com.microsoft.azure.management.batchai.ManualScaleSettings;
 import com.microsoft.azure.management.batchai.MountVolumes;
 import com.microsoft.azure.management.batchai.NodeSetup;
@@ -279,6 +281,11 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         return new AzureBlobFileSystemImpl(new AzureBlobFileSystemReference(), this);
     }
 
+    @Override
+    public BatchAIFileServer.DefinitionStages.Blank<BatchAICluster.DefinitionStages.WithCreate> defineFileServer() {
+        return new BatchAIFileServerImpl(new FileServerReference(), this);
+    }
+
     void attachAzureFileShare(AzureFileShareImpl azureFileShare) {
         MountVolumes mountVolumes = ensureMountVolumes();
         if (mountVolumes.azureFileShares() == null) {
@@ -293,6 +300,14 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
             mountVolumes.withAzureBlobFileSystems(new ArrayList<AzureBlobFileSystemReference>());
         }
         mountVolumes.azureBlobFileSystems().add(azureBlobFileSystem.inner());
+    }
+
+    void attachFileServer(BatchAIFileServer fileServer) {
+        MountVolumes mountVolumes = ensureMountVolumes();
+        if (mountVolumes.fileServers() == null) {
+            mountVolumes.withFileServers(new ArrayList<FileServerReference>());
+        }
+        mountVolumes.fileServers().add(fileServer.inner());
     }
 
     private MountVolumes ensureMountVolumes() {

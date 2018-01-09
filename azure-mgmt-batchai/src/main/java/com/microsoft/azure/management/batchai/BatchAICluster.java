@@ -203,12 +203,12 @@ public interface BatchAICluster extends
             NodeSetupTask.DefinitionStages.Blank<WithCreate> defineSetupTask();
         }
 
-        interface WithAzureFileShare {
+        interface WithMountVolumes {
             AzureFileShare.DefinitionStages.Blank<WithCreate> defineAzureFileShare();
-        }
 
-        interface WithAzureBlobFileSystem {
             AzureBlobFileSystem.DefinitionStages.Blank<WithCreate> defineAzureBlobFileSystem();
+
+            BatchAIFileServer.DefinitionStages.Blank<WithCreate> defineFileServer();
         }
 
         /**
@@ -220,8 +220,7 @@ public interface BatchAICluster extends
                 DefinitionStages.WithUserCredentials,
                 DefinitionStages.WithVMPriority,
                 DefinitionStages.WithSetupTask,
-                DefinitionStages.WithAzureFileShare,
-                DefinitionStages.WithAzureBlobFileSystem,
+                DefinitionStages.WithMountVolumes,
                 Resource.DefinitionWithTags<WithCreate> {
         }
     }

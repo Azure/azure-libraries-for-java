@@ -15,15 +15,24 @@ import com.microsoft.azure.management.batchai.CaffeSettings;
 import com.microsoft.azure.management.batchai.ChainerSettings;
 import com.microsoft.azure.management.batchai.ContainerSettings;
 import com.microsoft.azure.management.batchai.CustomToolkitSettings;
+import com.microsoft.azure.management.batchai.EnvironmentSetting;
+import com.microsoft.azure.management.batchai.ExecutionState;
 import com.microsoft.azure.management.batchai.ImageSourceRegistry;
 import com.microsoft.azure.management.batchai.InputDirectory;
 import com.microsoft.azure.management.batchai.JobPreparation;
+import com.microsoft.azure.management.batchai.JobPropertiesConstraints;
+import com.microsoft.azure.management.batchai.JobPropertiesExecutionInfo;
 import com.microsoft.azure.management.batchai.OutputDirectory;
 import com.microsoft.azure.management.batchai.OutputFile;
+import com.microsoft.azure.management.batchai.ProvisioningState;
 import com.microsoft.azure.management.batchai.ResourceId;
+import com.microsoft.azure.management.batchai.TensorFlowSettings;
+import com.microsoft.azure.management.batchai.ToolType;
 import com.microsoft.azure.management.batchai.ToolTypeSettings;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
@@ -127,6 +136,12 @@ public class BatchAIJobImpl
     }
 
     @Override
+    public BatchAIJob.DefinitionStages.WithCreate withExperimentName(String experimentName) {
+        inner().withExperimentName(experimentName);
+        return this;
+    }
+
+    @Override
     public ToolTypeSettings.CognitiveToolkit.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineCognitiveToolkit() {
         return new CognitiveToolkitImpl(new CNTKsettings(), this);
     }
@@ -210,5 +225,120 @@ public class BatchAIJobImpl
                 return new OutputFileImpl(fileInner);
             }
         });
+    }
+
+    @Override
+    public String experimentName() {
+        return inner().experimentName();
+    }
+
+    @Override
+    public Integer priority() {
+        return inner().priority();
+    }
+
+    @Override
+    public ResourceId cluster() {
+        return inner().cluster();
+    }
+
+    @Override
+    public int nodeCount() {
+        return Utils.toPrimitiveInt(inner().nodeCount());
+    }
+
+    @Override
+    public ContainerSettings containerSettings() {
+        return inner().containerSettings();
+    }
+
+    @Override
+    public ToolType toolType() {
+        return inner().toolType();
+    }
+
+    @Override
+    public CNTKsettings cntkSettings() {
+        return inner().cntkSettings();
+    }
+
+    @Override
+    public TensorFlowSettings tensorFlowSettings() {
+        return inner().tensorFlowSettings();
+    }
+
+    @Override
+    public CaffeSettings caffeSettings() {
+        return inner().caffeSettings();
+    }
+
+    @Override
+    public ChainerSettings chainerSettings() {
+        return inner().chainerSettings();
+    }
+
+    @Override
+    public CustomToolkitSettings customToolkitSettings() {
+        return inner().customToolkitSettings();
+    }
+
+    @Override
+    public JobPreparation jobPreparation() {
+        return inner().jobPreparation();
+    }
+
+    @Override
+    public String stdOutErrPathPrefix() {
+        return inner().stdOutErrPathPrefix();
+    }
+
+    @Override
+    public List<InputDirectory> inputDirectories() {
+        return inner().inputDirectories();
+    }
+
+    @Override
+    public List<OutputDirectory> outputDirectories() {
+        return inner().outputDirectories();
+    }
+
+    @Override
+    public List<EnvironmentSetting> environmentVariables() {
+        return inner().environmentVariables();
+    }
+
+    @Override
+    public JobPropertiesConstraints constraints() {
+        return inner().constraints();
+    }
+
+    @Override
+    public DateTime creationTime() {
+        return inner().creationTime();
+    }
+
+    @Override
+    public ProvisioningState provisioningState() {
+        return inner().provisioningState();
+    }
+
+    @Override
+    public DateTime provisioningStateTransitionTime() {
+        return inner().provisioningStateTransitionTime();
+    }
+
+    @Override
+    public ExecutionState executionState() {
+        return inner().executionState();
+    }
+
+    @Override
+    public DateTime executionStateTransitionTime() {
+        return inner().executionStateTransitionTime();
+    }
+
+    @Override
+    public JobPropertiesExecutionInfo executionInfo() {
+        return inner().executionInfo();
     }
 }

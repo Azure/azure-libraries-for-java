@@ -25,7 +25,7 @@ import com.microsoft.rest.RestClient;
 /**
  * Entry point to Azure BatchAI resource management.
  */
-@Beta(SinceVersion.V1_4_0)
+@Beta(SinceVersion.V1_6_0)
 public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagementClientImpl> {
     private BatchAIClusters batchAIClusters;
     private FileServers fileServers;

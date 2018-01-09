@@ -16,7 +16,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
  * A client-side representation of a mode setup task of a Batch AI cluster.
  */
 @Fluent
-@Beta
+@Beta(Beta.SinceVersion.V1_6_0)
 public interface NodeSetupTask extends
         HasInner<SetupTask>,
         Indexable,

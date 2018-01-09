@@ -21,6 +21,8 @@ import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.file.CloudFileShare;
 import org.junit.Assert;
 
+import static com.microsoft.azure.management.resources.core.TestBase.isPlaybackMode;
+
 /**
  * Test of Batch AI management.
  */
@@ -44,20 +46,27 @@ public class TestBatchAI {
             final String blobFileSystemPath = "myblobsystem";
             final String containerName = "mycontainer";
             final String userName = "tirekicker";
+            String storageAccountKey;
+            String fileShareUri;
+            if (isPlaybackMode()) {
+                storageAccountKey = "dummy_key";
+                fileShareUri = "dummy_uri";
+            } else {
+                storageAccountKey = ensureStorageAccount(storageAccounts, saName, groupName, shareName);
+                String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s", saName, storageAccountKey);
 
-            String storageAccountKey = ensureStorageAccount(storageAccounts, saName, groupName, shareName);
-            String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s", saName, storageAccountKey);
+                CloudFileShare cloudFileShare = CloudStorageAccount.parse(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net",
+                        saName, storageAccountKey))
+                        .createCloudFileClient()
+                        .getShareReference(shareName);
+                cloudFileShare.create();
 
-            CloudFileShare cloudFileShare = CloudStorageAccount.parse(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net",
-                    saName, storageAccountKey))
-                    .createCloudFileClient()
-                    .getShareReference(shareName);
-            cloudFileShare.create();
-
-            CloudStorageAccount account = CloudStorageAccount.parse(connectionString);
-            CloudBlobClient cloudBlobClient = account.createCloudBlobClient();
-            CloudBlobContainer container = cloudBlobClient.getContainerReference(containerName);
-            container.createIfNotExists();
+                CloudStorageAccount account = CloudStorageAccount.parse(connectionString);
+                CloudBlobClient cloudBlobClient = account.createCloudBlobClient();
+                CloudBlobContainer container = cloudBlobClient.getContainerReference(containerName);
+                container.createIfNotExists();
+                fileShareUri = cloudFileShare.getStorageUri().getPrimaryUri().toString();
+            }
 
             BatchAICluster cluster = clusters.define(clusterName)
                     .withRegion(region)
@@ -73,7 +82,7 @@ public class TestBatchAI {
                     .attach()
                     .defineAzureFileShare()
                         .withStorageAccountName(saName)
-                        .withAzureFileUrl(cloudFileShare.getStorageUri().getPrimaryUri().toString())
+                        .withAzureFileUrl(fileShareUri)
                         .withRelativeMountPath(shareMountPath)
                         .withAccountKey(storageAccountKey)
                         .attach()

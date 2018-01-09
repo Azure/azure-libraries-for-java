@@ -20,7 +20,7 @@ public interface ToolTypeSettings {
      * Client-side representation for Microsoft Cognitive Toolkit settings.
      */
     @Fluent
-    @Beta
+    @Beta(Beta.SinceVersion.V1_6_0)
     interface CognitiveToolkit extends Indexable,
             HasParent<BatchAIJob>,
             HasInner<CNTKsettings> {
@@ -65,7 +65,7 @@ public interface ToolTypeSettings {
      * Specifies the settings for TensorFlow job.
      */
     @Fluent
-    @Beta
+    @Beta(Beta.SinceVersion.V1_6_0)
     interface TensorFlow extends Indexable,
             HasParent<BatchAIJob>,
             HasInner<TensorFlowSettings> {
@@ -115,7 +115,7 @@ public interface ToolTypeSettings {
      * Specifies the settings for Caffe job.
      */
     @Fluent
-    @Beta
+    @Beta(Beta.SinceVersion.V1_6_0)
     interface Caffe extends Indexable,
             HasParent<BatchAIJob>,
             HasInner<CaffeSettings> {
@@ -160,7 +160,7 @@ public interface ToolTypeSettings {
      * Specifies the settings for Caffe2 job.
      */
     @Fluent
-    @Beta
+    @Beta(Beta.SinceVersion.V1_6_0)
     interface Caffe2 extends Indexable,
             HasParent<BatchAIJob>,
             HasInner<Caffe2Settings> {
@@ -202,7 +202,7 @@ public interface ToolTypeSettings {
      * Specifies the settings for Chainer job.
      */
     @Fluent
-    @Beta
+    @Beta(Beta.SinceVersion.V1_6_0)
     interface Chainer extends Indexable,
             HasParent<BatchAIJob>,
             HasInner<ChainerSettings> {

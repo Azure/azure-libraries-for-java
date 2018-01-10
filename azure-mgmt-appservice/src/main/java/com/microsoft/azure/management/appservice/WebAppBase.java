@@ -10,7 +10,6 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.appservice.WebAppBase.DefinitionStages.WithCreate;
 import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
 import com.microsoft.azure.management.appservice.implementation.SiteInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -217,10 +216,18 @@ public interface WebAppBase extends
     String autoSwapSlotName();
 
     /**
-     * @return the managed service identity in Azure Active Directory for this web app
+     * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID assigned
+     * to the virtual machine.
      */
-    @Beta(SinceVersion.V1_6_0)
-    ManagedServiceIdentity managedServiceIdentity();
+    @Beta(Beta.SinceVersion.V1_5_0)
+    String systemAssignedManagedServiceIdentityTenantId();
+
+    /**
+     * @return the System Assigned (Local) Managed Service Identity specific Active Directory service principal ID
+     * assigned to the virtual machine.
+     */
+    @Beta(Beta.SinceVersion.V1_5_0)
+    String systemAssignedManagedServiceIdentityPrincipalId();
 
     /**
      * @return the app settings defined on the web app
@@ -1231,24 +1238,24 @@ public interface WebAppBase extends
              * Specifies the configuration for container logging for Linux web apps.
              * @param quotaInMB the limit that restricts file system usage by app diagnostics logs. Value can range from 25 MB and 100 MB.
              * @param retentionDays maximum days of logs that will be available
-             * @return the next stage of the web app definition
+             * @return the next stage of the web app update
              */
             Update<FluentT> withContainerLoggingEnabled(int quotaInMB, int retentionDays);
 
             /**
              * Specifies the configuration for container logging for Linux web apps.
              * Logs will be stored on the file system for up to 35 MB.
-             * @return the next stage of the web app definition
+             * @return the next stage of the web app update
              */
             @Method
             Update<FluentT> withContainerLoggingEnabled();
 
             /**
              * Disable the container logging for Linux web apps.
-             * @return the next stage of the web app definition
+             * @return the next stage of the web app update
              */
             @Method
-            WithCreate<FluentT> withContainerLoggingDisabled();
+            Update<FluentT> withContainerLoggingDisabled();
         }
 
         /**
@@ -1262,7 +1269,7 @@ public interface WebAppBase extends
              * @return the next stage of the web app definition
              */
             @Method
-            WithCreate<FluentT> withSystemAssignedManagedServiceIdentity();
+            Update<FluentT> withSystemAssignedManagedServiceIdentity();
         }
     }
 

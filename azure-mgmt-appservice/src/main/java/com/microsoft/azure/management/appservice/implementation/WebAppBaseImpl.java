@@ -9,6 +9,7 @@ package com.microsoft.azure.management.appservice.implementation;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServiceCertificate;
 import com.microsoft.azure.management.appservice.AppServiceDomain;
@@ -421,8 +422,19 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
-    public ManagedServiceIdentity managedServiceIdentity() {
-        return inner().identity();
+    public String systemAssignedManagedServiceIdentityTenantId() {
+        if (inner().identity() == null) {
+            return null;
+        }
+        return inner().identity().tenantId();
+    }
+
+    @Override
+    public String systemAssignedManagedServiceIdentityPrincipalId() {
+        if (inner().identity() == null) {
+            return null;
+        }
+        return inner().identity().principalId();
     }
 
     @Override

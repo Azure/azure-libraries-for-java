@@ -162,23 +162,71 @@ public interface BatchAICluster extends
             WithUserName withVMSize(String vmSize);
         }
 
+        /**
+         * Specifies the name of the administrator account that gets created on each of the nodes of a cluster.
+         */
         interface WithUserName {
+            /**
+             * @param userName the name of the administrator account
+             * @return the next stage of the definition
+             */
             WithUserCredentials withUserName(String userName);
         }
 
+        /**
+         * Specifies the credentials to use for authentication on each of the nodes of a cluster.
+         */
         interface WithUserCredentials {
+            /**
+             * @param password Admin user password (linux only)
+             * @return the next stage of the definition
+             */
             WithScaleSettings withPassword(String password);
 
+            /**
+             * @param sshPublicKey SSH public keys used to authenticate with linux based VMs
+             * @return the next stage of the definition
+             */
             WithScaleSettings withSshPublicKey(String sshPublicKey);
         }
 
+        /**
+         * Specifies scale settings for the cluster.
+         */
         interface WithScaleSettings {
+            /**
+             * If autoScale settings are specified, the system automatically scales the cluster up and down (within
+             * the supplied limits) based on the pending jobs on the cluster.
+             * @param minimumNodeCount the minimum number of compute nodes the cluster can have
+             * @param maximumNodeCount the maximum number of compute nodes the cluster can have
+             * @return the next stage of the definition
+             */
             WithCreate withAutoScale(int minimumNodeCount, int maximumNodeCount);
 
+            /**
+             * If autoScale settings are specified, the system automatically scales the cluster up and down (within
+             * the supplied limits) based on the pending jobs on the cluster.
+             * @param minimumNodeCount the minimum number of compute nodes the cluster can have
+             * @param maximumNodeCount the maximum number of compute nodes the cluster can have
+             * @param initialNodeCount the number of compute nodes to allocate on cluster creation.
+             * Note that this value is used only during cluster creation.
+             * @return the next stage of the definition
+             */
             WithCreate withAutoScale(int minimumNodeCount, int maximumNodeCount, int initialNodeCount);
 
+            /**
+             * Specifies that cluster should be scaled by manual settings.
+             * @param targetNodeCount the desired number of compute nodes in the Cluster
+             * @return the next stage of the definition
+             */
             WithCreate withManualScale(int targetNodeCount);
 
+            /**
+             * Specifies that cluster should be scaled by manual settings.
+             * @param targetNodeCount the desired number of compute nodes in the Cluster
+             * @param deallocationOption determines what to do with the job(s) running on compute node if the cluster size is decreasing. The default value is requeue.
+             * @return the next stage of the definition
+             */
             WithCreate withManualScale(int targetNodeCount, DeallocationOption deallocationOption);
         }
 
@@ -203,13 +251,34 @@ public interface BatchAICluster extends
             NodeSetupTask.DefinitionStages.Blank<WithCreate> defineSetupTask();
         }
 
+        /**
+         * Defines the volumes to mount on the cluster.
+         */
         interface WithMountVolumes {
+            /**
+             * Begins the definition of Azure file share reference to be mounted on each cluster node.
+             * @return the first stage of file share reference definition
+             */
             AzureFileShare.DefinitionStages.Blank<WithCreate> defineAzureFileShare();
 
+            /**
+             * Begins the definition of Azure blob file system reference to be mounted on each cluster node.
+             * @return the first stage of Azure blob file system reference definition
+             */
             AzureBlobFileSystem.DefinitionStages.Blank<WithCreate> defineAzureBlobFileSystem();
 
+            /**
+             * Begins the definition of Azure file server reference.
+             * @return the first stage of file server reference definition
+             */
             BatchAIFileServer.DefinitionStages.Blank<WithCreate> defineFileServer();
 
+            /**
+             * Specifies the details of the file system to mount on the compute cluster nodes.
+             * @param mountCommand command used to mount the unmanaged file system
+             * @param relativeMountPath the relative path on the compute cluster node where the file system will be mounted.
+             * @return the next stage of Batch AI cluster definition
+             */
             WithCreate withUnmanagedFileSystem(String mountCommand, String relativeMountPath);
         }
 
@@ -232,12 +301,39 @@ public interface BatchAICluster extends
      */
     interface UpdateStages {
         interface WithScaleSettings {
+            /**
+             * If autoScale settings are specified, the system automatically scales the cluster up and down (within
+             * the supplied limits) based on the pending jobs on the cluster.
+             * @param minimumNodeCount the minimum number of compute nodes the cluster can have
+             * @param maximumNodeCount the maximum number of compute nodes the cluster can have
+             * @return the next stage of the update
+             */
             Update withAutoScale(int minimumNodeCount, int maximumNodeCount);
 
+            /**
+             * If autoScale settings are specified, the system automatically scales the cluster up and down (within
+             * the supplied limits) based on the pending jobs on the cluster.
+             * @param minimumNodeCount the minimum number of compute nodes the cluster can have
+             * @param maximumNodeCount the maximum number of compute nodes the cluster can have
+             * @param initialNodeCount the number of compute nodes to allocate on cluster creation.
+             * Note that this value is used only during cluster creation.
+             * @return the next stage of the update
+             */
             Update withAutoScale(int minimumNodeCount, int maximumNodeCount, int initialNodeCount);
 
+            /**
+             * Specifies that cluster should be scaled by manual settings.
+             * @param targetNodeCount the desired number of compute nodes in the Cluster
+             * @return the next stage of the update
+             */
             Update withManualScale(int targetNodeCount);
 
+            /**
+             * Specifies that cluster should be scaled by manual settings.
+             * @param targetNodeCount the desired number of compute nodes in the Cluster
+             * @param deallocationOption determines what to do with the job(s) running on compute node if the cluster size is decreasing. The default value is requeue.
+             * @return the next stage of the update
+             */
             Update withManualScale(int targetNodeCount, DeallocationOption deallocationOption);
         }
     }

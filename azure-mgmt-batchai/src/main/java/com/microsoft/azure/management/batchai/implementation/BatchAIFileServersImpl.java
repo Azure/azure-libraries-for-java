@@ -6,45 +6,45 @@
 package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.batchai.FileServer;
-import com.microsoft.azure.management.batchai.FileServers;
+import com.microsoft.azure.management.batchai.BatchAIFileServer;
+import com.microsoft.azure.management.batchai.BatchAIFileServers;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
- *  Implementation for FileServers.
+ *  Implementation for BatchAIFileServers.
  */
 @LangDefinition
-class FileServersImpl
+class BatchAIFileServersImpl
         extends TopLevelModifiableResourcesImpl<
-        FileServer,
-        FileServerImpl,
+        BatchAIFileServer,
+        BatchAIFileServerImpl,
         FileServerInner,
         FileServersInner,
         BatchAIManager>
-        implements FileServers {
+        implements BatchAIFileServers {
 
-    FileServersImpl(final BatchAIManager batchAIManager) {
+    BatchAIFileServersImpl(final BatchAIManager batchAIManager) {
         super(batchAIManager.inner().fileServers(), batchAIManager);
     }
 
     @Override
-    public FileServerImpl define(String name) {
+    public BatchAIFileServerImpl define(String name) {
         return wrapModel(name);
     }
 
     // Fluent model create helpers
 
     @Override
-    protected FileServerImpl wrapModel(String name) {
+    protected BatchAIFileServerImpl wrapModel(String name) {
         FileServerInner inner = new FileServerInner();
-        return new FileServerImpl(name, inner, super.manager());
+        return new BatchAIFileServerImpl(name, inner, super.manager());
     }
 
     @Override
-    protected FileServerImpl wrapModel(FileServerInner inner) {
+    protected BatchAIFileServerImpl wrapModel(FileServerInner inner) {
         if (inner == null) {
             return null;
         }
-        return new FileServerImpl(inner.name(), inner, this.manager());
+        return new BatchAIFileServerImpl(inner.name(), inner, this.manager());
     }
 }

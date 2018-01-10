@@ -19,7 +19,7 @@ import com.microsoft.azure.management.appservice.implementation.AppServiceManage
 import com.microsoft.azure.management.batch.BatchAccounts;
 import com.microsoft.azure.management.batch.implementation.BatchManager;
 import com.microsoft.azure.management.batchai.BatchAIClusters;
-import com.microsoft.azure.management.batchai.FileServers;
+import com.microsoft.azure.management.batchai.BatchAIFileServers;
 import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.cdn.CdnProfiles;
 import com.microsoft.azure.management.cdn.implementation.CdnManager;
@@ -681,7 +681,7 @@ public final class Azure {
     /**
      * @return entry point to managing batch AI file servers.
      */
-    public FileServers fileServers() {
+    public BatchAIFileServers batchAIFileServers() {
         return batchAIManager.fileServers();
     }
 

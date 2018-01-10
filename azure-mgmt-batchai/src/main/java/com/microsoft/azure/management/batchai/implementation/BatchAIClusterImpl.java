@@ -13,7 +13,7 @@ import com.microsoft.azure.management.batchai.AzureBlobFileSystemReference;
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIError;
-import com.microsoft.azure.management.batchai.BatchAIFileServer;
+import com.microsoft.azure.management.batchai.FileServer;
 import com.microsoft.azure.management.batchai.BatchAIJobs;
 import com.microsoft.azure.management.batchai.DeallocationOption;
 import com.microsoft.azure.management.batchai.FileServerReference;
@@ -283,8 +283,8 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
     }
 
     @Override
-    public BatchAIFileServerImpl defineFileServer() {
-        return new BatchAIFileServerImpl(new FileServerReference(), this);
+    public FileServerImpl defineFileServer() {
+        return new FileServerImpl(new FileServerReference(), this);
     }
 
     @Override
@@ -313,7 +313,7 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         mountVolumes.azureBlobFileSystems().add(azureBlobFileSystem.inner());
     }
 
-    void attachFileServer(BatchAIFileServer fileServer) {
+    void attachFileServer(FileServer fileServer) {
         MountVolumes mountVolumes = ensureMountVolumes();
         if (mountVolumes.fileServers() == null) {
             mountVolumes.withFileServers(new ArrayList<FileServerReference>());

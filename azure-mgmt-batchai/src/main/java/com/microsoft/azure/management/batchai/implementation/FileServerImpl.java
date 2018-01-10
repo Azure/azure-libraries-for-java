@@ -6,105 +6,59 @@
 package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.batchai.DataDisks;
+import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.FileServer;
-import com.microsoft.azure.management.batchai.SshConfiguration;
-import com.microsoft.azure.management.batchai.StorageAccountType;
-import com.microsoft.azure.management.batchai.UserAccountSettings;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Observable;
+import com.microsoft.azure.management.batchai.FileServerReference;
+import com.microsoft.azure.management.batchai.ResourceId;
+import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 /**
- * Implementation for FileServer and its create and update interfaces.
+ * Represents file server reference.
  */
 @LangDefinition
-class FileServerImpl extends GroupableResourceImpl<
-        FileServer,
-        FileServerInner,
-        FileServerImpl,
-        BatchAIManager>
+public class FileServerImpl extends IndexableWrapperImpl<FileServerReference>
         implements
         FileServer,
-        FileServer.Definition,
-        FileServer.Update {
-    private FileServerCreateParametersInner createParameters = new FileServerCreateParametersInner();
+        FileServer.Definition<BatchAICluster.DefinitionStages.WithCreate> {
+    private BatchAIClusterImpl parent;
 
-    FileServerImpl(String name, FileServerInner innerObject, BatchAIManager manager) {
-        super(name, innerObject, manager);
+    FileServerImpl(FileServerReference inner, BatchAIClusterImpl parent) {
+        super(inner);
+        this.parent = parent;
     }
 
     @Override
-    public Observable<FileServer> createResourceAsync() {
-        createParameters.withLocation(this.regionName());
-        createParameters.withTags(this.inner().getTags());
-        return this.manager().inner().fileServers().createAsync(resourceGroupName(), name(), createParameters)
-                .map(innerToFluentMap(this));
-    }
-
-    @Override
-    public Observable<FileServer> updateResourceAsync() {
-//        updateParameters.withTags(this.inner().getTags());
-//        return this.manager().inner().clusters().updateAsync(resourceGroupName(), name(), updateParameters)
-//                .map(innerToFluentMap(this));
-        return null;
-    }
-
-    @Override
-    protected Observable<FileServerInner> getInnerAsync() {
-        return this.manager().inner().fileServers().getByResourceGroupAsync(this.resourceGroupName(), this.name());
-    }
-
-
-    @Override
-    public FileServerImpl withVMSize(String vmSize) {
-        createParameters.withVmSize(vmSize);
+    public FileServerImpl withRelativeMountPath(String mountPath) {
+        inner().withRelativeMountPath(mountPath);
         return this;
     }
 
     @Override
-    public FileServerImpl withUserName(String userName) {
-        ensureUserAccountSettings().withAdminUserName(userName);
-        return this;
-    }
-
-    private UserAccountSettings ensureUserAccountSettings() {
-        if (ensureSshConfiguration().userAccountSettings() == null) {
-            createParameters.sshConfiguration().withUserAccountSettings(new UserAccountSettings());
-        }
-        return createParameters.sshConfiguration().userAccountSettings();
-    }
-
-    private SshConfiguration ensureSshConfiguration() {
-        if (createParameters.sshConfiguration() == null) {
-            createParameters.withSshConfiguration(new SshConfiguration());
-        }
-        return createParameters.sshConfiguration();
+    public BatchAICluster parent() {
+        return parent;
     }
 
     @Override
-    public FileServerImpl withPassword(String password) {
-        ensureUserAccountSettings().withAdminUserPassword(password);
+    public BatchAICluster.DefinitionStages.WithCreate attach() {
+        this.parent.attachFileServer(this);
+        return parent;
+    }
+
+    @Override
+    public FileServerImpl withMountOptions(String mountOptions) {
+        inner().withMountOptions(mountOptions);
         return this;
     }
 
     @Override
-    public FileServerImpl withSshPublicKey(String sshPublicKey) {
-        ensureUserAccountSettings().withAdminUserSshPublicKey(sshPublicKey);
+    public FileServerImpl withFileServerId(String fileServerId) {
+        inner().withFileServer(new ResourceId().withId(parent.id()));
         return this;
     }
 
     @Override
-    public FileServer.DefinitionStages.WithVMSize withDataDisks(int diskSizeInGB, int diskCount, StorageAccountType storageAccountType) {
-        ensureDataDisks().withDiskSizeInGB(diskSizeInGB)
-                .withDiskCount(diskCount)
-                .withStorageAccountType(storageAccountType);
+    public DefinitionStages.WithAttach<BatchAICluster.DefinitionStages.WithCreate> withSourceDirectory(String sourceDirectory) {
+        inner().withSourceDirectory(sourceDirectory);
         return this;
-    }
-
-    private DataDisks ensureDataDisks() {
-        if (createParameters.dataDisks() == null) {
-            createParameters.withDataDisks(new DataDisks());
-        }
-        return createParameters.dataDisks();
     }
 }

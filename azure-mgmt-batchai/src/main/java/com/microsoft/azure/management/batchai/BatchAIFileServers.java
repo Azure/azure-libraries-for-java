@@ -26,15 +26,15 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  */
 @Fluent
 @Beta(Beta.SinceVersion.V1_6_0)
-public interface FileServers extends
-        SupportsCreating<FileServer.DefinitionStages.Blank>,
-        SupportsListing<FileServer>,
-        SupportsListingByResourceGroup<FileServer>,
-        SupportsGettingByResourceGroup<FileServer>,
-        SupportsGettingById<FileServer>,
+public interface BatchAIFileServers extends
+        SupportsCreating<BatchAIFileServer.DefinitionStages.Blank>,
+        SupportsListing<BatchAIFileServer>,
+        SupportsListingByResourceGroup<BatchAIFileServer>,
+        SupportsGettingByResourceGroup<BatchAIFileServer>,
+        SupportsGettingById<BatchAIFileServer>,
         SupportsDeletingById,
         SupportsDeletingByResourceGroup,
-        SupportsBatchCreation<FileServer>,
+        SupportsBatchCreation<BatchAIFileServer>,
         SupportsBatchDeletion,
         HasManager<BatchAIManager>,
         HasInner<FileServersInner> {

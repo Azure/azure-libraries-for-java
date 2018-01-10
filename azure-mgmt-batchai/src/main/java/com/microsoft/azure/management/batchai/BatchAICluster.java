@@ -271,7 +271,7 @@ public interface BatchAICluster extends
              * Begins the definition of Azure file server reference.
              * @return the first stage of file server reference definition
              */
-            BatchAIFileServer.DefinitionStages.Blank<WithCreate> defineFileServer();
+            FileServer.DefinitionStages.Blank<WithCreate> defineFileServer();
 
             /**
              * Specifies the details of the file system to mount on the compute cluster nodes.

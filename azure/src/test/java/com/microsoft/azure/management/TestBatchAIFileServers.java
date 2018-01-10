@@ -5,22 +5,22 @@
  */
 package com.microsoft.azure.management;
 
-import com.microsoft.azure.management.batchai.FileServer;
-import com.microsoft.azure.management.batchai.FileServers;
+import com.microsoft.azure.management.batchai.BatchAIFileServer;
+import com.microsoft.azure.management.batchai.BatchAIFileServers;
 import com.microsoft.azure.management.batchai.StorageAccountType;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 
-public class TestBatchAIFileServers extends TestTemplate<FileServer, FileServers> {
+public class TestBatchAIFileServers extends TestTemplate<BatchAIFileServer, BatchAIFileServers> {
     @Override
-    public FileServer createResource(FileServers fileServers) throws Exception {
+    public BatchAIFileServer createResource(BatchAIFileServers fileServers) throws Exception {
         final Region region = Region.US_EAST;
         final String groupName = SdkContext.randomResourceName("rg", 10);
         final String fsName = SdkContext.randomResourceName("fs", 15);
         final String userName = "tirekicker";
 
-        FileServer fileServer = fileServers.define(fsName)
+        BatchAIFileServer fileServer = fileServers.define(fsName)
                 .withRegion(region)
                 .withNewResourceGroup(groupName)
                 .withDataDisks(10, 2, StorageAccountType.STANDARD_LRS)
@@ -32,12 +32,12 @@ public class TestBatchAIFileServers extends TestTemplate<FileServer, FileServers
     }
 
     @Override
-    public FileServer updateResource(FileServer fileServer) throws Exception {
+    public BatchAIFileServer updateResource(BatchAIFileServer fileServer) throws Exception {
         return fileServer;
     }
 
     @Override
-    public void print(FileServer fileServer) {
+    public void print(BatchAIFileServer fileServer) {
         StringBuilder info = new StringBuilder();
         info.append("File Server: ").append(fileServer.id())
                 .append("\n\tName: ").append(fileServer.name())

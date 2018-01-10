@@ -50,10 +50,8 @@ public class WebAppsMsiTests extends AppServiceTest {
         Assert.assertNotNull(plan);
         Assert.assertEquals(Region.US_WEST, plan.region());
         Assert.assertEquals(PricingTier.BASIC_B1, plan.pricingTier());
-        Assert.assertNotNull(webApp.managedServiceIdentity());
-        Assert.assertEquals("SystemAssigned", webApp.managedServiceIdentity().type());
-        Assert.assertNotNull(webApp.managedServiceIdentity().tenantId());
-        Assert.assertNotNull(webApp.managedServiceIdentity().principalId());
+        Assert.assertNotNull(webApp.systemAssignedManagedServiceIdentityPrincipalId());
+        Assert.assertNotNull(webApp.systemAssignedManagedServiceIdentityTenantId());
 
         if (!isPlaybackMode()) {
             // Check availability of environment variables

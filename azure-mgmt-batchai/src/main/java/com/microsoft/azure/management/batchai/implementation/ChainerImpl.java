@@ -56,7 +56,7 @@ public class ChainerImpl extends IndexableWrapperImpl<ChainerSettings>
     }
 
     @Override
-    public ChainerImpl withPython(String pythonScriptFilePath) {
+    public ChainerImpl withPythonScriptFile(String pythonScriptFilePath) {
         inner().withPythonScriptFilePath(pythonScriptFilePath);
         return this;
     }

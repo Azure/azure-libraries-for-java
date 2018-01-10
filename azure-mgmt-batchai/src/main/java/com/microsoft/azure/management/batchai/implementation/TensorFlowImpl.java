@@ -50,7 +50,7 @@ public class TensorFlowImpl extends IndexableWrapperImpl<TensorFlowSettings>
     }
 
     @Override
-    public TensorFlowImpl withPython(String pythonScriptFilePath) {
+    public TensorFlowImpl withPythonScriptFile(String pythonScriptFilePath) {
         inner().withPythonScriptFilePath(pythonScriptFilePath);
         return this;
     }

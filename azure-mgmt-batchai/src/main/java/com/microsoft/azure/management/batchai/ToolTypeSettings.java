@@ -56,7 +56,7 @@ public interface ToolTypeSettings {
             interface WithLanguageType<ParentT> {
                 WithAttach<ParentT> withBrainScript(String configFilePath);
 
-                WithAttachAndPythonInterpreter<ParentT> withPython(String pythonScriptFilePath);
+                WithAttachAndPythonInterpreter<ParentT> withPythonScriptFile(String pythonScriptFilePath);
             }
         }
     }
@@ -102,7 +102,7 @@ public interface ToolTypeSettings {
             }
 
             interface WithPython<ParentT> {
-                WithMasterCommandLineArgs<ParentT> withPython(String pythonScriptFilePath);
+                WithMasterCommandLineArgs<ParentT> withPythonScriptFile(String pythonScriptFilePath);
             }
 
             interface WithMasterCommandLineArgs<ParentT> {
@@ -151,7 +151,7 @@ public interface ToolTypeSettings {
             interface WithFileType<ParentT> {
                 WithAttach<ParentT> withConfigFile(String configFilePath);
 
-                WithAttachAndPythonInterpreter<ParentT> withPython(String pythonScriptFilePath);
+                WithAttachAndPythonInterpreter<ParentT> withPythonScriptFile(String pythonScriptFilePath);
             }
         }
     }
@@ -193,7 +193,7 @@ public interface ToolTypeSettings {
             }
 
             interface WithPython<ParentT> {
-                WithAttachAndPythonInterpreter<ParentT> withPython(String pythonScriptFilePath);
+                WithAttachAndPythonInterpreter<ParentT> withPythonScriptFile(String pythonScriptFilePath);
             }
         }
     }
@@ -236,7 +236,7 @@ public interface ToolTypeSettings {
             }
 
             interface WithPython<ParentT> {
-                WithAttachAndPythonInterpreter<ParentT> withPython(String pythonScriptFilePath);
+                WithAttachAndPythonInterpreter<ParentT> withPythonScriptFile(String pythonScriptFilePath);
             }
         }
     }

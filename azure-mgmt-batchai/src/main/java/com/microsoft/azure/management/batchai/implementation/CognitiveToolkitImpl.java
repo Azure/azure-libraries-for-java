@@ -47,7 +47,7 @@ public class CognitiveToolkitImpl extends IndexableWrapperImpl<CNTKsettings>
     }
 
     @Override
-    public CognitiveToolkitImpl withPython(String pythonScriptFilePath) {
+    public CognitiveToolkitImpl withPythonScriptFile(String pythonScriptFilePath) {
         inner().withLanguageType(PYTHON);
         inner().withPythonScriptFilePath(pythonScriptFilePath);
         return this;

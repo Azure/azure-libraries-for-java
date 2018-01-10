@@ -62,7 +62,7 @@ public class CaffeImpl extends IndexableWrapperImpl<CaffeSettings>
     }
 
     @Override
-    public CaffeImpl withPython(String pythonScriptFilePath) {
+    public CaffeImpl withPythonScriptFile(String pythonScriptFilePath) {
         inner().withPythonScriptFilePath(pythonScriptFilePath);
         return this;
     }

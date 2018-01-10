@@ -24,8 +24,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 @Beta(Beta.SinceVersion.V1_6_0)
 public interface BatchAIFileServer extends
         GroupableResource<BatchAIManager, FileServerInner>,
-        Refreshable<BatchAIFileServer>,
-        Updatable<BatchAIFileServer.Update> {
+        Refreshable<BatchAIFileServer> {
 
     /**
      * The entirety of a Batch AI file server definition.
@@ -87,20 +86,5 @@ public interface BatchAIFileServer extends
                 Resource.DefinitionWithTags<WithCreate>,
                 DefinitionStages.WithUserCredentials {
         }
-    }
-
-    /**
-     * Grouping of Batch AI file server update stages.
-     */
-    interface UpdateStages {
-
-    }
-
-    /**
-     * The template for an update operation, containing all the settings that can be modified.
-     */
-    interface Update extends
-            Appliable<BatchAIFileServer>,
-            Resource.UpdateWithTags<Update> {
     }
 }

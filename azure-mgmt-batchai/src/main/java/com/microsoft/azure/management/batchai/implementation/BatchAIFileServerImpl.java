@@ -25,8 +25,7 @@ class BatchAIFileServerImpl extends GroupableResourceImpl<
         BatchAIManager>
         implements
         BatchAIFileServer,
-        BatchAIFileServer.Definition,
-        BatchAIFileServer.Update {
+        BatchAIFileServer.Definition {
     private FileServerCreateParametersInner createParameters = new FileServerCreateParametersInner();
 
     BatchAIFileServerImpl(String name, FileServerInner innerObject, BatchAIManager manager) {
@@ -39,14 +38,6 @@ class BatchAIFileServerImpl extends GroupableResourceImpl<
         createParameters.withTags(this.inner().getTags());
         return this.manager().inner().fileServers().createAsync(resourceGroupName(), name(), createParameters)
                 .map(innerToFluentMap(this));
-    }
-
-    @Override
-    public Observable<BatchAIFileServer> updateResourceAsync() {
-//        updateParameters.withTags(this.inner().getTags());
-//        return this.manager().inner().clusters().updateAsync(resourceGroupName(), name(), updateParameters)
-//                .map(innerToFluentMap(this));
-        return null;
     }
 
     @Override

@@ -40,6 +40,12 @@ public interface ToolTypeSettings {
          */
         interface DefinitionStages {
 
+            /**
+             * The final stage of the Microsoft Cognitive Toolkit settings definition.
+             * At this stage, any remaining optional settings can be specified, or the Microsoft Cognitive Toolkit settings definition
+             * can be attached to the parent Batch AI job definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
             interface WithAttach<ParentT> extends
                     Attachable.InDefinition<ParentT>,
                     ToolTypeSettings.DefinitionStages.WithProcessCount<WithAttach<ParentT>>,
@@ -102,15 +108,47 @@ public interface ToolTypeSettings {
          */
         interface DefinitionStages {
 
+            /**
+             * The final stage of the TensorFlow settings definition.
+             * At this stage, any remaining optional settings can be specified, or the TensorFlow settings definition
+             * can be attached to the parent Batch AI job definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
             interface WithAttach<ParentT> extends
                     Attachable.InDefinition<ParentT>,
                     ToolTypeSettings.DefinitionStages.WithPythonInterpreter<WithAttach<ParentT>> {
+                /**
+                 * @param commandLineArgs specifies the command line arguments for the worker task.
+                 * This property is optional for single machine training.
+                 * @return the next stage of the definition
+                 */
                 WithAttach<ParentT> withWorkerCommandLineArgs(String commandLineArgs);
 
+                /**
+                 * @param commandLineArgs specifies the command line arguments for the parameter server task.
+                 * This property is optional for single machine training.
+                 * @return the next stage of the definition
+                 */
                 WithAttach<ParentT> withParameterServerCommandLineArgs(String commandLineArgs);
 
+                /**
+                 * @param workerCount the number of worker tasks.
+                 * If specified, the value must be less than or equal to (nodeCount *
+                 * numberOfGPUs per VM). If not specified, the default value is equal to
+                 * nodeCount. This property can be specified only for distributed
+                 * TensorFlow training.
+                 * @return the next stage of the definition
+                 */
                 WithAttach<ParentT> withWorkerCount(int workerCount);
 
+                /**
+                 * @param parameterServerCount the number of parameter server tasks.
+                 * If specified, the value must be less than or equal to nodeCount. If not
+                 * specified, the default value is equal to 1 for distributed TensorFlow
+                 * training (This property is not applicable for single machine training).
+                 * This property can be specified only for distributed TensorFlow training.
+                 * @return the next stage of the definition
+                 */
                 WithAttach<ParentT> withParameterServerCount(int parameterServerCount);
             }
 
@@ -163,6 +201,12 @@ public interface ToolTypeSettings {
          */
         interface DefinitionStages {
 
+            /**
+             * The final stage of the Caffe settings definition.
+             * At this stage, any remaining optional settings can be specified, or the Caffe settings definition
+             * can be attached to the parent Batch AI job definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
             interface WithAttach<ParentT> extends
                     Attachable.InDefinition<ParentT>,
                     ToolTypeSettings.DefinitionStages.WithCommandLineArgs<WithAttach<ParentT>>,
@@ -224,6 +268,12 @@ public interface ToolTypeSettings {
          */
         interface DefinitionStages {
 
+            /**
+             * The final stage of the Caffe2 settings definition.
+             * At this stage, any remaining optional settings can be specified, or the Caffe2 settings definition
+             * can be attached to the parent Batch AI job definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
             interface WithAttach<ParentT> extends
                     Attachable.InDefinition<ParentT>,
                     ToolTypeSettings.DefinitionStages.WithCommandLineArgs<WithAttach<ParentT>> {
@@ -274,6 +324,12 @@ public interface ToolTypeSettings {
          */
         interface DefinitionStages {
 
+            /**
+             * The final stage of the Chainer settings definition.
+             * At this stage, any remaining optional settings can be specified, or the Chainer settings definition
+             * can be attached to the parent Batch AI job definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
             interface WithAttach<ParentT> extends
                     Attachable.InDefinition<ParentT>,
                     ToolTypeSettings.DefinitionStages.WithCommandLineArgs<WithAttach<ParentT>>,

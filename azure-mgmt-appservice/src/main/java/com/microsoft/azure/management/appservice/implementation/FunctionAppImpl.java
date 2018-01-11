@@ -100,12 +100,12 @@ class FunctionAppImpl
     }
 
     @Override
-    Observable<SiteInner> submitAppSettings(final SiteInner site) {
+    Observable<Indexable> submitAppSettings() {
         if (storageAccountCreatable != null && this.taskResult(storageAccountCreatable.key()) != null) {
             storageAccountToSet = this.<StorageAccount>taskResult(storageAccountCreatable.key());
         }
         if (storageAccountToSet == null) {
-            return super.submitAppSettings(site);
+            return super.submitAppSettings();
         } else {
             return storageAccountToSet.getKeysAsync()
                 .flatMapIterable(new Func1<List<StorageAccountKey>, Iterable<StorageAccountKey>>() {
@@ -114,16 +114,16 @@ class FunctionAppImpl
                         return storageAccountKeys;
                     }
                 })
-                .first().flatMap(new Func1<StorageAccountKey, Observable<SiteInner>>() {
+                .first().flatMap(new Func1<StorageAccountKey, Observable<Indexable>>() {
                 @Override
-                public Observable<SiteInner> call(StorageAccountKey storageAccountKey) {
+                public Observable<Indexable> call(StorageAccountKey storageAccountKey) {
                     String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s",
                         storageAccountToSet.name(), storageAccountKey.value());
                     withAppSetting("AzureWebJobsStorage", connectionString);
                     withAppSetting("AzureWebJobsDashboard", connectionString);
                     withAppSetting("WEBSITE_CONTENTAZUREFILECONNECTIONSTRING", connectionString);
                     withAppSetting("WEBSITE_CONTENTSHARE", SdkContext.randomResourceName(name(), 32));
-                    return FunctionAppImpl.super.submitAppSettings(site);
+                    return FunctionAppImpl.super.submitAppSettings();
                 }
             }).doOnCompleted(new Action0() {
                     @Override

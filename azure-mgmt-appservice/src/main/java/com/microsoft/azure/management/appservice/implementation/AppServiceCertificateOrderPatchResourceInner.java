@@ -8,17 +8,17 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
-import java.util.Map;
-import com.microsoft.azure.management.appservice.AppServiceCertificate;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.appservice.CertificateDetails;
+import com.microsoft.azure.management.appservice.CertificateOrderStatus;
 import com.microsoft.azure.management.appservice.CertificateProductType;
 import com.microsoft.azure.management.appservice.ProvisioningState;
-import com.microsoft.azure.management.appservice.CertificateOrderStatus;
-import com.microsoft.azure.management.appservice.CertificateDetails;
-import org.joda.time.DateTime;
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.management.appservice.ProxyOnlyResource;
+import com.microsoft.rest.serializer.JsonFlatten;
+import org.joda.time.DateTime;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * ARM resource for a certificate order that is purchased through Azure.
@@ -29,7 +29,7 @@ public class AppServiceCertificateOrderPatchResourceInner extends ProxyOnlyResou
      * State of the Key Vault secret.
      */
     @JsonProperty(value = "properties.certificates")
-    private Map<String, AppServiceCertificate> certificates;
+    private Map<String, AppServiceCertificateInner> certificates;
 
     /**
      * Certificate distinguished name.
@@ -151,7 +151,7 @@ public class AppServiceCertificateOrderPatchResourceInner extends ProxyOnlyResou
      *
      * @return the certificates value
      */
-    public Map<String, AppServiceCertificate> certificates() {
+    public Map<String, AppServiceCertificateInner> certificates() {
         return this.certificates;
     }
 
@@ -161,7 +161,7 @@ public class AppServiceCertificateOrderPatchResourceInner extends ProxyOnlyResou
      * @param certificates the certificates value to set
      * @return the AppServiceCertificateOrderPatchResourceInner object itself.
      */
-    public AppServiceCertificateOrderPatchResourceInner withCertificates(Map<String, AppServiceCertificate> certificates) {
+    public AppServiceCertificateOrderPatchResourceInner withCertificates(Map<String, AppServiceCertificateInner> certificates) {
         this.certificates = certificates;
         return this;
     }

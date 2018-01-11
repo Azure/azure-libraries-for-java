@@ -14,6 +14,15 @@ import com.microsoft.azure.management.resources.fluentcore.arm.CountryPhoneCode;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.rest.RestClient;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The base for app service tests.
@@ -27,6 +36,7 @@ public class AppServiceTest extends TestBase {
     protected static AppServiceCertificateOrder certificateOrder;
     protected static String RG_NAME = "";
 
+    private static OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -97,5 +107,41 @@ public class AppServiceTest extends TestBase {
                 .create();
     }
 
+    /**
+     * Uploads a file to an Azure web app.
+     * @param profile the publishing profile for the web app.
+     * @param fileName the name of the file on server
+     * @param file the local file
+     */
+    public static void uploadFileToWebApp(PublishingProfile profile, String fileName, InputStream file) {
+        FTPClient ftpClient = new FTPClient();
+        String[] ftpUrlSegments = profile.ftpUrl().split("/", 2);
+        String server = ftpUrlSegments[0];
+        String path = "./site/wwwroot/webapps";
+        if (fileName.contains("/")) {
+            int lastslash = fileName.lastIndexOf('/');
+            path = path + "/" + fileName.substring(0, lastslash);
+            fileName = fileName.substring(lastslash + 1);
+        }
+        try {
+            ftpClient.connect(server);
+            ftpClient.login(profile.ftpUsername(), profile.ftpPassword());
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+            for (String segment : path.split("/")) {
+                if (!ftpClient.changeWorkingDirectory(segment)) {
+                    ftpClient.makeDirectory(segment);
+                    ftpClient.changeWorkingDirectory(segment);
+                }
+            }
+            ftpClient.storeFile(fileName, file);
+            ftpClient.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    static Response curl(String url) throws IOException {
+        Request request = new Request.Builder().url(url).get().build();
+        return httpClient.newCall(request).execute();
+    }
 }

@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 
 public class SourceControlTests extends AppServiceTest {
     private static String WEBAPP_NAME = "";
-    private static OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -48,10 +47,5 @@ public class SourceControlTests extends AppServiceTest {
             Assert.assertNotNull(body);
             Assert.assertTrue(body.contains("Hello world from linux 4"));
         }
-    }
-
-    private static Response curl(String url) throws IOException {
-        Request request = new Request.Builder().url(url).get().build();
-        return httpClient.newCall(request).execute();
     }
 }

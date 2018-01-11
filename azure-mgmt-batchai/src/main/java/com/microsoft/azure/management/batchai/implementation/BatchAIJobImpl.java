@@ -148,7 +148,7 @@ public class BatchAIJobImpl
 
     @Override
     public ToolTypeSettings.TensorFlow.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineTensorflow() {
-        return null;
+        return new TensorFlowImpl(new TensorFlowSettings(), this);
     }
 
     @Override

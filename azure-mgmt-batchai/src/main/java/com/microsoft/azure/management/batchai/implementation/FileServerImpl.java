@@ -52,7 +52,7 @@ public class FileServerImpl extends IndexableWrapperImpl<FileServerReference>
 
     @Override
     public FileServerImpl withFileServerId(String fileServerId) {
-        inner().withFileServer(new ResourceId().withId(parent.id()));
+        inner().withFileServer(new ResourceId().withId(fileServerId));
         return this;
     }
 

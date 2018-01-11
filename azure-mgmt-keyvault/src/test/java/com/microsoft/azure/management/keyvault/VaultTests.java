@@ -8,14 +8,12 @@ package com.microsoft.azure.management.keyvault;
 
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
 
 public class VaultTests extends KeyVaultManagementTest {
     @Test
-    @Ignore("Need specific setting while recording - owner - Jianghao")
     public void canCRUDVault() throws Exception {
         // CREATE
         Vault vault = keyVaultManager.vaults().define(VAULT_NAME)
@@ -39,11 +37,11 @@ public class VaultTests extends KeyVaultManagementTest {
         for (AccessPolicy policy : vault.accessPolicies()) {
             if (policy.objectId().equals("8188d1e8-3090-4e3c-aa76-38cf2b5c7b3a")) {
                 Assert.assertArrayEquals(new KeyPermissions[] { KeyPermissions.LIST }, policy.permissions().keys().toArray());
-                Assert.assertArrayEquals(new SecretPermissions[] { SecretPermissions.ALL }, policy.permissions().secrets().toArray());
+                Assert.assertArrayEquals(SecretPermissions.values().toArray(), policy.permissions().secrets().toArray());
             }
             if (policy.objectId().equals("5963f50c-7c43-405c-af7e-53294de76abd")) {
-                Assert.assertArrayEquals(new KeyPermissions[] { KeyPermissions.ALL }, policy.permissions().keys().toArray());
-                Assert.assertArrayEquals(new SecretPermissions[] { SecretPermissions.ALL }, policy.permissions().secrets().toArray());
+                Assert.assertArrayEquals(KeyPermissions.values().toArray(), policy.permissions().keys().toArray());
+                Assert.assertArrayEquals(SecretPermissions.values().toArray(), policy.permissions().secrets().toArray());
             }
         }
         // LIST
@@ -65,7 +63,7 @@ public class VaultTests extends KeyVaultManagementTest {
                 .apply();
         for (AccessPolicy policy : vault.accessPolicies()) {
             if (policy.objectId().equals("8188d1e8-3090-4e3c-aa76-38cf2b5c7b3a")) {
-                Assert.assertArrayEquals(new KeyPermissions[] { KeyPermissions.LIST, KeyPermissions.ALL }, policy.permissions().keys().toArray());
+                Assert.assertArrayEquals(KeyPermissions.values().toArray(), policy.permissions().keys().toArray());
                 Assert.assertArrayEquals(new SecretPermissions[] { }, policy.permissions().secrets().toArray());
             }
         }

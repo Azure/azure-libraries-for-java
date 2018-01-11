@@ -177,7 +177,10 @@ class AccessPolicyImpl
 
     @Override
     public AccessPolicyImpl allowKeyAllPermissions() {
-        return allowKeyPermissions(KeyPermissions.ALL);
+        for (KeyPermissions permission : KeyPermissions.values()) {
+            allowKeyPermissions(permission);
+        }
+        return this;
     }
 
     @Override
@@ -203,7 +206,10 @@ class AccessPolicyImpl
 
     @Override
     public AccessPolicyImpl allowSecretAllPermissions() {
-        return allowSecretPermissions(SecretPermissions.ALL);
+        for (SecretPermissions permission : SecretPermissions.values()) {
+            allowSecretPermissions(permission);
+        }
+        return this;
     }
 
     @Override

@@ -130,7 +130,7 @@ class ServicePrincipalsImpl
                     @Override
                     public Observable<ServicePrincipal> call(ServicePrincipalImpl servicePrincipal) {
                         if (servicePrincipal == null) {
-                            return null;
+                            return Observable.just(null);
                         }
                         return servicePrincipal.refreshCredentialsAsync();
                     }

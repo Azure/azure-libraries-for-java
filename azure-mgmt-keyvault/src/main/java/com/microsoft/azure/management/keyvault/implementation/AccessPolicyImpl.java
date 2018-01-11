@@ -12,6 +12,7 @@ import com.microsoft.azure.management.graphrbac.ActiveDirectoryUser;
 import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.keyvault.AccessPolicy;
 import com.microsoft.azure.management.keyvault.AccessPolicyEntry;
+import com.microsoft.azure.management.keyvault.CertificatePermissions;
 import com.microsoft.azure.management.keyvault.KeyPermissions;
 import com.microsoft.azure.management.keyvault.Permissions;
 import com.microsoft.azure.management.keyvault.SecretPermissions;
@@ -105,31 +106,107 @@ class AccessPolicyImpl
         }
     }
 
+    private void initializeCertificatePermissions() {
+        if (inner().permissions() == null) {
+            inner().withPermissions(new Permissions());
+        }
+        if (inner().permissions().certificates() == null) {
+            inner().permissions().withCertificates(new ArrayList<CertificatePermissions>());
+        }
+    }
+
     @Override
     public AccessPolicyImpl allowKeyPermissions(KeyPermissions... permissions) {
         initializeKeyPermissions();
-        inner().permissions().keys().addAll(Arrays.asList(permissions));
+        for (KeyPermissions permission : permissions) {
+            if (!inner().permissions().keys().contains(permission)) {
+                inner().permissions().keys().add(permission);
+            }
+        }
         return this;
     }
 
     @Override
     public AccessPolicyImpl allowKeyPermissions(List<KeyPermissions> permissions) {
         initializeKeyPermissions();
-        inner().permissions().keys().addAll(permissions);
+        for (KeyPermissions permission : permissions) {
+            if (!inner().permissions().keys().contains(permission)) {
+                inner().permissions().keys().add(permission);
+            }
+        }
         return this;
     }
 
     @Override
     public AccessPolicyImpl allowSecretPermissions(SecretPermissions... permissions) {
         initializeSecretPermissions();
-        inner().permissions().secrets().addAll(Arrays.asList(permissions));
+        for (SecretPermissions permission : permissions) {
+            if (!inner().permissions().secrets().contains(permission)) {
+                inner().permissions().secrets().add(permission);
+            }
+        }
         return this;
     }
 
     @Override
     public AccessPolicyImpl allowSecretPermissions(List<SecretPermissions> permissions) {
         initializeSecretPermissions();
-        inner().permissions().secrets().addAll(permissions);
+        for (SecretPermissions permission : permissions) {
+            if (!inner().permissions().secrets().contains(permission)) {
+                inner().permissions().secrets().add(permission);
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl allowCertificateAllPermissions() {
+        for (CertificatePermissions permission : CertificatePermissions.values()) {
+            allowCertificatePermissions(permission);
+        }
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl allowCertificatePermissions(CertificatePermissions... permissions) {
+        initializeCertificatePermissions();
+        for (CertificatePermissions permission : permissions) {
+            if (!inner().permissions().certificates().contains(permission)) {
+                inner().permissions().certificates().add(permission);
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl allowCertificatePermissions(List<CertificatePermissions> permissions) {
+        initializeCertificatePermissions();
+        for (CertificatePermissions permission : permissions) {
+            if (!inner().permissions().certificates().contains(permission)) {
+                inner().permissions().certificates().add(permission);
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl disallowCertificateAllPermissions() {
+        initializeCertificatePermissions();
+        inner().permissions().secrets().clear();
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl disallowCertificatePermissions(CertificatePermissions... permissions) {
+        initializeCertificatePermissions();
+        inner().permissions().certificates().removeAll(Arrays.asList(permissions));
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl disallowCertificatePermissions(List<CertificatePermissions> permissions) {
+        initializeCertificatePermissions();
+        inner().permissions().certificates().removeAll(permissions);
         return this;
     }
 

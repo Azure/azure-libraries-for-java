@@ -6,7 +6,10 @@
 
 package com.microsoft.azure.management.keyvault;
 
+import com.microsoft.azure.management.graphrbac.ActiveDirectoryUser;
+import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,63 +18,82 @@ import java.util.List;
 public class VaultTests extends KeyVaultManagementTest {
     @Test
     public void canCRUDVault() throws Exception {
-        // CREATE
-        Vault vault = keyVaultManager.vaults().define(VAULT_NAME)
-                .withRegion(Region.US_WEST)
-                .withNewResourceGroup(RG_NAME)
-                .defineAccessPolicy()
-                    .forServicePrincipal("http://nativeapp")
-                    .allowKeyPermissions(KeyPermissions.LIST)
-                    .allowSecretAllPermissions()
-                    .attach()
-                .defineAccessPolicy()
-                    .forUser("admin2@azuresdkteam.onmicrosoft.com")
-                    .allowKeyAllPermissions()
-                    .allowSecretAllPermissions()
-                    .attach()
+        // Create user service principal
+        String sp = SdkContext.randomResourceName("sp", 20);
+        String us = SdkContext.randomResourceName("us", 20);
+        ServicePrincipal servicePrincipal = graphRbacManager.servicePrincipals()
+                .define(sp)
+                .withNewApplication("http://" + sp)
                 .create();
-        Assert.assertNotNull(vault);
-        // GET
-        vault = keyVaultManager.vaults().getByResourceGroup(RG_NAME, VAULT_NAME);
-        Assert.assertNotNull(vault);
-        for (AccessPolicy policy : vault.accessPolicies()) {
-            if (policy.objectId().equals("8188d1e8-3090-4e3c-aa76-38cf2b5c7b3a")) {
-                Assert.assertArrayEquals(new KeyPermissions[] { KeyPermissions.LIST }, policy.permissions().keys().toArray());
-                Assert.assertArrayEquals(SecretPermissions.values().toArray(), policy.permissions().secrets().toArray());
+
+        ActiveDirectoryUser user = graphRbacManager.users()
+                .define(us)
+                .withEmailAlias(us)
+                .withPassword("P@$$w0rd")
+                .create();
+
+        try {
+            // CREATE
+            Vault vault = keyVaultManager.vaults().define(VAULT_NAME)
+                    .withRegion(Region.US_WEST)
+                    .withNewResourceGroup(RG_NAME)
+                    .defineAccessPolicy()
+                    .forServicePrincipal("http://" + sp)
+                        .allowKeyPermissions(KeyPermissions.LIST)
+                        .allowSecretAllPermissions()
+                        .allowCertificatePermissions(CertificatePermissions.GET)
+                        .attach()
+                    .defineAccessPolicy()
+                    .forUser(us)
+                        .allowKeyAllPermissions()
+                        .allowSecretAllPermissions()
+                        .allowCertificatePermissions(CertificatePermissions.GET, CertificatePermissions.LIST, CertificatePermissions.CREATE)
+                        .attach()
+                    .create();
+            Assert.assertNotNull(vault);
+            // GET
+            vault = keyVaultManager.vaults().getByResourceGroup(RG_NAME, VAULT_NAME);
+            Assert.assertNotNull(vault);
+            for (AccessPolicy policy : vault.accessPolicies()) {
+                if (policy.objectId().equals(servicePrincipal.id())) {
+                    Assert.assertArrayEquals(new KeyPermissions[] { KeyPermissions.LIST }, policy.permissions().keys().toArray());
+                    Assert.assertEquals(SecretPermissions.values().size(), policy.permissions().secrets().size());
+                    Assert.assertArrayEquals(new CertificatePermissions[] { CertificatePermissions.GET }, policy.permissions().certificates().toArray());
+                }
+                if (policy.objectId().equals(user.id())) {
+                    Assert.assertEquals(KeyPermissions.values().size(), policy.permissions().keys().size());
+                    Assert.assertEquals(SecretPermissions.values().size(), policy.permissions().secrets().size());
+                    Assert.assertEquals(3, policy.permissions().certificates().size());
+                }
             }
-            if (policy.objectId().equals("5963f50c-7c43-405c-af7e-53294de76abd")) {
-                Assert.assertArrayEquals(KeyPermissions.values().toArray(), policy.permissions().keys().toArray());
-                Assert.assertArrayEquals(SecretPermissions.values().toArray(), policy.permissions().secrets().toArray());
+            // LIST
+            List<Vault> vaults = keyVaultManager.vaults().listByResourceGroup(RG_NAME);
+            for (Vault v : vaults) {
+                if (VAULT_NAME.equals(v.name())) {
+                    vault = v;
+                    break;
+                }
             }
+            Assert.assertNotNull(vault);
+            // UPDATE
+            vault.update()
+                    .updateAccessPolicy(servicePrincipal.id())
+                        .allowKeyAllPermissions()
+                        .disallowSecretAllPermissions()
+                        .allowCertificateAllPermissions()
+                        .parent()
+                    .withTag("foo", "bar")
+                    .apply();
+            for (AccessPolicy policy : vault.accessPolicies()) {
+                if (policy.objectId().equals(servicePrincipal.id())) {
+                    Assert.assertEquals(KeyPermissions.values().size(), policy.permissions().keys().size());
+                    Assert.assertEquals(0, policy.permissions().secrets().size());
+                    Assert.assertEquals(CertificatePermissions.values().size(), policy.permissions().certificates().size());
+                }
+            }
+        } finally {
+            graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
+//            graphRbacManager.users().deleteById(user.id());
         }
-        // LIST
-        List<Vault> vaults = keyVaultManager.vaults().listByResourceGroup(RG_NAME);
-        for (Vault v : vaults) {
-            if (VAULT_NAME.equals(v.name())) {
-                vault = v;
-                break;
-            }
-        }
-        Assert.assertNotNull(vault);
-        // UPDATE
-        vault.update()
-                .updateAccessPolicy(vault.accessPolicies().get(0).objectId())
-                    .allowKeyAllPermissions()
-                    .disallowSecretAllPermissions()
-                    .parent()
-                .withTag("foo", "bar")
-                .apply();
-        for (AccessPolicy policy : vault.accessPolicies()) {
-            if (policy.objectId().equals("8188d1e8-3090-4e3c-aa76-38cf2b5c7b3a")) {
-                Assert.assertArrayEquals(KeyPermissions.values().toArray(), policy.permissions().keys().toArray());
-                Assert.assertArrayEquals(new SecretPermissions[] { }, policy.permissions().secrets().toArray());
-            }
-        }
-        vault.update()
-                .defineAccessPolicy()
-                    .forServicePrincipal("https://graphapp")
-                    .allowKeyAllPermissions()
-                    .attach()
-                .apply();
     }
 }

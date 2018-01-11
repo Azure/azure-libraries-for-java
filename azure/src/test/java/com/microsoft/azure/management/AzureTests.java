@@ -1297,6 +1297,21 @@ public class AzureTests extends TestBase {
     }
 
     @Test
+    public void testBatchAI() throws Exception {
+        new TestBatchAI.Basic(azure.storageAccounts()).runTest(azure.batchAIClusters(), azure.resourceGroups());
+    }
+
+    @Test
+    public void testBatchAIJob() throws Exception {
+        new TestBatchAI.JobCreate().runTest(azure.batchAIClusters(), azure.resourceGroups());
+    }
+
+    @Test
+    public void testBatchAIFileServer() throws Exception {
+        new TestBatchAIFileServers().runTest(azure.batchAIFileServers(), azure.resourceGroups());
+    }
+
+    @Test
     public void testTrafficManager() throws Exception {
         new TestTrafficManager(azure.publicIPAddresses())
                 .runTest(azure.trafficManagerProfiles(), azure.resourceGroups());

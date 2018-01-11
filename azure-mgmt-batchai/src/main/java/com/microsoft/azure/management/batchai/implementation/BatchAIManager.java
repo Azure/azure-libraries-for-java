@@ -13,6 +13,8 @@ import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.microsoft.azure.management.batchai.BatchAIClusters;
+import com.microsoft.azure.management.batchai.BatchAIFileServers;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -23,8 +25,11 @@ import com.microsoft.rest.RestClient;
 /**
  * Entry point to Azure BatchAI resource management.
  */
-@Beta(SinceVersion.V1_4_0)
+@Beta(SinceVersion.V1_6_0)
 public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagementClientImpl> {
+    private BatchAIClusters batchAIClusters;
+    private BatchAIFileServers batchAIFileServers;
+
     /**
     * Get a Configurable instance that can be used to create BatchAIManager with optional configuration.
     *
@@ -85,5 +90,25 @@ public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagem
             restClient,
             subscriptionId,
             new BatchAIManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
+    }
+
+    /**
+     * @return the batch AI clusters management API entry point
+     */
+    public BatchAIClusters clusters() {
+        if (batchAIClusters == null) {
+            batchAIClusters = new BatchAIClustersImpl(this);
+        }
+        return batchAIClusters;
+    }
+
+    /**
+     * @return the batch AI file servers management API entry point
+     */
+    public BatchAIFileServers fileServers() {
+        if (batchAIFileServers == null) {
+            batchAIFileServers = new BatchAIFileServersImpl(this);
+        }
+        return batchAIFileServers;
     }
 }

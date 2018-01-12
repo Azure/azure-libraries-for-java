@@ -17,7 +17,6 @@ import rx.Observable;
 import rx.functions.Func1;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * The implementation for WebApps.
@@ -39,8 +38,7 @@ class WebAppsImpl
         converter = new PagedListConverter<SiteInner, WebApp>() {
             @Override
             protected boolean filter(SiteInner inner) {
-                List<String> kinds = Arrays.asList(inner.kind().split(","));
-                return kinds.contains("app");
+                return inner.kind() == null || Arrays.asList(inner.kind().split(",")).contains("app");
             }
 
             @Override

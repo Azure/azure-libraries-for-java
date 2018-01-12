@@ -16,10 +16,18 @@ import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.RestClient;
 import com.microsoft.rest.interceptors.LoggingInterceptor;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assume;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.rules.TestName;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -160,6 +168,7 @@ public abstract class TestBase {
                     ,true);
 
             defaultSubscription = ZERO_SUBSCRIPTION;
+            interceptorManager.addTextReplacementRule(PLAYBACK_URI_BASE + "1234", playbackUri);
             System.out.println(playbackUri);
             out = System.out;
             System.setOut(new PrintStream(new OutputStream() {

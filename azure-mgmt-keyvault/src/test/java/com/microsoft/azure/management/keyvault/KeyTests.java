@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.keyvault;
 
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.keyvault.models.Attributes;
 import com.microsoft.azure.keyvault.webkey.JsonWebKey;
 import com.microsoft.azure.keyvault.webkey.JsonWebKeyEncryptionAlgorithm;
 import com.microsoft.azure.keyvault.webkey.JsonWebKeyOperation;
@@ -17,7 +16,6 @@ import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 import org.junit.Ignore;
-import org.junit.Test;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -28,7 +26,6 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.MessageDigest;
 import java.security.Signature;
-import java.util.Arrays;
 import java.util.List;
 
 public class KeyTests extends KeyVaultManagementTest {
@@ -39,8 +36,8 @@ public class KeyTests extends KeyVaultManagementTest {
 
         // Create
         Key key = vault.keys().define(keyName)
-                .withKeyType(JsonWebKeyType.RSA)
-                .withKeyOperations(Arrays.asList(JsonWebKeyOperation.SIGN, JsonWebKeyOperation.VERIFY))
+                .withKeyTypeToCreate(JsonWebKeyType.RSA)
+                .withKeyOperations(JsonWebKeyOperation.SIGN, JsonWebKeyOperation.VERIFY)
                 .create();
 
         Assert.assertNotNull(key);
@@ -54,15 +51,15 @@ public class KeyTests extends KeyVaultManagementTest {
 
         // Update
         key = key.update()
-                .withKeyOperations(Arrays.asList(JsonWebKeyOperation.ENCRYPT))
+                .withKeyOperations(JsonWebKeyOperation.ENCRYPT)
                 .apply();
 
         Assert.assertEquals(1, key.jsonWebKey().keyOps().size());
 
         // New version
         key = key.update()
-                .withKeyType(JsonWebKeyType.RSA)
-                .withKeyOperations(Arrays.asList(JsonWebKeyOperation.ENCRYPT, JsonWebKeyOperation.DECRYPT, JsonWebKeyOperation.SIGN))
+                .withKeyTypeToCreate(JsonWebKeyType.RSA)
+                .withKeyOperations(JsonWebKeyOperation.ENCRYPT, JsonWebKeyOperation.DECRYPT, JsonWebKeyOperation.SIGN)
                 .apply();
 
         Assert.assertEquals(3, key.jsonWebKey().keyOps().size());
@@ -78,7 +75,7 @@ public class KeyTests extends KeyVaultManagementTest {
         String keyName = SdkContext.randomResourceName("key", 20);
 
         Key key = vault.keys().define(keyName)
-                .withKey(JsonWebKey.fromRSA(KeyPairGenerator.getInstance("RSA").generateKeyPair()))
+                .withLocalKeyToImport(JsonWebKey.fromRSA(KeyPairGenerator.getInstance("RSA").generateKeyPair()))
                 .create();
 
         Assert.assertNotNull(key);
@@ -91,7 +88,7 @@ public class KeyTests extends KeyVaultManagementTest {
         String keyName = SdkContext.randomResourceName("key", 20);
 
         Key key = vault.keys().define(keyName)
-                .withKey(JsonWebKey.fromRSA(KeyPairGenerator.getInstance("RSA").generateKeyPair()))
+                .withLocalKeyToImport(JsonWebKey.fromRSA(KeyPairGenerator.getInstance("RSA").generateKeyPair()))
                 .create();
 
         Assert.assertNotNull(key);
@@ -116,7 +113,7 @@ public class KeyTests extends KeyVaultManagementTest {
         KeyPair keyPair = KeyPairGenerator.getInstance("RSA").generateKeyPair();
 
         Key key = vault.keys().define(keyName)
-                .withKey(JsonWebKey.fromRSA(keyPair))
+                .withLocalKeyToImport(JsonWebKey.fromRSA(keyPair))
                 .create();
 
         Assert.assertNotNull(key);
@@ -148,7 +145,7 @@ public class KeyTests extends KeyVaultManagementTest {
         KeyPair keyPair = KeyPairGenerator.getInstance("RSA").generateKeyPair();
 
         Key key = vault.keys().define(keyName)
-                .withKey(JsonWebKey.fromRSA(keyPair))
+                .withLocalKeyToImport(JsonWebKey.fromRSA(keyPair))
                 .create();
 
         Assert.assertNotNull(key);
@@ -175,7 +172,7 @@ public class KeyTests extends KeyVaultManagementTest {
         String keyName = SdkContext.randomResourceName("key", 20);
 
         Key key = vault.keys().define(keyName)
-                .withKey(JsonWebKey.fromRSA(KeyPairGenerator.getInstance("RSA").generateKeyPair()))
+                .withLocalKeyToImport(JsonWebKey.fromRSA(KeyPairGenerator.getInstance("RSA").generateKeyPair()))
                 .create();
 
         SecretKey secretKey = KeyGenerator.getInstance("AES").generateKey();

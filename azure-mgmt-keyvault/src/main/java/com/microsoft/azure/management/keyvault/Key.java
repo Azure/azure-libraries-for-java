@@ -228,14 +228,14 @@ public interface Key extends
              * @param keyType the JWK type to create
              * @return the next stage of the definition
              */
-            WithCreate withKeyType(JsonWebKeyType keyType);
+            WithCreate withKeyTypeToCreate(JsonWebKeyType keyType);
 
             /**
              * Specifies an existing key to import.
              * @param key the existing JWK to import
              * @return the next stage of the definition
              */
-            WithImport withKey(JsonWebKey key);
+            WithImport withLocalKeyToImport(JsonWebKey key);
         }
 
         /**
@@ -260,6 +260,13 @@ public interface Key extends
              * @return the next stage of the definition
              */
             WithCreate withKeyOperations(List<JsonWebKeyOperation> keyOperations);
+
+            /**
+             * Specifies the list of allowed key operations. By default all operations are allowed.
+             * @param keyOperations the list of JWK operations
+             * @return the next stage of the definition
+             */
+            WithCreate withKeyOperations(JsonWebKeyOperation... keyOperations);
         }
 
         /**
@@ -341,14 +348,14 @@ public interface Key extends
              * @param keyType the JWK type to create
              * @return the next stage of the update
              */
-            UpdateWithCreate withKeyType(JsonWebKeyType keyType);
+            UpdateWithCreate withKeyTypeToCreate(JsonWebKeyType keyType);
 
             /**
              * Specifies an existing key to import as a new version.
              * @param key the existing JWK to import
              * @return the next stage of the update
              */
-            UpdateWithImport withKey(JsonWebKey key);
+            UpdateWithImport withLocalKeyToImport(JsonWebKey key);
         }
 
         /**
@@ -386,6 +393,13 @@ public interface Key extends
              * @return the next stage of the update
              */
             Update withKeyOperations(List<JsonWebKeyOperation> keyOperations);
+
+            /**
+             * Specifies the list of allowed key operations. By default all operations are allowed.
+             * @param keyOperations the list of JWK operations
+             * @return the next stage of the update
+             */
+            Update withKeyOperations(JsonWebKeyOperation... keyOperations);
         }
 
         /**

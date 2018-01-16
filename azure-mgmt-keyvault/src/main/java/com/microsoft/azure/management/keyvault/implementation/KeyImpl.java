@@ -36,6 +36,7 @@ import rx.functions.Action0;
 import rx.functions.Func0;
 import rx.functions.Func1;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -389,13 +390,13 @@ class KeyImpl
     }
 
     @Override
-    public KeyImpl withKeyType(JsonWebKeyType keyType) {
+    public KeyImpl withKeyTypeToCreate(JsonWebKeyType keyType) {
         createKeyRequest = new CreateKeyRequest.Builder(vault.vaultUri(), name(), keyType);
         return this;
     }
 
     @Override
-    public KeyImpl withKey(JsonWebKey key) {
+    public KeyImpl withLocalKeyToImport(JsonWebKey key) {
         importKeyRequest = new ImportKeyRequest.Builder(vault.vaultUri(), name(), key);
         return this;
     }
@@ -408,6 +409,11 @@ class KeyImpl
             updateKeyRequest.withKeyOperations(keyOperations);
         }
         return this;
+    }
+
+    @Override
+    public KeyImpl withKeyOperations(JsonWebKeyOperation... keyOperations) {
+        return withKeyOperations(Arrays.asList(keyOperations));
     }
 
     @Override

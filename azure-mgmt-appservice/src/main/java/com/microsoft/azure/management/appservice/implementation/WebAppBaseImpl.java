@@ -413,7 +413,7 @@ abstract class WebAppBaseImpl<
 
     @Override
     public OperatingSystem operatingSystem() {
-        if (inner().kind().toLowerCase().contains("linux")) {
+        if (inner().kind() != null && inner().kind().toLowerCase().contains("linux")) {
             return OperatingSystem.LINUX;
         } else {
             return OperatingSystem.WINDOWS;

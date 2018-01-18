@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.appservice;
 
+import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.RestClient;
@@ -41,6 +42,7 @@ public class WebAppsMsiTests extends AppServiceTest {
                 .withNewWindowsPlan(PricingTier.BASIC_B1)
                 .withRemoteDebuggingEnabled(RemoteVisualStudioVersion.VS2013)
                 .withSystemAssignedManagedServiceIdentity()
+                .withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
                 .withJavaVersion(JavaVersion.JAVA_8_NEWEST)
                 .withWebContainer(WebContainer.TOMCAT_8_0_NEWEST)
                 .create();
@@ -55,15 +57,16 @@ public class WebAppsMsiTests extends AppServiceTest {
 
         if (!isPlaybackMode()) {
             // Check availability of environment variables
-            uploadFileToWebApp(webApp.getPublishingProfile(), "appservicemsi_war.war", WebAppsMsiTests.class.getResourceAsStream("/appservicemsi_war.war"));
+            uploadFileToWebApp(webApp.getPublishingProfile(), "appservicemsi.war", WebAppsMsiTests.class.getResourceAsStream("/appservicemsi.war"));
 
             SdkContext.sleep(10000);
 
-            Response response = curl("http://" + WEBAPP_NAME_1 + "." + "azurewebsites.net/appservicemsi_war/");
+            Response response = curl("http://" + WEBAPP_NAME_1 + "." + "azurewebsites.net/appservicemsi/");
             Assert.assertEquals(200, response.code());
             String body = response.body().string();
             Assert.assertNotNull(body);
-            Assert.assertTrue(body.contains("http://127.0.0.1"));
+            Assert.assertTrue(body.contains(webApp.resourceGroupName()));
+            Assert.assertTrue(body.contains(webApp.id()));
         }
     }
 }

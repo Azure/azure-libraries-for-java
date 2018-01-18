@@ -24,19 +24,6 @@ import com.microsoft.rest.RestClient;
  */
 @Beta(SinceVersion.V1_2_0)
 public final class MonitorManager extends Manager<MonitorManager, MonitorManagementClientImpl> {
-    private final MonitorClientImpl innerEx;
-
-    /**
-     * @return wrapped inner object providing direct access to the underlying
-     * auto-generated API implementation, based on Azure REST API
-     */
-
-    /**
-     * @return Auto-generated client for additional methods in the Azure Monitor API.
-     */
-    public MonitorClientImpl innerEx() {
-        return innerEx;
-    }
 
     /**
     * Get a Configurable instance that can be used to create MonitorManager with optional configuration.
@@ -99,7 +86,5 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorManagem
                 restClient,
                 subscriptionId,
                 new MonitorManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
-
-        innerEx = new MonitorClientImpl(restClient).withSubscriptionId(subscriptionId);
     }
 }

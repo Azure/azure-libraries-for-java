@@ -152,7 +152,7 @@ public abstract class ExternalChildResourceCollectionImpl<
                 }).flatMap(new Func1<FluentModelTImpl, Observable<FluentModelTImpl>>() {
                     @Override
                     public Observable<FluentModelTImpl> call(final FluentModelTImpl childResource) {
-                        return childResource.deleteAsync()
+                        return childResource.deleteResourceAsync()
                                 .map(new Func1<Void, FluentModelTImpl>() {
                                     @Override
                                     public FluentModelTImpl call(Void response) {
@@ -184,7 +184,7 @@ public abstract class ExternalChildResourceCollectionImpl<
                 }).flatMap(new Func1<FluentModelTImpl, Observable<FluentModelTImpl>>() {
                     @Override
                     public Observable<FluentModelTImpl> call(final FluentModelTImpl childResource) {
-                        return childResource.createAsync()
+                        return childResource.createResourceAsync()
                                 .map(new Func1<FluentModelT, FluentModelTImpl>() {
                                     @Override
                                     public FluentModelTImpl call(FluentModelT fluentModelT) {
@@ -217,7 +217,7 @@ public abstract class ExternalChildResourceCollectionImpl<
                 }).flatMap(new Func1<FluentModelTImpl, Observable<FluentModelTImpl>>() {
                     @Override
                     public Observable<FluentModelTImpl> call(final FluentModelTImpl childResource) {
-                        return childResource.updateAsync()
+                        return childResource.updateResourceAsync()
                                 .map(new Func1<FluentModelT, FluentModelTImpl>() {
                                     @Override
                                     public FluentModelTImpl call(FluentModelT e) {

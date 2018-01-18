@@ -38,7 +38,10 @@ import java.util.Date;
  * Azure App Service basic sample for managing web apps.
  *  - Create a Cosmos DB with credentials stored in a Key Vault
  *  - Create a web app which interacts with the Cosmos DB by first
- *      reading the secrets from the Key Vault
+ *      reading the secrets from the Key Vault.
+ *
+ *      The source code of the web app is located at
+ *      https://github.com/Microsoft/todo-app-java-on-azure/tree/keyvault-secrets
  */
 public final class ManageLinuxWebAppCosmosDbByMsi {
 

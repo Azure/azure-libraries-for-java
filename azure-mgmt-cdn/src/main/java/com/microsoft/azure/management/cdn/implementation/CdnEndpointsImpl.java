@@ -56,7 +56,7 @@ class CdnEndpointsImpl extends
      * @param name the name of the endpoint to be removed
      */
     public void remove(String name) {
-        this.prepareRemove(name);
+        this.prepareInlineRemove(name);
     }
 
     /**
@@ -107,7 +107,7 @@ class CdnEndpointsImpl extends
     }
 
     public CdnEndpointImpl defineNewEndpoint(String name) {
-        CdnEndpointImpl endpoint = this.prepareDefine(name);
+        CdnEndpointImpl endpoint = this.prepareInlineDefine(name);
         endpoint.inner().withLocation(endpoint.parent().region().toString());
         endpoint.inner().withOrigins(new ArrayList<DeepCreatedOrigin>());
         return endpoint;
@@ -125,7 +125,7 @@ class CdnEndpointsImpl extends
     }
 
     public CdnEndpointImpl updateEndpoint(String name) {
-        CdnEndpointImpl endpoint = this.prepareUpdate(name);
+        CdnEndpointImpl endpoint = this.prepareInlineUpdate(name);
         return endpoint;
     }
 

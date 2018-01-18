@@ -243,7 +243,7 @@ public class WebhookImpl
     }
 
     @Override
-    public Observable<Webhook> createAsync() {
+    public Observable<Webhook> createResourceAsync() {
         final WebhookImpl self = this;
         if (webhookCreateParametersInner != null) {
             return this.containerRegistryManager.inner().webhooks()
@@ -295,7 +295,7 @@ public class WebhookImpl
     }
 
     @Override
-    public Observable<Webhook> updateAsync() {
+    public Observable<Webhook> updateResourceAsync() {
         final WebhookImpl self = this;
         if (webhookUpdateParametersInner != null) {
             return this.containerRegistryManager.inner().webhooks()
@@ -327,7 +327,7 @@ public class WebhookImpl
     }
 
     @Override
-    public Observable<Void> deleteAsync() {
+    public Observable<Void> deleteResourceAsync() {
         return this.containerRegistryManager.inner().webhooks()
             .deleteAsync(this.resourceGroupName,
             this.registryName,
@@ -362,12 +362,12 @@ public class WebhookImpl
 
     @Override
     public Observable<Webhook> applyAsync() {
-        return this.updateAsync();
+        return this.updateResourceAsync();
     }
 
     @Override
     public ServiceFuture<Webhook> applyAsync(ServiceCallback<Webhook> callback) {
-        return ServiceFuture.fromBody(this.updateAsync(), callback);
+        return ServiceFuture.fromBody(this.updateResourceAsync(), callback);
     }
 
     @Override

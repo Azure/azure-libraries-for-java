@@ -105,7 +105,7 @@ class TrafficManagerEndpointsImpl extends
      * @return the endpoint
      */
     public TrafficManagerEndpointImpl defineAzureTargetEndpoint(String name) {
-        TrafficManagerEndpointImpl endpoint = this.prepareDefine(name);
+        TrafficManagerEndpointImpl endpoint = this.prepareInlineDefine(name);
         endpoint.inner().withType(EndpointType.AZURE.toString());
         return endpoint;
     }
@@ -117,7 +117,7 @@ class TrafficManagerEndpointsImpl extends
      * @return the endpoint
      */
     public TrafficManagerEndpointImpl defineExteralTargetEndpoint(String name) {
-        TrafficManagerEndpointImpl endpoint = this.prepareDefine(name);
+        TrafficManagerEndpointImpl endpoint = this.prepareInlineDefine(name);
         endpoint.inner().withType(EndpointType.EXTERNAL.toString());
         return endpoint;
     }
@@ -129,7 +129,7 @@ class TrafficManagerEndpointsImpl extends
      * @return the endpoint
      */
     public TrafficManagerEndpointImpl defineNestedProfileTargetEndpoint(String name) {
-        TrafficManagerEndpointImpl endpoint = this.prepareDefine(name);
+        TrafficManagerEndpointImpl endpoint = this.prepareInlineDefine(name);
         endpoint.inner().withType(EndpointType.NESTED_PROFILE.toString());
         return endpoint;
     }
@@ -141,7 +141,7 @@ class TrafficManagerEndpointsImpl extends
      * @return the endpoint
      */
     public TrafficManagerEndpointImpl updateAzureEndpoint(String name) {
-        TrafficManagerEndpointImpl endpoint = this.prepareUpdate(name);
+        TrafficManagerEndpointImpl endpoint = this.prepareInlineUpdate(name);
         if (endpoint.endpointType() != EndpointType.AZURE) {
             throw new IllegalArgumentException("An azure endpoint with name " + name + " not found in the profile");
         }
@@ -155,7 +155,7 @@ class TrafficManagerEndpointsImpl extends
      * @return the endpoint
      */
     public TrafficManagerEndpointImpl updateExternalEndpoint(String name) {
-        TrafficManagerEndpointImpl endpoint = this.prepareUpdate(name);
+        TrafficManagerEndpointImpl endpoint = this.prepareInlineUpdate(name);
         if (endpoint.endpointType() != EndpointType.EXTERNAL) {
             throw new IllegalArgumentException("An external endpoint with name " + name + " not found in the profile");
         }
@@ -169,7 +169,7 @@ class TrafficManagerEndpointsImpl extends
      * @return the endpoint
      */
     public TrafficManagerEndpointImpl updateNestedProfileEndpoint(String name) {
-        TrafficManagerEndpointImpl endpoint = this.prepareUpdate(name);
+        TrafficManagerEndpointImpl endpoint = this.prepareInlineUpdate(name);
         if (endpoint.endpointType() != EndpointType.NESTED_PROFILE) {
             throw new IllegalArgumentException("A nested profile endpoint with name " + name + " not found in the profile");
         }
@@ -181,7 +181,7 @@ class TrafficManagerEndpointsImpl extends
      * @param name the name of the endpoint to be removed
      */
     public void remove(String name) {
-        this.prepareRemove(name);
+        this.prepareInlineRemove(name);
     }
 
     /**

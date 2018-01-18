@@ -17,15 +17,15 @@ class PulletsImpl extends ExternalChildResourcesCachedImpl<PulletImpl, Pullet, O
     }
 
     public PulletImpl define(String name) {
-        return super.prepareDefine(name);
+        return super.prepareInlineDefine(name);
     }
 
     public PulletImpl update(String name) {
-        return super.prepareUpdate(name);
+        return super.prepareInlineUpdate(name);
     }
 
     public void remove(String name) {
-        super.prepareRemove(name);
+        super.prepareInlineRemove(name);
     }
 
     public void addPullet(PulletImpl pullet) {

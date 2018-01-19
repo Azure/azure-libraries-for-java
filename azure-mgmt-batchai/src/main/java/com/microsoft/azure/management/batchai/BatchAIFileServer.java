@@ -26,52 +26,44 @@ public interface BatchAIFileServer extends
         Refreshable<BatchAIFileServer> {
 
     /**
-     * The size of the virtual machine of the File Server.
+     * @return the size of the virtual machine of the File Server.
      * For information about available VM sizes for File Server from the
      * Virtual Machines Marketplace, see Sizes for Virtual Machines (Linux).
      */
     String vmSize();
 
     /**
-     * SSH settings for the File Server.
+     * @return SSH settings for the File Server
      */
     SshConfiguration sshConfiguration();
 
     /**
-     * Settings for the data disk which would be created for the File Server.
+     * @return settings for the data disk which would be created for the File Server
      */
     DataDisks dataDisks();
 
     /**
-     * Specifies the identifier of the subnet.
+     * @return the identifier of the subnet
      */
     ResourceId subnet();
 
     /**
-     * Details of the File Server.
+     * @return details of the File Server
      */
     MountSettings mountSettings();
 
     /**
-     * Time when the status was changed.
+     * @return time when the status was changed
      */
     DateTime provisioningStateTransitionTime();
 
     /**
-     * Time when the FileServer was created.
+     * @return time when the FileServer was created
      */
     DateTime creationTime();
 
     /**
-     * Specifies the provisioning state of the File Server.
-     * Possible values: creating - The File Server is getting created. updating
-     * - The File Server creation has been accepted and it is getting updated.
-     * deleting - The user has requested that the File Server be deleted, and
-     * it is in the process of being deleted. failed - The File Server creation
-     * has failed with the specified errorCode. Details about the error code
-     * are specified in the message field. succeeded - The File Server creation
-     * has succeeded. Possible values include: 'creating', 'updating',
-     * 'deleting', 'succeeded', 'failed'.
+     * @return the provisioning state of the File Server
      */
     FileServerProvisioningState provisioningState();
 

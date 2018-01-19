@@ -14,6 +14,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableR
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import org.joda.time.DateTime;
 
 /**
  * Entry point for Batch AI file server management API in Azure.
@@ -23,6 +24,56 @@ import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 public interface BatchAIFileServer extends
         GroupableResource<BatchAIManager, FileServerInner>,
         Refreshable<BatchAIFileServer> {
+
+    /**
+     * The size of the virtual machine of the File Server.
+     * For information about available VM sizes for File Server from the
+     * Virtual Machines Marketplace, see Sizes for Virtual Machines (Linux).
+     */
+    String vmSize();
+
+    /**
+     * SSH settings for the File Server.
+     */
+    SshConfiguration sshConfiguration();
+
+    /**
+     * Settings for the data disk which would be created for the File Server.
+     */
+    DataDisks dataDisks();
+
+    /**
+     * Specifies the identifier of the subnet.
+     */
+    ResourceId subnet();
+
+    /**
+     * Details of the File Server.
+     */
+    MountSettings mountSettings();
+
+    /**
+     * Time when the status was changed.
+     */
+    DateTime provisioningStateTransitionTime();
+
+    /**
+     * Time when the FileServer was created.
+     */
+    DateTime creationTime();
+
+    /**
+     * Specifies the provisioning state of the File Server.
+     * Possible values: creating - The File Server is getting created. updating
+     * - The File Server creation has been accepted and it is getting updated.
+     * deleting - The user has requested that the File Server be deleted, and
+     * it is in the process of being deleted. failed - The File Server creation
+     * has failed with the specified errorCode. Details about the error code
+     * are specified in the message field. succeeded - The File Server creation
+     * has succeeded. Possible values include: 'creating', 'updating',
+     * 'deleting', 'succeeded', 'failed'.
+     */
+    FileServerProvisioningState provisioningState();
 
     /**
      * The entirety of a Batch AI file server definition.

@@ -8,10 +8,14 @@ package com.microsoft.azure.management.batchai.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.BatchAIFileServer;
 import com.microsoft.azure.management.batchai.DataDisks;
+import com.microsoft.azure.management.batchai.FileServerProvisioningState;
+import com.microsoft.azure.management.batchai.MountSettings;
+import com.microsoft.azure.management.batchai.ResourceId;
 import com.microsoft.azure.management.batchai.SshConfiguration;
 import com.microsoft.azure.management.batchai.StorageAccountType;
 import com.microsoft.azure.management.batchai.UserAccountSettings;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import org.joda.time.DateTime;
 import rx.Observable;
 
 /**
@@ -97,5 +101,45 @@ class BatchAIFileServerImpl extends GroupableResourceImpl<
             createParameters.withDataDisks(new DataDisks());
         }
         return createParameters.dataDisks();
+    }
+
+    @Override
+    public String vmSize() {
+        return inner().vmSize();
+    }
+
+    @Override
+    public SshConfiguration sshConfiguration() {
+        return inner().sshConfiguration();
+    }
+
+    @Override
+    public DataDisks dataDisks() {
+        return inner().dataDisks();
+    }
+
+    @Override
+    public ResourceId subnet() {
+        return inner().subnet();
+    }
+
+    @Override
+    public MountSettings mountSettings() {
+        return inner().mountSettings();
+    }
+
+    @Override
+    public DateTime provisioningStateTransitionTime() {
+        return inner().provisioningStateTransitionTime();
+    }
+
+    @Override
+    public DateTime creationTime() {
+        return inner().creationTime();
+    }
+
+    @Override
+    public FileServerProvisioningState provisioningState() {
+        return inner().provisioningState();
     }
 }

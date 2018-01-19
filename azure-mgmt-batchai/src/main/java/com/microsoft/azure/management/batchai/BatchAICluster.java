@@ -8,6 +8,7 @@ package com.microsoft.azure.management.batchai;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.batchai.implementation.ClusterInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -248,6 +249,7 @@ public interface BatchAICluster extends
              * Begins the definition of setup task.
              * @return the first stage of the setup task definition
              */
+            @Method
             NodeSetupTask.DefinitionStages.Blank<WithCreate> defineSetupTask();
         }
 
@@ -259,18 +261,21 @@ public interface BatchAICluster extends
              * Begins the definition of Azure file share reference to be mounted on each cluster node.
              * @return the first stage of file share reference definition
              */
+            @Method
             AzureFileShare.DefinitionStages.Blank<WithCreate> defineAzureFileShare();
 
             /**
              * Begins the definition of Azure blob file system reference to be mounted on each cluster node.
              * @return the first stage of Azure blob file system reference definition
              */
+            @Method
             AzureBlobFileSystem.DefinitionStages.Blank<WithCreate> defineAzureBlobFileSystem();
 
             /**
              * Begins the definition of Azure file server reference.
              * @return the first stage of file server reference definition
              */
+            @Method
             FileServer.DefinitionStages.Blank<WithCreate> defineFileServer();
 
             /**

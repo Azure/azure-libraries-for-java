@@ -4,11 +4,11 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources;
+package com.microsoft.azure.v2.management.resources;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,8 +16,8 @@ public class ResourceGroupsTests extends ResourceManagerTestBase {
     private static ResourceGroups resourceGroups;
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        super.initializeClients(restClient, defaultSubscription, domain);
+    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain) {
+        super.initializeClients(pipeline, defaultSubscription, domain);
         resourceGroups = resourceClient.resourceGroups();
     }
 

@@ -4,15 +4,15 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.models.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation;
 
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.ManagerBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 
 /**
  * The implementation for {@link GroupableResource}.
@@ -25,7 +25,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
  */
 public abstract class GroupableResourceImpl<
         FluentModelT extends Resource,
-        InnerModelT extends com.microsoft.azure.Resource,
+        InnerModelT extends com.microsoft.azure.v2.Resource,
         FluentModelImplT extends GroupableResourceImpl<FluentModelT, InnerModelT, FluentModelImplT, ManagerT>,
         ManagerT extends ManagerBase>
         extends

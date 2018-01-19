@@ -5,4 +5,4 @@
 /**
  * This package contains the base class for resource collections.
  */
-package com.microsoft.azure.management.resources.fluentcore.collection;
+package com.microsoft.azure.v2.management.resources.fluentcore.collection;

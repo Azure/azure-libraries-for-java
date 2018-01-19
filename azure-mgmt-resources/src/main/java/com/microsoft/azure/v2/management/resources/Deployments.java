@@ -4,19 +4,19 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources;
+package com.microsoft.azure.v2.management.resources;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByName;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingByName;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsCreating;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListing;
+import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
 
 /**
  * Entry point to template deployment in Azure.

@@ -4,11 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.dag;
+package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 import java.util.concurrent.TimeUnit;
 
@@ -33,9 +34,9 @@ public class OrderImpl
         System.out.println("Order(" + this.name() + ")::createResourceAsync() [Creating order]");
         return Observable.just(this)
                 .delay(250, TimeUnit.MILLISECONDS)
-                .map(new Func1<OrderImpl, IOrder>() {
+                .map(new Function<OrderImpl, IOrder>() {
                     @Override
-                    public IOrder call(OrderImpl sandwich) {
+                    public IOrder apply(OrderImpl sandwich) {
                         return sandwich;
                     }
                 });
@@ -47,7 +48,7 @@ public class OrderImpl
     }
 
     @Override
-    protected Observable<OrderInner> getInnerAsync() {
-        return Observable.just(this.inner());
+    protected Maybe<OrderInner> getInnerAsync() {
+        return Maybe.just(this.inner());
     }
 }

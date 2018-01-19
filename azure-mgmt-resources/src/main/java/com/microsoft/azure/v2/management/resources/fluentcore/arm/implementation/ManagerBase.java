@@ -4,10 +4,10 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation;
 
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
+import com.microsoft.rest.v2.http.HttpPipeline;
 
 /**
  * Base class for Azure resource managers.
@@ -17,9 +17,9 @@ public abstract class ManagerBase {
     private ResourceManager resourceManager;
     private final String subscriptionId;
 
-    protected ManagerBase(RestClient restClient, String subscriptionId) {
-        if (restClient != null) {
-            this.resourceManager = ResourceManager.authenticate(restClient).withSubscription(subscriptionId);
+    protected ManagerBase(HttpPipeline pipeline, String subscriptionId) {
+        if (pipeline != null) {
+            this.resourceManager = ResourceManager.authenticate(pipeline).withSubscription(subscriptionId);
         }
         this.subscriptionId = subscriptionId;
     }

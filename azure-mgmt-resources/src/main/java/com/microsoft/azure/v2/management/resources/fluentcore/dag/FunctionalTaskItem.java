@@ -4,18 +4,23 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.dag;
+package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import io.reactivex.Observable;
 
 /**
  * Simplified functional interface equivalent to abstract class {@link IndexableTaskItem}.
  */
-public interface FunctionalTaskItem
-        extends Func1<FunctionalTaskItem.Context, Observable<Indexable>> {
+public interface FunctionalTaskItem {
+    /**
+     * Perform the functional task.
+     * @param context The context
+     * @return An observable which emits the result of the task.
+     */
+    Observable<Indexable> call(FunctionalTaskItem.Context context);
+
     /**
      * Type representing context of an {@link FunctionalTaskItem}.
      */

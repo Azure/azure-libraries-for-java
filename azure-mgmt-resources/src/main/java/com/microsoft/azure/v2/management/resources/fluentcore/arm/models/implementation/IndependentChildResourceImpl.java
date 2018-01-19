@@ -4,13 +4,13 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.models.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.IndependentChildResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ import java.util.TreeMap;
 public abstract class IndependentChildResourceImpl<
             FluentModelT extends IndependentChildResource<ManagerT, InnerModelT>,
             FluentParentModelT extends Resource & HasResourceGroup,
-            InnerModelT extends com.microsoft.azure.Resource,
+            InnerModelT extends com.microsoft.azure.v2.Resource,
             FluentModelImplT extends IndependentChildResourceImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
             ManagerT>
         extends

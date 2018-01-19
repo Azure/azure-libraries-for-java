@@ -3,24 +3,24 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation;
 
-import com.microsoft.azure.Resource;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceCallback;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.ManagerBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.ServiceCallback;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.functions.Function;
 
 /**
  * Base class for resource collection classes.
@@ -66,16 +66,12 @@ public abstract class GroupableResourcesImpl<
 
     @Override
     public T getById(String id) {
-        return getByIdAsync(id).toBlocking().last();
+        return getByIdAsync(id).blockingGet();
     }
 
     @Override
-    public final Observable<T> getByIdAsync(String id) {
+    public final Maybe<T> getByIdAsync(String id) {
         ResourceId resourceId = ResourceId.fromString(id);
-
-        if (resourceId == null) {
-            return null;
-        }
 
         return getByResourceGroupAsync(resourceId.resourceGroupName(), resourceId.name());
     }
@@ -87,12 +83,12 @@ public abstract class GroupableResourcesImpl<
 
     @Override
     public final void deleteByResourceGroup(String groupName, String name) {
-        deleteByResourceGroupAsync(groupName, name).await();
+        deleteByResourceGroupAsync(groupName, name).blockingAwait();
     }
 
     @Override
     public final ServiceFuture<Void> deleteByResourceGroupAsync(String groupName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(deleteByResourceGroupAsync(groupName, name).andThen(Observable.<Void>just(null)), callback);
+        return ServiceFuture.fromBody(deleteByResourceGroupAsync(groupName, name), callback);
     }
 
     @Override
@@ -107,14 +103,14 @@ public abstract class GroupableResourcesImpl<
 
     @Override
     public T getByResourceGroup(String resourceGroupName, String name) {
-        return getByResourceGroupAsync(resourceGroupName, name).toBlocking().last();
+        return getByResourceGroupAsync(resourceGroupName, name).blockingGet();
     }
 
     @Override
-    public Observable<T> getByResourceGroupAsync(String resourceGroupName, String name) {
-        return this.getInnerAsync(resourceGroupName, name).map(new Func1<InnerT, T>() {
+    public Maybe<T> getByResourceGroupAsync(String resourceGroupName, String name) {
+        return this.getInnerAsync(resourceGroupName, name).map(new Function<InnerT, T>() {
             @Override
-            public T call(InnerT innerT) {
+            public T apply(InnerT innerT) {
                 return wrapModel(innerT);
             }
         });
@@ -125,7 +121,7 @@ public abstract class GroupableResourcesImpl<
         return ServiceFuture.fromBody(getByResourceGroupAsync(resourceGroupName, name), callback);
     }
 
-    protected abstract Observable<InnerT> getInnerAsync(String resourceGroupName, String name);
+    protected abstract Maybe<InnerT> getInnerAsync(String resourceGroupName, String name);
 
     protected abstract Completable deleteInnerAsync(String resourceGroupName, String name);
 }

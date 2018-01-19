@@ -5,4 +5,4 @@
 /**
  * This package contains the classes for ARM fluent core models implementation.
  */
-package com.microsoft.azure.management.resources.fluentcore.arm.models.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation;

@@ -4,9 +4,9 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources;
+package com.microsoft.azure.v2.management.resources;
 
-import com.microsoft.rest.RestClient;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.azure.management.apigeneration.Fluent;
 
 /**
@@ -22,6 +22,6 @@ public interface ResourceConnector {
      * @param <T> the type of the connector to create.
      */
     interface Builder<T extends ResourceConnector> {
-        T create(RestClient restClient, String subscriptionId, ResourceGroup resourceGroup);
+        T create(HttpPipeline pipeline, String subscriptionId, ResourceGroup resourceGroup);
     }
 }

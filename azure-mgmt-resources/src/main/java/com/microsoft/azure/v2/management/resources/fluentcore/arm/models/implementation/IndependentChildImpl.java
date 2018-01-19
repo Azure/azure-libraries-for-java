@@ -4,17 +4,17 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.models.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChild;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import rx.Observable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.IndependentChild;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import io.reactivex.Observable;
 
 /**
  * Implementation for the child resource which can be CRUDed independently from the parent resource.
@@ -33,7 +33,7 @@ public abstract class IndependentChildImpl<
             FluentModelImplT extends IndependentChildImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
             ManagerT>
         extends
-            CreatableUpdatableImpl<FluentModelT, InnerModelT, FluentModelImplT>
+        CreatableUpdatableImpl<FluentModelT, InnerModelT, FluentModelImplT>
         implements
             IndependentChild<ManagerT>,
             IndependentChild.DefinitionStages.WithParentResource<FluentModelT, FluentParentModelT> {

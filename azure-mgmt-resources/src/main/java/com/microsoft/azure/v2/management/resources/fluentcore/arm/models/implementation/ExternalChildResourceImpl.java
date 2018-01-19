@@ -3,16 +3,17 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.resources.fluentcore.arm.models.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
-import com.microsoft.azure.management.resources.fluentcore.dag.IndexableTaskItem;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ExternalChildResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.IndexableTaskItem;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * Externalized child resource abstract implementation.
@@ -37,9 +38,9 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
         extends
             ChildResourceImpl<InnerModelT, ParentImplT, ParentT>
         implements
-            TaskGroup.HasTaskGroup,
+        TaskGroup.HasTaskGroup,
             ExternalChildResource<FluentModelT, ParentT>,
-            Refreshable<FluentModelT> {
+        Refreshable<FluentModelT> {
     /**
      * State representing any pending action that needs to be performed on this child resource.
      */
@@ -93,7 +94,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
     /**
      * @return the operation pending on this child resource.
      */
-    public PendingOperation pendingOperation() {
+    public synchronized PendingOperation pendingOperation() {
         return this.pendingOperation;
     }
 
@@ -102,7 +103,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      *
      * @param pendingOperation the new state of this child resource
      */
-    public void setPendingOperation(PendingOperation pendingOperation) {
+    public synchronized void setPendingOperation(PendingOperation pendingOperation) {
         this.pendingOperation = pendingOperation;
     }
 
@@ -143,7 +144,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      *
      * @return the observable to track the delete action.
      */
-    public abstract Observable<Void> deleteAsync();
+    public abstract Completable deleteAsync();
 
     /**
      * @return the key of this child resource in the collection maintained by ExternalChildResourceCollectionImpl
@@ -154,22 +155,22 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
 
     @Override
     public final FluentModelT refresh() {
-        return refreshAsync().toBlocking().last();
+        return refreshAsync().blockingGet();
     }
 
     @Override
-    public Observable<FluentModelT> refreshAsync() {
+    public Maybe<FluentModelT> refreshAsync() {
         final ExternalChildResourceImpl<FluentModelT, InnerModelT, ParentImplT, ParentT> self = this;
-        return this.getInnerAsync().map(new Func1<InnerModelT, FluentModelT>() {
+        return this.getInnerAsync().map(new Function<InnerModelT, FluentModelT>() {
             @Override
-            public FluentModelT call(InnerModelT innerModelT) {
+            public FluentModelT apply(InnerModelT innerModelT) {
                 self.setInner(innerModelT);
                 return (FluentModelT) self;
             }
         });
     }
 
-    protected abstract Observable<InnerModelT> getInnerAsync();
+    protected abstract Maybe<InnerModelT> getInnerAsync();
 
     protected Completable afterPostRunAsync(boolean isGroupFaulted) {
         return Completable.complete();
@@ -232,28 +233,23 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
             switch (this.externalChild.pendingOperation()) {
                 case ToBeCreated:
                     return this.externalChild.createAsync()
-                            .map(new Func1<FluentModelT, Indexable>() {
+                            .map(new Function<FluentModelT, Indexable>() {
                                 @Override
-                                public Indexable call(FluentModelT fluentModelT) {
+                                public Indexable apply(FluentModelT fluentModelT) {
                                     return fluentModelT;
                                 }
                             });
                 case ToBeUpdated:
                     return this.externalChild.updateAsync()
-                            .map(new Func1<FluentModelT, Indexable>() {
+                            .map(new Function<FluentModelT, Indexable>() {
                                 @Override
-                                public Indexable call(FluentModelT fluentModelT) {
+                                public Indexable apply(FluentModelT fluentModelT) {
                                     return fluentModelT;
                                 }
                             });
                 case ToBeRemoved:
                     return this.externalChild.deleteAsync()
-                            .map(new Func1<Void, Indexable>() {
-                                @Override
-                                public Indexable call(Void aVoid) {
-                                    return voidIndexable();
-                                }
-                            });
+                            .andThen(Observable.just(voidIndexable()));
                 default:
                     // PendingOperation.None
                     return Observable.error(new IllegalStateException("No action pending on child resource: " + externalChild.name + ", invokeAsync should not be called "));

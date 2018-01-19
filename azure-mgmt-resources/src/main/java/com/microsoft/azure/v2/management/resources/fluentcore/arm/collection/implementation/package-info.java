@@ -5,4 +5,4 @@
 /**
  * This package contains shared implementation classes for resource collections.
  */
-package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation;

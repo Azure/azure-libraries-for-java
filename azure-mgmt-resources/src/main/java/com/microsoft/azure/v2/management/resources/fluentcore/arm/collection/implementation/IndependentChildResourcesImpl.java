@@ -4,13 +4,13 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.ManagerBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.IndependentChildResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
 
 /**
  * Base class for independent child resource collection class.

@@ -4,11 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.dag;
+package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import rx.Observable;
-import rx.functions.Func0;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import io.reactivex.Observable;
+
+import java.util.concurrent.Callable;
 
 /**
  * Type representing an entry in {@link TaskGroup} that holds one {@link TaskItem} and associated
@@ -102,7 +103,7 @@ final class TaskGroupEntry<TaskT extends TaskItem>
         }
         if (taskItem.isHot()) {
             // Convert hot task to cold to delay it's execution until subscription.
-            return Observable.defer(new Func0<Observable<Indexable>>() {
+            return Observable.defer(new Callable<Observable<Indexable>>() {
                 @Override
                 public Observable<Indexable> call() {
                     return taskItem.invokeAsync(context);

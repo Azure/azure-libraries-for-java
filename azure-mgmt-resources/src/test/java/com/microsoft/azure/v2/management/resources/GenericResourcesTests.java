@@ -4,14 +4,14 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources;
+package com.microsoft.azure.v2.management.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.rest.v2.http.HttpPipeline;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
@@ -26,12 +26,12 @@ public class GenericResourcesTests extends ResourceManagerTestBase {
     private String newRgName;
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain) {
         testId = SdkContext.randomResourceName("", 9);
         rgName = "rg" + testId;
         newRgName = "rgB" + testId;
 
-        super.initializeClients(restClient, defaultSubscription, domain);
+        super.initializeClients(pipeline, defaultSubscription, domain);
         resourceGroups = resourceClient.resourceGroups();
         genericResources = resourceClient.genericResources();
         resourceGroups.define(rgName)
@@ -74,7 +74,7 @@ public class GenericResourcesTests extends ResourceManagerTestBase {
         // Get
         Assert.assertNotNull(genericResources.get(rgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion()));
         // Move
-        genericResources.moveResources(rgName, resourceGroups.getByName(newRgName), Arrays.asList(resource.id()));
+        genericResources.moveResources(rgName, resourceGroups.getByName(newRgName), Collections.singletonList(resource.id()));
         Assert.assertFalse(genericResources.checkExistence(rgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion()));
         resource = genericResources.get(newRgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion());
         Assert.assertNotNull(resource);

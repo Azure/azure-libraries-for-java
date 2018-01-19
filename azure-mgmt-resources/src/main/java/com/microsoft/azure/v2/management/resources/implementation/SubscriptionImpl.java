@@ -4,18 +4,18 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.implementation;
+package com.microsoft.azure.v2.management.resources.implementation;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.Location;
-import com.microsoft.azure.management.resources.Subscription;
-import com.microsoft.azure.management.resources.SubscriptionPolicies;
-import com.microsoft.azure.management.resources.SubscriptionState;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import rx.Observable;
+import com.microsoft.azure.v2.management.resources.SubscriptionState;
+import com.microsoft.azure.v2.management.resources.Location;
+import com.microsoft.azure.v2.management.resources.Subscription;
+import com.microsoft.azure.v2.management.resources.SubscriptionPolicies;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.PagedListConverter;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import io.reactivex.Observable;
 
 import java.util.List;
 

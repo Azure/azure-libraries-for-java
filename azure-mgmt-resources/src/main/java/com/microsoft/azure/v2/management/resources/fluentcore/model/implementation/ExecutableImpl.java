@@ -4,20 +4,20 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.model.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.model.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Executable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.FunctionalTaskItem;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Completable;
+import io.reactivex.Single;
+import io.reactivex.functions.Function;
 
 import java.util.Objects;
 
@@ -208,12 +208,13 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
     }
 
     @Override
-    public Observable<FluentModelT> executeAsync() {
+    @SuppressWarnings("unchecked")
+    public Single<FluentModelT> executeAsync() {
         return taskGroup.invokeAsync(taskGroup.newInvocationContext())
-                .last()
-                .map(new Func1<Indexable, FluentModelT>() {
+                .lastOrError()
+                .map(new Function<Indexable, FluentModelT>() {
                     @Override
-                    public FluentModelT call(Indexable indexable) {
+                    public FluentModelT apply(Indexable indexable) {
                         return (FluentModelT) indexable;
                     }
                 });
@@ -221,12 +222,12 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
 
     @Override
     public FluentModelT execute() {
-        return executeAsync().toBlocking().last();
+        return executeAsync().blockingGet();
     }
 
     @Override
     public ServiceFuture<FluentModelT> executeAsync(ServiceCallback<FluentModelT> callback) {
-        return ServiceFuture.fromBody(executeAsync(), callback);
+        return ServiceFuture.fromBody(executeAsync().toMaybe(), callback);
     }
 
     @Override

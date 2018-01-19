@@ -4,12 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.models.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.implementation.PageImpl;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.implementation.PageImpl;
 
 import java.util.ArrayList;
 import java.util.Iterator;

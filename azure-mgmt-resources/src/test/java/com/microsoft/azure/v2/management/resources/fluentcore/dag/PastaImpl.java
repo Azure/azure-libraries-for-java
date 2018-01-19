@@ -4,14 +4,15 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.dag;
+package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreateUpdateTask;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreateUpdateTask;
+import io.reactivex.Maybe;
 import org.junit.Assert;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,9 +89,9 @@ class PastaImpl
             System.out.println("Pasta(" + this.name() + ")::createResourceAsync() 'onNext()'");
             return Observable.just(this)
                     .delay(this.eventDelayInMilliseconds, TimeUnit.MILLISECONDS)
-                    .map(new Func1<PastaImpl, IPasta>() {
+                    .map(new Function<PastaImpl, IPasta>() {
                         @Override
-                        public IPasta call(PastaImpl pasta) {
+                        public IPasta apply(PastaImpl pasta) {
                             return pasta;
                         }
                     });
@@ -98,9 +99,9 @@ class PastaImpl
             System.out.println("Pasta(" + this.name() + ")::createResourceAsync() 'onError()'");
             return Observable.just(this)
                     .delay(this.eventDelayInMilliseconds, TimeUnit.MILLISECONDS)
-                    .flatMap(new Func1<PastaImpl, Observable<IPasta>>() {
+                    .flatMap(new Function<PastaImpl, Observable<IPasta>>() {
                         @Override
-                        public Observable<IPasta> call(PastaImpl pasta) {
+                        public Observable<IPasta> apply(PastaImpl pasta) {
                             return toErrorObservable(errorToThrow);
                         }
                     });
@@ -113,8 +114,8 @@ class PastaImpl
     }
 
     @Override
-    protected Observable<PastaInner> getInnerAsync() {
-        return Observable.just(this.inner());
+    protected Maybe<PastaInner> getInnerAsync() {
+        return Maybe.just(this.inner());
     }
 
     private Observable<IPasta> toErrorObservable(Throwable throwable) {

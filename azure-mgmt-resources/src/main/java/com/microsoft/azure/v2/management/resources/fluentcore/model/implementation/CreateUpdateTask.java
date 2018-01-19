@@ -4,16 +4,16 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.model.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.model.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskItem;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskItem;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 /**
  * A {@link TaskItem} type, when invoked it create or update a resource using
@@ -56,29 +56,29 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
         if (this.resourceCreatorUpdater.isInCreateMode()) {
             return this.resourceCreatorUpdater.createResourceAsync()
                     .subscribeOn(SdkContext.getRxScheduler())
-                    .doOnNext(new Action1<ResourceT>() {
+                    .doOnNext(new Consumer<ResourceT>() {
                         @Override
-                        public void call(ResourceT resourceT) {
+                        public void accept(ResourceT resourceT) {
                             resource = resourceT;
                         }
-                    }).map(new Func1<ResourceT, Indexable>() {
+                    }).map(new Function<ResourceT, Indexable>() {
                         @Override
-                        public Indexable call(ResourceT resourceT) {
+                        public Indexable apply(ResourceT resourceT) {
                             return resourceT;
                         }
                     });
         } else {
             return this.resourceCreatorUpdater.updateResourceAsync()
                     .subscribeOn(SdkContext.getRxScheduler())
-                    .doOnNext(new Action1<ResourceT>() {
+                    .doOnNext(new Consumer<ResourceT>() {
                         @Override
-                        public void call(ResourceT resourceT) {
+                        public void accept(ResourceT resourceT) {
                             resource = resourceT;
                         }
                     })
-                    .map(new Func1<ResourceT, Indexable>() {
+                    .map(new Function<ResourceT, Indexable>() {
                         @Override
-                        public Indexable call(ResourceT resourceT) {
+                        public Indexable apply(ResourceT resourceT) {
                             return resourceT;
                         }
                     });

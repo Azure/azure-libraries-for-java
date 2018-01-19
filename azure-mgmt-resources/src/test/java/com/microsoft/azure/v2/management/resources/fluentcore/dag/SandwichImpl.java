@@ -4,12 +4,13 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.dag;
+package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
-import com.microsoft.azure.management.resources.fluentcore.model.Executable;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 import java.util.concurrent.TimeUnit;
 
@@ -41,9 +42,9 @@ public class SandwichImpl
         System.out.println("Sandwich(" + this.name() + ")::createResourceAsync() [Creating sandwich]");
         return Observable.just(this)
                 .delay(250, TimeUnit.MILLISECONDS)
-                .map(new Func1<SandwichImpl, ISandwich>() {
+                .map(new Function<SandwichImpl, ISandwich>() {
                     @Override
-                    public ISandwich call(SandwichImpl sandwich) {
+                    public ISandwich apply(SandwichImpl sandwich) {
                         return sandwich;
                     }
                 });
@@ -55,7 +56,7 @@ public class SandwichImpl
     }
 
     @Override
-    protected Observable<SandwichInner> getInnerAsync() {
-        return Observable.just(this.inner());
+    protected Maybe<SandwichInner> getInnerAsync() {
+        return Maybe.just(this.inner());
     }
 }

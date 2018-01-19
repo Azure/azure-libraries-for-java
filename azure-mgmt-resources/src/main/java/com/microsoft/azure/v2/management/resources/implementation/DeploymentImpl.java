@@ -4,30 +4,31 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.implementation;
+package com.microsoft.azure.v2.management.resources.implementation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microsoft.azure.management.resources.Dependency;
-import com.microsoft.azure.management.resources.Deployment;
-import com.microsoft.azure.management.resources.DeploymentExportResult;
-import com.microsoft.azure.management.resources.DeploymentMode;
-import com.microsoft.azure.management.resources.DeploymentOperations;
-import com.microsoft.azure.management.resources.DeploymentProperties;
-import com.microsoft.azure.management.resources.DeploymentPropertiesExtended;
-import com.microsoft.azure.management.resources.ParametersLink;
-import com.microsoft.azure.management.resources.Provider;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.TemplateLink;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
+import com.microsoft.azure.v2.management.resources.Dependency;
+import com.microsoft.azure.v2.management.resources.Deployment;
+import com.microsoft.azure.v2.management.resources.DeploymentExportResult;
+import com.microsoft.azure.v2.management.resources.DeploymentMode;
+import com.microsoft.azure.v2.management.resources.DeploymentOperations;
+import com.microsoft.azure.v2.management.resources.DeploymentProperties;
+import com.microsoft.azure.v2.management.resources.DeploymentPropertiesExtended;
+import com.microsoft.azure.v2.management.resources.ParametersLink;
+import com.microsoft.azure.v2.management.resources.Provider;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.TemplateLink;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
 import org.joda.time.DateTime;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -164,12 +165,12 @@ public final class DeploymentImpl extends
 
     @Override
     public void cancel() {
-        this.cancelAsync().await();
+        this.cancelAsync().blockingAwait();
     }
 
     @Override
     public Completable cancelAsync() {
-        return this.manager().inner().deployments().cancelAsync(resourceGroupName, name()).toCompletable();
+        return this.manager().inner().deployments().cancelAsync(resourceGroupName, name());
     }
 
     @Override
@@ -179,14 +180,14 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentExportResult exportTemplate() {
-        return this.exportTemplateAsync().toBlocking().last();
+        return this.exportTemplateAsync().blockingGet();
     }
 
     @Override
-    public Observable<DeploymentExportResult> exportTemplateAsync() {
-        return this.manager().inner().deployments().exportTemplateAsync(resourceGroupName(), name()).map(new Func1<DeploymentExportResultInner, DeploymentExportResult>() {
+    public Maybe<DeploymentExportResult> exportTemplateAsync() {
+        return this.manager().inner().deployments().exportTemplateAsync(resourceGroupName(), name()).map(new Function<DeploymentExportResultInner, DeploymentExportResult>() {
             @Override
-            public DeploymentExportResult call(DeploymentExportResultInner deploymentExportResultInner) {
+            public DeploymentExportResult apply(DeploymentExportResultInner deploymentExportResultInner) {
                 return new DeploymentExportResultImpl(deploymentExportResultInner);
             }
         });
@@ -314,7 +315,8 @@ public final class DeploymentImpl extends
         inner.properties().withParameters(parameters());
         inner.properties().withParametersLink(parametersLink());
         return this.manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), inner)
-                .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .toObservable();
     }
 
     @Override
@@ -338,7 +340,7 @@ public final class DeploymentImpl extends
     }
 
     @Override
-    protected Observable<DeploymentExtendedInner> getInnerAsync() {
+    protected Maybe<DeploymentExtendedInner> getInnerAsync() {
         return this.manager().inner().deployments().getByResourceGroupAsync(resourceGroupName(), name());
     }
 

@@ -4,18 +4,18 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources;
+package com.microsoft.azure.v2.management.resources;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByName;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBeginDeletingByName;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingByName;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListingByTag;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingByName;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsBatchCreation;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsBeginDeletingByName;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsCreating;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsDeletingByName;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListing;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListingByTag;
 
 /**
  * Entry point to resource group management API.

@@ -4,14 +4,14 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.models.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.ManagerBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
 
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * The implementation for GroupableResource.
@@ -24,7 +24,7 @@ import rx.functions.Func1;
  */
 public abstract class GroupableParentResourceImpl<
         FluentModelT extends Resource,
-        InnerModelT extends com.microsoft.azure.Resource,
+        InnerModelT extends com.microsoft.azure.v2.Resource,
         FluentModelImplT extends GroupableParentResourceImpl<FluentModelT, InnerModelT, FluentModelImplT, ManagerT>,
         ManagerT extends ManagerBase>
         extends
@@ -51,9 +51,9 @@ public abstract class GroupableParentResourceImpl<
         final FluentModelT self = (FluentModelT) this;
         beforeCreating();
         return createInner()
-                .flatMap(new Func1<InnerModelT, Observable<FluentModelT>>() {
+                .flatMap(new Function<InnerModelT, Observable<FluentModelT>>() {
                     @Override
-                    public Observable<FluentModelT> call(InnerModelT inner) {
+                    public Observable<FluentModelT> apply(InnerModelT inner) {
                         setInner(inner);
                         try {
                             initializeChildrenFromInner();

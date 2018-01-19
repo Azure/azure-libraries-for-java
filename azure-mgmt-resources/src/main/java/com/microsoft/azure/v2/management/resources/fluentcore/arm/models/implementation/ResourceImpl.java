@@ -4,12 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.models.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +30,7 @@ import java.util.TreeMap;
  */
 public abstract class ResourceImpl<
         FluentModelT extends Resource,
-        InnerModelT extends com.microsoft.azure.Resource,
+        InnerModelT extends com.microsoft.azure.v2.Resource,
         FluentModelImplT extends ResourceImpl<FluentModelT, InnerModelT, FluentModelImplT>>
     extends
         CreatableUpdatableImpl<FluentModelT, InnerModelT, FluentModelImplT>

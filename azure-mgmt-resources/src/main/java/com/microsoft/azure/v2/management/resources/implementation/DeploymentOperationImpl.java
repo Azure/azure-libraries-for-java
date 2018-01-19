@@ -4,14 +4,14 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.implementation;
+package com.microsoft.azure.v2.management.resources.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableRefreshableWrapperImpl;
-import com.microsoft.azure.management.resources.DeploymentOperation;
-import com.microsoft.azure.management.resources.TargetResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.IndexableRefreshableWrapperImpl;
+import com.microsoft.azure.v2.management.resources.DeploymentOperation;
+import com.microsoft.azure.v2.management.resources.TargetResource;
+import io.reactivex.Maybe;
 import org.joda.time.DateTime;
-import rx.Observable;
 
 /**
  * The implementation of {@link DeploymentOperation}.
@@ -78,7 +78,7 @@ final class DeploymentOperationImpl extends
     }
 
     @Override
-    protected Observable<DeploymentOperationInner> getInnerAsync() {
+    protected Maybe<DeploymentOperationInner> getInnerAsync() {
         return client.getAsync(resourceGroupName, deploymentName, operationId());
     }
 }

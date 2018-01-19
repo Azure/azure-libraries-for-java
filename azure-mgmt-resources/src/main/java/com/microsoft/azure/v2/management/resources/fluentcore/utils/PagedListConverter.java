@@ -4,14 +4,15 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.utils;
+package com.microsoft.azure.v2.management.resources.fluentcore.utils;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.implementation.PageImpl;
-import com.microsoft.rest.RestException;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.implementation.PageImpl;
+import com.microsoft.rest.v2.RestException;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,9 +32,10 @@ public abstract class PagedListConverter<U, V> {
      * individually.
      *
      * @param u the resource to convert from
+     * @throws Exception exception from type conversion
      * @return the converted resource
      */
-    public abstract Observable<V> typeConvertAsync(U u);
+    public abstract Observable<V> typeConvertAsync(U u) throws Exception;
 
     /**
      * Override this method to define what items should be fetched.
@@ -78,25 +80,25 @@ public abstract class PagedListConverter<U, V> {
     }
 
     private void loadConvertedList(final Page<U> uPage, final Page<V> vPage) {
-        Observable.from(uPage.items())
-                .filter(new Func1<U, Boolean>() {
+        Observable.fromIterable(uPage.items())
+                .filter(new Predicate<U>() {
                     @Override
-                    public Boolean call(U u) {
+                    public boolean test(U u) {
                         return filter(u);
                     }
                 })
-                .flatMap(new Func1<U, Observable<V>>() {
+                .flatMap(new Function<U, Observable<V>>() {
                     @Override
-                    public Observable<V> call(U u) {
+                    public Observable<V> apply(U u) throws Exception {
                         return typeConvertAsync(u);
                     }
                 })
-                .map(new Func1<V, V>() {
+                .map(new Function<V, V>() {
                     @Override
-                    public V call(V v) {
+                    public V apply(V v) {
                         vPage.items().add(v);
                         return v;
                     }
-                }).toBlocking().subscribe();
+                }).blockingSubscribe();
     }
 }

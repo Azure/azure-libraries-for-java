@@ -4,11 +4,11 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources;
+package com.microsoft.azure.v2.management.resources;
 
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.resources.core.TestBase;
+import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
+import com.microsoft.rest.v2.http.HttpPipeline;
 
 /**
  * The base for resource manager tests.
@@ -17,9 +17,9 @@ class ResourceManagerTestBase extends TestBase {
     protected static ResourceManager resourceClient;
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain) {
         resourceClient = ResourceManager
-                .authenticate(restClient)
+                .authenticate(pipeline)
                 .withSubscription(defaultSubscription);
     }
 

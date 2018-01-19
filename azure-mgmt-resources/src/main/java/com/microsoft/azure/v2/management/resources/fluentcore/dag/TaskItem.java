@@ -4,11 +4,11 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.dag;
+package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import rx.Completable;
-import rx.Observable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 /**
  * Type representing a unit of work, upon invocation produces result of {@link Indexable} type.

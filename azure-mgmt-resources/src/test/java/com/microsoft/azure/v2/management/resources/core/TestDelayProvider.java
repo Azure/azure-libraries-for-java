@@ -4,9 +4,9 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.core;
+package com.microsoft.azure.v2.management.resources.core;
 
-import com.microsoft.azure.management.resources.fluentcore.utils.DelayProvider;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.DelayProvider;
 
 public class TestDelayProvider extends DelayProvider {
     private boolean isRecordMode;

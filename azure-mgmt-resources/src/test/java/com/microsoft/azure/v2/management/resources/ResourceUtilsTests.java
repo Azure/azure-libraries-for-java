@@ -4,14 +4,17 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources;
+package com.microsoft.azure.v2.management.resources;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
+import com.microsoft.rest.v2.http.HttpClient;
+import com.microsoft.rest.v2.util.FlowableUtil;
+import io.reactivex.Flowable;
 import org.junit.Assert;
 import org.junit.Test;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+
+import java.nio.charset.StandardCharsets;
 
 public class ResourceUtilsTests {
     @Test
@@ -43,9 +46,9 @@ public class ResourceUtilsTests {
 
     @Test
     public void canDownloadFile() throws Exception {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://microsoft.com").addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
-        byte[] content = Utils.downloadFileAsync("http://google.com/humans.txt", retrofit).toBlocking().single();
-        String contentString = new String(content);
+        Flowable<byte[]> contentStream = Utils.downloadFileAsync("http://google.com/humans.txt", HttpClient.createDefault());
+        byte[] content = FlowableUtil.collectBytes(contentStream).blockingGet();
+        String contentString = new String(content, StandardCharsets.UTF_8);
         Assert.assertNotNull(contentString);
     }
 }

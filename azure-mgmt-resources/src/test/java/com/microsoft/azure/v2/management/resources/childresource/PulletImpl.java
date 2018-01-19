@@ -4,11 +4,13 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.childresource;
+package com.microsoft.azure.v2.management.resources.childresource;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import rx.Observable;
-import rx.schedulers.Schedulers;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 class PulletImpl extends ExternalChildResourceImpl<Pullet, Object, ChickenImpl, Object>
         implements Pullet {
@@ -68,22 +70,22 @@ class PulletImpl extends ExternalChildResourceImpl<Pullet, Object, ChickenImpl, 
     }
 
     @Override
-    public Observable<Void> deleteAsync() {
+    public Completable deleteAsync() {
         try {
             Thread.sleep(2000);
-        } catch (InterruptedException ex) {
+        } catch (InterruptedException ignored) {
         }
 
         if (this.failFlag == FailFlag.OnDelete) {
-            return Observable.error(new Exception("Deletion of " + this.name() + " failed"));
+            return Completable.error(new Exception("Deletion of " + this.name() + " failed"));
         }
 
-        return Observable.just(null);
+        return Completable.complete();
     }
 
     @Override
-    protected Observable<Object> getInnerAsync() {
-        return Observable.just(null);
+    protected Maybe<Object> getInnerAsync() {
+        return Maybe.empty();
     }
 
     @Override

@@ -4,14 +4,14 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources;
+package com.microsoft.azure.v2.management.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.management.resources.core.TestBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -25,9 +25,9 @@ public class PolicyTests extends TestBase {
     private String policyRule = "{\"if\":{\"not\":{\"field\":\"location\",\"in\":[\"northeurope\",\"westeurope\"]}},\"then\":{\"effect\":\"deny\"}}";
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain) {
         resourceManager = ResourceManager
-                .authenticate(restClient)
+                .authenticate(pipeline)
                 .withSubscription(defaultSubscription);
     }
 

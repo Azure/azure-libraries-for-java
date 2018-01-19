@@ -5,4 +5,4 @@
 /**
  * This package contains the implementations for ARM base classes.
  */
-package com.microsoft.azure.management.resources.fluentcore.arm.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation;

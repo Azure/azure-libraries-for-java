@@ -4,26 +4,26 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByParent;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByParent;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByParent;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChild;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceCallback;
-import rx.Completable;
-import rx.Observable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsDeletingByParent;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingByParent;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsListingByParent;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.ManagerBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.IndependentChild;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.ServiceCallback;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
 
 /**
  * Base class for independent child collection class.
@@ -67,30 +67,31 @@ public abstract class IndependentChildrenImpl<
 
     @Override
     public T getByParent(String resourceGroup, String parentName, String name) {
-        return getByParentAsync(resourceGroup, parentName, name).toBlocking().last();
+        return getByParentAsync(resourceGroup, parentName, name).blockingGet();
     }
 
     @Override
     public T getByParent(ParentT parentResource, String name) {
-        return getByParentAsync(parentResource, name).toBlocking().last();
+        return getByParentAsync(parentResource, name).blockingGet();
     }
 
     @Override
-    public Observable<T> getByParentAsync(ParentT parentResource, String name) {
+    public Maybe<T> getByParentAsync(ParentT parentResource, String name) {
         return getByParentAsync(parentResource.resourceGroupName(), parentResource.name(), name);
     }
 
     @Override
     public T getById(String id) {
-        return getByIdAsync(id).toBlocking().last();
+        return getByIdAsync(id).blockingGet();
     }
 
     @Override
-    public Observable<T> getByIdAsync(String id) {
-        ResourceId resourceId = ResourceId.fromString(id);
-        if (resourceId == null) {
-            return null;
+    public Maybe<T> getByIdAsync(String id) {
+        if (id == null) {
+            return Maybe.empty();
         }
+
+        ResourceId resourceId = ResourceId.fromString(id);
 
         return getByParentAsync(resourceId.resourceGroupName(), resourceId.parent().name(), resourceId.name());
     }
@@ -107,7 +108,7 @@ public abstract class IndependentChildrenImpl<
 
     @Override
     public void deleteByParent(String groupName, String parentName, String name) {
-        deleteByParentAsync(groupName, parentName, name).await();
+        deleteByParentAsync(groupName, parentName, name).blockingAwait();
     }
 
     @Override

@@ -1,24 +1,45 @@
-package com.microsoft.azure.management.resources.core;
+package com.microsoft.azure.v2.management.resources.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import okhttp3.*;
-import okhttp3.internal.Util;
-import okio.Buffer;
-import okio.BufferedSource;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+
+import com.microsoft.rest.v2.http.BufferedHttpResponse;
+import com.microsoft.rest.v2.http.HttpClient;
+import com.microsoft.rest.v2.http.HttpHeader;
+import com.microsoft.rest.v2.http.HttpHeaders;
+import com.microsoft.rest.v2.http.HttpRequest;
+import com.microsoft.rest.v2.http.HttpResponse;
+import com.microsoft.rest.v2.policy.RequestPolicy;
+import com.microsoft.rest.v2.policy.RequestPolicyFactory;
+import com.microsoft.rest.v2.policy.RequestPolicyOptions;
+import io.reactivex.SingleSource;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.http.HttpStatus;
-import rx.schedulers.Schedulers;
+import io.reactivex.Single;
+import io.reactivex.exceptions.Exceptions;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+import org.junit.Assert;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -65,28 +86,14 @@ public class InterceptorManager {
         return testMode == TestBase.TestMode.PLAYBACK;
     }
 
-    public Interceptor initInterceptor() throws IOException {
-        switch (testMode) {
-            case RECORD:
-                recordedData = new RecordedData();
-                return new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        return record(chain);
-                    }
-                };
-            case PLAYBACK:
-                readDataFromFile();
-                return new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        return playback(chain);
-                    }
-                };
-            default:
-                System.out.println("==> Unknown AZURE_TEST_MODE: " + testMode);
-        };
-        return null;
+    public RecordPolicyFactory initRecordPolicy() {
+        recordedData = new RecordedData();
+        return new RecordPolicyFactory();
+    }
+
+    public HttpClient initPlaybackClient() throws IOException {
+        readDataFromFile();
+        return new PlaybackClient();
     }
 
     public void finalizeInterceptor() throws IOException {
@@ -102,149 +109,194 @@ public class InterceptorManager {
         };
     }
 
-    private Response record(Interceptor.Chain chain) throws IOException {
-        Request request = chain.request();
-        NetworkCallRecord networkCallRecord = new NetworkCallRecord();
 
-        networkCallRecord.Headers = new HashMap<>();
-
-        if (request.header("Content-Type") != null) {
-            networkCallRecord.Headers.put("Content-Type", request.header("Content-Type"));
+    class RecordPolicyFactory implements RequestPolicyFactory {
+        @Override
+        public RequestPolicy create(RequestPolicy next, RequestPolicyOptions options) {
+            return new RecordPolicy(next);
         }
-        if (request.header("x-ms-version") != null) {
-            networkCallRecord.Headers.put("x-ms-version", request.header("x-ms-version"));
-        }
-        if (request.header("User-Agent") != null) {
-            networkCallRecord.Headers.put("User-Agent", request.header("User-Agent"));
-        }
-
-        networkCallRecord.Method = request.method();
-        networkCallRecord.Uri = applyReplacementRule(request.url().toString().replaceAll("\\?$", ""));
-
-        Response response = chain.proceed(request);
-
-        networkCallRecord.Response = new HashMap<>();
-        networkCallRecord.Response.put("StatusCode", Integer.toString(response.code()));
-        extractResponseData(networkCallRecord.Response, response);
-
-        // remove pre-added header if this is a waiting or redirection
-        if (networkCallRecord.Response.get("Body").contains("<Status>InProgress</Status>")
-                || Integer.parseInt(networkCallRecord.Response.get("StatusCode")) == HttpStatus.SC_TEMPORARY_REDIRECT) {
-            // Do nothing
-        } else {
-            synchronized (recordedData.getNetworkCallRecords()) {
-                recordedData.getNetworkCallRecords().add(networkCallRecord);
-            }
-        }
-
-        return response;
     }
 
-    private Response playback(Interceptor.Chain chain) throws IOException {
-        Request request = chain.request();
-        String incomingUrl = applyReplacementRule(request.url().toString());
-        String incomingMethod = request.method();
+    class RecordPolicy implements RequestPolicy {
+        final RequestPolicy next;
+        private RecordPolicy(RequestPolicy next) {
+            this.next = next;
+        }
 
-        incomingUrl = removeHost(incomingUrl);
-        NetworkCallRecord networkCallRecord = null;
-        synchronized (recordedData) {
-            for (Iterator<NetworkCallRecord> iterator = recordedData.getNetworkCallRecords().iterator(); iterator.hasNext(); ) {
-                NetworkCallRecord record = iterator.next();
-                if (record.Method.equalsIgnoreCase(incomingMethod) && removeHost(record.Uri).equalsIgnoreCase(incomingUrl)) {
-                    networkCallRecord = record;
-                    iterator.remove();
-                    break;
-                }
+        public Single<HttpResponse> sendAsync(HttpRequest request) {
+            final NetworkCallRecord networkCallRecord = new NetworkCallRecord();
+
+            networkCallRecord.Headers = new HashMap<>();
+
+            if (request.headers().value("Content-Type") != null) {
+                networkCallRecord.Headers.put("Content-Type", request.headers().value("Content-Type"));
             }
+            if (request.headers().value("x-ms-version") != null) {
+                networkCallRecord.Headers.put("x-ms-version", request.headers().value("x-ms-version"));
+            }
+            if (request.headers().value("User-Agent") != null) {
+                networkCallRecord.Headers.put("User-Agent", request.headers().value("User-Agent"));
+            }
+
+            networkCallRecord.Method = request.httpMethod().toString();
+            networkCallRecord.Uri = applyReplacementRule(request.url().toString().replaceAll("\\?$", ""));
+
+            return next.sendAsync(request).flatMap(new Function<HttpResponse, SingleSource<? extends HttpResponse>>() {
+                @Override
+                public SingleSource<? extends HttpResponse> apply(HttpResponse httpResponse) throws Exception {
+                    final HttpResponse bufferedResponse = httpResponse.buffer();
+
+                    return extractResponseData(bufferedResponse).map(new Function<Map<String, String>, HttpResponse>() {
+                        @Override
+                        public HttpResponse apply(Map<String, String> responseData) throws Exception {
+                            networkCallRecord.Response = responseData;
+                            // remove pre-added header if this is a waiting or redirection
+                            if (networkCallRecord.Response.get("Body").contains("<Status>InProgress</Status>")
+                                    || Integer.parseInt(networkCallRecord.Response.get("StatusCode")) == HttpStatus.SC_TEMPORARY_REDIRECT) {
+                                // Do nothing
+                            } else {
+                                synchronized (recordedData.getNetworkCallRecords()) {
+                                    recordedData.getNetworkCallRecords().add(networkCallRecord);
+                                }
+                            }
+
+                            return bufferedResponse;
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    final class PlaybackClient extends HttpClient {
+        AtomicInteger count = new AtomicInteger(0);
+        @Override
+        public Single<HttpResponse> sendRequestAsync(final HttpRequest request) {
+            return Single.defer(new Callable<SingleSource<? extends HttpResponse>>() {
+                @Override
+                public SingleSource<? extends HttpResponse> call() throws Exception {
+                    return playbackHttpResponse(request);
+                }
+            });
         }
 
-        if (networkCallRecord == null) {
-            System.out.println("NOT FOUND - " + incomingMethod + " " + incomingUrl);
-            System.out.println("Remaining records " + recordedData.getNetworkCallRecords().size());
-            throw new IOException("==> Unexpected request: " + incomingMethod + " " + incomingUrl);
-        }
+        private Single<HttpResponse> playbackHttpResponse(final HttpRequest request) {
+            String incomingUrl = applyReplacementRule(request.url().toString());
+            String incomingMethod = request.httpMethod().toString();
 
-        int recordStatusCode = Integer.parseInt(networkCallRecord.Response.get("StatusCode"));
-
-        Response originalResponse = chain.proceed(request);
-        originalResponse.body().close();
-
-        Response.Builder responseBuilder = originalResponse.newBuilder()
-                .code(recordStatusCode).message("-");
-
-        for (Map.Entry<String, String> pair : networkCallRecord.Response.entrySet()) {
-            if (!pair.getKey().equals("StatusCode") && !pair.getKey().equals("Body") && !pair.getKey().equals("Content-Length")) {
-                String rawHeader = pair.getValue();
-                for (Map.Entry<String, String> rule : textReplacementRules.entrySet()) {
-                    if (rule.getValue() != null) {
-                        rawHeader = rawHeader.replaceAll(rule.getKey(), rule.getValue());
+            incomingUrl = removeHost(incomingUrl);
+            NetworkCallRecord networkCallRecord = null;
+            synchronized (recordedData) {
+                for (Iterator<NetworkCallRecord> iterator = recordedData.getNetworkCallRecords().iterator(); iterator.hasNext(); ) {
+                    NetworkCallRecord record = iterator.next();
+                    if (record.Method.equalsIgnoreCase(incomingMethod) && removeHost(record.Uri).equalsIgnoreCase(incomingUrl)) {
+                        networkCallRecord = record;
+                        iterator.remove();
+                        break;
                     }
                 }
-                responseBuilder.addHeader(pair.getKey(), rawHeader);
             }
-        }
 
-        String rawBody = networkCallRecord.Response.get("Body");
-        if (rawBody != null) {
-            for (Map.Entry<String, String> rule : textReplacementRules.entrySet()) {
-                if (rule.getValue() != null) {
-                    rawBody = rawBody.replaceAll(rule.getKey(), rule.getValue());
+            count.incrementAndGet();
+            if (networkCallRecord == null) {
+                LoggerFactory.getLogger(request.callerMethod()).info("NOT FOUND - " + incomingMethod + " " + incomingUrl);
+                LoggerFactory.getLogger(request.callerMethod()).info("Records requested: " + count);
+                LoggerFactory.getLogger(request.callerMethod()).info("Remaining records " + recordedData.getNetworkCallRecords().size());
+
+                Assert.fail("==> Unexpected request: " + incomingMethod + " " + incomingUrl);
+            }
+
+            int recordStatusCode = Integer.parseInt(networkCallRecord.Response.get("StatusCode"));
+            HttpHeaders headers = new HttpHeaders();
+
+            for (Map.Entry<String, String> pair : networkCallRecord.Response.entrySet()) {
+                if (!pair.getKey().equals("StatusCode") && !pair.getKey().equals("Body") && !pair.getKey().equals("Content-Length")) {
+                    String rawHeader = pair.getValue();
+                    for (Map.Entry<String, String> rule : textReplacementRules.entrySet()) {
+                        if (rule.getValue() != null) {
+                            rawHeader = rawHeader.replaceAll(rule.getKey(), rule.getValue());
+                        }
+                    }
+                    headers.set(pair.getKey(), rawHeader);
                 }
             }
 
-            String rawContentType = networkCallRecord.Response.get("content-type");
-            String contentType =  rawContentType == null
-                    ? "application/json; charset=utf-8"
-                    : rawContentType;
+            String rawBody = networkCallRecord.Response.get("Body");
+            if (rawBody != null) {
+                for (Map.Entry<String, String> rule : textReplacementRules.entrySet()) {
+                    if (rule.getValue() != null) {
+                        rawBody = rawBody.replaceAll(rule.getKey(), rule.getValue());
+                    }
+                }
 
-            ResponseBody responseBody = ResponseBody.create(MediaType.parse(contentType), rawBody.getBytes());
-            responseBuilder.body(responseBody);
-            responseBuilder.addHeader("Content-Length", String.valueOf(rawBody.getBytes("UTF-8").length));
+                try {
+                    byte[] bytes = rawBody.getBytes("UTF-8");
+                    headers.set("Content-Length", String.valueOf(bytes.length));
+                } catch (IOException e) {
+                    return Single.error(e);
+                }
+            }
+
+            HttpResponse response = new MockHttpResponse(recordStatusCode, headers, rawBody);
+            return Single.just(response);
         }
-
-        Response newResponce = responseBuilder.build();
-
-        return newResponce;
     }
 
-    private void extractResponseData(Map<String, String> responseData, Response response) throws IOException {
-        Map<String, List<String>> headers = response.headers().toMultimap();
-        boolean addedRetryAfter = false;
-        for (Map.Entry<String, List<String>> header : headers.entrySet()) {
-            String headerValueToStore = header.getValue().get(0);
+    private Single<Map<String, String>> extractResponseData(final HttpResponse response) {
+        final Map<String, String> responseData = new HashMap<>();
+        responseData.put("StatusCode", Integer.toString(response.statusCode()));
 
-            if (header.getKey().equalsIgnoreCase("location") || header.getKey().equalsIgnoreCase("azure-asyncoperation")) {
+        boolean addedRetryAfter = false;
+        for (HttpHeader header : response.headers()) {
+            String headerValueToStore = header.value();
+
+            if (header.name().equalsIgnoreCase("location") || header.name().equalsIgnoreCase("azure-asyncoperation")) {
                 headerValueToStore = applyReplacementRule(headerValueToStore);
             }
-            if (header.getKey().equalsIgnoreCase("retry-after")) {
+            if (header.name().equalsIgnoreCase("retry-after")) {
                 headerValueToStore = "0";
                 addedRetryAfter = true;
             }
-            responseData.put(header.getKey().toLowerCase(), headerValueToStore);
+            responseData.put(header.name().toLowerCase(), headerValueToStore);
         }
 
         if (!addedRetryAfter) {
             responseData.put("retry-after", "0");
         }
 
-        BufferedSource bufferedSource = response.body().source();
-        bufferedSource.request(9223372036854775807L);
-        Buffer buffer = bufferedSource.buffer().clone();
-        String content = null;
+        Single<Map<String, String>> result;
+        if (response.headerValue("content-encoding") == null) {
+            result = response.bodyAsStringAsync().map(new Function<String, Map<String, String>>() {
+                @Override
+                public Map<String, String> apply(String content) {
+                    content = applyReplacementRule(content);
+                    responseData.put("Body", content);
+                    return responseData;
+                }
+            });
+        } else {
+            result = response.bodyAsInputStreamAsync().map(new Function<InputStream, Map<String, String>>() {
+                @Override
+                public Map<String, String> apply(InputStream inputStream) throws Exception {
+                    try {
+                        GZIPInputStream gis = new GZIPInputStream(inputStream);
+                        String content = IOUtils.toString(gis, StandardCharsets.UTF_8);
+                        responseData.remove("content-encoding");
+                        responseData.put("content-length", Integer.toString(content.length()));
 
-        if (response.header("Content-Encoding") == null) {
-            content = new String(buffer.readString(Util.UTF_8));
-        } else if (response.header("Content-Encoding").equalsIgnoreCase("gzip")) {
-            GZIPInputStream gis = new GZIPInputStream(buffer.inputStream());
-            content = IOUtils.toString(gis);
-            responseData.remove("Content-Encoding".toLowerCase());
-            responseData.put("Content-Length".toLowerCase(), Integer.toString(content.length()));
+                        content = applyReplacementRule(content);
+                        responseData.put("body", content);
+                        return responseData;
+                    } catch (IOException e) {
+                        throw Exceptions.propagate(e);
+                    } finally {
+                        inputStream.close();
+                    }
+                }
+            });
         }
 
-        if (content != null) {
-            content = applyReplacementRule(content);
-            responseData.put("Body", content);
-        }
+        return result;
     }
 
     private void readDataFromFile() throws IOException {

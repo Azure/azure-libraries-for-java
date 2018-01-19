@@ -8,4 +8,4 @@
  * This package contains the classes for ResourceManagementClient.
  * Provides operations for working with resources and resource groups.
  */
-package com.microsoft.azure.management.resources;
+package com.microsoft.azure.v2.management.resources;

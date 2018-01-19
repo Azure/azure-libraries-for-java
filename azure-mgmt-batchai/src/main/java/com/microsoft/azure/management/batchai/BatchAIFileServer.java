@@ -14,6 +14,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableR
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import org.joda.time.DateTime;
 
 /**
  * Entry point for Batch AI file server management API in Azure.
@@ -23,6 +24,48 @@ import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 public interface BatchAIFileServer extends
         GroupableResource<BatchAIManager, FileServerInner>,
         Refreshable<BatchAIFileServer> {
+
+    /**
+     * @return the size of the virtual machine of the File Server.
+     * For information about available VM sizes for File Server from the
+     * Virtual Machines Marketplace, see Sizes for Virtual Machines (Linux).
+     */
+    String vmSize();
+
+    /**
+     * @return SSH settings for the File Server
+     */
+    SshConfiguration sshConfiguration();
+
+    /**
+     * @return settings for the data disk which would be created for the File Server
+     */
+    DataDisks dataDisks();
+
+    /**
+     * @return the identifier of the subnet
+     */
+    ResourceId subnet();
+
+    /**
+     * @return details of the File Server
+     */
+    MountSettings mountSettings();
+
+    /**
+     * @return time when the status was changed
+     */
+    DateTime provisioningStateTransitionTime();
+
+    /**
+     * @return time when the FileServer was created
+     */
+    DateTime creationTime();
+
+    /**
+     * @return the provisioning state of the File Server
+     */
+    FileServerProvisioningState provisioningState();
 
     /**
      * The entirety of a Batch AI file server definition.

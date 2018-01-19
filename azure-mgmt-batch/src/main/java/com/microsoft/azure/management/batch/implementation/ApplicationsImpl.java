@@ -44,15 +44,15 @@ class ApplicationsImpl extends
     }
 
     public ApplicationImpl define(String name) {
-        return this.prepareDefine(name);
+        return this.prepareInlineDefine(name);
     }
 
     public ApplicationImpl update(String name) {
-        return this.prepareUpdate(name);
+        return this.prepareInlineUpdate(name);
     }
 
     public void remove(String name) {
-        this.prepareRemove(name);
+        this.prepareInlineRemove(name);
     }
 
     public void addApplication(ApplicationImpl application) {

@@ -61,23 +61,35 @@ public abstract class ExternalChildResourcesCachedImpl<
     }
 
     /**
-     * Prepare for definition of a new external child resource.
+     * Prepare for independent definition of a new external child resource (without the parent context).
+     *
+     * @param name the name of the new external child resource
+     * @return the external child resource prepared for create
+     */
+    protected final FluentModelTImpl prepareIndependentDefine(String name) {
+        FluentModelTImpl childResource = newChildResource(name);
+        childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeCreated);
+        return childResource;
+    }
+
+    /**
+     * Prepare for inline definition of a new external child resource (along with the definition or update of parent resource).
      *
      * @param name the name for the new external child resource
      * @return the child resource
      */
-    protected FluentModelTImpl prepareDefine(String name) {
-        return prepareDefine(name, name);
+    protected FluentModelTImpl prepareInlineDefine(String name) {
+        return prepareInlineDefine(name, name);
     }
 
     /**
-     * Prepare for definition of a new external child resource.
+     * Prepare for inline definition of a new external child resource (along with the definition or update of parent resource).
      *
      * @param name the name of the new external child resource
      * @param key the key
      * @return the child resource
      */
-    protected final FluentModelTImpl prepareDefine(String name, String key) {
+    protected final FluentModelTImpl prepareInlineDefine(String name, String key) {
         if (find(key) != null) {
             throw new IllegalArgumentException("A child resource ('" + childResourceName + "') with name (key) '" + name + " (" + key + ")' already exists");
         }
@@ -87,23 +99,23 @@ public abstract class ExternalChildResourcesCachedImpl<
     }
 
     /**
-     * Prepare for an external child resource update.
+     * Prepare for inline update of an external child resource (along with the update of parent resource).
      *
      * @param name the name of the external child resource
      * @return the external child resource to be updated
      */
-    protected final FluentModelTImpl prepareUpdate(String name) {
-        return prepareUpdate(name, name);
+    protected final FluentModelTImpl prepareInlineUpdate(String name) {
+        return prepareInlineUpdate(name, name);
     }
 
     /**
-     * Prepare for an external child resource update.
+     * Prepare for inline update of an external child resource (along with the update of parent resource).
      *
      * @param name the name of the external child resource
      * @param key the key
      * @return the external child resource to be updated
      */
-    protected final FluentModelTImpl prepareUpdate(String name, String key) {
+    protected final FluentModelTImpl prepareInlineUpdate(String name, String key) {
         FluentModelTImpl childResource = find(key);
         if (childResource == null
                 || childResource.pendingOperation() == ExternalChildResourceImpl.PendingOperation.ToBeCreated) {
@@ -117,21 +129,21 @@ public abstract class ExternalChildResourcesCachedImpl<
     }
 
     /**
-     * Mark an external child resource with given name as to be removed.
+     * Prepare for inline removal of an external child resource (along with the update of parent resource).
      *
      * @param name the name of the external child resource
      */
-    protected final void prepareRemove(String name) {
-        prepareRemove(name, name);
+    protected final void prepareInlineRemove(String name) {
+        prepareInlineRemove(name, name);
     }
 
     /**
-     * Mark an external child resource with given key as to be removed.
+     * Prepare for inline removal of an external child resource (along with the update of parent resource).
      *
      * @param name the name of the external child resource
      * @param key the key
      */
-    protected final void prepareRemove(String name, String key) {
+    protected final void prepareInlineRemove(String name, String key) {
         FluentModelTImpl childResource = find(key);
         if (childResource == null
                 || childResource.pendingOperation() == ExternalChildResourceImpl.PendingOperation.ToBeCreated) {

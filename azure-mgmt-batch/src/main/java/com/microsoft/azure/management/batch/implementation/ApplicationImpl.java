@@ -69,7 +69,7 @@ public class ApplicationImpl
     }
 
     @Override
-    public Observable<Application> createAsync() {
+    public Observable<Application> createResourceAsync() {
         final ApplicationImpl self = this;
         ApplicationCreateParametersInner createParameter = new ApplicationCreateParametersInner();
         createParameter.withDisplayName(this.inner().displayName());
@@ -101,7 +101,7 @@ public class ApplicationImpl
     }
 
     @Override
-    public Observable<Application> updateAsync() {
+    public Observable<Application> updateResourceAsync() {
         final ApplicationImpl self = this;
 
         ApplicationUpdateParametersInner updateParameter = new ApplicationUpdateParametersInner();
@@ -128,7 +128,7 @@ public class ApplicationImpl
     }
 
     @Override
-    public Observable<Void> deleteAsync() {
+    public Observable<Void> deleteResourceAsync() {
         return this.parent().manager().inner().applications().deleteAsync(
                 this.parent().resourceGroupName(),
                 this.parent().name(),

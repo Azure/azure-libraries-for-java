@@ -228,7 +228,7 @@ class VirtualMachineExtensionImpl
     // Implementation of ExternalChildResourceImpl createAsyncStreaming,  updateAsync and deleteAsync
     //
     @Override
-    public Observable<VirtualMachineExtension> createAsync() {
+    public Observable<VirtualMachineExtension> createResourceAsync() {
         final VirtualMachineExtensionImpl self = this;
         return this.client.createOrUpdateAsync(this.parent().resourceGroupName(),
                 this.parent().name(),
@@ -245,7 +245,7 @@ class VirtualMachineExtensionImpl
     }
 
     @Override
-    public Observable<VirtualMachineExtension> updateAsync() {
+    public Observable<VirtualMachineExtension> updateResourceAsync() {
         this.nullifySettingsIfEmpty();
         if (this.isReference()) {
             String extensionName = ResourceUtils.nameFromResourceId(this.inner().id());
@@ -277,16 +277,16 @@ class VirtualMachineExtensionImpl
                                     }
                                 }
                             }
-                            return createAsync();
+                            return createResourceAsync();
                         }
                     });
         } else {
-            return this.createAsync();
+            return this.createResourceAsync();
         }
     }
 
     @Override
-    public Observable<Void> deleteAsync() {
+    public Observable<Void> deleteResourceAsync() {
         return RXMapper.mapToVoid(this.client.deleteAsync(
                 this.parent().resourceGroupName(),
                 this.parent().name(),

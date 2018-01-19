@@ -110,7 +110,7 @@ class VirtualMachineExtensionsImpl extends
      * @return the extension
      */
     public VirtualMachineExtensionImpl define(String name) {
-        VirtualMachineExtensionImpl newExtension = this.prepareDefine(name);
+        VirtualMachineExtensionImpl newExtension = this.prepareInlineDefine(name);
         return newExtension;
     }
 
@@ -121,7 +121,7 @@ class VirtualMachineExtensionsImpl extends
      * @return the extension
      */
     public VirtualMachineExtensionImpl update(String name) {
-        return this.prepareUpdate(name);
+        return this.prepareInlineUpdate(name);
     }
 
     /**
@@ -130,7 +130,7 @@ class VirtualMachineExtensionsImpl extends
      * @param name the reference name of the extension to be removed
      */
     public void remove(String name) {
-        this.prepareRemove(name);
+        this.prepareInlineRemove(name);
     }
 
     /**

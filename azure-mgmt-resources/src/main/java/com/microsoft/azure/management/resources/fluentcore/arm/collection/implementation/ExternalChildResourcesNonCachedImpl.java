@@ -44,12 +44,23 @@ public abstract class ExternalChildResourcesNonCachedImpl<
     }
 
     /**
-     * Prepare a given model of an external child resource for create.
+     * Prepare the given model of an external child resource for independent definition (without the parent context).
+     *
+     * @param model the model to prepare for independent create definition
+     * @return the external child resource prepared for create
+     */
+    protected final FluentModelTImpl prepareIndependentDefine(FluentModelTImpl model) {
+        model.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeCreated);
+        return model;
+    }
+
+    /**
+     * Prepare the given model of an external child resource for inline create (along with the definition or update of parent resource).
      *
      * @param model the model to track create changes
      * @return the external child resource prepared for create
      */
-    protected final FluentModelTImpl prepareDefine(FluentModelTImpl model) {
+    protected final FluentModelTImpl prepareInlineDefine(FluentModelTImpl model) {
         FluentModelTImpl childResource = find(model.childResourceKey());
         if (childResource != null) {
             throw new IllegalArgumentException(pendingOperationMessage(model.name(), model.childResourceKey()));
@@ -60,12 +71,12 @@ public abstract class ExternalChildResourcesNonCachedImpl<
     }
 
     /**
-     * Prepare a given model of an external child resource for update.
+     * Prepare the given model of an external child resource for inline update (along with the definition or update of parent resource).
      *
      * @param model the model to track update changes
      * @return the external child resource prepared for update
      */
-    protected final FluentModelTImpl prepareUpdate(FluentModelTImpl model) {
+    protected final FluentModelTImpl prepareInlineUpdate(FluentModelTImpl model) {
         FluentModelTImpl childResource = find(model.childResourceKey());
         if (childResource != null) {
             throw new IllegalArgumentException(pendingOperationMessage(model.name(), model.childResourceKey()));
@@ -76,11 +87,11 @@ public abstract class ExternalChildResourcesNonCachedImpl<
     }
 
     /**
-     * Prepare a given model of an external child resource for remove.
+     * Prepare the given model of an external child resource for inline removal (along with the definition or update of parent resource).
      *
      * @param model the model representing child resource to remove
      */
-    protected final void prepareRemove(FluentModelTImpl model) {
+    protected final void prepareInlineRemove(FluentModelTImpl model) {
         FluentModelTImpl childResource = find(model.childResourceKey());
         if (childResource != null) {
             throw new IllegalArgumentException(pendingOperationMessage(model.name(), model.childResourceKey()));

@@ -13,8 +13,6 @@ import com.microsoft.rest.v2.policy.RequestPolicy;
 import com.microsoft.rest.v2.policy.RequestPolicyFactory;
 import com.microsoft.rest.v2.policy.RequestPolicyOptions;
 import io.reactivex.Completable;
-import io.reactivex.CompletableSource;
-import io.reactivex.SingleObserver;
 import io.reactivex.SingleSource;
 import io.reactivex.functions.Predicate;
 import io.reactivex.subjects.BehaviorSubject;
@@ -38,6 +36,9 @@ public final class ResourceManagerThrottlingPolicyFactory implements RequestPoli
     private static final int HTTP_TOO_MANY_REQUESTS = 429;
     private final Subject<Boolean> isDelayingSubject = BehaviorSubject.create();
 
+    /**
+     * Creates a ResourceManagerThrottlingPolicyFactory.
+     */
     public ResourceManagerThrottlingPolicyFactory() {
         isDelayingSubject.onNext(false);
     }
@@ -54,7 +55,7 @@ public final class ResourceManagerThrottlingPolicyFactory implements RequestPoli
         return new ResourceManagerThrottlingPolicy(next);
     }
 
-    private class ResourceManagerThrottlingPolicy implements RequestPolicy {
+    private final class ResourceManagerThrottlingPolicy implements RequestPolicy {
         private final RequestPolicy next;
         private ResourceManagerThrottlingPolicy(RequestPolicy next) {
             this.next = next;
@@ -90,6 +91,7 @@ public final class ResourceManagerThrottlingPolicyFactory implements RequestPoli
                 try {
                     retryAfter = Integer.parseInt(retryAfterHeader);
                 } catch (NumberFormatException e) {
+                    isDelayingSubject.onNext(false);
                     return Single.error(new CloudException("Invalid format for Retry-After header", bufferedResponse, null));
                 }
             }
@@ -101,7 +103,6 @@ public final class ResourceManagerThrottlingPolicyFactory implements RequestPoli
                     retryAfter = (int) TimeUnit.MINUTES.toSeconds(Integer.parseInt(matcher.group(1)));
                 }
             }
-
 
             if (retryAfter > 0) {
                 String context = request.callerMethod();

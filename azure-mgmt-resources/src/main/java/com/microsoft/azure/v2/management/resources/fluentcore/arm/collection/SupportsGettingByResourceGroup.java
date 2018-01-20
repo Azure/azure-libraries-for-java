@@ -11,8 +11,6 @@ import com.microsoft.azure.management.apigeneration.LangDefinition.MethodConvers
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
-import io.reactivex.Single;
 
 /**
  * Provides access to getting a specific Azure resource based on its name and resource group.

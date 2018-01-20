@@ -34,9 +34,9 @@ import java.util.regex.Pattern;
  * An interceptor for automatic provider registration in Azure.
  */
 public final class ProviderRegistrationPolicyFactory implements RequestPolicyFactory {
-    private static final Pattern subscriptionPattern = Pattern.compile("/subscriptions/([\\w-]+)/", Pattern.CASE_INSENSITIVE);
-    private static final Pattern providerPattern = Pattern.compile(".*'(.*)'");
-    private static final AzureJacksonAdapter serializer = new AzureJacksonAdapter();
+    private static final Pattern SUBSCRIPTION_PATTERN = Pattern.compile("/subscriptions/([\\w-]+)/", Pattern.CASE_INSENSITIVE);
+    private static final Pattern PROVIDER_PATTERN = Pattern.compile(".*'(.*)'");
+    private static final AzureJacksonAdapter SERIALIZER = new AzureJacksonAdapter();
     private final AzureTokenCredentials credentials;
 
     /**
@@ -78,12 +78,12 @@ public final class ProviderRegistrationPolicyFactory implements RequestPolicyFac
             return bufferedResponse.bodyAsStringAsync().flatMap(new Function<String, Single<? extends HttpResponse>>() {
                 @Override
                 public Single<? extends HttpResponse> apply(String bodyContent) throws Exception {
-                    CloudError cloudError = serializer.deserialize(bodyContent, CloudError.class);
+                    CloudError cloudError = SERIALIZER.deserialize(bodyContent, CloudError.class);
                     boolean isMissingProviderError = cloudError != null && "MissingSubscriptionRegistration".equals(cloudError.code());
                     if (!isMissingProviderError) {
                         return Single.just(bufferedResponse);
                     } else {
-                        Matcher matcher = subscriptionPattern.matcher(request.url().toString());
+                        Matcher matcher = SUBSCRIPTION_PATTERN.matcher(request.url().toString());
                         matcher.find();
 
                         HttpPipeline pipeline = HttpPipeline.build(
@@ -94,7 +94,7 @@ public final class ProviderRegistrationPolicyFactory implements RequestPolicyFac
                                 .withSubscription(matcher.group(1))
                                 .providers();
 
-                        matcher = providerPattern.matcher(cloudError.message());
+                        matcher = PROVIDER_PATTERN.matcher(cloudError.message());
                         matcher.find();
 
                         final String namespace = matcher.group(1);

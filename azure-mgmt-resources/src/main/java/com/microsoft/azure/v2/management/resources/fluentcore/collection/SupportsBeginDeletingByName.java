@@ -10,8 +10,6 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.rest.v2.ServiceFuture;
 import com.microsoft.rest.v2.ServiceCallback;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
-import io.reactivex.Single;
 
 /**
  * Provides access to deleting a resource from Azure, identifying it by its resource ID.

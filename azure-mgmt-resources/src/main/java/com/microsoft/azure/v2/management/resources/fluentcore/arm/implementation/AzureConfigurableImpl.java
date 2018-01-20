@@ -34,6 +34,7 @@ public class AzureConfigurableImpl<T extends AzureConfigurable<T>>
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public T withRequestPolicy(RequestPolicyFactory factory) {
         this.pipelineBuilder.withRequestPolicy(factory);
         return (T) this;

@@ -9,8 +9,6 @@ package com.microsoft.azure.v2.management.resources.fluentcore.model;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.apigeneration.Method;
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
-import io.reactivex.Single;
 
 /**
  * Base class for resources that can be refreshed to get the latest state.

@@ -4,22 +4,27 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.core;
+package com.microsoft.azure.v2.management.resources.core;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.LogLevel;
-import com.microsoft.rest.RestClient;
-import com.microsoft.rest.interceptors.LoggingInterceptor;
+import com.microsoft.azure.v2.AzureEnvironment;
+import com.microsoft.azure.v2.credentials.ApplicationTokenCredentials;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.rest.v2.http.HttpClient;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import com.microsoft.rest.v2.http.HttpPipelineBuilder;
+import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
+import com.microsoft.rest.v2.policy.HostPolicyFactory;
+import com.microsoft.rest.v2.policy.HttpLogDetailLevel;
+import com.microsoft.rest.v2.policy.HttpLoggingPolicyFactory;
+import com.microsoft.rest.v2.policy.TimeoutPolicyFactory;
 import org.junit.*;
 import org.junit.rules.TestName;
 
 import java.io.*;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -143,20 +148,17 @@ public abstract class TestBase {
         interceptorManager = InterceptorManager.create(testName.getMethodName(), testMode);
 
         ApplicationTokenCredentials credentials;
-        RestClient restClient;
+        HttpPipeline pipeline;
         String defaultSubscription;
 
         if (isPlaybackMode()) {
             credentials = new AzureTestCredentials(playbackUri, ZERO_TENANT, true);
-            restClient = buildRestClient(new RestClient.Builder()
-                    .withBaseUrl(playbackUri + "/")
-                    .withSerializerAdapter(new AzureJacksonAdapter())
-                    .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                    .withCredentials(credentials)
-                    .withLogLevel(LogLevel.NONE)
-                    .withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS))
-                    .withNetworkInterceptor(interceptorManager.initInterceptor())
-                    .withInterceptor(new ResourceManagerThrottlingInterceptor())
+            pipeline = buildRestClient(new HttpPipelineBuilder()
+//                    .withBaseUrl(playbackUri + "/")
+                            .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                            .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
+                            .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BODY_AND_HEADERS, true))
+                            .withHttpClient(interceptorManager.initPlaybackClient())
                     ,true);
 
             defaultSubscription = ZERO_SUBSCRIPTION;
@@ -171,17 +173,14 @@ public abstract class TestBase {
         else { // Record mode
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
             credentials = ApplicationTokenCredentials.fromFile(credFile);
-            restClient = buildRestClient(new RestClient.Builder()
-                    .withBaseUrl(this.baseUri())
-                    .withSerializerAdapter(new AzureJacksonAdapter())
-                    .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                    .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                    .withCredentials(credentials)
-                    .withLogLevel(LogLevel.NONE)
-                    .withReadTimeout(3, TimeUnit.MINUTES)
-                    .withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS))
-                    .withNetworkInterceptor(interceptorManager.initInterceptor())
-                    .withInterceptor(new ResourceManagerThrottlingInterceptor())
+            pipeline = buildRestClient(new HttpPipelineBuilder()
+                    .withRequestPolicy(new HostPolicyFactory(this.baseUri()))
+                    .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
+                    .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                    .withRequestPolicy(new TimeoutPolicyFactory(3, TimeUnit.MINUTES))
+                    .withRequestPolicy(interceptorManager.initRecordPolicy())
+                    .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
+                    .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BODY_AND_HEADERS, true))
                     ,false);
 
             defaultSubscription = credentials.defaultSubscriptionId();
@@ -190,7 +189,7 @@ public abstract class TestBase {
             interceptorManager.addTextReplacementRule(baseUri(), playbackUri + "/");
             interceptorManager.addTextReplacementRule("https://graph.windows.net/", playbackUri + "/");
         }
-        initializeClients(restClient, defaultSubscription, credentials.domain());
+        initializeClients(pipeline, defaultSubscription, credentials.domain());
     }
 
     @After
@@ -218,10 +217,10 @@ public abstract class TestBase {
         }
     }
 
-    protected RestClient buildRestClient(RestClient.Builder builder, boolean isMocked) {
+    protected HttpPipeline buildRestClient(HttpPipelineBuilder builder, boolean isMocked) {
         return builder.build();
     }
 
-    protected abstract void initializeClients(RestClient restClient, String defaultSubscription, String domain) throws IOException;
+    protected abstract void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain) throws IOException;
     protected abstract void cleanUpResources();
 }

@@ -4,12 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.collection;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.collection;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import rx.Observable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import io.reactivex.Maybe;
 
 /**
  * Provides access to getting a specific Azure resource based on its resource group and parent.
@@ -48,7 +48,7 @@ public interface SupportsGettingByParent<T, ParentT extends Resource & HasResour
      * @param name the name of resource
      * @return a representation of the deferred computation of this call returning the found resource
      */
-    Observable<T> getByParentAsync(String resourceGroup, String parentName, String name);
+    Maybe<T> getByParentAsync(String resourceGroup, String parentName, String name);
 
     /**
      * Gets the information about a resource from Azure based on the resource id.
@@ -57,5 +57,5 @@ public interface SupportsGettingByParent<T, ParentT extends Resource & HasResour
      * @param name the name of resource.
      * @return a representation of the deferred computation of this call returning the found resource
      */
-    Observable<T> getByParentAsync(ParentT parentResource, String name);
+    Maybe<T> getByParentAsync(ParentT parentResource, String name);
 }

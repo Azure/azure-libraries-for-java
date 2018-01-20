@@ -4,16 +4,16 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.implementation;
+package com.microsoft.azure.v2.management.resources.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.PolicyDefinition;
-import com.microsoft.azure.management.resources.PolicyDefinitions;
-import com.microsoft.azure.management.resources.PolicyType;
-import com.microsoft.azure.management.resources.ResourceGroups;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
-import rx.Completable;
-import rx.Observable;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.PolicyDefinition;
+import com.microsoft.azure.v2.management.resources.PolicyDefinitions;
+import com.microsoft.azure.v2.management.resources.PolicyType;
+import com.microsoft.azure.v2.management.resources.ResourceGroups;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 /**
  * The implementation for {@link ResourceGroups} and its parent interfaces.
@@ -44,7 +44,7 @@ final class PolicyDefinitionsImpl
 
     @Override
     public Completable deleteByIdAsync(String name) {
-        return client.deleteAsync(name).toCompletable();
+        return client.deleteAsync(name);
     }
 
     @Override

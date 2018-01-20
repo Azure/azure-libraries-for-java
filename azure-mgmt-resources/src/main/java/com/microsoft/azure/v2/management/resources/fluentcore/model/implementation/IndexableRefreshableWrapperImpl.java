@@ -4,13 +4,13 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.model.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.model.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import io.reactivex.Maybe;
+import io.reactivex.functions.Function;
 
 /**
  * The implementation for {@link Indexable}, {@link Refreshable}, and {@link HasInner}.
@@ -49,20 +49,20 @@ public abstract class IndexableRefreshableWrapperImpl<FluentModelT, InnerModelT>
 
     @Override
     public final FluentModelT refresh() {
-        return refreshAsync().toBlocking().last();
+        return refreshAsync().blockingGet();
     }
 
     @Override
-    public Observable<FluentModelT> refreshAsync() {
+    public Maybe<FluentModelT> refreshAsync() {
         final IndexableRefreshableWrapperImpl<FluentModelT, InnerModelT> self = this;
-        return getInnerAsync().map(new Func1<InnerModelT, FluentModelT>() {
+        return getInnerAsync().map(new Function<InnerModelT, FluentModelT>() {
             @Override
-            public FluentModelT call(InnerModelT innerModelT) {
+            public FluentModelT apply(InnerModelT innerModelT) {
                 self.setInner(innerModelT);
                 return (FluentModelT) self;
             }
         });
     }
 
-    protected abstract Observable<InnerModelT> getInnerAsync();
+    protected abstract Maybe<InnerModelT> getInnerAsync();
 }

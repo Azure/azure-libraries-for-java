@@ -4,16 +4,15 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources;
+package com.microsoft.azure.v2.management.resources;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByName;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import rx.Observable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingByName;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListing;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
 
 /**
  * Entry point to providers management API.
@@ -26,7 +25,7 @@ public interface Providers extends
      * Unregisters provider from a subscription.
      *
      * @param resourceProviderNamespace Namespace of the resource provider
-     * @return the ProviderInner object wrapped in {@link ServiceResponse} if successful
+     * @return the Provider object if successful
      */
     Provider unregister(String resourceProviderNamespace);
 
@@ -36,7 +35,7 @@ public interface Providers extends
      * @param resourceProviderNamespace Namespace of the resource provider
      * @return a representation of the deferred computation of this call returning the unregistered Provider if successful
      */
-    Observable<Provider> unregisterAsync(String resourceProviderNamespace);
+    Maybe<Provider> unregisterAsync(String resourceProviderNamespace);
 
     /**
      * Unregisters provider from a subscription asynchronously.
@@ -62,7 +61,7 @@ public interface Providers extends
      * @param resourceProviderNamespace Namespace of the resource provider
      * @return a representation of the deferred computation of this call returning the registered provider if successful
      */
-    Observable<Provider> registerAsync(String resourceProviderNamespace);
+    Maybe<Provider> registerAsync(String resourceProviderNamespace);
 
     /**
      * Registers provider to be used with a subscription asynchronously.
@@ -79,5 +78,5 @@ public interface Providers extends
      * @param name the name of the provider
      * @return a representation of the deferred computation of this call returning the found provider, if any
      */
-    Observable<Provider> getByNameAsync(String name);
+    Maybe<Provider> getByNameAsync(String name);
 }

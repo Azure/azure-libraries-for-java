@@ -6,4 +6,4 @@
  * This package contains the base classes for resource models, and their
  * variants for creating and updating scenarios.
  */
-package com.microsoft.azure.management.resources.fluentcore.model;
+package com.microsoft.azure.v2.management.resources.fluentcore.model;

@@ -4,16 +4,15 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.dag;
+package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreateUpdateTask;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreateUpdateTask;
+import io.reactivex.Maybe;
 import org.junit.Assert;
-import rx.Observable;
-import rx.Scheduler;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,9 +88,9 @@ class PancakeImpl
             System.out.println("Pancake(" + this.name() + ")::createResourceAsync() 'onNext()'");
             return Observable.just(this)
                     .delay(this.eventDelayInMilliseconds, TimeUnit.MILLISECONDS)
-                    .map(new Func1<PancakeImpl, IPancake>() {
+                    .map(new Function<PancakeImpl, IPancake>() {
                         @Override
-                        public IPancake call(PancakeImpl pancake) {
+                        public IPancake apply(PancakeImpl pancake) {
                             return pancake;
                         }
                     });
@@ -99,9 +98,9 @@ class PancakeImpl
             System.out.println("Pancake(" + this.name() + ")::createResourceAsync() 'onError()'");
             return Observable.just(this)
                     .delay(this.eventDelayInMilliseconds, TimeUnit.MILLISECONDS)
-                    .flatMap(new Func1<PancakeImpl, Observable<IPancake>>() {
+                    .flatMap(new Function<PancakeImpl, Observable<IPancake>>() {
                         @Override
-                        public Observable<IPancake> call(PancakeImpl pancake) {
+                        public Observable<IPancake> apply(PancakeImpl pancake) {
                             return toErrorObservable(errorToThrow);
                         }
                     });
@@ -114,8 +113,8 @@ class PancakeImpl
     }
 
     @Override
-    protected Observable<PancakeInner> getInnerAsync() {
-        return null;
+    protected Maybe<PancakeInner> getInnerAsync() {
+        return Maybe.empty();
     }
 
     private Observable<IPancake> toErrorObservable(Throwable throwable) {

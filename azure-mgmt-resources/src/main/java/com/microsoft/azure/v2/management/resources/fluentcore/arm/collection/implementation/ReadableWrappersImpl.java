@@ -3,14 +3,15 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.azure.management.resources.implementation.PageImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.PagedListConverter;
+import com.microsoft.azure.v2.management.resources.implementation.PageImpl;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
+import io.reactivex.internal.functions.Functions;
 
 import java.util.List;
 
@@ -81,12 +82,7 @@ public abstract class ReadableWrappersImpl<
      * @return Observable for list of inner.
      */
     public static <InnerT> Observable<InnerT> convertListToInnerAsync(Observable<List<InnerT>> innerList) {
-        return innerList.flatMap(new Func1<List<InnerT>, Observable<InnerT>>() {
-            @Override
-            public Observable<InnerT> call(List<InnerT> inners) {
-                return Observable.from(inners);
-            }
-        });
+        return innerList.flatMapIterable(Functions.<Iterable<InnerT>>identity());
     }
 
     /**
@@ -96,18 +92,18 @@ public abstract class ReadableWrappersImpl<
      * @return Observable for list of inner.
      */
     public static <InnerT> Observable<InnerT> convertPageToInnerAsync(Observable<Page<InnerT>> innerPage) {
-        return innerPage.flatMap(new Func1<Page<InnerT>, Observable<InnerT>>() {
+        return innerPage.flatMapIterable(new Function<Page<InnerT>, Iterable<InnerT>>() {
             @Override
-            public Observable<InnerT> call(Page<InnerT> pageInner) {
-                return Observable.from(pageInner.items());
+            public Iterable<InnerT> apply(Page<InnerT> pageInner) {
+                return pageInner.items();
             }
         });
     }
 
     private Observable<T> wrapModelAsync(Observable<InnerT> inner) {
-        return inner.map(new Func1<InnerT, T>() {
+        return inner.map(new Function<InnerT, T>() {
             @Override
-            public T call(InnerT inner) {
+            public T apply(InnerT inner) {
                 return wrapModel(inner);
             }
         });

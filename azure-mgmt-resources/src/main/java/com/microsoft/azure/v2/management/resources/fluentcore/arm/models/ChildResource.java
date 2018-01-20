@@ -3,10 +3,10 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.resources.fluentcore.arm.models;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.models;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 
 /**
  * Base interface used by child resources.
@@ -14,7 +14,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
  */
 @Fluent
 public interface ChildResource<ParentT> extends
-    Indexable,
+        Indexable,
     HasName,
     HasParent<ParentT> {
 }

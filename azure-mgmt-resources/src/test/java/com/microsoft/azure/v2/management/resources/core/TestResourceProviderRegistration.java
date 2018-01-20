@@ -4,7 +4,7 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.core;
+package com.microsoft.azure.v2.management.resources.core;
 
 import org.junit.Assert;
 import org.junit.Test;

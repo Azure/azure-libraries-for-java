@@ -4,14 +4,14 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
 
 /**
  * Provides access to getting a specific Azure resource based on its name and resource group.
@@ -27,7 +27,7 @@ public abstract class SupportsGettingByResourceGroupImpl<T>
             SupportsGettingById<T> {
     @Override
     public T getByResourceGroup(String resourceGroupName, String name) {
-        return this.getByResourceGroupAsync(resourceGroupName, name).toBlocking().last();
+        return this.getByResourceGroupAsync(resourceGroupName, name).blockingGet();
     }
 
     @Override
@@ -36,11 +36,12 @@ public abstract class SupportsGettingByResourceGroupImpl<T>
     }
 
     @Override
-    public Observable<T> getByIdAsync(String id) {
-        ResourceId resourceId = ResourceId.fromString(id);
-        if (resourceId == null) {
-            return null;
+    public Maybe<T> getByIdAsync(String id) {
+        if (id == null) {
+            return Maybe.empty();
         }
+
+        ResourceId resourceId = ResourceId.fromString(id);
         return this.getByResourceGroupAsync(resourceId.resourceGroupName(), resourceId.name());
     }
 }

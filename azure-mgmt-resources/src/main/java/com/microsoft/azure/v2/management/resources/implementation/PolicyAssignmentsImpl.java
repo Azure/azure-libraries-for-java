@@ -4,19 +4,20 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.implementation;
+package com.microsoft.azure.v2.management.resources.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.PolicyAssignment;
-import com.microsoft.azure.management.resources.PolicyAssignments;
-import com.microsoft.azure.management.resources.ResourceGroups;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.PolicyAssignment;
+import com.microsoft.azure.v2.management.resources.PolicyAssignments;
+import com.microsoft.azure.v2.management.resources.ResourceGroups;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * The implementation for {@link ResourceGroups} and its parent interfaces.
@@ -42,7 +43,7 @@ final class PolicyAssignmentsImpl
 
     @Override
     public Completable deleteByIdAsync(String id) {
-        return client.deleteByIdAsync(id).toCompletable();
+        return client.deleteByIdAsync(id).ignoreElement();
     }
 
     @Override
@@ -78,14 +79,14 @@ final class PolicyAssignmentsImpl
 
     @Override
     public PolicyAssignment getById(String id) {
-        return getByIdAsync(id).toBlocking().last();
+        return getByIdAsync(id).blockingGet();
     }
 
     @Override
-    public Observable<PolicyAssignment> getByIdAsync(String id) {
-        return client.getByIdAsync(id).map(new Func1<PolicyAssignmentInner, PolicyAssignment>() {
+    public Maybe<PolicyAssignment> getByIdAsync(String id) {
+        return client.getByIdAsync(id).map(new Function<PolicyAssignmentInner, PolicyAssignment>() {
             @Override
-            public PolicyAssignment call(PolicyAssignmentInner policyAssignmentInner) {
+            public PolicyAssignment apply(PolicyAssignmentInner policyAssignmentInner) {
                 return wrapModel(policyAssignmentInner);
             }
         });

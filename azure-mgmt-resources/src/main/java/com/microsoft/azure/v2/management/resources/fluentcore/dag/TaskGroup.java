@@ -4,20 +4,21 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.dag;
+package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func0;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -237,7 +238,7 @@ public class TaskGroup
      * @return an observable that emits the result of tasks in the order they finishes.
      */
     public Observable<Indexable> invokeAsync(final InvocationContext context) {
-        return Observable.defer(new Func0<Observable<Indexable>>() {
+        return Observable.defer(new Callable<Observable<Indexable>>() {
             @Override
             public Observable<Indexable> call() {
                 if (proxyTaskGroupWrapper.isActive()) {
@@ -378,7 +379,7 @@ public class TaskGroup
      * scheduled after this task.
      */
     private Observable<Indexable> invokeTaskAsync(final TaskGroupEntry<TaskItem> entry, final InvocationContext context) {
-        return Observable.defer(new Func0<Observable<Indexable>>() {
+        return Observable.defer(new Callable<Observable<Indexable>>() {
             @Override
             public Observable<Indexable> call() {
                 if (isGroupCancelled.get()) {
@@ -393,19 +394,19 @@ public class TaskGroup
                     boolean ignoreCachedResult = isRootEntry(entry) || (entry.proxy() != null && isRootEntry(entry.proxy()));
 
                     Observable<Indexable> taskObservable = entry.invokeTaskAsync(ignoreCachedResult, context);
-                    Func1<Indexable, Observable<Indexable>> onResult = new Func1<Indexable, Observable<Indexable>>() {
+                    Function<Indexable, Observable<Indexable>> onResult = new Function<Indexable, Observable<Indexable>>() {
                         @Override
-                        public Observable<Indexable> call(final Indexable taskResult) {
+                        public Observable<Indexable> apply(final Indexable taskResult) {
                             return Observable.just(taskResult);
                         }
                     };
-                    Func1<Throwable, Observable<Indexable>> onError = new Func1<Throwable, Observable<Indexable>>() {
+                    Function<Throwable, Observable<Indexable>> onError = new Function<Throwable, Observable<Indexable>>() {
                         @Override
-                        public Observable<Indexable> call(final Throwable taskError) {
+                        public Observable<Indexable> apply(final Throwable taskError) {
                             return processFaultedTaskAsync(entry, taskError, context);
                         }
                     };
-                    Func0<Observable<Indexable>> onComplete = new Func0<Observable<Indexable>>() {
+                    Callable<Observable<Indexable>> onComplete = new Callable<Observable<Indexable>>() {
                         @Override
                         public Observable<Indexable> call() {
                             return processCompletedTaskAsync(entry, context);
@@ -432,7 +433,7 @@ public class TaskGroup
      */
     private Observable<Indexable> invokeAfterPostRunAsync(final TaskGroupEntry<TaskItem> entry,
                                                           final InvocationContext context) {
-        return Observable.defer(new Func0<Observable<Indexable>>() {
+        return Observable.defer(new Callable<Observable<Indexable>>() {
             @Override
             public Observable<Indexable> call() {
                 final ProxyTaskItem proxyTaskItem = (ProxyTaskItem) entry.data();
@@ -442,13 +443,13 @@ public class TaskGroup
                 final boolean isFaulted = entry.hasFaultedDescentDependencyTasks() || isGroupCancelled.get();
 
                 Observable<Indexable> postRunObservable = proxyTaskItem.invokeAfterPostRunAsync(isFaulted).toObservable();
-                Func1<Throwable, Observable<Indexable>> onError = new Func1<Throwable, Observable<Indexable>>() {
+                Function<Throwable, Observable<Indexable>> onError = new Function<Throwable, Observable<Indexable>>() {
                     @Override
-                    public Observable<Indexable> call(final Throwable error) {
+                    public Observable<Indexable> apply(final Throwable error) {
                         return processFaultedTaskAsync(entry, error, context);
                     }
                 };
-                Func0<Observable<Indexable>> onComplete = new Func0<Observable<Indexable>>() {
+                Callable<Observable<Indexable>> onComplete = new Callable<Observable<Indexable>>() {
                     @Override
                     public Observable<Indexable> call() {
                         if (isFaulted) {
@@ -463,7 +464,15 @@ public class TaskGroup
                         }
                     }
                 };
-                return postRunObservable.flatMap(null, // no onNext call as stream is created from Completable.
+
+                Function<Indexable, Observable<Indexable>> onNext = new Function<Indexable, Observable<Indexable>>() {
+                    @Override
+                    public Observable<Indexable> apply(Indexable indexable) throws Exception {
+                        return Observable.error(new IllegalStateException("This onNext should never be called"));
+                    }
+                };
+
+                return postRunObservable.flatMap(onNext,
                         onError,
                         onComplete);
             }
@@ -510,7 +519,7 @@ public class TaskGroup
             }
             return Observable.empty();
         } else if (shouldPropagateException(throwable)) {
-            return Observable.concatDelayError(invokeReadyTasksAsync(context), toErrorObservable(throwable));
+            return Observable.concatDelayError(Arrays.asList(invokeReadyTasksAsync(context), toErrorObservable(throwable)));
         } else {
             return invokeReadyTasksAsync(context);
         }
@@ -539,7 +548,7 @@ public class TaskGroup
      * {@link this#invokeAsync(InvocationContext)} ()} method.
      *
      * @param throwable the exception to check
-     * @return true if the throwable needs to be included in the {@link rx.exceptions.CompositeException}
+     * @return true if the throwable needs to be included in the {@link io.reactivex.exceptions.CompositeException}
      * emitted by the final stream.
      */
     private static boolean shouldPropagateException(Throwable throwable) {
@@ -790,16 +799,16 @@ public class TaskGroup
         @Override
         public Completable invokeAfterPostRunAsync(final boolean isGroupFaulted) {
             if (actualTaskItem.isHot()) {
-                return Completable.defer(new Func0<Completable>() {
+                return Completable.defer(new Callable<Completable>() {
                     @Override
                     public Completable call() {
                         return actualTaskItem.invokeAfterPostRunAsync(isGroupFaulted)
-                                .subscribeOn(Schedulers.immediate());
+                                .subscribeOn(Schedulers.trampoline());
                     }
                 });
             } else {
                 return this.actualTaskItem.invokeAfterPostRunAsync(isGroupFaulted)
-                        .subscribeOn(Schedulers.immediate());
+                        .subscribeOn(Schedulers.trampoline());
             }
         }
     }

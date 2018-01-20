@@ -6,4 +6,4 @@
  * This package contains the common resource manager utility classes
  * that are useful to other management plane libraries.
  */
-package com.microsoft.azure.management.resources.fluentcore.arm;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm;

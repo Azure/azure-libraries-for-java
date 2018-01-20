@@ -4,11 +4,11 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.models;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.models;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 
 /**
  * Interface for the child resource which can be CRUDed independently from the parent resource.
@@ -18,7 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 public interface IndependentChild<ManagerT> extends
     HasName,
     HasId,
-    Indexable,
+        Indexable,
     HasResourceGroup,
     HasManager<ManagerT> {
 

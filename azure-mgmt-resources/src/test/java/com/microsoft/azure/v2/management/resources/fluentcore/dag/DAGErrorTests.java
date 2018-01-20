@@ -4,15 +4,17 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.dag;
+package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
 import com.google.common.collect.Sets;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroupTerminateOnErrorStrategy;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import org.junit.Assert;
 import org.junit.Test;
-import rx.Observable;
-import rx.exceptions.CompositeException;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.exceptions.CompositeException;
+import io.reactivex.functions.Function;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -113,23 +115,23 @@ public class DAGErrorTests {
         TaskGroup.InvocationContext context = pancakeFtg.newInvocationContext()
                 .withTerminateOnErrorStrategy(TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION);
 
-        IPancake rootPancake = pancakeFtg.invokeAsync(context).map(new Func1<Indexable, IPancake>() {
+        IPancake rootPancake = pancakeFtg.invokeAsync(context).map(new Function<Indexable, IPancake>() {
             @Override
-            public IPancake call(Indexable indexable) {
+            public IPancake apply(Indexable indexable) {
                 IPancake pancake = (IPancake) indexable;
                 System.out.println("map.onNext: " + pancake.name());
                 seen.add(pancake.name());
                 return pancake;
             }
         })
-        .onErrorResumeNext(new Func1<Throwable, Observable<IPancake>>() {
+        .onErrorResumeNext(new Function<Throwable, Observable<IPancake>>() {
             @Override
-            public Observable<IPancake> call(Throwable throwable) {
+            public Observable<IPancake> apply(Throwable throwable) {
                 System.out.println("map.onErrorResumeNext: " + throwable);
                 exceptions.add(throwable);
                 return Observable.empty();
             }
-        }).toBlocking().last();
+        }).blockingLast();
 
         Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
         Assert.assertEquals(exceptions.size(), 1);
@@ -238,23 +240,23 @@ public class DAGErrorTests {
         TaskGroup.InvocationContext context = pastaFtg.newInvocationContext()
                 .withTerminateOnErrorStrategy(TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_HITTING_LCA_TASK);
 
-        IPasta rootPasta = pastaFtg.invokeAsync(context).map(new Func1<Indexable, IPasta>() {
+        IPasta rootPasta = pastaFtg.invokeAsync(context).map(new Function<Indexable, IPasta>() {
             @Override
-            public IPasta call(Indexable indexable) {
+            public IPasta apply(Indexable indexable) {
                 IPasta pasta = (IPasta) indexable;
                 System.out.println("map.onNext: " + pasta.name());
                 seen.add(pasta.name());
                 return pasta;
             }
         })
-        .onErrorResumeNext(new Func1<Throwable, Observable<IPasta>>() {
+        .onErrorResumeNext(new Function<Throwable, Observable<IPasta>>() {
             @Override
-            public Observable<IPasta> call(Throwable throwable) {
+            public Observable<IPasta> apply(Throwable throwable) {
                 System.out.println("map.onErrorResumeNext: " + throwable);
                 exceptions.add(throwable);
                 return Observable.empty();
             }
-        }).toBlocking().last();
+        }).blockingLast();
 
         Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
         Assert.assertEquals(exceptions.size(), 1);
@@ -359,9 +361,9 @@ public class DAGErrorTests {
         TaskGroup.InvocationContext context = pancakeFtg.newInvocationContext()
                 .withTerminateOnErrorStrategy(TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION);
 
-        IPancake rootPancake = pancakeFtg.invokeAsync(context).map(new Func1<Indexable, IPancake>() {
+        IPancake rootPancake = pancakeFtg.invokeAsync(context).map(new Function<Indexable, IPancake>() {
             @Override
-            public IPancake call(Indexable indexable) {
+            public IPancake apply(Indexable indexable) {
                 IPancake pancake = (IPancake) indexable;
                 String name = pancake.name();
                 System.out.println("map.onNext:" + name);
@@ -369,14 +371,14 @@ public class DAGErrorTests {
                 return pancake;
             }
         })
-        .onErrorResumeNext(new Func1<Throwable, Observable<IPancake>>() {
+        .onErrorResumeNext(new Function<Throwable, Observable<IPancake>>() {
             @Override
-            public Observable<IPancake> call(Throwable throwable) {
+            public Observable<IPancake> apply(Throwable throwable) {
                 System.out.println("map.onErrorResumeNext:" + throwable);
                 exceptions.add(throwable);
                 return Observable.empty();
             }
-        }).toBlocking().last();
+        }).blockingLast();
 
         Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
         Assert.assertEquals(exceptions.size(), 1);
@@ -484,23 +486,23 @@ public class DAGErrorTests {
         TaskGroup.InvocationContext context = pancakeFtg.newInvocationContext()
                 .withTerminateOnErrorStrategy(TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION);
 
-        IPancake rootPancake = pancakeFtg.invokeAsync(context).map(new Func1<Indexable, IPancake>() {
+        IPancake rootPancake = pancakeFtg.invokeAsync(context).map(new Function<Indexable, IPancake>() {
             @Override
-            public IPancake call(Indexable indexable) {
+            public IPancake apply(Indexable indexable) {
                 IPancake pancake = (IPancake) indexable;
                 seen.add(pancake.name());
                 System.out.println("map.onNext:" + pancake.name());
                 return pancake;
             }
         })
-                .onErrorResumeNext(new Func1<Throwable, Observable<IPancake>>() {
+                .onErrorResumeNext(new Function<Throwable, Observable<IPancake>>() {
                     @Override
-                    public Observable<IPancake> call(Throwable throwable) {
+                    public Observable<IPancake> apply(Throwable throwable) {
                         System.out.println("map.onErrorResumeNext:" + throwable);
                         exceptions.add(throwable);
                         return Observable.empty();
                     }
-                }).toBlocking().last();
+                }).blockingLast();
 
         Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
         Assert.assertEquals(exceptions.size(), 1);

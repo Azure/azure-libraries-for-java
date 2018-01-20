@@ -4,10 +4,10 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.collection;
+package com.microsoft.azure.v2.management.resources.fluentcore.collection;
 
-import com.microsoft.rest.ServiceResponse;
-import rx.Observable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 /**
  * Provides access to delete Azure resources of a specific type in a subscription.
@@ -22,7 +22,7 @@ public interface InnerSupportsDelete<ResponseT> {
      *
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param resourceName The name of the resource within specified resource group.
-     * @return the {@link ServiceResponse} object if successful.
+     * @return the {@link Observable} object if successful.
      */
-    Observable<ResponseT> deleteAsync(String resourceGroupName, String resourceName);
+    Maybe<ResponseT> deleteAsync(String resourceGroupName, String resourceName);
 }

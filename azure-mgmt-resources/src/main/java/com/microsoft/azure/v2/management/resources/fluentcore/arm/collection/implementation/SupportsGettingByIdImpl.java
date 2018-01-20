@@ -5,11 +5,11 @@
  */
 
 
-package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
 
 /**
  * Provides access to getting a specific Azure resource based on its resource ID.
@@ -19,7 +19,7 @@ import com.microsoft.rest.ServiceFuture;
 public abstract class SupportsGettingByIdImpl<T> implements SupportsGettingById<T> {
     @Override
     public T getById(String id) {
-        return getByIdAsync(id).toBlocking().last();
+        return getByIdAsync(id).blockingGet();
     }
 
     @Override

@@ -6,4 +6,4 @@
  * This package contains the graph related classes that are useful
  * for performing cloud requests in parallel.
  */
-package com.microsoft.azure.management.resources.fluentcore.dag;
+package com.microsoft.azure.v2.management.resources.fluentcore.dag;

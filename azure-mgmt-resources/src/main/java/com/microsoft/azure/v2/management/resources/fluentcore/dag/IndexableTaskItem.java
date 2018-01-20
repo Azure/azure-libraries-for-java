@@ -4,16 +4,16 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.dag;
+package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Executable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 import java.util.Objects;
 
@@ -63,7 +63,7 @@ public abstract class IndexableTaskItem
     public static IndexableTaskItem create(final FunctionalTaskItem taskItem) {
         return new IndexableTaskItem() {
             @Override
-            protected rx.Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
+            protected io.reactivex.Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
                 FunctionalTaskItem.Context fContext = new FunctionalTaskItem.Context(this);
                 fContext.setInnerContext(context);
                 return taskItem.call(fContext);
@@ -251,9 +251,9 @@ public abstract class IndexableTaskItem
     public Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
         return this.invokeTaskAsync(context)
                 .subscribeOn(SdkContext.getRxScheduler())
-                .map(new Func1<Indexable, Indexable>() {
+                .map(new Function<Indexable, Indexable>() {
                     @Override
-                    public Indexable call(Indexable result) {
+                    public Indexable apply(Indexable result) {
                         taskResult = result;
                         return result;
                     }

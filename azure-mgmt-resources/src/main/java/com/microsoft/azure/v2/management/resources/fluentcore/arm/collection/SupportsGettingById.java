@@ -5,13 +5,13 @@
  */
 
 
-package com.microsoft.azure.management.resources.fluentcore.arm.collection;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.collection;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.apigeneration.LangDefinition.MethodConversion;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
 
 /**
  * Provides access to getting a specific Azure resource based on its resource ID.
@@ -36,7 +36,7 @@ public interface SupportsGettingById<T> {
      * @param id the id of the resource.
      * @return an immutable representation of the resource
      */
-    Observable<T> getByIdAsync(String id);
+    Maybe<T> getByIdAsync(String id);
 
     /**
      * Gets the information about a resource from Azure based on the resource id.

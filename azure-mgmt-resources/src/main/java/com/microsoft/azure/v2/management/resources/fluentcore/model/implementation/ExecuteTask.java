@@ -4,16 +4,16 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.model.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.model.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskItem;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskItem;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 /**
  * A {@link TaskItem} type, when invoked it execute a work using the {@link Executor}
@@ -59,14 +59,14 @@ public class ExecuteTask<ResultT extends Indexable> implements TaskItem {
     public Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
         return this.executor.executeWorkAsync()
                 .subscribeOn(SdkContext.getRxScheduler())
-                .doOnNext(new Action1<ResultT>() {
+                .doOnNext(new Consumer<ResultT>() {
                     @Override
-                    public void call(ResultT resultT) {
+                    public void accept(ResultT resultT) {
                         result = resultT;
                     }
-                }).map(new Func1<ResultT, Indexable>() {
+                }).map(new Function<ResultT, Indexable>() {
                     @Override
-                    public Indexable call(ResultT resourceT) {
+                    public Indexable apply(ResultT resourceT) {
                         return resourceT;
                     }
                 });

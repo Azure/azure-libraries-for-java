@@ -4,28 +4,27 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.implementation;
+package com.microsoft.azure.v2.management.resources.implementation;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.azure.management.resources.Deployments;
-import com.microsoft.azure.management.resources.Features;
-import com.microsoft.azure.management.resources.GenericResources;
-import com.microsoft.azure.management.resources.PolicyAssignments;
-import com.microsoft.azure.management.resources.PolicyDefinitions;
-import com.microsoft.azure.management.resources.Providers;
-import com.microsoft.azure.management.resources.ResourceGroups;
-import com.microsoft.azure.management.resources.Subscriptions;
-import com.microsoft.azure.management.resources.Tenants;
-import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
+import com.microsoft.azure.v2.management.resources.Deployments;
+import com.microsoft.azure.v2.management.resources.Features;
+import com.microsoft.azure.v2.management.resources.GenericResources;
+import com.microsoft.azure.v2.management.resources.PolicyAssignments;
+import com.microsoft.azure.v2.management.resources.PolicyDefinitions;
+import com.microsoft.azure.v2.management.resources.Providers;
+import com.microsoft.azure.v2.management.resources.ResourceGroups;
+import com.microsoft.azure.v2.management.resources.Subscriptions;
+import com.microsoft.azure.v2.management.resources.Tenants;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.AzureConfigurable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.ManagerBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import com.microsoft.rest.v2.http.HttpPipelineBuilder;
+import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
 
 /**
  * Entry point to Azure resource management.
@@ -51,24 +50,21 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
      * @return the ResourceManager instance
      */
     public static ResourceManager.Authenticated authenticate(AzureTokenCredentials credentials) {
-        return new AuthenticatedImpl(new RestClient.Builder()
-                .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withCredentials(credentials)
-                .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                .withInterceptor(new ResourceManagerThrottlingInterceptor())
+        return new AuthenticatedImpl(new HttpPipelineBuilder()
+                .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
+                .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                 .build());
     }
 
     /**
      * Creates an instance of ResourceManager that exposes resource management API entry points.
      *
-     * @param restClient the RestClient to be used for API calls
+     * @param pipeline the HTTP pipeline to be used for API calls
      * @return the interface exposing resource management API entry points that work across subscriptions
      */
-    public static ResourceManager.Authenticated authenticate(RestClient restClient) {
-        return new AuthenticatedImpl(restClient);
+    public static ResourceManager.Authenticated authenticate(HttpPipeline pipeline) {
+        return new AuthenticatedImpl(pipeline);
     }
 
     /**
@@ -76,7 +72,7 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
      *
      * @return the instance allowing configurations
      */
-    public static Configurable configure() {
+    public static ConfigurableImpl configure() {
         return new ResourceManager.ConfigurableImpl();
     }
 
@@ -98,7 +94,7 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
      */
     private static class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
         public ResourceManager.Authenticated authenticate(AzureTokenCredentials credentials) {
-            return ResourceManager.authenticate(buildRestClient(credentials));
+            return ResourceManager.authenticate(buildPipeline(credentials));
         }
     }
 
@@ -129,15 +125,15 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
      * The implementation for Authenticated interface.
      */
     private static final class AuthenticatedImpl implements Authenticated {
-        private RestClient restClient;
+        private HttpPipeline pipeline;
         private SubscriptionClientImpl subscriptionClient;
         // The subscription less collections
         private Subscriptions subscriptions;
         private Tenants tenants;
 
-        AuthenticatedImpl(RestClient restClient) {
-            this.restClient = restClient;
-            this.subscriptionClient = new SubscriptionClientImpl(restClient);
+        AuthenticatedImpl(HttpPipeline pipeline) {
+            this.pipeline = pipeline;
+            this.subscriptionClient = new SubscriptionClientImpl(pipeline);
         }
 
         public Subscriptions subscriptions() {
@@ -156,18 +152,18 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
 
         @Override
         public ResourceManager withSubscription(String subscriptionId) {
-           return new ResourceManager(restClient, subscriptionId);
+           return new ResourceManager(pipeline, subscriptionId);
         }
     }
 
-    private ResourceManager(RestClient restClient, String subscriptionId) {
+    private ResourceManager(HttpPipeline pipeline, String subscriptionId) {
         super(null, subscriptionId);
         super.setResourceManager(this);
-        this.resourceManagementClient = new ResourceManagementClientImpl(restClient);
+        this.resourceManagementClient = new ResourceManagementClientImpl(pipeline);
         this.resourceManagementClient.withSubscriptionId(subscriptionId);
-        this.featureClient = new FeatureClientImpl(restClient);
+        this.featureClient = new FeatureClientImpl(pipeline);
         this.featureClient.withSubscriptionId(subscriptionId);
-        this.policyClient = new PolicyClientImpl(restClient);
+        this.policyClient = new PolicyClientImpl(pipeline);
         this.policyClient.withSubscriptionId(subscriptionId);
     }
 

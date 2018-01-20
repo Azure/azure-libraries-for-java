@@ -4,15 +4,15 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.implementation;
+package com.microsoft.azure.v2.management.resources.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.Tenant;
-import com.microsoft.azure.management.resources.Tenants;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.Tenant;
+import com.microsoft.azure.v2.management.resources.Tenants;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.PagedListConverter;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * Implementation for {@link Tenants}.
@@ -38,9 +38,9 @@ final class TenantsImpl
 
     @Override
     public Observable<Tenant> listAsync() {
-        return ReadableWrappersImpl.convertPageToInnerAsync(client.listAsync()).map(new Func1<TenantIdDescriptionInner, Tenant>() {
+        return ReadableWrappersImpl.convertPageToInnerAsync(client.listAsync()).map(new Function<TenantIdDescriptionInner, Tenant>() {
             @Override
-            public Tenant call(TenantIdDescriptionInner tenantIdDescriptionInners) {
+            public Tenant apply(TenantIdDescriptionInner tenantIdDescriptionInners) {
                 return new TenantImpl(tenantIdDescriptionInners);
             }
         });

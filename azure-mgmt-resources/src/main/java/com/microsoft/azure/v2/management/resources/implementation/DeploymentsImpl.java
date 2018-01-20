@@ -4,23 +4,24 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.implementation;
+package com.microsoft.azure.v2.management.resources.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.Deployment;
-import com.microsoft.azure.management.resources.Deployments;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.SupportsGettingByResourceGroupImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.Deployment;
+import com.microsoft.azure.v2.management.resources.Deployments;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.SupportsGettingByResourceGroupImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.PagedListConverter;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 import java.util.List;
 
@@ -73,10 +74,10 @@ final class DeploymentsImpl
     }
 
     @Override
-    public Observable<Deployment> getByResourceGroupAsync(String groupName, String name) {
-        return this.manager().inner().deployments().getByResourceGroupAsync(groupName, name).map(new Func1<DeploymentExtendedInner, Deployment>() {
+    public Maybe<Deployment> getByResourceGroupAsync(String groupName, String name) {
+        return this.manager().inner().deployments().getByResourceGroupAsync(groupName, name).map(new Function<DeploymentExtendedInner, Deployment>() {
             @Override
-            public Deployment call(DeploymentExtendedInner deploymentExtendedInner) {
+            public Deployment apply(DeploymentExtendedInner deploymentExtendedInner) {
                 return createFluentModel(deploymentExtendedInner);
             }
         });
@@ -84,7 +85,7 @@ final class DeploymentsImpl
 
     @Override
     public void deleteByResourceGroup(String groupName, String name) {
-        deleteByResourceGroupAsync(groupName, name).await();
+        deleteByResourceGroupAsync(groupName, name).blockingAwait();
     }
 
     @Override
@@ -94,7 +95,7 @@ final class DeploymentsImpl
 
     @Override
     public Completable deleteByResourceGroupAsync(String groupName, String name) {
-        return this.manager().inner().deployments().deleteAsync(groupName, name).toCompletable();
+        return this.manager().inner().deployments().deleteAsync(groupName, name).ignoreElement();
     }
 
     @Override
@@ -126,7 +127,7 @@ final class DeploymentsImpl
 
     @Override
     public void deleteById(String id) {
-        deleteByIdAsync(id).await();
+        deleteByIdAsync(id).blockingAwait();
     }
 
     @Override
@@ -146,9 +147,9 @@ final class DeploymentsImpl
 
     @Override
     public Observable<Deployment> listAsync() {
-        return this.manager().resourceGroups().listAsync().flatMap(new Func1<ResourceGroup, Observable<Deployment>>() {
+        return this.manager().resourceGroups().listAsync().flatMap(new Function<ResourceGroup, Observable<Deployment>>() {
             @Override
-            public Observable<Deployment> call(ResourceGroup resourceGroup) {
+            public Observable<Deployment> apply(ResourceGroup resourceGroup) {
                 return listByResourceGroupAsync(resourceGroup.name());
             }
         });
@@ -159,9 +160,9 @@ final class DeploymentsImpl
     public Observable<Deployment> listByResourceGroupAsync(String resourceGroupName) {
         final DeploymentsInner client = this.manager().inner().deployments();
         return ReadableWrappersImpl.convertPageToInnerAsync(client.listByResourceGroupAsync(resourceGroupName))
-                .map(new Func1<DeploymentExtendedInner, Deployment>() {
+                .map(new Function<DeploymentExtendedInner, Deployment>() {
                     @Override
-                    public Deployment call(DeploymentExtendedInner deploymentExtendedInner) {
+                    public Deployment apply(DeploymentExtendedInner deploymentExtendedInner) {
                         return createFluentModel(deploymentExtendedInner);
                     }
         });

@@ -4,10 +4,10 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.implementation;
+package com.microsoft.azure.v2.management.resources.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
-import com.microsoft.azure.management.resources.Tenant;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
+import com.microsoft.azure.v2.management.resources.Tenant;
 
 /**
  * Implementation for {@link Tenant}.

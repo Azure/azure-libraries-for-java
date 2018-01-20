@@ -4,14 +4,15 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.implementation;
+package com.microsoft.azure.v2.management.resources.implementation;
 
-import com.microsoft.azure.management.resources.GenericResource;
-import com.microsoft.azure.management.resources.PolicyAssignment;
-import com.microsoft.azure.management.resources.PolicyDefinition;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableImpl;
-import rx.Observable;
+import com.microsoft.azure.v2.management.resources.GenericResource;
+import com.microsoft.azure.v2.management.resources.PolicyAssignment;
+import com.microsoft.azure.v2.management.resources.PolicyDefinition;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableImpl;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 /**
  * Implementation for {@link PolicyAssignment}.
@@ -91,7 +92,8 @@ final class PolicyAssignmentImpl extends
     @Override
     public Observable<PolicyAssignment> createResourceAsync() {
         return innerCollection.createAsync(inner().scope(), name(), inner())
-                .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .toObservable();
     }
 
     @Override
@@ -100,7 +102,7 @@ final class PolicyAssignmentImpl extends
     }
 
     @Override
-    protected Observable<PolicyAssignmentInner> getInnerAsync() {
+    protected Maybe<PolicyAssignmentInner> getInnerAsync() {
         return innerCollection.getAsync(inner().scope(), name());
     }
 }

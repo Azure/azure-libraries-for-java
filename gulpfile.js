@@ -110,7 +110,7 @@ var codegen = function(project, cb) {
 
     const generatorPath = args['autorest-java']
         ? `--use=${path.resolve(args['autorest-java'])} `
-        : '';
+        : '--use=https://github.com/Azure/autorest.java/releases/download/v2.0.8/microsoft.azure-autorest.java-2.0.8.tgz';
 
     const regenManager = args['regenerate-manager'] ? ' --regenerate-manager=true ' : '';
 

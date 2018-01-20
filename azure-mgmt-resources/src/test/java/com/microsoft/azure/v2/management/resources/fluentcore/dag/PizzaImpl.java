@@ -4,14 +4,15 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.dag;
+package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreateUpdateTask;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreateUpdateTask;
+import io.reactivex.Maybe;
 import org.junit.Assert;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,9 +75,9 @@ class PizzaImpl
         System.out.println("Pizza(" + this.name() + ")::createResourceAsync()");
         return Observable.just(this)
                 .delay(250, TimeUnit.MILLISECONDS)
-                .map(new Func1<PizzaImpl, IPizza>() {
+                .map(new Function<PizzaImpl, IPizza>() {
                     @Override
-                    public IPizza call(PizzaImpl pizza) {
+                    public IPizza apply(PizzaImpl pizza) {
                         return pizza;
                     }
                 });
@@ -88,7 +89,7 @@ class PizzaImpl
     }
 
     @Override
-    protected Observable<PizzaInner> getInnerAsync() {
-        return Observable.just(this.inner());
+    protected Maybe<PizzaInner> getInnerAsync() {
+        return Maybe.just(this.inner());
     }
 }

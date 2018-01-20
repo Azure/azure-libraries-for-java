@@ -4,9 +4,9 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.model.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.model.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 
 import java.util.UUID;
 

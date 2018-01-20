@@ -4,10 +4,10 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm;
 
-import com.microsoft.azure.management.resources.Provider;
-import com.microsoft.azure.management.resources.ProviderResourceType;
+import com.microsoft.azure.v2.management.resources.Provider;
+import com.microsoft.azure.v2.management.resources.ProviderResourceType;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

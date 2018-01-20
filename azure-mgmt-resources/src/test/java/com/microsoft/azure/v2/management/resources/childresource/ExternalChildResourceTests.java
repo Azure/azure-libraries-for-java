@@ -4,15 +4,14 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.childresource;
+package com.microsoft.azure.v2.management.resources.childresource;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import io.reactivex.disposables.Disposable;
 import org.junit.Assert;
 import org.junit.Test;
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.exceptions.CompositeException;
+import io.reactivex.Observer;
+import io.reactivex.exceptions.CompositeException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,21 +34,25 @@ public class ExternalChildResourceTests {
         // In the unit test cases we call it directly as we testing external child resource here.
         //
         pullets.commitAsync()
-                .subscribe(new Subscriber<PulletImpl>() {
+                .subscribe(new Observer<PulletImpl>() {
                     @Override
-                    public void onCompleted() {
+                    public void onSubscribe(Disposable disposable) {
+                    }
+
+                    @Override
+                    public void onComplete() {
                         monitor.countDown();
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
                         monitor.countDown();
-                        Assert.assertTrue("nothing to commit onError should not be invoked", false);
+                        Assert.fail("nothing to commit onError should not be invoked");
                     }
 
                     @Override
                     public void onNext(PulletImpl pullet) {
-                        Assert.assertTrue("nothing to commit onNext should not be invoked", false);
+                        Assert.fail("nothing to commit onNext should not be invoked");
                     }
                 });
         monitor.await();
@@ -72,26 +75,33 @@ public class ExternalChildResourceTests {
 
         PulletsImpl pullets = chicken.pullets();
         pullets.commitAsync().subscribe(new Observer<PulletImpl>() {
-                    @Override
-                    public void onCompleted() {
-                        monitor.countDown();
-                    }
 
-                    @Override
-                    public void onError(Throwable throwable) {
-                        monitor.countDown();
-                        Assert.assertTrue("onError should not be invoked", false);
-                    }
+            @Override
+            public void onSubscribe(Disposable d) {
 
-                    @Override
-                    public void onNext(PulletImpl pullet) {
-                        changedPuppets.add(pullet);
-                    }
-                });
+            }
+
+            @Override
+            public void onNext(PulletImpl pullet) {
+                changedPuppets.add(pullet);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                monitor.countDown();
+                Assert.fail("onError should not be invoked");
+            }
+
+            @Override
+            public void onComplete() {
+                monitor.countDown();
+            }
+        });
+
         monitor.await();
-        Assert.assertTrue(changedPuppets.size() == 3);
+        Assert.assertEquals(2, changedPuppets.size());
         for (PulletImpl pullet : changedPuppets) {
-            Assert.assertTrue(pullet.pendingOperation() == ExternalChildResourceImpl.PendingOperation.None);
+            Assert.assertEquals(ExternalChildResourceImpl.PendingOperation.None, pullet.pendingOperation());
         }
     }
 
@@ -117,11 +127,14 @@ public class ExternalChildResourceTests {
         final CountDownLatch monitor = new CountDownLatch(1);
         PulletsImpl pullets = chicken.pullets();
         pullets.commitAsync()
-                .subscribe(new Observer<PulletImpl>() {
+                .blockingSubscribe(new Observer<PulletImpl>() {
                     @Override
-                    public void onCompleted() {
-                        monitor.countDown();
-                        Assert.assertTrue("onCompleted should not be invoked", false);
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(PulletImpl pullet) {
+                        changedPuppets.add(pullet);
                     }
 
                     @Override
@@ -138,21 +151,21 @@ public class ExternalChildResourceTests {
                     }
 
                     @Override
-                    public void onNext(PulletImpl pullet) {
-                        changedPuppets.add(pullet);
+                    public void onComplete() {
+                        monitor.countDown();
+                        Assert.fail("onCompleted should not be invoked");
                     }
                 });
 
         monitor.await();
-        Assert.assertTrue(throwables.size() == 2);
-        Assert.assertTrue(changedPuppets.size() == 2);
+        Assert.assertEquals(2, throwables.size());
+        Assert.assertEquals(1, changedPuppets.size());
     }
 
     @Test
     public void canStreamAccumulatedResult() throws InterruptedException {
         ChickenImpl chicken = new ChickenImpl();
-        chicken
-                .defineNewPullet("alice")
+        chicken.defineNewPullet("alice")
                 .withAge(1)
                 .attach()
                 .updatePullet("Clover")
@@ -161,25 +174,7 @@ public class ExternalChildResourceTests {
                 .withoutPullet("Pinky");
 
         PulletsImpl pullets = chicken.pullets();
-        final CountDownLatch monitor = new CountDownLatch(1);
-        pullets.commitAndGetAllAsync()
-                .subscribe(new Subscriber<List<PulletImpl>>() {
-                    @Override
-                    public void onCompleted() {
-                        monitor.countDown();
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        monitor.countDown();
-                        Assert.assertTrue("onError should not be invoked", false);
-                    }
-
-                    @Override
-                    public void onNext(List<PulletImpl> pullets) {
-                        Assert.assertTrue(pullets.size() == 3);
-                    }
-                });
-        monitor.await();
+        List<PulletImpl> result = pullets.commitAndGetAllAsync().blockingGet();
+        Assert.assertEquals(2, result.size());
     }
 }

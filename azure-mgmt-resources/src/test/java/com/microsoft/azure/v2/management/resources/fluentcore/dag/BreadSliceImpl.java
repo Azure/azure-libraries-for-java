@@ -4,13 +4,13 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.dag;
+package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Executable;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.ExecutableImpl;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,9 +29,9 @@ public class BreadSliceImpl extends ExecutableImpl<IBreadSlice> implements IBrea
         System.out.println("Bread("+ this.name +")::executeWorkAsync() [Getting slice from store]");
         return Observable.just(this)
                 .delay(250, TimeUnit.MILLISECONDS)
-                .map(new Func1<BreadSliceImpl, IBreadSlice>() {
+                .map(new Function<BreadSliceImpl, IBreadSlice>() {
                     @Override
-                    public IBreadSlice call(BreadSliceImpl breadSlice) {
+                    public IBreadSlice apply(BreadSliceImpl breadSlice) {
                         return breadSlice;
                     }
                 });

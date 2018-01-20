@@ -4,18 +4,20 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceCallback;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsBatchCreation;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.CreatedResources;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.ServiceCallback;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.functions.Function;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,24 +37,22 @@ import java.util.Map;
 public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends T, InnerT>
         extends CreatableWrappersImpl<T, ImplT, InnerT>
         implements
-            SupportsBatchCreation<T> {
+        SupportsBatchCreation<T> {
 
     protected CreatableResourcesImpl() {
     }
 
     @Override
     @SafeVarargs
-    public final CreatedResources<T> create(Creatable<T> ... creatables) {
+    public final CreatedResources<T> create(Creatable<T>... creatables) {
         return createAsyncNonStream(creatables)
-                .toBlocking()
-                .single();
+                .blockingGet();
     }
 
     @Override
     public final CreatedResources<T> create(List<Creatable<T>> creatables) {
         return createAsyncNonStream(creatables)
-                .toBlocking()
-                .single();
+                .blockingGet();
     }
 
     @Override
@@ -82,22 +82,22 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
     }
 
 
-    private Observable<CreatedResources<T>> createAsyncNonStream(List<Creatable<T>> creatables) {
+    private Single<CreatedResources<T>> createAsyncNonStream(List<Creatable<T>> creatables) {
         return Utils.<CreatableUpdatableResourcesRoot<T>>rootResource(this.createAsync(creatables))
-                .map(new Func1<CreatableUpdatableResourcesRoot<T>, CreatedResources<T>>() {
+                .map(new Function<CreatableUpdatableResourcesRoot<T>, CreatedResources<T>>() {
                     @Override
-                    public CreatedResources<T> call(CreatableUpdatableResourcesRoot<T> tCreatableUpdatableResourcesRoot) {
+                    public CreatedResources<T> apply(CreatableUpdatableResourcesRoot<T> tCreatableUpdatableResourcesRoot) {
                         return new CreatedResourcesImpl<>(tCreatableUpdatableResourcesRoot);
                     }
                 });
     }
 
     @SuppressWarnings("unchecked")
-    private Observable<CreatedResources<T>> createAsyncNonStream(Creatable<T>... creatables) {
+    private Single<CreatedResources<T>> createAsyncNonStream(Creatable<T>... creatables) {
         return Utils.<CreatableUpdatableResourcesRoot<T>>rootResource(this.createAsync(creatables))
-                .map(new Func1<CreatableUpdatableResourcesRoot<T>, CreatedResources<T>>() {
+                .map(new Function<CreatableUpdatableResourcesRoot<T>, CreatedResources<T>>() {
                     @Override
-                    public CreatedResources<T> call(CreatableUpdatableResourcesRoot<T> tCreatableUpdatableResourcesRoot) {
+                    public CreatedResources<T> apply(CreatableUpdatableResourcesRoot<T> tCreatableUpdatableResourcesRoot) {
                         return new CreatedResourcesImpl<>(tCreatableUpdatableResourcesRoot);
                     }
                 });
@@ -218,12 +218,9 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
             return true;
         }
 
-        // Below overrides returns null as this is not a real resource in Azure
-        // but a dummy resource representing parent of a batch of creatable Azure
-        // resources.
         @Override
-        protected Observable<Object> getInnerAsync() {
-            return null;
+        protected Maybe<Object> getInnerAsync() {
+            return Maybe.empty();
         }
     }
 }

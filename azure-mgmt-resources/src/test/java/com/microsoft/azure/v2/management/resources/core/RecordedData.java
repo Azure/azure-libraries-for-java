@@ -4,14 +4,13 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.core;
+package com.microsoft.azure.v2.management.resources.core;
 
 import java.util.LinkedList;
 
 public class RecordedData {
-    private LinkedList<NetworkCallRecord> networkCallRecords;
-
-    private LinkedList<String> variables;
+    private final LinkedList<NetworkCallRecord> networkCallRecords;
+    private final LinkedList<String> variables;
 
     public RecordedData() {
         networkCallRecords = new LinkedList<>();

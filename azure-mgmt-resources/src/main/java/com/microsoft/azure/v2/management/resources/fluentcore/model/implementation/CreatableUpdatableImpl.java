@@ -4,22 +4,22 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.model.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.model.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Executable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceCallback;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.FunctionalTaskItem;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.ServiceCallback;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 import java.util.Objects;
 
@@ -220,10 +220,11 @@ public abstract class CreatableUpdatableImpl<
     @Override
     public Observable<FluentModelT> applyAsync() {
         return taskGroup.invokeAsync(this.taskGroup.newInvocationContext())
-                .last()
-                .map(new Func1<Indexable, FluentModelT>() {
+                .lastOrError()
+                .toObservable()
+                .map(new Function<Indexable, FluentModelT>() {
                     @Override
-                    public FluentModelT call(Indexable indexable) {
+                    public FluentModelT apply(Indexable indexable) {
                         return (FluentModelT) indexable;
                     }
                 });
@@ -238,22 +239,22 @@ public abstract class CreatableUpdatableImpl<
 
     @Override
     public ServiceFuture<FluentModelT> createAsync(final ServiceCallback<FluentModelT> callback) {
-        return ServiceFuture.fromBody(Utils.<FluentModelT>rootResource(createAsync()), callback);
+        return ServiceFuture.fromBody(Utils.<FluentModelT>rootResource(createAsync()).toMaybe(), callback);
     }
 
     @Override
     public ServiceFuture<FluentModelT> applyAsync(ServiceCallback<FluentModelT> callback) {
-        return ServiceFuture.fromBody(applyAsync(), callback);
+        return ServiceFuture.fromBody(applyAsync().lastElement(), callback);
     }
 
     @Override
     public FluentModelT create() {
-        return Utils.<FluentModelT>rootResource(createAsync()).toBlocking().single();
+        return Utils.<FluentModelT>rootResource(createAsync()).blockingGet();
     }
 
     @Override
     public FluentModelT apply() {
-        return applyAsync().toBlocking().last();
+        return applyAsync().blockingLast();
     }
 
     /**
@@ -290,10 +291,10 @@ public abstract class CreatableUpdatableImpl<
     }
 
     @SuppressWarnings("unchecked")
-    protected Func1<InnerModelT, FluentModelT> innerToFluentMap(final FluentModelImplT fluentModelImplT) {
-        return new Func1<InnerModelT, FluentModelT>() {
+    protected Function<InnerModelT, FluentModelT> innerToFluentMap(final FluentModelImplT fluentModelImplT) {
+        return new Function<InnerModelT, FluentModelT>() {
             @Override
-            public FluentModelT call(InnerModelT innerModel) {
+            public FluentModelT apply(InnerModelT innerModel) {
                 fluentModelImplT.setInner(innerModel);
                 return (FluentModelT) fluentModelImplT;
             }

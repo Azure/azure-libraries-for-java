@@ -4,19 +4,19 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources;
+package com.microsoft.azure.v2.management.resources;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import com.microsoft.azure.management.resources.implementation.PageImpl;
-import com.microsoft.azure.management.resources.implementation.ResourceGroupInner;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
+import com.microsoft.azure.v2.management.resources.implementation.PageImpl;
+import com.microsoft.azure.v2.management.resources.implementation.ResourceGroupInner;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
 import org.junit.Assert;
 import org.junit.Test;
-import rx.Observable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -160,8 +160,8 @@ public class GroupPagedListTests {
             }
 
             @Override
-            public Observable<ResourceGroupExportResult> exportTemplateAsync(ResourceGroupExportTemplateOptions options) {
-                return null;
+            public Maybe<ResourceGroupExportResult> exportTemplateAsync(ResourceGroupExportTemplateOptions options) {
+                return Maybe.empty();
             }
 
             @Override
@@ -176,12 +176,12 @@ public class GroupPagedListTests {
 
             @Override
             public ResourceGroup refresh() {
-                return refreshAsync().toBlocking().last();
+                return refreshAsync().blockingGet();
             }
 
             @Override
-            public Observable<ResourceGroup> refreshAsync() {
-                return Observable.just(null);
+            public Maybe<ResourceGroup> refreshAsync() {
+                return Maybe.empty();
             }
 
             @Override

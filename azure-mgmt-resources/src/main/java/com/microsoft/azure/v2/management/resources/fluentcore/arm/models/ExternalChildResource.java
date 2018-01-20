@@ -3,9 +3,9 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.resources.fluentcore.arm.models;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.models;
 
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 
 /**
  * Represents an external child resource.

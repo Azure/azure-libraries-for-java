@@ -4,21 +4,22 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.implementation;
+package com.microsoft.azure.v2.management.resources.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.GenericResource;
-import com.microsoft.azure.management.resources.GenericResources;
-import com.microsoft.azure.management.resources.Provider;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.GenericResource;
+import com.microsoft.azure.v2.management.resources.GenericResources;
+import com.microsoft.azure.v2.management.resources.Provider;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 import java.util.List;
 
@@ -81,7 +82,7 @@ final class GenericResourcesImpl
 
     @Override
     public boolean checkExistenceById(String id) {
-        String apiVersion = getApiVersionFromId(id).toBlocking().single();
+        String apiVersion = getApiVersionFromId(id).blockingGet();
         return this.inner().checkExistenceById(id, apiVersion);
     }
 
@@ -145,7 +146,7 @@ final class GenericResourcesImpl
 
     @Override
     public void moveResources(String sourceResourceGroupName, ResourceGroup targetResourceGroup, List<String> resources) {
-        this.moveResourcesAsync(sourceResourceGroupName, targetResourceGroup, resources).await();
+        this.moveResourcesAsync(sourceResourceGroupName, targetResourceGroup, resources).blockingAwait();
     }
 
     @Override
@@ -153,7 +154,7 @@ final class GenericResourcesImpl
         ResourcesMoveInfoInner moveInfo = new ResourcesMoveInfoInner();
         moveInfo.withTargetResourceGroup(targetResourceGroup.id());
         moveInfo.withResources(resources);
-        return this.inner().moveResourcesAsync(sourceResourceGroupName, moveInfo).toCompletable();
+        return this.inner().moveResourcesAsync(sourceResourceGroupName, moveInfo);
     }
 
     @Override
@@ -163,12 +164,12 @@ final class GenericResourcesImpl
 
     @Override
     public void delete(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
-        deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion).await();
+        deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion).blockingAwait();
     }
 
     @Override
     public Completable deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
-        return this.inner().deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion).toCompletable();
+        return this.inner().deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion);
     }
 
     @Override
@@ -198,7 +199,7 @@ final class GenericResourcesImpl
     }
 
     @Override
-    public Observable<GenericResourceInner> getInnerAsync(String groupName, String name) {
+    public Maybe<GenericResourceInner> getInnerAsync(String groupName, String name) {
         // Not needed, can't be supported, provided only to satisfy GroupableResourceImpl's requirements
         throw new UnsupportedOperationException("Get just by resource group and name is not supported. Please use other overloads.");
     }
@@ -213,19 +214,19 @@ final class GenericResourcesImpl
     public Completable deleteByIdAsync(final String id) {
        final ResourcesInner inner = this.inner();
         return getApiVersionFromId(id)
-                .flatMap(new Func1<String, Observable<Void>>() {
+                .flatMapCompletable(new Function<String, Completable>() {
                     @Override
-                    public Observable<Void> call(String apiVersion) {
+                    public Completable apply(String apiVersion) {
                         return inner.deleteByIdAsync(id, apiVersion);
                     }
-                }).toCompletable();
+                });
     }
 
-    private Observable<String> getApiVersionFromId(final String id) {
+    private Maybe<String> getApiVersionFromId(final String id) {
         return this.manager().providers().getByNameAsync(ResourceUtils.resourceProviderFromResourceId(id))
-                .map(new Func1<Provider, String>() {
+                .map(new Function<Provider, String>() {
                     @Override
-                    public String call(Provider provider) {
+                    public String apply(Provider provider) {
                         return ResourceUtils.defaultApiVersion(id, provider);
                     }
                 });

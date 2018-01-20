@@ -4,7 +4,7 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.model;
+package com.microsoft.azure.v2.management.resources.fluentcore.model;
 
 /**
  * The wrapper around an inner object providing extended functionalities.

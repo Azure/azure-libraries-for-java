@@ -4,13 +4,13 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.collection;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.collection;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.apigeneration.LangDefinition.MethodConversion;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
 
 /**
  * Provides access to getting a specific Azure resource based on its name and resource group.
@@ -37,7 +37,7 @@ public interface SupportsGettingByResourceGroup<T> {
      * @param name the name of the resource. (Note, this is not the ID)
      * @return Observable to an immutable representation of the resource
      */
-    Observable<T> getByResourceGroupAsync(String resourceGroupName, String name);
+    Maybe<T> getByResourceGroupAsync(String resourceGroupName, String name);
 
     /**
      * Gets the information about a resource from Azure based on the resource name and the name of its resource group.

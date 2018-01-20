@@ -4,10 +4,10 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.childresource;
+package com.microsoft.azure.v2.management.resources.childresource;
 
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 class ChickenImpl {
     private PulletsImpl pullets;
@@ -41,8 +41,8 @@ class ChickenImpl {
     Observable<ChickenImpl> applyAsync() {
         final ChickenImpl self = this;
         return this.pullets.commitAsync()
-                .map(new Func1<PulletImpl, ChickenImpl>() {
-                    public ChickenImpl call(PulletImpl p) {
+                .map(new Function<PulletImpl, ChickenImpl>() {
+                    public ChickenImpl apply(PulletImpl p) {
                         return self;
                     }
                 });

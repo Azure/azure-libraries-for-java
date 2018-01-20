@@ -4,7 +4,7 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.dag;
+package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
 /**
  * Defines task group termination strategies to be used once a task error-ed.
@@ -12,7 +12,7 @@ package com.microsoft.azure.management.resources.fluentcore.dag;
 public enum TaskGroupTerminateOnErrorStrategy {
     /**
      * Indicate that on task error, allows for any currently executing tasks to finish and emit
-     * onError terminal event with {@link rx.exceptions.CompositeException}.
+     * onError terminal event with {@link io.reactivex.exceptions.CompositeException}.
      * Acronym: IPTC
      */
     TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION,
@@ -20,7 +20,7 @@ public enum TaskGroupTerminateOnErrorStrategy {
      * Indicate that on task error, allows any other tasks those are not directly or indirectly
      * depends on the error-ed task to execute, once a LCA (lowest common ancestor) task is hit
      * (at that point any progress cannot be made) emit onError terminal event with
-     * {@link rx.exceptions.CompositeException}.
+     * {@link io.reactivex.exceptions.CompositeException}.
      * Acronym: HLT
      */
     TERMINATE_ON_HITTING_LCA_TASK

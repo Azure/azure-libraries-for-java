@@ -4,16 +4,16 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.dag;
+package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
 import com.google.common.collect.Sets;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import io.reactivex.functions.Consumer;
 import org.junit.Assert;
 import org.junit.Test;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,9 +52,9 @@ public class ProxyTaskGroupTests {
         // Invocation of group should invoke all the tasks
         //
         group.invokeAsync(group.newInvocationContext())
-                .subscribe(new Action1<Indexable>() {
+                .subscribe(new Consumer<Indexable>() {
                     @Override
-                    public void call(Indexable value) {
+                    public void accept(Indexable value) {
                         StringIndexable stringIndexable = toStringIndexable(value);
                         Assert.assertTrue(groupItems.contains(stringIndexable.str()));
                         groupItems.remove(stringIndexable.str());
@@ -179,9 +179,9 @@ public class ProxyTaskGroupTests {
         // Invocation of group-1 should not invoke group-2
         //
         group1.invokeAsync(group1.newInvocationContext())
-                .subscribe(new Action1<Indexable>() {
+                .subscribe(new Consumer<Indexable>() {
                     @Override
-                    public void call(Indexable value) {
+                    public void accept(Indexable value) {
                         StringIndexable stringIndexable = toStringIndexable(value);
                         Assert.assertTrue(group1Items.contains(stringIndexable.str()));
                         group1Items.remove(stringIndexable.str());
@@ -308,9 +308,9 @@ public class ProxyTaskGroupTests {
         // Invocation of group-2 should invoke group-2 and group-1
         //
         group2.invokeAsync(group2.newInvocationContext())
-                .subscribe(new Action1<Indexable>() {
+                .subscribe(new Consumer<Indexable>() {
                     @Override
-                    public void call(Indexable value) {
+                    public void accept(Indexable value) {
                         StringIndexable stringIndexable = toStringIndexable(value);
                         Assert.assertTrue(group2Items.contains(stringIndexable.str()));
                         group2Items.remove(stringIndexable.str());
@@ -462,9 +462,9 @@ public class ProxyTaskGroupTests {
         // Invocation of group-1 should run group-1 and it's "post run" dependent group-2
         //
         group1.invokeAsync(group1.newInvocationContext())
-                .subscribe(new Action1<Indexable>() {
+                .subscribe(new Consumer<Indexable>() {
                     @Override
-                    public void call(Indexable value) {
+                    public void accept(Indexable value) {
                         StringIndexable stringIndexable = toStringIndexable(value);
                         Assert.assertTrue(group1Items.contains(stringIndexable.str()));
                         group1Items.remove(stringIndexable.str());
@@ -543,9 +543,9 @@ public class ProxyTaskGroupTests {
 
 
         group1.invokeAsync(group1.newInvocationContext())
-                .subscribe(new Action1<Indexable>() {
+                .subscribe(new Consumer<Indexable>() {
                     @Override
-                    public void call(Indexable indexable) {
+                    public void accept(Indexable indexable) {
                         System.out.println(indexable.key());
                     }
                 });
@@ -631,9 +631,9 @@ public class ProxyTaskGroupTests {
         // Invocation of group-2 should run group-2 and group-1
         //
         group2.invokeAsync(group2.newInvocationContext())
-                .subscribe(new Action1<Indexable>() {
+                .subscribe(new Consumer<Indexable>() {
                     @Override
-                    public void call(Indexable value) {
+                    public void accept(Indexable value) {
                         StringIndexable stringIndexable = toStringIndexable(value);
                         Assert.assertTrue(group2Items.contains(stringIndexable.str()));
                         group2Items.remove(stringIndexable.str());
@@ -1475,10 +1475,9 @@ public class ProxyTaskGroupTests {
         final ArrayList<String> seen = new ArrayList<>();
         itiC.taskGroup()
                 .invokeAsync(itiC.taskGroup().newInvocationContext())
-                .toBlocking()
-                .subscribe(new Action1<Indexable>() {
+                .blockingSubscribe(new Consumer<Indexable>() {
                     @Override
-                    public void call(Indexable indexable) {
+                    public void accept(Indexable indexable) {
                         seen.add(indexable.key());
                     }
                 });
@@ -1541,10 +1540,9 @@ public class ProxyTaskGroupTests {
         seen.clear();
         itiF.taskGroup()
                 .invokeAsync(itiC.taskGroup().newInvocationContext())
-                .toBlocking()
-                .subscribe(new Action1<Indexable>() {
+                .blockingSubscribe(new Consumer<Indexable>() {
                     @Override
-                    public void call(Indexable indexable) {
+                    public void accept(Indexable indexable) {
                         seen.add(indexable.key());
                     }
                 });
@@ -1635,9 +1633,9 @@ public class ProxyTaskGroupTests {
         @Override
         public Observable<Indexable> invokeAsync(final TaskGroup.InvocationContext context) {
             this.producedValue = new StringIndexable(this.name);
-            return Observable.just(this.producedValue).map(new Func1<StringIndexable, Indexable>() {
+            return Observable.just(this.producedValue).map(new Function<StringIndexable, Indexable>() {
                 @Override
-                public Indexable call(StringIndexable stringIndexable) {
+                public Indexable apply(StringIndexable stringIndexable) {
                     return stringIndexable;
                 }
             });

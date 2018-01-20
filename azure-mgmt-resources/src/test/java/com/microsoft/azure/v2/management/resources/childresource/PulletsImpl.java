@@ -4,9 +4,9 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.childresource;
+package com.microsoft.azure.v2.management.resources.childresource;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesCachedImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesCachedImpl;
 import java.util.ArrayList;
 import java.util.List;
 

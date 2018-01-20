@@ -4,11 +4,11 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.collection;
+package com.microsoft.azure.v2.management.resources.fluentcore.collection;
 
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
 
 
 /**
@@ -37,7 +37,7 @@ public interface InnerSupportsGet<InnerT> {
      *
      * @return Observable to specific resource.
      */
-    Observable<InnerT> getByResourceGroupAsync(String resourceGroupName, String resourceName);
+    Maybe<InnerT> getByResourceGroupAsync(String resourceGroupName, String resourceName);
 
     /**
      * Returns the specific resource asynchronously.

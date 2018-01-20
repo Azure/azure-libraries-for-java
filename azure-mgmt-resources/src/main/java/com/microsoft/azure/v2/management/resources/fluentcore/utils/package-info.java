@@ -5,4 +5,4 @@
 /**
  * This package contains a few utility classes for working with Azure resources.
  */
-package com.microsoft.azure.management.resources.fluentcore.utils;
+package com.microsoft.azure.v2.management.resources.fluentcore.utils;

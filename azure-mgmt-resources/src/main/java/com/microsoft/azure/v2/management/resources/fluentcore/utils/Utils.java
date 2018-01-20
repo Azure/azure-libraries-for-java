@@ -4,22 +4,24 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.utils;
+package com.microsoft.azure.v2.management.resources.fluentcore.utils;
 
 import com.google.common.primitives.Ints;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.implementation.PageImpl;
-import okhttp3.ResponseBody;
-import retrofit2.Retrofit;
-import retrofit2.http.GET;
-import retrofit2.http.Url;
-import rx.Observable;
-import rx.exceptions.Exceptions;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.implementation.PageImpl;
+import com.microsoft.rest.v2.RestProxy;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.HostParam;
+import com.microsoft.rest.v2.http.HttpClient;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.functions.Function;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -105,10 +107,10 @@ public final class Utils {
      * @return an observable that emits last item
      */
     @SuppressWarnings("unchecked")
-    public static <U extends Indexable> Observable<U> rootResource(Observable<Indexable> stream) {
-        return stream.last().map(new Func1<Indexable, U>() {
+    public static <U extends Indexable> Single<U> rootResource(Observable<Indexable> stream) {
+        return stream.lastOrError().map(new Function<Indexable, U>() {
             @Override
-            public U call(Indexable indexable) {
+            public U apply(Indexable indexable) {
                 return (U) indexable;
             }
         });
@@ -117,22 +119,12 @@ public final class Utils {
     /**
      * Download a file asynchronously.
      * @param url the URL pointing to the file
-     * @param retrofit the retrofit client
+     * @param httpClient the HTTP client
      * @return an Observable pointing to the content of the file
      */
-    public static Observable<byte[]> downloadFileAsync(String url, Retrofit retrofit) {
-        FileService service = retrofit.create(FileService.class);
-        Observable<ResponseBody> response = service.download(url);
-        return response.map(new Func1<ResponseBody, byte[]>() {
-            @Override
-            public byte[] call(ResponseBody responseBody) {
-                try {
-                    return responseBody.bytes();
-                } catch (IOException e) {
-                    throw Exceptions.propagate(e);
-                }
-            }
-        });
+    public static Flowable<byte[]> downloadFileAsync(String url, HttpClient httpClient) {
+        FileService service = RestProxy.create(FileService.class, HttpPipeline.build(httpClient));
+        return service.download(url);
     }
 
     /**
@@ -144,7 +136,7 @@ public final class Utils {
      * @param <InT> the type of items in input paged list
      * @return the paged list
      */
-    public static <OutT, InT> PagedList<OutT> toPagedList(List<InT> list, final Func1<InT, OutT> mapper) {
+    public static <OutT, InT> PagedList<OutT> toPagedList(List<InT> list, final Function<InT, OutT> mapper) {
         PageImpl<InT> page = new PageImpl<>();
         page.setItems(list);
         page.setNextPageLink(null);
@@ -156,8 +148,8 @@ public final class Utils {
         };
         PagedListConverter<InT, OutT> converter = new PagedListConverter<InT, OutT>() {
             @Override
-            public Observable<OutT> typeConvertAsync(InT inner) {
-                return Observable.just(mapper.call(inner));
+            public Observable<OutT> typeConvertAsync(InT inner) throws Exception {
+                return Observable.just(mapper.apply(inner));
             }
         };
         return converter.convert(pagedList);
@@ -204,11 +196,12 @@ public final class Utils {
     }
 
     /**
-     * A Retrofit service used to download a file.
+     * A RestProxy service used to download a file.
      */
+    @Host("{url}")
     private interface FileService {
-        @GET
-        Observable<ResponseBody> download(@Url String url);
+        @GET("")
+        Flowable<byte[]> download(@HostParam("url") String url);
     }
 
     private Utils() {

@@ -4,13 +4,13 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.models;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.models;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 
 /**
  * Base interface for resources in resource groups.
@@ -22,7 +22,7 @@ public interface GroupableResource<TManager, InnerT> extends
     Resource,
     HasResourceGroup,
     HasManager<TManager>,
-    HasInner<InnerT> {
+        HasInner<InnerT> {
 
     /**
      * Grouping of all the definition stages.

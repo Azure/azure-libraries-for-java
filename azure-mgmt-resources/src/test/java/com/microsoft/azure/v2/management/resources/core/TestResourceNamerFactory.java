@@ -4,10 +4,10 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.core;
+package com.microsoft.azure.v2.management.resources.core;
 
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceNamer;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceNamerFactory;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceNamer;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceNamerFactory;
 
 public class TestResourceNamerFactory extends ResourceNamerFactory {
 

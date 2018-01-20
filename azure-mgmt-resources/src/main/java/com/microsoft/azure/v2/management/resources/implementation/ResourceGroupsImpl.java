@@ -4,18 +4,18 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.implementation;
+package com.microsoft.azure.v2.management.resources.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.ResourceGroups;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceCallback;
-import rx.Completable;
-import rx.Observable;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.ResourceGroups;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.ServiceCallback;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 /**
  * The implementation for ResourceGroups.
@@ -58,17 +58,17 @@ final class ResourceGroupsImpl
 
     @Override
     public void deleteByName(String name) {
-        deleteByNameAsync(name).await();
+        deleteByNameAsync(name).blockingAwait();
     }
 
     @Override
     public ServiceFuture<Void> deleteByNameAsync(String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromResponse(client.deleteWithServiceResponseAsync(name), callback);
+        return ServiceFuture.fromBody(client.deleteAsync(name), callback);
     }
 
     @Override
     public Completable deleteByNameAsync(String name) {
-        return client.deleteAsync(name).toCompletable();
+        return client.deleteAsync(name);
     }
 
     @Override
@@ -103,7 +103,7 @@ final class ResourceGroupsImpl
 
     @Override
     public void beginDeleteByName(String id) {
-        beginDeleteByNameAsync(id).toBlocking().subscribe();
+        beginDeleteByNameAsync(id).blockingAwait();
     }
 
     @Override
@@ -112,8 +112,8 @@ final class ResourceGroupsImpl
     }
 
     @Override
-    public Observable<Void> beginDeleteByNameAsync(String name) {
-        return client.beginDeleteAsync(name);
+    public Completable beginDeleteByNameAsync(String name) {
+        return client.beginDeleteAsync(name).firstOrError().toCompletable();
     }
 
     @Override

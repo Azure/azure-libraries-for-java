@@ -4,16 +4,17 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.implementation;
+package com.microsoft.azure.v2.management.resources.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.Feature;
-import com.microsoft.azure.management.resources.Features;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.Feature;
+import com.microsoft.azure.v2.management.resources.Features;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * The implementation of {@link Features}.
@@ -34,14 +35,14 @@ final class FeaturesImpl
 
     @Override
     public Feature register(String resourceProviderName, String featureName) {
-        return this.registerAsync(resourceProviderName, featureName).toBlocking().last();
+        return this.registerAsync(resourceProviderName, featureName).blockingGet();
     }
 
     @Override
-    public Observable<Feature> registerAsync(String resourceProviderName, String featureName) {
-        return client.registerAsync(resourceProviderName, featureName).map(new Func1<FeatureResultInner, Feature>() {
+    public Maybe<Feature> registerAsync(String resourceProviderName, String featureName) {
+        return client.registerAsync(resourceProviderName, featureName).map(new Function<FeatureResultInner, Feature>() {
             @Override
-            public Feature call(FeatureResultInner featureResultInner) {
+            public Feature apply(FeatureResultInner featureResultInner) {
                 return wrapModel(featureResultInner);
             }
         });

@@ -4,16 +4,17 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.implementation;
+package com.microsoft.azure.v2.management.resources.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.Provider;
-import com.microsoft.azure.management.resources.Providers;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.Provider;
+import com.microsoft.azure.v2.management.resources.Providers;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * The implementation for {@link Providers}.
@@ -34,14 +35,14 @@ final class ProvidersImpl
 
     @Override
     public Provider unregister(String resourceProviderNamespace) {
-        return this.unregisterAsync(resourceProviderNamespace).toBlocking().last();
+        return this.unregisterAsync(resourceProviderNamespace).blockingGet();
     }
 
     @Override
-    public Observable<Provider> unregisterAsync(String resourceProviderNamespace) {
-        return client.unregisterAsync(resourceProviderNamespace).map(new Func1<ProviderInner, Provider>() {
+    public Maybe<Provider> unregisterAsync(String resourceProviderNamespace) {
+        return client.unregisterAsync(resourceProviderNamespace).map(new Function<ProviderInner, Provider>() {
             @Override
-            public Provider call(ProviderInner providerInner) {
+            public Provider apply(ProviderInner providerInner) {
                 return wrapModel(providerInner);
             }
         });
@@ -54,14 +55,14 @@ final class ProvidersImpl
 
     @Override
     public Provider register(String resourceProviderNamespace) {
-        return this.registerAsync(resourceProviderNamespace).toBlocking().last();
+        return this.registerAsync(resourceProviderNamespace).blockingGet();
     }
 
     @Override
-    public Observable<Provider> registerAsync(String resourceProviderNamespace) {
-        return client.registerAsync(resourceProviderNamespace).map(new Func1<ProviderInner, Provider>() {
+    public Maybe<Provider> registerAsync(String resourceProviderNamespace) {
+        return client.registerAsync(resourceProviderNamespace).map(new Function<ProviderInner, Provider>() {
             @Override
-            public Provider call(ProviderInner providerInner) {
+            public Provider apply(ProviderInner providerInner) {
                 return wrapModel(providerInner);
             }
         });
@@ -73,11 +74,11 @@ final class ProvidersImpl
     }
 
     @Override
-    public Observable<Provider> getByNameAsync(String name) {
+    public Maybe<Provider> getByNameAsync(String name) {
         return client.getAsync(name)
-                .map(new Func1<ProviderInner, Provider>() {
+                .map(new Function<ProviderInner, Provider>() {
                     @Override
-                    public Provider call(ProviderInner providerInner) {
+                    public Provider apply(ProviderInner providerInner) {
                         return wrapModel(providerInner);
                     }
                 });

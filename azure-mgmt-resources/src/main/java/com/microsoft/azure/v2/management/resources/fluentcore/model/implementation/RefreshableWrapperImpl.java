@@ -4,11 +4,11 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.model.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.model.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import io.reactivex.Maybe;
+import io.reactivex.functions.Function;
 
 /**
  * Base implementation for Wrapper interface.
@@ -26,21 +26,21 @@ public abstract class RefreshableWrapperImpl<InnerT, Impl>
 
     @Override
     public final Impl refresh() {
-        return this.refreshAsync().toBlocking().last();
+        return this.refreshAsync().blockingGet();
     }
 
     @Override
-    public Observable<Impl> refreshAsync() {
+    public Maybe<Impl> refreshAsync() {
         final RefreshableWrapperImpl<InnerT, Impl> self = this;
 
-        return this.getInnerAsync().map(new Func1<InnerT, Impl>() {
+        return this.getInnerAsync().map(new Function<InnerT, Impl>() {
             @Override
-            public Impl call(InnerT innerT) {
+            public Impl apply(InnerT innerT) {
                 self.setInner(innerT);
                 return (Impl) self;
             }
         });
     }
 
-    protected abstract Observable<InnerT> getInnerAsync();
+    protected abstract Maybe<InnerT> getInnerAsync();
 }

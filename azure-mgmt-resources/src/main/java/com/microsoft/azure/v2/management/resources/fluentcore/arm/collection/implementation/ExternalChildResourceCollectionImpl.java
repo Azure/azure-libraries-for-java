@@ -3,24 +3,27 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import rx.Observable;
-import rx.exceptions.CompositeException;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.functions.Action2;
-import rx.functions.Func0;
-import rx.functions.Func1;
-import rx.subjects.PublishSubject;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ExternalChildResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroup;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.exceptions.CompositeException;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.BiConsumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import io.reactivex.subjects.PublishSubject;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -143,63 +146,58 @@ public abstract class ExternalChildResourceCollectionImpl<
         }
 
         final List<Throwable> exceptionsList = Collections.synchronizedList(new ArrayList<Throwable>());
-        Observable<FluentModelTImpl> deleteStream = Observable.from(items)
-                .filter(new Func1<FluentModelTImpl, Boolean>() {
+        Completable deleteStream = Observable.fromIterable(items)
+                .filter(new Predicate<FluentModelTImpl>() {
                     @Override
-                    public Boolean call(FluentModelTImpl childResource) {
+                    public boolean test(FluentModelTImpl childResource) {
                         return childResource.pendingOperation() == ExternalChildResourceImpl.PendingOperation.ToBeRemoved;
                     }
-                }).flatMap(new Func1<FluentModelTImpl, Observable<FluentModelTImpl>>() {
+                }).flatMapCompletable(new Function<FluentModelTImpl, Completable>() {
                     @Override
-                    public Observable<FluentModelTImpl> call(final FluentModelTImpl childResource) {
+                    public Completable apply(final FluentModelTImpl childResource) {
                         return childResource.deleteAsync()
-                                .map(new Func1<Void, FluentModelTImpl>() {
+                                .doOnComplete(new Action() {
                                     @Override
-                                    public FluentModelTImpl call(Void response) {
-                                        return childResource;
-                                    }
-                                }).doOnNext(new Action1<FluentModelTImpl>() {
-                                    @Override
-                                    public void call(FluentModelTImpl childResource) {
+                                    public void run() {
                                         childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None);
                                         self.childCollection.remove(childResource.name());
                                     }
                                 })
-                                .onErrorResumeNext(new Func1<Throwable, Observable<FluentModelTImpl>>() {
+                                .onErrorResumeNext(new Function<Throwable, Completable>() {
                                     @Override
-                                    public Observable<FluentModelTImpl> call(Throwable throwable) {
+                                    public Completable apply(Throwable throwable) {
                                         exceptionsList.add(throwable);
-                                        return Observable.empty();
+                                        return Completable.complete();
                                     }
                                 });
                     }
                 });
 
-        Observable<FluentModelTImpl> createStream = Observable.from(items)
-                .filter(new Func1<FluentModelTImpl, Boolean>() {
+        Observable<FluentModelTImpl> createStream = Observable.fromIterable(items)
+                .filter(new Predicate<FluentModelTImpl>() {
                     @Override
-                    public Boolean call(FluentModelTImpl childResource) {
+                    public boolean test(FluentModelTImpl childResource) {
                         return childResource.pendingOperation() == ExternalChildResourceImpl.PendingOperation.ToBeCreated;
                     }
-                }).flatMap(new Func1<FluentModelTImpl, Observable<FluentModelTImpl>>() {
+                }).flatMap(new Function<FluentModelTImpl, Observable<FluentModelTImpl>>() {
                     @Override
-                    public Observable<FluentModelTImpl> call(final FluentModelTImpl childResource) {
+                    public Observable<FluentModelTImpl> apply(final FluentModelTImpl childResource) {
                         return childResource.createAsync()
-                                .map(new Func1<FluentModelT, FluentModelTImpl>() {
+                                .map(new Function<FluentModelT, FluentModelTImpl>() {
                                     @Override
-                                    public FluentModelTImpl call(FluentModelT fluentModelT) {
+                                    public FluentModelTImpl apply(FluentModelT fluentModelT) {
                                         return childResource;
                                     }
                                 })
-                                .doOnNext(new Action1<FluentModelTImpl>() {
+                                .doOnNext(new Consumer<FluentModelTImpl>() {
                                     @Override
-                                    public void call(FluentModelTImpl fluentModelT) {
+                                    public void accept(FluentModelTImpl fluentModelT) {
                                         childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None);
                                     }
                                 })
-                                .onErrorResumeNext(new Func1<Throwable, Observable<? extends FluentModelTImpl>>() {
+                                .onErrorResumeNext(new Function<Throwable, Observable<? extends FluentModelTImpl>>() {
                                     @Override
-                                    public Observable<FluentModelTImpl> call(Throwable throwable) {
+                                    public Observable<FluentModelTImpl> apply(Throwable throwable) {
                                         self.childCollection.remove(childResource.name());
                                         exceptionsList.add(throwable);
                                         return Observable.empty();
@@ -208,31 +206,31 @@ public abstract class ExternalChildResourceCollectionImpl<
                     }
                 });
 
-        Observable<FluentModelTImpl> updateStream = Observable.from(items)
-                .filter(new Func1<FluentModelTImpl, Boolean>() {
+        Observable<FluentModelTImpl> updateStream = Observable.fromIterable(items)
+                .filter(new Predicate<FluentModelTImpl>() {
                     @Override
-                    public Boolean call(FluentModelTImpl childResource) {
+                    public boolean test(FluentModelTImpl childResource) {
                         return childResource.pendingOperation() == ExternalChildResourceImpl.PendingOperation.ToBeUpdated;
                     }
-                }).flatMap(new Func1<FluentModelTImpl, Observable<FluentModelTImpl>>() {
+                }).flatMap(new Function<FluentModelTImpl, Observable<FluentModelTImpl>>() {
                     @Override
-                    public Observable<FluentModelTImpl> call(final FluentModelTImpl childResource) {
+                    public Observable<FluentModelTImpl> apply(final FluentModelTImpl childResource) {
                         return childResource.updateAsync()
-                                .map(new Func1<FluentModelT, FluentModelTImpl>() {
+                                .map(new Function<FluentModelT, FluentModelTImpl>() {
                                     @Override
-                                    public FluentModelTImpl call(FluentModelT e) {
+                                    public FluentModelTImpl apply(FluentModelT e) {
                                         return childResource;
                                     }
                                 })
-                                .doOnNext(new Action1<FluentModelTImpl>() {
+                                .doOnNext(new Consumer<FluentModelTImpl>() {
                                     @Override
-                                    public void call(FluentModelTImpl childResource) {
+                                    public void accept(FluentModelTImpl childResource) {
                                         childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None);
                                     }
                                 })
-                                .onErrorResumeNext(new Func1<Throwable, Observable<? extends FluentModelTImpl>>() {
+                                .onErrorResumeNext(new Function<Throwable, Observable<? extends FluentModelTImpl>>() {
                                     @Override
-                                    public Observable<FluentModelTImpl> call(Throwable throwable) {
+                                    public Observable<FluentModelTImpl> apply(Throwable throwable) {
                                         exceptionsList.add(throwable);
                                         return Observable.empty();
                                     }
@@ -241,16 +239,16 @@ public abstract class ExternalChildResourceCollectionImpl<
                 });
 
         final PublishSubject<FluentModelTImpl> aggregatedErrorStream = PublishSubject.create();
-        Observable<FluentModelTImpl> operationsStream = Observable.merge(deleteStream,
+        Observable<FluentModelTImpl> operationsStream = Observable.merge(deleteStream.<FluentModelTImpl>toObservable(),
                 createStream,
-                updateStream).doOnTerminate(new Action0() {
+                updateStream).doOnTerminate(new Action() {
             @Override
-            public void call() {
+            public void run() {
                 if (clearAfterCommit()) {
                     self.childCollection.clear();
                 }
                 if (exceptionsList.isEmpty()) {
-                    aggregatedErrorStream.onCompleted();
+                    aggregatedErrorStream.onComplete();
                 } else {
                     aggregatedErrorStream.onError(new CompositeException(exceptionsList));
                 }
@@ -270,15 +268,15 @@ public abstract class ExternalChildResourceCollectionImpl<
      *
      * @return the observable stream
      */
-    public Observable<List<FluentModelTImpl>> commitAndGetAllAsync() {
+    public Single<List<FluentModelTImpl>> commitAndGetAllAsync() {
         return commitAsync().collect(
-                new Func0<List<FluentModelTImpl>>() {
+                new Callable<List<FluentModelTImpl>>() {
                     public List<FluentModelTImpl> call() {
                         return new ArrayList<>();
                     }
                 },
-                new Action2<List<FluentModelTImpl>, FluentModelTImpl>() {
-                    public void call(List<FluentModelTImpl> state, FluentModelTImpl item) {
+                new BiConsumer<List<FluentModelTImpl>, FluentModelTImpl>() {
+                    public void accept(List<FluentModelTImpl> state, FluentModelTImpl item) {
                         state.add(item);
                     }
                 });

@@ -4,12 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.arm.collection;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.collection;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceCallback;
-import rx.Completable;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.ServiceCallback;
+import io.reactivex.Completable;
 
 /**
  * Provides access to getting a specific Azure resource based on its resource group and parent.

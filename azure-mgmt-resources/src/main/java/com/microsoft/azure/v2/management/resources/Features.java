@@ -4,13 +4,13 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources;
+package com.microsoft.azure.v2.management.resources;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListing;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
 
 /**
  * Entry point to features management API.
@@ -33,7 +33,7 @@ public interface Features extends
      * @param featureName the name of the feature
      * @return a representation of the deferred computation of this call returning the registered feature
      */
-    Observable<Feature> registerAsync(String resourceProviderName, String featureName);
+    Maybe<Feature> registerAsync(String resourceProviderName, String featureName);
 
     /**
      * Registers a feature in a resource provider asynchronously.

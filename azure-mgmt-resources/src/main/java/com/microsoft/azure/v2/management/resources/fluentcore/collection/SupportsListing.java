@@ -4,12 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.fluentcore.collection;
+package com.microsoft.azure.v2.management.resources.fluentcore.collection;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.apigeneration.LangDefinition.MethodConversion;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Provides access to listing Azure resources of a specific type in a subscription.

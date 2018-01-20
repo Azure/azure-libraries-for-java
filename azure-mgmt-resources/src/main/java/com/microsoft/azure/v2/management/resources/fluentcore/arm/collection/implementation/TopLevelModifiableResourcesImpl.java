@@ -3,27 +3,29 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
+package com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.Resource;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.utils.RXMapper;
-import rx.Completable;
-import rx.Observable;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.ManagerBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsListing;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListing;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.SingleSource;
+import io.reactivex.functions.Function;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,18 +62,18 @@ public abstract class TopLevelModifiableResourcesImpl<
     }
 
     @Override
-    protected final Observable<InnerT> getInnerAsync(String resourceGroupName, String name) {
+    protected final Maybe<InnerT> getInnerAsync(String resourceGroupName, String name) {
         return this.inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
     @Override
     protected Completable deleteInnerAsync(String resourceGroupName, String name) {
-        return inner().deleteAsync(resourceGroupName, name).toCompletable();
+        return inner().deleteAsync(resourceGroupName, name).ignoreElement();
     }
 
     @Override
     public Observable<String> deleteByIdsAsync(String...ids) {
-        return this.deleteByIdsAsync(new ArrayList<String>(Arrays.asList(ids)));
+        return this.deleteByIdsAsync(Arrays.asList(ids));
     }
 
     @Override
@@ -80,26 +82,26 @@ public abstract class TopLevelModifiableResourcesImpl<
             return Observable.empty();
         }
 
-        Collection<Observable<String>> observables = new ArrayList<>();
-        for (String id : ids) {
-            final String resourceGroupName = ResourceUtils.groupFromResourceId(id);
-            final String name = ResourceUtils.nameFromResourceId(id);
-            Observable<String> o = RXMapper.map(this.inner().deleteAsync(resourceGroupName, name), id);
-            observables.add(o);
-        }
-
-        return Observable.mergeDelayError(observables);
+        return Observable.fromIterable(ids)
+                .flatMapSingle(new Function<String, SingleSource<String>>() {
+                    @Override
+                    public SingleSource<String> apply(String id) throws Exception {
+                        final String resourceGroupName = ResourceUtils.groupFromResourceId(id);
+                        final String name = ResourceUtils.nameFromResourceId(id);
+                        return inner().deleteAsync(resourceGroupName, name).ignoreElement().toSingleDefault(id);
+                    }
+                }, true);
     }
 
     @Override
     public void deleteByIds(String...ids) {
-        this.deleteByIds(new ArrayList<String>(Arrays.asList(ids)));
+        this.deleteByIds(new ArrayList<>(Arrays.asList(ids)));
     }
 
     @Override
     public void deleteByIds(Collection<String> ids) {
         if (ids != null && !ids.isEmpty()) {
-            this.deleteByIdsAsync(ids).toBlocking().last();
+            this.deleteByIdsAsync(ids).blockingSubscribe();
         }
     }
 

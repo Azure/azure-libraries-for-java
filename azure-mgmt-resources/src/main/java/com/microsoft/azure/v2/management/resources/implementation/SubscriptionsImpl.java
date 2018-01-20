@@ -4,16 +4,17 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources.implementation;
+package com.microsoft.azure.v2.management.resources.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.Subscription;
-import com.microsoft.azure.management.resources.Subscriptions;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.SupportsGettingByIdImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.Subscription;
+import com.microsoft.azure.v2.management.resources.Subscriptions;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.SupportsGettingByIdImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.PagedListConverter;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * The implementation of Subscriptions.
@@ -40,10 +41,10 @@ final class SubscriptionsImpl
 
 
     @Override
-    public Observable<Subscription> getByIdAsync(String id) {
-        return client.getAsync(id).map(new Func1<SubscriptionInner, Subscription>() {
+    public Maybe<Subscription> getByIdAsync(String id) {
+        return client.getAsync(id).map(new Function<SubscriptionInner, Subscription>() {
             @Override
-            public Subscription call(SubscriptionInner subscriptionInner) {
+            public Subscription apply(SubscriptionInner subscriptionInner) {
                 return wrapModel(subscriptionInner);
             }
         });
@@ -51,9 +52,9 @@ final class SubscriptionsImpl
 
     @Override
     public Observable<Subscription> listAsync() {
-        return ReadableWrappersImpl.convertPageToInnerAsync(client.listAsync()).map(new Func1<SubscriptionInner, Subscription>() {
+        return ReadableWrappersImpl.convertPageToInnerAsync(client.listAsync()).map(new Function<SubscriptionInner, Subscription>() {
             @Override
-            public Subscription call(SubscriptionInner subscriptionInner) {
+            public Subscription apply(SubscriptionInner subscriptionInner) {
                 return wrapModel(subscriptionInner);
             }
         });

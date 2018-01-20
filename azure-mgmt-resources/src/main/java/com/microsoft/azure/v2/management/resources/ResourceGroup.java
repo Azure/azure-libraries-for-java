@@ -4,22 +4,21 @@
  * license information.
  */
 
-package com.microsoft.azure.management.resources;
+package com.microsoft.azure.v2.management.resources;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.implementation.ResourceGroupInner;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.implementation.ResourceGroupInner;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
 
 /**
  * An immutable client-side representation of an Azure resource group.
@@ -52,7 +51,7 @@ public interface ResourceGroup extends
      * @param options the export options
      * @return a representation of the deferred computation of this call returning the result of the template export
      */
-    Observable<ResourceGroupExportResult> exportTemplateAsync(ResourceGroupExportTemplateOptions options);
+    Maybe<ResourceGroupExportResult> exportTemplateAsync(ResourceGroupExportTemplateOptions options);
 
     /**
      * Captures the specified resource group as a template asynchronously.
@@ -79,7 +78,7 @@ public interface ResourceGroup extends
         /**
          * A resource group definition allowing location to be set.
          */
-        interface Blank extends GroupableResource.DefinitionWithRegion<WithCreate> {
+        interface Blank extends DefinitionWithRegion<WithCreate> {
         }
 
         /**

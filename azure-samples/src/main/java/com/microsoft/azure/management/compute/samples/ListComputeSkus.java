@@ -96,7 +96,7 @@ public final class ListComputeSkus {
 
     private static String regionZoneToString(Map<Region, Set<AvailabilityZoneId>> regionZonesMap) {
         StringBuilder builder = new StringBuilder();
-        for(Map.Entry<Region, Set<AvailabilityZoneId>> regionZones : regionZonesMap.entrySet()) {
+        for (Map.Entry<Region, Set<AvailabilityZoneId>> regionZones : regionZonesMap.entrySet()) {
             builder.append(regionZones.getKey().toString());
             builder.append(" [ ");
             for (AvailabilityZoneId zone :regionZones.getValue()) {

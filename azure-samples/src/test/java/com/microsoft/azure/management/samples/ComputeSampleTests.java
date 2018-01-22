@@ -13,6 +13,7 @@ import com.microsoft.azure.management.compute.samples.CreateVirtualMachineUsingS
 import com.microsoft.azure.management.compute.samples.CreateVirtualMachinesAsyncTrackingRelatedResources;
 import com.microsoft.azure.management.compute.samples.CreateVirtualMachinesInParallel;
 import com.microsoft.azure.management.compute.samples.CreateVirtualMachinesUsingCustomImageOrSpecializedVHD;
+import com.microsoft.azure.management.compute.samples.ListComputeSkus;
 import com.microsoft.azure.management.compute.samples.ListVirtualMachineExtensionImages;
 import com.microsoft.azure.management.compute.samples.ListVirtualMachineImages;
 import com.microsoft.azure.management.compute.samples.ManageAvailabilitySet;
@@ -82,6 +83,11 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Test
     public void testListVirtualMachineImages() {
         Assert.assertTrue(ListVirtualMachineImages.runSample(azure));
+    }
+
+    @Test
+    public void testListListComputeSkus() {
+        Assert.assertTrue(ListComputeSkus.runSample(azure));
     }
 
     @Test

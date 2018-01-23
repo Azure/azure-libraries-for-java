@@ -17,6 +17,7 @@ import com.microsoft.azure.management.storage.StorageAccount;
 import rx.Completable;
 import rx.Observable;
 
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -30,7 +31,6 @@ public interface FunctionApp extends
     Updatable<FunctionApp.Update> {
 
     /**
-
      * @return the entry point to deployment slot management API under the function app
      */
     @Beta(Beta.SinceVersion.V1_3_0)
@@ -108,6 +108,10 @@ public interface FunctionApp extends
      * @return a completable for the operation
      */
     Completable syncTriggersAsync();
+
+    InputStream streamApplicationLogs();
+
+    Observable<String> streamApplicationLogsAsync();
 
     /**************************************************************
      * Fluent interfaces to provision a Function App

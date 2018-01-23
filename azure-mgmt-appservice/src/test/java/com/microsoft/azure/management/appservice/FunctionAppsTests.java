@@ -12,6 +12,9 @@ import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public class FunctionAppsTests extends AppServiceTest {
@@ -46,6 +49,35 @@ public class FunctionAppsTests extends AppServiceTest {
 
     @Test
     public void canCRUDFunctionApp() throws Exception {
+//        rx.Subscription subscription = appServiceManager.functionApps().getById("/subscriptions/ffa52f27-be12-4cad-b1ea-c2c241b6cceb/resourceGroups/somefuncappinsights/providers/Microsoft.Web/sites/somefuncappinsights")
+//                .streamApplicationLogsAsync()
+//                .subscribeOn(Schedulers.newThread())
+//                .subscribe(new Action1<String>() {
+//                    @Override
+//                    public void call(String s) {
+//                        System.out.println(s);
+//                    }
+//                });
+//        SdkContext.sleep(30000);
+//        subscription.unsubscribe();
+//        final InputStream stream = appServiceManager.functionApps().getById("/subscriptions/ffa52f27-be12-4cad-b1ea-c2c241b6cceb/resourceGroups/somefuncappinsights/providers/Microsoft.Web/sites/somefuncappinsights")
+//                .streamApplicationLogs();
+//        String line = readLine(stream);
+//        Timer timer = new Timer();
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                try {
+//                    stream.close();
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        }, 80000);
+//        while (line != null) {
+//            System.out.println(line);
+//            line = readLine(stream);
+//        }
         // Create with consumption
         FunctionApp functionApp1 = appServiceManager.functionApps().define(WEBAPP_NAME_1)
                 .withRegion(Region.US_WEST)
@@ -100,5 +132,17 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withNewAppServicePlan(PricingTier.STANDARD_S2)
                 .apply();
         Assert.assertNotEquals(functionApp3.appServicePlanId(), functionApp1.appServicePlanId());
+    }
+
+    private static String readLine(InputStream in) throws IOException {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        int c;
+        for (c = in.read(); c != '\n' && c >= 0 ; c = in.read()) {
+            stream.write(c);
+        }
+        if (c == -1 && stream.size() == 0) {
+            return null;
+        }
+        return stream.toString("UTF-8");
     }
 }

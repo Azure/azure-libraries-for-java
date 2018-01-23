@@ -45,7 +45,7 @@ public interface PointToSiteConfiguration extends
              * Specifies that Azure certificate authentication type will be used.
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withAzureCertificate();
+            WithRootCertificate<ParentT> withAzureCertificate();
 
             WithAttach<ParentT> withRadiusAuthentication(String serverIPAddress, String serverSecret);
         }
@@ -63,6 +63,9 @@ public interface PointToSiteConfiguration extends
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithTunnelType<ParentT> {
+            WithAttach<ParentT> withSstpOnly();
+
+            WithAttach<ParentT> withIkeV2Only();
         }
 
         /** The final stage of the point-to-site configuration definition.

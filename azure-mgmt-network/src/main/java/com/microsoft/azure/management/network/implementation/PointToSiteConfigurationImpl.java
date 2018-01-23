@@ -10,9 +10,11 @@ import com.microsoft.azure.management.network.AddressSpace;
 import com.microsoft.azure.management.network.PointToSiteConfiguration;
 import com.microsoft.azure.management.network.VirtualNetworkGateway;
 import com.microsoft.azure.management.network.VpnClientConfiguration;
+import com.microsoft.azure.management.network.VpnClientProtocol;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -75,6 +77,18 @@ class PointToSiteConfigurationImpl
             inner().withVpnClientRevokedCertificates(new ArrayList<VpnClientRevokedCertificateInner>());
         }
         inner().vpnClientRevokedCertificates().add(new VpnClientRevokedCertificateInner().withName(name).withThumbprint(thumbprint));
+        return this;
+    }
+
+    @Override
+    public DefinitionStages.WithAttach<VirtualNetworkGateway.Update> withSstpOnly() {
+        inner().withVpnClientProtocols(Collections.singletonList(VpnClientProtocol.SSTP));
+        return this;
+    }
+
+    @Override
+    public DefinitionStages.WithAttach<VirtualNetworkGateway.Update> withIkeV2Only() {
+        inner().withVpnClientProtocols(Collections.singletonList(VpnClientProtocol.IKE_V2));
         return this;
     }
 }

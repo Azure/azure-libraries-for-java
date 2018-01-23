@@ -47,9 +47,7 @@ public final class ManageWebAppCosmosDbByMsi {
     public static boolean runSample(Azure azure) {
         // New resources
         final Region region         = Region.US_WEST;
-        final String acrName        = SdkContext.randomResourceName("acr", 20);
         final String appName        = SdkContext.randomResourceName("webapp1-", 20);
-        final String password       = SdkContext.randomUuid();
         final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
         final String vaultName      = SdkContext.randomResourceName("vault", 20);
         final String cosmosName     = SdkContext.randomResourceName("cosmosdb", 20);

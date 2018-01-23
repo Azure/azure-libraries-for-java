@@ -12,6 +12,8 @@ import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.microsoft.azure.management.monitor.ActivityLogs;
+import com.microsoft.azure.management.monitor.MetricDefinitions;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -24,6 +26,9 @@ import com.microsoft.rest.RestClient;
  */
 @Beta(SinceVersion.V1_2_0)
 public final class MonitorManager extends Manager<MonitorManager, MonitorManagementClientImpl> {
+    // Collections
+    private ActivityLogs activityLogs;
+    private MetricDefinitions metricDefinitions;
 
     /**
     * Get a Configurable instance that can be used to create MonitorManager with optional configuration.
@@ -72,6 +77,27 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorManagem
         */
         MonitorManager authenticate(AzureTokenCredentials credentials, String subscriptionId);
     }
+
+    /**
+     * @return the Azure Activity Logs API entry point
+     */
+    public ActivityLogs activityLogs() {
+        if (this.activityLogs == null) {
+            this.activityLogs = new ActivityLogsImpl(this);
+        }
+        return this.activityLogs;
+    }
+
+    /**
+     * @return the Azure Metric Definitions API entry point
+     */
+    public MetricDefinitions metricDefinitions() {
+        if (this.metricDefinitions == null) {
+            this.metricDefinitions = new MetricDefinitionsImpl(this);
+        }
+        return this.metricDefinitions;
+    }
+
     /**
     * The implementation for Configurable interface.
     */

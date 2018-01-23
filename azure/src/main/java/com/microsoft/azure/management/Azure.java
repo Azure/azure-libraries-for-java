@@ -55,6 +55,9 @@ import com.microsoft.azure.management.keyvault.Vaults;
 import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
 import com.microsoft.azure.management.locks.ManagementLocks;
 import com.microsoft.azure.management.locks.implementation.AuthorizationManager;
+import com.microsoft.azure.management.monitor.ActivityLogs;
+import com.microsoft.azure.management.monitor.MetricDefinitions;
+import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.msi.Identities;
 import com.microsoft.azure.management.msi.implementation.MSIManager;
 import com.microsoft.azure.management.network.ApplicationGateways;
@@ -130,6 +133,7 @@ public final class Azure {
     private final CosmosDBManager cosmosDBManager;
     private final AuthorizationManager authorizationManager;
     private final MSIManager msiManager;
+    private final MonitorManager monitorManager;
     private final String subscriptionId;
     private final Authenticated authenticated;
 
@@ -407,6 +411,7 @@ public final class Azure {
         this.searchServiceManager = SearchServiceManager.authenticate(restClient, subscriptionId);
         this.authorizationManager = AuthorizationManager.authenticate(restClient, subscriptionId);
         this.msiManager = MSIManager.authenticate(restClient, subscriptionId);
+        this.monitorManager = MonitorManager.authenticate(restClient, subscriptionId);
         this.subscriptionId = subscriptionId;
         this.authenticated = authenticated;
     }
@@ -816,4 +821,16 @@ public final class Azure {
     public AccessManagement accessManagement() {
         return this.authenticated;
     }
+
+    /**
+     * @return entry point to listing activity log events in Azure
+     */
+    @Beta(SinceVersion.V1_6_0)
+    public ActivityLogs activityLogs() { return this.monitorManager.activityLogs(); }
+
+    /**
+     * @return entry point to listing metric definitions in Azure
+     */
+    @Beta(SinceVersion.V1_6_0)
+    public MetricDefinitions metricDefinitions() { return this.monitorManager.metricDefinitions(); }
 }

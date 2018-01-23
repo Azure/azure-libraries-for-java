@@ -68,6 +68,7 @@ import com.microsoft.azure.management.graphrbac.implementation.PermissionInner;
 import com.microsoft.azure.management.keyvault.AccessPolicy;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.locks.ManagementLock;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayBackend;
 import com.microsoft.azure.management.network.ApplicationGatewayBackendAddress;
@@ -116,6 +117,7 @@ import com.microsoft.azure.management.redis.RedisAccessKeys;
 import com.microsoft.azure.management.redis.RedisCache;
 import com.microsoft.azure.management.redis.RedisCachePremium;
 import com.microsoft.azure.management.redis.ScheduleEntry;
+import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.search.AdminKeys;
@@ -169,6 +171,37 @@ import java.util.concurrent.TimeUnit;
  */
 
 public final class Utils {
+    /**
+     * Print resource group info.
+     *
+     * @param resource a resource group
+     */
+    public static void print(ResourceGroup resource) {
+        StringBuilder info = new StringBuilder();
+        info.append("Resource Group: ").append(resource.id())
+                .append("\n\tName: ").append(resource.name())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tTags: ").append(resource.tags());
+        System.out.println(info.toString());
+    }
+
+    /**
+     * Print User Assigned MSI info.
+     *
+     * @param resource a User Assigned MSI
+     */
+    public static void print(Identity resource) {
+        StringBuilder info = new StringBuilder();
+        info.append("Resource Group: ").append(resource.id())
+                .append("\n\tName: ").append(resource.name())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tTags: ").append(resource.tags())
+                .append("\n\tService Principal Id: ").append(resource.principalId())
+                .append("\n\tClient Id: ").append(resource.clientId())
+                .append("\n\tTenant Id: ").append(resource.tenantId())
+                .append("\n\tClient Secret Url: ").append(resource.clientSecretUrl());
+        System.out.println(info.toString());
+    }
 
     /**
      * Print virtual machine info.

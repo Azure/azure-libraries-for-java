@@ -7,8 +7,10 @@ package com.microsoft.azure.management;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import com.microsoft.azure.management.network.ServiceEndpointType;
 import org.junit.Assert;
 
 import com.microsoft.azure.management.network.NetworkPeeringGatewayUse;
@@ -131,6 +133,101 @@ public class TestNetwork {
             Assert.assertNotNull(subnet);
             Assert.assertEquals("141.25.0.16/29", subnet.addressPrefix());
             Assert.assertTrue(nsg.id().equalsIgnoreCase(subnet.networkSecurityGroupId()));
+
+            return resource;
+        }
+
+        @Override
+        public void print(Network resource) {
+            printNetwork(resource);
+        }
+    }
+
+    /**
+     * Test of network with subnets configured to have access from azure service.
+     */
+    public static class WithAccessFromServiceToSubnet extends TestTemplate<Network, Networks> {
+
+        @Override
+        public Network createResource(Networks networks) throws Exception {
+            final String newName = "net" + this.testId;
+            Region region = Region.US_WEST;
+            String groupName = "rg" + this.testId;
+
+
+            // Create a network
+            final Network network = networks.define(newName)
+                    .withRegion(region)
+                    .withNewResourceGroup(groupName)
+                    .withAddressSpace("10.0.0.0/28")
+                    .withSubnet("subnetA", "10.0.0.0/29")
+                    .defineSubnet("subnetB")
+                        .withAddressPrefix("10.0.0.8/29")
+                        .withAccessFromService(ServiceEndpointType.MICROSOFT_STORAGE)
+                        .attach()
+                    .create();
+
+            // Verify address spaces
+            Assert.assertEquals(1, network.addressSpaces().size());
+            Assert.assertTrue(network.addressSpaces().contains("10.0.0.0/28"));
+
+            // Verify subnets
+            Assert.assertEquals(2, network.subnets().size());
+            Subnet subnet = network.subnets().get("subnetA");
+            Assert.assertEquals("10.0.0.0/29", subnet.addressPrefix());
+
+            subnet = network.subnets().get("subnetB");
+            Assert.assertEquals("10.0.0.8/29", subnet.addressPrefix());
+            Assert.assertNotNull(subnet.servicesWithAccess());
+            Assert.assertTrue(subnet.servicesWithAccess().containsKey(ServiceEndpointType.MICROSOFT_STORAGE));
+            Assert.assertTrue(subnet.servicesWithAccess().get(ServiceEndpointType.MICROSOFT_STORAGE).size() > 0);
+            return network;
+        }
+
+        @Override
+        public Network updateResource(Network resource) throws Exception {
+            resource =  resource.update()
+                    .withTag("tag1", "value1")
+                    .withTag("tag2", "value2")
+                    .withAddressSpace("141.25.0.0/16")
+                    .withoutAddressSpace("10.1.0.0/28")
+                    .withSubnet("subnetC", "141.25.0.0/29")
+                    .withoutSubnet("subnetA")
+                    .updateSubnet("subnetB")
+                        .withAddressPrefix("141.25.0.8/29")
+                        .withoutAccessFromService(ServiceEndpointType.MICROSOFT_STORAGE)
+                        .parent()
+                    .defineSubnet("subnetD")
+                        .withAddressPrefix("141.25.0.16/29")
+                        .withAccessFromService(ServiceEndpointType.MICROSOFT_STORAGE)
+                        .attach()
+                    .apply();
+
+            Assert.assertTrue(resource.tags().containsKey("tag1"));
+
+            // Verify address spaces
+            Assert.assertEquals(2, resource.addressSpaces().size());
+            Assert.assertFalse(resource.addressSpaces().contains("10.1.0.0/28"));
+
+            // Verify subnets
+            Assert.assertEquals(3, resource.subnets().size());
+            Assert.assertFalse(resource.subnets().containsKey("subnetA"));
+
+            Subnet subnet = resource.subnets().get("subnetB");
+            Assert.assertNotNull(subnet);
+            Assert.assertEquals("141.25.0.8/29", subnet.addressPrefix());
+            Assert.assertNotNull(subnet.servicesWithAccess());
+            Assert.assertTrue(subnet.servicesWithAccess().isEmpty());
+
+            subnet = resource.subnets().get("subnetC");
+            Assert.assertNotNull(subnet);
+            Assert.assertEquals("141.25.0.0/29", subnet.addressPrefix());
+
+            subnet = resource.subnets().get("subnetD");
+            Assert.assertNotNull(subnet);
+            Assert.assertEquals("141.25.0.16/29", subnet.addressPrefix());
+            Assert.assertNotNull(subnet.servicesWithAccess());
+            Assert.assertTrue(subnet.servicesWithAccess().containsKey(ServiceEndpointType.MICROSOFT_STORAGE));
 
             return resource;
         }
@@ -285,6 +382,17 @@ public class TestNetwork {
             RouteTable routeTable = subnet.getRouteTable();
             if (routeTable != null) {
                 info.append("\n\tRoute table ID: ").append(routeTable.id());
+            }
+
+            // Output services with access
+            Map<ServiceEndpointType, List<Region>> services = subnet.servicesWithAccess();
+            if (services.size() > 0) {
+                info.append("\n\tServices with access");
+                for (Map.Entry<ServiceEndpointType, List<Region>> service : services.entrySet()) {
+                    info.append("\n\t\tService: ")
+                            .append(service.getKey())
+                            .append(" Regions: " + service.getValue() + "");
+                }
             }
         }
 

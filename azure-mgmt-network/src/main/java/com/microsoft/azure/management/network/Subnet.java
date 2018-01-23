@@ -6,6 +6,8 @@
 package com.microsoft.azure.management.network;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.microsoft.azure.management.apigeneration.Beta;
@@ -13,6 +15,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.network.implementation.SubnetInner;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
@@ -86,6 +89,13 @@ public interface Subnet extends
     String routeTableId();
 
     /**
+     * @return the services that has access to the subnet.
+     */
+    @Beta(SinceVersion.V1_6_0)
+    Map<ServiceEndpointType, List<Region>> servicesWithAccess();
+
+
+    /**
      * Grouping of subnet definition stages.
      */
     interface DefinitionStages {
@@ -149,6 +159,21 @@ public interface Subnet extends
             WithAttach<ParentT> withExistingRouteTable(String resourceId);
         }
 
+        /**
+         * The stage of a subnet definition allowing to enable access from a service endpoint to the subnet.
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        @Beta(SinceVersion.V1_6_0)
+        interface WithServiceEndpoint<ParentT> {
+            /**
+             * Specifies a service endpoint to enable access from.
+             * @param service the service type
+             * @return the next stage of the definition
+             */
+            @Beta(SinceVersion.V1_6_0)
+            WithAttach<ParentT> withAccessFromService(ServiceEndpointType service);
+        }
+
         /** The final stage of the subnet definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the subnet definition
@@ -158,7 +183,8 @@ public interface Subnet extends
         interface WithAttach<ParentT> extends
             Attachable.InDefinition<ParentT>,
             WithNetworkSecurityGroup<ParentT>,
-            WithRouteTable<ParentT> {
+            WithRouteTable<ParentT>,
+            WithServiceEndpoint<ParentT> {
         }
     }
 
@@ -237,6 +263,30 @@ public interface Subnet extends
             Update withoutRouteTable();
         }
 
+
+        /**
+         * The stage of a subnet definition allowing to enable or disable access from a service endpoint
+         * to the subnet.
+         */
+        @Beta(SinceVersion.V1_6_0)
+        interface WithServiceEndpoint {
+            /**
+             * Specifies a service endpoint to enable access from.
+             * @param service the service type
+             * @return the next stage of the definition
+             */
+            @Beta(SinceVersion.V1_6_0)
+            Update withAccessFromService(ServiceEndpointType service);
+
+            /**
+             * Specifies that existing access from a service endpoint should be removed.
+             * @param service the service type
+             * @return the next stage of the definition
+             */
+            @Beta(SinceVersion.V1_6_0)
+            Update withoutAccessFromService(ServiceEndpointType service);
+        }
+
     }
 
     /**
@@ -246,6 +296,7 @@ public interface Subnet extends
         UpdateStages.WithAddressPrefix,
         UpdateStages.WithNetworkSecurityGroup,
         UpdateStages.WithRouteTable,
+        UpdateStages.WithServiceEndpoint,
         Settable<Network.Update> {
     }
 
@@ -313,6 +364,21 @@ public interface Subnet extends
             WithAttach<ParentT> withExistingRouteTable(String resourceId);
         }
 
+        /**
+         * The stage of a subnet definition allowing to enable access from a service endpoint to the subnet.
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        @Beta(SinceVersion.V1_6_0)
+        interface WithServiceEndpoint<ParentT> {
+            /**
+             * Specifies a service endpoint to enable access from.
+             * @param service the service type
+             * @return the next stage of the definition
+             */
+            @Beta(SinceVersion.V1_6_0)
+            WithAttach<ParentT> withAccessFromService(ServiceEndpointType service);
+        }
+
         /** The final stage of the subnet definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the subnet definition
@@ -322,7 +388,8 @@ public interface Subnet extends
         interface WithAttach<ParentT> extends
             Attachable.InUpdate<ParentT>,
             WithNetworkSecurityGroup<ParentT>,
-            WithRouteTable<ParentT> {
+            WithRouteTable<ParentT>,
+            WithServiceEndpoint<ParentT> {
         }
     }
 

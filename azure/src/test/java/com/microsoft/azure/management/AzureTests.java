@@ -892,6 +892,16 @@ public class AzureTests extends TestBase {
      * @throws Exception
      */
     @Test
+    public void testNetworkWithAccessFromServiceToSubnet() throws Exception {
+        new TestNetwork.WithAccessFromServiceToSubnet()
+                .runTest(azure.networks(), azure.resourceGroups());
+    }
+
+    /**
+     * Tests virtual network peering
+     * @throws Exception
+     */
+    @Test
     public void testNetworkPeerings() throws Exception {
         new TestNetwork.WithPeering()
             .runTest(azure.networks(), azure.resourceGroups());

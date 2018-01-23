@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.keyvault;
 
+import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
 import com.microsoft.azure.management.resources.core.TestBase;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
@@ -17,6 +18,7 @@ import com.microsoft.rest.RestClient;
 public class KeyVaultManagementTest extends TestBase {
     protected static ResourceManager resourceManager;
     protected static KeyVaultManager keyVaultManager;
+    protected static GraphRbacManager graphRbacManager;
     protected static String RG_NAME = "";
     protected static String VAULT_NAME = "";
 
@@ -29,12 +31,15 @@ public class KeyVaultManagementTest extends TestBase {
                 .authenticate(restClient)
                 .withSubscription(defaultSubscription);
 
+        graphRbacManager = GraphRbacManager
+                .authenticate(restClient, domain);
+
         keyVaultManager = KeyVaultManager
                 .authenticate(restClient, domain, defaultSubscription);
     }
 
     @Override
     protected void cleanUpResources() {
-        resourceManager.resourceGroups().deleteByName(RG_NAME);
+        resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
     }
 }

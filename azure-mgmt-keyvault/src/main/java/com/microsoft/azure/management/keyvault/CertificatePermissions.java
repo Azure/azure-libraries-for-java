@@ -8,85 +8,70 @@
 
 package com.microsoft.azure.management.keyvault;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for CertificatePermissions.
  */
-public final class CertificatePermissions {
-    /** Static value all for CertificatePermissions. */
-    public static final CertificatePermissions ALL = new CertificatePermissions("all");
-
+public final class CertificatePermissions extends ExpandableStringEnum<CertificatePermissions> {
     /** Static value get for CertificatePermissions. */
-    public static final CertificatePermissions GET = new CertificatePermissions("get");
+    public static final CertificatePermissions GET = fromString("get");
 
     /** Static value list for CertificatePermissions. */
-    public static final CertificatePermissions LIST = new CertificatePermissions("list");
+    public static final CertificatePermissions LIST = fromString("list");
 
     /** Static value delete for CertificatePermissions. */
-    public static final CertificatePermissions DELETE = new CertificatePermissions("delete");
+    public static final CertificatePermissions DELETE = fromString("delete");
 
     /** Static value create for CertificatePermissions. */
-    public static final CertificatePermissions CREATE = new CertificatePermissions("create");
+    public static final CertificatePermissions CREATE = fromString("create");
 
     /** Static value import for CertificatePermissions. */
-    public static final CertificatePermissions IMPORT = new CertificatePermissions("import");
+    public static final CertificatePermissions IMPORT = fromString("import");
 
     /** Static value update for CertificatePermissions. */
-    public static final CertificatePermissions UPDATE = new CertificatePermissions("update");
+    public static final CertificatePermissions UPDATE = fromString("update");
 
     /** Static value managecontacts for CertificatePermissions. */
-    public static final CertificatePermissions MANAGECONTACTS = new CertificatePermissions("managecontacts");
+    public static final CertificatePermissions MANAGECONTACTS = fromString("managecontacts");
 
     /** Static value getissuers for CertificatePermissions. */
-    public static final CertificatePermissions GETISSUERS = new CertificatePermissions("getissuers");
+    public static final CertificatePermissions GETISSUERS = fromString("getissuers");
 
     /** Static value listissuers for CertificatePermissions. */
-    public static final CertificatePermissions LISTISSUERS = new CertificatePermissions("listissuers");
+    public static final CertificatePermissions LISTISSUERS = fromString("listissuers");
 
     /** Static value setissuers for CertificatePermissions. */
-    public static final CertificatePermissions SETISSUERS = new CertificatePermissions("setissuers");
+    public static final CertificatePermissions SETISSUERS = fromString("setissuers");
 
     /** Static value deleteissuers for CertificatePermissions. */
-    public static final CertificatePermissions DELETEISSUERS = new CertificatePermissions("deleteissuers");
+    public static final CertificatePermissions DELETEISSUERS = fromString("deleteissuers");
 
     /** Static value manageissuers for CertificatePermissions. */
-    public static final CertificatePermissions MANAGEISSUERS = new CertificatePermissions("manageissuers");
+    public static final CertificatePermissions MANAGEISSUERS = fromString("manageissuers");
 
-    private String value;
+    /** Static value recover for CertificatePermissions. */
+    public static final CertificatePermissions RECOVER = fromString("recover");
+
+    /** Static value purge for CertificatePermissions. */
+    public static final CertificatePermissions PURGE = fromString("purge");
 
     /**
-     * Creates a custom value for CertificatePermissions.
-     * @param value the custom value
+     * Creates or finds a CertificatePermissions from its string representation.
+     * @param name a name to look for
+     * @return the corresponding CertificatePermissions
      */
-    public CertificatePermissions(String value) {
-        this.value = value;
+    @JsonCreator
+    public static CertificatePermissions fromString(String name) {
+        return fromString(name, CertificatePermissions.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof CertificatePermissions)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        CertificatePermissions rhs = (CertificatePermissions) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known CertificatePermissions values
+     */
+    public static Collection<CertificatePermissions> values() {
+        return values(CertificatePermissions.class);
     }
 }

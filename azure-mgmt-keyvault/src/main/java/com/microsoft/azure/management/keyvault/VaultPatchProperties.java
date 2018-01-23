@@ -15,18 +15,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Properties of the vault.
  */
-public class VaultProperties {
+public class VaultPatchProperties {
     /**
      * The Azure Active Directory tenant ID that should be used for
      * authenticating requests to the key vault.
      */
-    @JsonProperty(value = "tenantId", required = true)
+    @JsonProperty(value = "tenantId")
     private UUID tenantId;
 
     /**
      * SKU details.
      */
-    @JsonProperty(value = "sku", required = true)
+    @JsonProperty(value = "sku")
     private Sku sku;
 
     /**
@@ -36,12 +36,6 @@ public class VaultProperties {
      */
     @JsonProperty(value = "accessPolicies")
     private List<AccessPolicyEntry> accessPolicies;
-
-    /**
-     * The URI of the vault for performing operations on keys and secrets.
-     */
-    @JsonProperty(value = "vaultUri", access = JsonProperty.Access.WRITE_ONLY)
-    private String vaultUri;
 
     /**
      * Property to specify whether Azure Virtual Machines are permitted to
@@ -91,9 +85,9 @@ public class VaultProperties {
      * Set the tenantId value.
      *
      * @param tenantId the tenantId value to set
-     * @return the VaultProperties object itself.
+     * @return the VaultPatchProperties object itself.
      */
-    public VaultProperties withTenantId(UUID tenantId) {
+    public VaultPatchProperties withTenantId(UUID tenantId) {
         this.tenantId = tenantId;
         return this;
     }
@@ -111,9 +105,9 @@ public class VaultProperties {
      * Set the sku value.
      *
      * @param sku the sku value to set
-     * @return the VaultProperties object itself.
+     * @return the VaultPatchProperties object itself.
      */
-    public VaultProperties withSku(Sku sku) {
+    public VaultPatchProperties withSku(Sku sku) {
         this.sku = sku;
         return this;
     }
@@ -131,20 +125,11 @@ public class VaultProperties {
      * Set the accessPolicies value.
      *
      * @param accessPolicies the accessPolicies value to set
-     * @return the VaultProperties object itself.
+     * @return the VaultPatchProperties object itself.
      */
-    public VaultProperties withAccessPolicies(List<AccessPolicyEntry> accessPolicies) {
+    public VaultPatchProperties withAccessPolicies(List<AccessPolicyEntry> accessPolicies) {
         this.accessPolicies = accessPolicies;
         return this;
-    }
-
-    /**
-     * Get the vaultUri value.
-     *
-     * @return the vaultUri value
-     */
-    public String vaultUri() {
-        return this.vaultUri;
     }
 
     /**
@@ -160,9 +145,9 @@ public class VaultProperties {
      * Set the enabledForDeployment value.
      *
      * @param enabledForDeployment the enabledForDeployment value to set
-     * @return the VaultProperties object itself.
+     * @return the VaultPatchProperties object itself.
      */
-    public VaultProperties withEnabledForDeployment(Boolean enabledForDeployment) {
+    public VaultPatchProperties withEnabledForDeployment(Boolean enabledForDeployment) {
         this.enabledForDeployment = enabledForDeployment;
         return this;
     }
@@ -180,9 +165,9 @@ public class VaultProperties {
      * Set the enabledForDiskEncryption value.
      *
      * @param enabledForDiskEncryption the enabledForDiskEncryption value to set
-     * @return the VaultProperties object itself.
+     * @return the VaultPatchProperties object itself.
      */
-    public VaultProperties withEnabledForDiskEncryption(Boolean enabledForDiskEncryption) {
+    public VaultPatchProperties withEnabledForDiskEncryption(Boolean enabledForDiskEncryption) {
         this.enabledForDiskEncryption = enabledForDiskEncryption;
         return this;
     }
@@ -200,9 +185,9 @@ public class VaultProperties {
      * Set the enabledForTemplateDeployment value.
      *
      * @param enabledForTemplateDeployment the enabledForTemplateDeployment value to set
-     * @return the VaultProperties object itself.
+     * @return the VaultPatchProperties object itself.
      */
-    public VaultProperties withEnabledForTemplateDeployment(Boolean enabledForTemplateDeployment) {
+    public VaultPatchProperties withEnabledForTemplateDeployment(Boolean enabledForTemplateDeployment) {
         this.enabledForTemplateDeployment = enabledForTemplateDeployment;
         return this;
     }
@@ -220,9 +205,9 @@ public class VaultProperties {
      * Set the enableSoftDelete value.
      *
      * @param enableSoftDelete the enableSoftDelete value to set
-     * @return the VaultProperties object itself.
+     * @return the VaultPatchProperties object itself.
      */
-    public VaultProperties withEnableSoftDelete(Boolean enableSoftDelete) {
+    public VaultPatchProperties withEnableSoftDelete(Boolean enableSoftDelete) {
         this.enableSoftDelete = enableSoftDelete;
         return this;
     }
@@ -240,9 +225,9 @@ public class VaultProperties {
      * Set the createMode value.
      *
      * @param createMode the createMode value to set
-     * @return the VaultProperties object itself.
+     * @return the VaultPatchProperties object itself.
      */
-    public VaultProperties withCreateMode(CreateMode createMode) {
+    public VaultPatchProperties withCreateMode(CreateMode createMode) {
         this.createMode = createMode;
         return this;
     }

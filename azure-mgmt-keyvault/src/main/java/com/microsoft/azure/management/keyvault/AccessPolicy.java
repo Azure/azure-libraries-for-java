@@ -13,8 +13,8 @@ import com.microsoft.azure.management.graphrbac.ActiveDirectoryUser;
 import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 
 import java.util.List;
 
@@ -178,6 +178,30 @@ public interface AccessPolicy extends
              * @return the next stage of access policy definition
              */
             WithAttach<ParentT> allowSecretPermissions(List<SecretPermissions> permissions);
+
+            /**
+             * Allow all permissions for the AD identity to access certificates.
+             *
+             * @return the next stage of access policy definition
+             */
+            @Method
+            WithAttach<ParentT> allowCertificateAllPermissions();
+
+            /**
+             * Allow a list of permissions for the AD identity to access certificates.
+             *
+             * @param permissions the list of permissions allowed
+             * @return the next stage of access policy definition
+             */
+            WithAttach<ParentT> allowCertificatePermissions(CertificatePermissions... permissions);
+
+            /**
+             * Allow a list of permissions for the AD identity to access certificates.
+             *
+             * @param permissions the list of permissions allowed
+             * @return the next stage of access policy definition
+             */
+            WithAttach<ParentT> allowCertificatePermissions(List<CertificatePermissions> permissions);
         }
 
         /** The final stage of the access policy definition.
@@ -438,6 +462,54 @@ public interface AccessPolicy extends
              * @return the next stage of access policy update
              */
             Update disallowSecretPermissions(List<SecretPermissions> permissions);
+
+            /**
+             * Allow all permissions for the AD identity to access certificates.
+             *
+             * @return the next stage of access policy update
+             */
+            @Method
+            Update allowCertificateAllPermissions();
+
+            /**
+             * Allow a list of permissions for the AD identity to access certificates.
+             *
+             * @param permissions the list of permissions allowed
+             * @return the next stage of access policy update
+             */
+            Update allowCertificatePermissions(CertificatePermissions... permissions);
+
+            /**
+             * Allow a list of permissions for the AD identity to access certificates.
+             *
+             * @param permissions the list of permissions allowed
+             * @return the next stage of access policy update
+             */
+            Update allowCertificatePermissions(List<CertificatePermissions> permissions);
+
+            /**
+             * Revoke all permissions for the AD identity to access certificates.
+             *
+             * @return the next stage of access policy update
+             */
+            @Method
+            Update disallowCertificateAllPermissions();
+
+            /**
+             * Revoke a list of permissions for the AD identity to access certificates.
+             *
+             * @param permissions the list of permissions to revoke
+             * @return the next stage of access policy update
+             */
+            Update disallowCertificatePermissions(CertificatePermissions... permissions);
+
+            /**
+             * Revoke a list of permissions for the AD identity to access certificates.
+             *
+             * @param permissions the list of permissions to revoke
+             * @return the next stage of access policy update
+             */
+            Update disallowCertificatePermissions(List<CertificatePermissions> permissions);
         }
     }
 

@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.appservice;
 
 import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -109,8 +110,16 @@ public interface FunctionApp extends
      */
     Completable syncTriggersAsync();
 
+    /**
+     * @return a open stream to the application logs
+     */
+    @Beta(SinceVersion.V1_6_0)
     InputStream streamApplicationLogs();
 
+    /**
+     * @return an Observable streaming application logs
+     */
+    @Beta(SinceVersion.V1_6_0)
     Observable<String> streamApplicationLogsAsync();
 
     /**************************************************************

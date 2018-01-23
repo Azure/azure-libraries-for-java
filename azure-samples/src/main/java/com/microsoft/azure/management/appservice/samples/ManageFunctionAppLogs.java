@@ -16,22 +16,21 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import rx.Subscription;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import rx.Subscriber;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Azure App Service basic sample for managing function apps.
  *  - Create a function app under the same new app service plan:
  *    - Deploy to app using FTP
  *    - stream logs synchronously for 30 seconds
- *    - stream logs asynchronously until 3 requests are made
+ *    - stream logs asynchronously until 3 requests are completed
  */
 public final class ManageFunctionAppLogs {
 
@@ -85,7 +84,9 @@ public final class ManageFunctionAppLogs {
             post("http://" + appUrl + "/api/square", "625");
             SdkContext.sleep(5000);
 
-            // listen to logs synchronously on a new thread
+//            //============================================================
+//            // Listen to logs synchronously for 30 seconds
+//
 //            final InputStream stream = app.streamApplicationLogs();
 //            System.out.println("Streaming logs from function app " + appName + "...");
 //            String line = readLine(stream);
@@ -94,44 +95,58 @@ public final class ManageFunctionAppLogs {
 //            new Thread(new Runnable() {
 //                @Override
 //                public void run() {
-//                    SdkContext.sleep(5000);
-//                    System.out.println("Starting hitting");
 //                    post("http://" + appUrl + "/api/square", "625");
-//                    SdkContext.sleep(5000);
+//                    SdkContext.sleep(10000);
 //                    post("http://" + appUrl + "/api/square", "725");
-//                    SdkContext.sleep(5000);
+//                    SdkContext.sleep(10000);
 //                    post("http://" + appUrl + "/api/square", "825");
 //                }
 //            }).start();
-//            while (line != null && stopWatch.getTime() < 150000) {
+//            while (line != null && stopWatch.getTime() < 30000) {
 //                System.out.println(line);
 //                line = readLine(stream);
 //            }
+//            stream.close();
 
-            Subscription subscription = app.streamApplicationLogsAsync()
-                    .subscribeOn(Schedulers.newThread())
-                    .subscribe(new Action1<String>() {
-                        @Override
-                        public void call(String s) {
-                            System.out.println(s);
-                        }
-                    });
+            //============================================================
+            // Listen to logs asynchronously until 3 requests are completed
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    SdkContext.sleep(100000);
+                    SdkContext.sleep(5000);
                     System.out.println("Starting hitting");
                     post("http://" + appUrl + "/api/square", "625");
-                    SdkContext.sleep(2000);
+                    SdkContext.sleep(10000);
                     post("http://" + appUrl + "/api/square", "725");
-                    SdkContext.sleep(2000);
+                    SdkContext.sleep(10000);
                     post("http://" + appUrl + "/api/square", "825");
                 }
             }).start();
 
-            SdkContext.sleep(150000);
-            subscription.unsubscribe();
+            final AtomicInteger count = new AtomicInteger(0);
+            app.streamApplicationLogsAsync()
+                    .subscribe(new Subscriber<String>() {
+                        @Override
+                        public void onCompleted() {
+                            // automatically unsubscribe
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onNext(String s) {
+                            System.out.println(s);
+                            if (s.contains("Function completed")) {
+                                if (count.incrementAndGet() >= 3) {
+                                    unsubscribe();
+                                }
+                            }
+                        }
+                    });
 
             return true;
         } catch (Exception e) {
@@ -199,7 +214,7 @@ public final class ManageFunctionAppLogs {
     private static String readLine(InputStream in) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         int c;
-        for (c = in.read(); c != '\n' && c >= 0 ; c = in.read()) {
+        for (c = in.read(); c != '\n' && c >= 0; c = in.read()) {
             stream.write(c);
         }
         if (c == -1 && stream.size() == 0) {

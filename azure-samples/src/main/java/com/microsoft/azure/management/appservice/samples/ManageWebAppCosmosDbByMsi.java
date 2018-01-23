@@ -71,13 +71,10 @@ public final class ManageWebAppCosmosDbByMsi {
             Utils.print(cosmosDBAccount);
 
             //============================================================
-            // Create a service principal
+            // Create a key vault
 
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
             final ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(credFile);
-
-            //============================================================
-            // Create a key vault
 
             Vault vault = azure.vaults()
                     .define(vaultName)
@@ -114,7 +111,7 @@ public final class ManageWebAppCosmosDbByMsi {
 
             System.out.println("Creating web app " + appName + " in resource group " + rgName + "...");
 
-            WebApp app1 = azure.webApps()
+            WebApp app = azure.webApps()
                     .define(appName)
                     .withRegion(Region.US_WEST)
                     .withNewResourceGroup(rgName)
@@ -125,15 +122,15 @@ public final class ManageWebAppCosmosDbByMsi {
                     .withSystemAssignedManagedServiceIdentity()
                     .create();
 
-            System.out.println("Created web app " + app1.name());
-            Utils.print(app1);
+            System.out.println("Created web app " + app.name());
+            Utils.print(app);
 
             //============================================================
             // Update vault to allow the web app to access
 
             vault.update()
                     .defineAccessPolicy()
-                        .forObjectId(app1.systemAssignedManagedServiceIdentityPrincipalId())
+                        .forObjectId(app.systemAssignedManagedServiceIdentityPrincipalId())
                         .allowSecretAllPermissions()
                         .attach()
                     .apply();
@@ -143,11 +140,11 @@ public final class ManageWebAppCosmosDbByMsi {
 
             System.out.println("Deploying a spring boot app to " + appName + " through FTP...");
 
-            Utils.uploadFileToWebAppWwwRoot(app1.getPublishingProfile(), "ROOT.jar", ManageWebAppSourceControl.class.getResourceAsStream("/todo-app-java-on-azure-1.0-SNAPSHOT.jar"));
-            Utils.uploadFileToWebAppWwwRoot(app1.getPublishingProfile(), "web.config", ManageWebAppSourceControl.class.getResourceAsStream("/web.config"));
+            Utils.uploadFileToWebAppWwwRoot(app.getPublishingProfile(), "ROOT.jar", ManageWebAppSourceControl.class.getResourceAsStream("/todo-app-java-on-azure-1.0-SNAPSHOT.jar"));
+            Utils.uploadFileToWebAppWwwRoot(app.getPublishingProfile(), "web.config", ManageWebAppSourceControl.class.getResourceAsStream("/web.config"));
 
-            System.out.println("Deployment to web app " + app1.name() + " completed");
-            Utils.print(app1);
+            System.out.println("Deployment to web app " + app.name() + " completed");
+            Utils.print(app);
 
             // warm up
             System.out.println("Warming up " + appUrl + "...");

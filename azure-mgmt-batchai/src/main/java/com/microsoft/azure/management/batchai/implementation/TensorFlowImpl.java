@@ -15,7 +15,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
  * Represents TensorFlow settings.
  */
 @LangDefinition
-public class TensorFlowImpl extends IndexableWrapperImpl<TensorFlowSettings>
+class TensorFlowImpl extends IndexableWrapperImpl<TensorFlowSettings>
         implements
         ToolTypeSettings.TensorFlow,
         ToolTypeSettings.TensorFlow.Definition<BatchAIJob.DefinitionStages.WithCreate> {

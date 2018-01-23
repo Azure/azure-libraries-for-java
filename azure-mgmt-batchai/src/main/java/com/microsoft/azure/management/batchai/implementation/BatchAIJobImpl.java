@@ -46,7 +46,7 @@ import static com.microsoft.azure.management.resources.fluentcore.arm.collection
  * Implementation for BatchAIJob and its create interface.
  */
 @LangDefinition
-public class BatchAIJobImpl
+class BatchAIJobImpl
         extends GroupableResourceImpl<BatchAIJob, JobInner, BatchAIJobImpl, BatchAIManager>
         implements BatchAIJob,
         BatchAIJob.Definition {

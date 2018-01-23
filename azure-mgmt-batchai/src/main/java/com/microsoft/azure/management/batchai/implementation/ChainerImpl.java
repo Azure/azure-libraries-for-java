@@ -15,7 +15,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
  * Represents Chainer settings.
  */
 @LangDefinition
-public class ChainerImpl extends IndexableWrapperImpl<ChainerSettings>
+class ChainerImpl extends IndexableWrapperImpl<ChainerSettings>
         implements
         ToolTypeSettings.Chainer,
         ToolTypeSettings.Chainer.Definition<BatchAIJob.DefinitionStages.WithCreate> {

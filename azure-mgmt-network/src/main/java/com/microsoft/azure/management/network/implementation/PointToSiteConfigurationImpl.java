@@ -26,7 +26,7 @@ class PointToSiteConfigurationImpl
         implements
         PointToSiteConfiguration,
         PointToSiteConfiguration.Definition<VirtualNetworkGateway.Update>,
-        PointToSiteConfiguration.DefinitionStages.WithAuthenticationType<VirtualNetworkGateway.Update> {
+        PointToSiteConfiguration.Update {
 
     PointToSiteConfigurationImpl(VpnClientConfiguration inner, VirtualNetworkGatewayImpl parent) {
         super(inner, parent);
@@ -61,6 +61,19 @@ class PointToSiteConfigurationImpl
     }
 
     @Override
+    public Update withoutRootCertificate(String name) {
+        if (inner().vpnClientRootCertificates() != null) {
+            for (VpnClientRootCertificateInner certificateInner : inner().vpnClientRootCertificates()) {
+                if (name.equals(certificateInner.name())) {
+                    inner().vpnClientRootCertificates().remove(certificateInner);
+                    break;
+                }
+            }
+        }
+        return this;
+    }
+
+    @Override
     public PointToSiteConfigurationImpl withAzureCertificate() {
         return this;
     }
@@ -81,13 +94,13 @@ class PointToSiteConfigurationImpl
     }
 
     @Override
-    public DefinitionStages.WithAttach<VirtualNetworkGateway.Update> withSstpOnly() {
+    public PointToSiteConfigurationImpl withSstpOnly() {
         inner().withVpnClientProtocols(Collections.singletonList(VpnClientProtocol.SSTP));
         return this;
     }
 
     @Override
-    public DefinitionStages.WithAttach<VirtualNetworkGateway.Update> withIkeV2Only() {
+    public PointToSiteConfigurationImpl withIkeV2Only() {
         inner().withVpnClientProtocols(Collections.singletonList(VpnClientProtocol.IKE_V2));
         return this;
     }

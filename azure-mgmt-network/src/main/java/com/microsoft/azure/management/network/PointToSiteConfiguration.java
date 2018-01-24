@@ -12,6 +12,7 @@ import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 
 /**
  * A client-side representation of point-to-site configuration for a virtual network gateway.
@@ -87,7 +88,64 @@ public interface PointToSiteConfiguration extends
      */
     interface Definition<ParentT> extends
             DefinitionStages.Blank<ParentT>,
+            DefinitionStages.WithAuthenticationType<ParentT>,
             DefinitionStages.WithAddressPool<ParentT>,
             DefinitionStages.WithAttach<ParentT> {
     }
+
+    /**
+     * Grouping of point-to-site configuration update stages.
+     */
+    interface UpdateStages {
+        interface WithAddressPool<ParentT> {
+            WithAuthenticationType<ParentT> withAddressPool(String addressPool);
+        }
+
+        /**
+         * The stage of the point-to-site configuration definition allowing to specify authentication type.
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        interface WithAuthenticationType<ParentT> {
+            /**
+             * Specifies that Azure certificate authentication type will be used.
+             * @return the next stage of the definition
+             */
+            Update withAzureCertificate();
+
+            Update withRadiusAuthentication(String serverIPAddress, String serverSecret);
+        }
+
+        interface WithRootCertificate<ParentT> {
+            Update withRootCertificate(String name, String certificateData);
+
+            Update withoutRootCertificate(String name);
+        }
+
+        interface WithRevokedCertificate<ParentT> {
+            Update withRevokedCertificate(String name, String thumbprint);
+        }
+
+        /**
+         * The stage of a point-to-site configuration definition allowing to specify which tunnel type will be used.
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        interface WithTunnelType<ParentT> {
+            Update withSstpOnly();
+
+            Update withIkeV2Only();
+        }
+    }
+
+    /**
+     * The entirety of a subnet update as part of a network update.
+     */
+    interface Update extends
+            UpdateStages.WithAddressPool,
+            UpdateStages.WithAuthenticationType,
+            UpdateStages.WithRootCertificate,
+            UpdateStages.WithRevokedCertificate,
+            UpdateStages.WithTunnelType,
+            Settable<VirtualNetworkGateway.Update> {
+    }
+
 }

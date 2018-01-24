@@ -1138,6 +1138,16 @@ public class AzureTests extends TestBase {
     }
 
     /**
+     * Tests the virtual network gateway Point-to-Site connection.
+     * @throws Exception
+     */
+    @Test
+    public void testVirtualNetworkGatewayPointToSite() throws Exception {
+        new TestVirtualNetworkGateway.PointToSite(azure.virtualNetworkGateways().manager())
+                .runTest(azure.virtualNetworkGateways(), azure.resourceGroups());
+    }
+
+    /**
      * Tests the local network gateway implementation.
      * @throws Exception
      */

@@ -6,6 +6,7 @@
 package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.network.LocalNetworkGateway;
+import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.Subnet;
 import com.microsoft.azure.management.network.VirtualNetworkGateway;
 import com.microsoft.azure.management.network.VirtualNetworkGatewayConnection;
@@ -31,6 +32,7 @@ public class TestVirtualNetworkGateway {
     private static String GROUP_NAME;
     private static String GATEWAY_NAME1;
     private static String GATEWAY_NAME2;
+    private static String NETWORK_NAME;
     private static String CONNECTION_NAME = "myNewConnection";
 
     private static void initializeResourceNames() {
@@ -38,6 +40,7 @@ public class TestVirtualNetworkGateway {
         GROUP_NAME = "rg" + TEST_ID;
         GATEWAY_NAME1 = "vngw" + TEST_ID;
         GATEWAY_NAME2 = "vngw2" + TEST_ID;
+        NETWORK_NAME = "nw" + TEST_ID;
     }
 
     /**
@@ -229,6 +232,76 @@ public class TestVirtualNetworkGateway {
             List<VirtualNetworkGatewayConnection> connections = resource.listConnections();
             Assert.assertEquals(0, connections.size());
             return resource;
+        }
+    }
+
+    /**
+     * Test VNet-to-VNet Virtual Network Gateway Connection.
+     */
+    public static class PointToSite extends TestTemplate<VirtualNetworkGateway, VirtualNetworkGateways> {
+
+        public PointToSite(NetworkManager networkManager) {
+            initializeResourceNames();
+        }
+
+        @Override
+        public void print(VirtualNetworkGateway resource) {
+            printVirtualNetworkGateway(resource);
+        }
+
+        @Override
+        public VirtualNetworkGateway createResource(final VirtualNetworkGateways gateways) throws Exception {
+
+            // Create virtual network gateway
+            initializeResourceNames();
+
+            Network network = gateways.manager().networks().define(NETWORK_NAME)
+                    .withRegion(REGION)
+                    .withNewResourceGroup(GROUP_NAME)
+                    .withAddressSpace("192.168.0.0/16")
+                    .withAddressSpace("10.254.0.0/16")
+                    .withSubnet("GatewaySubnet", "192.168.200.0/24")
+                    .withSubnet("FrontEnd", "192.168.1.0/24")
+                    .withSubnet("BackEnd", "10.254.1.0/24")
+                    .create();
+            System.out.println("Created network");
+            // Print the virtual network
+
+            System.out.println("Creating virtual network gateway...");
+            VirtualNetworkGateway vngw1 = gateways.define(GATEWAY_NAME1)
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(GROUP_NAME)
+                    .withExistingNetwork(network)
+                    .withRouteBasedVpn()
+                    .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
+                    .create();
+            System.out.println("Created virtual network gateway");
+
+            vngw1.update()
+                    .definePointToSiteConfiguration()
+                    .withAddressPool("172.16.201.0/24")
+                    .withAzureCertificate()
+                    .withRootCertificate("myCertificate.cer", "MIIC5zCCAc+gAwIBAgIQUIcRQlcJRpJFiqjTDA/eaDANBgkqhkiG9w0BAQsFADAWMRQwEgYDVQQDDAtQMlNSb290Q2VydDAeFw0xODAxMjMwMDI0MjhaFw0xOTAxMjMwMDQ0MjhaMBYxFDASBgNVBAMMC1AyU1Jvb3RDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA9gGcJrS4a8Nb67To6Zilv0AG0Jw4ZmWXjT5an8peBbVrEjIVtTN5CbD2M9WJhBDi1GQH6hj1xzHltPQY0HRQCqfZ25zs20kBi1SJF5fE8q2t4q26jF7lUjAtwzniqHh8/Y+LqI9ldyV+Lxj0L7brDnkU4mryy3h86V60PsMSl7n2Y8ly1b3uT2mvd49wATCp7cs0bGweWopq+D6LaFSyWp1JoWTFFgi9KysN9D/auFwxdTqJH/IXCFaiAl/iKketERIA95wQ+BpDbuVux35fVMXE0GfiaubNBtf9/DmJBMjrWcy9BCYNBaJtzHq6vT9etej28V4sAW0PXOXwiOg9vQIDAQABozEwLzAOBgNVHQ8BAf8EBAMCAgQwHQYDVR0OBBYEFO5DxuEoPKP0uPMckMX6q90yEeMaMA0GCSqGSIb3DQEBCwUAA4IBAQACLZEizRDy0559l5EmkelKbH1n4rxxIS4ID7zlceVXNgvuoDKqWSdhYMilEoXtb1cZXNAylWH+9JoXt7QzjvM05NvvSegaIu8ndBrxBHtwDfVw+rGsghy4JQeIW0pAy9eshHDwXzoBZgC3uUlHDgnVZZ3o9Td+6uLKKRZNERGPu5uqpjylJmpEyyeb7zfv9cyPBB/L4BclIcM43pjJ7/yf1skWdinoIa1azdOAJgG6aVwDWtGAW+UO9SXb36dZrCl9W5ZqTjXJjjk1fP4fANpx+xeLbIo6JVxIKglF8SIDxmOHfFRxg8l48V1o5pLppQ50Q3JhvSPuNqWfQQMmrMOc")
+                    .attach()
+                    .apply();
+
+            String profile = vngw1.generateVpnProfile();
+            System.out.println(profile);
+            return vngw1;
+        }
+
+        @Override
+        public VirtualNetworkGateway updateResource(VirtualNetworkGateway vngw1) throws Exception {
+            vngw1.update().updatePointToSiteConfiguration()
+                    .withRevokedCertificate("myCertificate.cer", "bdf834528f0fff6eaae4c154e06b54322769276c")
+                    .parent()
+                    .apply();
+
+            vngw1.update().updatePointToSiteConfiguration()
+                    .withoutRootCertificate("myCertificate.cer")
+                    .parent()
+                    .apply();
+            return vngw1;
         }
     }
 

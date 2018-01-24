@@ -305,6 +305,8 @@ public interface VirtualNetworkGateway extends
              * @return the first stage of the point-to-site configuration definition
              */
             PointToSiteConfiguration.DefinitionStages.Blank<Update> definePointToSiteConfiguration();
+
+            PointToSiteConfiguration.Update updatePointToSiteConfiguration();
         }
     }
 

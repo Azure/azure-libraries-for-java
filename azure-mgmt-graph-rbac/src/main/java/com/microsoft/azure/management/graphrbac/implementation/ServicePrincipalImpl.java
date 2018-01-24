@@ -8,7 +8,6 @@ package com.microsoft.azure.management.graphrbac.implementation;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryApplication;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
@@ -22,11 +21,9 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Observable;
-import rx.exceptions.Exceptions;
 import rx.functions.Action1;
 import rx.functions.Func0;
 import rx.functions.Func1;
-import rx.functions.Func2;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +32,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
@@ -204,28 +200,7 @@ class ServicePrincipalImpl
                                     .forServicePrincipal(servicePrincipal)
                                     .withBuiltInRole(role.getValue())
                                     .withScope(role.getKey())
-                                    .createAsync()
-                                    .retryWhen(new Func1<Observable<? extends Throwable>, Observable<?>>() {
-                                        @Override
-                                        public Observable<?> call(Observable<? extends Throwable> observable) {
-                                            return observable.zipWith(Observable.range(1, 30), new Func2<Throwable, Integer, Integer>() {
-                                                @Override
-                                                public Integer call(Throwable throwable, Integer integer) {
-                                                    if (throwable instanceof CloudException
-                                                            && ((CloudException) throwable).body().code().equalsIgnoreCase("PrincipalNotFound")) {
-                                                        return integer;
-                                                    } else {
-                                                        throw Exceptions.propagate(throwable);
-                                                    }
-                                                }
-                                            }).flatMap(new Func1<Integer, Observable<?>>() {
-                                                @Override
-                                                public Observable<?> call(Integer i) {
-                                                    return Observable.timer(i, TimeUnit.SECONDS);
-                                                }
-                                            });
-                                        }
-                                    });
+                                    .createAsync();
                         }
                     })
                     .doOnNext(new Action1<Indexable>() {

@@ -12,6 +12,9 @@ import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public class FunctionAppsTests extends AppServiceTest {
@@ -100,5 +103,17 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withNewAppServicePlan(PricingTier.STANDARD_S2)
                 .apply();
         Assert.assertNotEquals(functionApp3.appServicePlanId(), functionApp1.appServicePlanId());
+    }
+
+    private static String readLine(InputStream in) throws IOException {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        int c;
+        for (c = in.read(); c != '\n' && c >= 0 ; c = in.read()) {
+            stream.write(c);
+        }
+        if (c == -1 && stream.size() == 0) {
+            return null;
+        }
+        return stream.toString("UTF-8");
     }
 }

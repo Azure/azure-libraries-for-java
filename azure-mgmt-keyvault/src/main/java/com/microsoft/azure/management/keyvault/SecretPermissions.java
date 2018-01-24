@@ -8,61 +8,52 @@
 
 package com.microsoft.azure.management.keyvault;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for SecretPermissions.
  */
-public final class SecretPermissions {
-    /** Static value all for SecretPermissions. */
-    public static final SecretPermissions ALL = new SecretPermissions("all");
-
+public final class SecretPermissions extends ExpandableStringEnum<SecretPermissions> {
     /** Static value get for SecretPermissions. */
-    public static final SecretPermissions GET = new SecretPermissions("get");
+    public static final SecretPermissions GET = fromString("get");
 
     /** Static value list for SecretPermissions. */
-    public static final SecretPermissions LIST = new SecretPermissions("list");
+    public static final SecretPermissions LIST = fromString("list");
 
     /** Static value set for SecretPermissions. */
-    public static final SecretPermissions SET = new SecretPermissions("set");
+    public static final SecretPermissions SET = fromString("set");
 
     /** Static value delete for SecretPermissions. */
-    public static final SecretPermissions DELETE = new SecretPermissions("delete");
+    public static final SecretPermissions DELETE = fromString("delete");
 
-    private String value;
+    /** Static value backup for SecretPermissions. */
+    public static final SecretPermissions BACKUP = fromString("backup");
+
+    /** Static value restore for SecretPermissions. */
+    public static final SecretPermissions RESTORE = fromString("restore");
+
+    /** Static value recover for SecretPermissions. */
+    public static final SecretPermissions RECOVER = fromString("recover");
+
+    /** Static value purge for SecretPermissions. */
+    public static final SecretPermissions PURGE = fromString("purge");
 
     /**
-     * Creates a custom value for SecretPermissions.
-     * @param value the custom value
+     * Creates or finds a SecretPermissions from its string representation.
+     * @param name a name to look for
+     * @return the corresponding SecretPermissions
      */
-    public SecretPermissions(String value) {
-        this.value = value;
+    @JsonCreator
+    public static SecretPermissions fromString(String name) {
+        return fromString(name, SecretPermissions.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof SecretPermissions)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        SecretPermissions rhs = (SecretPermissions) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known SecretPermissions values
+     */
+    public static Collection<SecretPermissions> values() {
+        return values(SecretPermissions.class);
     }
 }

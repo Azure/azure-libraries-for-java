@@ -9,17 +9,16 @@ package com.microsoft.azure.management.compute.samples;
 import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.credentials.MSICredentials;
 import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.samples.Utils;
+import com.microsoft.rest.LogLevel;
 
 /**
  * Azure Compute sample for managing virtual machine from Managed Service Identity (MSI) enabled virtual machine -
- *   - Create a virtual machine using MSI credentials from MSI enabled VM
- *   - Delete the virtual machine using MSI credentials from MSI enabled VM.
+ *   - Create a virtual machine using MSI credentials from System assigned or User Assigned MSI enabled VM.
  */
 public final class ManageVirtualMachineFromMSIEnabledVirtualMachine {
     /**
@@ -29,37 +28,22 @@ public final class ManageVirtualMachineFromMSIEnabledVirtualMachine {
      */
     public static void main(String[] args) {
         try {
-            final String rgName = "msi-rg-test";
             final Region region = Region.US_WEST_CENTRAL;
 
-// This sample required to be run from a MSI enabled virtual machine with role
-// based contributor access to the resource group with name "msi-rg-test". MSI
-// enabled VM can be created using service principal credentials as shown below.
-//
-//            final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
-//
-//            Azure azure = Azure.configure()
-//                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
-//                    .authenticate(credFile)
-//                    .withDefaultSubscription(subscriptionId);
+            // This sample required to be run from a MSI (User Assigned or System Assigned) enabled virtual machine with role
+            // based contributor access to the resource group specified as the second command line argument.
+            //
+            // see https://github.com/Azure-Samples/compute-java-manage-user-assigned-msi-enabled-virtual-machine.git
+            //
 
-//            VirtualMachine virtualMachine = azure.virtualMachines()
-//                    .define("<vm-name>")
-//                    .withRegion(region)
-//                    .withNewResourceGroup(rgName)
-//                    .withNewPrimaryNetwork("10.0.0.0/28")
-//                    .withPrimaryPrivateIPAddressDynamic()
-//                    .withNewPrimaryPublicIPAddress(pipName)
-//                    .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
-//                    .withRootUsername("<user-name>")
-//                    .withRootPassword("<password>")
-//                    .withSystemAssignedManagedServiceIdentity()
-//                    .withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
-//                    .create();
+            final String usage = "Usage: mvn clean compile exec:java -Dexec.args=\"<subscription-id> <rg-name> [<client-id>]\"";
+            if (args.length < 2) {
+                throw new IllegalArgumentException(usage);
+            }
 
-
-            // Specify your subscription Id
-            final String subscriptionId = "<subscription-id>";
+            final String subscriptionId = args[0];
+            final String resourceGroupName = args[1];
+            final String clientId = args.length > 2 ? args[2] : null;
             final String linuxVMName = Utils.createRandomName("VM1");
             final String userName = "tirekicker";
             final String password = "12NewPA$$w0rd!";
@@ -67,8 +51,15 @@ public final class ManageVirtualMachineFromMSIEnabledVirtualMachine {
             //=============================================================
             // MSI Authenticate
 
-            final MSICredentials credentials = new MSICredentials(AzureEnvironment.AZURE);
+            MSICredentials credentials = new MSICredentials(AzureEnvironment.AZURE);
+            if (clientId != null) {
+                // If User Assigned MSI client id is specified then switch to "User Assigned MSI" auth mode
+                //
+                credentials = credentials.withClientId(clientId);
+            }
+
             Azure azure = Azure.configure()
+                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
                     .authenticate(credentials)
                     .withSubscription(subscriptionId);
 
@@ -83,7 +74,7 @@ public final class ManageVirtualMachineFromMSIEnabledVirtualMachine {
             VirtualMachine virtualMachine = azure.virtualMachines()
                     .define(linuxVMName)
                     .withRegion(region)
-                    .withExistingResourceGroup(rgName)
+                    .withExistingResourceGroup(resourceGroupName)
                     .withNewPrimaryNetwork("10.0.0.0/28")
                     .withPrimaryPrivateIPAddressDynamic()
                     .withoutPrimaryPublicIPAddress()
@@ -91,20 +82,10 @@ public final class ManageVirtualMachineFromMSIEnabledVirtualMachine {
                     .withRootUsername(userName)
                     .withRootPassword(password)
                     .withSize(VirtualMachineSizeTypes.STANDARD_DS2_V2)
-                    .withOSDiskCaching(CachingTypes.READ_WRITE)
                     .create();
 
             System.out.println("Created virtual machine using MSI credentials");
             Utils.print(virtualMachine);
-
-            //=============================================================
-            // Delete the VM using MSI credentials
-
-            System.out.println("Deleting the virtual machine using MSI credentials");
-
-            azure.virtualMachines().deleteById(virtualMachine.id());
-
-            System.out.println("Deleted virtual machine");
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

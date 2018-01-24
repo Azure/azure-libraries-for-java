@@ -36,7 +36,7 @@ public class AppServiceTest extends TestBase {
     protected static AppServiceCertificateOrder certificateOrder;
     protected static String RG_NAME = "";
 
-    private static OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
+    private static OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(3, TimeUnit.MINUTES).build();
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

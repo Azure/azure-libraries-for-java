@@ -28,11 +28,11 @@ public class KeyVaultManagementClientImpl extends AzureServiceClient {
         return this.azureClient;
     }
 
-    /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
+    /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
     private String subscriptionId;
 
     /**
-     * Gets Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+     * Gets Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
      *
      * @return the subscriptionId value.
      */
@@ -41,7 +41,7 @@ public class KeyVaultManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+     * Sets Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
      *
      * @param subscriptionId the subscriptionId value.
      * @return the service client itself
@@ -146,6 +146,19 @@ public class KeyVaultManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The OperationsInner object to access its operations.
+     */
+    private OperationsInner operations;
+
+    /**
+     * Gets the OperationsInner object to access its operations.
+     * @return the OperationsInner object.
+     */
+    public OperationsInner operations() {
+        return this.operations;
+    }
+
+    /**
      * Initializes an instance of KeyVaultManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -176,11 +189,12 @@ public class KeyVaultManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2015-06-01";
+        this.apiVersion = "2016-10-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
         this.vaults = new VaultsInner(restClient().retrofit(), this);
+        this.operations = new OperationsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 
@@ -191,6 +205,6 @@ public class KeyVaultManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "KeyVaultManagementClient", "2015-06-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "KeyVaultManagementClient", "2016-10-01");
     }
 }

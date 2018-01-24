@@ -41,6 +41,8 @@ import com.microsoft.azure.management.appservice.UsageState;
 import com.microsoft.azure.management.appservice.WebAppAuthentication;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import com.microsoft.azure.management.appservice.WebContainer;
+import com.microsoft.azure.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
@@ -107,6 +109,7 @@ abstract class WebAppBaseImpl<
     private WebAppAuthenticationImpl<FluentT, FluentImplT> authentication;
     private boolean authenticationToUpdate;
     private SiteLogsConfigInner siteLogsConfig;
+    private FunctionalTaskItem msiHandler;
     private boolean isInCreateMode;
 
     WebAppBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
@@ -145,6 +148,7 @@ abstract class WebAppBaseImpl<
         this.sourceControlToDelete = false;
         this.authenticationToUpdate = false;
         this.sslBindingsToCreate = new TreeMap<>();
+        this.msiHandler = null;
         if (inner().hostNames() != null) {
             this.hostNamesSet = Sets.newHashSet(inner().hostNames());
         }
@@ -599,6 +603,11 @@ abstract class WebAppBaseImpl<
                 return submitLogConfiguration();
             }
         });
+        // MSI roles
+        if (msiHandler != null) {
+            System.out.println("Adding MSI Handler");
+            addPostRunDependent(msiHandler);
+        }
     }
 
     @Override
@@ -630,21 +639,21 @@ abstract class WebAppBaseImpl<
         site.withSiteConfig(new SiteConfig());
         // Construct web app observable
         return createOrUpdateInner(site)
-            .map(new Func1<SiteInner, SiteInner>() {
-                @Override
-                public SiteInner call(SiteInner siteInner) {
-                    site.withSiteConfig(null);
-                    return siteInner;
-                }
-            });
+                .map(new Func1<SiteInner, SiteInner>() {
+                    @Override
+                    public SiteInner call(SiteInner siteInner) {
+                        site.withSiteConfig(null);
+                        return siteInner;
+                    }
+                });
     }
 
     Observable<FluentT> submitHostNameBindings() {
         List<Observable<HostNameBinding>> bindingObservables = new ArrayList<>();
-        for (HostNameBindingImpl<FluentT, FluentImplT> binding: hostNameBindingsToCreate.values()) {
+        for (HostNameBindingImpl<FluentT, FluentImplT> binding : hostNameBindingsToCreate.values()) {
             bindingObservables.add(Utils.<HostNameBinding>rootResource(binding.createAsync()));
         }
-        for (String binding: hostNameBindingsToDelete) {
+        for (String binding : hostNameBindingsToDelete) {
             bindingObservables.add(deleteHostNameBinding(binding).map(new Func1<Object, HostNameBinding>() {
                 @Override
                 public HostNameBinding call(Object o) {
@@ -717,27 +726,27 @@ abstract class WebAppBaseImpl<
         Observable<Indexable> observable = Observable.just((Indexable) this);
         if (!appSettingsToAdd.isEmpty() || !appSettingsToRemove.isEmpty()) {
             observable = listAppSettings()
-                .flatMap(new Func1<StringDictionaryInner, Observable<StringDictionaryInner>>() {
-                    @Override
-                    public Observable<StringDictionaryInner> call(StringDictionaryInner stringDictionaryInner) {
-                        if (stringDictionaryInner == null) {
-                            stringDictionaryInner = new StringDictionaryInner();
+                    .flatMap(new Func1<StringDictionaryInner, Observable<StringDictionaryInner>>() {
+                        @Override
+                        public Observable<StringDictionaryInner> call(StringDictionaryInner stringDictionaryInner) {
+                            if (stringDictionaryInner == null) {
+                                stringDictionaryInner = new StringDictionaryInner();
+                            }
+                            if (stringDictionaryInner.properties() == null) {
+                                stringDictionaryInner.withProperties(new HashMap<String, String>());
+                            }
+                            for (String appSettingKey : appSettingsToRemove) {
+                                stringDictionaryInner.properties().remove(appSettingKey);
+                            }
+                            stringDictionaryInner.properties().putAll(appSettingsToAdd);
+                            return updateAppSettings(stringDictionaryInner);
                         }
-                        if (stringDictionaryInner.properties() == null) {
-                            stringDictionaryInner.withProperties(new HashMap<String, String>());
+                    }).map(new Func1<StringDictionaryInner, Indexable>() {
+                        @Override
+                        public Indexable call(StringDictionaryInner stringDictionaryInner) {
+                            return WebAppBaseImpl.this;
                         }
-                        for (String appSettingKey : appSettingsToRemove) {
-                            stringDictionaryInner.properties().remove(appSettingKey);
-                        }
-                        stringDictionaryInner.properties().putAll(appSettingsToAdd);
-                        return updateAppSettings(stringDictionaryInner);
-                    }
-                }).map(new Func1<StringDictionaryInner, Indexable>() {
-                    @Override
-                    public Indexable call(StringDictionaryInner stringDictionaryInner) {
-                        return WebAppBaseImpl.this;
-                    }
-                });
+                    });
         }
         return observable;
     }
@@ -746,27 +755,27 @@ abstract class WebAppBaseImpl<
         Observable<Indexable> observable = Observable.just((Indexable) this);
         if (!connectionStringsToAdd.isEmpty() || !connectionStringsToRemove.isEmpty()) {
             observable = listConnectionStrings()
-                .flatMap(new Func1<ConnectionStringDictionaryInner, Observable<ConnectionStringDictionaryInner>>() {
-                    @Override
-                    public Observable<ConnectionStringDictionaryInner> call(ConnectionStringDictionaryInner dictionaryInner) {
-                        if (dictionaryInner == null) {
-                            dictionaryInner = new ConnectionStringDictionaryInner();
+                    .flatMap(new Func1<ConnectionStringDictionaryInner, Observable<ConnectionStringDictionaryInner>>() {
+                        @Override
+                        public Observable<ConnectionStringDictionaryInner> call(ConnectionStringDictionaryInner dictionaryInner) {
+                            if (dictionaryInner == null) {
+                                dictionaryInner = new ConnectionStringDictionaryInner();
+                            }
+                            if (dictionaryInner.properties() == null) {
+                                dictionaryInner.withProperties(new HashMap<String, ConnStringValueTypePair>());
+                            }
+                            for (String connectionString : connectionStringsToRemove) {
+                                dictionaryInner.properties().remove(connectionString);
+                            }
+                            dictionaryInner.properties().putAll(connectionStringsToAdd);
+                            return updateConnectionStrings(dictionaryInner);
                         }
-                        if (dictionaryInner.properties() == null) {
-                            dictionaryInner.withProperties(new HashMap<String, ConnStringValueTypePair>());
+                    }).map(new Func1<ConnectionStringDictionaryInner, Indexable>() {
+                        @Override
+                        public Indexable call(ConnectionStringDictionaryInner stringDictionaryInner) {
+                            return WebAppBaseImpl.this;
                         }
-                        for (String connectionString : connectionStringsToRemove) {
-                            dictionaryInner.properties().remove(connectionString);
-                        }
-                        dictionaryInner.properties().putAll(connectionStringsToAdd);
-                        return updateConnectionStrings(dictionaryInner);
-                    }
-                }).map(new Func1<ConnectionStringDictionaryInner, Indexable>() {
-                    @Override
-                    public Indexable call(ConnectionStringDictionaryInner stringDictionaryInner) {
-                        return WebAppBaseImpl.this;
-                    }
-                });
+                    });
         }
         return observable;
     }
@@ -775,44 +784,44 @@ abstract class WebAppBaseImpl<
         Observable<Indexable> observable = Observable.just((Indexable) this);
         if (!appSettingStickiness.isEmpty() || !connectionStringStickiness.isEmpty()) {
             observable = listSlotConfigurations()
-                .flatMap(new Func1<SlotConfigNamesResourceInner, Observable<SlotConfigNamesResourceInner>>() {
-                    @Override
-                    public Observable<SlotConfigNamesResourceInner> call(SlotConfigNamesResourceInner slotConfigNamesResourceInner) {
-                        if (slotConfigNamesResourceInner == null) {
-                            slotConfigNamesResourceInner = new SlotConfigNamesResourceInner();
-                        }
-                        if (slotConfigNamesResourceInner.appSettingNames() == null) {
-                            slotConfigNamesResourceInner.withAppSettingNames(new ArrayList<String>());
-                        }
-                        if (slotConfigNamesResourceInner.connectionStringNames() == null) {
-                            slotConfigNamesResourceInner.withConnectionStringNames(new ArrayList<String>());
-                        }
-                        Set<String> stickyAppSettingKeys = new HashSet<>(slotConfigNamesResourceInner.appSettingNames());
-                        Set<String> stickyConnectionStringNames = new HashSet<>(slotConfigNamesResourceInner.connectionStringNames());
-                        for (Map.Entry<String, Boolean> stickiness : appSettingStickiness.entrySet()) {
-                            if (stickiness.getValue()) {
-                                stickyAppSettingKeys.add(stickiness.getKey());
-                            } else {
-                                stickyAppSettingKeys.remove(stickiness.getKey());
+                    .flatMap(new Func1<SlotConfigNamesResourceInner, Observable<SlotConfigNamesResourceInner>>() {
+                        @Override
+                        public Observable<SlotConfigNamesResourceInner> call(SlotConfigNamesResourceInner slotConfigNamesResourceInner) {
+                            if (slotConfigNamesResourceInner == null) {
+                                slotConfigNamesResourceInner = new SlotConfigNamesResourceInner();
                             }
-                        }
-                        for (Map.Entry<String, Boolean> stickiness : connectionStringStickiness.entrySet()) {
-                            if (stickiness.getValue()) {
-                                stickyConnectionStringNames.add(stickiness.getKey());
-                            } else {
-                                stickyConnectionStringNames.remove(stickiness.getKey());
+                            if (slotConfigNamesResourceInner.appSettingNames() == null) {
+                                slotConfigNamesResourceInner.withAppSettingNames(new ArrayList<String>());
                             }
+                            if (slotConfigNamesResourceInner.connectionStringNames() == null) {
+                                slotConfigNamesResourceInner.withConnectionStringNames(new ArrayList<String>());
+                            }
+                            Set<String> stickyAppSettingKeys = new HashSet<>(slotConfigNamesResourceInner.appSettingNames());
+                            Set<String> stickyConnectionStringNames = new HashSet<>(slotConfigNamesResourceInner.connectionStringNames());
+                            for (Map.Entry<String, Boolean> stickiness : appSettingStickiness.entrySet()) {
+                                if (stickiness.getValue()) {
+                                    stickyAppSettingKeys.add(stickiness.getKey());
+                                } else {
+                                    stickyAppSettingKeys.remove(stickiness.getKey());
+                                }
+                            }
+                            for (Map.Entry<String, Boolean> stickiness : connectionStringStickiness.entrySet()) {
+                                if (stickiness.getValue()) {
+                                    stickyConnectionStringNames.add(stickiness.getKey());
+                                } else {
+                                    stickyConnectionStringNames.remove(stickiness.getKey());
+                                }
+                            }
+                            slotConfigNamesResourceInner.withAppSettingNames(new ArrayList<>(stickyAppSettingKeys));
+                            slotConfigNamesResourceInner.withConnectionStringNames(new ArrayList<>(stickyConnectionStringNames));
+                            return updateSlotConfigurations(slotConfigNamesResourceInner);
                         }
-                        slotConfigNamesResourceInner.withAppSettingNames(new ArrayList<>(stickyAppSettingKeys));
-                        slotConfigNamesResourceInner.withConnectionStringNames(new ArrayList<>(stickyConnectionStringNames));
-                        return updateSlotConfigurations(slotConfigNamesResourceInner);
-                    }
-                }).map(new Func1<SlotConfigNamesResourceInner, Indexable>() {
-                    @Override
-                    public Indexable call(SlotConfigNamesResourceInner slotConfigNamesResourceInner) {
-                        return WebAppBaseImpl.this;
-                    }
-                });
+                    }).map(new Func1<SlotConfigNamesResourceInner, Indexable>() {
+                        @Override
+                        public Indexable call(SlotConfigNamesResourceInner slotConfigNamesResourceInner) {
+                            return WebAppBaseImpl.this;
+                        }
+                    });
         }
         return observable;
     }
@@ -822,30 +831,30 @@ abstract class WebAppBaseImpl<
             return Observable.just((Indexable) this);
         }
         return sourceControl.registerGithubAccessToken()
-            .flatMap(new Func1<SourceControlInner, Observable<SiteSourceControlInner>>() {
-                @Override
-                public Observable<SiteSourceControlInner> call(SourceControlInner sourceControlInner) {
-                    return createOrUpdateSourceControl(sourceControl.inner());
-                }
-            })
-            .delay(new Func1<SiteSourceControlInner, Observable<Long>>() {
-                @Override
-                public Observable<Long> call(SiteSourceControlInner siteSourceControlInner) {
-                    return Observable.fromCallable(new Callable<Long>() {
-                        @Override
-                        public Long call() throws Exception {
-                            SdkContext.sleep(30000);
-                            return 30000L;
-                        }
-                    });
-                }
-            })
-            .map(new Func1<SiteSourceControlInner, Indexable>() {
-                @Override
-                public Indexable call(SiteSourceControlInner siteSourceControlInner) {
-                    return WebAppBaseImpl.this;
-                }
-            });
+                .flatMap(new Func1<SourceControlInner, Observable<SiteSourceControlInner>>() {
+                    @Override
+                    public Observable<SiteSourceControlInner> call(SourceControlInner sourceControlInner) {
+                        return createOrUpdateSourceControl(sourceControl.inner());
+                    }
+                })
+                .delay(new Func1<SiteSourceControlInner, Observable<Long>>() {
+                    @Override
+                    public Observable<Long> call(SiteSourceControlInner siteSourceControlInner) {
+                        return Observable.fromCallable(new Callable<Long>() {
+                            @Override
+                            public Long call() throws Exception {
+                                SdkContext.sleep(30000);
+                                return 30000L;
+                            }
+                        });
+                    }
+                })
+                .map(new Func1<SiteSourceControlInner, Indexable>() {
+                    @Override
+                    public Indexable call(SiteSourceControlInner siteSourceControlInner) {
+                        return WebAppBaseImpl.this;
+                    }
+                });
     }
 
     Observable<Indexable> submitSourceControlToDelete() {
@@ -1316,5 +1325,91 @@ abstract class WebAppBaseImpl<
     public FluentImplT withSystemAssignedManagedServiceIdentity() {
         inner().withIdentity(new ManagedServiceIdentity().withType("SystemAssigned"));
         return (FluentImplT) this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public FluentImplT withSystemAssignedIdentityBasedAccessTo(final String resourceId, final BuiltInRole role) {
+        if (inner().identity().type() == null) {
+            throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
+        }
+        msiHandler = new FunctionalTaskItem() {
+            @Override
+            public Observable<Indexable> call(Context context) {
+                System.out.println("Creating role assignment");
+                return manager().rbacManager().roleAssignments().define(SdkContext.randomUuid())
+                        .forObjectId(systemAssignedManagedServiceIdentityPrincipalId())
+                        .withBuiltInRole(role)
+                        .withScope(resourceId)
+                        .createAsync();
+            }
+        };
+        return (FluentImplT) this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public FluentImplT withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(final BuiltInRole role) {
+        if (inner().identity().type() == null) {
+            throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
+        }
+        msiHandler = new FunctionalTaskItem() {
+            @Override
+            public Observable<Indexable> call(Context context) {
+                System.out.println("Creating role assignment");
+                return manager().rbacManager().roleAssignments().define(SdkContext.randomUuid())
+                        .forObjectId(systemAssignedManagedServiceIdentityPrincipalId())
+                        .withBuiltInRole(role)
+                        .withScope(resourceGroupId(id()))
+                        .createAsync();
+            }
+        };
+        return (FluentImplT) this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public FluentImplT withSystemAssignedIdentityBasedAccessTo(final String resourceId, final String roleDefinitionId) {
+        if (inner().identity().type() == null) {
+            throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
+        }
+        msiHandler = new FunctionalTaskItem() {
+            @Override
+            public Observable<Indexable> call(Context context) {
+                return manager().rbacManager().roleAssignments().define(SdkContext.randomUuid())
+                        .forServicePrincipal(systemAssignedManagedServiceIdentityPrincipalId())
+                        .withRoleDefinition(roleDefinitionId)
+                        .withScope(resourceId)
+                        .createAsync();
+            }
+        };
+        return (FluentImplT) this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public FluentImplT withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(final String roleDefinitionId) {
+        if (inner().identity().type() == null) {
+            throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
+        }
+        msiHandler = new FunctionalTaskItem() {
+            @Override
+            public Observable<Indexable> call(Context context) {
+                return manager().rbacManager().roleAssignments().define(SdkContext.randomUuid())
+                        .forServicePrincipal(systemAssignedManagedServiceIdentityPrincipalId())
+                        .withRoleDefinition(roleDefinitionId)
+                        .withScope(resourceGroupId(id()))
+                        .createAsync();
+            }
+        };
+        return (FluentImplT) this;
+    }
+
+    private static String resourceGroupId(String id) {
+        final ResourceId resourceId = ResourceId.fromString(id);
+        return String.format("/subscriptions/%s/resourceGroups/%s",
+                resourceId.subscriptionId(),
+                resourceId.resourceGroupName());
+
     }
 }

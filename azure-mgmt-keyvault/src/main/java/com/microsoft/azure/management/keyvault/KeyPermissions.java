@@ -8,91 +8,77 @@
 
 package com.microsoft.azure.management.keyvault;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
+
+import java.util.Collection;
 
 /**
  * Defines values for KeyPermissions.
  */
-public final class KeyPermissions {
-    /** Static value all for KeyPermissions. */
-    public static final KeyPermissions ALL = new KeyPermissions("all");
-
+public final class KeyPermissions extends ExpandableStringEnum<KeyPermissions> {
     /** Static value encrypt for KeyPermissions. */
-    public static final KeyPermissions ENCRYPT = new KeyPermissions("encrypt");
+    public static final KeyPermissions ENCRYPT = fromString("encrypt");
 
     /** Static value decrypt for KeyPermissions. */
-    public static final KeyPermissions DECRYPT = new KeyPermissions("decrypt");
+    public static final KeyPermissions DECRYPT = fromString("decrypt");
 
     /** Static value wrapKey for KeyPermissions. */
-    public static final KeyPermissions WRAP_KEY = new KeyPermissions("wrapKey");
+    public static final KeyPermissions WRAP_KEY = fromString("wrapKey");
 
     /** Static value unwrapKey for KeyPermissions. */
-    public static final KeyPermissions UNWRAP_KEY = new KeyPermissions("unwrapKey");
+    public static final KeyPermissions UNWRAP_KEY = fromString("unwrapKey");
 
     /** Static value sign for KeyPermissions. */
-    public static final KeyPermissions SIGN = new KeyPermissions("sign");
+    public static final KeyPermissions SIGN = fromString("sign");
 
     /** Static value verify for KeyPermissions. */
-    public static final KeyPermissions VERIFY = new KeyPermissions("verify");
+    public static final KeyPermissions VERIFY = fromString("verify");
 
     /** Static value get for KeyPermissions. */
-    public static final KeyPermissions GET = new KeyPermissions("get");
+    public static final KeyPermissions GET = fromString("get");
 
     /** Static value list for KeyPermissions. */
-    public static final KeyPermissions LIST = new KeyPermissions("list");
+    public static final KeyPermissions LIST = fromString("list");
 
     /** Static value create for KeyPermissions. */
-    public static final KeyPermissions CREATE = new KeyPermissions("create");
+    public static final KeyPermissions CREATE = fromString("create");
 
     /** Static value update for KeyPermissions. */
-    public static final KeyPermissions UPDATE = new KeyPermissions("update");
+    public static final KeyPermissions UPDATE = fromString("update");
 
     /** Static value import for KeyPermissions. */
-    public static final KeyPermissions IMPORT = new KeyPermissions("import");
+    public static final KeyPermissions IMPORT = fromString("import");
 
     /** Static value delete for KeyPermissions. */
-    public static final KeyPermissions DELETE = new KeyPermissions("delete");
+    public static final KeyPermissions DELETE = fromString("delete");
 
     /** Static value backup for KeyPermissions. */
-    public static final KeyPermissions BACKUP = new KeyPermissions("backup");
+    public static final KeyPermissions BACKUP = fromString("backup");
 
     /** Static value restore for KeyPermissions. */
-    public static final KeyPermissions RESTORE = new KeyPermissions("restore");
+    public static final KeyPermissions RESTORE = fromString("restore");
 
-    private String value;
+    /** Static value recover for KeyPermissions. */
+    public static final KeyPermissions RECOVER = fromString("recover");
+
+    /** Static value purge for KeyPermissions. */
+    public static final KeyPermissions PURGE = fromString("purge");
 
     /**
-     * Creates a custom value for KeyPermissions.
-     * @param value the custom value
+     * Creates or finds a KeyPermissions from its string representation.
+     * @param name a name to look for
+     * @return the corresponding KeyPermissions
      */
-    public KeyPermissions(String value) {
-        this.value = value;
+    @JsonCreator
+    public static KeyPermissions fromString(String name) {
+        return fromString(name, KeyPermissions.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof KeyPermissions)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        KeyPermissions rhs = (KeyPermissions) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known KeyPermissions values
+     */
+    public static Collection<KeyPermissions> values() {
+        return values(KeyPermissions.class);
     }
 }

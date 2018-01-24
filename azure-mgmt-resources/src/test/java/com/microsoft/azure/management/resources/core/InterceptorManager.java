@@ -27,6 +27,7 @@ import java.util.zip.GZIPInputStream;
 public class InterceptorManager {
 
     private final static String RECORD_FOLDER = "session-records/";
+    private static final String BODY_LOGGING = "x-ms-body-logging";
 
     private Map<String, String> textReplacementRules = new HashMap<>();
     // Stores a map of all the HTTP properties in a session
@@ -128,7 +129,7 @@ public class InterceptorManager {
         extractResponseData(networkCallRecord.Response, response);
 
         // remove pre-added header if this is a waiting or redirection
-        if (networkCallRecord.Response.get("Body").contains("<Status>InProgress</Status>")
+        if (networkCallRecord.Response.containsKey("Body") && networkCallRecord.Response.get("Body").contains("<Status>InProgress</Status>")
                 || Integer.parseInt(networkCallRecord.Response.get("StatusCode")) == HttpStatus.SC_TEMPORARY_REDIRECT) {
             // Do nothing
         } else {
@@ -227,23 +228,27 @@ public class InterceptorManager {
             responseData.put("retry-after", "0");
         }
 
-        BufferedSource bufferedSource = response.body().source();
-        bufferedSource.request(9223372036854775807L);
-        Buffer buffer = bufferedSource.buffer().clone();
-        String content = null;
+        String bodyLoggingHeader = response.request().header(BODY_LOGGING);
+        boolean bodyLogging = bodyLoggingHeader == null || Boolean.parseBoolean(bodyLoggingHeader);
+        if (bodyLogging) {
+            BufferedSource bufferedSource = response.body().source();
+            bufferedSource.request(9223372036854775807L);
+            Buffer buffer = bufferedSource.buffer().clone();
+            String content = null;
 
-        if (response.header("Content-Encoding") == null) {
-            content = new String(buffer.readString(Util.UTF_8));
-        } else if (response.header("Content-Encoding").equalsIgnoreCase("gzip")) {
-            GZIPInputStream gis = new GZIPInputStream(buffer.inputStream());
-            content = IOUtils.toString(gis);
-            responseData.remove("Content-Encoding".toLowerCase());
-            responseData.put("Content-Length".toLowerCase(), Integer.toString(content.length()));
-        }
+            if (response.header("Content-Encoding") == null) {
+                content = new String(buffer.readString(Util.UTF_8));
+            } else if (response.header("Content-Encoding").equalsIgnoreCase("gzip")) {
+                GZIPInputStream gis = new GZIPInputStream(buffer.inputStream());
+                content = IOUtils.toString(gis);
+                responseData.remove("Content-Encoding".toLowerCase());
+                responseData.put("Content-Length".toLowerCase(), Integer.toString(content.length()));
+            }
 
-        if (content != null) {
-            content = applyReplacementRule(content);
-            responseData.put("Body", content);
+            if (content != null) {
+                content = applyReplacementRule(content);
+                responseData.put("Body", content);
+            }
         }
     }
 

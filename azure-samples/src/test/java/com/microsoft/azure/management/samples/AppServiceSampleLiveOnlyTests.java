@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.samples;
 
+import com.microsoft.azure.management.appservice.samples.ManageFunctionAppLogs;
 import com.microsoft.azure.management.appservice.samples.ManageFunctionAppSourceControl;
 import com.microsoft.azure.management.appservice.samples.ManageFunctionAppWithAuthentication;
 import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppCosmosDbByMsi;
@@ -67,5 +68,10 @@ public class AppServiceSampleLiveOnlyTests extends SamplesTestBase {
     @Test
     public void testManageWebAppCosmosDbByMsi() {
         Assert.assertTrue(ManageWebAppCosmosDbByMsi.runSample(azure));
+    }
+  
+    @Test
+    public void testManageFunctionAppLogs() {
+        Assert.assertTrue(ManageFunctionAppLogs.runSample(azure));
     }
 }

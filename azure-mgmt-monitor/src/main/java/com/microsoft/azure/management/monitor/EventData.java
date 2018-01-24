@@ -36,13 +36,13 @@ public class EventData {
      */
     public EventData(EventDataInner inner) {
         this.inner = inner;
-        this.eventName = new LocalizableString(inner.eventName());
-        this.category = new LocalizableString(inner.category());
-        this.resourceProviderName = new LocalizableString(inner.resourceProviderName());
-        this.resourceType = new LocalizableString(inner.resourceType());
-        this.operationName = new LocalizableString(inner.operationName());
-        this.status = new LocalizableString(inner.status());
-        this.subStatus = new LocalizableString(inner.subStatus());
+        this.eventName = (inner.eventName() == null) ? null : new LocalizableString(inner.eventName());
+        this.category = (inner.category() == null) ? null : new LocalizableString(inner.category());
+        this.resourceProviderName = (inner.resourceProviderName() == null) ? null : new LocalizableString(inner.resourceProviderName());
+        this.resourceType = (inner.resourceType() == null) ? null : new LocalizableString(inner.resourceType());
+        this.operationName = (inner.operationName() == null) ? null : new LocalizableString(inner.operationName());
+        this.status = (inner.status() == null) ? null : new LocalizableString(inner.status());
+        this.subStatus = (inner.subStatus() == null) ? null : new LocalizableString(inner.subStatus());
     }
 
     /**

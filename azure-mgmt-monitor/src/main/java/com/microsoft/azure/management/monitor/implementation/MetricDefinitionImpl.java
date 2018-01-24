@@ -46,10 +46,10 @@ class MetricDefinitionImpl
     private Double top;
     private String orderBy;
 
-    public MetricDefinitionImpl(final MetricDefinitionInner innerModel, final MonitorManager monitorManager) {
+    MetricDefinitionImpl(final MetricDefinitionInner innerModel, final MonitorManager monitorManager) {
         this.myManager = monitorManager;
         this.inner = innerModel;
-        this.name = new LocalizableString(inner.name());
+        this.name = (inner.name() == null) ? null : new LocalizableString(inner.name());
     }
 
     @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)

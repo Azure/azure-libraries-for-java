@@ -27,6 +27,7 @@ import java.util.zip.GZIPInputStream;
 public class InterceptorManager {
 
     private final static String RECORD_FOLDER = "session-records/";
+    private static final String BODY_LOGGING = "x-ms-body-logging";
 
     private Map<String, String> textReplacementRules = new HashMap<>();
     // Stores a map of all the HTTP properties in a session
@@ -227,7 +228,9 @@ public class InterceptorManager {
             responseData.put("retry-after", "0");
         }
 
-        if (response.body().contentLength() > 0) {
+        String bodyLoggingHeader = response.request().header(BODY_LOGGING);
+        boolean bodyLogging = bodyLoggingHeader == null || Boolean.parseBoolean(bodyLoggingHeader);
+        if (bodyLogging) {
             BufferedSource bufferedSource = response.body().source();
             bufferedSource.request(9223372036854775807L);
             Buffer buffer = bufferedSource.buffer().clone();

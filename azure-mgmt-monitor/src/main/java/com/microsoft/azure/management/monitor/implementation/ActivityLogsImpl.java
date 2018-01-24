@@ -19,6 +19,8 @@ import org.joda.time.format.ISODateTimeFormat;
 import rx.Observable;
 import rx.functions.Func1;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -242,16 +244,20 @@ class ActivityLogsImpl
     }
 
     private PagedList<EventData> listEventData(String filter) {
+        ArrayList<String> sortedList = new ArrayList<String>(this.responsePropertySelector);
+        Collections.sort(sortedList);
         return (new PagedListConverter<EventDataInner, EventData>() {
             @Override
             public Observable<EventData> typeConvertAsync(EventDataInner inner) {
                 return Observable.just((EventData) new EventData(inner));
             }
-        }).convert(this.inner().activityLogs().list(filter, StringUtils.join(this.responsePropertySelector, ',')));
+        }).convert(this.inner().activityLogs().list(filter, StringUtils.join(sortedList, ',')));
     }
 
     private Observable<EventData> listEventDataAsync(String filter) {
-        return this.inner().activityLogs().listAsync(filter, StringUtils.join(this.responsePropertySelector, ','))
+        ArrayList<String> sortedList = new ArrayList<String>(this.responsePropertySelector);
+        Collections.sort(sortedList);
+        return this.inner().activityLogs().listAsync(filter, StringUtils.join(sortedList, ','))
                 .flatMap(new Func1<Page<EventDataInner>, Observable<EventData>>() {
                     @Override
                     public Observable<EventData> call(Page<EventDataInner> eventDataInnerPage) {

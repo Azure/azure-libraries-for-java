@@ -826,11 +826,15 @@ public final class Azure {
      * @return entry point to listing activity log events in Azure
      */
     @Beta(SinceVersion.V1_6_0)
-    public ActivityLogs activityLogs() { return this.monitorManager.activityLogs(); }
+    public ActivityLogs activityLogs() {
+        return this.monitorManager.activityLogs();
+    }
 
     /**
      * @return entry point to listing metric definitions in Azure
      */
     @Beta(SinceVersion.V1_6_0)
-    public MetricDefinitions metricDefinitions() { return this.monitorManager.metricDefinitions(); }
+    public MetricDefinitions metricDefinitions() {
+        return this.monitorManager.metricDefinitions();
+    }
 }

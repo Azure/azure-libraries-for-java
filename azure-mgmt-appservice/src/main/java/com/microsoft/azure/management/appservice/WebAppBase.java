@@ -12,6 +12,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
 import com.microsoft.azure.management.appservice.implementation.SiteInner;
+import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -217,14 +218,14 @@ public interface WebAppBase extends
 
     /**
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID assigned
-     * to the virtual machine.
+     * to the web app.
      */
     @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityTenantId();
 
     /**
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory service principal ID
-     * assigned to the virtual machine.
+     * assigned to the web app.
      */
     @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityPrincipalId();
@@ -457,7 +458,8 @@ public interface WebAppBase extends
      */
     interface Definition<FluentT> extends
             DefinitionStages.WithWebContainer<FluentT>,
-            DefinitionStages.WithCreate<FluentT> {
+            DefinitionStages.WithCreate<FluentT>,
+            DefinitionStages.WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> {
     }
 
     /**
@@ -820,7 +822,58 @@ public interface WebAppBase extends
              * @return the next stage of the web app definition
              */
             @Method
-            WithCreate<FluentT> withSystemAssignedManagedServiceIdentity();
+            WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> withSystemAssignedManagedServiceIdentity();
+        }
+
+        /**
+         * The stage of the System Assigned (Local) Managed Service Identity enabled web app allowing to
+         * set access role for the identity.
+         * @param <FluentT> the type of the resource
+         */
+        @Beta(Beta.SinceVersion.V1_6_0)
+        interface WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> extends WithCreate<FluentT> {
+            /**
+             * Specifies that web app's system assigned (local) identity should have the given access
+             * (described by the role) on an ARM resource identified by the resource ID. Applications running
+             * on the web app will have the same permission (role) on the ARM resource.
+             *
+             * @param resourceId the ARM identifier of the resource
+             * @param role access role to assigned to the web app's local identity
+             * @return the next stage of the definition
+             */
+            WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
+
+            /**
+             * Specifies that web app's system assigned (local) identity should have the given access
+             * (described by the role) on the resource group that web app resides. Applications running
+             * on the web app will have the same permission (role) on the resource group.
+             *
+             * @param role access role to assigned to the web app's local identity
+             * @return the next stage of the definition
+             */
+            WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
+
+            /**
+             * Specifies that web app's system assigned (local) identity should have the access
+             * (described by the role definition) on an ARM resource identified by the resource ID.
+             * Applications running on the web app will have the same permission (role) on the ARM resource.
+             *
+             * @param resourceId scope of the access represented in ARM resource ID format
+             * @param roleDefinitionId access role definition to assigned to the web app's local identity
+             * @return the next stage of the definition
+             */
+            WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
+
+            /**
+             * Specifies that web app's system assigned (local) identity should have the access
+             * (described by the role definition) on the resource group that web app resides.
+             * Applications running on the web app will have the same permission (role) on the
+             * resource group.
+             *
+             * @param roleDefinitionId access role definition to assigned to the web app's local identity
+             * @return the next stage of the definition
+             */
+            WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
 
         /**
@@ -1271,6 +1324,57 @@ public interface WebAppBase extends
             @Method
             Update<FluentT> withSystemAssignedManagedServiceIdentity();
         }
+
+        /**
+         * The stage of the System Assigned (Local) Managed Service Identity enabled web app allowing to
+         * set access role for the identity.
+         * @param <FluentT> the type of the resource
+         */
+        @Beta(Beta.SinceVersion.V1_6_0)
+        interface WithSystemAssignedIdentityBasedAccess<FluentT> {
+            /**
+             * Specifies that web app's system assigned (local) identity should have the given access
+             * (described by the role) on an ARM resource identified by the resource ID. Applications running
+             * on the web app will have the same permission (role) on the ARM resource.
+             *
+             * @param resourceId the ARM identifier of the resource
+             * @param role access role to assigned to the web app's local identity
+             * @return the next stage of the update
+             */
+            Update<FluentT> withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
+
+            /**
+             * Specifies that web app's system assigned (local) identity should have the given access
+             * (described by the role) on the resource group that web app resides. Applications running
+             * on the web app will have the same permission (role) on the resource group.
+             *
+             * @param role access role to assigned to the web app's local identity
+             * @return the next stage of the update
+             */
+            Update<FluentT> withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
+
+            /**
+             * Specifies that web app's system assigned (local) identity should have the access
+             * (described by the role definition) on an ARM resource identified by the resource ID.
+             * Applications running on the web app will have the same permission (role) on the ARM resource.
+             *
+             * @param resourceId scope of the access represented in ARM resource ID format
+             * @param roleDefinitionId access role definition to assigned to the web app's local identity
+             * @return the next stage of the update
+             */
+            Update<FluentT> withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
+
+            /**
+             * Specifies that web app's system assigned (local) identity should have the access
+             * (described by the role definition) on the resource group that web app resides.
+             * Applications running on the web app will have the same permission (role) on the
+             * resource group.
+             *
+             * @param roleDefinitionId access role definition to assigned to the web app's local identity
+             * @return the next stage of the update
+             */
+            Update<FluentT> withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+        }
     }
 
     /**
@@ -1291,6 +1395,7 @@ public interface WebAppBase extends
         UpdateStages.WithHostNameSslBinding<FluentT>,
         UpdateStages.WithAuthentication<FluentT>,
         UpdateStages.WithDiagnosticLogging<FluentT>,
-        UpdateStages.WithManagedServiceIdentity<FluentT> {
+        UpdateStages.WithManagedServiceIdentity<FluentT>,
+        UpdateStages.WithSystemAssignedIdentityBasedAccess<FluentT> {
     }
 }

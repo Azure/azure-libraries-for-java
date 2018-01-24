@@ -16,6 +16,7 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import org.apache.commons.lang.time.StopWatch;
 import rx.Subscriber;
 
 import java.io.ByteArrayOutputStream;
@@ -84,29 +85,29 @@ public final class ManageFunctionAppLogs {
             post("http://" + appUrl + "/api/square", "625");
             SdkContext.sleep(5000);
 
-//            //============================================================
-//            // Listen to logs synchronously for 30 seconds
-//
-//            final InputStream stream = app.streamApplicationLogs();
-//            System.out.println("Streaming logs from function app " + appName + "...");
-//            String line = readLine(stream);
-//            StopWatch stopWatch = new StopWatch();
-//            stopWatch.start();
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    post("http://" + appUrl + "/api/square", "625");
-//                    SdkContext.sleep(10000);
-//                    post("http://" + appUrl + "/api/square", "725");
-//                    SdkContext.sleep(10000);
-//                    post("http://" + appUrl + "/api/square", "825");
-//                }
-//            }).start();
-//            while (line != null && stopWatch.getTime() < 30000) {
-//                System.out.println(line);
-//                line = readLine(stream);
-//            }
-//            stream.close();
+            //============================================================
+            // Listen to logs synchronously for 30 seconds
+
+            final InputStream stream = app.streamApplicationLogs();
+            System.out.println("Streaming logs from function app " + appName + "...");
+            String line = readLine(stream);
+            StopWatch stopWatch = new StopWatch();
+            stopWatch.start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    post("http://" + appUrl + "/api/square", "625");
+                    SdkContext.sleep(10000);
+                    post("http://" + appUrl + "/api/square", "725");
+                    SdkContext.sleep(10000);
+                    post("http://" + appUrl + "/api/square", "825");
+                }
+            }).start();
+            while (line != null && stopWatch.getTime() < 30000) {
+                System.out.println(line);
+                line = readLine(stream);
+            }
+            stream.close();
 
             //============================================================
             // Listen to logs asynchronously until 3 requests are completed

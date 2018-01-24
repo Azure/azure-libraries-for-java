@@ -411,7 +411,7 @@ class FunctionAppImpl
     }
 
     private interface KuduService {
-        @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamApplicationLogs" })
+        @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamApplicationLogs", "x-ms-body-logging: false" })
         @GET("api/logstream/application")
         @Streaming
         Observable<ResponseBody> streamApplicationLogs();

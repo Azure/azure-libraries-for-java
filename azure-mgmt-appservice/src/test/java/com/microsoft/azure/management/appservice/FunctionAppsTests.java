@@ -49,35 +49,6 @@ public class FunctionAppsTests extends AppServiceTest {
 
     @Test
     public void canCRUDFunctionApp() throws Exception {
-//        rx.Subscription subscription = appServiceManager.functionApps().getById("/subscriptions/ffa52f27-be12-4cad-b1ea-c2c241b6cceb/resourceGroups/somefuncappinsights/providers/Microsoft.Web/sites/somefuncappinsights")
-//                .streamApplicationLogsAsync()
-//                .subscribeOn(Schedulers.newThread())
-//                .subscribe(new Action1<String>() {
-//                    @Override
-//                    public void call(String s) {
-//                        System.out.println(s);
-//                    }
-//                });
-//        SdkContext.sleep(30000);
-//        subscription.unsubscribe();
-//        final InputStream stream = appServiceManager.functionApps().getById("/subscriptions/ffa52f27-be12-4cad-b1ea-c2c241b6cceb/resourceGroups/somefuncappinsights/providers/Microsoft.Web/sites/somefuncappinsights")
-//                .streamApplicationLogs();
-//        String line = readLine(stream);
-//        Timer timer = new Timer();
-//        timer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                try {
-//                    stream.close();
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        }, 80000);
-//        while (line != null) {
-//            System.out.println(line);
-//            line = readLine(stream);
-//        }
         // Create with consumption
         FunctionApp functionApp1 = appServiceManager.functionApps().define(WEBAPP_NAME_1)
                 .withRegion(Region.US_WEST)

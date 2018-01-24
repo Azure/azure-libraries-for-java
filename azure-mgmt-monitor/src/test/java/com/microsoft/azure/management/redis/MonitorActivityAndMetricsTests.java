@@ -16,11 +16,13 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.List;
 
 public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
     @Test
     public void canListEventsAndMetrics() throws Exception {
+        DateTime recordDateTime = DateTime.parse("2018-01-24T00:07:40.350Z");
         VirtualMachine vm = computeManager.virtualMachines().list().get(0);
 
         // Metric Definition
@@ -30,8 +32,8 @@ public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
 
         // Metric
         MetricCollection metrics = mt.get(0).defineQuery()
-                .withStartTime(DateTime.now().minusDays(30))
-                .withEndTime(DateTime.now())
+                .withStartTime(recordDateTime.minusDays(30))
+                .withEndTime(recordDateTime)
                 .withResultType(ResultType.DATA)
                 .execute();
 
@@ -40,8 +42,8 @@ public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
         // Activity Logs
         PagedList<EventData> retVal = monitorManager.activityLogs()
                 .defineQuery()
-                .withStartTime(DateTime.now().minusDays(30))
-                .withEndTime(DateTime.now())
+                .withStartTime(recordDateTime.minusDays(30))
+                .withEndTime(recordDateTime)
                 .defineResponseProperties()
                     .withResourceId()
                     .withEventTimestamp()

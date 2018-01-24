@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.appservice;
 
 import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -17,6 +18,7 @@ import com.microsoft.azure.management.storage.StorageAccount;
 import rx.Completable;
 import rx.Observable;
 
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -30,7 +32,6 @@ public interface FunctionApp extends
     Updatable<FunctionApp.Update> {
 
     /**
-
      * @return the entry point to deployment slot management API under the function app
      */
     @Beta(Beta.SinceVersion.V1_3_0)
@@ -108,6 +109,18 @@ public interface FunctionApp extends
      * @return a completable for the operation
      */
     Completable syncTriggersAsync();
+
+    /**
+     * @return a open stream to the application logs
+     */
+    @Beta(SinceVersion.V1_6_0)
+    InputStream streamApplicationLogs();
+
+    /**
+     * @return an Observable streaming application logs
+     */
+    @Beta(SinceVersion.V1_6_0)
+    Observable<String> streamApplicationLogsAsync();
 
     /**************************************************************
      * Fluent interfaces to provision a Function App

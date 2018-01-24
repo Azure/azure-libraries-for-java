@@ -12,37 +12,51 @@ import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServicePlan;
 import com.microsoft.azure.management.appservice.FunctionApp;
+import com.microsoft.azure.management.appservice.FunctionDeploymentSlots;
 import com.microsoft.azure.management.appservice.NameValuePair;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PricingTier;
 import com.microsoft.azure.management.appservice.SkuDescription;
-import com.microsoft.azure.management.appservice.FunctionDeploymentSlots;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.SkuName;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountKey;
+import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.credentials.TokenCredentials;
 import okhttp3.Request;
+import okhttp3.ResponseBody;
+import okio.BufferedSource;
 import org.joda.time.DateTime;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
-import retrofit2.http.DELETE;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
 import rx.Completable;
+import rx.Emitter;
+import rx.Emitter.BackpressureMode;
 import rx.Observable;
+import rx.Subscription;
 import rx.functions.Action0;
+import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,18 +76,26 @@ class FunctionAppImpl
     private StorageAccount storageAccountToSet;
     private StorageAccount currentStorageAccount;
     private final FunctionAppKeyService functionAppKeyService;
-    private final FunctionKuduService functionKuduService;
+    private final FunctionService functionService;
+    private final KuduService kuduService;
     private FunctionDeploymentSlots deploymentSlots;
 
     FunctionAppImpl(final String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
         super(name, innerObject, configObject, manager);
         functionAppKeyService = manager.restClient().retrofit().create(FunctionAppKeyService.class);
         String defaultHostName = defaultHostName().startsWith("http") ? defaultHostName() : "http://" + defaultHostName();
-        functionKuduService = manager.restClient().newBuilder()
+        functionService = manager.restClient().newBuilder()
                 .withBaseUrl(defaultHostName)
                 .withCredentials(new KuduCredentials(this))
+                .withLogLevel(LogLevel.BODY_AND_HEADERS)
                 .build()
-                .retrofit().create(FunctionKuduService.class);
+                .retrofit().create(FunctionService.class);
+        kuduService = manager.restClient().newBuilder()
+                .withBaseUrl("https://" + defaultHostName.replace("http://", "").replace(name, name + ".scm"))
+                .withLogLevel(LogLevel.BODY_AND_HEADERS)
+                .withReadTimeout(3, TimeUnit.MINUTES)
+                .build()
+                .retrofit().create(KuduService.class);
     }
 
     @Override
@@ -222,7 +244,7 @@ class FunctionAppImpl
 
     @Override
     public Observable<Map<String, String>> listFunctionKeysAsync(final String functionName) {
-        return functionKuduService.listFunctionKeys(functionName)
+        return functionService.listFunctionKeys(functionName)
                 .map(new Func1<FunctionKeyListResult, Map<String, String>>() {
                     @Override
                     public Map<String, String> call(FunctionKeyListResult result) {
@@ -245,9 +267,9 @@ class FunctionAppImpl
     @Override
     public Observable<NameValuePair> addFunctionKeyAsync(String functionName, String keyName, String keyValue) {
         if (keyValue != null) {
-            return functionKuduService.addFunctionKey(functionName, keyName, new NameValuePair().withName(keyName).withValue(keyValue));
+            return functionService.addFunctionKey(functionName, keyName, new NameValuePair().withName(keyName).withValue(keyValue));
         } else {
-            return functionKuduService.generateFunctionKey(functionName, keyName);
+            return functionService.generateFunctionKey(functionName, keyName);
         }
     }
 
@@ -258,7 +280,7 @@ class FunctionAppImpl
 
     @Override
     public Completable removeFunctionKeyAsync(String functionName, String keyName) {
-        return functionKuduService.deleteFunctionKey(functionName, keyName).toCompletable();
+        return functionService.deleteFunctionKey(functionName, keyName).toCompletable();
     }
 
     @Override
@@ -268,7 +290,8 @@ class FunctionAppImpl
 
     @Override
     public Completable syncTriggersAsync() {
-        return manager().inner().webApps().syncFunctionTriggersAsync(resourceGroupName(), name()).toCompletable()
+        return manager().inner().webApps().syncFunctionTriggersAsync(resourceGroupName(), name())
+                .toCompletable()
                 .onErrorResumeNext(new Func1<Throwable, Completable>() {
                     @Override
                     public Completable call(Throwable throwable) {
@@ -277,6 +300,73 @@ class FunctionAppImpl
                         } else {
                             return Completable.error(throwable);
                         }
+                    }
+                });
+    }
+
+    @Override
+    public InputStream streamApplicationLogs() {
+        PipedInputStreamWithCallback in = new PipedInputStreamWithCallback();
+        final PipedOutputStream out = new PipedOutputStream();
+        try {
+            in.connect(out);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        final Subscription subscription = streamApplicationLogsAsync()
+                // Do not block current thread
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        try {
+                            out.write(s.getBytes());
+                            out.write('\n');
+                            out.flush();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+        in.addCallback(new Action0() {
+            @Override
+            public void call() {
+                subscription.unsubscribe();
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return in;
+    }
+
+    @Override
+    public Observable<String> streamApplicationLogsAsync() {
+        return functionService.ping()
+                .flatMap(new Func1<Void, Observable<ResponseBody>>() {
+                    @Override
+                    public Observable<ResponseBody> call(Void aVoid) {
+                        return kuduService.streamApplicationLogs();
+                    }
+                }).flatMap(new Func1<ResponseBody, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(ResponseBody responseBody) {
+                        final BufferedSource source = responseBody.source();
+                        return Observable.fromEmitter(new Action1<Emitter<String>>() {
+                            @Override
+                            public void call(Emitter<String> stringEmitter) {
+                                try {
+                                    while (!source.exhausted()) {
+                                        stringEmitter.onNext(source.readUtf8Line());
+                                    }
+                                    stringEmitter.onCompleted();
+                                } catch (IOException e) {
+                                    stringEmitter.onError(e);
+                                }
+                            }
+                        }, BackpressureMode.BUFFER);
                     }
                 });
     }
@@ -298,7 +388,7 @@ class FunctionAppImpl
         Observable<Map<String, String>> getMasterKey(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("User-Agent") String userAgent);
     }
 
-    private interface FunctionKuduService {
+    private interface FunctionService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps listFunctionKeys" })
         @GET("admin/functions/{name}/keys")
         Observable<FunctionKeyListResult> listFunctionKeys(@Path("name") String functionName);
@@ -314,6 +404,17 @@ class FunctionAppImpl
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps deleteFunctionKey" })
         @DELETE("admin/functions/{name}/keys/{keyName}")
         Observable<Void> deleteFunctionKey(@Path("name") String functionName, @Path("keyName") String keyName);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps ping" })
+        @POST("admin/host/ping")
+        Observable<Void> ping();
+    }
+
+    private interface KuduService {
+        @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamApplicationLogs", "x-ms-body-logging: false" })
+        @GET("api/logstream/application")
+        @Streaming
+        Observable<ResponseBody> streamApplicationLogs();
     }
 
     private static class FunctionKeyListResult {
@@ -343,6 +444,20 @@ class FunctionAppImpl
                 expire = Long.parseLong(matcher.group(1));
             }
             return token;
+        }
+    }
+
+    private static class PipedInputStreamWithCallback extends PipedInputStream {
+        private Action0 callback;
+
+        private void addCallback(Action0 action) {
+            this.callback = action;
+        }
+
+        @Override
+        public void close() throws IOException {
+            callback.call();
+            super.close();
         }
     }
 }

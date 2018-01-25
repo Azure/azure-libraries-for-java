@@ -102,6 +102,7 @@ class PointToSiteConfigurationImpl
             inner().withVpnClientRevokedCertificates(new ArrayList<VpnClientRevokedCertificateInner>());
         }
         inner().vpnClientRevokedCertificates().add(new VpnClientRevokedCertificateInner().withName(name).withThumbprint(thumbprint));
+        inner().withRadiusServerAddress(null).withRadiusServerSecret(null);
         return this;
     }
 

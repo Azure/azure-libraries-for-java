@@ -14,7 +14,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class DataLakeStoreAccountOperationsTests extends DataLakeStoreManagementTest {
     @Test

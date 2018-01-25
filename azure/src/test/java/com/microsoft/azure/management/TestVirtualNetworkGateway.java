@@ -294,7 +294,6 @@ public class TestVirtualNetworkGateway {
         @Override
         public VirtualNetworkGateway updateResource(VirtualNetworkGateway vngw1) throws Exception {
             vngw1.update().updatePointToSiteConfiguration()
-//                    .withRevokedCertificate(CERTIFICATE_NAME, "b148fdd6dacca97294917bcad4b4ad8f1fa30fba")
                     .withRevokedCertificate(CERTIFICATE_NAME, "bdf834528f0fff6eaae4c154e06b54322769276c")
                     .parent()
                     .apply();

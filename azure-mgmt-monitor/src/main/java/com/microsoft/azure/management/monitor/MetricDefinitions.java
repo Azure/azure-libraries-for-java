@@ -36,5 +36,5 @@ public interface MetricDefinitions extends
      * @param resourceId The resource Id.
      * @return a representation of the deferred computation of Metric Definitions list call.
      */
-    Observable<List<MetricDefinition>> listByResourceAsync(String resourceId);
+    Observable<MetricDefinition> listByResourceAsync(String resourceId);
 }

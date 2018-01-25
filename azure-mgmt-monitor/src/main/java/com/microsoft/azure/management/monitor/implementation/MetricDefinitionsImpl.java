@@ -41,11 +41,31 @@ class MetricDefinitionsImpl
 
     @Override
     public List<MetricDefinition> listByResource(String resourceId) {
-        return this.listByResourceAsync(resourceId).toBlocking().last();
+        return Lists.transform(this.inner().list(resourceId), new Function<MetricDefinitionInner, MetricDefinition>() {
+                    @Override
+                    public MetricDefinition apply(MetricDefinitionInner metricDefinitionInner) {
+                        return  new MetricDefinitionImpl(metricDefinitionInner, myManager);
+                    }
+                });
     }
 
     @Override
-    public Observable<List<MetricDefinition>> listByResourceAsync(String resourceId) {
+    public Observable<MetricDefinition> listByResourceAsync(String resourceId) {
+        return this.inner().listAsync(resourceId)
+                .flatMapIterable(new Func1<List<MetricDefinitionInner>, Iterable<MetricDefinitionInner>>() {
+                    @Override
+                    public Iterable<MetricDefinitionInner> call(List<MetricDefinitionInner> items) {
+                        return items;
+                    }
+                }).map(new Func1<MetricDefinitionInner, MetricDefinition>() {
+                    @Override
+                    public MetricDefinition call(MetricDefinitionInner metricDefinitionInner) {
+                        return new MetricDefinitionImpl(metricDefinitionInner, myManager);
+                    }
+                });
+
+
+        /*
         return this.inner().listAsync(resourceId)
                 .map(new Func1<List<MetricDefinitionInner>, List<MetricDefinition>>() {
                     @Override
@@ -57,6 +77,6 @@ class MetricDefinitionsImpl
                             }
                         });
                     }
-                });
+                });*/
     }
 }

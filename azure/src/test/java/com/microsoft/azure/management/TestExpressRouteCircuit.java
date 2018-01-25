@@ -67,13 +67,7 @@ public class TestExpressRouteCircuit {
 
         @Override
         public void print(ExpressRouteCircuit resource) {
-            StringBuilder info = new StringBuilder();
-            info.append("Express Route Circuit: ").append(resource.id())
-                    .append("\n\tName: ").append(resource.name())
-                    .append("\n\tResource group: ").append(resource.resourceGroupName())
-                    .append("\n\tRegion: ").append(resource.regionName())
-                    .append("\n\tTags: ").append(resource.tags());
-            System.out.println(info.toString());
+            printExpressRouteCircuit(resource);
         }
     }
 
@@ -124,14 +118,18 @@ public class TestExpressRouteCircuit {
 
         @Override
         public void print(ExpressRouteCircuit resource) {
-            StringBuilder info = new StringBuilder();
-            info.append("Express Route Circuit: ").append(resource.id())
-                    .append("\n\tName: ").append(resource.name())
-                    .append("\n\tResource group: ").append(resource.resourceGroupName())
-                    .append("\n\tRegion: ").append(resource.regionName())
-                    .append("\n\tTags: ").append(resource.tags());
-            System.out.println(info.toString());
+            printExpressRouteCircuit(resource);
         }
+    }
+
+    private static void printExpressRouteCircuit(ExpressRouteCircuit resource) {
+        StringBuilder info = new StringBuilder();
+        info.append("Express Route Circuit: ").append(resource.id())
+                .append("\n\tName: ").append(resource.name())
+                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tRegion: ").append(resource.regionName())
+                .append("\n\tTags: ").append(resource.tags());
+        System.out.println(info.toString());
     }
 }
 

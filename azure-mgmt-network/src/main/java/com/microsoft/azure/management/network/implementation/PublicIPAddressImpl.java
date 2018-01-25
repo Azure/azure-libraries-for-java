@@ -76,7 +76,7 @@ class PublicIPAddressImpl
 
     @Override
     public PublicIPAddressImpl withLeafDomainLabel(String dnsName) {
-        this.inner().dnsSettings().withDomainNameLabel(dnsName.toLowerCase());
+        this.inner().dnsSettings().withDomainNameLabel((dnsName == null) ? null : dnsName.toLowerCase());
         return this;
     }
 

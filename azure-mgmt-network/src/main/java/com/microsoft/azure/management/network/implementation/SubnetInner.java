@@ -10,6 +10,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.network.ServiceEndpointPropertiesFormat;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.SubResource;
 
@@ -35,6 +36,13 @@ public class SubnetInner extends SubResource {
      */
     @JsonProperty(value = "properties.routeTable")
     private SubResource routeTable;
+
+    /**
+     * An array of service endpoints.
+     */
+    @JsonProperty(value = "properties.serviceEndpoints")
+    private List<ServiceEndpointPropertiesFormat> serviceEndpoints;
+
 
     /**
      * Gets an array of references to the network interface IP configurations
@@ -125,6 +133,26 @@ public class SubnetInner extends SubResource {
      */
     public SubResource withRouteTable(SubResource routeTable) {
         this.routeTable = routeTable;
+        return this;
+    }
+
+    /**
+     * Get the serviceEndpoints value.
+     *
+     * @return the serviceEndpoints value
+     */
+    public List<ServiceEndpointPropertiesFormat> serviceEndpoints() {
+        return this.serviceEndpoints;
+    }
+
+    /**
+     * Set the serviceEndpoints value.
+     *
+     * @param serviceEndpoints the serviceEndpoints value to set
+     * @return the SubnetInner object itself.
+     */
+    public SubnetInner withServiceEndpoints(List<ServiceEndpointPropertiesFormat> serviceEndpoints) {
+        this.serviceEndpoints = serviceEndpoints;
         return this;
     }
 

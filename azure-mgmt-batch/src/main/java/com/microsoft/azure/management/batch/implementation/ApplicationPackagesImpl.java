@@ -36,11 +36,11 @@ class ApplicationPackagesImpl extends
     }
 
     public ApplicationPackageImpl define(String name) {
-        return this.prepareDefine(name);
+        return this.prepareInlineDefine(name);
     }
 
     public void remove(String applicationPackageName) {
-        this.prepareRemove(applicationPackageName);
+        this.prepareInlineRemove(applicationPackageName);
     }
 
     @Override

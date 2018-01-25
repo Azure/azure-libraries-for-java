@@ -51,7 +51,7 @@ public class ApplicationPackageImpl
     }
 
     @Override
-    public Observable<ApplicationPackage> createAsync() {
+    public Observable<ApplicationPackage> createResourceAsync() {
         final ApplicationPackageImpl self = this;
 
         return this.client.createAsync(this.parent().parent().resourceGroupName(), this.parent().parent().name(), this.parent().name(), this.name())
@@ -66,12 +66,12 @@ public class ApplicationPackageImpl
     }
 
     @Override
-    public Observable<ApplicationPackage> updateAsync() {
+    public Observable<ApplicationPackage> updateResourceAsync() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Observable<Void> deleteAsync() {
+    public Observable<Void> deleteResourceAsync() {
         return this.client.deleteAsync(this.parent().parent().resourceGroupName(), this.parent().parent().name(), this.parent().name(), this.name());
     }
 
@@ -112,7 +112,7 @@ public class ApplicationPackageImpl
 
     @Override
     public void delete() {
-        this.deleteAsync().toBlocking().last();
+        this.deleteResourceAsync().toBlocking().last();
     }
 
     @Override

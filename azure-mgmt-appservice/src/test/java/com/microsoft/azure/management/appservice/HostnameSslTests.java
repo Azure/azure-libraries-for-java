@@ -10,14 +10,12 @@ import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.RestClient;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.net.ssl.SSLPeerUnverifiedException;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.fail;
@@ -98,10 +96,4 @@ public class HostnameSslTests extends AppServiceTest {
             Assert.assertNotNull(response.body().string());
         }
     }
-
-    private static Response curl(String url) throws IOException {
-        Request request = new Request.Builder().url(url).get().build();
-        return httpClient.newCall(request).execute();
-    }
-
 }

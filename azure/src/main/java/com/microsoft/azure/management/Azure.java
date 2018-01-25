@@ -18,6 +18,9 @@ import com.microsoft.azure.management.appservice.WebApps;
 import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
 import com.microsoft.azure.management.batch.BatchAccounts;
 import com.microsoft.azure.management.batch.implementation.BatchManager;
+import com.microsoft.azure.management.batchai.BatchAIClusters;
+import com.microsoft.azure.management.batchai.BatchAIFileServers;
+import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.cdn.CdnProfiles;
 import com.microsoft.azure.management.cdn.implementation.CdnManager;
 import com.microsoft.azure.management.compute.AvailabilitySets;
@@ -52,6 +55,9 @@ import com.microsoft.azure.management.keyvault.Vaults;
 import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
 import com.microsoft.azure.management.locks.ManagementLocks;
 import com.microsoft.azure.management.locks.implementation.AuthorizationManager;
+import com.microsoft.azure.management.monitor.ActivityLogs;
+import com.microsoft.azure.management.monitor.MetricDefinitions;
+import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.msi.Identities;
 import com.microsoft.azure.management.msi.implementation.MSIManager;
 import com.microsoft.azure.management.network.ApplicationGateways;
@@ -112,6 +118,7 @@ public final class Azure {
     private final NetworkManager networkManager;
     private final KeyVaultManager keyVaultManager;
     private final BatchManager batchManager;
+    private final BatchAIManager batchAIManager;
     private final TrafficManager trafficManager;
     private final RedisManager redisManager;
     private final CdnManager cdnManager;
@@ -126,6 +133,7 @@ public final class Azure {
     private final CosmosDBManager cosmosDBManager;
     private final AuthorizationManager authorizationManager;
     private final MSIManager msiManager;
+    private final MonitorManager monitorManager;
     private final String subscriptionId;
     private final Authenticated authenticated;
 
@@ -388,6 +396,7 @@ public final class Azure {
         this.networkManager = NetworkManager.authenticate(restClient, subscriptionId);
         this.keyVaultManager = KeyVaultManager.authenticate(restClient, tenantId, subscriptionId);
         this.batchManager = BatchManager.authenticate(restClient, subscriptionId);
+        this.batchAIManager = BatchAIManager.authenticate(restClient, subscriptionId);
         this.trafficManager = TrafficManager.authenticate(restClient, subscriptionId);
         this.redisManager = RedisManager.authenticate(restClient, subscriptionId);
         this.cdnManager = CdnManager.authenticate(restClient, subscriptionId);
@@ -402,6 +411,7 @@ public final class Azure {
         this.searchServiceManager = SearchServiceManager.authenticate(restClient, subscriptionId);
         this.authorizationManager = AuthorizationManager.authenticate(restClient, subscriptionId);
         this.msiManager = MSIManager.authenticate(restClient, subscriptionId);
+        this.monitorManager = MonitorManager.authenticate(restClient, subscriptionId);
         this.subscriptionId = subscriptionId;
         this.authenticated = authenticated;
     }
@@ -667,6 +677,20 @@ public final class Azure {
     }
 
     /**
+     * @return entry point to managing batch AI clusters.
+     */
+    public BatchAIClusters batchAIClusters() {
+        return batchAIManager.clusters();
+    }
+
+    /**
+     * @return entry point to managing batch AI file servers.
+     */
+    public BatchAIFileServers batchAIFileServers() {
+        return batchAIManager.fileServers();
+    }
+
+    /**
      * @return entry point to managing traffic manager profiles.
      */
     public TrafficManagerProfiles trafficManagerProfiles() {
@@ -796,5 +820,21 @@ public final class Azure {
     @Beta(SinceVersion.V1_2_0)
     public AccessManagement accessManagement() {
         return this.authenticated;
+    }
+
+    /**
+     * @return entry point to listing activity log events in Azure
+     */
+    @Beta(SinceVersion.V1_6_0)
+    public ActivityLogs activityLogs() {
+        return this.monitorManager.activityLogs();
+    }
+
+    /**
+     * @return entry point to listing metric definitions in Azure
+     */
+    @Beta(SinceVersion.V1_6_0)
+    public MetricDefinitions metricDefinitions() {
+        return this.monitorManager.metricDefinitions();
     }
 }

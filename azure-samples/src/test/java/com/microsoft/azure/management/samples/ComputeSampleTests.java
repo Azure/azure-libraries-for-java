@@ -13,12 +13,14 @@ import com.microsoft.azure.management.compute.samples.CreateVirtualMachineUsingS
 import com.microsoft.azure.management.compute.samples.CreateVirtualMachinesAsyncTrackingRelatedResources;
 import com.microsoft.azure.management.compute.samples.CreateVirtualMachinesInParallel;
 import com.microsoft.azure.management.compute.samples.CreateVirtualMachinesUsingCustomImageOrSpecializedVHD;
+import com.microsoft.azure.management.compute.samples.ListComputeSkus;
 import com.microsoft.azure.management.compute.samples.ListVirtualMachineExtensionImages;
 import com.microsoft.azure.management.compute.samples.ListVirtualMachineImages;
 import com.microsoft.azure.management.compute.samples.ManageAvailabilitySet;
 import com.microsoft.azure.management.compute.samples.ManageManagedDisks;
 import com.microsoft.azure.management.compute.samples.ManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup;
 import com.microsoft.azure.management.compute.samples.ManageStorageFromMSIEnabledVirtualMachine;
+import com.microsoft.azure.management.compute.samples.ManageUserAssignedMSIEnabledVirtualMachine;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachine;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachineAsync;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachineExtension;
@@ -82,6 +84,11 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Test
     public void testListVirtualMachineImages() {
         Assert.assertTrue(ListVirtualMachineImages.runSample(azure));
+    }
+
+    @Test
+    public void testListListComputeSkus() {
+        Assert.assertTrue(ListComputeSkus.runSample(azure));
     }
 
     @Test
@@ -152,6 +159,11 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Test
     public void testManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup() {
         Assert.assertTrue(ManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup.runSample(azure));
+    }
+
+    @Test
+    public void testManageUserAssignedMSIEnabledVirtualMachine() {
+        Assert.assertTrue(ManageUserAssignedMSIEnabledVirtualMachine.runSample(azure));
     }
 
     @Test

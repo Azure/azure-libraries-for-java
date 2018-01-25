@@ -68,6 +68,7 @@ import com.microsoft.azure.management.graphrbac.implementation.PermissionInner;
 import com.microsoft.azure.management.keyvault.AccessPolicy;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.locks.ManagementLock;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayBackend;
 import com.microsoft.azure.management.network.ApplicationGatewayBackendAddress;
@@ -105,6 +106,7 @@ import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.RouteTable;
 import com.microsoft.azure.management.network.SecurityGroupNetworkInterface;
 import com.microsoft.azure.management.network.SecurityGroupView;
+import com.microsoft.azure.management.network.ServiceEndpointType;
 import com.microsoft.azure.management.network.Subnet;
 import com.microsoft.azure.management.network.Topology;
 import com.microsoft.azure.management.network.TopologyAssociation;
@@ -115,6 +117,8 @@ import com.microsoft.azure.management.redis.RedisAccessKeys;
 import com.microsoft.azure.management.redis.RedisCache;
 import com.microsoft.azure.management.redis.RedisCachePremium;
 import com.microsoft.azure.management.redis.ScheduleEntry;
+import com.microsoft.azure.management.resources.ResourceGroup;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.search.AdminKeys;
 import com.microsoft.azure.management.search.QueryKey;
@@ -135,7 +139,9 @@ import com.microsoft.azure.management.sql.SqlElasticPool;
 import com.microsoft.azure.management.sql.SqlFirewallRule;
 import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.management.storage.StorageAccountEncryptionStatus;
 import com.microsoft.azure.management.storage.StorageAccountKey;
+import com.microsoft.azure.management.storage.StorageService;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerAzureEndpoint;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerExternalEndpoint;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerNestedProfileEndpoint;
@@ -165,6 +171,37 @@ import java.util.concurrent.TimeUnit;
  */
 
 public final class Utils {
+    /**
+     * Print resource group info.
+     *
+     * @param resource a resource group
+     */
+    public static void print(ResourceGroup resource) {
+        StringBuilder info = new StringBuilder();
+        info.append("Resource Group: ").append(resource.id())
+                .append("\n\tName: ").append(resource.name())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tTags: ").append(resource.tags());
+        System.out.println(info.toString());
+    }
+
+    /**
+     * Print User Assigned MSI info.
+     *
+     * @param resource a User Assigned MSI
+     */
+    public static void print(Identity resource) {
+        StringBuilder info = new StringBuilder();
+        info.append("Resource Group: ").append(resource.id())
+                .append("\n\tName: ").append(resource.name())
+                .append("\n\tRegion: ").append(resource.region())
+                .append("\n\tTags: ").append(resource.tags())
+                .append("\n\tService Principal Id: ").append(resource.principalId())
+                .append("\n\tClient Id: ").append(resource.clientId())
+                .append("\n\tTenant Id: ").append(resource.tenantId())
+                .append("\n\tClient Secret Url: ").append(resource.clientSecretUrl());
+        System.out.println(info.toString());
+    }
 
     /**
      * Print virtual machine info.
@@ -351,6 +388,17 @@ public final class Utils {
             if (routeTable != null) {
                 info.append("\n\tRoute table ID: ").append(routeTable.id());
             }
+
+            // Output services with access
+            Map<ServiceEndpointType, List<Region>> services = subnet.servicesWithAccess();
+            if (services.size() > 0) {
+                info.append("\n\tServices with access");
+                for (Map.Entry<ServiceEndpointType, List<Region>> service : services.entrySet()) {
+                    info.append("\n\t\tService: ")
+                            .append(service.getKey())
+                            .append(" Regions: " + service.getValue() + "");
+                }
+            }
         }
 
         // Output peerings
@@ -470,7 +518,6 @@ public final class Utils {
         System.out.println(info.toString());
     }
 
-
     /**
      * Print storage account.
      *
@@ -479,6 +526,46 @@ public final class Utils {
     public static void print(StorageAccount storageAccount) {
         System.out.println(storageAccount.name()
                 + " created @ " + storageAccount.creationTime());
+
+        StringBuilder info = new StringBuilder().append("Storage Account: ").append(storageAccount.id())
+                .append("Name: ").append(storageAccount.name())
+                .append("\n\tResource group: ").append(storageAccount.resourceGroupName())
+                .append("\n\tRegion: ").append(storageAccount.region())
+                .append("\n\tSKU: ").append(storageAccount.skuType().name().toString())
+                .append("\n\tAccessTier: ").append(storageAccount.accessTier())
+                .append("\n\tKind: ").append(storageAccount.kind());
+
+        info.append("\n\tNetwork Rule Configuration: ")
+                .append("\n\t\tAllow reading logs from any network: ").append(storageAccount.canReadLogEntriesFromAnyNetwork())
+                .append("\n\t\tAllow reading metrics from any network: ").append(storageAccount.canReadMetricsFromAnyNetwork())
+                .append("\n\t\tAllow access from all azure services: ").append(storageAccount.canAccessFromAzureServices());
+
+        if (storageAccount.networkSubnetsWithAccess().size() > 0) {
+            info.append("\n\t\tNetwork subnets with access: ");
+            for (String subnetId : storageAccount.networkSubnetsWithAccess()) {
+                info.append("\n\t\t\t").append(subnetId);
+            }
+        }
+        if (storageAccount.ipAddressesWithAccess().size() > 0) {
+            info.append("\n\t\tIP addresses with access: ");
+            for (String ipAddress : storageAccount.ipAddressesWithAccess()) {
+                info.append("\n\t\t\t").append(ipAddress);
+            }
+        }
+        if (storageAccount.ipAddressRangesWithAccess().size() > 0) {
+            info.append("\n\t\tIP address-ranges with access: ");
+            for (String ipAddressRange : storageAccount.ipAddressRangesWithAccess()) {
+                info.append("\n\t\t\t").append(ipAddressRange);
+            }
+        }
+        info.append("\n\t\tTraffic allowed from only HTTPS: ").append(storageAccount.inner().enableHttpsTrafficOnly());
+
+        info.append("\n\tEncryption status: ");
+        for (Map.Entry<StorageService, StorageAccountEncryptionStatus> eStatus : storageAccount.encryptionStatuses().entrySet()) {
+            info.append("\n\t\t").append(eStatus.getValue().storageService()).append(": ").append(eStatus.getValue().isEnabled() ? "Enabled" : "Disabled");
+        }
+
+        System.out.println(info.toString());
     }
 
     /**

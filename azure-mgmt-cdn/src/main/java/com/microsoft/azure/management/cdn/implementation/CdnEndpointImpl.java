@@ -79,7 +79,7 @@ class CdnEndpointImpl extends ExternalChildResourceImpl<CdnEndpoint,
     }
 
     @Override
-    public Observable<CdnEndpoint> createAsync() {
+    public Observable<CdnEndpoint> createResourceAsync() {
         final CdnEndpointImpl self = this;
         return this.parent().manager().inner().endpoints().createAsync(this.parent().resourceGroupName(),
                 this.parent().name(),
@@ -108,7 +108,7 @@ class CdnEndpointImpl extends ExternalChildResourceImpl<CdnEndpoint,
     }
 
     @Override
-    public Observable<CdnEndpoint> updateAsync() {
+    public Observable<CdnEndpoint> updateResourceAsync() {
         final CdnEndpointImpl self = this;
         EndpointUpdateParametersInner updateInner = new EndpointUpdateParametersInner();
         updateInner.withIsHttpAllowed(this.inner().isHttpAllowed())
@@ -183,7 +183,7 @@ class CdnEndpointImpl extends ExternalChildResourceImpl<CdnEndpoint,
 
 
     @Override
-    public Observable<Void> deleteAsync() {
+    public Observable<Void> deleteResourceAsync() {
         return this.parent().manager().inner().endpoints().deleteAsync(this.parent().resourceGroupName(),
                 this.parent().name(),
                 this.name());

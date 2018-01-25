@@ -304,12 +304,12 @@ class DnsRecordSetImpl extends ExternalChildResourceImpl<DnsRecordSet,
     //
 
     @Override
-    public Observable<DnsRecordSet> createAsync() {
+    public Observable<DnsRecordSet> createResourceAsync() {
         return createOrUpdateAsync(this.inner());
     }
 
     @Override
-    public Observable<DnsRecordSet> updateAsync() {
+    public Observable<DnsRecordSet> updateResourceAsync() {
         return this.parent().manager().inner().recordSets().getAsync(this.parent().resourceGroupName(),
                 this.parent().name(), this.name(), this.recordType())
                 .map(new Func1<RecordSetInner, RecordSetInner>() {
@@ -325,7 +325,7 @@ class DnsRecordSetImpl extends ExternalChildResourceImpl<DnsRecordSet,
     }
 
     @Override
-    public Observable<Void> deleteAsync() {
+    public Observable<Void> deleteResourceAsync() {
         return this.parent().manager().inner().recordSets().deleteAsync(this.parent().resourceGroupName(),
                 this.parent().name(), this.name(), this.recordType(), this.eTagState.ifMatchValueOnDelete());
     }

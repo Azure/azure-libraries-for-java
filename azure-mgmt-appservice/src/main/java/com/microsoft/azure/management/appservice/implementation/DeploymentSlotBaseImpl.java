@@ -18,6 +18,7 @@ import com.microsoft.azure.management.appservice.HostNameBinding;
 import com.microsoft.azure.management.appservice.PublishingProfile;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import com.microsoft.azure.management.appservice.WebAppSourceControl;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import rx.Completable;
 import rx.Observable;
 import rx.exceptions.Exceptions;
@@ -173,16 +174,16 @@ class DeploymentSlotBaseImpl<
         return (FluentImplT) this;
     }
 
-    Observable<SiteInner> submitAppSettings(final SiteInner site) {
-        return Observable.just(configurationSource).flatMap(new Func1<WebAppBase, Observable<SiteInner>>() {
+    Observable<Indexable> submitAppSettings() {
+        return Observable.just(configurationSource).flatMap(new Func1<WebAppBase, Observable<Indexable>>() {
             @Override
-            public Observable<SiteInner> call(WebAppBase webAppBase) {
+            public Observable<Indexable> call(WebAppBase webAppBase) {
                 if (webAppBase == null || !isInCreateMode()) {
-                    return Observable.just(inner());
+                    return Observable.just((Indexable) DeploymentSlotBaseImpl.this);
                 }
-                return webAppBase.getAppSettingsAsync().map(new Func1<Map<String, AppSetting>, SiteInner>() {
+                return webAppBase.getAppSettingsAsync().flatMap(new Func1<Map<String, AppSetting>, Observable<Indexable>>() {
                     @Override
-                    public SiteInner call(Map<String, AppSetting> stringAppSettingMap) {
+                    public Observable<Indexable> call(Map<String, AppSetting> stringAppSettingMap) {
                         for (AppSetting appSetting : stringAppSettingMap.values()) {
                             if (appSetting.sticky()) {
                                 withStickyAppSetting(appSetting.key(), appSetting.value());
@@ -190,28 +191,23 @@ class DeploymentSlotBaseImpl<
                                 withAppSetting(appSetting.key(), appSetting.value());
                             }
                         }
-                        return inner();
+                        return DeploymentSlotBaseImpl.super.submitAppSettings();
                     }
                 });
-            }
-        }).flatMap(new Func1<SiteInner, Observable<SiteInner>>() {
-            @Override
-            public Observable<SiteInner> call(SiteInner siteInner) {
-                return DeploymentSlotBaseImpl.super.submitAppSettings(siteInner);
             }
         });
     }
 
-    Observable<SiteInner> submitConnectionStrings(final SiteInner site) {
-        return Observable.just(configurationSource).flatMap(new Func1<WebAppBase, Observable<SiteInner>>() {
+    Observable<Indexable> submitConnectionStrings() {
+        return Observable.just(configurationSource).flatMap(new Func1<WebAppBase, Observable<Indexable>>() {
             @Override
-            public Observable<SiteInner> call(WebAppBase webAppBase) {
+            public Observable<Indexable> call(WebAppBase webAppBase) {
                 if (webAppBase == null || !isInCreateMode()) {
-                    return Observable.just(inner());
+                    return Observable.just((Indexable) DeploymentSlotBaseImpl.this);
                 }
-                return webAppBase.getConnectionStringsAsync().map(new Func1<Map<String, ConnectionString>, SiteInner>() {
+                return webAppBase.getConnectionStringsAsync().flatMap(new Func1<Map<String, ConnectionString>, Observable<Indexable>>() {
                     @Override
-                    public SiteInner call(Map<String, ConnectionString> stringConnectionStringMap) {
+                    public Observable<Indexable> call(Map<String, ConnectionString> stringConnectionStringMap) {
                         for (ConnectionString connectionString : stringConnectionStringMap.values()) {
                             if (connectionString.sticky()) {
                                 withStickyConnectionString(connectionString.name(), connectionString.value(), connectionString.type());
@@ -219,14 +215,10 @@ class DeploymentSlotBaseImpl<
                                 withConnectionString(connectionString.name(), connectionString.value(), connectionString.type());
                             }
                         }
-                        return inner();
+                        return DeploymentSlotBaseImpl.super.submitConnectionStrings();
+
                     }
                 });
-            }
-        }).flatMap(new Func1<SiteInner, Observable<SiteInner>>() {
-            @Override
-            public Observable<SiteInner> call(SiteInner siteInner) {
-                return DeploymentSlotBaseImpl.super.submitConnectionStrings(siteInner);
             }
         });
     }

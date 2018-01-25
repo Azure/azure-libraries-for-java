@@ -180,6 +180,10 @@ class VirtualNetworkGatewayImpl
         return this;
     }
 
+    void attachPointToSiteConfiguration(PointToSiteConfigurationImpl pointToSiteConfiguration) {
+        inner().withVpnClientConfiguration(pointToSiteConfiguration.inner());
+    }
+
     @Override
     public void reset() {
         resetAsync().await();
@@ -215,6 +219,16 @@ class VirtualNetworkGatewayImpl
                         return connections().getById(connectionInner.id());
                     }
                 });
+    }
+
+    @Override
+    public String generateVpnProfile() {
+        return this.manager().inner().virtualNetworkGateways().generateVpnProfile(resourceGroupName(), name(), new VpnClientParametersInner());
+    }
+
+    @Override
+    public Observable<String> generateVpnProfileAsync() {
+        return this.manager().inner().virtualNetworkGateways().generateVpnProfileAsync(resourceGroupName(), name(), new VpnClientParametersInner());
     }
 
     @Override
@@ -420,5 +434,15 @@ class VirtualNetworkGatewayImpl
                         return VirtualNetworkGatewayImpl.this.manager().inner().virtualNetworkGateways().createOrUpdateAsync(resourceGroupName(), name(), inner());
                     }
                 });
+    }
+
+    @Override
+    public PointToSiteConfigurationImpl definePointToSiteConfiguration() {
+        return new PointToSiteConfigurationImpl(new VpnClientConfiguration(), this);
+    }
+
+    @Override
+    public PointToSiteConfigurationImpl updatePointToSiteConfiguration() {
+        return new PointToSiteConfigurationImpl(inner().vpnClientConfiguration(), this);
     }
 }

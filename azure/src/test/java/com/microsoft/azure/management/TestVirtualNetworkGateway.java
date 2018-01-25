@@ -6,6 +6,7 @@
 package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.network.LocalNetworkGateway;
+import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.Subnet;
 import com.microsoft.azure.management.network.VirtualNetworkGateway;
 import com.microsoft.azure.management.network.VirtualNetworkGatewayConnection;
@@ -18,6 +19,7 @@ import org.junit.Assert;
 import rx.Observable;
 import rx.functions.Func1;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +33,16 @@ public class TestVirtualNetworkGateway {
     private static String GROUP_NAME;
     private static String GATEWAY_NAME1;
     private static String GATEWAY_NAME2;
+    private static String NETWORK_NAME;
     private static String CONNECTION_NAME = "myNewConnection";
+    private static String CERTIFICATE_NAME = "myTest3.cer";
 
     private static void initializeResourceNames() {
         TEST_ID = SdkContext.randomResourceName("", 8);
         GROUP_NAME = "rg" + TEST_ID;
         GATEWAY_NAME1 = "vngw" + TEST_ID;
         GATEWAY_NAME2 = "vngw2" + TEST_ID;
+        NETWORK_NAME = "nw" + TEST_ID;
     }
 
     /**
@@ -229,6 +234,76 @@ public class TestVirtualNetworkGateway {
             List<VirtualNetworkGatewayConnection> connections = resource.listConnections();
             Assert.assertEquals(0, connections.size());
             return resource;
+        }
+    }
+
+    /**
+     * Test VNet-to-VNet Virtual Network Gateway Connection.
+     */
+    public static class PointToSite extends TestTemplate<VirtualNetworkGateway, VirtualNetworkGateways> {
+
+        public PointToSite(NetworkManager networkManager) {
+            initializeResourceNames();
+        }
+
+        @Override
+        public void print(VirtualNetworkGateway resource) {
+            printVirtualNetworkGateway(resource);
+        }
+
+        @Override
+        public VirtualNetworkGateway createResource(final VirtualNetworkGateways gateways) throws Exception {
+
+            // Create virtual network gateway
+            initializeResourceNames();
+
+            Network network = gateways.manager().networks().define(NETWORK_NAME)
+                    .withRegion(REGION)
+                    .withNewResourceGroup(GROUP_NAME)
+                    .withAddressSpace("192.168.0.0/16")
+                    .withAddressSpace("10.254.0.0/16")
+                    .withSubnet("GatewaySubnet", "192.168.200.0/24")
+                    .withSubnet("FrontEnd", "192.168.1.0/24")
+                    .withSubnet("BackEnd", "10.254.1.0/24")
+                    .create();
+            VirtualNetworkGateway vngw1 = gateways.define(GATEWAY_NAME1)
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(GROUP_NAME)
+                    .withExistingNetwork(network)
+                    .withRouteBasedVpn()
+                    .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
+                    .create();
+
+            vngw1.update()
+                    .definePointToSiteConfiguration()
+                        .withAddressPool("172.16.201.0/24")
+                        .withAzureCertificateFromFile(CERTIFICATE_NAME, new File(getClass().getClassLoader().getResource(CERTIFICATE_NAME).getFile()))
+                        .attach()
+                    .apply();
+
+            Assert.assertNotNull(vngw1.vpnClientConfiguration());
+            Assert.assertEquals("172.16.201.0/24", vngw1.vpnClientConfiguration().vpnClientAddressPool().addressPrefixes().get(0));
+            Assert.assertEquals(1, vngw1.vpnClientConfiguration().vpnClientRootCertificates().size());
+            Assert.assertEquals(CERTIFICATE_NAME, vngw1.vpnClientConfiguration().vpnClientRootCertificates().get(0).name());
+            String profile = vngw1.generateVpnProfile();
+            System.out.println(profile);
+            return vngw1;
+        }
+
+        @Override
+        public VirtualNetworkGateway updateResource(VirtualNetworkGateway vngw1) throws Exception {
+            vngw1.update().updatePointToSiteConfiguration()
+                    .withRevokedCertificate(CERTIFICATE_NAME, "bdf834528f0fff6eaae4c154e06b54322769276c")
+                    .parent()
+                    .apply();
+            Assert.assertEquals(CERTIFICATE_NAME, vngw1.vpnClientConfiguration().vpnClientRevokedCertificates().get(0).name());
+
+            vngw1.update().updatePointToSiteConfiguration()
+                    .withoutAzureCertificate(CERTIFICATE_NAME)
+                    .parent()
+                    .apply();
+            Assert.assertEquals(0, vngw1.vpnClientConfiguration().vpnClientRootCertificates().size());
+            return vngw1;
         }
     }
 

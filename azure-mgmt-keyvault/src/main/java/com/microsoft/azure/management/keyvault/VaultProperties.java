@@ -17,12 +17,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class VaultProperties {
     /**
-     * The URI of the vault for performing operations on keys and secrets.
-     */
-    @JsonProperty(value = "vaultUri")
-    private String vaultUri;
-
-    /**
      * The Azure Active Directory tenant ID that should be used for
      * authenticating requests to the key vault.
      */
@@ -40,8 +34,14 @@ public class VaultProperties {
      * identities in the array must use the same tenant ID as the key vault's
      * tenant ID.
      */
-    @JsonProperty(value = "accessPolicies", required = true)
+    @JsonProperty(value = "accessPolicies")
     private List<AccessPolicyEntry> accessPolicies;
+
+    /**
+     * The URI of the vault for performing operations on keys and secrets.
+     */
+    @JsonProperty(value = "vaultUri", access = JsonProperty.Access.WRITE_ONLY)
+    private String vaultUri;
 
     /**
      * Property to specify whether Azure Virtual Machines are permitted to
@@ -65,24 +65,18 @@ public class VaultProperties {
     private Boolean enabledForTemplateDeployment;
 
     /**
-     * Get the vaultUri value.
-     *
-     * @return the vaultUri value
+     * Property to specify whether the 'soft delete' functionality is enabled
+     * for this key vault. It does not accept false value.
      */
-    public String vaultUri() {
-        return this.vaultUri;
-    }
+    @JsonProperty(value = "enableSoftDelete")
+    private Boolean enableSoftDelete;
 
     /**
-     * Set the vaultUri value.
-     *
-     * @param vaultUri the vaultUri value to set
-     * @return the VaultProperties object itself.
+     * The vault's create mode to indicate whether the vault need to be
+     * recovered or not. Possible values include: 'recover', 'default'.
      */
-    public VaultProperties withVaultUri(String vaultUri) {
-        this.vaultUri = vaultUri;
-        return this;
-    }
+    @JsonProperty(value = "createMode")
+    private CreateMode createMode;
 
     /**
      * Get the tenantId value.
@@ -145,6 +139,15 @@ public class VaultProperties {
     }
 
     /**
+     * Get the vaultUri value.
+     *
+     * @return the vaultUri value
+     */
+    public String vaultUri() {
+        return this.vaultUri;
+    }
+
+    /**
      * Get the enabledForDeployment value.
      *
      * @return the enabledForDeployment value
@@ -201,6 +204,46 @@ public class VaultProperties {
      */
     public VaultProperties withEnabledForTemplateDeployment(Boolean enabledForTemplateDeployment) {
         this.enabledForTemplateDeployment = enabledForTemplateDeployment;
+        return this;
+    }
+
+    /**
+     * Get the enableSoftDelete value.
+     *
+     * @return the enableSoftDelete value
+     */
+    public Boolean enableSoftDelete() {
+        return this.enableSoftDelete;
+    }
+
+    /**
+     * Set the enableSoftDelete value.
+     *
+     * @param enableSoftDelete the enableSoftDelete value to set
+     * @return the VaultProperties object itself.
+     */
+    public VaultProperties withEnableSoftDelete(Boolean enableSoftDelete) {
+        this.enableSoftDelete = enableSoftDelete;
+        return this;
+    }
+
+    /**
+     * Get the createMode value.
+     *
+     * @return the createMode value
+     */
+    public CreateMode createMode() {
+        return this.createMode;
+    }
+
+    /**
+     * Set the createMode value.
+     *
+     * @param createMode the createMode value to set
+     * @return the VaultProperties object itself.
+     */
+    public VaultProperties withCreateMode(CreateMode createMode) {
+        this.createMode = createMode;
         return this;
     }
 

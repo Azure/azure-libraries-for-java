@@ -12,13 +12,17 @@ import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.NicIPConfiguration;
 import com.microsoft.azure.management.network.RouteTable;
+import com.microsoft.azure.management.network.ServiceEndpointPropertiesFormat;
+import com.microsoft.azure.management.network.ServiceEndpointType;
 import com.microsoft.azure.management.network.Subnet;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -72,6 +76,27 @@ class SubnetImpl
         return (this.inner().routeTable() != null) ? this.inner().routeTable().id() : null;
     }
 
+    @Override
+    public Map<ServiceEndpointType, List<Region>> servicesWithAccess() {
+        Map<ServiceEndpointType, List<Region>> services = new HashMap<>();
+        if (this.inner().serviceEndpoints() != null) {
+            for (ServiceEndpointPropertiesFormat endpoint : this.inner().serviceEndpoints()) {
+                ServiceEndpointType serviceEndpointType = ServiceEndpointType.fromString(endpoint.service());
+                if (!services.containsKey(serviceEndpointType)) {
+                    services.put(serviceEndpointType, new ArrayList<Region>());
+                }
+                if (endpoint.locations() != null) {
+                    List<Region> regions = new ArrayList<>();
+                    for (String location : endpoint.locations()) {
+                        regions.add(Region.fromName(location));
+                    }
+                    services.get(serviceEndpointType).addAll(regions);
+                }
+            }
+        }
+        return services;
+    }
+
     // Fluent setters
 
     @Override
@@ -114,6 +139,48 @@ class SubnetImpl
     @Override
     public SubnetImpl withAddressPrefix(String cidr) {
         this.inner().withAddressPrefix(cidr);
+        return this;
+    }
+
+
+    @Override
+    public SubnetImpl withAccessFromService(ServiceEndpointType service) {
+        if (this.inner().serviceEndpoints() == null) {
+            this.inner().withServiceEndpoints(new ArrayList<ServiceEndpointPropertiesFormat>());
+        }
+        boolean found = false;
+        for (ServiceEndpointPropertiesFormat endpoint : this.inner().serviceEndpoints()) {
+            if (endpoint.service().equalsIgnoreCase(service.toString())) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            this.inner()
+                    .serviceEndpoints()
+                    .add(new ServiceEndpointPropertiesFormat()
+                            .withService(service.toString())
+                            .withLocations(new ArrayList<String>()));
+        }
+        return this;
+    }
+
+    @Override
+    public Update withoutAccessFromService(ServiceEndpointType service) {
+        if (this.inner().serviceEndpoints() != null) {
+            int foundIndex = -1;
+            int i = 0;
+            for (ServiceEndpointPropertiesFormat endpoint : this.inner().serviceEndpoints()) {
+                if (endpoint.service().equalsIgnoreCase(service.toString())) {
+                    foundIndex = i;
+                    break;
+                }
+                i++;
+            }
+            if (foundIndex != -1) {
+                this.inner().serviceEndpoints().remove(foundIndex);
+            }
+        }
         return this;
     }
 

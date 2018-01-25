@@ -9,7 +9,6 @@ package com.microsoft.azure.management.network;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
@@ -23,8 +22,7 @@ import java.io.IOException;
 @Fluent
 @Beta(SinceVersion.V1_6_0)
 public interface PointToSiteConfiguration extends
-        HasInner<VpnClientConfiguration>,
-        ChildResource<VirtualNetworkGateway> {
+        HasInner<VpnClientConfiguration> {
     /**
      * Grouping of point-to-site configuration definition stages.
      */

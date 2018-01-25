@@ -11,7 +11,7 @@ import com.microsoft.azure.management.network.PointToSiteConfiguration;
 import com.microsoft.azure.management.network.VirtualNetworkGateway;
 import com.microsoft.azure.management.network.VpnClientConfiguration;
 import com.microsoft.azure.management.network.VpnClientProtocol;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 @LangDefinition
 class PointToSiteConfigurationImpl
-        extends ChildResourceImpl<VpnClientConfiguration, VirtualNetworkGatewayImpl, VirtualNetworkGateway>
+        extends IndexableWrapperImpl<VpnClientConfiguration>
         implements
         PointToSiteConfiguration,
         PointToSiteConfiguration.Definition<VirtualNetworkGateway.Update>,
@@ -33,19 +33,17 @@ class PointToSiteConfigurationImpl
     private static final String BEGIN_CERT = "-----BEGIN CERTIFICATE-----";
     private  static final String END_CERT = "-----END CERTIFICATE-----";
 
-    PointToSiteConfigurationImpl(VpnClientConfiguration inner, VirtualNetworkGatewayImpl parent) {
-        super(inner, parent);
-    }
+    private VirtualNetworkGatewayImpl parent;
 
-    @Override
-    public String name() {
-        return null;
+    PointToSiteConfigurationImpl(VpnClientConfiguration inner, VirtualNetworkGatewayImpl parent) {
+        super(inner);
+        this.parent = parent;
     }
 
     @Override
     public VirtualNetworkGatewayImpl attach() {
-        this.parent().attachPointToSiteConfiguration(this);
-        return parent();
+        parent.attachPointToSiteConfiguration(this);
+        return parent;
     }
 
     @Override
@@ -117,5 +115,10 @@ class PointToSiteConfigurationImpl
     public PointToSiteConfigurationImpl withIkeV2Only() {
         inner().withVpnClientProtocols(Collections.singletonList(VpnClientProtocol.IKE_V2));
         return this;
+    }
+
+    @Override
+    public VirtualNetworkGateway.Update parent() {
+        return parent;
     }
 }

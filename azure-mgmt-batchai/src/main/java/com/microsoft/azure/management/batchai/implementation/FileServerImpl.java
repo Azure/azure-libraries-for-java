@@ -16,7 +16,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
  * Represents file server reference.
  */
 @LangDefinition
-public class FileServerImpl extends IndexableWrapperImpl<FileServerReference>
+class FileServerImpl extends IndexableWrapperImpl<FileServerReference>
         implements
         FileServer,
         FileServer.Definition<BatchAICluster.DefinitionStages.WithCreate> {

@@ -64,6 +64,20 @@ public interface VirtualNetworkGateway extends
     Observable<VirtualNetworkGatewayConnection> listConnectionsAsync();
 
     /**
+     * Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
+     * @return String object if successful
+     */
+    @Method
+    String generateVpnProfile();
+
+    /**
+     * Generates asynchronously VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
+     * @return String object if successful
+     */
+    @Method
+    Observable<String> generateVpnProfileAsync();
+
+    /**
      * @return the entry point to virtual network gateway connections management API for this virtual network gateway
      */
     VirtualNetworkGatewayConnections connections();
@@ -203,7 +217,7 @@ public interface VirtualNetworkGateway extends
             WithGatewayType withNewNetwork(String addressSpaceCidr, String subnetAddressSpaceCidr);
 
             /**
-             * Associate an existing virtual network with the virtual network gateway .
+             * Associate an existing virtual network with the virtual network gateway.
              * @param network an existing virtual network
              * @return the next stage of the definition
              */
@@ -280,6 +294,20 @@ public interface VirtualNetworkGateway extends
             @Method
             Update withoutBgp();
         }
+
+        /**
+         * The stage of update allowing to specify virtual network gateway's point-to-site configuration.
+         */
+        interface WithPointToSiteConfiguration {
+
+            /**
+             * Begins the definition of point-to-site configuration to be added to this virtual network gateway.
+             * @return the first stage of the point-to-site configuration definition
+             */
+            PointToSiteConfiguration.DefinitionStages.Blank<Update> definePointToSiteConfiguration();
+
+            PointToSiteConfiguration.Update updatePointToSiteConfiguration();
+        }
     }
 
     /**
@@ -290,6 +318,7 @@ public interface VirtualNetworkGateway extends
             Appliable<VirtualNetworkGateway>,
             Resource.UpdateWithTags<Update>,
             UpdateStages.WithSku,
-            UpdateStages.WithBgp {
+            UpdateStages.WithBgp,
+            UpdateStages.WithPointToSiteConfiguration {
     }
 }

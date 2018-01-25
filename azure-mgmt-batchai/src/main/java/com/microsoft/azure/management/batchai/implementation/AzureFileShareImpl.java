@@ -17,7 +17,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
  * Represents Azure file share reference.
  */
 @LangDefinition
-public class AzureFileShareImpl extends IndexableWrapperImpl<AzureFileShareReference>
+class AzureFileShareImpl extends IndexableWrapperImpl<AzureFileShareReference>
         implements
         AzureFileShare,
         AzureFileShare.Definition<BatchAICluster.DefinitionStages.WithCreate> {

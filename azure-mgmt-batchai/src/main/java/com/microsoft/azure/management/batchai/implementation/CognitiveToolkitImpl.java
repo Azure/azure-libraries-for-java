@@ -15,7 +15,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
  * Represents Microsoft Cognitive Toolkit settings.
  */
 @LangDefinition
-public class CognitiveToolkitImpl extends IndexableWrapperImpl<CNTKsettings>
+class CognitiveToolkitImpl extends IndexableWrapperImpl<CNTKsettings>
         implements
         ToolTypeSettings.CognitiveToolkit,
         ToolTypeSettings.CognitiveToolkit.Definition<BatchAIJob.DefinitionStages.WithCreate> {

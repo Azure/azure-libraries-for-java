@@ -17,7 +17,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
  * Represents Azure blob file system reference.
  */
 @LangDefinition
-public class AzureBlobFileSystemImpl extends IndexableWrapperImpl<AzureBlobFileSystemReference>
+class AzureBlobFileSystemImpl extends IndexableWrapperImpl<AzureBlobFileSystemReference>
         implements
         AzureBlobFileSystem,
         AzureBlobFileSystem.Definition<BatchAICluster.DefinitionStages.WithCreate> {

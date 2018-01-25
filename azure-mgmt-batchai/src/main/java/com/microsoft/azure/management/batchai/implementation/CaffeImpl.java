@@ -15,7 +15,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
  * Represents Caffe settings.
  */
 @LangDefinition
-public class CaffeImpl extends IndexableWrapperImpl<CaffeSettings>
+class CaffeImpl extends IndexableWrapperImpl<CaffeSettings>
         implements
         ToolTypeSettings.Caffe,
         ToolTypeSettings.Caffe.Definition<BatchAIJob.DefinitionStages.WithCreate> {

@@ -8,44 +8,25 @@
 
 package com.microsoft.azure.management.datalake.analytics.implementation;
 
-import retrofit2.Retrofit;
-import com.microsoft.azure.management.datalake.analytics.Jobs;
 import com.google.common.base.Joiner;
 import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.management.datalake.analytics.models.BuildJobParameters;
-import com.microsoft.azure.management.datalake.analytics.models.CreateJobParameters;
-import com.microsoft.azure.management.datalake.analytics.models.JobDataPath;
-import com.microsoft.azure.management.datalake.analytics.models.JobInformation;
-import com.microsoft.azure.management.datalake.analytics.models.JobInformationBasic;
-import com.microsoft.azure.management.datalake.analytics.models.JobStatistics;
-import com.microsoft.azure.management.datalake.analytics.models.PageImpl;
-import com.microsoft.azure.management.datalake.analytics.models.UpdateJobParameters;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.*;
+import com.microsoft.azure.management.datalake.analytics.Jobs;
+import com.microsoft.azure.management.datalake.analytics.models.*;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.http.*;
+import rx.Observable;
+import rx.functions.Func1;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -453,6 +434,7 @@ public class JobsImpl implements Jobs {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaJobDnsSuffix}", this.client.adlaJobDnsSuffix());
         Observable<Response<ResponseBody>> observable = service.cancel(jobIdentity, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -609,6 +591,7 @@ public class JobsImpl implements Jobs {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaJobDnsSuffix}", this.client.adlaJobDnsSuffix());
         Observable<Response<ResponseBody>> observable = service.yield(jobIdentity, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -949,6 +932,7 @@ public class JobsImpl implements Jobs {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         final UpdateJobParameters parameters = null;
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaJobDnsSuffix}", this.client.adlaJobDnsSuffix());
         Observable<Response<ResponseBody>> observable = service.update(jobIdentity, parameters, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<JobInformation>() { }.getType());
     }
@@ -1022,6 +1006,7 @@ public class JobsImpl implements Jobs {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaJobDnsSuffix}", this.client.adlaJobDnsSuffix());
         Observable<Response<ResponseBody>> observable = service.update(jobIdentity, parameters, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<JobInformation>() { }.getType());
     }

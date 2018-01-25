@@ -605,7 +605,6 @@ abstract class WebAppBaseImpl<
         });
         // MSI roles
         if (msiHandler != null) {
-            System.out.println("Adding MSI Handler");
             addPostRunDependent(msiHandler);
         }
     }
@@ -1330,13 +1329,12 @@ abstract class WebAppBaseImpl<
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedIdentityBasedAccessTo(final String resourceId, final BuiltInRole role) {
-        if (inner().identity().type() == null) {
+        if (inner().identity() == null || inner().identity().type() == null) {
             throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
         }
         msiHandler = new FunctionalTaskItem() {
             @Override
             public Observable<Indexable> call(Context context) {
-                System.out.println("Creating role assignment");
                 return manager().rbacManager().roleAssignments().define(SdkContext.randomUuid())
                         .forObjectId(systemAssignedManagedServiceIdentityPrincipalId())
                         .withBuiltInRole(role)
@@ -1350,13 +1348,12 @@ abstract class WebAppBaseImpl<
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(final BuiltInRole role) {
-        if (inner().identity().type() == null) {
+        if (inner().identity() == null || inner().identity().type() == null) {
             throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
         }
         msiHandler = new FunctionalTaskItem() {
             @Override
             public Observable<Indexable> call(Context context) {
-                System.out.println("Creating role assignment");
                 return manager().rbacManager().roleAssignments().define(SdkContext.randomUuid())
                         .forObjectId(systemAssignedManagedServiceIdentityPrincipalId())
                         .withBuiltInRole(role)
@@ -1370,7 +1367,7 @@ abstract class WebAppBaseImpl<
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedIdentityBasedAccessTo(final String resourceId, final String roleDefinitionId) {
-        if (inner().identity().type() == null) {
+        if (inner().identity() == null || inner().identity().type() == null) {
             throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
         }
         msiHandler = new FunctionalTaskItem() {
@@ -1389,7 +1386,7 @@ abstract class WebAppBaseImpl<
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(final String roleDefinitionId) {
-        if (inner().identity().type() == null) {
+        if (inner().identity() == null || inner().identity().type() == null) {
             throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
         }
         msiHandler = new FunctionalTaskItem() {

@@ -12,7 +12,6 @@ import com.microsoft.azure.management.network.VirtualNetworkGateway;
 import com.microsoft.azure.management.network.VpnClientConfiguration;
 import com.microsoft.azure.management.network.VpnClientProtocol;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import sun.security.provider.X509Factory;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +30,8 @@ class PointToSiteConfigurationImpl
         PointToSiteConfiguration,
         PointToSiteConfiguration.Definition<VirtualNetworkGateway.Update>,
         PointToSiteConfiguration.Update {
+    private static final String BEGIN_CERT = "-----BEGIN CERTIFICATE-----";
+    private  static final String END_CERT = "-----END CERTIFICATE-----";
 
     PointToSiteConfigurationImpl(VpnClientConfiguration inner, VirtualNetworkGatewayImpl parent) {
         super(inner, parent);
@@ -56,27 +57,28 @@ class PointToSiteConfigurationImpl
     }
 
     @Override
-    public PointToSiteConfigurationImpl withRootCertificate(String name, String certificateData) {
+    public PointToSiteConfigurationImpl withAzureCertificate(String name, String certificateData) {
         if (inner().vpnClientRootCertificates() == null) {
             inner().withVpnClientRootCertificates(new ArrayList<VpnClientRootCertificateInner>());
         }
         inner().vpnClientRootCertificates().add(new VpnClientRootCertificateInner().withName(name).withPublicCertData(certificateData));
+        inner().withRadiusServerAddress(null).withRadiusServerSecret(null);
         return this;
     }
 
     @Override
-    public PointToSiteConfigurationImpl withRootCertificateFromFile(String name, File certificateFile) throws IOException {
+    public PointToSiteConfigurationImpl withAzureCertificateFromFile(String name, File certificateFile) throws IOException {
         if (certificateFile == null) {
             return this;
         } else {
             byte[] content = Files.readAllBytes(certificateFile.toPath());
-            String certificate = new String(content).replace(X509Factory.BEGIN_CERT, "").replace(X509Factory.END_CERT, "");
-            return this.withRootCertificate(name, certificate);
+            String certificate = new String(content).replace(BEGIN_CERT, "").replace(END_CERT, "");
+            return this.withAzureCertificate(name, certificate);
         }
     }
 
     @Override
-    public Update withoutRootCertificate(String name) {
+    public Update withoutAzureCertificate(String name) {
         if (inner().vpnClientRootCertificates() != null) {
             for (VpnClientRootCertificateInner certificateInner : inner().vpnClientRootCertificates()) {
                 if (name.equals(certificateInner.name())) {
@@ -89,13 +91,10 @@ class PointToSiteConfigurationImpl
     }
 
     @Override
-    public PointToSiteConfigurationImpl withAzureCertificate() {
-        return this;
-    }
-
-    @Override
     public PointToSiteConfigurationImpl withRadiusAuthentication(String serverIPAddress, String serverSecret) {
         inner().withRadiusServerAddress(serverIPAddress).withRadiusServerSecret(serverSecret);
+        inner().withVpnClientRootCertificates(null);
+        inner().withVpnClientRevokedCertificates(null);
         return this;
     }
 

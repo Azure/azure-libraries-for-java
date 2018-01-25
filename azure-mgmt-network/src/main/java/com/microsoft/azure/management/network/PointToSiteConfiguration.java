@@ -130,7 +130,7 @@ public interface PointToSiteConfiguration extends
             DefinitionStages.Blank<ParentT>,
             DefinitionStages.WithAuthenticationType<ParentT>,
             DefinitionStages.WithAddressPool<ParentT>,
-            DefinitionStages.WithAttach<ParentT> {
+            DefinitionStages.WithAttachAndAzureCertificate<ParentT> {
     }
 
     /**

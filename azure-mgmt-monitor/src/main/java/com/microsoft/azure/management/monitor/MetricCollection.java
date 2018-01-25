@@ -9,15 +9,17 @@ package com.microsoft.azure.management.monitor;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
 import com.microsoft.azure.management.monitor.implementation.ResponseInner;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import org.joda.time.Period;
 
 import java.util.List;
 
 /**
- * The Azure event log entries are of type EventData.
+ * The MetricCollection representing wrapper over ResponseInner type.
  */
 @LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
-public interface MetricCollection {
+public interface MetricCollection
+        extends HasInner<ResponseInner> {
     /**
      * Get the cost value.
      *

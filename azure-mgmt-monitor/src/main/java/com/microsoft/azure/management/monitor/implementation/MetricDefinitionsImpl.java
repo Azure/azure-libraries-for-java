@@ -63,20 +63,5 @@ class MetricDefinitionsImpl
                         return new MetricDefinitionImpl(metricDefinitionInner, myManager);
                     }
                 });
-
-
-        /*
-        return this.inner().listAsync(resourceId)
-                .map(new Func1<List<MetricDefinitionInner>, List<MetricDefinition>>() {
-                    @Override
-                    public List<MetricDefinition> call(List<MetricDefinitionInner> metricDefinitionInners) {
-                        return Lists.transform(metricDefinitionInners, new Function<MetricDefinitionInner, MetricDefinition>() {
-                            @Override
-                            public MetricDefinition apply(MetricDefinitionInner metricDefinitionInner) {
-                                return new MetricDefinitionImpl(metricDefinitionInner, myManager);
-                            }
-                        });
-                    }
-                });*/
     }
 }

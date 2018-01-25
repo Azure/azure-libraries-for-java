@@ -8,12 +8,15 @@ package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
+import com.microsoft.azure.management.monitor.implementation.LocalizableStringInner;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * The localizable string class.
  */
 @LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
-public interface LocalizableString {
+public interface LocalizableString
+        extends HasInner<LocalizableStringInner> {
     /**
      * Get the value value.
      *

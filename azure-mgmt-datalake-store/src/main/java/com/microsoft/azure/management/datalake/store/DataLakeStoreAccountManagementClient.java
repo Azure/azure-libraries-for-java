@@ -120,4 +120,16 @@ public interface DataLakeStoreAccountManagementClient {
      */
     Accounts accounts();
 
+    /**
+     * Gets the Locations object to access its operations.
+     * @return the Locations object.
+     */
+    Locations locations();
+
+    /**
+     * Gets the Operations object to access its operations.
+     * @return the Operations object.
+     */
+    Operations operations();
+
 }

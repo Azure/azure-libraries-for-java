@@ -43,14 +43,14 @@ public interface DataLakeAnalyticsJobManagementClient {
     String apiVersion();
 
     /**
-     * Gets Gets the DNS suffix used as the base for all Azure Data Lake Analytics Job service requests..
+     * Gets The DNS suffix used as the base for all Azure Data Lake Analytics Job service requests..
      *
      * @return the adlaJobDnsSuffix value.
      */
     String adlaJobDnsSuffix();
 
     /**
-     * Sets Gets the DNS suffix used as the base for all Azure Data Lake Analytics Job service requests..
+     * Sets The DNS suffix used as the base for all Azure Data Lake Analytics Job service requests..
      *
      * @param adlaJobDnsSuffix the adlaJobDnsSuffix value.
      * @return the service client itself

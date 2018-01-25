@@ -10,13 +10,13 @@ package com.microsoft.azure.management.datalake.analytics;
 
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.management.datalake.analytics.models.AddDataLakeStoreParameters;
 import com.microsoft.azure.management.datalake.analytics.models.DataLakeStoreAccountInfo;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
+import java.io.IOException;
 import java.util.List;
 import rx.Observable;
 
@@ -76,12 +76,12 @@ public interface DataLakeStoreAccounts {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to add the Data Lake Store account.
      * @param dataLakeStoreAccountName The name of the Data Lake Store account to add.
-     * @param parameters The details of the Data Lake Store account.
+     * @param suffix the optional suffix for the Data Lake Store account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    void add(String resourceGroupName, String accountName, String dataLakeStoreAccountName, AddDataLakeStoreParameters parameters);
+    void add(String resourceGroupName, String accountName, String dataLakeStoreAccountName, String suffix);
 
     /**
      * Updates the specified Data Lake Analytics account to include the additional Data Lake Store account.
@@ -89,12 +89,12 @@ public interface DataLakeStoreAccounts {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to add the Data Lake Store account.
      * @param dataLakeStoreAccountName The name of the Data Lake Store account to add.
-     * @param parameters The details of the Data Lake Store account.
+     * @param suffix the optional suffix for the Data Lake Store account.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<Void> addAsync(String resourceGroupName, String accountName, String dataLakeStoreAccountName, AddDataLakeStoreParameters parameters, final ServiceCallback<Void> serviceCallback);
+    ServiceFuture<Void> addAsync(String resourceGroupName, String accountName, String dataLakeStoreAccountName, String suffix, final ServiceCallback<Void> serviceCallback);
 
     /**
      * Updates the specified Data Lake Analytics account to include the additional Data Lake Store account.
@@ -102,11 +102,11 @@ public interface DataLakeStoreAccounts {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to add the Data Lake Store account.
      * @param dataLakeStoreAccountName The name of the Data Lake Store account to add.
-     * @param parameters The details of the Data Lake Store account.
+     * @param suffix the optional suffix for the Data Lake Store account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    Observable<Void> addAsync(String resourceGroupName, String accountName, String dataLakeStoreAccountName, AddDataLakeStoreParameters parameters);
+    Observable<Void> addAsync(String resourceGroupName, String accountName, String dataLakeStoreAccountName, String suffix);
 
     /**
      * Updates the specified Data Lake Analytics account to include the additional Data Lake Store account.
@@ -114,11 +114,11 @@ public interface DataLakeStoreAccounts {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to add the Data Lake Store account.
      * @param dataLakeStoreAccountName The name of the Data Lake Store account to add.
-     * @param parameters The details of the Data Lake Store account.
+     * @param suffix the optional suffix for the Data Lake Store account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    Observable<ServiceResponse<Void>> addWithServiceResponseAsync(String resourceGroupName, String accountName, String dataLakeStoreAccountName, AddDataLakeStoreParameters parameters);
+    Observable<ServiceResponse<Void>> addWithServiceResponseAsync(String resourceGroupName, String accountName, String dataLakeStoreAccountName, String suffix);
 
     /**
      * Updates the Data Lake Analytics account specified to remove the specified Data Lake Store account.

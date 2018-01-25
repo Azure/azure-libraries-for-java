@@ -17,6 +17,7 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
+import java.io.IOException;
 import java.util.List;
 import rx.Observable;
 
@@ -128,13 +129,14 @@ public interface ComputePolicies {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to update the compute policy.
      * @param computePolicyName The name of the compute policy to update.
-     * @param parameters Parameters supplied to update the compute policy.
+     * @param maxDegreeOfParallelismPerJob The maximum degree of parallelism per job this user can use to submit jobs.
+     * @param minPriorityPerJob The minimum priority per job this user can use to submit jobs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ComputePolicy object if successful.
      */
-    ComputePolicy update(String resourceGroupName, String accountName, String computePolicyName, ComputePolicy parameters);
+    ComputePolicy update(String resourceGroupName, String accountName, String computePolicyName, Integer maxDegreeOfParallelismPerJob, Integer minPriorityPerJob);
 
     /**
      * Updates the specified compute policy.
@@ -142,12 +144,13 @@ public interface ComputePolicies {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to update the compute policy.
      * @param computePolicyName The name of the compute policy to update.
-     * @param parameters Parameters supplied to update the compute policy.
+     * @param maxDegreeOfParallelismPerJob The maximum degree of parallelism per job this user can use to submit jobs.
+     * @param minPriorityPerJob The minimum priority per job this user can use to submit jobs.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<ComputePolicy> updateAsync(String resourceGroupName, String accountName, String computePolicyName, ComputePolicy parameters, final ServiceCallback<ComputePolicy> serviceCallback);
+    ServiceFuture<ComputePolicy> updateAsync(String resourceGroupName, String accountName, String computePolicyName, Integer maxDegreeOfParallelismPerJob, Integer minPriorityPerJob, final ServiceCallback<ComputePolicy> serviceCallback);
 
     /**
      * Updates the specified compute policy.
@@ -155,11 +158,12 @@ public interface ComputePolicies {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to update the compute policy.
      * @param computePolicyName The name of the compute policy to update.
-     * @param parameters Parameters supplied to update the compute policy.
+     * @param maxDegreeOfParallelismPerJob The maximum degree of parallelism per job this user can use to submit jobs.
+     * @param minPriorityPerJob The minimum priority per job this user can use to submit jobs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ComputePolicy object
      */
-    Observable<ComputePolicy> updateAsync(String resourceGroupName, String accountName, String computePolicyName, ComputePolicy parameters);
+    Observable<ComputePolicy> updateAsync(String resourceGroupName, String accountName, String computePolicyName, Integer maxDegreeOfParallelismPerJob, Integer minPriorityPerJob);
 
     /**
      * Updates the specified compute policy.
@@ -167,11 +171,12 @@ public interface ComputePolicies {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to update the compute policy.
      * @param computePolicyName The name of the compute policy to update.
-     * @param parameters Parameters supplied to update the compute policy.
+     * @param maxDegreeOfParallelismPerJob The maximum degree of parallelism per job this user can use to submit jobs.
+     * @param minPriorityPerJob The minimum priority per job this user can use to submit jobs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ComputePolicy object
      */
-    Observable<ServiceResponse<ComputePolicy>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String computePolicyName, ComputePolicy parameters);
+    Observable<ServiceResponse<ComputePolicy>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String computePolicyName, Integer maxDegreeOfParallelismPerJob, Integer minPriorityPerJob);
 
     /**
      * Deletes the specified compute policy from the specified Data Lake Analytics account.

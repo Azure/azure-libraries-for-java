@@ -15,6 +15,8 @@ import com.microsoft.azure.management.datalake.analytics.ComputePolicies;
 import com.microsoft.azure.management.datalake.analytics.DataLakeAnalyticsAccountManagementClient;
 import com.microsoft.azure.management.datalake.analytics.DataLakeStoreAccounts;
 import com.microsoft.azure.management.datalake.analytics.FirewallRules;
+import com.microsoft.azure.management.datalake.analytics.Locations;
+import com.microsoft.azure.management.datalake.analytics.Operations;
 import com.microsoft.azure.management.datalake.analytics.StorageAccounts;
 import com.microsoft.rest.credentials.ServiceClientCredentials;
 import com.microsoft.rest.RestClient;
@@ -204,6 +206,32 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
     }
 
     /**
+     * The Locations object to access its operations.
+     */
+    private Locations locations;
+
+    /**
+     * Gets the Locations object to access its operations.
+     * @return the Locations object.
+     */
+    public Locations locations() {
+        return this.locations;
+    }
+
+    /**
+     * The Operations object to access its operations.
+     */
+    private Operations operations;
+
+    /**
+     * Gets the Operations object to access its operations.
+     * @return the Operations object.
+     */
+    public Operations operations() {
+        return this.operations;
+    }
+
+    /**
      * Initializes an instance of DataLakeAnalyticsAccountManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -243,6 +271,8 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
         this.storageAccounts = new StorageAccountsImpl(restClient().retrofit(), this);
         this.dataLakeStoreAccounts = new DataLakeStoreAccountsImpl(restClient().retrofit(), this);
         this.accounts = new AccountsImpl(restClient().retrofit(), this);
+        this.locations = new LocationsImpl(restClient().retrofit(), this);
+        this.operations = new OperationsImpl(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

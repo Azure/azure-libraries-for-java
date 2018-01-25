@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BaseJobParameters {
     /**
-     * the job type of the current job (Hive or USql). Possible values include:
-     * 'USql', 'Hive'.
+     * the job type of the current job (Hive, USql, or Scope (for internal use
+     * only)). Possible values include: 'USql', 'Hive', 'Scope'.
      */
     @JsonProperty(value = "type", required = true)
     private JobType type;

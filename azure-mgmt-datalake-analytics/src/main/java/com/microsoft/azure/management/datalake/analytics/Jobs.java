@@ -10,6 +10,8 @@ package com.microsoft.azure.management.datalake.analytics;
 
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.datalake.analytics.models.BuildJobParameters;
 import com.microsoft.azure.management.datalake.analytics.models.CreateJobParameters;
 import com.microsoft.azure.management.datalake.analytics.models.JobDataPath;
@@ -17,15 +19,13 @@ import com.microsoft.azure.management.datalake.analytics.models.JobInformation;
 import com.microsoft.azure.management.datalake.analytics.models.JobInformationBasic;
 import com.microsoft.azure.management.datalake.analytics.models.JobStatistics;
 import com.microsoft.azure.management.datalake.analytics.models.UpdateJobParameters;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
+import rx.Observable;
+
 import java.util.List;
 import java.util.UUID;
-import rx.Observable;
 
 /**
  * An instance of this class provides access to all the operations defined

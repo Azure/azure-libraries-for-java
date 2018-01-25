@@ -10,18 +10,18 @@ package com.microsoft.azure.management.datalake.analytics;
 
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.datalake.analytics.models.DataLakeAnalyticsAccount;
 import com.microsoft.azure.management.datalake.analytics.models.DataLakeAnalyticsAccountBasic;
 import com.microsoft.azure.management.datalake.analytics.models.DataLakeAnalyticsAccountUpdateParameters;
 import com.microsoft.azure.management.datalake.analytics.models.NameAvailabilityInformation;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.List;
 import rx.Observable;
+
+import java.util.List;
 
 /**
  * An instance of this class provides access to all the operations defined

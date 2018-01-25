@@ -172,8 +172,7 @@ public class DataLakeAnalyticsAccountOperationsTests extends DataLakeAnalyticsMa
         dataLakeAnalyticsAccountManagementClient.dataLakeStoreAccounts().add(
                 rgName,
                 adlaAcct,
-                adlsName2,
-                null
+                adlsName2
         );
 
         // List ADLS accounts

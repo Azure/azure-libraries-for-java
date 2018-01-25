@@ -44,21 +44,38 @@ public interface PointToSiteConfiguration extends
          * The stage of the point-to-site configuration definition allowing to specify authentication type.
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        interface WithAuthenticationType<ParentT> {
+        interface WithAuthenticationType<ParentT> extends WithAzureCertificate<ParentT> {
             /**
-             * Specifies that Azure certificate authentication type will be used.
+             * Specifies that RADIUS server will be used for authentication.
+             * @param serverIPAddress the radius server address
+             * @param serverSecret the radius server secret
              * @return the next stage of the definition
              */
-            WithRootCertificate<ParentT> withAzureCertificate();
-
             WithAttach<ParentT> withRadiusAuthentication(String serverIPAddress, String serverSecret);
         }
 
-        interface WithRootCertificate<ParentT> {
-            WithAttach<ParentT> withRootCertificate(String name, String certificateData);
+        /**
+         * The stage of the point-to-site configuration definition allowing to add root certificate for Azure authentication.
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        interface WithAzureCertificate<ParentT> {
+            /**
+             * Specifies that Azure certificate authentication type will be used and certificate to use for Azure authentication.
+             * @param name name of certificate
+             * @param certificateData the certificate public data
+             * @return the next stage of the definition
+             */
+            WithAttachAndAzureCertificate<ParentT> withAzureCertificate(String name, String certificateData);
 
-            WithAttach<ParentT> withRootCertificateFromFile(String name, File certificateFile) throws IOException;
+            /**
+             * Specifies that Azure certificate authentication type will be used and certificate to use for Azure authentication.
+             * @param name name of certificate
+             * @param certificateFile public Base64-encoded certificate file
+             * @return the next stage of the definition
+             */
+            WithAttachAndAzureCertificate<ParentT> withAzureCertificateFromFile(String name, File certificateFile) throws IOException;
         }
+
 
         interface WithRevokedCertificate<ParentT> {
             WithAttach<ParentT> withRevokedCertificate(String name, String thumbprint);
@@ -69,8 +86,15 @@ public interface PointToSiteConfiguration extends
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithTunnelType<ParentT> {
+            /**
+             * Specifies that only SSTP tunnel type will be used.
+             * @return the next stage of the definition
+             */
             WithAttach<ParentT> withSstpOnly();
-
+            /**
+             * Specifies that only IKEv2 VPN tunnel type will be used.
+             * @return the next stage of the definition
+             */
             WithAttach<ParentT> withIkeV2Only();
         }
 
@@ -82,8 +106,19 @@ public interface PointToSiteConfiguration extends
          */
         interface WithAttach<ParentT> extends
                 Attachable.InDefinition<ParentT>,
+                WithTunnelType<ParentT> {
+        }
+
+        /** The final stage of the point-to-site configuration definition.
+         * <p>
+         * At this stage, any remaining optional settings can be specified, or the point-to-site configuration definition
+         * can be attached to the parent virtual network gateway definition.
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        interface WithAttachAndAzureCertificate<ParentT> extends
+                WithAttach<ParentT>,
                 WithTunnelType<ParentT>,
-                WithRootCertificate<ParentT>,
+                WithAzureCertificate<ParentT>,
                 WithRevokedCertificate<ParentT> {
         }
     }
@@ -102,33 +137,70 @@ public interface PointToSiteConfiguration extends
      * Grouping of point-to-site configuration update stages.
      */
     interface UpdateStages {
+        /**
+         * The stage of the point-to-site configuration definition allowing to specify address pool.
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
         interface WithAddressPool<ParentT> {
-            WithAuthenticationType<ParentT> withAddressPool(String addressPool);
+            /**
+             * Specifies address pool.
+             * @param addressPool address pool
+             * @return the next stage of the update
+             */
+            Update withAddressPool(String addressPool);
         }
 
         /**
-         * The stage of the point-to-site configuration definition allowing to specify authentication type.
-         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         * Specifies authentication type of the point-to-site configuration.
          */
-        interface WithAuthenticationType<ParentT> {
+        interface WithAuthenticationType extends WithAzureCertificate {
             /**
-             * Specifies that Azure certificate authentication type will be used.
-             * @return the next stage of the definition
+             * Specifies that RADIUS authentication type will be used.
+             * @param serverIPAddress the radius server address
+             * @param serverSecret the radius server secret
+             * @return the next stage of the update
              */
-            Update withAzureCertificate();
-
             Update withRadiusAuthentication(String serverIPAddress, String serverSecret);
         }
 
-        interface WithRootCertificate<ParentT> {
-            Update withRootCertificate(String name, String certificateData);
+        /**
+         * Specifies Azure certificate for authentication.
+         */
+        interface WithAzureCertificate {
+            /**
+             * Specifies that Azure certificate authentication type will be used and certificate to use for Azure authentication.
+             * @param name name of certificate
+             * @param certificateData the certificate public data
+             * @return the next stage of the update
+             */
+            Update withAzureCertificate(String name, String certificateData);
 
-            Update withRootCertificateFromFile(String name, File certificateFile) throws IOException;
+            /**
+             * Specifies that azure certificate authentication type will be used and certificate to use for Azure authentication.
+             * @param name name of certificate
+             * @param certificateFile public Base64-encoded certificate file
+             * @return the next stage of the update
+             */
+            Update withAzureCertificateFromFile(String name, File certificateFile) throws IOException;
 
-            Update withoutRootCertificate(String name);
+            /**
+             * Removes attached azure certificate with specified name.
+             * @param name name of the certificate
+             * @return the next stage of the update
+             */
+            Update withoutAzureCertificate(String name);
         }
 
-        interface WithRevokedCertificate<ParentT> {
+        /**
+         * Specifies revoked certificate for azure authentication.
+         */
+        interface WithRevokedCertificate {
+            /**
+             * Specifies revoked certificate.
+             * @param name certificate name
+             * @param thumbprint certificate thumbprint
+             * @return
+             */
             Update withRevokedCertificate(String name, String thumbprint);
         }
 
@@ -137,8 +209,16 @@ public interface PointToSiteConfiguration extends
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithTunnelType<ParentT> {
+            /**
+             * Specifies that only SSTP tunnel type will be used.
+             * @return the next stage of the definition
+             */
             Update withSstpOnly();
 
+            /**
+             * Specifies that only IKEv2 VPN tunnel type will be used.
+             * @return the next stage of the definition
+             */
             Update withIkeV2Only();
         }
     }
@@ -149,7 +229,6 @@ public interface PointToSiteConfiguration extends
     interface Update extends
             UpdateStages.WithAddressPool,
             UpdateStages.WithAuthenticationType,
-            UpdateStages.WithRootCertificate,
             UpdateStages.WithRevokedCertificate,
             UpdateStages.WithTunnelType,
             Settable<VirtualNetworkGateway.Update> {

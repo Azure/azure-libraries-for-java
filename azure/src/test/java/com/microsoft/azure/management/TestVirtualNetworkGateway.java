@@ -277,8 +277,7 @@ public class TestVirtualNetworkGateway {
             vngw1.update()
                     .definePointToSiteConfiguration()
                         .withAddressPool("172.16.201.0/24")
-                        .withAzureCertificate()
-                        .withRootCertificateFromFile(CERTIFICATE_NAME, new File(getClass().getClassLoader().getResource(CERTIFICATE_NAME).getFile()))
+                        .withAzureCertificateFromFile(CERTIFICATE_NAME, new File(getClass().getClassLoader().getResource(CERTIFICATE_NAME).getFile()))
                         .attach()
                     .apply();
 
@@ -300,7 +299,7 @@ public class TestVirtualNetworkGateway {
             Assert.assertEquals(CERTIFICATE_NAME, vngw1.vpnClientConfiguration().vpnClientRevokedCertificates().get(0).name());
 
             vngw1.update().updatePointToSiteConfiguration()
-                    .withoutRootCertificate(CERTIFICATE_NAME)
+                    .withoutAzureCertificate(CERTIFICATE_NAME)
                     .parent()
                     .apply();
             Assert.assertEquals(0, vngw1.vpnClientConfiguration().vpnClientRootCertificates().size());

@@ -64,14 +64,14 @@ public interface VirtualNetworkGateway extends
     Observable<VirtualNetworkGatewayConnection> listConnectionsAsync();
 
     /**
-     *  Generates asynchronously VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
+     * Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
      * @return String object if successful
      */
     @Method
     String generateVpnProfile();
 
     /**
-     *  Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
+     * Generates asynchronously VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
      * @return String object if successful
      */
     @Method
@@ -217,7 +217,7 @@ public interface VirtualNetworkGateway extends
             WithGatewayType withNewNetwork(String addressSpaceCidr, String subnetAddressSpaceCidr);
 
             /**
-             * Associate an existing virtual network with the virtual network gateway .
+             * Associate an existing virtual network with the virtual network gateway.
              * @param network an existing virtual network
              * @return the next stage of the definition
              */

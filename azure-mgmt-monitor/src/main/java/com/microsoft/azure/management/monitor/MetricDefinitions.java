@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.management.monitor;
 
-import com.microsoft.azure.management.monitor.implementation.MonitorManagementClientImpl;
+import com.microsoft.azure.management.monitor.implementation.MetricDefinitionsInner;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 public interface MetricDefinitions extends
         HasManager<MonitorManager>,
-        HasInner<MonitorManagementClientImpl> {
+        HasInner<MetricDefinitionsInner> {
 
     /**
      * Lists Metric Definitions for a given resource.

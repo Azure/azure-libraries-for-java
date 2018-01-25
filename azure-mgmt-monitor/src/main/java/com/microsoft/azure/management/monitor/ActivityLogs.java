@@ -7,7 +7,7 @@
 package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.monitor.implementation.MonitorManagementClientImpl;
+import com.microsoft.azure.management.monitor.implementation.ActivityLogsInner;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
@@ -19,7 +19,7 @@ import rx.Observable;
  */
 public interface ActivityLogs extends
         HasManager<MonitorManager>,
-        HasInner<MonitorManagementClientImpl> {
+        HasInner<ActivityLogsInner> {
 
     /**
      * Begins a definition for a new Activity log query.
@@ -35,7 +35,6 @@ public interface ActivityLogs extends
             FilterDefinitionStages.WithStartTimeFilter,
             FilterDefinitionStages.WithEndFilter,
             FilterDefinitionStages.WithFieldFilter,
-            FilterDefinitionStages.WithResponsePropertyDefinition,
             FilterDefinitionStages.WithSelect,
             FilterDefinitionStages.WithExecute {
     }
@@ -55,7 +54,7 @@ public interface ActivityLogs extends
              * @param startTime specifies start time of cut off filter.
              * @return the stage of end time filter definition.
              */
-            WithEndFilter withStartTime(DateTime startTime);
+            WithEndFilter startingFrom(DateTime startTime);
         }
 
         /**
@@ -68,7 +67,7 @@ public interface ActivityLogs extends
              * @param endTime specifies end time of cut off filter.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithFieldFilter withEndTime(DateTime endTime);
+            WithFieldFilter endsBefore(DateTime endTime);
         }
 
         /**
@@ -76,11 +75,12 @@ public interface ActivityLogs extends
          */
         interface WithFieldFilter {
             /**
-             * Begins a definition of the data fields in the server response.
+             * Selects data fields that will be populated in the server response.
              *
-             * @return the stage of the data fields definition.
+             * @param responseProperties field names in the server response.
+             * @return the stage of Activity log filtering by type and query execution.
              */
-            WithResponsePropertyDefinition defineResponseProperties();
+            WithSelect withResponseProperties(EventDataPropertyName... responseProperties);
 
             /**
              * Sets the server response to include all the available properties.
@@ -88,151 +88,6 @@ public interface ActivityLogs extends
              * @return the stage of Activity log filtering by type and query execution.
              */
             WithSelect withAllPropertiesInResponse();
-        }
-
-        /**
-         * The stage of optional query parameter definition and query execution.
-         */
-        interface WithResponsePropertyDefinition {
-            /**
-             * Selects "Authorization" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withAuthorization();
-
-            /**
-             * Selects "Claims" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withClaims();
-
-            /**
-             * Selects "CorrelationId" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withCorrelationId();
-
-            /**
-             * Selects "Description" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withDescription();
-
-            /**
-             * Selects "EventDataId" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withEventDataId();
-
-            /**
-             * Selects "EventName" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withEventName();
-
-            /**
-             * Selects "EventTimestamp" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withEventTimestamp();
-
-            /**
-             * Selects "HttpRequest" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withHttpRequest();
-
-            /**
-             * Selects "Level" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withLevel();
-
-            /**
-             * Selects "OperationId" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withOperationId();
-
-            /**
-             * Selects "OperationName" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withOperationName();
-
-            /**
-             * Selects "Properties" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withProperties();
-
-            /**
-             * Selects "ResourceGroupName" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withResourceGroupName();
-
-            /**
-             * Selects "ResourceProviderName" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withResourceProviderName();
-
-            /**
-             * Selects "ResourceId" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withResourceId();
-
-            /**
-             * Selects "Status" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withStatus();
-
-            /**
-             * Selects "SubmissionTimestamp" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withSubmissionTimestamp();
-
-            /**
-             * Selects "SubStatus" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withSubStatus();
-
-            /**
-             * Selects "SubscriptionId" filed in the server response fields.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithResponsePropertyDefinition withSubscriptionId();
-
-            /**
-             * Applies the current selected response field filter to the query.
-             *
-             * @return the stage of the data fields definition.
-             */
-            WithSelect apply();
         }
 
         /**

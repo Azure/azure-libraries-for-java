@@ -16,6 +16,7 @@ import com.microsoft.azure.management.monitor.MetricCollection;
 import com.microsoft.azure.management.monitor.MetricDefinition;
 import com.microsoft.azure.management.monitor.ResultType;
 import com.microsoft.azure.management.monitor.Unit;
+import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import rx.Observable;
@@ -30,6 +31,7 @@ import java.util.List;
  */
 @LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 class MetricDefinitionImpl
+        extends WrapperImpl<MetricDefinitionInner>
             implements
                 MetricDefinition,
                 MetricDefinition.Definition {
@@ -47,9 +49,15 @@ class MetricDefinitionImpl
     private String orderBy;
 
     MetricDefinitionImpl(final MetricDefinitionInner innerModel, final MonitorManager monitorManager) {
+        super(innerModel);
         this.myManager = monitorManager;
         this.inner = innerModel;
-        this.name = (inner.name() == null) ? null : new LocalizableString(inner.name());
+        this.name = (inner.name() == null) ? null : new LocalizableStringImpl(inner.name());
+    }
+
+    @Override
+    public MonitorManager manager() {
+        return this.myManager;
     }
 
     @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
@@ -83,7 +91,7 @@ class MetricDefinitionImpl
     }
 
     @Override
-    public FilterDefinitionStages.WithStartTimeFilter defineQuery() {
+    public MetricDefinitionImpl defineQuery() {
         this.aggreagation = null;
         this.interval = null;
         this.resultType = null;
@@ -93,49 +101,49 @@ class MetricDefinitionImpl
     }
 
     @Override
-    public FilterDefinitionStages.WithEndFilter withStartTime(DateTime startTime) {
+    public MetricDefinitionImpl startingFrom(DateTime startTime) {
         this.queryStartTime = startTime;
         return this;
     }
 
     @Override
-    public FilterDefinitionStages.WithExecute withEndTime(DateTime endTime) {
+    public MetricDefinitionImpl endsBefore(DateTime endTime) {
         this.queryEndTime = endTime;
         return this;
     }
 
     @Override
-    public FilterDefinitionStages.WithExecute withAggregation(String aggregation) {
+    public MetricDefinitionImpl withAggregation(String aggregation) {
         this.aggreagation = aggregation;
         return this;
     }
 
     @Override
-    public FilterDefinitionStages.WithExecute withInterval(Period interval) {
+    public MetricDefinitionImpl withInterval(Period interval) {
         this.interval = interval;
         return this;
     }
 
     @Override
-    public FilterDefinitionStages.WithExecute withOdataFilter(String odataFilter) {
+    public MetricDefinitionImpl withOdataFilter(String odataFilter) {
         this.odataFilter = odataFilter;
         return this;
     }
 
     @Override
-    public FilterDefinitionStages.WithExecute withResultType(ResultType resultType) {
+    public MetricDefinitionImpl withResultType(ResultType resultType) {
         this.resultType = resultType;
         return this;
     }
 
     @Override
-    public FilterDefinitionStages.WithExecute selectTop(double top) {
+    public MetricDefinitionImpl selectTop(double top) {
         this.top = top;
         return this;
     }
 
     @Override
-    public FilterDefinitionStages.WithExecute orderBy(String orderBy) {
+    public MetricDefinitionImpl orderBy(String orderBy) {
         this.orderBy = orderBy;
         return this;
     }
@@ -147,7 +155,7 @@ class MetricDefinitionImpl
 
     @Override
     public Observable<MetricCollection> executeAsync() {
-        return this.myManager.inner().metrics().listAsync(this.inner.resourceId(),
+        return this.manager().inner().metrics().listAsync(this.inner.resourceId(),
                 String.format("%s/%s",
                         this.queryStartTime.withZone(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTime()),
                         this.queryEndTime.withZone(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTime())),
@@ -160,7 +168,7 @@ class MetricDefinitionImpl
                 this.resultType).map(new Func1<ResponseInner, MetricCollection>() {
                     @Override
                     public MetricCollection call(ResponseInner responseInner) {
-                        return new MetricCollection(responseInner);
+                        return new MetricCollectionImpl(responseInner);
                     }
                 });
     }

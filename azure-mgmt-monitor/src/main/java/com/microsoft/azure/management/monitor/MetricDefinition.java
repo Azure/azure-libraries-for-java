@@ -9,6 +9,10 @@
 package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
+import com.microsoft.azure.management.monitor.implementation.MetricDefinitionInner;
+import com.microsoft.azure.management.monitor.implementation.MonitorManager;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import rx.Observable;
@@ -18,7 +22,9 @@ import java.util.List;
 /**
  * The Azure metric definition entries are of type MetricDefinition.
  */
-public interface MetricDefinition {
+public interface MetricDefinition extends
+        HasManager<MonitorManager>,
+        HasInner<MetricDefinitionInner> {
 
     /**
      * Get the resourceId value.
@@ -99,7 +105,7 @@ public interface MetricDefinition {
              * @param startTime specifies start time of cut off filter.
              * @return the stage of end time filter definition.
              */
-            WithEndFilter withStartTime(DateTime startTime);
+            WithEndFilter startingFrom(DateTime startTime);
         }
 
         /**
@@ -112,7 +118,7 @@ public interface MetricDefinition {
              * @param endTime specifies end time of cut off filter.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithExecute withEndTime(DateTime endTime);
+            WithExecute endsBefore(DateTime endTime);
         }
 
         /**

@@ -8,6 +8,7 @@ package com.microsoft.azure.management.redis;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.compute.VirtualMachine;
+import com.microsoft.azure.management.monitor.EventDataPropertyName;
 import com.microsoft.azure.management.monitor.EventData;
 import com.microsoft.azure.management.monitor.MetricCollection;
 import com.microsoft.azure.management.monitor.MetricDefinition;
@@ -31,8 +32,8 @@ public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
 
         // Metric
         MetricCollection metrics = mt.get(0).defineQuery()
-                .withStartTime(recordDateTime.minusDays(30))
-                .withEndTime(recordDateTime)
+                .startingFrom(recordDateTime.minusDays(30))
+                .endsBefore(recordDateTime)
                 .withResultType(ResultType.DATA)
                 .execute();
 
@@ -41,14 +42,13 @@ public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
         // Activity Logs
         PagedList<EventData> retVal = monitorManager.activityLogs()
                 .defineQuery()
-                .withStartTime(recordDateTime.minusDays(30))
-                .withEndTime(recordDateTime)
-                .defineResponseProperties()
-                    .withResourceId()
-                    .withEventTimestamp()
-                    .withOperationName()
-                    .withEventName()
-                    .apply()
+                .startingFrom(recordDateTime.minusDays(30))
+                .endsBefore(recordDateTime)
+                .withResponseProperties(
+                        EventDataPropertyName.RESOURCEID,
+                        EventDataPropertyName.EVENTTIMESTAMP,
+                        EventDataPropertyName.OPERATIONNAME,
+                        EventDataPropertyName.EVENTNAME)
                 .filterByResource(vm.id())
                 .execute();
 

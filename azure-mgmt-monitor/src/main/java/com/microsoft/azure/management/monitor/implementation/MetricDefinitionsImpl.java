@@ -35,8 +35,8 @@ class MetricDefinitionsImpl
     }
 
     @Override
-    public MonitorManagementClientImpl inner() {
-        return this.myManager.inner();
+    public MetricDefinitionsInner inner() {
+        return this.myManager.inner().metricDefinitions();
     }
 
     @Override
@@ -46,7 +46,7 @@ class MetricDefinitionsImpl
 
     @Override
     public Observable<List<MetricDefinition>> listByResourceAsync(String resourceId) {
-        return this.inner().metricDefinitions().listAsync(resourceId)
+        return this.inner().listAsync(resourceId)
                 .map(new Func1<List<MetricDefinitionInner>, List<MetricDefinition>>() {
                     @Override
                     public List<MetricDefinition> call(List<MetricDefinitionInner> metricDefinitionInners) {

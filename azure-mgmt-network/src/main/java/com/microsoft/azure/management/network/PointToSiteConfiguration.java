@@ -14,6 +14,9 @@ import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  * A client-side representation of point-to-site configuration for a virtual network gateway.
  */
@@ -53,6 +56,8 @@ public interface PointToSiteConfiguration extends
 
         interface WithRootCertificate<ParentT> {
             WithAttach<ParentT> withRootCertificate(String name, String certificateData);
+
+            WithAttach<ParentT> withRootCertificateFromFile(String name, File certificateFile) throws IOException;
         }
 
         interface WithRevokedCertificate<ParentT> {
@@ -117,6 +122,8 @@ public interface PointToSiteConfiguration extends
 
         interface WithRootCertificate<ParentT> {
             Update withRootCertificate(String name, String certificateData);
+
+            Update withRootCertificateFromFile(String name, File certificateFile) throws IOException;
 
             Update withoutRootCertificate(String name);
         }

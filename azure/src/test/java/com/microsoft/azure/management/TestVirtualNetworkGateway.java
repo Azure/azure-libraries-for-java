@@ -19,6 +19,7 @@ import org.junit.Assert;
 import rx.Observable;
 import rx.functions.Func1;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class TestVirtualNetworkGateway {
     private static String GATEWAY_NAME2;
     private static String NETWORK_NAME;
     private static String CONNECTION_NAME = "myNewConnection";
+    private static String CERTIFICATE_NAME = "myTest3.cer";
 
     private static void initializeResourceNames() {
         TEST_ID = SdkContext.randomResourceName("", 8);
@@ -264,10 +266,6 @@ public class TestVirtualNetworkGateway {
                     .withSubnet("FrontEnd", "192.168.1.0/24")
                     .withSubnet("BackEnd", "10.254.1.0/24")
                     .create();
-            System.out.println("Created network");
-            // Print the virtual network
-
-            System.out.println("Creating virtual network gateway...");
             VirtualNetworkGateway vngw1 = gateways.define(GATEWAY_NAME1)
                     .withRegion(REGION)
                     .withExistingResourceGroup(GROUP_NAME)
@@ -275,16 +273,19 @@ public class TestVirtualNetworkGateway {
                     .withRouteBasedVpn()
                     .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
                     .create();
-            System.out.println("Created virtual network gateway");
 
             vngw1.update()
                     .definePointToSiteConfiguration()
-                    .withAddressPool("172.16.201.0/24")
-                    .withAzureCertificate()
-                    .withRootCertificate("myCertificate.cer", "MIIC5zCCAc+gAwIBAgIQUIcRQlcJRpJFiqjTDA/eaDANBgkqhkiG9w0BAQsFADAWMRQwEgYDVQQDDAtQMlNSb290Q2VydDAeFw0xODAxMjMwMDI0MjhaFw0xOTAxMjMwMDQ0MjhaMBYxFDASBgNVBAMMC1AyU1Jvb3RDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA9gGcJrS4a8Nb67To6Zilv0AG0Jw4ZmWXjT5an8peBbVrEjIVtTN5CbD2M9WJhBDi1GQH6hj1xzHltPQY0HRQCqfZ25zs20kBi1SJF5fE8q2t4q26jF7lUjAtwzniqHh8/Y+LqI9ldyV+Lxj0L7brDnkU4mryy3h86V60PsMSl7n2Y8ly1b3uT2mvd49wATCp7cs0bGweWopq+D6LaFSyWp1JoWTFFgi9KysN9D/auFwxdTqJH/IXCFaiAl/iKketERIA95wQ+BpDbuVux35fVMXE0GfiaubNBtf9/DmJBMjrWcy9BCYNBaJtzHq6vT9etej28V4sAW0PXOXwiOg9vQIDAQABozEwLzAOBgNVHQ8BAf8EBAMCAgQwHQYDVR0OBBYEFO5DxuEoPKP0uPMckMX6q90yEeMaMA0GCSqGSIb3DQEBCwUAA4IBAQACLZEizRDy0559l5EmkelKbH1n4rxxIS4ID7zlceVXNgvuoDKqWSdhYMilEoXtb1cZXNAylWH+9JoXt7QzjvM05NvvSegaIu8ndBrxBHtwDfVw+rGsghy4JQeIW0pAy9eshHDwXzoBZgC3uUlHDgnVZZ3o9Td+6uLKKRZNERGPu5uqpjylJmpEyyeb7zfv9cyPBB/L4BclIcM43pjJ7/yf1skWdinoIa1azdOAJgG6aVwDWtGAW+UO9SXb36dZrCl9W5ZqTjXJjjk1fP4fANpx+xeLbIo6JVxIKglF8SIDxmOHfFRxg8l48V1o5pLppQ50Q3JhvSPuNqWfQQMmrMOc")
-                    .attach()
+                        .withAddressPool("172.16.201.0/24")
+                        .withAzureCertificate()
+                        .withRootCertificateFromFile(CERTIFICATE_NAME, new File(getClass().getClassLoader().getResource(CERTIFICATE_NAME).getFile()))
+                        .attach()
                     .apply();
 
+            Assert.assertNotNull(vngw1.vpnClientConfiguration());
+            Assert.assertEquals("172.16.201.0/24", vngw1.vpnClientConfiguration().vpnClientAddressPool().addressPrefixes().get(0));
+            Assert.assertEquals(1, vngw1.vpnClientConfiguration().vpnClientRootCertificates().size());
+            Assert.assertEquals(CERTIFICATE_NAME, vngw1.vpnClientConfiguration().vpnClientRootCertificates().get(0).name());
             String profile = vngw1.generateVpnProfile();
             System.out.println(profile);
             return vngw1;
@@ -293,14 +294,17 @@ public class TestVirtualNetworkGateway {
         @Override
         public VirtualNetworkGateway updateResource(VirtualNetworkGateway vngw1) throws Exception {
             vngw1.update().updatePointToSiteConfiguration()
-                    .withRevokedCertificate("myCertificate.cer", "bdf834528f0fff6eaae4c154e06b54322769276c")
+//                    .withRevokedCertificate(CERTIFICATE_NAME, "b148fdd6dacca97294917bcad4b4ad8f1fa30fba")
+                    .withRevokedCertificate(CERTIFICATE_NAME, "bdf834528f0fff6eaae4c154e06b54322769276c")
                     .parent()
                     .apply();
+            Assert.assertEquals(CERTIFICATE_NAME, vngw1.vpnClientConfiguration().vpnClientRevokedCertificates().get(0).name());
 
             vngw1.update().updatePointToSiteConfiguration()
-                    .withoutRootCertificate("myCertificate.cer")
+                    .withoutRootCertificate(CERTIFICATE_NAME)
                     .parent()
                     .apply();
+            Assert.assertEquals(0, vngw1.vpnClientConfiguration().vpnClientRootCertificates().size());
             return vngw1;
         }
     }

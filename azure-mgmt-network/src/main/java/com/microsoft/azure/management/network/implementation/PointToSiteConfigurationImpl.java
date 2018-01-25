@@ -12,7 +12,11 @@ import com.microsoft.azure.management.network.VirtualNetworkGateway;
 import com.microsoft.azure.management.network.VpnClientConfiguration;
 import com.microsoft.azure.management.network.VpnClientProtocol;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import sun.security.provider.X509Factory;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -58,6 +62,17 @@ class PointToSiteConfigurationImpl
         }
         inner().vpnClientRootCertificates().add(new VpnClientRootCertificateInner().withName(name).withPublicCertData(certificateData));
         return this;
+    }
+
+    @Override
+    public PointToSiteConfigurationImpl withRootCertificateFromFile(String name, File certificateFile) throws IOException {
+        if (certificateFile == null) {
+            return this;
+        } else {
+            byte[] content = Files.readAllBytes(certificateFile.toPath());
+            String certificate = new String(content).replace(X509Factory.BEGIN_CERT, "").replace(X509Factory.END_CERT, "");
+            return this.withRootCertificate(name, certificate);
+        }
     }
 
     @Override

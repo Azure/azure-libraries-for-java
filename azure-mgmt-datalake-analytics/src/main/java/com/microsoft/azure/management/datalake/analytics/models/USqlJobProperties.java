@@ -29,13 +29,13 @@ public class USqlJobProperties extends JobProperties {
     /**
      * the job specific statistics.
      */
-    @JsonProperty(value = "statistics", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "statistics")
     private JobStatistics statistics;
 
     /**
      * the job specific debug data locations.
      */
-    @JsonProperty(value = "debugData", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "debugData")
     private JobDataPath debugData;
 
     /**
@@ -61,8 +61,8 @@ public class USqlJobProperties extends JobProperties {
      * the total time this job spent paused. This value should not be set by
      * the user and will be ignored if it is.
      */
-    @JsonProperty(value = "totalPauseTime", access = JsonProperty.Access.WRITE_ONLY)
-    private Period totalPauseTime;
+    @JsonProperty(value = "totalPausedTime", access = JsonProperty.Access.WRITE_ONLY)
+    private Period totalPausedTime;
 
     /**
      * the total time this job spent queued. This value should not be set by
@@ -127,12 +127,34 @@ public class USqlJobProperties extends JobProperties {
     }
 
     /**
+     * Set the statistics value.
+     *
+     * @param statistics the statistics value to set
+     * @return the USqlJobProperties object itself.
+     */
+    public USqlJobProperties withStatistics(JobStatistics statistics) {
+        this.statistics = statistics;
+        return this;
+    }
+
+    /**
      * Get the debugData value.
      *
      * @return the debugData value
      */
     public JobDataPath debugData() {
         return this.debugData;
+    }
+
+    /**
+     * Set the debugData value.
+     *
+     * @param debugData the debugData value to set
+     * @return the USqlJobProperties object itself.
+     */
+    public USqlJobProperties withDebugData(JobDataPath debugData) {
+        this.debugData = debugData;
+        return this;
     }
 
     /**
@@ -163,12 +185,12 @@ public class USqlJobProperties extends JobProperties {
     }
 
     /**
-     * Get the totalPauseTime value.
+     * Get the totalPausedTime value.
      *
-     * @return the totalPauseTime value
+     * @return the totalPausedTime value
      */
-    public Period totalPauseTime() {
-        return this.totalPauseTime;
+    public Period totalPausedTime() {
+        return this.totalPausedTime;
     }
 
     /**

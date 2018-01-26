@@ -33,7 +33,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class DataLakeAnalyticsManagementTestBase extends TestBase {
+public class DataLakeAnalyticsManagementTestBase extends TestBase
+{
     protected static DataLakeAnalyticsAccountManagementClientImpl dataLakeAnalyticsAccountManagementClient;
     protected static DataLakeAnalyticsJobManagementClientImpl dataLakeAnalyticsJobManagementClient;
     protected static DataLakeAnalyticsCatalogManagementClientImpl dataLakeAnalyticsCatalogManagementClient;
@@ -46,30 +47,39 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase {
     protected static String jobAndCatalogAdlaName;
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) throws IOException {
-        environmentLocation = Region.US_EAST2;
-
+    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) throws IOException
+    {
         dataLakeAnalyticsAccountManagementClient = new DataLakeAnalyticsAccountManagementClientImpl(restClient)
-            .withSubscriptionId(defaultSubscription);
+                .withSubscriptionId(defaultSubscription);
 
+        environmentLocation = Region.US_EAST2;
 
         // TODO: In the future this needs to be dynamic depending on the Azure environment the tests are running in
         String adlaSuffix = "azuredatalakeanalytics.net";
-
         addTextReplacementRule("https://(.*)." + adlaSuffix, playbackUri);
 
         // Generate creds and a set of rest clients for catalog and job
-        ApplicationTokenCredentials credentials = new AzureTestCredentials(playbackUri, ZERO_TENANT, isPlaybackMode());
-        if (isRecordMode()) {
+        ApplicationTokenCredentials credentials = new AzureTestCredentials(
+                playbackUri,
+                ZERO_TENANT,
+                isPlaybackMode());
+
+        if (isRecordMode())
+        {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
-            try {
+
+            try
+            {
                 credentials = ApplicationTokenCredentials.fromFile(credFile);
             }
-            catch (IOException e) {
+            catch (IOException e)
+            {
                 Assert.fail("Failed to read credentials from file: " + credFile + " with error: " + e.getMessage());
             }
         }
-        if (isRecordMode()) {
+
+        if (isRecordMode())
+        {
             RestClient restClientWithTimeout = buildRestClient(new RestClient.Builder()
                     .withConnectionTimeout(5, TimeUnit.MINUTES)
                     .withBaseUrl("https://{accountName}.{adlaJobDnsSuffix}")
@@ -78,12 +88,11 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase {
                     .withCredentials(credentials)
                     .withLogLevel(LogLevel.BODY_AND_HEADERS)
                     .withNetworkInterceptor(interceptorManager.initInterceptor()),
-                    true);
-
+                    true
+            );
 
             dataLakeAnalyticsJobManagementClient = new DataLakeAnalyticsJobManagementClientImpl(restClientWithTimeout)
                     .withAdlaJobDnsSuffix(adlaSuffix);
-
 
             RestClient catalogRestClient = buildRestClient(new RestClient.Builder()
                     .withBaseUrl("https://{accountName}.{adlaCatalogDnsSuffix}")
@@ -92,12 +101,14 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase {
                     .withCredentials(credentials)
                     .withLogLevel(LogLevel.BODY_AND_HEADERS)
                     .withNetworkInterceptor(interceptorManager.initInterceptor()),
-                    false);
+                    false
+            );
 
             dataLakeAnalyticsCatalogManagementClient = new DataLakeAnalyticsCatalogManagementClientImpl(catalogRestClient)
                     .withAdlaCatalogDnsSuffix(adlaSuffix);
         }
-        else {
+        else
+        {
             // For mocked clients, we can just use the basic rest client, since the DNS is replaced
             dataLakeAnalyticsCatalogManagementClient = new DataLakeAnalyticsCatalogManagementClientImpl(restClient);
             dataLakeAnalyticsJobManagementClient = new DataLakeAnalyticsJobManagementClientImpl(restClient);
@@ -118,19 +129,24 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase {
         storageManagementClient = StorageManager
                 .authenticate(restClient, defaultSubscription);
 
-        // Create the resource group, ADLS account and ADLA account for job and catalog use
+        // Create the resource group
         resourceManagementClient.resourceGroups()
                 .define(rgName)
                 .withRegion(environmentLocation)
                 .create();
 
+        // Create the ADLS account
         DataLakeStoreAccount createParams = new DataLakeStoreAccount();
         createParams.withLocation(environmentLocation.name());
-        dataLakeStoreAccountManagementClient.accounts().create(rgName, adlsName, createParams);
+        dataLakeStoreAccountManagementClient.accounts().create(
+                rgName,
+                adlsName,
+                createParams);
 
-        List<DataLakeStoreAccountInfo> adlsAccts = new ArrayList<DataLakeStoreAccountInfo>();
+        // Create the ADLA account for job and catalog use
         DataLakeStoreAccountInfo adlsInfo = new DataLakeStoreAccountInfo();
         adlsInfo.withName(adlsName);
+        List<DataLakeStoreAccountInfo> adlsAccts = new ArrayList<DataLakeStoreAccountInfo>();
         adlsAccts.add(adlsInfo);
 
         DataLakeAnalyticsAccount adlaCreateParams = new DataLakeAnalyticsAccount();
@@ -139,6 +155,10 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase {
         adlaCreateParams.withDefaultDataLakeStoreAccount(adlsName);
 
         dataLakeAnalyticsAccountManagementClient.accounts().create(rgName, jobAndCatalogAdlaName, adlaCreateParams);
+
+        // Wait for 5 minutes for the server to restore the account cache
+		// Without this, the test will pass non-deterministically
+        SdkContext.sleep(300000);
     }
 
     @Override
@@ -146,7 +166,8 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase {
         resourceManagementClient.resourceGroups().deleteByName(rgName);
     }
 
-    protected void runJobToCompletion(String adlaAcct, UUID jobId, String scriptToRun) throws Exception {
+    protected void runJobToCompletion(String adlaAcct, UUID jobId, String scriptToRun) throws Exception
+    {
         CreateJobParameters jobToSubmit = new CreateJobParameters();
         CreateUSqlJobProperties jobProperties = new CreateUSqlJobProperties();
         jobProperties.withScript(scriptToRun);
@@ -155,21 +176,35 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase {
         jobToSubmit.withType(JobType.USQL);
         jobToSubmit.withProperties(jobProperties);
 
-        JobInformation jobCreateResponse = dataLakeAnalyticsJobManagementClient.jobs().create(adlaAcct, jobId, jobToSubmit);
+        JobInformation jobCreateResponse = dataLakeAnalyticsJobManagementClient.jobs().create(
+                adlaAcct,
+                jobId,
+                jobToSubmit
+        );
+
         Assert.assertNotNull(jobCreateResponse);
 
-        JobInformation getJobResponse = dataLakeAnalyticsJobManagementClient.jobs().get(adlaAcct, jobCreateResponse.jobId());
+        JobInformation getJobResponse = dataLakeAnalyticsJobManagementClient.jobs().get(
+                adlaAcct,
+                jobCreateResponse.jobId()
+        );
+
         Assert.assertNotNull(getJobResponse);
 
         // Giving it 5 minutes for now
         int maxWaitInSeconds = 5 * 60;
         int curWaitInSeconds = 0;
 
-        while (getJobResponse.state() != JobState.ENDED && curWaitInSeconds < maxWaitInSeconds) {
+        while (getJobResponse.state() != JobState.ENDED && curWaitInSeconds < maxWaitInSeconds)
+        {
             // Wait 5 seconds before polling again
             SdkContext.sleep(5 * 1000);
             curWaitInSeconds += 5;
-            getJobResponse = dataLakeAnalyticsJobManagementClient.jobs().get(adlaAcct, jobCreateResponse.jobId());
+            getJobResponse = dataLakeAnalyticsJobManagementClient.jobs().get(
+                    adlaAcct,
+                    jobCreateResponse.jobId()
+            );
+
             Assert.assertNotNull(getJobResponse);
         }
 
@@ -178,7 +213,10 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase {
         // Verify the job completes successfully
         Assert.assertTrue(
                 MessageFormat.format("Job: {0} did not return success. Current job state: {1}. Actual result: {2}. Error (if any): {3}",
-                        getJobResponse.jobId(), getJobResponse.state(), getJobResponse.result(), getJobResponse.errorMessage()),
-                getJobResponse.state() == JobState.ENDED && getJobResponse.result() == JobResult.SUCCEEDED);
+                        getJobResponse.jobId(),
+                        getJobResponse.state(),
+                        getJobResponse.result(),
+                        getJobResponse.errorMessage()),
+                        getJobResponse.state() == JobState.ENDED && getJobResponse.result() == JobResult.SUCCEEDED);
     }
 }

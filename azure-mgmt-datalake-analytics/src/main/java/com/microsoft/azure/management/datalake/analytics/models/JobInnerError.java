@@ -84,6 +84,12 @@ public class JobInnerError {
     private String description;
 
     /**
+     * the inner error of this specific job error message, if any.
+     */
+    @JsonProperty(value = "innerError", access = JsonProperty.Access.WRITE_ONLY)
+    private JobInnerError innerError;
+
+    /**
      * Get the diagnosticCode value.
      *
      * @return the diagnosticCode value
@@ -180,6 +186,15 @@ public class JobInnerError {
      */
     public String description() {
         return this.description;
+    }
+
+    /**
+     * Get the innerError value.
+     *
+     * @return the innerError value
+     */
+    public JobInnerError innerError() {
+        return this.innerError;
     }
 
 }

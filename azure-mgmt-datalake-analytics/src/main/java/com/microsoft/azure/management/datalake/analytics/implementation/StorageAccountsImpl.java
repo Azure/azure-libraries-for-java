@@ -25,7 +25,6 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
 import java.io.IOException;
 import java.util.List;
 import okhttp3.ResponseBody;
@@ -72,11 +71,11 @@ public class StorageAccountsImpl implements StorageAccounts {
     interface StorageAccountsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.StorageAccounts add" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/StorageAccounts/{storageAccountName}")
-        Observable<Response<ResponseBody>> add(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("storageAccountName") String storageAccountName, @Path("subscriptionId") String subscriptionId, @Body AddStorageAccountParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> add(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("storageAccountName") String storageAccountName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body AddStorageAccountParameters parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.StorageAccounts update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/StorageAccounts/{storageAccountName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("storageAccountName") String storageAccountName, @Path("subscriptionId") String subscriptionId, @Body UpdateStorageAccountParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("storageAccountName") String storageAccountName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body UpdateStorageAccountParameters parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.StorageAccounts delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/StorageAccounts/{storageAccountName}", method = "DELETE", hasBody = true)
@@ -99,7 +98,7 @@ public class StorageAccountsImpl implements StorageAccounts {
         Observable<Response<ResponseBody>> listSasTokens(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("storageAccountName") String storageAccountName, @Path("containerName") String containerName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.StorageAccounts listByAccount" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/StorageAccounts/")
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/StorageAccounts")
         Observable<Response<ResponseBody>> listByAccount(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.StorageAccounts listStorageContainersNext" })
@@ -122,13 +121,13 @@ public class StorageAccountsImpl implements StorageAccounts {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to add the Azure Storage account.
      * @param storageAccountName The name of the Azure Storage account to add
-     * @param parameters The parameters containing the access key and optional suffix for the Azure Storage Account.
+     * @param accessKey the access key associated with this Azure Storage account that will be used to connect to it.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void add(String resourceGroupName, String accountName, String storageAccountName, AddStorageAccountParameters parameters) {
-        addWithServiceResponseAsync(resourceGroupName, accountName, storageAccountName, parameters).toBlocking().single().body();
+    public void add(String resourceGroupName, String accountName, String storageAccountName, String accessKey) {
+        addWithServiceResponseAsync(resourceGroupName, accountName, storageAccountName, accessKey).toBlocking().single().body();
     }
 
     /**
@@ -137,13 +136,13 @@ public class StorageAccountsImpl implements StorageAccounts {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to add the Azure Storage account.
      * @param storageAccountName The name of the Azure Storage account to add
-     * @param parameters The parameters containing the access key and optional suffix for the Azure Storage Account.
+     * @param accessKey the access key associated with this Azure Storage account that will be used to connect to it.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> addAsync(String resourceGroupName, String accountName, String storageAccountName, AddStorageAccountParameters parameters, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(addWithServiceResponseAsync(resourceGroupName, accountName, storageAccountName, parameters), serviceCallback);
+    public ServiceFuture<Void> addAsync(String resourceGroupName, String accountName, String storageAccountName, String accessKey, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(addWithServiceResponseAsync(resourceGroupName, accountName, storageAccountName, accessKey), serviceCallback);
     }
 
     /**
@@ -152,12 +151,12 @@ public class StorageAccountsImpl implements StorageAccounts {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to add the Azure Storage account.
      * @param storageAccountName The name of the Azure Storage account to add
-     * @param parameters The parameters containing the access key and optional suffix for the Azure Storage Account.
+     * @param accessKey the access key associated with this Azure Storage account that will be used to connect to it.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> addAsync(String resourceGroupName, String accountName, String storageAccountName, AddStorageAccountParameters parameters) {
-        return addWithServiceResponseAsync(resourceGroupName, accountName, storageAccountName, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> addAsync(String resourceGroupName, String accountName, String storageAccountName, String accessKey) {
+        return addWithServiceResponseAsync(resourceGroupName, accountName, storageAccountName, accessKey).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -171,11 +170,11 @@ public class StorageAccountsImpl implements StorageAccounts {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to add the Azure Storage account.
      * @param storageAccountName The name of the Azure Storage account to add
-     * @param parameters The parameters containing the access key and optional suffix for the Azure Storage Account.
+     * @param accessKey the access key associated with this Azure Storage account that will be used to connect to it.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> addWithServiceResponseAsync(String resourceGroupName, String accountName, String storageAccountName, AddStorageAccountParameters parameters) {
+    public Observable<ServiceResponse<Void>> addWithServiceResponseAsync(String resourceGroupName, String accountName, String storageAccountName, String accessKey) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -188,14 +187,116 @@ public class StorageAccountsImpl implements StorageAccounts {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (parameters == null) {
-            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        if (accessKey == null) {
+            throw new IllegalArgumentException("Parameter accessKey is required and cannot be null.");
+        }
+        final String suffix = null;
+        AddStorageAccountParameters parameters = new AddStorageAccountParameters();
+        parameters.withAccessKey(accessKey);
+        parameters.withSuffix(null);
+        return service.add(resourceGroupName, accountName, storageAccountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = addDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Updates the specified Data Lake Analytics account to add an Azure Storage account.
+     *
+     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
+     * @param accountName The name of the Data Lake Analytics account to which to add the Azure Storage account.
+     * @param storageAccountName The name of the Azure Storage account to add
+     * @param accessKey the access key associated with this Azure Storage account that will be used to connect to it.
+     * @param suffix the optional suffix for the storage account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void add(String resourceGroupName, String accountName, String storageAccountName, String accessKey, String suffix) {
+        addWithServiceResponseAsync(resourceGroupName, accountName, storageAccountName, accessKey, suffix).toBlocking().single().body();
+    }
+
+    /**
+     * Updates the specified Data Lake Analytics account to add an Azure Storage account.
+     *
+     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
+     * @param accountName The name of the Data Lake Analytics account to which to add the Azure Storage account.
+     * @param storageAccountName The name of the Azure Storage account to add
+     * @param accessKey the access key associated with this Azure Storage account that will be used to connect to it.
+     * @param suffix the optional suffix for the storage account.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> addAsync(String resourceGroupName, String accountName, String storageAccountName, String accessKey, String suffix, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(addWithServiceResponseAsync(resourceGroupName, accountName, storageAccountName, accessKey, suffix), serviceCallback);
+    }
+
+    /**
+     * Updates the specified Data Lake Analytics account to add an Azure Storage account.
+     *
+     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
+     * @param accountName The name of the Data Lake Analytics account to which to add the Azure Storage account.
+     * @param storageAccountName The name of the Azure Storage account to add
+     * @param accessKey the access key associated with this Azure Storage account that will be used to connect to it.
+     * @param suffix the optional suffix for the storage account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> addAsync(String resourceGroupName, String accountName, String storageAccountName, String accessKey, String suffix) {
+        return addWithServiceResponseAsync(resourceGroupName, accountName, storageAccountName, accessKey, suffix).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Updates the specified Data Lake Analytics account to add an Azure Storage account.
+     *
+     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
+     * @param accountName The name of the Data Lake Analytics account to which to add the Azure Storage account.
+     * @param storageAccountName The name of the Azure Storage account to add
+     * @param accessKey the access key associated with this Azure Storage account that will be used to connect to it.
+     * @param suffix the optional suffix for the storage account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> addWithServiceResponseAsync(String resourceGroupName, String accountName, String storageAccountName, String accessKey, String suffix) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (storageAccountName == null) {
+            throw new IllegalArgumentException("Parameter storageAccountName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        Validator.validate(parameters);
-        return service.add(resourceGroupName, accountName, storageAccountName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        if (accessKey == null) {
+            throw new IllegalArgumentException("Parameter accessKey is required and cannot be null.");
+        }
+        AddStorageAccountParameters parameters = new AddStorageAccountParameters();
+        parameters.withAccessKey(accessKey);
+        parameters.withSuffix(suffix);
+        return service.add(resourceGroupName, accountName, storageAccountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -287,8 +388,12 @@ public class StorageAccountsImpl implements StorageAccounts {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        final UpdateStorageAccountParameters parameters = null;
-        return service.update(resourceGroupName, accountName, storageAccountName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String accessKey = null;
+        final String suffix = null;
+        UpdateStorageAccountParameters parameters = new UpdateStorageAccountParameters();
+        parameters.withAccessKey(null);
+        parameters.withSuffix(null);
+        return service.update(resourceGroupName, accountName, storageAccountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -308,13 +413,14 @@ public class StorageAccountsImpl implements StorageAccounts {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to modify storage accounts in
      * @param storageAccountName The Azure Storage account to modify
-     * @param parameters The parameters containing the access key and suffix to update the storage account with, if any. Passing nothing results in no change.
+     * @param accessKey the updated access key associated with this Azure Storage account that will be used to connect to it.
+     * @param suffix the optional suffix for the storage account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void update(String resourceGroupName, String accountName, String storageAccountName, UpdateStorageAccountParameters parameters) {
-        updateWithServiceResponseAsync(resourceGroupName, accountName, storageAccountName, parameters).toBlocking().single().body();
+    public void update(String resourceGroupName, String accountName, String storageAccountName, String accessKey, String suffix) {
+        updateWithServiceResponseAsync(resourceGroupName, accountName, storageAccountName, accessKey, suffix).toBlocking().single().body();
     }
 
     /**
@@ -323,13 +429,14 @@ public class StorageAccountsImpl implements StorageAccounts {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to modify storage accounts in
      * @param storageAccountName The Azure Storage account to modify
-     * @param parameters The parameters containing the access key and suffix to update the storage account with, if any. Passing nothing results in no change.
+     * @param accessKey the updated access key associated with this Azure Storage account that will be used to connect to it.
+     * @param suffix the optional suffix for the storage account.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> updateAsync(String resourceGroupName, String accountName, String storageAccountName, UpdateStorageAccountParameters parameters, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, accountName, storageAccountName, parameters), serviceCallback);
+    public ServiceFuture<Void> updateAsync(String resourceGroupName, String accountName, String storageAccountName, String accessKey, String suffix, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, accountName, storageAccountName, accessKey, suffix), serviceCallback);
     }
 
     /**
@@ -338,12 +445,13 @@ public class StorageAccountsImpl implements StorageAccounts {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to modify storage accounts in
      * @param storageAccountName The Azure Storage account to modify
-     * @param parameters The parameters containing the access key and suffix to update the storage account with, if any. Passing nothing results in no change.
+     * @param accessKey the updated access key associated with this Azure Storage account that will be used to connect to it.
+     * @param suffix the optional suffix for the storage account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> updateAsync(String resourceGroupName, String accountName, String storageAccountName, UpdateStorageAccountParameters parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, accountName, storageAccountName, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> updateAsync(String resourceGroupName, String accountName, String storageAccountName, String accessKey, String suffix) {
+        return updateWithServiceResponseAsync(resourceGroupName, accountName, storageAccountName, accessKey, suffix).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -357,11 +465,12 @@ public class StorageAccountsImpl implements StorageAccounts {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to modify storage accounts in
      * @param storageAccountName The Azure Storage account to modify
-     * @param parameters The parameters containing the access key and suffix to update the storage account with, if any. Passing nothing results in no change.
+     * @param accessKey the updated access key associated with this Azure Storage account that will be used to connect to it.
+     * @param suffix the optional suffix for the storage account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String storageAccountName, UpdateStorageAccountParameters parameters) {
+    public Observable<ServiceResponse<Void>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String storageAccountName, String accessKey, String suffix) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -377,8 +486,13 @@ public class StorageAccountsImpl implements StorageAccounts {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        Validator.validate(parameters);
-        return service.update(resourceGroupName, accountName, storageAccountName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        UpdateStorageAccountParameters parameters = null;
+        if (accessKey != null || suffix != null) {
+            parameters = new UpdateStorageAccountParameters();
+            parameters.withAccessKey(accessKey);
+            parameters.withSuffix(suffix);
+        }
+        return service.update(resourceGroupName, accountName, storageAccountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {

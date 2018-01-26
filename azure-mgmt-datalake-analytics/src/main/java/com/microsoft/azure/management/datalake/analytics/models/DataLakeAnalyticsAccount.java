@@ -24,7 +24,8 @@ public class DataLakeAnalyticsAccount extends Resource {
     /**
      * the provisioning status of the Data Lake Analytics account. Possible
      * values include: 'Failed', 'Creating', 'Running', 'Succeeded',
-     * 'Patching', 'Suspending', 'Resuming', 'Deleting', 'Deleted'.
+     * 'Patching', 'Suspending', 'Resuming', 'Deleting', 'Deleted',
+     * 'Undeleting', 'Canceled'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private DataLakeAnalyticsAccountStatus provisioningState;
@@ -88,7 +89,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     /**
      * the system defined maximum supported degree of parallelism for this
      * account, which restricts the maximum value of parallelism the user can
-     * set for the account..
+     * set for the account.
      */
     @JsonProperty(value = "properties.systemMaxDegreeOfParallelism", access = JsonProperty.Access.WRITE_ONLY)
     private Integer systemMaxDegreeOfParallelism;

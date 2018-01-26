@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 @JsonTypeName("JobProperties")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "USql", value = USqlJobProperties.class),
+    @JsonSubTypes.Type(name = "Scope", value = ScopeJobProperties.class),
     @JsonSubTypes.Type(name = "Hive", value = HiveJobProperties.class)
 })
 public class JobProperties {
@@ -31,7 +32,7 @@ public class JobProperties {
     private String runtimeVersion;
 
     /**
-     * the script to run.
+     * the script to run. Please note that the maximum script size is 3 MB.
      */
     @JsonProperty(value = "script", required = true)
     private String script;

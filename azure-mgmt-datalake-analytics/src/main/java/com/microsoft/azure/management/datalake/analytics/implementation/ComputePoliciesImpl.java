@@ -72,7 +72,7 @@ public class ComputePoliciesImpl implements ComputePolicies {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.ComputePolicies update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/computePolicies/{computePolicyName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("computePolicyName") String computePolicyName, @Path("subscriptionId") String subscriptionId, @Body ComputePolicy parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("computePolicyName") String computePolicyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body ComputePolicy parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.ComputePolicies delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/computePolicies/{computePolicyName}", method = "DELETE", hasBody = true)
@@ -265,8 +265,12 @@ public class ComputePoliciesImpl implements ComputePolicies {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        final ComputePolicy parameters = null;
-        return service.update(resourceGroupName, accountName, computePolicyName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final Integer maxDegreeOfParallelismPerJob = null;
+        final Integer minPriorityPerJob = null;
+        ComputePolicy parameters = new ComputePolicy();
+        parameters.withMaxDegreeOfParallelismPerJob(null);
+        parameters.withMinPriorityPerJob(null);
+        return service.update(resourceGroupName, accountName, computePolicyName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ComputePolicy>>>() {
                 @Override
                 public Observable<ServiceResponse<ComputePolicy>> call(Response<ResponseBody> response) {
@@ -286,14 +290,15 @@ public class ComputePoliciesImpl implements ComputePolicies {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to update the compute policy.
      * @param computePolicyName The name of the compute policy to update.
-     * @param parameters Parameters supplied to update the compute policy.
+     * @param maxDegreeOfParallelismPerJob The maximum degree of parallelism per job this user can use to submit jobs.
+     * @param minPriorityPerJob The minimum priority per job this user can use to submit jobs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ComputePolicy object if successful.
      */
-    public ComputePolicy update(String resourceGroupName, String accountName, String computePolicyName, ComputePolicy parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, accountName, computePolicyName, parameters).toBlocking().single().body();
+    public ComputePolicy update(String resourceGroupName, String accountName, String computePolicyName, Integer maxDegreeOfParallelismPerJob, Integer minPriorityPerJob) {
+        return updateWithServiceResponseAsync(resourceGroupName, accountName, computePolicyName, maxDegreeOfParallelismPerJob, minPriorityPerJob).toBlocking().single().body();
     }
 
     /**
@@ -302,13 +307,14 @@ public class ComputePoliciesImpl implements ComputePolicies {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to update the compute policy.
      * @param computePolicyName The name of the compute policy to update.
-     * @param parameters Parameters supplied to update the compute policy.
+     * @param maxDegreeOfParallelismPerJob The maximum degree of parallelism per job this user can use to submit jobs.
+     * @param minPriorityPerJob The minimum priority per job this user can use to submit jobs.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ComputePolicy> updateAsync(String resourceGroupName, String accountName, String computePolicyName, ComputePolicy parameters, final ServiceCallback<ComputePolicy> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, accountName, computePolicyName, parameters), serviceCallback);
+    public ServiceFuture<ComputePolicy> updateAsync(String resourceGroupName, String accountName, String computePolicyName, Integer maxDegreeOfParallelismPerJob, Integer minPriorityPerJob, final ServiceCallback<ComputePolicy> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, accountName, computePolicyName, maxDegreeOfParallelismPerJob, minPriorityPerJob), serviceCallback);
     }
 
     /**
@@ -317,12 +323,13 @@ public class ComputePoliciesImpl implements ComputePolicies {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to update the compute policy.
      * @param computePolicyName The name of the compute policy to update.
-     * @param parameters Parameters supplied to update the compute policy.
+     * @param maxDegreeOfParallelismPerJob The maximum degree of parallelism per job this user can use to submit jobs.
+     * @param minPriorityPerJob The minimum priority per job this user can use to submit jobs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ComputePolicy object
      */
-    public Observable<ComputePolicy> updateAsync(String resourceGroupName, String accountName, String computePolicyName, ComputePolicy parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, accountName, computePolicyName, parameters).map(new Func1<ServiceResponse<ComputePolicy>, ComputePolicy>() {
+    public Observable<ComputePolicy> updateAsync(String resourceGroupName, String accountName, String computePolicyName, Integer maxDegreeOfParallelismPerJob, Integer minPriorityPerJob) {
+        return updateWithServiceResponseAsync(resourceGroupName, accountName, computePolicyName, maxDegreeOfParallelismPerJob, minPriorityPerJob).map(new Func1<ServiceResponse<ComputePolicy>, ComputePolicy>() {
             @Override
             public ComputePolicy call(ServiceResponse<ComputePolicy> response) {
                 return response.body();
@@ -336,11 +343,12 @@ public class ComputePoliciesImpl implements ComputePolicies {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Analytics account.
      * @param accountName The name of the Data Lake Analytics account to which to update the compute policy.
      * @param computePolicyName The name of the compute policy to update.
-     * @param parameters Parameters supplied to update the compute policy.
+     * @param maxDegreeOfParallelismPerJob The maximum degree of parallelism per job this user can use to submit jobs.
+     * @param minPriorityPerJob The minimum priority per job this user can use to submit jobs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ComputePolicy object
      */
-    public Observable<ServiceResponse<ComputePolicy>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String computePolicyName, ComputePolicy parameters) {
+    public Observable<ServiceResponse<ComputePolicy>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String computePolicyName, Integer maxDegreeOfParallelismPerJob, Integer minPriorityPerJob) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -356,8 +364,13 @@ public class ComputePoliciesImpl implements ComputePolicies {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        Validator.validate(parameters);
-        return service.update(resourceGroupName, accountName, computePolicyName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        ComputePolicy parameters = null;
+        if (maxDegreeOfParallelismPerJob != null || minPriorityPerJob != null) {
+            parameters = new ComputePolicy();
+            parameters.withMaxDegreeOfParallelismPerJob(maxDegreeOfParallelismPerJob);
+            parameters.withMinPriorityPerJob(minPriorityPerJob);
+        }
+        return service.update(resourceGroupName, accountName, computePolicyName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ComputePolicy>>>() {
                 @Override
                 public Observable<ServiceResponse<ComputePolicy>> call(Response<ResponseBody> response) {

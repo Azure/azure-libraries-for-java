@@ -20,7 +20,8 @@ public class DataLakeAnalyticsAccountPropertiesBasic {
     /**
      * the provisioning status of the Data Lake Analytics account. Possible
      * values include: 'Failed', 'Creating', 'Running', 'Succeeded',
-     * 'Patching', 'Suspending', 'Resuming', 'Deleting', 'Deleted'.
+     * 'Patching', 'Suspending', 'Resuming', 'Deleting', 'Deleted',
+     * 'Undeleting', 'Canceled'.
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private DataLakeAnalyticsAccountStatus provisioningState;

@@ -19,7 +19,8 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonTypeName("CreateJobProperties")
 @JsonSubTypes({
-    @JsonSubTypes.Type(name = "USql", value = CreateUSqlJobProperties.class)
+    @JsonSubTypes.Type(name = "USql", value = CreateUSqlJobProperties.class),
+    @JsonSubTypes.Type(name = "Scope", value = CreateScopeJobProperties.class)
 })
 public class CreateJobProperties {
     /**
@@ -30,7 +31,7 @@ public class CreateJobProperties {
     private String runtimeVersion;
 
     /**
-     * the script to run.
+     * the script to run. Please note that the maximum script size is 3 MB.
      */
     @JsonProperty(value = "script", required = true)
     private String script;

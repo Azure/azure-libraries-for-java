@@ -40,7 +40,13 @@ public enum DataLakeAnalyticsAccountStatus {
     DELETING("Deleting"),
 
     /** Enum value Deleted. */
-    DELETED("Deleted");
+    DELETED("Deleted"),
+
+    /** Enum value Undeleting. */
+    UNDELETING("Undeleting"),
+
+    /** Enum value Canceled. */
+    CANCELED("Canceled");
 
     /** The actual serialized value for a DataLakeAnalyticsAccountStatus instance. */
     private String value;

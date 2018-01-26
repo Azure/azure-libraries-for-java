@@ -19,24 +19,23 @@ public class DataLakeStoreManagementTest extends TestBase {
     protected static String resourceGroupName;
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-
+    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain)
+    {
         environmentLocation = Region.US_EAST2;
+        resourceGroupName = generateRandomResourceName("adlsrg",15);
+
+        // Create the resource group
         resourceManagementClient = ResourceManager
                 .authenticate(restClient)
                 .withSubscription(defaultSubscription);
-
-        resourceGroupName = generateRandomResourceName("adlsrg",15);
-        dataLakeStoreAccountManagementClient = new DataLakeStoreAccountManagementClientImpl(restClient);
-        dataLakeStoreAccountManagementClient.withSubscriptionId(defaultSubscription);
-
-
-        // create the resource group
         resourceManagementClient.resourceGroups()
                 .define(resourceGroupName)
                 .withRegion(environmentLocation)
                 .create();
 
+        // Create the ADLA client
+        dataLakeStoreAccountManagementClient = new DataLakeStoreAccountManagementClientImpl(restClient);
+        dataLakeStoreAccountManagementClient.withSubscriptionId(defaultSubscription);
     }
 
     @Override

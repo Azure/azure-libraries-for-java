@@ -10,16 +10,18 @@ package com.microsoft.azure.management.datalake.store;
 
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.datalake.store.models.DataLakeStoreAccount;
 import com.microsoft.azure.management.datalake.store.models.DataLakeStoreAccountBasic;
 import com.microsoft.azure.management.datalake.store.models.DataLakeStoreAccountUpdateParameters;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.datalake.store.models.NameAvailabilityInformation;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
-import java.util.List;
 import rx.Observable;
+
+import java.util.List;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -576,6 +578,49 @@ public interface Accounts {
      * @return the observable to the PagedList&lt;DataLakeStoreAccountBasic&gt; object
      */
     Observable<ServiceResponse<Page<DataLakeStoreAccountBasic>>> listWithServiceResponseAsync(final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+
+    /**
+     * Checks whether the specified account name is available or taken.
+     *
+     * @param location The Resource location without whitespace.
+     * @param name the Data Lake Store name to check availability for.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the NameAvailabilityInformation object if successful.
+     */
+    NameAvailabilityInformation checkNameAvailability(String location, String name);
+
+    /**
+     * Checks whether the specified account name is available or taken.
+     *
+     * @param location The Resource location without whitespace.
+     * @param name the Data Lake Store name to check availability for.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    ServiceFuture<NameAvailabilityInformation> checkNameAvailabilityAsync(String location, String name, final ServiceCallback<NameAvailabilityInformation> serviceCallback);
+
+    /**
+     * Checks whether the specified account name is available or taken.
+     *
+     * @param location The Resource location without whitespace.
+     * @param name the Data Lake Store name to check availability for.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NameAvailabilityInformation object
+     */
+    Observable<NameAvailabilityInformation> checkNameAvailabilityAsync(String location, String name);
+
+    /**
+     * Checks whether the specified account name is available or taken.
+     *
+     * @param location The Resource location without whitespace.
+     * @param name the Data Lake Store name to check availability for.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NameAvailabilityInformation object
+     */
+    Observable<ServiceResponse<NameAvailabilityInformation>> checkNameAvailabilityWithServiceResponseAsync(String location, String name);
 
     /**
      * Lists the Data Lake Store accounts within a specific resource group. The response includes a link to the next page of results, if any.

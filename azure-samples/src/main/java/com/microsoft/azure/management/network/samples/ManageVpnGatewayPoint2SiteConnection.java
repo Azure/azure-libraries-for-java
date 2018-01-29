@@ -90,7 +90,7 @@ public final class ManageVpnGatewayPoint2SiteConnection {
             System.out.println(String.format("Profile generation is done. Please download client package at: %s", profile));
 
             // At this point vpn client package can be downloaded from provided link. Unzip it and run the configuration corresponding to your OS.
-            // For Windows machine, VPN configuration will be created. For non-Windows, please use configuration from downloaded VpnSettings.xml
+            // For Windows machine, VPN client .exe can be run. For non-Windows, please use configuration from downloaded VpnSettings.xml
 
             // Revoke a client certificate. After this command, you will no longer available to connect with the corresponding client certificate.
             System.out.println("Revoking client certificate...");

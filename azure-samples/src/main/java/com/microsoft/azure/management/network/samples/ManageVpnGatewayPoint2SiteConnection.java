@@ -66,6 +66,8 @@ public final class ManageVpnGatewayPoint2SiteConnection {
             // Print the virtual network
             Utils.print(network);
 
+            //============================================================
+            // Create virtual network gateway
             System.out.println("Creating virtual network gateway...");
             VirtualNetworkGateway vngw1 = azure.virtualNetworkGateways().define(vpnGatewayName)
                     .withRegion(region)
@@ -76,6 +78,8 @@ public final class ManageVpnGatewayPoint2SiteConnection {
                     .create();
             System.out.println("Created virtual network gateway");
 
+            //============================================================
+            // Update virtual network gateway with Point-to-Site connection configuration
             System.out.println("Creating Point-to-Site configuration...");
             vngw1.update()
                     .definePointToSiteConfiguration()
@@ -85,13 +89,16 @@ public final class ManageVpnGatewayPoint2SiteConnection {
                     .apply();
             System.out.println("Created Point-to-Site configuration");
 
-            System.out.println("Generating Point-to-Site profile...");
+            //============================================================
+            // Generate and download VPN client configuration package. Now it can be used to create VPN connection to Azure.
+            System.out.println("Generating VPN profile...");
             String profile = vngw1.generateVpnProfile();
             System.out.println(String.format("Profile generation is done. Please download client package at: %s", profile));
 
             // At this point vpn client package can be downloaded from provided link. Unzip it and run the configuration corresponding to your OS.
             // For Windows machine, VPN client .exe can be run. For non-Windows, please use configuration from downloaded VpnSettings.xml
 
+            //============================================================
             // Revoke a client certificate. After this command, you will no longer available to connect with the corresponding client certificate.
             System.out.println("Revoking client certificate...");
             vngw1.update().updatePointToSiteConfiguration()

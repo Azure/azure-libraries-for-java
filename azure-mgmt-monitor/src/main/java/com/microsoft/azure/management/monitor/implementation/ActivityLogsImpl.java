@@ -31,7 +31,7 @@ import java.util.TreeSet;
 @LangDefinition
 class ActivityLogsImpl
     implements ActivityLogs,
-        ActivityLogs.Definition {
+        ActivityLogs.ActivityLogsQueryDefinition {
 
     private final MonitorManager myManager;
     private DateTime queryStartTime;
@@ -56,7 +56,7 @@ class ActivityLogsImpl
     }
 
     @Override
-    public FilterDefinitionStages.WithStartTimeFilter defineQuery() {
+    public ActivityLogsQueryDefinitionStages.WithEventDataStartTimeFilter defineQuery() {
         this.responsePropertySelector.clear();
         this.filterString = "";
         return this;

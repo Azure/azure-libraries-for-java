@@ -34,7 +34,7 @@ class MetricDefinitionImpl
         extends WrapperImpl<MetricDefinitionInner>
             implements
                 MetricDefinition,
-                MetricDefinition.Definition {
+                MetricDefinition.MetricsQueryDefinition {
 
     private final MonitorManager myManager;
     private MetricDefinitionInner inner;

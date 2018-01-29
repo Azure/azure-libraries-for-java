@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.monitor;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
 import com.microsoft.azure.management.monitor.implementation.MetricDefinitionInner;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
@@ -22,6 +23,7 @@ import java.util.List;
 /**
  * The Azure metric definition entries are of type MetricDefinition.
  */
+@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent")
 public interface MetricDefinition extends
         HasManager<MonitorManager>,
         HasInner<MetricDefinitionInner> {
@@ -79,59 +81,59 @@ public interface MetricDefinition extends
      *
      * @return the stage of start time filter definition.
      */
-    FilterDefinitionStages.WithStartTimeFilter  defineQuery();
+    MetricsQueryDefinitionStages.WithMetricStartTimeFilter defineQuery();
 
     /**
      * The entirety of a Metrics query definition.
      */
-    interface Definition extends
-            FilterDefinitionStages.WithStartTimeFilter,
-            FilterDefinitionStages.WithEndFilter,
-            FilterDefinitionStages.WithExecute {
+    interface MetricsQueryDefinition extends
+            MetricsQueryDefinitionStages.WithMetricStartTimeFilter,
+            MetricsQueryDefinitionStages.WithMetricEndFilter,
+            MetricsQueryDefinitionStages.WithMetricsQueryExecute {
     }
 
     /**
      * Grouping of Metric query stages.
      */
-    interface FilterDefinitionStages {
+    interface MetricsQueryDefinitionStages {
 
         /**
          * The stage of a Metric query allowing to specify start time filter.
          */
-        interface WithStartTimeFilter {
+        interface WithMetricStartTimeFilter {
             /**
              * Sets the start time for Metric query filter.
              *
              * @param startTime specifies start time of cut off filter.
              * @return the stage of end time filter definition.
              */
-            WithEndFilter startingFrom(DateTime startTime);
+            WithMetricEndFilter startingFrom(DateTime startTime);
         }
 
         /**
          * The stage of a Metric query allowing to specify end time filter.
          */
-        interface WithEndFilter {
+        interface WithMetricEndFilter {
             /**
              * Sets the end time for Metric query filter.
              *
              * @param endTime specifies end time of cut off filter.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithExecute endsBefore(DateTime endTime);
+            WithMetricsQueryExecute endsBefore(DateTime endTime);
         }
 
         /**
          * The stage of a Metric query allowing to specify optional filters and execute the query.
          */
-        interface WithExecute {
+        interface WithMetricsQueryExecute {
             /**
              * Sets the list of aggregation types to retrieve.
              *
              * @param aggregation The list of aggregation types (comma separated) to retrieve.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithExecute withAggregation(String aggregation);
+            WithMetricsQueryExecute withAggregation(String aggregation);
 
             /**
              * Sets the interval of the query.
@@ -139,7 +141,7 @@ public interface MetricDefinition extends
              * @param interval The interval of the query.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithExecute withInterval(Period interval);
+            WithMetricsQueryExecute withInterval(Period interval);
 
             /**
              * Sets the **$filter** that is used to reduce the set of metric data returned.
@@ -162,7 +164,7 @@ public interface MetricDefinition extends
              * @param odataFilter the **$filter** to reduce the set of the returned metric data.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithExecute withOdataFilter(String odataFilter);
+            WithMetricsQueryExecute withOdataFilter(String odataFilter);
 
             /**
              * Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. Possible values include: 'Data', 'Metadata'
@@ -170,7 +172,7 @@ public interface MetricDefinition extends
              * @param resultType the type of metric to retrieve.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithExecute withResultType(ResultType resultType);
+            WithMetricsQueryExecute withResultType(ResultType resultType);
 
             /**
              * Sets the maximum number of records to retrieve.
@@ -179,7 +181,7 @@ public interface MetricDefinition extends
              * @param top the maximum number of records to retrieve.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithExecute selectTop(double top);
+            WithMetricsQueryExecute selectTop(double top);
 
             /**
              * Sets the aggregation to use for sorting results and the direction of the sort.
@@ -189,7 +191,7 @@ public interface MetricDefinition extends
              * @param orderBy the aggregation to use for sorting results and the direction of the sort.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithExecute orderBy(String orderBy);
+            WithMetricsQueryExecute orderBy(String orderBy);
 
             /**
              * Executes the query.

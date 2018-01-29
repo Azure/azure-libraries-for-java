@@ -14,6 +14,7 @@ import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppSource
 import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppStorageAccountConnection;
 import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppWithContainerRegistry;
 import com.microsoft.azure.management.appservice.samples.ManageWebAppCosmosDbByMsi;
+import com.microsoft.azure.management.appservice.samples.ManageWebAppCosmosDbThroughKeyVault;
 import com.microsoft.azure.management.appservice.samples.ManageWebAppSourceControl;
 import com.microsoft.azure.management.appservice.samples.ManageWebAppStorageAccountConnection;
 import com.microsoft.azure.management.resources.core.TestBase;
@@ -69,7 +70,12 @@ public class AppServiceSampleLiveOnlyTests extends SamplesTestBase {
     public void testManageWebAppCosmosDbByMsi() {
         Assert.assertTrue(ManageWebAppCosmosDbByMsi.runSample(azure));
     }
-  
+
+    @Test
+    public void testManageWebAppCosmosDbThroughKeyVault() {
+        Assert.assertTrue(ManageWebAppCosmosDbThroughKeyVault.runSample(azure));
+    }
+
     @Test
     public void testManageFunctionAppLogs() {
         Assert.assertTrue(ManageFunctionAppLogs.runSample(azure));

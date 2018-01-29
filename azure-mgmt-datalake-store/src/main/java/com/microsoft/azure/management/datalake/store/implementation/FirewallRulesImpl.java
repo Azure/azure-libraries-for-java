@@ -72,7 +72,7 @@ public class FirewallRulesImpl implements FirewallRules {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.store.FirewallRules update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{accountName}/firewallRules/{firewallRuleName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("firewallRuleName") String firewallRuleName, @Path("subscriptionId") String subscriptionId, @Body UpdateFirewallRuleParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("firewallRuleName") String firewallRuleName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body UpdateFirewallRuleParameters parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.store.FirewallRules delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{accountName}/firewallRules/{firewallRuleName}", method = "DELETE", hasBody = true)
@@ -265,8 +265,12 @@ public class FirewallRulesImpl implements FirewallRules {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        final UpdateFirewallRuleParameters parameters = null;
-        return service.update(resourceGroupName, accountName, firewallRuleName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String startIpAddress = null;
+        final String endIpAddress = null;
+        UpdateFirewallRuleParameters parameters = new UpdateFirewallRuleParameters();
+        parameters.withStartIpAddress(null);
+        parameters.withEndIpAddress(null);
+        return service.update(resourceGroupName, accountName, firewallRuleName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FirewallRule>>>() {
                 @Override
                 public Observable<ServiceResponse<FirewallRule>> call(Response<ResponseBody> response) {
@@ -286,14 +290,15 @@ public class FirewallRulesImpl implements FirewallRules {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
      * @param accountName The name of the Data Lake Store account to which to update the firewall rule.
      * @param firewallRuleName The name of the firewall rule to update.
-     * @param parameters Parameters supplied to update the firewall rule.
+     * @param startIpAddress the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+     * @param endIpAddress the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the FirewallRule object if successful.
      */
-    public FirewallRule update(String resourceGroupName, String accountName, String firewallRuleName, UpdateFirewallRuleParameters parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, accountName, firewallRuleName, parameters).toBlocking().single().body();
+    public FirewallRule update(String resourceGroupName, String accountName, String firewallRuleName, String startIpAddress, String endIpAddress) {
+        return updateWithServiceResponseAsync(resourceGroupName, accountName, firewallRuleName, startIpAddress, endIpAddress).toBlocking().single().body();
     }
 
     /**
@@ -302,13 +307,14 @@ public class FirewallRulesImpl implements FirewallRules {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
      * @param accountName The name of the Data Lake Store account to which to update the firewall rule.
      * @param firewallRuleName The name of the firewall rule to update.
-     * @param parameters Parameters supplied to update the firewall rule.
+     * @param startIpAddress the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+     * @param endIpAddress the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<FirewallRule> updateAsync(String resourceGroupName, String accountName, String firewallRuleName, UpdateFirewallRuleParameters parameters, final ServiceCallback<FirewallRule> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, accountName, firewallRuleName, parameters), serviceCallback);
+    public ServiceFuture<FirewallRule> updateAsync(String resourceGroupName, String accountName, String firewallRuleName, String startIpAddress, String endIpAddress, final ServiceCallback<FirewallRule> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, accountName, firewallRuleName, startIpAddress, endIpAddress), serviceCallback);
     }
 
     /**
@@ -317,12 +323,13 @@ public class FirewallRulesImpl implements FirewallRules {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
      * @param accountName The name of the Data Lake Store account to which to update the firewall rule.
      * @param firewallRuleName The name of the firewall rule to update.
-     * @param parameters Parameters supplied to update the firewall rule.
+     * @param startIpAddress the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+     * @param endIpAddress the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FirewallRule object
      */
-    public Observable<FirewallRule> updateAsync(String resourceGroupName, String accountName, String firewallRuleName, UpdateFirewallRuleParameters parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, accountName, firewallRuleName, parameters).map(new Func1<ServiceResponse<FirewallRule>, FirewallRule>() {
+    public Observable<FirewallRule> updateAsync(String resourceGroupName, String accountName, String firewallRuleName, String startIpAddress, String endIpAddress) {
+        return updateWithServiceResponseAsync(resourceGroupName, accountName, firewallRuleName, startIpAddress, endIpAddress).map(new Func1<ServiceResponse<FirewallRule>, FirewallRule>() {
             @Override
             public FirewallRule call(ServiceResponse<FirewallRule> response) {
                 return response.body();
@@ -336,11 +343,12 @@ public class FirewallRulesImpl implements FirewallRules {
      * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
      * @param accountName The name of the Data Lake Store account to which to update the firewall rule.
      * @param firewallRuleName The name of the firewall rule to update.
-     * @param parameters Parameters supplied to update the firewall rule.
+     * @param startIpAddress the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+     * @param endIpAddress the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FirewallRule object
      */
-    public Observable<ServiceResponse<FirewallRule>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String firewallRuleName, UpdateFirewallRuleParameters parameters) {
+    public Observable<ServiceResponse<FirewallRule>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String firewallRuleName, String startIpAddress, String endIpAddress) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -356,8 +364,13 @@ public class FirewallRulesImpl implements FirewallRules {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        Validator.validate(parameters);
-        return service.update(resourceGroupName, accountName, firewallRuleName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        UpdateFirewallRuleParameters parameters = null;
+        if (startIpAddress != null || endIpAddress != null) {
+            parameters = new UpdateFirewallRuleParameters();
+            parameters.withStartIpAddress(startIpAddress);
+            parameters.withEndIpAddress(endIpAddress);
+        }
+        return service.update(resourceGroupName, accountName, firewallRuleName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FirewallRule>>>() {
                 @Override
                 public Observable<ServiceResponse<FirewallRule>> call(Response<ResponseBody> response) {

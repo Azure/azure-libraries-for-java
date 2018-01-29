@@ -8,55 +8,37 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for AADObjectType.
  */
-public final class AADObjectType {
+public final class AADObjectType extends ExpandableStringEnum<AADObjectType> {
     /** Static value User for AADObjectType. */
-    public static final AADObjectType USER = new AADObjectType("User");
+    public static final AADObjectType USER = fromString("User");
 
     /** Static value Group for AADObjectType. */
-    public static final AADObjectType GROUP = new AADObjectType("Group");
+    public static final AADObjectType GROUP = fromString("Group");
 
     /** Static value ServicePrincipal for AADObjectType. */
-    public static final AADObjectType SERVICE_PRINCIPAL = new AADObjectType("ServicePrincipal");
-
-    private String value;
+    public static final AADObjectType SERVICE_PRINCIPAL = fromString("ServicePrincipal");
 
     /**
-     * Creates a custom value for AADObjectType.
-     * @param value the custom value
+     * Creates or finds a AADObjectType from its string representation.
+     * @param name a name to look for
+     * @return the corresponding AADObjectType
      */
-    public AADObjectType(String value) {
-        this.value = value;
+    @JsonCreator
+    public static AADObjectType fromString(String name) {
+        return fromString(name, AADObjectType.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof AADObjectType)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        AADObjectType rhs = (AADObjectType) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known AADObjectType values
+     */
+    public static Collection<AADObjectType> values() {
+        return values(AADObjectType.class);
     }
 }

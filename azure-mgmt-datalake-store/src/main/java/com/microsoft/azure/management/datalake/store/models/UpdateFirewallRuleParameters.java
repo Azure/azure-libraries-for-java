@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Data Lake Analytics firewall rule update parameters.
+ * Data Lake Store firewall rule update parameters.
  */
 @JsonFlatten
 public class UpdateFirewallRuleParameters {

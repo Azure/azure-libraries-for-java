@@ -44,11 +44,11 @@ public class DataLakeAnalyticsJobManagementClientImpl extends AzureServiceClient
         return this.apiVersion;
     }
 
-    /** Gets the DNS suffix used as the base for all Azure Data Lake Analytics Job service requests. */
+    /** The DNS suffix used as the base for all Azure Data Lake Analytics Job service requests. */
     private String adlaJobDnsSuffix;
 
     /**
-     * Gets Gets the DNS suffix used as the base for all Azure Data Lake Analytics Job service requests.
+     * Gets The DNS suffix used as the base for all Azure Data Lake Analytics Job service requests.
      *
      * @return the adlaJobDnsSuffix value.
      */
@@ -57,7 +57,7 @@ public class DataLakeAnalyticsJobManagementClientImpl extends AzureServiceClient
     }
 
     /**
-     * Sets Gets the DNS suffix used as the base for all Azure Data Lake Analytics Job service requests.
+     * Sets The DNS suffix used as the base for all Azure Data Lake Analytics Job service requests.
      *
      * @param adlaJobDnsSuffix the adlaJobDnsSuffix value.
      * @return the service client itself
@@ -206,7 +206,7 @@ public class DataLakeAnalyticsJobManagementClientImpl extends AzureServiceClient
     }
 
     protected void initialize() {
-        this.apiVersion = "2016-11-01";
+        this.apiVersion = "2017-09-01-preview";
         this.adlaJobDnsSuffix = "azuredatalakeanalytics.net";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
@@ -224,6 +224,6 @@ public class DataLakeAnalyticsJobManagementClientImpl extends AzureServiceClient
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "DataLakeAnalyticsJobManagementClient", "2016-11-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "DataLakeAnalyticsJobManagementClient", "2017-09-01-preview");
     }
 }

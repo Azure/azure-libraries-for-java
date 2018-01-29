@@ -22,7 +22,8 @@ public class DataLakeStoreAccountBasic extends Resource {
     /**
      * the provisioning status of the Data Lake Store account. Possible values
      * include: 'Failed', 'Creating', 'Running', 'Succeeded', 'Patching',
-     * 'Suspending', 'Resuming', 'Deleting', 'Deleted'.
+     * 'Suspending', 'Resuming', 'Deleting', 'Deleted', 'Undeleting',
+     * 'Canceled'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private DataLakeStoreAccountStatus provisioningState;

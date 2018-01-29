@@ -136,6 +136,79 @@ public class JobStatisticsVertexStage {
     private Period totalSucceededTime;
 
     /**
+     * the sum of the peak memory usage of all the vertices in the stage, in
+     * bytes.
+     */
+    @JsonProperty(value = "totalPeakMemUsage", access = JsonProperty.Access.WRITE_ONLY)
+    private Long totalPeakMemUsage;
+
+    /**
+     * the sum of the total execution time of all the vertices in the stage.
+     */
+    @JsonProperty(value = "totalExecutionTime", access = JsonProperty.Access.WRITE_ONLY)
+    private Period totalExecutionTime;
+
+    /**
+     * the vertex with the maximum amount of data read.
+     */
+    @JsonProperty(value = "maxDataReadVertex")
+    private JobStatisticsVertex maxDataReadVertex;
+
+    /**
+     * the vertex with the maximum execution time.
+     */
+    @JsonProperty(value = "maxExecutionTimeVertex")
+    private JobStatisticsVertex maxExecutionTimeVertex;
+
+    /**
+     * the vertex with the maximum peak memory usage.
+     */
+    @JsonProperty(value = "maxPeakMemUsageVertex")
+    private JobStatisticsVertex maxPeakMemUsageVertex;
+
+    /**
+     * the estimated vertex CPU core count.
+     */
+    @JsonProperty(value = "estimatedVertexCpuCoreCount", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer estimatedVertexCpuCoreCount;
+
+    /**
+     * the estimated vertex peak CPU core count.
+     */
+    @JsonProperty(value = "estimatedVertexPeakCpuCoreCount", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer estimatedVertexPeakCpuCoreCount;
+
+    /**
+     * the estimated vertex memory size, in bytes.
+     */
+    @JsonProperty(value = "estimatedVertexMemSize", access = JsonProperty.Access.WRITE_ONLY)
+    private Long estimatedVertexMemSize;
+
+    /**
+     * the statistics information for the allocated container CPU core count.
+     */
+    @JsonProperty(value = "allocatedContainerCpuCoreCount")
+    private ResourceUsageStatistics allocatedContainerCpuCoreCount;
+
+    /**
+     * the statistics information for the allocated container memory size.
+     */
+    @JsonProperty(value = "allocatedContainerMemSize")
+    private ResourceUsageStatistics allocatedContainerMemSize;
+
+    /**
+     * the statistics information for the used vertex CPU core count.
+     */
+    @JsonProperty(value = "usedVertexCpuCoreCount")
+    private ResourceUsageStatistics usedVertexCpuCoreCount;
+
+    /**
+     * the statistics information for the used vertex peak memory size.
+     */
+    @JsonProperty(value = "usedVertexPeakMemSize")
+    private ResourceUsageStatistics usedVertexPeakMemSize;
+
+    /**
      * Get the dataRead value.
      *
      * @return the dataRead value
@@ -313,6 +386,191 @@ public class JobStatisticsVertexStage {
      */
     public Period totalSucceededTime() {
         return this.totalSucceededTime;
+    }
+
+    /**
+     * Get the totalPeakMemUsage value.
+     *
+     * @return the totalPeakMemUsage value
+     */
+    public Long totalPeakMemUsage() {
+        return this.totalPeakMemUsage;
+    }
+
+    /**
+     * Get the totalExecutionTime value.
+     *
+     * @return the totalExecutionTime value
+     */
+    public Period totalExecutionTime() {
+        return this.totalExecutionTime;
+    }
+
+    /**
+     * Get the maxDataReadVertex value.
+     *
+     * @return the maxDataReadVertex value
+     */
+    public JobStatisticsVertex maxDataReadVertex() {
+        return this.maxDataReadVertex;
+    }
+
+    /**
+     * Set the maxDataReadVertex value.
+     *
+     * @param maxDataReadVertex the maxDataReadVertex value to set
+     * @return the JobStatisticsVertexStage object itself.
+     */
+    public JobStatisticsVertexStage withMaxDataReadVertex(JobStatisticsVertex maxDataReadVertex) {
+        this.maxDataReadVertex = maxDataReadVertex;
+        return this;
+    }
+
+    /**
+     * Get the maxExecutionTimeVertex value.
+     *
+     * @return the maxExecutionTimeVertex value
+     */
+    public JobStatisticsVertex maxExecutionTimeVertex() {
+        return this.maxExecutionTimeVertex;
+    }
+
+    /**
+     * Set the maxExecutionTimeVertex value.
+     *
+     * @param maxExecutionTimeVertex the maxExecutionTimeVertex value to set
+     * @return the JobStatisticsVertexStage object itself.
+     */
+    public JobStatisticsVertexStage withMaxExecutionTimeVertex(JobStatisticsVertex maxExecutionTimeVertex) {
+        this.maxExecutionTimeVertex = maxExecutionTimeVertex;
+        return this;
+    }
+
+    /**
+     * Get the maxPeakMemUsageVertex value.
+     *
+     * @return the maxPeakMemUsageVertex value
+     */
+    public JobStatisticsVertex maxPeakMemUsageVertex() {
+        return this.maxPeakMemUsageVertex;
+    }
+
+    /**
+     * Set the maxPeakMemUsageVertex value.
+     *
+     * @param maxPeakMemUsageVertex the maxPeakMemUsageVertex value to set
+     * @return the JobStatisticsVertexStage object itself.
+     */
+    public JobStatisticsVertexStage withMaxPeakMemUsageVertex(JobStatisticsVertex maxPeakMemUsageVertex) {
+        this.maxPeakMemUsageVertex = maxPeakMemUsageVertex;
+        return this;
+    }
+
+    /**
+     * Get the estimatedVertexCpuCoreCount value.
+     *
+     * @return the estimatedVertexCpuCoreCount value
+     */
+    public Integer estimatedVertexCpuCoreCount() {
+        return this.estimatedVertexCpuCoreCount;
+    }
+
+    /**
+     * Get the estimatedVertexPeakCpuCoreCount value.
+     *
+     * @return the estimatedVertexPeakCpuCoreCount value
+     */
+    public Integer estimatedVertexPeakCpuCoreCount() {
+        return this.estimatedVertexPeakCpuCoreCount;
+    }
+
+    /**
+     * Get the estimatedVertexMemSize value.
+     *
+     * @return the estimatedVertexMemSize value
+     */
+    public Long estimatedVertexMemSize() {
+        return this.estimatedVertexMemSize;
+    }
+
+    /**
+     * Get the allocatedContainerCpuCoreCount value.
+     *
+     * @return the allocatedContainerCpuCoreCount value
+     */
+    public ResourceUsageStatistics allocatedContainerCpuCoreCount() {
+        return this.allocatedContainerCpuCoreCount;
+    }
+
+    /**
+     * Set the allocatedContainerCpuCoreCount value.
+     *
+     * @param allocatedContainerCpuCoreCount the allocatedContainerCpuCoreCount value to set
+     * @return the JobStatisticsVertexStage object itself.
+     */
+    public JobStatisticsVertexStage withAllocatedContainerCpuCoreCount(ResourceUsageStatistics allocatedContainerCpuCoreCount) {
+        this.allocatedContainerCpuCoreCount = allocatedContainerCpuCoreCount;
+        return this;
+    }
+
+    /**
+     * Get the allocatedContainerMemSize value.
+     *
+     * @return the allocatedContainerMemSize value
+     */
+    public ResourceUsageStatistics allocatedContainerMemSize() {
+        return this.allocatedContainerMemSize;
+    }
+
+    /**
+     * Set the allocatedContainerMemSize value.
+     *
+     * @param allocatedContainerMemSize the allocatedContainerMemSize value to set
+     * @return the JobStatisticsVertexStage object itself.
+     */
+    public JobStatisticsVertexStage withAllocatedContainerMemSize(ResourceUsageStatistics allocatedContainerMemSize) {
+        this.allocatedContainerMemSize = allocatedContainerMemSize;
+        return this;
+    }
+
+    /**
+     * Get the usedVertexCpuCoreCount value.
+     *
+     * @return the usedVertexCpuCoreCount value
+     */
+    public ResourceUsageStatistics usedVertexCpuCoreCount() {
+        return this.usedVertexCpuCoreCount;
+    }
+
+    /**
+     * Set the usedVertexCpuCoreCount value.
+     *
+     * @param usedVertexCpuCoreCount the usedVertexCpuCoreCount value to set
+     * @return the JobStatisticsVertexStage object itself.
+     */
+    public JobStatisticsVertexStage withUsedVertexCpuCoreCount(ResourceUsageStatistics usedVertexCpuCoreCount) {
+        this.usedVertexCpuCoreCount = usedVertexCpuCoreCount;
+        return this;
+    }
+
+    /**
+     * Get the usedVertexPeakMemSize value.
+     *
+     * @return the usedVertexPeakMemSize value
+     */
+    public ResourceUsageStatistics usedVertexPeakMemSize() {
+        return this.usedVertexPeakMemSize;
+    }
+
+    /**
+     * Set the usedVertexPeakMemSize value.
+     *
+     * @param usedVertexPeakMemSize the usedVertexPeakMemSize value to set
+     * @return the JobStatisticsVertexStage object itself.
+     */
+    public JobStatisticsVertexStage withUsedVertexPeakMemSize(ResourceUsageStatistics usedVertexPeakMemSize) {
+        this.usedVertexPeakMemSize = usedVertexPeakMemSize;
+        return this;
     }
 
 }

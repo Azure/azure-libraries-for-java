@@ -11,6 +11,7 @@ package com.microsoft.azure.management.datalake.analytics.models;
 import java.util.UUID;
 import org.joda.time.DateTime;
 import java.util.List;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -30,8 +31,8 @@ public class JobInformationBasic {
     private String name;
 
     /**
-     * the job type of the current job (Hive or USql). Possible values include:
-     * 'USql', 'Hive'.
+     * the job type of the current job (Hive, USql, or Scope (for internal use
+     * only)). Possible values include: 'USql', 'Hive', 'Scope'.
      */
     @JsonProperty(value = "type", required = true)
     private JobType type;
@@ -111,6 +112,13 @@ public class JobInformationBasic {
      */
     @JsonProperty(value = "related")
     private JobRelationshipProperties related;
+
+    /**
+     * the key-value pairs used to add additional metadata to the job
+     * information. (Only for use internally with Scope job type.).
+     */
+    @JsonProperty(value = "tags")
+    private Map<String, String> tags;
 
     /**
      * Get the jobId value.
@@ -301,6 +309,26 @@ public class JobInformationBasic {
      */
     public JobInformationBasic withRelated(JobRelationshipProperties related) {
         this.related = related;
+        return this;
+    }
+
+    /**
+     * Get the tags value.
+     *
+     * @return the tags value
+     */
+    public Map<String, String> tags() {
+        return this.tags;
+    }
+
+    /**
+     * Set the tags value.
+     *
+     * @param tags the tags value to set
+     * @return the JobInformationBasic object itself.
+     */
+    public JobInformationBasic withTags(Map<String, String> tags) {
+        this.tags = tags;
         return this;
     }
 

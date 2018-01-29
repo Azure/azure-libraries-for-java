@@ -14,9 +14,11 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.datalake.analytics.models.CheckNameAvailabilityParameters;
 import com.microsoft.azure.management.datalake.analytics.models.DataLakeAnalyticsAccount;
 import com.microsoft.azure.management.datalake.analytics.models.DataLakeAnalyticsAccountBasic;
 import com.microsoft.azure.management.datalake.analytics.models.DataLakeAnalyticsAccountUpdateParameters;
+import com.microsoft.azure.management.datalake.analytics.models.NameAvailabilityInformation;
 import com.microsoft.azure.management.datalake.analytics.models.PageImpl;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
@@ -34,6 +36,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.HTTP;
 import retrofit2.http.PATCH;
 import retrofit2.http.Path;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -102,6 +105,10 @@ public class AccountsImpl implements Accounts {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Accounts get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}")
         Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Accounts checkNameAvailability" })
+        @POST("subscriptions/{subscriptionId}/providers/Microsoft.DataLakeAnalytics/locations/{location}/checkNameAvailability")
+        Observable<Response<ResponseBody>> checkNameAvailability(@Path("location") String location, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body CheckNameAvailabilityParameters parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Accounts listByResourceGroupNext" })
         @GET
@@ -1098,6 +1105,7 @@ public class AccountsImpl implements Accounts {
         return this.client.restClient().responseBuilderFactory().<DataLakeAnalyticsAccount, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DataLakeAnalyticsAccount>() { }.getType())
                 .register(201, new TypeToken<DataLakeAnalyticsAccount>() { }.getType())
+                .register(202, new TypeToken<DataLakeAnalyticsAccount>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1339,6 +1347,94 @@ public class AccountsImpl implements Accounts {
     private ServiceResponse<DataLakeAnalyticsAccount> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DataLakeAnalyticsAccount, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DataLakeAnalyticsAccount>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Checks whether the specified account name is available or taken.
+     *
+     * @param location The Resource location without whitespace.
+     * @param name the Data Lake Analytics name to check availability for.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the NameAvailabilityInformation object if successful.
+     */
+    public NameAvailabilityInformation checkNameAvailability(String location, String name) {
+        return checkNameAvailabilityWithServiceResponseAsync(location, name).toBlocking().single().body();
+    }
+
+    /**
+     * Checks whether the specified account name is available or taken.
+     *
+     * @param location The Resource location without whitespace.
+     * @param name the Data Lake Analytics name to check availability for.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<NameAvailabilityInformation> checkNameAvailabilityAsync(String location, String name, final ServiceCallback<NameAvailabilityInformation> serviceCallback) {
+        return ServiceFuture.fromResponse(checkNameAvailabilityWithServiceResponseAsync(location, name), serviceCallback);
+    }
+
+    /**
+     * Checks whether the specified account name is available or taken.
+     *
+     * @param location The Resource location without whitespace.
+     * @param name the Data Lake Analytics name to check availability for.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NameAvailabilityInformation object
+     */
+    public Observable<NameAvailabilityInformation> checkNameAvailabilityAsync(String location, String name) {
+        return checkNameAvailabilityWithServiceResponseAsync(location, name).map(new Func1<ServiceResponse<NameAvailabilityInformation>, NameAvailabilityInformation>() {
+            @Override
+            public NameAvailabilityInformation call(ServiceResponse<NameAvailabilityInformation> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Checks whether the specified account name is available or taken.
+     *
+     * @param location The Resource location without whitespace.
+     * @param name the Data Lake Analytics name to check availability for.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NameAvailabilityInformation object
+     */
+    public Observable<ServiceResponse<NameAvailabilityInformation>> checkNameAvailabilityWithServiceResponseAsync(String location, String name) {
+        if (location == null) {
+            throw new IllegalArgumentException("Parameter location is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        CheckNameAvailabilityParameters parameters = new CheckNameAvailabilityParameters();
+        parameters.withName(name);
+        return service.checkNameAvailability(location, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NameAvailabilityInformation>>>() {
+                @Override
+                public Observable<ServiceResponse<NameAvailabilityInformation>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<NameAvailabilityInformation> clientResponse = checkNameAvailabilityDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<NameAvailabilityInformation> checkNameAvailabilityDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<NameAvailabilityInformation, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<NameAvailabilityInformation>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

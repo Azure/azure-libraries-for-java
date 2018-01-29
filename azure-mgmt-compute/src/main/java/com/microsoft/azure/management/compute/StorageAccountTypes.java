@@ -19,7 +19,10 @@ public enum StorageAccountTypes {
     STANDARD_LRS("Standard_LRS"),
 
     /** Enum value Premium_LRS. */
-    PREMIUM_LRS("Premium_LRS");
+    PREMIUM_LRS("Premium_LRS"),
+
+    /** Enum value StandardSSD_LRS. */
+    STANDARD_SSD_LRS("StandardSSD_LRS");
 
     /** The actual serialized value for a StorageAccountTypes instance. */
     private String value;

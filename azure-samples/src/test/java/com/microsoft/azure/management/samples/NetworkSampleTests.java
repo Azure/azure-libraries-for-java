@@ -8,6 +8,7 @@ package com.microsoft.azure.management.samples;
 
 import com.microsoft.azure.management.network.samples.*;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class NetworkSampleTests extends SamplesTestBase {
@@ -80,5 +81,11 @@ public class NetworkSampleTests extends SamplesTestBase {
     @Test
     public void testManageVpnGatewaySite2SiteConnection() {
         Assert.assertTrue(ManageVpnGatewaySite2SiteConnection.runSample(azure));
+    }
+
+    @Test
+    @Ignore("Need root certificate file and client certificate thumbprint to run the sample")
+    public void testManageVpnGatewayPoint2SiteConnection() {
+        Assert.assertTrue(ManageVpnGatewayPoint2SiteConnection.runSample(azure));
     }
 }

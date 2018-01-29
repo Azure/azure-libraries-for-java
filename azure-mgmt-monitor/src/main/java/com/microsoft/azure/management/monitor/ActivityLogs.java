@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.monitor.implementation.ActivityLogsInner;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
@@ -17,6 +18,7 @@ import rx.Observable;
 /**
  * Entry point for Monitor Activity logs API.
  */
+@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent")
 public interface ActivityLogs extends
         HasManager<MonitorManager>,
         HasInner<ActivityLogsInner> {
@@ -26,75 +28,75 @@ public interface ActivityLogs extends
      *
      * @return the stage of start time filter definition.
      */
-    FilterDefinitionStages.WithStartTimeFilter  defineQuery();
+    ActivityLogsQueryDefinitionStages.WithEventDataStartTimeFilter defineQuery();
 
     /**
      * The entirety of a Activity Logs query definition.
      */
-    interface Definition extends
-            FilterDefinitionStages.WithStartTimeFilter,
-            FilterDefinitionStages.WithEndFilter,
-            FilterDefinitionStages.WithFieldFilter,
-            FilterDefinitionStages.WithSelect,
-            FilterDefinitionStages.WithExecute {
+    interface ActivityLogsQueryDefinition extends
+            ActivityLogsQueryDefinitionStages.WithEventDataStartTimeFilter,
+            ActivityLogsQueryDefinitionStages.WithEventDataEndFilter,
+            ActivityLogsQueryDefinitionStages.WithEventDataFieldFilter,
+            ActivityLogsQueryDefinitionStages.WithActivityLogsSelectFilter,
+            ActivityLogsQueryDefinitionStages.WithActivityLogsQueryExecute {
     }
 
     /**
      * Grouping of Activity log query stages.
      */
-    interface FilterDefinitionStages {
+    interface ActivityLogsQueryDefinitionStages {
 
         /**
          * The stage of a Activity Log query allowing to specify start time filter.
          */
-        interface WithStartTimeFilter {
+        interface WithEventDataStartTimeFilter {
             /**
              * Sets the start time for Activity Log query filter.
              *
              * @param startTime specifies start time of cut off filter.
              * @return the stage of end time filter definition.
              */
-            WithEndFilter startingFrom(DateTime startTime);
+            WithEventDataEndFilter startingFrom(DateTime startTime);
         }
 
         /**
          * The stage of a Activity Log query allowing to specify end time filter.
          */
-        interface WithEndFilter {
+        interface WithEventDataEndFilter {
             /**
              * Sets the end time for Activity Log query filter.
              *
              * @param endTime specifies end time of cut off filter.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithFieldFilter endsBefore(DateTime endTime);
+            WithEventDataFieldFilter endsBefore(DateTime endTime);
         }
 
         /**
          * The stage of a Activity Log query allowing to specify data fields in the server response.
          */
-        interface WithFieldFilter {
+        interface WithEventDataFieldFilter {
             /**
              * Selects data fields that will be populated in the server response.
              *
              * @param responseProperties field names in the server response.
              * @return the stage of Activity log filtering by type and query execution.
              */
-            WithSelect withResponseProperties(EventDataPropertyName... responseProperties);
+            WithActivityLogsSelectFilter withResponseProperties(EventDataPropertyName... responseProperties);
 
             /**
              * Sets the server response to include all the available properties.
              *
              * @return the stage of Activity log filtering by type and query execution.
              */
-            WithSelect withAllPropertiesInResponse();
+            WithActivityLogsSelectFilter withAllPropertiesInResponse();
         }
 
         /**
          * The stage of the Activity log filtering by type and query execution.
          */
-        interface WithSelect extends
-                WithExecute {
+        interface WithActivityLogsSelectFilter extends
+                WithActivityLogsQueryExecute {
 
             /**
              * Filters events for a given resource group.
@@ -102,7 +104,7 @@ public interface ActivityLogs extends
              * @param resourceGroupName Specifies resource group name.
              * @return the stage of Activity log filtering by type and query execution.
              */
-            WithExecute filterByResourceGroup(String resourceGroupName);
+            WithActivityLogsQueryExecute filterByResourceGroup(String resourceGroupName);
 
             /**
              * Filters events for a given resource.
@@ -110,7 +112,7 @@ public interface ActivityLogs extends
              * @param resourceId Specifies resource Id.
              * @return the stage of Activity log filtering by type and query execution.
              */
-            WithExecute filterByResource(String resourceId);
+            WithActivityLogsQueryExecute filterByResource(String resourceId);
 
             /**
              * Filters events for a given resource provider.
@@ -118,7 +120,7 @@ public interface ActivityLogs extends
              * @param resourceProviderName Specifies resource provider.
              * @return the stage of Activity log filtering by type and query execution.
              */
-            WithExecute filterByResourceProvider(String resourceProviderName);
+            WithActivityLogsQueryExecute filterByResourceProvider(String resourceProviderName);
 
             /**
              * Filters events for a given correlation id.
@@ -126,13 +128,13 @@ public interface ActivityLogs extends
              * @param correlationId Specifies correlation id.
              * @return the stage of Activity log filtering by type and query execution.
              */
-            WithExecute filterByCorrelationId(String correlationId);
+            WithActivityLogsQueryExecute filterByCorrelationId(String correlationId);
         }
 
         /**
          * The stage of the Activity log query execution.
          */
-        interface WithExecute {
+        interface WithActivityLogsQueryExecute {
             /**
              * Executes the query.
              *

@@ -6,6 +6,9 @@
 
 package com.microsoft.azure.management.keyvault;
 
+import com.microsoft.azure.keyvault.KeyVaultClient;
+import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
@@ -26,6 +29,24 @@ public interface Vault extends
         GroupableResource<KeyVaultManager, VaultInner>,
         Refreshable<Vault>,
         Updatable<Vault.Update> {
+    /**
+     * @return an authenticated Key Vault data client
+     */
+    @Beta(SinceVersion.V1_6_0)
+    KeyVaultClient client();
+
+    /**
+     * @return the Key Vault key API entry point
+     */
+    @Beta(SinceVersion.V1_6_0)
+    Keys keys();
+
+    /**
+     * @return the Key Vault secret API entry point
+     */
+    @Beta(SinceVersion.V1_6_0)
+    Secrets secrets();
+
     /**
      * @return the URI of the vault for performing operations on keys and secrets.
      */

@@ -22,8 +22,12 @@ import java.io.File;
 /**
  * Azure Batch AI sample.
  *  - Create Storage account and Azure file share
+ *  - Upload sample data to Azure file share
  *  - Create Batch AI cluster that uses Azure file share to host the training data and scripts for the learning job
  *  - Create Microsoft Cognitive Toolkit job to run on the cluster
+ *
+ * Please note: in order to run this sample, please download and unzip sample package from here: https://batchaisamples.blob.core.windows.net/samples/BatchAIQuickStart.zip?st=2017-09-29T18%3A29%3A00Z&se=2099-12-31T08%3A00%3A00Z&sp=rl&sv=2016-05-31&sr=b&sig=hrAZfbZC%2BQ%2FKccFQZ7OC4b%2FXSzCF5Myi4Cj%2BW3sVZDo%3D
+ * Export path to the content to $SAMPLE_DATA_PATH.
  */
 public final class ManageBatchAI {
     /**
@@ -33,6 +37,7 @@ public final class ManageBatchAI {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
+        final String sampleDataPath = System.getenv("SAMPLE_DATA_PATH");
         final Region region = Region.US_WEST2;
         final String rgName = SdkContext.randomResourceName("rg", 20);
         final String saName = SdkContext.randomResourceName("sa", 20);
@@ -57,6 +62,9 @@ public final class ManageBatchAI {
                     .getShareReference(shareName);
             cloudFileShare.create();
 
+            //=============================================================
+            // Upload sample data to Azure file share
+
             //Get a reference to the root directory for the share.
             CloudFileDirectory rootDir = cloudFileShare.getRootDirectoryReference();
 
@@ -64,12 +72,9 @@ public final class ManageBatchAI {
             CloudFileDirectory sampleDir = rootDir.getDirectoryReference(sharePath);
             sampleDir.create();
 
-            // Define the path to a local file.
-            final String filePath = "C:\\stuff\\BatchAIQuickStart\\";
-
-            sampleDir.getFileReference("Train-28x28_cntk_text.txt").uploadFromFile(filePath + "Train-28x28_cntk_text.txt");
-            sampleDir.getFileReference("Test-28x28_cntk_text.txt").uploadFromFile(filePath + "Test-28x28_cntk_text.txt");
-            sampleDir.getFileReference("ConvNet_MNIST.py").uploadFromFile(filePath + "ConvNet_MNIST.py");
+            sampleDir.getFileReference("Train-28x28_cntk_text.txt").uploadFromFile(sampleDataPath + "Train-28x28_cntk_text.txt");
+            sampleDir.getFileReference("Test-28x28_cntk_text.txt").uploadFromFile(sampleDataPath + "Test-28x28_cntk_text.txt");
+            sampleDir.getFileReference("ConvNet_MNIST.py").uploadFromFile(sampleDataPath + "ConvNet_MNIST.py");
 
             //=============================================================
             // Create Batch AI cluster that uses Azure file share to host the training data and scripts for the learning job

@@ -14,6 +14,7 @@ import com.microsoft.azure.management.containerservice.ContainerServiceSshConfig
 import com.microsoft.azure.management.containerservice.ContainerServiceSshPublicKey;
 import com.microsoft.azure.management.containerservice.KeyVaultSecretRef;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
+import com.microsoft.azure.management.containerservice.KubernetesClusterAccessProfileRole;
 import com.microsoft.azure.management.containerservice.KubernetesClusterAgentPool;
 import com.microsoft.azure.management.containerservice.KubernetesVersion;
 import com.microsoft.azure.management.containerservice.OrchestratorVersionProfile;
@@ -45,6 +46,8 @@ public class KubernetesClusterImpl extends
     KubernetesCluster.Update {
 
     private boolean useLatestVersion;
+    private byte[] adminKubeConfigContent;
+    private byte[] userKubeConfigContent;
 
     protected KubernetesClusterImpl(String name, ManagedClusterInner innerObject, ContainerServiceManager manager) {
         super(name, innerObject, manager);
@@ -53,6 +56,8 @@ public class KubernetesClusterImpl extends
         }
 
         this.useLatestVersion = false;
+        this.adminKubeConfigContent = null;
+        this.userKubeConfigContent = null;
     }
 
     @Override
@@ -77,24 +82,70 @@ public class KubernetesClusterImpl extends
 
     @Override
     public byte[] adminKubeConfigContent() {
-        if (this.inner().accessProfiles() == null
-            || this.inner().accessProfiles().clusterAdmin() == null
-            || this.inner().accessProfiles().clusterAdmin().kubeConfig() == null) {
-            return new byte[0];
-        } else {
-            return BaseEncoding.base64().decode(this.inner().accessProfiles().clusterAdmin().kubeConfig());
+        if (this.adminKubeConfigContent == null) {
+            this.adminKubeConfigContent = this.getAdminKubeConfigContent();
         }
+        return this.adminKubeConfigContent;
     }
 
     @Override
     public byte[] userKubeConfigContent() {
-        if (this.inner().accessProfiles() == null
-            || this.inner().accessProfiles().clusterUser() == null
-            || this.inner().accessProfiles().clusterUser().kubeConfig() == null) {
+        if (this.userKubeConfigContent == null) {
+            this.userKubeConfigContent = this.getUserKubeConfigContent();
+        }
+        return this.userKubeConfigContent;
+    }
+
+    @Override
+    public byte[] getAdminKubeConfigContent() {
+        ManagedClusterAccessProfileInner profileInner = this.manager().inner().managedClusters().getAccessProfiles(this.resourceGroupName(), this.name(), KubernetesClusterAccessProfileRole.ADMIN.toString());
+        if (profileInner == null) {
             return new byte[0];
         } else {
-            return BaseEncoding.base64().decode(this.inner().accessProfiles().clusterUser().kubeConfig());
+            return BaseEncoding.base64().decode(profileInner.kubeConfig());
         }
+    }
+
+    @Override
+    public byte[] getUserKubeConfigContent() {
+        ManagedClusterAccessProfileInner profileInner = this.manager().inner().managedClusters().getAccessProfiles(this.resourceGroupName(), this.name(), KubernetesClusterAccessProfileRole.USER.toString());
+        if (profileInner == null) {
+            return new byte[0];
+        } else {
+            return BaseEncoding.base64().decode(profileInner.kubeConfig());
+        }
+    }
+
+    @Override
+    public Observable<byte[]> getAdminKubeConfigContentAsync() {
+        return this.manager().inner().managedClusters()
+            .getAccessProfilesAsync(this.resourceGroupName(), this.name(), KubernetesClusterAccessProfileRole.ADMIN.toString())
+            .map(new Func1<ManagedClusterAccessProfileInner, byte[]>() {
+                @Override
+                public byte[] call(ManagedClusterAccessProfileInner profileInner) {
+                    if (profileInner == null) {
+                        return new byte[0];
+                    } else {
+                        return BaseEncoding.base64().decode(profileInner.kubeConfig());
+                    }
+                }
+            });
+    }
+
+    @Override
+    public Observable<byte[]> getUserKubeConfigContentAsync() {
+        return this.manager().inner().managedClusters()
+            .getAccessProfilesAsync(this.resourceGroupName(), this.name(), KubernetesClusterAccessProfileRole.USER.toString())
+            .map(new Func1<ManagedClusterAccessProfileInner, byte[]>() {
+                @Override
+                public byte[] call(ManagedClusterAccessProfileInner profileInner) {
+                    if (profileInner == null) {
+                        return new byte[0];
+                    } else {
+                        return BaseEncoding.base64().decode(profileInner.kubeConfig());
+                    }
+                }
+            });
     }
 
     @Override

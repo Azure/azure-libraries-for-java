@@ -8,55 +8,43 @@
 
 package com.microsoft.azure.management.containerservice;
 
+import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ContainerServiceOrchestratorTypes.
  */
-public enum ContainerServiceOrchestratorTypes {
-    /** Enum value Kubernetes. */
-    KUBERNETES("Kubernetes"),
+public final class ContainerServiceOrchestratorTypes extends ExpandableStringEnum<ContainerServiceOrchestratorTypes> {
+    /** Static value Kubernetes for ContainerServiceOrchestratorTypes. */
+    public static final ContainerServiceOrchestratorTypes KUBERNETES = fromString("Kubernetes");
 
-    /** Enum value Swarm. */
-    SWARM("Swarm"),
+    /** Static value Swarm for ContainerServiceOrchestratorTypes. */
+    public static final ContainerServiceOrchestratorTypes SWARM = fromString("Swarm");
 
-    /** Enum value DCOS. */
-    DCOS("DCOS"),
+    /** Static value DCOS for ContainerServiceOrchestratorTypes. */
+    public static final ContainerServiceOrchestratorTypes DCOS = fromString("DCOS");
 
-    /** Enum value DockerCE. */
-    DOCKER_CE("DockerCE"),
+    /** Static value DockerCE for ContainerServiceOrchestratorTypes. */
+    public static final ContainerServiceOrchestratorTypes DOCKER_CE = fromString("DockerCE");
 
-    /** Enum value Custom. */
-    CUSTOM("Custom");
+    /** Static value Custom for ContainerServiceOrchestratorTypes. */
+    public static final ContainerServiceOrchestratorTypes CUSTOM = fromString("Custom");
 
-    /** The actual serialized value for a ContainerServiceOrchestratorTypes instance. */
-    private String value;
-
-    ContainerServiceOrchestratorTypes(String value) {
-        this.value = value;
+    /**
+     * Creates or finds a ContainerServiceOrchestratorTypes from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ContainerServiceOrchestratorTypes
+     */
+    @JsonCreator
+    public static ContainerServiceOrchestratorTypes fromString(String name) {
+        return fromString(name, ContainerServiceOrchestratorTypes.class);
     }
 
     /**
-     * Parses a serialized value to a ContainerServiceOrchestratorTypes instance.
-     *
-     * @param value the serialized value to parse.
-     * @return the parsed ContainerServiceOrchestratorTypes object, or null if unable to parse.
+     * @return known ContainerServiceOrchestratorTypes values
      */
-    @JsonCreator
-    public static ContainerServiceOrchestratorTypes fromString(String value) {
-        ContainerServiceOrchestratorTypes[] items = ContainerServiceOrchestratorTypes.values();
-        for (ContainerServiceOrchestratorTypes item : items) {
-            if (item.toString().equalsIgnoreCase(value)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    @JsonValue
-    @Override
-    public String toString() {
-        return this.value;
+    public static Collection<ContainerServiceOrchestratorTypes> values() {
+        return values(ContainerServiceOrchestratorTypes.class);
     }
 }

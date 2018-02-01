@@ -38,7 +38,7 @@ public class ManageKubernetesCluster {
     public static boolean runSample(Azure azure, String clientId, String secret) {
         final String rgName = SdkContext.randomResourceName("rgaks", 15);
         final String aksName = SdkContext.randomResourceName("akssample", 30);
-        final Region region = Region.UK_WEST;
+        final Region region = Region.US_EAST;
         String servicePrincipalClientId = clientId; // replace with a real service principal client id
         String servicePrincipalSecret = secret; // and corresponding secret
         final String rootUserName = "aksuser";

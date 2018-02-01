@@ -16,6 +16,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import rx.Observable;
 
 import java.util.Map;
 
@@ -53,11 +54,13 @@ public interface KubernetesCluster extends
     /**
      * @return the Kubernetes configuration file content with administrative privileges to the cluster
      */
+    @Deprecated
     byte[] adminKubeConfigContent();
 
     /**
      * @return the Kubernetes configuration file content with user-level privileges to the cluster
      */
+    @Deprecated
     byte[] userKubeConfigContent();
 
     /**
@@ -89,6 +92,30 @@ public interface KubernetesCluster extends
      * @return the agent pools in the Kubernetes cluster
      */
     Map<String, KubernetesClusterAgentPool> agentPools();
+
+    /**
+     * @return the Kubernetes configuration file content with administrative privileges to the cluster
+     */
+    @Beta(Beta.SinceVersion.V1_6_0)
+    byte[] getAdminKubeConfigContent();
+
+    /**
+     * @return the Kubernetes configuration file content with user-level privileges to the cluster
+     */
+    @Beta(Beta.SinceVersion.V1_6_0)
+    byte[] getUserKubeConfigContent();
+
+    /**
+     * @return the Kubernetes configuration file content with administrative privileges to the cluster
+     */
+    @Beta(Beta.SinceVersion.V1_6_0)
+    Observable<byte[]> getAdminKubeConfigContentAsync();
+
+    /**
+     * @return the Kubernetes configuration file content with user-level privileges to the cluster
+     */
+    @Beta(Beta.SinceVersion.V1_6_0)
+    Observable<byte[]> getUserKubeConfigContentAsync();
 
 
     // Fluent interfaces

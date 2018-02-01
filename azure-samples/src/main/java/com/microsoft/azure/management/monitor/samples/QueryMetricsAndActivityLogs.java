@@ -8,13 +8,6 @@ package com.microsoft.azure.management.monitor.samples;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.JavaVersion;
-import com.microsoft.azure.management.appservice.PricingTier;
-import com.microsoft.azure.management.appservice.WebApp;
-import com.microsoft.azure.management.appservice.WebContainer;
-import com.microsoft.azure.management.cdn.CdnEndpoint;
-import com.microsoft.azure.management.cdn.CdnProfile;
-import com.microsoft.azure.management.cdn.QueryStringCachingBehavior;
 import com.microsoft.azure.management.monitor.EventData;
 import com.microsoft.azure.management.monitor.MetadataValue;
 import com.microsoft.azure.management.monitor.Metric;
@@ -23,22 +16,12 @@ import com.microsoft.azure.management.monitor.MetricDefinition;
 import com.microsoft.azure.management.monitor.MetricValue;
 import com.microsoft.azure.management.monitor.TimeSeriesElement;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.LogLevel;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
-
 import java.io.File;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * This sample shows examples of retrieving metrics and activity logs for Storage Account.
@@ -47,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  *    - Api name was 'GetBlob' and
  *    - response type was 'Success' and
  *    - Geo type was 'Primary'
- *  -  Retrieve and show all activity logs 7 days (query date is Jav 31, 2018) for the same Storage account.
+ *  -  Retrieve and show all activity logs for the past 7 days (query date is Jav 31, 2018) for the same Storage account.
  */
 public final class QueryMetricsAndActivityLogs {
 
@@ -80,7 +63,7 @@ public final class QueryMetricsAndActivityLogs {
             // get metric definitions for storage account.
             for (MetricDefinition  metricDefinition : azure.metricDefinitions().listByResource(storageAccount.id())) {
                 // find metric definition for Transactions
-                if(metricDefinition.name().localizedValue().equalsIgnoreCase("transactions")) {
+                if (metricDefinition.name().localizedValue().equalsIgnoreCase("transactions")) {
                     // get metric records
                     MetricCollection metrics = metricDefinition.defineQuery()
                             .startingFrom(recordDateTime.minusDays(7))
@@ -107,12 +90,12 @@ public final class QueryMetricsAndActivityLogs {
                             }
                             System.out.println("\t\tData: ");
                             for (MetricValue data : timeElement.data()) {
-                                System.out.println("\t\t\t" + data.timeStamp() +
-                                        " : (Min) " + data.minimum() +
-                                        " : (Max) " + data.maximum() +
-                                        " : (Avg) " + data.average() +
-                                        " : (Total) " + data.total() +
-                                        " : (Count) " + data.count());
+                                System.out.println("\t\t\t" + data.timeStamp()
+                                        + " : (Min) " + data.minimum()
+                                        + " : (Max) " + data.maximum()
+                                        + " : (Avg) " + data.average()
+                                        + " : (Total) " + data.total()
+                                        + " : (Count) " + data.count());
                             }
                         }
                     }

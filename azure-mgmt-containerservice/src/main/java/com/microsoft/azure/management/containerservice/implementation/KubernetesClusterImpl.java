@@ -23,7 +23,6 @@ import rx.Observable;
 import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.functions.Func1;
-import rx.functions.Func2;
 
 import java.util.ArrayList;
 import java.util.Collections;

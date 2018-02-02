@@ -23,6 +23,7 @@ import rx.Observable;
 import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.functions.Func1;
+import rx.functions.Func2;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -96,7 +97,6 @@ public class KubernetesClusterImpl extends
         return this.userKubeConfigContent;
     }
 
-    @Override
     public byte[] getAdminKubeConfigContent() {
         ManagedClusterAccessProfileInner profileInner = this.manager().inner().managedClusters().getAccessProfiles(this.resourceGroupName(), this.name(), KubernetesClusterAccessProfileRole.ADMIN.toString());
         if (profileInner == null) {
@@ -106,7 +106,6 @@ public class KubernetesClusterImpl extends
         }
     }
 
-    @Override
     public byte[] getUserKubeConfigContent() {
         ManagedClusterAccessProfileInner profileInner = this.manager().inner().managedClusters().getAccessProfiles(this.resourceGroupName(), this.name(), KubernetesClusterAccessProfileRole.USER.toString());
         if (profileInner == null) {
@@ -116,7 +115,6 @@ public class KubernetesClusterImpl extends
         }
     }
 
-    @Override
     public Observable<byte[]> getAdminKubeConfigContentAsync() {
         return this.manager().inner().managedClusters()
             .getAccessProfilesAsync(this.resourceGroupName(), this.name(), KubernetesClusterAccessProfileRole.ADMIN.toString())
@@ -132,7 +130,6 @@ public class KubernetesClusterImpl extends
             });
     }
 
-    @Override
     public Observable<byte[]> getUserKubeConfigContentAsync() {
         return this.manager().inner().managedClusters()
             .getAccessProfilesAsync(this.resourceGroupName(), this.name(), KubernetesClusterAccessProfileRole.USER.toString())
@@ -208,10 +205,59 @@ public class KubernetesClusterImpl extends
         return Collections.unmodifiableMap(agentPoolMap);
     }
 
+    private Observable<byte[]> getAdminConfig(final KubernetesClusterImpl self) {
+        return self.manager().inner().managedClusters()
+            .getAccessProfilesAsync(self.resourceGroupName(), self.name(), KubernetesClusterAccessProfileRole.ADMIN.toString())
+            .map(new Func1<ManagedClusterAccessProfileInner, byte[]>() {
+                @Override
+                public byte[] call(ManagedClusterAccessProfileInner profileInner) {
+                    if (profileInner == null) {
+                        self.adminKubeConfigContent = new byte[0];
+                        return self.adminKubeConfigContent;
+                    } else {
+                        self.adminKubeConfigContent = BaseEncoding.base64().decode(profileInner.kubeConfig());
+                        return self.adminKubeConfigContent;
+                    }
+                }
+            });
+    }
+
+    private Observable<byte[]> getUserConfig(final KubernetesClusterImpl self) {
+        return self.manager().inner().managedClusters()
+            .getAccessProfilesAsync(self.resourceGroupName(), self.name(), KubernetesClusterAccessProfileRole.USER.toString())
+            .map(new Func1<ManagedClusterAccessProfileInner, byte[]>() {
+                @Override
+                public byte[] call(ManagedClusterAccessProfileInner profileInner) {
+                    if (profileInner == null) {
+                        self.userKubeConfigContent = new byte[0];
+                        return self.userKubeConfigContent;
+                    } else {
+                        self.userKubeConfigContent = BaseEncoding.base64().decode(profileInner.kubeConfig());
+                        return self.userKubeConfigContent;
+                    }
+                }
+            });
+    }
+
 
     @Override
     protected Observable<ManagedClusterInner> getInnerAsync() {
-        return this.manager().inner().managedClusters().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+        final KubernetesClusterImpl self = this;
+        final Observable<byte[]> adminConfig = getAdminConfig(self);
+        final Observable<byte[]> userConfig = getUserConfig(self);
+        return this.manager().inner().managedClusters().getByResourceGroupAsync(this.resourceGroupName(), this.name())
+            .flatMap(new Func1<ManagedClusterInner, Observable<ManagedClusterInner>>() {
+                @Override
+                public Observable<ManagedClusterInner> call(final ManagedClusterInner managedClusterInner) {
+                    return Observable.merge(adminConfig, userConfig).last()
+                        .map(new Func1<byte[], ManagedClusterInner>() {
+                            @Override
+                            public ManagedClusterInner call(byte[] bytes) {
+                                return managedClusterInner;
+                            }
+                        });
+                }
+            });
     }
 
     @Override
@@ -220,6 +266,15 @@ public class KubernetesClusterImpl extends
         if (!this.isInCreateMode()) {
             this.inner().withServicePrincipalProfile(null);
         }
+        final Observable<byte[]> adminConfig = getAdminConfig(self);
+        final Observable<byte[]> userConfig = getUserConfig(self);
+        final Observable<KubernetesCluster> mergedConfigs = Observable.merge(adminConfig, userConfig).last()
+            .map(new Func1<byte[], KubernetesCluster>() {
+                @Override
+                public KubernetesCluster call(byte[] bytes) {
+                    return self;
+                }
+            });
 
         if (useLatestVersion) {
             return this.manager().inner().containerServices().listOrchestratorsAsync(self.inner().location())
@@ -251,9 +306,15 @@ public class KubernetesClusterImpl extends
                                     self.setInner(inner);
                                     return self;
                                 }
+                            }).flatMap(new Func1<KubernetesCluster, Observable<KubernetesCluster>>() {
+                                @Override
+                                public Observable<KubernetesCluster> call(KubernetesCluster kubernetesCluster) {
+                                    return mergedConfigs;
+                                }
                             });
                     }
                 });
+
         } else {
             return this.manager().inner().managedClusters().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner())
                 .map(new Func1<ManagedClusterInner, KubernetesCluster>() {
@@ -261,6 +322,11 @@ public class KubernetesClusterImpl extends
                     public KubernetesCluster call(ManagedClusterInner inner) {
                         self.setInner(inner);
                         return self;
+                    }
+                }).flatMap(new Func1<KubernetesCluster, Observable<KubernetesCluster>>() {
+                    @Override
+                    public Observable<KubernetesCluster> call(KubernetesCluster kubernetesCluster) {
+                        return mergedConfigs;
                     }
                 });
         }

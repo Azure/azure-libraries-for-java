@@ -262,7 +262,7 @@ public class DeployImageFromContainerRegistryToKubernetes {
             kubernetesCluster = azure.kubernetesClusters().getByResourceGroup(rgName, aksName);
             System.out.println("Found Kubernetes master at: " + kubernetesCluster.fqdn());
 
-            byte[] kubeConfigContent = kubernetesCluster.getAdminKubeConfigContent();
+            byte[] kubeConfigContent = kubernetesCluster.adminKubeConfigContent();
             File tempKubeConfigFile = File.createTempFile("kube", ".config", new File(System.getProperty("java.io.tmpdir")));
             tempKubeConfigFile.deleteOnExit();
             BufferedWriter buffOut = new BufferedWriter(new FileWriter(tempKubeConfigFile));

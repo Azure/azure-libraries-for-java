@@ -97,7 +97,7 @@ public class KubernetesClusterImpl extends
         return this.userKubeConfigContent;
     }
 
-    public byte[] getAdminKubeConfigContent() {
+    private byte[] getAdminKubeConfigContent() {
         ManagedClusterAccessProfileInner profileInner = this.manager().inner().managedClusters().getAccessProfiles(this.resourceGroupName(), this.name(), KubernetesClusterAccessProfileRole.ADMIN.toString());
         if (profileInner == null) {
             return new byte[0];
@@ -106,43 +106,13 @@ public class KubernetesClusterImpl extends
         }
     }
 
-    public byte[] getUserKubeConfigContent() {
+    private byte[] getUserKubeConfigContent() {
         ManagedClusterAccessProfileInner profileInner = this.manager().inner().managedClusters().getAccessProfiles(this.resourceGroupName(), this.name(), KubernetesClusterAccessProfileRole.USER.toString());
         if (profileInner == null) {
             return new byte[0];
         } else {
             return BaseEncoding.base64().decode(profileInner.kubeConfig());
         }
-    }
-
-    public Observable<byte[]> getAdminKubeConfigContentAsync() {
-        return this.manager().inner().managedClusters()
-            .getAccessProfilesAsync(this.resourceGroupName(), this.name(), KubernetesClusterAccessProfileRole.ADMIN.toString())
-            .map(new Func1<ManagedClusterAccessProfileInner, byte[]>() {
-                @Override
-                public byte[] call(ManagedClusterAccessProfileInner profileInner) {
-                    if (profileInner == null) {
-                        return new byte[0];
-                    } else {
-                        return BaseEncoding.base64().decode(profileInner.kubeConfig());
-                    }
-                }
-            });
-    }
-
-    public Observable<byte[]> getUserKubeConfigContentAsync() {
-        return this.manager().inner().managedClusters()
-            .getAccessProfilesAsync(this.resourceGroupName(), this.name(), KubernetesClusterAccessProfileRole.USER.toString())
-            .map(new Func1<ManagedClusterAccessProfileInner, byte[]>() {
-                @Override
-                public byte[] call(ManagedClusterAccessProfileInner profileInner) {
-                    if (profileInner == null) {
-                        return new byte[0];
-                    } else {
-                        return BaseEncoding.base64().decode(profileInner.kubeConfig());
-                    }
-                }
-            });
     }
 
     @Override

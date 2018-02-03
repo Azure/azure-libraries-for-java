@@ -88,7 +88,6 @@ public class ContainerGroupImpl
             Resource resource = new Resource();
             resource.withTags(self.tags());
             return self.manager().inner().containerGroups().updateAsync(self.resourceGroupName(), self.name(), resource);
-//            throw new UnsupportedOperationException("Update on an existing container group resource is not supported");
         } else if (newFileShares == null || creatableStorageAccountKey == null) {
             return self.manager().inner().containerGroups().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner());
         } else {

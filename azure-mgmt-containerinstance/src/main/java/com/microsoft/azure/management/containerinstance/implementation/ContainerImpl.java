@@ -83,9 +83,11 @@ class ContainerImpl implements
 
     private IpAddress ensureParentIpAddress() {
         if (parent.inner().ipAddress() == null) {
-            parent.inner().withIpAddress(new IpAddress()
-                .withType("Public")
-                .withPorts(new ArrayList<Port>()));
+            parent.inner().withIpAddress(new IpAddress());
+        }
+        parent.inner().ipAddress().withType("Public");
+        if (parent.inner().ipAddress().ports() == null) {
+            parent.inner().ipAddress().withPorts(new ArrayList<Port>());
         }
 
         return parent.inner().ipAddress();

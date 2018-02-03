@@ -18,6 +18,7 @@ import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.Resource;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
@@ -30,6 +31,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.HTTP;
+import retrofit2.http.PATCH;
 import retrofit2.http.Path;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -79,6 +81,10 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerinstance.ContainerGroups createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}")
         Observable<Response<ResponseBody>> createOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("containerGroupName") String containerGroupName, @Query("api-version") String apiVersion, @Body ContainerGroupInner containerGroup, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerinstance.ContainerGroups update" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}")
+        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("containerGroupName") String containerGroupName, @Query("api-version") String apiVersion, @Body Resource resource, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerinstance.ContainerGroups delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}", method = "DELETE", hasBody = true)
@@ -511,6 +517,185 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
         return this.client.restClient().responseBuilderFactory().<ContainerGroupInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<ContainerGroupInner>() { }.getType())
                 .register(201, new TypeToken<ContainerGroupInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Update container groups.
+     * Updates container group tags with specified values.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ContainerGroupInner object if successful.
+     */
+    public ContainerGroupInner update(String resourceGroupName, String containerGroupName) {
+        return updateWithServiceResponseAsync(resourceGroupName, containerGroupName).toBlocking().single().body();
+    }
+
+    /**
+     * Update container groups.
+     * Updates container group tags with specified values.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ContainerGroupInner> updateAsync(String resourceGroupName, String containerGroupName, final ServiceCallback<ContainerGroupInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, containerGroupName), serviceCallback);
+    }
+
+    /**
+     * Update container groups.
+     * Updates container group tags with specified values.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ContainerGroupInner object
+     */
+    public Observable<ContainerGroupInner> updateAsync(String resourceGroupName, String containerGroupName) {
+        return updateWithServiceResponseAsync(resourceGroupName, containerGroupName).map(new Func1<ServiceResponse<ContainerGroupInner>, ContainerGroupInner>() {
+            @Override
+            public ContainerGroupInner call(ServiceResponse<ContainerGroupInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Update container groups.
+     * Updates container group tags with specified values.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ContainerGroupInner object
+     */
+    public Observable<ServiceResponse<ContainerGroupInner>> updateWithServiceResponseAsync(String resourceGroupName, String containerGroupName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (containerGroupName == null) {
+            throw new IllegalArgumentException("Parameter containerGroupName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final Resource resource = null;
+        return service.update(this.client.subscriptionId(), resourceGroupName, containerGroupName, this.client.apiVersion(), resource, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ContainerGroupInner>>>() {
+                @Override
+                public Observable<ServiceResponse<ContainerGroupInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<ContainerGroupInner> clientResponse = updateDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Update container groups.
+     * Updates container group tags with specified values.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @param resource The container group resource with just the tags to be updated.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ContainerGroupInner object if successful.
+     */
+    public ContainerGroupInner update(String resourceGroupName, String containerGroupName, Resource resource) {
+        return updateWithServiceResponseAsync(resourceGroupName, containerGroupName, resource).toBlocking().single().body();
+    }
+
+    /**
+     * Update container groups.
+     * Updates container group tags with specified values.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @param resource The container group resource with just the tags to be updated.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ContainerGroupInner> updateAsync(String resourceGroupName, String containerGroupName, Resource resource, final ServiceCallback<ContainerGroupInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, containerGroupName, resource), serviceCallback);
+    }
+
+    /**
+     * Update container groups.
+     * Updates container group tags with specified values.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @param resource The container group resource with just the tags to be updated.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ContainerGroupInner object
+     */
+    public Observable<ContainerGroupInner> updateAsync(String resourceGroupName, String containerGroupName, Resource resource) {
+        return updateWithServiceResponseAsync(resourceGroupName, containerGroupName, resource).map(new Func1<ServiceResponse<ContainerGroupInner>, ContainerGroupInner>() {
+            @Override
+            public ContainerGroupInner call(ServiceResponse<ContainerGroupInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Update container groups.
+     * Updates container group tags with specified values.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @param resource The container group resource with just the tags to be updated.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ContainerGroupInner object
+     */
+    public Observable<ServiceResponse<ContainerGroupInner>> updateWithServiceResponseAsync(String resourceGroupName, String containerGroupName, Resource resource) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (containerGroupName == null) {
+            throw new IllegalArgumentException("Parameter containerGroupName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(resource);
+        return service.update(this.client.subscriptionId(), resourceGroupName, containerGroupName, this.client.apiVersion(), resource, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ContainerGroupInner>>>() {
+                @Override
+                public Observable<ServiceResponse<ContainerGroupInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<ContainerGroupInner> clientResponse = updateDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<ContainerGroupInner> updateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ContainerGroupInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ContainerGroupInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

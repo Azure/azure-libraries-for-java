@@ -34,6 +34,18 @@ public class IpAddress {
     private String ip;
 
     /**
+     * The Dns name label for the IP.
+     */
+    @JsonProperty(value = "dnsNameLabel")
+    private String dnsNameLabel;
+
+    /**
+     * The FQDN for the IP.
+     */
+    @JsonProperty(value = "fqdn", access = JsonProperty.Access.WRITE_ONLY)
+    private String fqdn;
+
+    /**
      * Creates an instance of IpAddress class.
      */
     public IpAddress() {
@@ -98,6 +110,35 @@ public class IpAddress {
     public IpAddress withIp(String ip) {
         this.ip = ip;
         return this;
+    }
+
+    /**
+     * Get the dnsNameLabel value.
+     *
+     * @return the dnsNameLabel value
+     */
+    public String dnsNameLabel() {
+        return this.dnsNameLabel;
+    }
+
+    /**
+     * Set the dnsNameLabel value.
+     *
+     * @param dnsNameLabel the dnsNameLabel value to set
+     * @return the IpAddress object itself.
+     */
+    public IpAddress withDnsNameLabel(String dnsNameLabel) {
+        this.dnsNameLabel = dnsNameLabel;
+        return this;
+    }
+
+    /**
+     * Get the fqdn value.
+     *
+     * @return the fqdn value
+     */
+    public String fqdn() {
+        return this.fqdn;
     }
 
 }

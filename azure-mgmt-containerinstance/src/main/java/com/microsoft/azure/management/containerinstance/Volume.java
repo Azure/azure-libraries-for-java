@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.containerinstance;
 
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -21,7 +22,7 @@ public class Volume {
     private String name;
 
     /**
-     * The name of the Azure File volume.
+     * The Azure File volume.
      */
     @JsonProperty(value = "azureFile")
     private AzureFileVolume azureFile;
@@ -31,6 +32,18 @@ public class Volume {
      */
     @JsonProperty(value = "emptyDir")
     private Object emptyDir;
+
+    /**
+     * The secret volume.
+     */
+    @JsonProperty(value = "secret")
+    private Map<String, String> secret;
+
+    /**
+     * The git repo volume.
+     */
+    @JsonProperty(value = "gitRepo")
+    private GitRepoVolume gitRepo;
 
     /**
      * Get the name value.
@@ -89,6 +102,46 @@ public class Volume {
      */
     public Volume withEmptyDir(Object emptyDir) {
         this.emptyDir = emptyDir;
+        return this;
+    }
+
+    /**
+     * Get the secret value.
+     *
+     * @return the secret value
+     */
+    public Map<String, String> secret() {
+        return this.secret;
+    }
+
+    /**
+     * Set the secret value.
+     *
+     * @param secret the secret value to set
+     * @return the Volume object itself.
+     */
+    public Volume withSecret(Map<String, String> secret) {
+        this.secret = secret;
+        return this;
+    }
+
+    /**
+     * Get the gitRepo value.
+     *
+     * @return the gitRepo value
+     */
+    public GitRepoVolume gitRepo() {
+        return this.gitRepo;
+    }
+
+    /**
+     * Set the gitRepo value.
+     *
+     * @param gitRepo the gitRepo value to set
+     * @return the Volume object itself.
+     */
+    public Volume withGitRepo(GitRepoVolume gitRepo) {
+        this.gitRepo = gitRepo;
         return this;
     }
 

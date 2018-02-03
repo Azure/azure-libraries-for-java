@@ -38,6 +38,7 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
                 .withExternalTcpPort(80)
                 .attach()
             .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
+            .withDnsPrefix(cgName)
             .withTag("tag1", "value1")
             .create();
 
@@ -79,6 +80,7 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
         Assert.assertEquals(0, nginxContainer.environmentVariables().size());
         Assert.assertTrue(containerGroup.tags().containsKey("tag1"));
         Assert.assertEquals(ContainerGroupRestartPolicy.NEVER, containerGroup.restartPolicy());
+        Assert.assertEquals(cgName, containerGroup.dnsPrefix());
 
         ContainerGroup containerGroup2 = containerGroups.getByResourceGroup(rgName, cgName);
 

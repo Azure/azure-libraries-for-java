@@ -121,11 +121,12 @@ var codegen = function(project, cb) {
                         ' --azure-arm ' +
                         generator +
                         ` --namespace=${mappings[project].package} ` +
+                        autoRestArgs +
+                        `--azure-libraries-for-java-folder=${outDir}/../` +
                         ` --output-folder=${outDir} ` +
                         ` --license-header=MICROSOFT_MIT_NO_CODEGEN ` +
                         generatorPath +
-                        regenManager +
-                        autoRestArgs;
+                        regenManager;
 
     if (mappings[project].args !== undefined) {
         cmd += ' ' + mappings[project].args;

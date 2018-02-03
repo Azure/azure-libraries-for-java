@@ -8,9 +8,11 @@ package com.microsoft.azure.management.containerinstance.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerinstance.AzureFileVolume;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
+import com.microsoft.azure.management.containerinstance.GitRepoVolume;
 import com.microsoft.azure.management.containerinstance.Volume;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Implementation for container group's volume definition stages interface.
@@ -71,6 +73,41 @@ class VolumeImpl implements ContainerGroup.DefinitionStages.VolumeDefinitionStag
     @Override
     public VolumeImpl withStorageAccountKey(String storageAccountKey) {
         ensureAzureFileVolume().withStorageAccountKey(storageAccountKey);
+
+        return this;
+    }
+
+    @Override
+    public VolumeImpl withSecrets(Map<String, String> secrets) {
+        this.innerVolume.withSecret(secrets);
+
+        return this;
+    }
+
+    @Override
+    public VolumeImpl withGitUrl(String gitUrl) {
+        this.innerVolume.withGitRepo(new GitRepoVolume());
+        this.innerVolume.gitRepo().withRepository(gitUrl);
+
+        return this;
+    }
+
+    @Override
+    public VolumeImpl withGitDirectoryName(String gitDirectoryName) {
+        if (this.innerVolume.gitRepo() == null) {
+            this.innerVolume.withGitRepo(new GitRepoVolume());
+        }
+        this.innerVolume.gitRepo().withDirectory(gitDirectoryName);
+
+        return this;
+    }
+
+    @Override
+    public VolumeImpl withGitRevision(String gitRevision) {
+        if (this.innerVolume.gitRepo() == null) {
+            this.innerVolume.withGitRepo(new GitRepoVolume());
+        }
+        this.innerVolume.gitRepo().withRevision(gitRevision);
 
         return this;
     }

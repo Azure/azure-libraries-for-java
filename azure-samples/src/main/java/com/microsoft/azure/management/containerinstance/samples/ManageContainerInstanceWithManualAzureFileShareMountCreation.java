@@ -81,6 +81,7 @@ public class ManageContainerInstanceWithManualAzureFileShareMountCreation {
                     .withExternalTcpPort(80)
                     .withVolumeMountSetting(volumeMountName, "/aci/logs/")
                     .attach()
+                .withDnsPrefix(aciName)
                 .create();
 
             Utils.print(containerGroup);

@@ -17,13 +17,13 @@ public class Operation {
     /**
      * The name of the operation.
      */
-    @JsonProperty(value = "name")
+    @JsonProperty(value = "name", required = true)
     private String name;
 
     /**
      * The display information of the operation.
      */
-    @JsonProperty(value = "display")
+    @JsonProperty(value = "display", required = true)
     private OperationDisplay display;
 
     /**

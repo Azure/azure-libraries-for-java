@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.containerinstance.implementation;
 
+import com.microsoft.azure.Resource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerinstance.Container;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
@@ -13,6 +14,7 @@ import com.microsoft.azure.management.containerinstance.ContainerGroupNetworkPro
 import com.microsoft.azure.management.containerinstance.ContainerGroupRestartPolicy;
 import com.microsoft.azure.management.containerinstance.Event;
 import com.microsoft.azure.management.containerinstance.ImageRegistryCredential;
+import com.microsoft.azure.management.containerinstance.IpAddress;
 import com.microsoft.azure.management.containerinstance.OperatingSystemTypes;
 import com.microsoft.azure.management.containerinstance.Port;
 import com.microsoft.azure.management.containerinstance.Volume;
@@ -56,7 +58,8 @@ public class ContainerGroupImpl
                 ContainerGroupImpl,
                 ContainerInstanceManager>
     implements ContainerGroup,
-    ContainerGroup.Definition {
+    ContainerGroup.Definition,
+    ContainerGroup.Update {
 
     private final StorageManager storageManager;
     private String creatableStorageAccountKey;
@@ -82,9 +85,12 @@ public class ContainerGroupImpl
         final ContainerGroupImpl self = this;
 
         if (!isInCreateMode()) {
-            throw new UnsupportedOperationException("Update on an existing container group resource is not supported");
+            Resource resource = new Resource();
+            resource.withTags(self.tags());
+            return self.manager().inner().containerGroups().updateAsync(self.resourceGroupName(), self.name(), resource);
+//            throw new UnsupportedOperationException("Update on an existing container group resource is not supported");
         } else if (newFileShares == null || creatableStorageAccountKey == null) {
-            return this.manager().inner().containerGroups().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner());
+            return self.manager().inner().containerGroups().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner());
         } else {
             final StorageAccount storageAccount = this.<StorageAccount>taskResult(this.creatableStorageAccountKey);
             return createFileShareAsync(storageAccount)
@@ -335,6 +341,16 @@ public class ContainerGroupImpl
     }
 
     @Override
+    public ContainerGroupImpl withDnsPrefix(String dnsPrefix) {
+        if (this.inner().ipAddress() == null) {
+            this.inner().withIpAddress(new IpAddress());
+        }
+        this.inner().ipAddress().withDnsNameLabel(dnsPrefix);
+
+        return this;
+    }
+
+    @Override
     public Map<String, Container> containers() {
         return Collections.unmodifiableMap(this.containers);
     }
@@ -369,6 +385,24 @@ public class ContainerGroupImpl
     @Override
     public ContainerGroupRestartPolicy restartPolicy() {
         return this.inner().restartPolicy();
+    }
+
+    @Override
+    public String dnsPrefix() {
+        if (this.inner().ipAddress() != null) {
+            return this.inner().ipAddress().dnsNameLabel();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String fqdn() {
+        if (this.inner().ipAddress() != null) {
+            return this.inner().ipAddress().fqdn();
+        } else {
+            return null;
+        }
     }
 
     @Override

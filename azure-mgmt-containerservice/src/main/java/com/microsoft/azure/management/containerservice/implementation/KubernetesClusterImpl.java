@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.management.containerservice.implementation;
 
-import com.google.common.io.BaseEncoding;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerservice.ContainerServiceAgentPoolProfile;
 import com.microsoft.azure.management.containerservice.ContainerServiceLinuxProfile;
@@ -14,7 +13,6 @@ import com.microsoft.azure.management.containerservice.ContainerServiceSshConfig
 import com.microsoft.azure.management.containerservice.ContainerServiceSshPublicKey;
 import com.microsoft.azure.management.containerservice.KeyVaultSecretRef;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
-import com.microsoft.azure.management.containerservice.KubernetesClusterAccessProfileRole;
 import com.microsoft.azure.management.containerservice.KubernetesClusterAgentPool;
 import com.microsoft.azure.management.containerservice.KubernetesVersion;
 import com.microsoft.azure.management.containerservice.OrchestratorVersionProfile;

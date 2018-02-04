@@ -83,7 +83,8 @@ public class KubernetesClusterImpl extends
     @Override
     public byte[] adminKubeConfigContent() {
         if (this.adminKubeConfigContent == null) {
-            this.adminKubeConfigContent = this.getAdminKubeConfigContent();
+            this.userKubeConfigContent = this.manager().kubernetesClusters()
+                .getAdminKubeConfigContent(this.resourceGroupName(), this.name());
         }
         return this.adminKubeConfigContent;
     }
@@ -91,27 +92,10 @@ public class KubernetesClusterImpl extends
     @Override
     public byte[] userKubeConfigContent() {
         if (this.userKubeConfigContent == null) {
-            this.userKubeConfigContent = this.getUserKubeConfigContent();
+            this.userKubeConfigContent = this.manager().kubernetesClusters()
+                .getUserKubeConfigContent(this.resourceGroupName(), this.name());
         }
         return this.userKubeConfigContent;
-    }
-
-    private byte[] getAdminKubeConfigContent() {
-        ManagedClusterAccessProfileInner profileInner = this.manager().inner().managedClusters().getAccessProfiles(this.resourceGroupName(), this.name(), KubernetesClusterAccessProfileRole.ADMIN.toString());
-        if (profileInner == null) {
-            return new byte[0];
-        } else {
-            return BaseEncoding.base64().decode(profileInner.kubeConfig());
-        }
-    }
-
-    private byte[] getUserKubeConfigContent() {
-        ManagedClusterAccessProfileInner profileInner = this.manager().inner().managedClusters().getAccessProfiles(this.resourceGroupName(), this.name(), KubernetesClusterAccessProfileRole.USER.toString());
-        if (profileInner == null) {
-            return new byte[0];
-        } else {
-            return BaseEncoding.base64().decode(profileInner.kubeConfig());
-        }
     }
 
     @Override
@@ -175,35 +159,25 @@ public class KubernetesClusterImpl extends
     }
 
     private Observable<byte[]> getAdminConfig(final KubernetesClusterImpl self) {
-        return self.manager().inner().managedClusters()
-            .getAccessProfilesAsync(self.resourceGroupName(), self.name(), KubernetesClusterAccessProfileRole.ADMIN.toString())
-            .map(new Func1<ManagedClusterAccessProfileInner, byte[]>() {
+        return this.manager().kubernetesClusters()
+            .getAdminKubeConfigContentAsync(self.resourceGroupName(), self.name())
+            .map(new Func1<byte[], byte[]>() {
                 @Override
-                public byte[] call(ManagedClusterAccessProfileInner profileInner) {
-                    if (profileInner == null) {
-                        self.adminKubeConfigContent = new byte[0];
-                        return self.adminKubeConfigContent;
-                    } else {
-                        self.adminKubeConfigContent = BaseEncoding.base64().decode(profileInner.kubeConfig());
-                        return self.adminKubeConfigContent;
-                    }
+                public byte[] call(byte[] kubeConfigContent) {
+                    self.adminKubeConfigContent = kubeConfigContent;
+                    return self.adminKubeConfigContent;
                 }
             });
     }
 
     private Observable<byte[]> getUserConfig(final KubernetesClusterImpl self) {
-        return self.manager().inner().managedClusters()
-            .getAccessProfilesAsync(self.resourceGroupName(), self.name(), KubernetesClusterAccessProfileRole.USER.toString())
-            .map(new Func1<ManagedClusterAccessProfileInner, byte[]>() {
+        return this.manager().kubernetesClusters()
+            .getUserKubeConfigContentAsync(self.resourceGroupName(), self.name())
+            .map(new Func1<byte[], byte[]>() {
                 @Override
-                public byte[] call(ManagedClusterAccessProfileInner profileInner) {
-                    if (profileInner == null) {
-                        self.userKubeConfigContent = new byte[0];
-                        return self.userKubeConfigContent;
-                    } else {
-                        self.userKubeConfigContent = BaseEncoding.base64().decode(profileInner.kubeConfig());
-                        return self.userKubeConfigContent;
-                    }
+                public byte[] call(byte[] kubeConfigContent) {
+                    self.userKubeConfigContent = kubeConfigContent;
+                    return self.userKubeConfigContent;
                 }
             });
     }

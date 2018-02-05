@@ -8,7 +8,7 @@ var os = require('os');
 var fs = require('fs');
 
 const mappings = require('./api-specs.json');
-const defaultSpecRoot = "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/current";
+const defaultSpecRoot = "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master";
 
 gulp.task('default', function() {
     console.log("Usage: gulp codegen " +

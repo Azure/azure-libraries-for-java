@@ -7,8 +7,33 @@
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:45 GMT",
-      "content-length" : "1687",
+      "date" : "Tue, 06 Feb 2018 04:29:05 GMT",
+      "content-length" : "3531",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding,Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "14999",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "2f8cfe91-5d59-471e-b8aa-62aaed9e0220",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042906Z:2f8cfe91-5d59-471e-b8aa-62aaed9e0220",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "westus:92a0d227-e9da-4260-b3c8-ef2f1c57deb9",
+      "Body" : "{\"value\":[{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"40.83.191.226\",\"type\":\"Public\",\"dnsNameLabel\":\"aci188190\",\"fqdn\":\"aci188190.westus.azurecontainer.io\"},\"osType\":\"Linux\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci188190/providers/Microsoft.ContainerInstance/containerGroups/aci188190\",\"name\":\"aci188190\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag2\":\"value2\"}},{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"137.117.22.59\",\"type\":\"Public\",\"dnsNameLabel\":\"aci627173\",\"fqdn\":\"aci627173.westus.azurecontainer.io\"},\"osType\":\"Linux\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci627173/providers/Microsoft.ContainerInstance/containerGroups/aci627173\",\"name\":\"aci627173\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag2\":\"value2\"}},{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.230.52\",\"type\":\"Public\",\"dnsNameLabel\":\"aci870616\",\"fqdn\":\"aci870616.westus.azurecontainer.io\"},\"osType\":\"Linux\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci870616/providers/Microsoft.ContainerInstance/containerGroups/aci870616\",\"name\":\"aci870616\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag2\":\"value2\"}},{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.103.228\",\"type\":\"Public\",\"dnsNameLabel\":\"aci958689\",\"fqdn\":\"aci958689.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"volumes\":[{\"name\":\"emptydir1\",\"emptyDir\":{}}]},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci958689/providers/Microsoft.ContainerInstance/containerGroups/aci958689\",\"name\":\"aci958689\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}]}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci188190/providers/Microsoft.ContainerInstance/containerGroups/aci188190?api-version=2018-02-01-preview",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 06 Feb 2018 04:29:06 GMT",
+      "content-length" : "1182",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding,Accept-Encoding",
@@ -17,23 +42,23 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "33753f9b-68a2-4069-a621-24e39184d64b",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021746Z:33753f9b-68a2-4069-a621-24e39184d64b",
+      "x-ms-correlation-request-id" : "8fa1e076-4027-435d-92de-9e3f550c3bba",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042906Z:8fa1e076-4027-435d-92de-9e3f550c3bba",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:424163d7-f319-48cd-b12f-966208baa0bc",
-      "Body" : "{\"value\":[{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"137.117.12.205\",\"type\":\"Public\",\"dnsNameLabel\":\"aci136640\",\"fqdn\":\"aci136640.westus.azurecontainer.io\"},\"osType\":\"Linux\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci136640/providers/Microsoft.ContainerInstance/containerGroups/aci136640\",\"name\":\"aci136640\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}},{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.133.215\",\"type\":\"Public\",\"dnsNameLabel\":\"aci25939d\",\"fqdn\":\"aci25939d.westus.azurecontainer.io\"},\"osType\":\"Linux\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci25939d/providers/Microsoft.ContainerInstance/containerGroups/aci25939d\",\"name\":\"aci25939d\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}]}"
+      "x-ms-request-id" : "westus:b38440c6-fba8-4470-acd1-4d984a66c531",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-05T17:04:46Z\",\"detailStatus\":\"\"},\"events\":[]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-05T17:04:54Z\",\"detailStatus\":\"\"},\"events\":[]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"40.83.191.226\",\"type\":\"Public\",\"dnsNameLabel\":\"aci188190\",\"fqdn\":\"aci188190.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Running\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci188190/providers/Microsoft.ContainerInstance/containerGroups/aci188190\",\"name\":\"aci188190\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag2\":\"value2\"}}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci136640/providers/Microsoft.ContainerInstance/containerGroups/aci136640?api-version=2018-02-01-preview",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci627173/providers/Microsoft.ContainerInstance/containerGroups/aci627173?api-version=2018-02-01-preview",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:46 GMT",
-      "content-length" : "2722",
+      "date" : "Tue, 06 Feb 2018 04:29:07 GMT",
+      "content-length" : "1182",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding,Accept-Encoding",
@@ -42,23 +67,23 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "dcf2342a-303a-4938-b578-65b4da921c95",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021746Z:dcf2342a-303a-4938-b578-65b4da921c95",
+      "x-ms-correlation-request-id" : "681a4e41-2e09-455d-9d8c-26043d1d00cb",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042907Z:681a4e41-2e09-455d-9d8c-26043d1d00cb",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:3bbe24dd-3ded-484f-9f8f-f68f9fac91bb",
-      "Body" : "{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-03T02:16:13Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:15:37Z\",\"lastTimestamp\":\"2018-02-03T02:15:37Z\",\"name\":\"Pulling\",\"message\":\"pulling image \\\"tomcat\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:16:13Z\",\"lastTimestamp\":\"2018-02-03T02:16:13Z\",\"name\":\"Pulled\",\"message\":\"Successfully pulled image \\\"tomcat\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:16:13Z\",\"lastTimestamp\":\"2018-02-03T02:16:13Z\",\"name\":\"Created\",\"message\":\"Created container with id d83fe2e71a4fc86b7e3180d81b19205222a07cd54ac7ae74c8d868da51749810\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:16:13Z\",\"lastTimestamp\":\"2018-02-03T02:16:13Z\",\"name\":\"Started\",\"message\":\"Started container with id d83fe2e71a4fc86b7e3180d81b19205222a07cd54ac7ae74c8d868da51749810\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-03T02:16:24Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:16:13Z\",\"lastTimestamp\":\"2018-02-03T02:16:13Z\",\"name\":\"Pulling\",\"message\":\"pulling image \\\"nginx\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:16:24Z\",\"lastTimestamp\":\"2018-02-03T02:16:24Z\",\"name\":\"Pulled\",\"message\":\"Successfully pulled image \\\"nginx\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:16:24Z\",\"lastTimestamp\":\"2018-02-03T02:16:24Z\",\"name\":\"Created\",\"message\":\"Created container with id 2cd109f02fcc9c2587cc2342b257e444db3586257a532c723fe4fd23d4da257c\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:16:24Z\",\"lastTimestamp\":\"2018-02-03T02:16:24Z\",\"name\":\"Started\",\"message\":\"Started container with id 2cd109f02fcc9c2587cc2342b257e444db3586257a532c723fe4fd23d4da257c\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"137.117.12.205\",\"type\":\"Public\",\"dnsNameLabel\":\"aci136640\",\"fqdn\":\"aci136640.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Running\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci136640/providers/Microsoft.ContainerInstance/containerGroups/aci136640\",\"name\":\"aci136640\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+      "x-ms-request-id" : "westus:c77f3c0a-418f-4b7f-a633-43e551a16bee",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-05T17:12:43Z\",\"detailStatus\":\"\"},\"events\":[]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-05T17:12:50Z\",\"detailStatus\":\"\"},\"events\":[]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"137.117.22.59\",\"type\":\"Public\",\"dnsNameLabel\":\"aci627173\",\"fqdn\":\"aci627173.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Running\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci627173/providers/Microsoft.ContainerInstance/containerGroups/aci627173\",\"name\":\"aci627173\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag2\":\"value2\"}}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci25939d/providers/Microsoft.ContainerInstance/containerGroups/aci25939d?api-version=2018-02-01-preview",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci870616/providers/Microsoft.ContainerInstance/containerGroups/aci870616?api-version=2018-02-01-preview",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:46 GMT",
-      "content-length" : "2722",
+      "date" : "Tue, 06 Feb 2018 04:29:07 GMT",
+      "content-length" : "1182",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding,Accept-Encoding",
@@ -67,71 +92,23 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "cd1e3f92-2fb5-4255-8073-d34d7bb2537a",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021746Z:cd1e3f92-2fb5-4255-8073-d34d7bb2537a",
+      "x-ms-correlation-request-id" : "8c730fd4-2c5b-45e0-b216-f0379db9f38a",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042907Z:8c730fd4-2c5b-45e0-b216-f0379db9f38a",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:1bff6062-1235-4ace-949f-82989014cb2a",
-      "Body" : "{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-03T02:14:52Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:17Z\",\"lastTimestamp\":\"2018-02-03T02:14:17Z\",\"name\":\"Pulling\",\"message\":\"pulling image \\\"tomcat\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:52Z\",\"lastTimestamp\":\"2018-02-03T02:14:52Z\",\"name\":\"Pulled\",\"message\":\"Successfully pulled image \\\"tomcat\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:52Z\",\"lastTimestamp\":\"2018-02-03T02:14:52Z\",\"name\":\"Created\",\"message\":\"Created container with id d25ffd980ab53e5ee24bf739db3a3c5fa12eb6919401b0795f7fcd84f90a2e6c\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:52Z\",\"lastTimestamp\":\"2018-02-03T02:14:52Z\",\"name\":\"Started\",\"message\":\"Started container with id d25ffd980ab53e5ee24bf739db3a3c5fa12eb6919401b0795f7fcd84f90a2e6c\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-03T02:14:59Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:52Z\",\"lastTimestamp\":\"2018-02-03T02:14:52Z\",\"name\":\"Pulling\",\"message\":\"pulling image \\\"nginx\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:59Z\",\"lastTimestamp\":\"2018-02-03T02:14:59Z\",\"name\":\"Pulled\",\"message\":\"Successfully pulled image \\\"nginx\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:59Z\",\"lastTimestamp\":\"2018-02-03T02:14:59Z\",\"name\":\"Created\",\"message\":\"Created container with id 1089072bba82a253b01d2316f77f87712a8a63e3e7d07e73d472a7ce1a038268\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:59Z\",\"lastTimestamp\":\"2018-02-03T02:14:59Z\",\"name\":\"Started\",\"message\":\"Started container with id 1089072bba82a253b01d2316f77f87712a8a63e3e7d07e73d472a7ce1a038268\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.133.215\",\"type\":\"Public\",\"dnsNameLabel\":\"aci25939d\",\"fqdn\":\"aci25939d.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Running\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci25939d/providers/Microsoft.ContainerInstance/containerGroups/aci25939d\",\"name\":\"aci25939d\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
-    }
-  }, {
-    "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgaci883889?api-version=2016-09-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ResourceManagementClient, 2016-09-01)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
-    "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:48 GMT",
-      "content-length" : "175",
-      "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
-      "retry-after" : "0",
-      "StatusCode" : "201",
-      "pragma" : "no-cache",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "9417f63c-e758-41e2-9e16-5423bb289193",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021748Z:9417f63c-e758-41e2-9e16-5423bb289193",
-      "content-type" : "application/json; charset=utf-8",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "9417f63c-e758-41e2-9e16-5423bb289193",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889\",\"name\":\"rgaci883889\",\"location\":\"westus\",\"properties\":{\"provisioningState\":\"Succeeded\"}}"
-    }
-  }, {
-    "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889?api-version=2018-02-01-preview",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
-    "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:52 GMT",
-      "content-length" : "911",
-      "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1198",
-      "retry-after" : "0",
-      "StatusCode" : "201",
-      "pragma" : "no-cache",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "bc285a33-cb96-4aeb-b5d5-4686dc1b1a80",
-      "x-ms-ratelimit-remaining-subscription-resource-requests-pt1h" : "58",
-      "x-ms-ratelimit-remaining-subscription-resource-requests-pt5m" : "18",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021752Z:bc285a33-cb96-4aeb-b5d5-4686dc1b1a80",
-      "content-type" : "application/json; charset=utf-8",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:55fa1c53-ccfd-4013-a9a1-4e7154fc8150",
-      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"13.88.26.41\",\"type\":\"Public\",\"dnsNameLabel\":\"aci883889\",\"fqdn\":\"aci883889.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889\",\"name\":\"aci883889\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+      "x-ms-request-id" : "westus:716b58e1-0f21-41e5-bf19-3b4dd205b7e6",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-05T16:58:45Z\",\"detailStatus\":\"\"},\"events\":[]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-05T16:58:14Z\",\"detailStatus\":\"\"},\"events\":[]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.230.52\",\"type\":\"Public\",\"dnsNameLabel\":\"aci870616\",\"fqdn\":\"aci870616.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Running\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci870616/providers/Microsoft.ContainerInstance/containerGroups/aci870616\",\"name\":\"aci870616\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag2\":\"value2\"}}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889?api-version=2018-02-01-preview",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci958689/providers/Microsoft.ContainerInstance/containerGroups/aci958689?api-version=2018-02-01-preview",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:52 GMT",
-      "content-length" : "911",
+      "date" : "Tue, 06 Feb 2018 04:29:07 GMT",
+      "content-length" : "2800",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding,Accept-Encoding",
@@ -140,23 +117,71 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "93b8d0eb-289f-4a31-85dc-e0214f701db9",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021752Z:93b8d0eb-289f-4a31-85dc-e0214f701db9",
+      "x-ms-correlation-request-id" : "53f5169c-3247-4fee-875a-e28e6abe7a99",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042908Z:53f5169c-3247-4fee-875a-e28e6abe7a99",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:f3642ebd-8a95-4614-8273-e6d658ab49b7",
-      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"13.88.26.41\",\"type\":\"Public\",\"dnsNameLabel\":\"aci883889\",\"fqdn\":\"aci883889.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889\",\"name\":\"aci883889\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+      "x-ms-request-id" : "westus:16041fec-731f-4326-8777-b4f9f7e0867b",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-06T04:27:05Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:26:26Z\",\"lastTimestamp\":\"2018-02-06T04:26:26Z\",\"name\":\"Pulling\",\"message\":\"pulling image \\\"tomcat\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:27:04Z\",\"lastTimestamp\":\"2018-02-06T04:27:04Z\",\"name\":\"Pulled\",\"message\":\"Successfully pulled image \\\"tomcat\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:27:05Z\",\"lastTimestamp\":\"2018-02-06T04:27:05Z\",\"name\":\"Created\",\"message\":\"Created container with id ea0c0053b3538552a5192063c6d2dc7f1825e3831cd25d1e746e7cab5fec8252\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:27:05Z\",\"lastTimestamp\":\"2018-02-06T04:27:05Z\",\"name\":\"Started\",\"message\":\"Started container with id ea0c0053b3538552a5192063c6d2dc7f1825e3831cd25d1e746e7cab5fec8252\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-06T04:27:13Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:27:05Z\",\"lastTimestamp\":\"2018-02-06T04:27:05Z\",\"name\":\"Pulling\",\"message\":\"pulling image \\\"nginx\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:27:13Z\",\"lastTimestamp\":\"2018-02-06T04:27:13Z\",\"name\":\"Pulled\",\"message\":\"Successfully pulled image \\\"nginx\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:27:13Z\",\"lastTimestamp\":\"2018-02-06T04:27:13Z\",\"name\":\"Created\",\"message\":\"Created container with id 7930444dea7f261300bac16fdab15a655897da27fb86b50b9eb732103703961b\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:27:13Z\",\"lastTimestamp\":\"2018-02-06T04:27:13Z\",\"name\":\"Started\",\"message\":\"Started container with id 7930444dea7f261300bac16fdab15a655897da27fb86b50b9eb732103703961b\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.103.228\",\"type\":\"Public\",\"dnsNameLabel\":\"aci958689\",\"fqdn\":\"aci958689.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"volumes\":[{\"name\":\"emptydir1\",\"emptyDir\":{}}],\"instanceView\":{\"events\":[],\"state\":\"Running\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci958689/providers/Microsoft.ContainerInstance/containerGroups/aci958689\",\"name\":\"aci958689\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
     }
   }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups?api-version=2018-02-01-preview",
+    "Method" : "PUT",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgaci79002c?api-version=2016-09-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ResourceManagementClient, 2016-09-01)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 06 Feb 2018 04:29:08 GMT",
+      "content-length" : "175",
+      "expires" : "-1",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
+      "retry-after" : "0",
+      "StatusCode" : "201",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "2697dcb2-454f-451a-9f68-8b1ec6b96eed",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042909Z:2697dcb2-454f-451a-9f68-8b1ec6b96eed",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "2697dcb2-454f-451a-9f68-8b1ec6b96eed",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c\",\"name\":\"rgaci79002c\",\"location\":\"westus\",\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+    }
+  }, {
+    "Method" : "PUT",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c?api-version=2018-02-01-preview",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:52 GMT",
-      "content-length" : "876",
+      "date" : "Tue, 06 Feb 2018 04:29:11 GMT",
+      "content-length" : "960",
+      "expires" : "-1",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1198",
+      "retry-after" : "0",
+      "StatusCode" : "201",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "e2001ee4-7a92-4601-843b-23c8d338af0d",
+      "x-ms-ratelimit-remaining-subscription-resource-requests-pt1h" : "57",
+      "x-ms-ratelimit-remaining-subscription-resource-requests-pt5m" : "18",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042912Z:e2001ee4-7a92-4601-843b-23c8d338af0d",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "westus:a168f46b-295f-4632-9667-66e2af618dd7",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.97.135\",\"type\":\"Public\",\"dnsNameLabel\":\"aci79002c\",\"fqdn\":\"aci79002c.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"volumes\":[{\"name\":\"emptydir1\",\"emptyDir\":{}}],\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c\",\"name\":\"aci79002c\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c?api-version=2018-02-01-preview",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 06 Feb 2018 04:29:11 GMT",
+      "content-length" : "960",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding,Accept-Encoding",
@@ -165,23 +190,23 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "a4872e77-ea8f-4cc3-b700-cd23dfafa5c4",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021753Z:a4872e77-ea8f-4cc3-b700-cd23dfafa5c4",
+      "x-ms-correlation-request-id" : "be691d6d-35d6-4fe9-a757-cc1d7b6e1b46",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042912Z:be691d6d-35d6-4fe9-a757-cc1d7b6e1b46",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:5cd05045-e164-4e1f-aea0-d1ef2b86c208",
-      "Body" : "{\"value\":[{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"13.88.26.41\",\"type\":\"Public\",\"dnsNameLabel\":\"aci883889\",\"fqdn\":\"aci883889.westus.azurecontainer.io\"},\"osType\":\"Linux\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889\",\"name\":\"aci883889\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}]}"
+      "x-ms-request-id" : "westus:d07cc7ca-9e9b-444a-81aa-eeecdad4912e",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.97.135\",\"type\":\"Public\",\"dnsNameLabel\":\"aci79002c\",\"fqdn\":\"aci79002c.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"volumes\":[{\"name\":\"emptydir1\",\"emptyDir\":{}}],\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c\",\"name\":\"aci79002c\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889?api-version=2018-02-01-preview",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups?api-version=2018-02-01-preview",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:52 GMT",
-      "content-length" : "911",
+      "date" : "Tue, 06 Feb 2018 04:29:12 GMT",
+      "content-length" : "925",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding,Accept-Encoding",
@@ -190,23 +215,23 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "108d6149-6835-470c-9079-0ffa0376d315",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021753Z:108d6149-6835-470c-9079-0ffa0376d315",
+      "x-ms-correlation-request-id" : "2561a247-c339-4c57-9c11-1ec762b5b08f",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042912Z:2561a247-c339-4c57-9c11-1ec762b5b08f",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:d92535d8-1636-4d99-9853-8c53783a0181",
-      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"13.88.26.41\",\"type\":\"Public\",\"dnsNameLabel\":\"aci883889\",\"fqdn\":\"aci883889.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889\",\"name\":\"aci883889\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+      "x-ms-request-id" : "westus:2ea0eb42-629d-4d42-b35a-50569dee5c0f",
+      "Body" : "{\"value\":[{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.97.135\",\"type\":\"Public\",\"dnsNameLabel\":\"aci79002c\",\"fqdn\":\"aci79002c.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"volumes\":[{\"name\":\"emptydir1\",\"emptyDir\":{}}]},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c\",\"name\":\"aci79002c\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}]}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889?api-version=2018-02-01-preview",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c?api-version=2018-02-01-preview",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:52 GMT",
-      "content-length" : "911",
+      "date" : "Tue, 06 Feb 2018 04:29:12 GMT",
+      "content-length" : "960",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding,Accept-Encoding",
@@ -215,12 +240,37 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "6eb12c79-fc4d-485b-ab3a-71c90a5cecd9",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021753Z:6eb12c79-fc4d-485b-ab3a-71c90a5cecd9",
+      "x-ms-correlation-request-id" : "961988a3-75fd-4cbd-92ff-dbfa11c90d80",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042912Z:961988a3-75fd-4cbd-92ff-dbfa11c90d80",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:978771f7-9c11-4214-8df4-b13cd718638c",
-      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"13.88.26.41\",\"type\":\"Public\",\"dnsNameLabel\":\"aci883889\",\"fqdn\":\"aci883889.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889\",\"name\":\"aci883889\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+      "x-ms-request-id" : "westus:49db2d70-0a99-4aaf-b384-2ef64e4d7a97",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.97.135\",\"type\":\"Public\",\"dnsNameLabel\":\"aci79002c\",\"fqdn\":\"aci79002c.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"volumes\":[{\"name\":\"emptydir1\",\"emptyDir\":{}}],\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c\",\"name\":\"aci79002c\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c?api-version=2018-02-01-preview",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 06 Feb 2018 04:29:12 GMT",
+      "content-length" : "960",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding,Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "14991",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "2bb37dff-9b4d-4933-9e63-f16f09c712f2",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042913Z:2bb37dff-9b4d-4933-9e63-f16f09c712f2",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "westus:21360d2d-1873-48f8-9bd9-29d2cbd1779d",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.97.135\",\"type\":\"Public\",\"dnsNameLabel\":\"aci79002c\",\"fqdn\":\"aci79002c.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"volumes\":[{\"name\":\"emptydir1\",\"emptyDir\":{}}],\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c\",\"name\":\"aci79002c\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
     }
   }, {
     "Method" : "GET",
@@ -230,7 +280,7 @@
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:52 GMT",
+      "date" : "Tue, 06 Feb 2018 04:29:12 GMT",
       "content-length" : "1024",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
@@ -239,12 +289,12 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "3f86aa50-ae76-4e72-8de3-d2f5bcf62bd0",
+      "x-ms-correlation-request-id" : "2af3934d-7269-46a7-9ff2-bc48de36e358",
       "x-ms-ratelimit-remaining-tenant-reads" : "14999",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021753Z:3f86aa50-ae76-4e72-8de3-d2f5bcf62bd0",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042913Z:2af3934d-7269-46a7-9ff2-bc48de36e358",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:b1ca18e3-68f5-48c4-a0c3-26a3b825d93b",
+      "x-ms-request-id" : "westus:51619579-1385-4468-bc50-eb75c357e5d4",
       "Body" : "{\"value\":[{\"name\":\"Microsoft.ContainerInstance/containerGroups/read\",\"display\":{\"provider\":\"Microsoft Container Instance\",\"resource\":\"Container Group\",\"operation\":\"Get Container Groups\",\"description\":\"Get all container goups.\"},\"origin\":\"User\"},{\"name\":\"Microsoft.ContainerInstance/containerGroups/write\",\"display\":{\"provider\":\"Microsoft Container Instance\",\"resource\":\"Container Group\",\"operation\":\"Create or update Container Group\",\"description\":\"Create or update a specific container group.\"},\"origin\":\"User\"},{\"name\":\"Microsoft.ContainerInstance/containerGroups/delete\",\"display\":{\"provider\":\"Microsoft Container Instance\",\"resource\":\"Container Group\",\"operation\":\"Delete Container Group\",\"description\":\"Delete the specific container group.\"},\"origin\":\"User\"},{\"name\":\"Microsoft.ContainerInstance/containerGroups/containers/logs/read\",\"display\":{\"provider\":\"Microsoft Container Instance\",\"resource\":\"Container Group\",\"operation\":\"Get Container Logs\",\"description\":\"Get logs for a specific container.\"},\"origin\":\"User\"}]}"
     }
   }, {
@@ -255,33 +305,8 @@
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:53 GMT",
-      "content-length" : "2552",
-      "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding,Accept-Encoding",
-      "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14991",
-      "StatusCode" : "200",
-      "pragma" : "no-cache",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "45c75853-9656-47ea-9e47-2041d130d193",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021753Z:45c75853-9656-47ea-9e47-2041d130d193",
-      "content-type" : "application/json; charset=utf-8",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:344bc28f-710b-4241-ae8c-d61f10328a1b",
-      "Body" : "{\"value\":[{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"137.117.12.205\",\"type\":\"Public\",\"dnsNameLabel\":\"aci136640\",\"fqdn\":\"aci136640.westus.azurecontainer.io\"},\"osType\":\"Linux\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci136640/providers/Microsoft.ContainerInstance/containerGroups/aci136640\",\"name\":\"aci136640\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}},{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.133.215\",\"type\":\"Public\",\"dnsNameLabel\":\"aci25939d\",\"fqdn\":\"aci25939d.westus.azurecontainer.io\"},\"osType\":\"Linux\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci25939d/providers/Microsoft.ContainerInstance/containerGroups/aci25939d\",\"name\":\"aci25939d\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}},{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"13.88.26.41\",\"type\":\"Public\",\"dnsNameLabel\":\"aci883889\",\"fqdn\":\"aci883889.westus.azurecontainer.io\"},\"osType\":\"Linux\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889\",\"name\":\"aci883889\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}]}"
-    }
-  }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci136640/providers/Microsoft.ContainerInstance/containerGroups/aci136640?api-version=2018-02-01-preview",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
-    "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:53 GMT",
-      "content-length" : "2722",
+      "date" : "Tue, 06 Feb 2018 04:29:13 GMT",
+      "content-length" : "4445",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding,Accept-Encoding",
@@ -290,23 +315,23 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "1d3e54f0-c9a1-4c05-8e81-4f376f655bac",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021753Z:1d3e54f0-c9a1-4c05-8e81-4f376f655bac",
+      "x-ms-correlation-request-id" : "c42fe1f0-015b-4502-b897-22e76e0c0b7d",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042913Z:c42fe1f0-015b-4502-b897-22e76e0c0b7d",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:07f51864-4eeb-4658-a200-d2191f656079",
-      "Body" : "{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-03T02:16:13Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:15:37Z\",\"lastTimestamp\":\"2018-02-03T02:15:37Z\",\"name\":\"Pulling\",\"message\":\"pulling image \\\"tomcat\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:16:13Z\",\"lastTimestamp\":\"2018-02-03T02:16:13Z\",\"name\":\"Pulled\",\"message\":\"Successfully pulled image \\\"tomcat\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:16:13Z\",\"lastTimestamp\":\"2018-02-03T02:16:13Z\",\"name\":\"Created\",\"message\":\"Created container with id d83fe2e71a4fc86b7e3180d81b19205222a07cd54ac7ae74c8d868da51749810\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:16:13Z\",\"lastTimestamp\":\"2018-02-03T02:16:13Z\",\"name\":\"Started\",\"message\":\"Started container with id d83fe2e71a4fc86b7e3180d81b19205222a07cd54ac7ae74c8d868da51749810\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-03T02:16:24Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:16:13Z\",\"lastTimestamp\":\"2018-02-03T02:16:13Z\",\"name\":\"Pulling\",\"message\":\"pulling image \\\"nginx\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:16:24Z\",\"lastTimestamp\":\"2018-02-03T02:16:24Z\",\"name\":\"Pulled\",\"message\":\"Successfully pulled image \\\"nginx\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:16:24Z\",\"lastTimestamp\":\"2018-02-03T02:16:24Z\",\"name\":\"Created\",\"message\":\"Created container with id 2cd109f02fcc9c2587cc2342b257e444db3586257a532c723fe4fd23d4da257c\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:16:24Z\",\"lastTimestamp\":\"2018-02-03T02:16:24Z\",\"name\":\"Started\",\"message\":\"Started container with id 2cd109f02fcc9c2587cc2342b257e444db3586257a532c723fe4fd23d4da257c\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"137.117.12.205\",\"type\":\"Public\",\"dnsNameLabel\":\"aci136640\",\"fqdn\":\"aci136640.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Running\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci136640/providers/Microsoft.ContainerInstance/containerGroups/aci136640\",\"name\":\"aci136640\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+      "x-ms-request-id" : "westus:f531602b-54ec-40f2-8444-8afc18818748",
+      "Body" : "{\"value\":[{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"40.83.191.226\",\"type\":\"Public\",\"dnsNameLabel\":\"aci188190\",\"fqdn\":\"aci188190.westus.azurecontainer.io\"},\"osType\":\"Linux\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci188190/providers/Microsoft.ContainerInstance/containerGroups/aci188190\",\"name\":\"aci188190\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag2\":\"value2\"}},{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"137.117.22.59\",\"type\":\"Public\",\"dnsNameLabel\":\"aci627173\",\"fqdn\":\"aci627173.westus.azurecontainer.io\"},\"osType\":\"Linux\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci627173/providers/Microsoft.ContainerInstance/containerGroups/aci627173\",\"name\":\"aci627173\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag2\":\"value2\"}},{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.97.135\",\"type\":\"Public\",\"dnsNameLabel\":\"aci79002c\",\"fqdn\":\"aci79002c.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"volumes\":[{\"name\":\"emptydir1\",\"emptyDir\":{}}]},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c\",\"name\":\"aci79002c\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}},{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.230.52\",\"type\":\"Public\",\"dnsNameLabel\":\"aci870616\",\"fqdn\":\"aci870616.westus.azurecontainer.io\"},\"osType\":\"Linux\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci870616/providers/Microsoft.ContainerInstance/containerGroups/aci870616\",\"name\":\"aci870616\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag2\":\"value2\"}},{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.103.228\",\"type\":\"Public\",\"dnsNameLabel\":\"aci958689\",\"fqdn\":\"aci958689.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"volumes\":[{\"name\":\"emptydir1\",\"emptyDir\":{}}]},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci958689/providers/Microsoft.ContainerInstance/containerGroups/aci958689\",\"name\":\"aci958689\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}]}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci25939d/providers/Microsoft.ContainerInstance/containerGroups/aci25939d?api-version=2018-02-01-preview",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci188190/providers/Microsoft.ContainerInstance/containerGroups/aci188190?api-version=2018-02-01-preview",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:53 GMT",
-      "content-length" : "2722",
+      "date" : "Tue, 06 Feb 2018 04:29:13 GMT",
+      "content-length" : "1182",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding,Accept-Encoding",
@@ -315,23 +340,23 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "49d83765-35e5-4335-be5d-03e3ef62c30f",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021753Z:49d83765-35e5-4335-be5d-03e3ef62c30f",
+      "x-ms-correlation-request-id" : "270f4fdb-82ee-44db-aa87-131df46c9d09",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042913Z:270f4fdb-82ee-44db-aa87-131df46c9d09",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:3613970b-c06b-4397-8a5b-487295507eb9",
-      "Body" : "{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-03T02:14:52Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:17Z\",\"lastTimestamp\":\"2018-02-03T02:14:17Z\",\"name\":\"Pulling\",\"message\":\"pulling image \\\"tomcat\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:52Z\",\"lastTimestamp\":\"2018-02-03T02:14:52Z\",\"name\":\"Pulled\",\"message\":\"Successfully pulled image \\\"tomcat\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:52Z\",\"lastTimestamp\":\"2018-02-03T02:14:52Z\",\"name\":\"Created\",\"message\":\"Created container with id d25ffd980ab53e5ee24bf739db3a3c5fa12eb6919401b0795f7fcd84f90a2e6c\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:52Z\",\"lastTimestamp\":\"2018-02-03T02:14:52Z\",\"name\":\"Started\",\"message\":\"Started container with id d25ffd980ab53e5ee24bf739db3a3c5fa12eb6919401b0795f7fcd84f90a2e6c\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-03T02:14:59Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:52Z\",\"lastTimestamp\":\"2018-02-03T02:14:52Z\",\"name\":\"Pulling\",\"message\":\"pulling image \\\"nginx\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:59Z\",\"lastTimestamp\":\"2018-02-03T02:14:59Z\",\"name\":\"Pulled\",\"message\":\"Successfully pulled image \\\"nginx\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:59Z\",\"lastTimestamp\":\"2018-02-03T02:14:59Z\",\"name\":\"Created\",\"message\":\"Created container with id 1089072bba82a253b01d2316f77f87712a8a63e3e7d07e73d472a7ce1a038268\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-03T02:14:59Z\",\"lastTimestamp\":\"2018-02-03T02:14:59Z\",\"name\":\"Started\",\"message\":\"Started container with id 1089072bba82a253b01d2316f77f87712a8a63e3e7d07e73d472a7ce1a038268\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.133.215\",\"type\":\"Public\",\"dnsNameLabel\":\"aci25939d\",\"fqdn\":\"aci25939d.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Running\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci25939d/providers/Microsoft.ContainerInstance/containerGroups/aci25939d\",\"name\":\"aci25939d\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+      "x-ms-request-id" : "westus:d24cf71e-0402-4cba-8d43-420750fbdf12",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-05T17:04:46Z\",\"detailStatus\":\"\"},\"events\":[]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-05T17:04:54Z\",\"detailStatus\":\"\"},\"events\":[]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"40.83.191.226\",\"type\":\"Public\",\"dnsNameLabel\":\"aci188190\",\"fqdn\":\"aci188190.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Running\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci188190/providers/Microsoft.ContainerInstance/containerGroups/aci188190\",\"name\":\"aci188190\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag2\":\"value2\"}}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889?api-version=2018-02-01-preview",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci627173/providers/Microsoft.ContainerInstance/containerGroups/aci627173?api-version=2018-02-01-preview",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:53 GMT",
-      "content-length" : "911",
+      "date" : "Tue, 06 Feb 2018 04:29:13 GMT",
+      "content-length" : "1182",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding,Accept-Encoding",
@@ -340,23 +365,23 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "3514de74-d71f-49b8-96b0-0b1c0f811287",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021754Z:3514de74-d71f-49b8-96b0-0b1c0f811287",
+      "x-ms-correlation-request-id" : "253bff65-ab96-4efd-93d0-764b02c2f0e4",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042914Z:253bff65-ab96-4efd-93d0-764b02c2f0e4",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:fa6f7218-c5b5-4ab3-af67-afa57cecaba9",
-      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"13.88.26.41\",\"type\":\"Public\",\"dnsNameLabel\":\"aci883889\",\"fqdn\":\"aci883889.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889\",\"name\":\"aci883889\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+      "x-ms-request-id" : "westus:2f4176c4-af16-4d19-9792-811d93cf22b7",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-05T17:12:43Z\",\"detailStatus\":\"\"},\"events\":[]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-05T17:12:50Z\",\"detailStatus\":\"\"},\"events\":[]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"137.117.22.59\",\"type\":\"Public\",\"dnsNameLabel\":\"aci627173\",\"fqdn\":\"aci627173.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Running\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci627173/providers/Microsoft.ContainerInstance/containerGroups/aci627173\",\"name\":\"aci627173\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag2\":\"value2\"}}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889?api-version=2018-02-01-preview",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c?api-version=2018-02-01-preview",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:53 GMT",
-      "content-length" : "911",
+      "date" : "Tue, 06 Feb 2018 04:29:13 GMT",
+      "content-length" : "960",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding,Accept-Encoding",
@@ -365,23 +390,23 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "20df1e1b-dc2f-48dd-9e16-606d85c047b7",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021754Z:20df1e1b-dc2f-48dd-9e16-606d85c047b7",
+      "x-ms-correlation-request-id" : "7f964d3e-402d-44b4-89e0-a7e3593b7268",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042914Z:7f964d3e-402d-44b4-89e0-a7e3593b7268",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:10b8fc84-7673-43d0-b64b-af568e7cfc06",
-      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"13.88.26.41\",\"type\":\"Public\",\"dnsNameLabel\":\"aci883889\",\"fqdn\":\"aci883889.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889\",\"name\":\"aci883889\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+      "x-ms-request-id" : "westus:2c125a07-53c2-4136-83cb-ecacbde55671",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.97.135\",\"type\":\"Public\",\"dnsNameLabel\":\"aci79002c\",\"fqdn\":\"aci79002c.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"volumes\":[{\"name\":\"emptydir1\",\"emptyDir\":{}}],\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c\",\"name\":\"aci79002c\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889?api-version=2018-02-01-preview",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci870616/providers/Microsoft.ContainerInstance/containerGroups/aci870616?api-version=2018-02-01-preview",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:53 GMT",
-      "content-length" : "911",
+      "date" : "Tue, 06 Feb 2018 04:29:14 GMT",
+      "content-length" : "1182",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding,Accept-Encoding",
@@ -390,23 +415,98 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "b7dbaf38-9c9b-43ef-b062-7ce5c40971ad",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021754Z:b7dbaf38-9c9b-43ef-b062-7ce5c40971ad",
+      "x-ms-correlation-request-id" : "daae7b37-1480-4d14-b6ba-095e02ecf603",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042914Z:daae7b37-1480-4d14-b6ba-095e02ecf603",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:0488f507-6336-4bd1-9f22-8e9e7b18045c",
-      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"13.88.26.41\",\"type\":\"Public\",\"dnsNameLabel\":\"aci883889\",\"fqdn\":\"aci883889.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889\",\"name\":\"aci883889\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+      "x-ms-request-id" : "westus:23bf3807-b87b-4f0d-9ef5-e9f94d02b6c2",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-05T16:58:45Z\",\"detailStatus\":\"\"},\"events\":[]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-05T16:58:14Z\",\"detailStatus\":\"\"},\"events\":[]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.230.52\",\"type\":\"Public\",\"dnsNameLabel\":\"aci870616\",\"fqdn\":\"aci870616.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Running\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci870616/providers/Microsoft.ContainerInstance/containerGroups/aci870616\",\"name\":\"aci870616\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag2\":\"value2\"}}"
     }
   }, {
-    "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889?api-version=2018-02-01-preview",
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci958689/providers/Microsoft.ContainerInstance/containerGroups/aci958689?api-version=2018-02-01-preview",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:55 GMT",
-      "content-length" : "911",
+      "date" : "Tue, 06 Feb 2018 04:29:14 GMT",
+      "content-length" : "2800",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding,Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "14985",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "7cae9829-a8f1-4dac-ac4b-f08b785b05d9",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042914Z:7cae9829-a8f1-4dac-ac4b-f08b785b05d9",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "westus:a654d2f0-0128-4a3b-8e01-f2caca46e11e",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Succeeded\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-06T04:27:05Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:26:26Z\",\"lastTimestamp\":\"2018-02-06T04:26:26Z\",\"name\":\"Pulling\",\"message\":\"pulling image \\\"tomcat\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:27:04Z\",\"lastTimestamp\":\"2018-02-06T04:27:04Z\",\"name\":\"Pulled\",\"message\":\"Successfully pulled image \\\"tomcat\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:27:05Z\",\"lastTimestamp\":\"2018-02-06T04:27:05Z\",\"name\":\"Created\",\"message\":\"Created container with id ea0c0053b3538552a5192063c6d2dc7f1825e3831cd25d1e746e7cab5fec8252\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:27:05Z\",\"lastTimestamp\":\"2018-02-06T04:27:05Z\",\"name\":\"Started\",\"message\":\"Started container with id ea0c0053b3538552a5192063c6d2dc7f1825e3831cd25d1e746e7cab5fec8252\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Running\",\"startTime\":\"2018-02-06T04:27:13Z\",\"detailStatus\":\"\"},\"events\":[{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:27:05Z\",\"lastTimestamp\":\"2018-02-06T04:27:05Z\",\"name\":\"Pulling\",\"message\":\"pulling image \\\"nginx\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:27:13Z\",\"lastTimestamp\":\"2018-02-06T04:27:13Z\",\"name\":\"Pulled\",\"message\":\"Successfully pulled image \\\"nginx\\\"\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:27:13Z\",\"lastTimestamp\":\"2018-02-06T04:27:13Z\",\"name\":\"Created\",\"message\":\"Created container with id 7930444dea7f261300bac16fdab15a655897da27fb86b50b9eb732103703961b\",\"type\":\"Normal\"},{\"count\":1,\"firstTimestamp\":\"2018-02-06T04:27:13Z\",\"lastTimestamp\":\"2018-02-06T04:27:13Z\",\"name\":\"Started\",\"message\":\"Started container with id 7930444dea7f261300bac16fdab15a655897da27fb86b50b9eb732103703961b\",\"type\":\"Normal\"}]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.103.228\",\"type\":\"Public\",\"dnsNameLabel\":\"aci958689\",\"fqdn\":\"aci958689.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"volumes\":[{\"name\":\"emptydir1\",\"emptyDir\":{}}],\"instanceView\":{\"events\":[],\"state\":\"Running\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci958689/providers/Microsoft.ContainerInstance/containerGroups/aci958689\",\"name\":\"aci958689\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c?api-version=2018-02-01-preview",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 06 Feb 2018 04:29:14 GMT",
+      "content-length" : "960",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding,Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "14984",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "1d62b437-35f8-4554-8bc9-6aa9e4d8ba7b",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042915Z:1d62b437-35f8-4554-8bc9-6aa9e4d8ba7b",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "westus:73809a15-0220-459f-89d4-165df72ccbb0",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.97.135\",\"type\":\"Public\",\"dnsNameLabel\":\"aci79002c\",\"fqdn\":\"aci79002c.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"volumes\":[{\"name\":\"emptydir1\",\"emptyDir\":{}}],\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c\",\"name\":\"aci79002c\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c?api-version=2018-02-01-preview",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 06 Feb 2018 04:29:14 GMT",
+      "content-length" : "960",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding,Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "14983",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "4abe2585-fcbd-41bb-ad3a-1d055d6d57e4",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042915Z:4abe2585-fcbd-41bb-ad3a-1d055d6d57e4",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "westus:7eed002c-b7ea-4196-9ed7-e49ce9385e9b",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.97.135\",\"type\":\"Public\",\"dnsNameLabel\":\"aci79002c\",\"fqdn\":\"aci79002c.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"volumes\":[{\"name\":\"emptydir1\",\"emptyDir\":{}}],\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c\",\"name\":\"aci79002c\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+    }
+  }, {
+    "Method" : "PATCH",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c?api-version=2018-02-01-preview",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 06 Feb 2018 04:29:15 GMT",
+      "content-length" : "46",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding,Accept-Encoding",
@@ -415,38 +515,88 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "8ffcd8b9-3a05-4d0a-a323-78b2de9e9314",
-      "x-ms-ratelimit-remaining-subscription-resource-requests-pt1h" : "149",
-      "x-ms-ratelimit-remaining-subscription-resource-requests-pt5m" : "49",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021756Z:8ffcd8b9-3a05-4d0a-a323-78b2de9e9314",
+      "x-ms-correlation-request-id" : "99fad1fc-c40d-461b-a1b8-078003f28ac4",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042915Z:99fad1fc-c40d-461b-a1b8-078003f28ac4",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "westus:80f4f539-d71d-4f75-84b3-b7ce9fa7ad4f",
-      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"13.88.26.41\",\"type\":\"Public\",\"dnsNameLabel\":\"aci883889\",\"fqdn\":\"aci883889.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci883889/providers/Microsoft.ContainerInstance/containerGroups/aci883889\",\"name\":\"aci883889\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag1\":\"value1\"}}"
+      "x-ms-request-id" : "westus:d1f665f3-7eb3-4a19-9281-d0723ab664a4",
+      "Body" : "{\"location\":\"westus\",\"tags\":{\"tag2\":\"value2\"}}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c?api-version=2018-02-01-preview",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 06 Feb 2018 04:29:15 GMT",
+      "content-length" : "960",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding,Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "14982",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "b08e7698-24a1-4ac6-a08f-c38bc1d4c3cb",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042916Z:b08e7698-24a1-4ac6-a08f-c38bc1d4c3cb",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "westus:c04a7e8b-077f-4d83-8171-08c06b59792e",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.97.135\",\"type\":\"Public\",\"dnsNameLabel\":\"aci79002c\",\"fqdn\":\"aci79002c.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"volumes\":[{\"name\":\"emptydir1\",\"emptyDir\":{}}],\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c\",\"name\":\"aci79002c\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag2\":\"value2\"}}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgaci883889?api-version=2016-09-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c?api-version=2018-02-01-preview",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ContainerInstanceManagementClient, 2018-02-01-preview)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 06 Feb 2018 04:29:17 GMT",
+      "content-length" : "1192",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding,Accept-Encoding",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1196",
+      "retry-after" : "0",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "dd343e24-d789-4a2f-ad1f-2e4b3a5574ff",
+      "x-ms-ratelimit-remaining-subscription-resource-requests-pt1h" : "149",
+      "x-ms-ratelimit-remaining-subscription-resource-requests-pt5m" : "49",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042918Z:dd343e24-d789-4a2f-ad1f-2e4b3a5574ff",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "westus:6684df4e-133d-4243-93d5-9943c4e81850",
+      "Body" : "{\"properties\":{\"provisioningState\":\"Creating\",\"containers\":[{\"name\":\"tomcat\",\"properties\":{\"image\":\"tomcat\",\"ports\":[{\"port\":8080}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Waiting\",\"detailStatus\":\"ContainerCreating\"},\"events\":[]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}},{\"name\":\"nginx\",\"properties\":{\"image\":\"nginx\",\"ports\":[{\"port\":80}],\"environmentVariables\":[],\"instanceView\":{\"restartCount\":0,\"currentState\":{\"state\":\"Waiting\",\"detailStatus\":\"ContainerCreating\"},\"events\":[]},\"resources\":{\"requests\":{\"memoryInGB\":1.5,\"cpu\":1.0}}}}],\"restartPolicy\":\"Never\",\"ipAddress\":{\"ports\":[{\"protocol\":\"TCP\",\"port\":8080},{\"protocol\":\"TCP\",\"port\":80}],\"ip\":\"104.42.97.135\",\"type\":\"Public\",\"dnsNameLabel\":\"aci79002c\",\"fqdn\":\"aci79002c.westus.azurecontainer.io\"},\"osType\":\"Linux\",\"volumes\":[{\"name\":\"emptydir1\",\"emptyDir\":{}}],\"instanceView\":{\"events\":[],\"state\":\"Pending\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgaci79002c/providers/Microsoft.ContainerInstance/containerGroups/aci79002c\",\"name\":\"aci79002c\",\"type\":\"Microsoft.ContainerInstance/containerGroups\",\"location\":\"westus\",\"tags\":{\"tag2\":\"value2\"}}"
+    }
+  }, {
+    "Method" : "DELETE",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgaci79002c?api-version=2016-09-01",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:c47051c66801a0ac3d4aa18627b9114205ef95fbf5f19bb8a8fac72c233e9d27 Java:1.8.0_102 (ResourceManagementClient, 2016-09-01)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 03 Feb 2018 02:17:55 GMT",
+      "date" : "Tue, 06 Feb 2018 04:29:18 GMT",
       "content-length" : "0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1196",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1195",
       "retry-after" : "0",
       "StatusCode" : "202",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "555e185d-b012-4810-9238-0fb84fee5c32",
-      "x-ms-routing-request-id" : "WESTUS2:20180203T021756Z:555e185d-b012-4810-9238-0fb84fee5c32",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1SR0FDSTg4Mzg4OS1XRVNUVVMiLCJqb2JMb2NhdGlvbiI6Indlc3R1cyJ9?api-version=2016-09-01",
+      "x-ms-correlation-request-id" : "0e94c784-f426-4173-90c0-3e603b44a7db",
+      "x-ms-routing-request-id" : "WESTUS2:20180206T042919Z:0e94c784-f426-4173-90c0-3e603b44a7db",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1SR0FDSTc5MDAyQy1XRVNUVVMiLCJqb2JMb2NhdGlvbiI6Indlc3R1cyJ9?api-version=2016-09-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "555e185d-b012-4810-9238-0fb84fee5c32",
+      "x-ms-request-id" : "0e94c784-f426-4173-90c0-3e603b44a7db",
       "Body" : ""
     }
   } ],
-  "variables" : [ "883889", "5b724d78-3f49-4bd9-8ff2-2cc9fa081318", "16fbdb57-1f8a-41d1-a796-7bd0606384e3", "a90a5f52-8b8c-4ef0-a9a4-55939cadef14", "9da88842-c594-4676-88a6-b7e9d8080582", "1acb5bd8-8b77-4031-a08a-9cd6e9563f93", "a6056677-3152-4d86-8329-c688afa1a5cd", "11f051e4-5c2f-4b56-9983-31774da5ecfa", "b5076129-260b-4a22-9151-771fef619af5", "c59a6afc-481b-4c64-9b6f-ad1e28418f47", "23e27ba8-0106-4823-8bf0-456a7daeff8b", "a69d7ead-82f3-4020-bb27-47c5685cb00e" ]
+  "variables" : [ "79002c", "32040247-0441-48a6-9cfe-98d811f8f6b9", "b8b34eae-4544-4cf6-8aef-6176f53cbdef", "30128dcb-22a8-4292-81be-fbbf3acb2776", "cd429cc6-1332-40ae-9f34-c8653d759859", "d4bccd3a-379a-400d-a28b-3b7cd05ef1dd", "09040a36-f8b2-43f8-a3c2-29d27c2fb6e4", "cdddc5b4-c80c-42f1-ba98-241b799bf5ae", "8e6aaba8-0097-44f5-ab39-5a0f0df2ecc6", "472e47d5-b119-4097-9d06-8688727b9073", "6ed08207-d421-4df2-9306-8be813b75708", "ca90b55b-6bc2-4639-8d97-a1a89d1336d8", "cf784fd8-d155-488b-ae27-5e9154afa8cd", "5d51eb71-a72b-4f19-b866-8498479b56b4", "731fd680-3ffe-40f3-b475-308e7cc71a03", "29cb1da7-9f69-468a-a5ed-ccf0b4b2f3a4" ]
 }

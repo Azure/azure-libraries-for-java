@@ -269,6 +269,14 @@ public interface ContainerGroup extends
             WithFirstContainerInstance withNewAzureFileShareVolume(String volumeName, String shareName);
 
             /**
+             * Specifies an empty directory volume that can be shared by the container instances in the container group.
+             *
+             * @param name the name of the empty directory volume
+             * @return the next stage of the definition
+             */
+            WithFirstContainerInstance withEmptyDirectoryVolume(String name);
+
+            /**
              * Begins the definition of a volume that can be shared by the container instances in the container group.
              *
              * <p>
@@ -294,7 +302,6 @@ public interface ContainerGroup extends
              * @return the next stage of the definition
              */
             VolumeDefinitionStages.VolumeDefinitionBlank<WithVolume> defineVolume(String name);
-
         }
 
         /**

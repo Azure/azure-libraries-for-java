@@ -86,8 +86,17 @@ public class ContainerGroupImpl
 
         if (!isInCreateMode()) {
             Resource resource = new Resource();
+            resource.withLocation(self.regionName());
             resource.withTags(self.tags());
-            return self.manager().inner().containerGroups().updateAsync(self.resourceGroupName(), self.name(), resource);
+            return self.manager().inner().containerGroups()
+                .updateAsync(self.resourceGroupName(), self.name(), resource)
+                .flatMap(new Func1<ContainerGroupInner, Observable<ContainerGroupInner>>() {
+                    @Override
+                    public Observable<ContainerGroupInner> call(ContainerGroupInner containerGroupInner) {
+                        return self.manager().inner().containerGroups()
+                            .getByResourceGroupAsync(self.resourceGroupName(), self.name());
+                    }
+                });
         } else if (newFileShares == null || creatableStorageAccountKey == null) {
             return self.manager().inner().containerGroups().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner());
         } else {
@@ -291,6 +300,18 @@ public class ContainerGroupImpl
             this.newFileShares = new HashMap<>();
         }
         this.newFileShares.put(volumeName, shareName);
+
+        return this;
+    }
+
+    @Override
+    public ContainerGroupImpl withEmptyDirectoryVolume(String volumeName) {
+        if (this.inner().volumes() == null) {
+            this.inner().withVolumes(new ArrayList<Volume>());
+        }
+        this.inner().volumes().add(new Volume()
+            .withName(volumeName)
+            .withEmptyDir(new Object()));
 
         return this;
     }

@@ -64,7 +64,6 @@ public final class QueryMetricsAndActivityLogs {
         final String rgName = Utils.createRandomName("rgMonitor");
 
         try {
-
             // ============================================================
             // Create a storage account
 
@@ -88,14 +87,13 @@ public final class QueryMetricsAndActivityLogs {
             // Add some blob transaction events
             addBlobTransactions(storageConnectionString);
 
-
             DateTime recordDateTime = DateTime.now();
             // get metric definitions for storage account.
             for (MetricDefinition  metricDefinition : azure.metricDefinitions().listByResource(storageAccount.id())) {
                 // find metric definition for Transactions
                 if (metricDefinition.name().localizedValue().equalsIgnoreCase("transactions")) {
                     // get metric records
-                    MetricCollection metrics = metricDefinition.defineQuery()
+                    MetricCollection metricCollection = metricDefinition.defineQuery()
                             .startingFrom(recordDateTime.minusDays(7))
                             .endsBefore(recordDateTime)
                             .withAggregation("Average")
@@ -104,11 +102,11 @@ public final class QueryMetricsAndActivityLogs {
                             .execute();
 
                     System.out.println("Metrics for '" + storageAccount.id() + "':");
-                    System.out.println("Query time: " + metrics.timespan());
-                    System.out.println("Time Grain: " + metrics.interval());
-                    System.out.println("Cost: " + metrics.cost());
+                    System.out.println("Query time: " + metricCollection.timespan());
+                    System.out.println("Time Grain: " + metricCollection.interval());
+                    System.out.println("Cost: " + metricCollection.cost());
 
-                    for (Metric metric : metrics.metrics()) {
+                    for (Metric metric : metricCollection.metrics()) {
                         System.out.println("\tMetric: " + metric.name().localizedValue());
                         System.out.println("\tType: " + metric.type());
                         System.out.println("\tUnit: " + metric.unit());
@@ -191,7 +189,6 @@ public final class QueryMetricsAndActivityLogs {
     }
 
     private static void addBlobTransactions(String storageConnectionString) throws IOException, URISyntaxException, InvalidKeyException, StorageException {
-
         // Get the script to upload
         //
         InputStream scriptFileAsStream = QueryMetricsAndActivityLogs

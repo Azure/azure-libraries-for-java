@@ -120,7 +120,7 @@ public final class ManageUserAssignedMSIEnabledVirtualMachine {
             System.out.println("Running a Java application in the MSI enabled VM which creates another virtual machine");
 
             List<String> commands = new ArrayList<>();
-            commands.add("git clone https://github.com/anuchandy/compute-java-manage-vm-from-vm-with-msi-credentials.git");  // Use official repo (anuchandy -> Azure-Samples) once sample is published
+            commands.add("git clone https://github.com/Azure-Samples/compute-java-manage-vm-from-vm-with-msi-credentials.git");
             commands.add("cd compute-java-manage-vm-from-vm-with-msi-credentials");
             commands.add(String.format("mvn clean compile exec:java -Dexec.args='%s %s %s'", azure.subscriptionId(), resourceGroup1.name(), identity.clientId()));
 

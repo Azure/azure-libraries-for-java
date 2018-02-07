@@ -16,6 +16,7 @@ import com.microsoft.azure.management.monitor.MetricDefinition;
 import com.microsoft.azure.management.monitor.MetricValue;
 import com.microsoft.azure.management.monitor.TimeSeriesElement;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.azure.management.storage.AccessTier;
 import com.microsoft.azure.management.storage.StorageAccount;
@@ -140,9 +141,14 @@ public final class QueryMetricsAndActivityLogs {
                     .execute();
 
             System.out.println("Activity logs for the Storage Account:");
+
             for (EventData event : logs) {
-                System.out.println("\tEvent: " + event.eventName().localizedValue());
-                System.out.println("\tOperation: " + event.operationName().localizedValue());
+                if (event.eventName() != null) {
+                    System.out.println("\tEvent: " + event.eventName().localizedValue());
+                }
+                if (event.operationName() != null) {
+                    System.out.println("\tOperation: " + event.operationName().localizedValue());
+                }
                 System.out.println("\tCaller: " + event.caller());
                 System.out.println("\tCorrelationId: " + event.correlationId());
                 System.out.println("\tSubscriptionId: " + event.subscriptionId());
@@ -174,7 +180,7 @@ public final class QueryMetricsAndActivityLogs {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BASIC)
+                    .withLogLevel(LogLevel.NONE)
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
@@ -238,5 +244,8 @@ public final class QueryMetricsAndActivityLogs {
 
         CloudBlockBlob blob = container.getBlockBlobReference("install_apache.sh");
         blob.upload(scriptFileAsStream, fileSize);
+
+        // give sometime for the infrastructure to process the records.
+        SdkContext.sleep(5000);
     }
 }

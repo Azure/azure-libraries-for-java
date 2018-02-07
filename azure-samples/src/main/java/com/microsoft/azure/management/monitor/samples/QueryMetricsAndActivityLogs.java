@@ -245,7 +245,7 @@ public final class QueryMetricsAndActivityLogs {
         CloudBlockBlob blob = container.getBlockBlobReference("install_apache.sh");
         blob.upload(scriptFileAsStream, fileSize);
 
-        // give sometime for the infrastructure to process the records.
-        SdkContext.sleep(5000);
+        // give sometime for the infrastructure to process the records and fit into time grain.
+        SdkContext.sleep(6*60000);
     }
 }

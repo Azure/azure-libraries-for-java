@@ -165,10 +165,14 @@ You can create a virtual machine scale set instance by using a `define() … cre
 <li><a href="https://github.com/Azure-Samples/managed-disk-java-create-virtual-machine-using-specialized-disk-from-snapshot">Create virtual machine using specialized VHD from snapshot</li>
 <li><a href="https://github.com/Azure-Samples/managed-disk-java-convert-existing-virtual-machines-to-use-managed-disks">Convert virtual machines to use managed disks</li>
 <li><a href="https://github.com/azure-samples/compute-java-manage-virtual-machine-with-unmanaged-disks">Manage virtual machine with unmanaged disks</li>
-<li><a href="https://github.com/Azure-Samples/aad-java-manage-resources-from-vm-with-msi">Manage Azure resources from a virtual machine with managed service identity (MSI)</a></li>
+<li><a href="https://github.com/Azure-Samples/aad-java-manage-resources-from-vm-with-msi">Manage Azure resources from a virtual machine with system assigned managed service identity (MSI)</a></li>
 <li><a href="https://github.com/Azure-Samples/compute-java-manage-vm-from-vm-with-msi-credentials">Manage Azure resources from a virtual machine with managed service identity (MSI) credentials</a></li>
+<li><a href="https://github.com/Azure-Samples/compute-java-manage-user-assigned-msi-enabled-virtual-machine">Manage Azure resources from a virtual machine with system assigned managed service identity (MSI)</a></li>
 <li><a href="https://github.com/Azure-Samples/compute-java-manage-vms-in-availability-zones">Manage virtual machines in availability zones</a></li>
 <li><a href="https://github.com/Azure-Samples/compute-java-manage-vmss-in-availability-zones">Manage virtual machine scale sets in availability zones</a></li>
+
+<li><a href="https://github.com/Azure-Samples/Azure-Samples/compute-java-list-compute-skus">List compute SKUs</a></li>
+
 </ul></td>
   </tr>
   <tr>
@@ -283,6 +287,7 @@ ApplicationGateway applicationGateway = azure.applicationGateways().define("myFi
 <li><a href="https://github.com/Azure-Samples/network-java-use-network-watcher-to-check-connectivity">Use network watcher to check connectivity between virtual machines in peered networks</a></li>
 <li><a href="https://github.com/Azure-Samples/network-java-manage-virtual-network-with-site-to-site-vpn-connection">Manage virtual network with site-to-site VPN connection</a></li>
 <li><a href="https://github.com/Azure-Samples/network-java-manage-virtual-network-to-virtual-network-vpn-connection">Manage virtual network to virtual network VPN connection</a></li>
+<li><a href="https://github.com/Azure-Samples/network-java-manage-vpn-client-connection">Manage client to virtual network VPN connection</a></li>
 </ul>
 </td>
   </tr>
@@ -354,6 +359,8 @@ WebApp webApp = azure.webApps()
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-storage-connections-for-web-apps">Manage storage connections for Web apps</a></li>
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-data-connections-for-web-apps">Manage data connections (such as SQL database and Redis cache) for Web apps</a></li>
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-authentication-for-web-apps">Manage authentication for Web apps</a></li>
+<li><a href="https://github.com/Azure-Samples/app-service-java-access-key-vault-by-msi-for-web-apps">Safegaurd Web app secrets in Key Vault</a></li>
+<li><a href="https://github.com/Azure-Samples/app-service-java-access-key-vault-convenience-for-web-apps">Safegaurd Web app secrets in Key Vault using convenience API</a></li>
 </ul></td>
   </tr>
 
@@ -377,6 +384,7 @@ WebApp webApp = azure.webApps()
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-functions-with-custom-domains">Manage functions with custom domains</a></li>
 <li><a href="https://github.com/Azure-Samples/app-service-java-configure-deployment-sources-for-functions">Configure deployment sources for functions</a></li>
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-authentication-for-functions">Manage authentication for functions</a></li>
+<li><a href="https://github.com/Azure-Samples/app-service-java-manage-logs-for-function-apps">Get function logs</a></li>
 </ul></td>
   </tr>
 
@@ -435,6 +443,7 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/storage-java-manage-storage-accounts">Manage storage accounts</a></li>
 <li><a href="https://github.com/Azure-Samples/storage-java-manage-storage-accounts-async">Manage storage accounts asynchronously</a></li>
+<li><a href="https://github.com/Azure-Samples/storage-java-manage-storage-account-network-rules">Manage network rules of a storage account</a></li>
 </ul></td>
   </tr>
 
@@ -536,6 +545,13 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
   </tr>
 
   <tr>
+    <td>Monitor</td>
+    <td><ul style="list-style-type:circle">
+<li><a href="https://github.com/Azure-Samples/Azure-Samples/monitor-java-query-metrics-activitylogs">Get metrics and activity logs for a resource</a></li>
+</ul></td>
+  </tr>
+
+  <tr>
     <td>CDN</td>
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/cdn-java-manage-cdn">Manage CDNs</a></li>
@@ -546,6 +562,13 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
     <td>Batch</td>
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/batch-java-manage-batch-accounts">Manage batch accounts</a></li>
+</ul></td>
+  </tr>
+
+  <tr>
+    <td>Batch AI</td>
+    <td><ul style="list-style-type:circle">
+<li><a href="https://github.com/Azure-Samples/batchai-java-run-batchai-job">Create Batch AI cluster and execute AI job</a></li>
 </ul></td>
   </tr>
 

@@ -64,6 +64,7 @@ public interface KubernetesClusters extends
      * @param kubernetesClusterName the managed cluster name
      * @return the Kube.config content which can be used with a Kubernetes client
      */
+    @Beta(Beta.SinceVersion.V1_7_0)
     byte[] getAdminKubeConfigContent(String resourceGroupName, String kubernetesClusterName);
 
     /**
@@ -73,6 +74,7 @@ public interface KubernetesClusters extends
      * @param kubernetesClusterName the managed cluster name
      * @return a future representation of the Kube.config content which can be used with a Kubernetes client
      */
+    @Beta(Beta.SinceVersion.V1_7_0)
     Observable<byte[]> getAdminKubeConfigContentAsync(String resourceGroupName, String kubernetesClusterName);
 
     /**
@@ -82,6 +84,7 @@ public interface KubernetesClusters extends
      * @param kubernetesClusterName the managed cluster name
      * @return the Kube.config content which can be used with a Kubernetes client
      */
+    @Beta(Beta.SinceVersion.V1_7_0)
     byte[] getUserKubeConfigContent(String resourceGroupName, String kubernetesClusterName);
 
     /**
@@ -91,5 +94,6 @@ public interface KubernetesClusters extends
      * @param kubernetesClusterName the managed cluster name
      * @return a future representation of the Kube.config content which can be used with a Kubernetes client
      */
+    @Beta(Beta.SinceVersion.V1_7_0)
     Observable<byte[]> getUserKubeConfigContentAsync(String resourceGroupName, String kubernetesClusterName);
 }

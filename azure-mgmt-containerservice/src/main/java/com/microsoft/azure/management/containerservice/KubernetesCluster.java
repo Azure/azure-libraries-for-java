@@ -90,31 +90,6 @@ public interface KubernetesCluster extends
      */
     Map<String, KubernetesClusterAgentPool> agentPools();
 
-//    /**
-//     * @return the Kubernetes configuration file content with administrative privileges to the cluster
-//     */
-//    @Beta(Beta.SinceVersion.V1_6_0)
-//    byte[] getAdminKubeConfigContent();
-//
-//    /**
-//     * @return the Kubernetes configuration file content with user-level privileges to the cluster
-//     */
-//    @Beta(Beta.SinceVersion.V1_6_0)
-//    byte[] getUserKubeConfigContent();
-//
-//    /**
-//     * @return the Kubernetes configuration file content with administrative privileges to the cluster
-//     */
-//    @Beta(Beta.SinceVersion.V1_6_0)
-//    Observable<byte[]> getAdminKubeConfigContentAsync();
-//
-//    /**
-//     * @return the Kubernetes configuration file content with user-level privileges to the cluster
-//     */
-//    @Beta(Beta.SinceVersion.V1_6_0)
-//    Observable<byte[]> getUserKubeConfigContentAsync();
-//
-
     // Fluent interfaces
 
     /**

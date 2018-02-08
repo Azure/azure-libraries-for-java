@@ -232,7 +232,7 @@ public final class QueryMetricsAndActivityLogs {
         MetricsProperties metricProps = new MetricsProperties();
         metricProps.setMetricsLevel(MetricsLevel.SERVICE_AND_API);
         metricProps.setRetentionIntervalInDays(2);
-        logProps.setVersion("1.0");
+        metricProps.setVersion("1.0");
         serviceProps.setHourMetrics(metricProps);
         serviceProps.setMinuteMetrics(metricProps);
 
@@ -245,7 +245,7 @@ public final class QueryMetricsAndActivityLogs {
         CloudBlockBlob blob = container.getBlockBlobReference("install_apache.sh");
         blob.upload(scriptFileAsStream, fileSize);
 
-        // give sometime for the infrastructure to process the records.
-        SdkContext.sleep(5000);
+        // give sometime for the infrastructure to process the records and fit into time grain.
+        SdkContext.sleep(6 * 60000);
     }
 }

@@ -77,13 +77,13 @@ public interface ContainerGroup extends
     /**
      * @return the DNS prefix which was specified at creation time
      */
-    @Beta(Beta.SinceVersion.V1_6_0)
+    @Beta(Beta.SinceVersion.V1_7_0)
     String dnsPrefix();
 
     /**
      * @return the FQDN for the container group
      */
-    @Beta(Beta.SinceVersion.V1_6_0)
+    @Beta(Beta.SinceVersion.V1_7_0)
     String fqdn();
 
     /**
@@ -274,6 +274,7 @@ public interface ContainerGroup extends
              * @param name the name of the empty directory volume
              * @return the next stage of the definition
              */
+            @Beta(Beta.SinceVersion.V1_7_0)
             WithFirstContainerInstance withEmptyDirectoryVolume(String name);
 
             /**
@@ -381,7 +382,7 @@ public interface ContainerGroup extends
                  * @param secrets the new volume secrets map; value must be in Base64 encoding
                  * @return the next stage of the definition
                  */
-                @Beta(Beta.SinceVersion.V1_6_0)
+                @Beta(Beta.SinceVersion.V1_7_0)
                 WithVolumeAttach<ParentT> withSecrets(Map<String, String> secrets);
             }
 
@@ -397,7 +398,7 @@ public interface ContainerGroup extends
                  * @param gitUrl the Git URL for the new volume
                  * @return the next stage of the definition
                  */
-                @Beta(Beta.SinceVersion.V1_6_0)
+                @Beta(Beta.SinceVersion.V1_7_0)
                 WithGitDirectoryName<ParentT> withGitUrl(String gitUrl);
             }
 
@@ -417,7 +418,7 @@ public interface ContainerGroup extends
                  * @param gitDirectoryName the Git target directory name for the new volume
                  * @return the next stage of the definition
                  */
-                @Beta(Beta.SinceVersion.V1_6_0)
+                @Beta(Beta.SinceVersion.V1_7_0)
                 WithGitRevision<ParentT> withGitDirectoryName(String gitDirectoryName);
             }
 
@@ -433,7 +434,7 @@ public interface ContainerGroup extends
                  * @param gitRevision the Git revision for the new volume
                  * @return the next stage of the definition
                  */
-                @Beta(Beta.SinceVersion.V1_6_0)
+                @Beta(Beta.SinceVersion.V1_7_0)
                 WithVolumeAttach<ParentT> withGitRevision(String gitRevision);
             }
 

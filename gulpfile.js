@@ -8,7 +8,7 @@ var os = require('os');
 var fs = require('fs');
 
 const mappings = require('./api-specs.json');
-const defaultSpecRoot = "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/current";
+const defaultSpecRoot = "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master";
 
 gulp.task('default', function() {
     console.log("Usage: gulp codegen " +
@@ -121,7 +121,7 @@ var codegen = function(project, cb) {
                         ' --azure-arm ' +
                         generator +
                         ` --namespace=${mappings[project].package} ` +
-                        ` --output-folder=${outDir} ` +
+                        ` --java.output-folder=${outDir} ` +
                         ` --license-header=MICROSOFT_MIT_NO_CODEGEN ` +
                         generatorPath +
                         regenManager +

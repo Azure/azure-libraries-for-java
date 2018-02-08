@@ -8,6 +8,7 @@ package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.monitor.implementation.ActivityLogsInner;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
@@ -28,6 +29,7 @@ public interface ActivityLogs extends
      *
      * @return the stage of start time filter definition.
      */
+    @Method
     ActivityLogsQueryDefinitionStages.WithEventDataStartTimeFilter defineQuery();
 
     /**

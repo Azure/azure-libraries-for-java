@@ -10,8 +10,11 @@ package com.microsoft.azure.management.consumption.implementation;
 
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
+import com.microsoft.azure.AzureServiceFuture;
+import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.consumption.ErrorResponseException;
-import com.microsoft.rest.ServiceCallback;
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import java.io.IOException;
@@ -22,6 +25,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
@@ -52,67 +56,116 @@ public class ReservationsDetailsInner {
      * used by Retrofit to perform actually REST calls.
      */
     interface ReservationsDetailsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.consumption.ReservationsDetails list" })
-        @GET("{scope}/providers/Microsoft.Consumption/reservationDetails")
-        Observable<Response<ResponseBody>> list(@Path(value = "scope", encoded = true) String scope, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.consumption.ReservationsDetails listByReservationOrder" })
+        @GET("providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/providers/Microsoft.Consumption/reservationDetails")
+        Observable<Response<ResponseBody>> listByReservationOrder(@Path("reservationOrderId") String reservationOrderId, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.consumption.ReservationsDetails listByReservationOrderAndReservation" })
+        @GET("providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationDetails")
+        Observable<Response<ResponseBody>> listByReservationOrderAndReservation(@Path("reservationOrderId") String reservationOrderId, @Path("reservationId") String reservationId, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.consumption.ReservationsDetails listByReservationOrderNext" })
+        @GET
+        Observable<Response<ResponseBody>> listByReservationOrderNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.consumption.ReservationsDetails listByReservationOrderAndReservationNext" })
+        @GET
+        Observable<Response<ResponseBody>> listByReservationOrderAndReservationNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
     /**
      * Lists the reservations details for provided date range.
      *
-     * @param scope The scope of the reservation details. The scope can be 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}' or 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}/reservations/{ReservationId}'
+     * @param reservationOrderId Order Id of the reservation
      * @param filter Filter reservation details by date range. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the List&lt;ReservationDetailsInner&gt; object if successful.
+     * @return the PagedList&lt;ReservationDetailsInner&gt; object if successful.
      */
-    public List<ReservationDetailsInner> list(String scope, String filter) {
-        return listWithServiceResponseAsync(scope, filter).toBlocking().single().body();
+    public PagedList<ReservationDetailsInner> listByReservationOrder(final String reservationOrderId, final String filter) {
+        ServiceResponse<Page<ReservationDetailsInner>> response = listByReservationOrderSinglePageAsync(reservationOrderId, filter).toBlocking().single();
+        return new PagedList<ReservationDetailsInner>(response.body()) {
+            @Override
+            public Page<ReservationDetailsInner> nextPage(String nextPageLink) {
+                return listByReservationOrderNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
     }
 
     /**
      * Lists the reservations details for provided date range.
      *
-     * @param scope The scope of the reservation details. The scope can be 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}' or 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}/reservations/{ReservationId}'
+     * @param reservationOrderId Order Id of the reservation
      * @param filter Filter reservation details by date range. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ReservationDetailsInner>> listAsync(String scope, String filter, final ServiceCallback<List<ReservationDetailsInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listWithServiceResponseAsync(scope, filter), serviceCallback);
+    public ServiceFuture<List<ReservationDetailsInner>> listByReservationOrderAsync(final String reservationOrderId, final String filter, final ListOperationCallback<ReservationDetailsInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByReservationOrderSinglePageAsync(reservationOrderId, filter),
+            new Func1<String, Observable<ServiceResponse<Page<ReservationDetailsInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationDetailsInner>>> call(String nextPageLink) {
+                    return listByReservationOrderNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
     }
 
     /**
      * Lists the reservations details for provided date range.
      *
-     * @param scope The scope of the reservation details. The scope can be 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}' or 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}/reservations/{ReservationId}'
+     * @param reservationOrderId Order Id of the reservation
      * @param filter Filter reservation details by date range. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ReservationDetailsInner&gt; object
+     * @return the observable to the PagedList&lt;ReservationDetailsInner&gt; object
      */
-    public Observable<List<ReservationDetailsInner>> listAsync(String scope, String filter) {
-        return listWithServiceResponseAsync(scope, filter).map(new Func1<ServiceResponse<List<ReservationDetailsInner>>, List<ReservationDetailsInner>>() {
-            @Override
-            public List<ReservationDetailsInner> call(ServiceResponse<List<ReservationDetailsInner>> response) {
-                return response.body();
-            }
-        });
+    public Observable<Page<ReservationDetailsInner>> listByReservationOrderAsync(final String reservationOrderId, final String filter) {
+        return listByReservationOrderWithServiceResponseAsync(reservationOrderId, filter)
+            .map(new Func1<ServiceResponse<Page<ReservationDetailsInner>>, Page<ReservationDetailsInner>>() {
+                @Override
+                public Page<ReservationDetailsInner> call(ServiceResponse<Page<ReservationDetailsInner>> response) {
+                    return response.body();
+                }
+            });
     }
 
     /**
      * Lists the reservations details for provided date range.
      *
-     * @param scope The scope of the reservation details. The scope can be 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}' or 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}/reservations/{ReservationId}'
+     * @param reservationOrderId Order Id of the reservation
      * @param filter Filter reservation details by date range. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ReservationDetailsInner&gt; object
+     * @return the observable to the PagedList&lt;ReservationDetailsInner&gt; object
      */
-    public Observable<ServiceResponse<List<ReservationDetailsInner>>> listWithServiceResponseAsync(String scope, String filter) {
-        if (scope == null) {
-            throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
+    public Observable<ServiceResponse<Page<ReservationDetailsInner>>> listByReservationOrderWithServiceResponseAsync(final String reservationOrderId, final String filter) {
+        return listByReservationOrderSinglePageAsync(reservationOrderId, filter)
+            .concatMap(new Func1<ServiceResponse<Page<ReservationDetailsInner>>, Observable<ServiceResponse<Page<ReservationDetailsInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationDetailsInner>>> call(ServiceResponse<Page<ReservationDetailsInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByReservationOrderNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+    ServiceResponse<PageImpl<ReservationDetailsInner>> * @param reservationOrderId Order Id of the reservation
+    ServiceResponse<PageImpl<ReservationDetailsInner>> * @param filter Filter reservation details by date range. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ReservationDetailsInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ReservationDetailsInner>>> listByReservationOrderSinglePageAsync(final String reservationOrderId, final String filter) {
+        if (reservationOrderId == null) {
+            throw new IllegalArgumentException("Parameter reservationOrderId is required and cannot be null.");
         }
         if (filter == null) {
             throw new IllegalArgumentException("Parameter filter is required and cannot be null.");
@@ -120,14 +173,13 @@ public class ReservationsDetailsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.list(scope, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<ReservationDetailsInner>>>>() {
+        return service.listByReservationOrder(reservationOrderId, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ReservationDetailsInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<List<ReservationDetailsInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<ReservationDetailsInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl1<ReservationDetailsInner>> result = listDelegate(response);
-                        ServiceResponse<List<ReservationDetailsInner>> clientResponse = new ServiceResponse<List<ReservationDetailsInner>>(result.body().items(), result.response());
-                        return Observable.just(clientResponse);
+                        ServiceResponse<PageImpl<ReservationDetailsInner>> result = listByReservationOrderDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ReservationDetailsInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -135,9 +187,359 @@ public class ReservationsDetailsInner {
             });
     }
 
-    private ServiceResponse<PageImpl1<ReservationDetailsInner>> listDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<ReservationDetailsInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<ReservationDetailsInner>>() { }.getType())
+    private ServiceResponse<PageImpl<ReservationDetailsInner>> listByReservationOrderDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ReservationDetailsInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ReservationDetailsInner>>() { }.getType())
+                .registerError(ErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+     * @param reservationOrderId Order Id of the reservation
+     * @param reservationId Id of the reservation
+     * @param filter Filter reservation details by date range. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ReservationDetailsInner&gt; object if successful.
+     */
+    public PagedList<ReservationDetailsInner> listByReservationOrderAndReservation(final String reservationOrderId, final String reservationId, final String filter) {
+        ServiceResponse<Page<ReservationDetailsInner>> response = listByReservationOrderAndReservationSinglePageAsync(reservationOrderId, reservationId, filter).toBlocking().single();
+        return new PagedList<ReservationDetailsInner>(response.body()) {
+            @Override
+            public Page<ReservationDetailsInner> nextPage(String nextPageLink) {
+                return listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+     * @param reservationOrderId Order Id of the reservation
+     * @param reservationId Id of the reservation
+     * @param filter Filter reservation details by date range. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ReservationDetailsInner>> listByReservationOrderAndReservationAsync(final String reservationOrderId, final String reservationId, final String filter, final ListOperationCallback<ReservationDetailsInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByReservationOrderAndReservationSinglePageAsync(reservationOrderId, reservationId, filter),
+            new Func1<String, Observable<ServiceResponse<Page<ReservationDetailsInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationDetailsInner>>> call(String nextPageLink) {
+                    return listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+     * @param reservationOrderId Order Id of the reservation
+     * @param reservationId Id of the reservation
+     * @param filter Filter reservation details by date range. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ReservationDetailsInner&gt; object
+     */
+    public Observable<Page<ReservationDetailsInner>> listByReservationOrderAndReservationAsync(final String reservationOrderId, final String reservationId, final String filter) {
+        return listByReservationOrderAndReservationWithServiceResponseAsync(reservationOrderId, reservationId, filter)
+            .map(new Func1<ServiceResponse<Page<ReservationDetailsInner>>, Page<ReservationDetailsInner>>() {
+                @Override
+                public Page<ReservationDetailsInner> call(ServiceResponse<Page<ReservationDetailsInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+     * @param reservationOrderId Order Id of the reservation
+     * @param reservationId Id of the reservation
+     * @param filter Filter reservation details by date range. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ReservationDetailsInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ReservationDetailsInner>>> listByReservationOrderAndReservationWithServiceResponseAsync(final String reservationOrderId, final String reservationId, final String filter) {
+        return listByReservationOrderAndReservationSinglePageAsync(reservationOrderId, reservationId, filter)
+            .concatMap(new Func1<ServiceResponse<Page<ReservationDetailsInner>>, Observable<ServiceResponse<Page<ReservationDetailsInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationDetailsInner>>> call(ServiceResponse<Page<ReservationDetailsInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByReservationOrderAndReservationNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+    ServiceResponse<PageImpl<ReservationDetailsInner>> * @param reservationOrderId Order Id of the reservation
+    ServiceResponse<PageImpl<ReservationDetailsInner>> * @param reservationId Id of the reservation
+    ServiceResponse<PageImpl<ReservationDetailsInner>> * @param filter Filter reservation details by date range. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ReservationDetailsInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ReservationDetailsInner>>> listByReservationOrderAndReservationSinglePageAsync(final String reservationOrderId, final String reservationId, final String filter) {
+        if (reservationOrderId == null) {
+            throw new IllegalArgumentException("Parameter reservationOrderId is required and cannot be null.");
+        }
+        if (reservationId == null) {
+            throw new IllegalArgumentException("Parameter reservationId is required and cannot be null.");
+        }
+        if (filter == null) {
+            throw new IllegalArgumentException("Parameter filter is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listByReservationOrderAndReservation(reservationOrderId, reservationId, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ReservationDetailsInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationDetailsInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ReservationDetailsInner>> result = listByReservationOrderAndReservationDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ReservationDetailsInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<ReservationDetailsInner>> listByReservationOrderAndReservationDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ReservationDetailsInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ReservationDetailsInner>>() { }.getType())
+                .registerError(ErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ReservationDetailsInner&gt; object if successful.
+     */
+    public PagedList<ReservationDetailsInner> listByReservationOrderNext(final String nextPageLink) {
+        ServiceResponse<Page<ReservationDetailsInner>> response = listByReservationOrderNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<ReservationDetailsInner>(response.body()) {
+            @Override
+            public Page<ReservationDetailsInner> nextPage(String nextPageLink) {
+                return listByReservationOrderNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ReservationDetailsInner>> listByReservationOrderNextAsync(final String nextPageLink, final ServiceFuture<List<ReservationDetailsInner>> serviceFuture, final ListOperationCallback<ReservationDetailsInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByReservationOrderNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<ReservationDetailsInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationDetailsInner>>> call(String nextPageLink) {
+                    return listByReservationOrderNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ReservationDetailsInner&gt; object
+     */
+    public Observable<Page<ReservationDetailsInner>> listByReservationOrderNextAsync(final String nextPageLink) {
+        return listByReservationOrderNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<ReservationDetailsInner>>, Page<ReservationDetailsInner>>() {
+                @Override
+                public Page<ReservationDetailsInner> call(ServiceResponse<Page<ReservationDetailsInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ReservationDetailsInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ReservationDetailsInner>>> listByReservationOrderNextWithServiceResponseAsync(final String nextPageLink) {
+        return listByReservationOrderNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<ReservationDetailsInner>>, Observable<ServiceResponse<Page<ReservationDetailsInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationDetailsInner>>> call(ServiceResponse<Page<ReservationDetailsInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByReservationOrderNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+    ServiceResponse<PageImpl<ReservationDetailsInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ReservationDetailsInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ReservationDetailsInner>>> listByReservationOrderNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listByReservationOrderNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ReservationDetailsInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationDetailsInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ReservationDetailsInner>> result = listByReservationOrderNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ReservationDetailsInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<ReservationDetailsInner>> listByReservationOrderNextDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ReservationDetailsInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ReservationDetailsInner>>() { }.getType())
+                .registerError(ErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ReservationDetailsInner&gt; object if successful.
+     */
+    public PagedList<ReservationDetailsInner> listByReservationOrderAndReservationNext(final String nextPageLink) {
+        ServiceResponse<Page<ReservationDetailsInner>> response = listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<ReservationDetailsInner>(response.body()) {
+            @Override
+            public Page<ReservationDetailsInner> nextPage(String nextPageLink) {
+                return listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ReservationDetailsInner>> listByReservationOrderAndReservationNextAsync(final String nextPageLink, final ServiceFuture<List<ReservationDetailsInner>> serviceFuture, final ListOperationCallback<ReservationDetailsInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<ReservationDetailsInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationDetailsInner>>> call(String nextPageLink) {
+                    return listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ReservationDetailsInner&gt; object
+     */
+    public Observable<Page<ReservationDetailsInner>> listByReservationOrderAndReservationNextAsync(final String nextPageLink) {
+        return listByReservationOrderAndReservationNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<ReservationDetailsInner>>, Page<ReservationDetailsInner>>() {
+                @Override
+                public Page<ReservationDetailsInner> call(ServiceResponse<Page<ReservationDetailsInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ReservationDetailsInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ReservationDetailsInner>>> listByReservationOrderAndReservationNextWithServiceResponseAsync(final String nextPageLink) {
+        return listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<ReservationDetailsInner>>, Observable<ServiceResponse<Page<ReservationDetailsInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationDetailsInner>>> call(ServiceResponse<Page<ReservationDetailsInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByReservationOrderAndReservationNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations details for provided date range.
+     *
+    ServiceResponse<PageImpl<ReservationDetailsInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ReservationDetailsInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ReservationDetailsInner>>> listByReservationOrderAndReservationNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listByReservationOrderAndReservationNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ReservationDetailsInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationDetailsInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ReservationDetailsInner>> result = listByReservationOrderAndReservationNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ReservationDetailsInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<ReservationDetailsInner>> listByReservationOrderAndReservationNextDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ReservationDetailsInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ReservationDetailsInner>>() { }.getType())
                 .registerError(ErrorResponseException.class)
                 .build(response);
     }

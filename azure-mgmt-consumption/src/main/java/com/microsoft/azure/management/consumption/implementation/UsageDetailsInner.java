@@ -57,26 +57,33 @@ public class UsageDetailsInner {
      */
     interface UsageDetailsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.consumption.UsageDetails list" })
-        @GET("{scope}/providers/Microsoft.Consumption/usageDetails")
-        Observable<Response<ResponseBody>> list(@Path(value = "scope", encoded = true) String scope, @Query("$expand") String expand, @Query("$filter") String filter, @Query("$skiptoken") String skiptoken, @Query("$top") Integer top, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Consumption/usageDetails")
+        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("$expand") String expand, @Query("$filter") String filter, @Query("$skiptoken") String skiptoken, @Query("$top") Integer top, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.consumption.UsageDetails listByBillingPeriod" })
+        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/usageDetails")
+        Observable<Response<ResponseBody>> listByBillingPeriod(@Path("subscriptionId") String subscriptionId, @Path("billingPeriodName") String billingPeriodName, @Query("$expand") String expand, @Query("$filter") String filter, @Query("$skiptoken") String skiptoken, @Query("$top") Integer top, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.consumption.UsageDetails listNext" })
         @GET
         Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.consumption.UsageDetails listByBillingPeriodNext" })
+        @GET
+        Observable<Response<ResponseBody>> listByBillingPeriodNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
     /**
      * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
      *
-     * @param scope The scope of the usage details. The scope can be '/subscriptions/{subscriptionId}' for a subscription, or '/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}' for a billing perdiod.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;UsageDetailInner&gt; object if successful.
      */
-    public PagedList<UsageDetailInner> list(final String scope) {
-        ServiceResponse<Page<UsageDetailInner>> response = listSinglePageAsync(scope).toBlocking().single();
+    public PagedList<UsageDetailInner> list() {
+        ServiceResponse<Page<UsageDetailInner>> response = listSinglePageAsync().toBlocking().single();
         return new PagedList<UsageDetailInner>(response.body()) {
             @Override
             public Page<UsageDetailInner> nextPage(String nextPageLink) {
@@ -88,14 +95,13 @@ public class UsageDetailsInner {
     /**
      * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
      *
-     * @param scope The scope of the usage details. The scope can be '/subscriptions/{subscriptionId}' for a subscription, or '/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}' for a billing perdiod.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<UsageDetailInner>> listAsync(final String scope, final ListOperationCallback<UsageDetailInner> serviceCallback) {
+    public ServiceFuture<List<UsageDetailInner>> listAsync(final ListOperationCallback<UsageDetailInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(scope),
+            listSinglePageAsync(),
             new Func1<String, Observable<ServiceResponse<Page<UsageDetailInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<UsageDetailInner>>> call(String nextPageLink) {
@@ -108,12 +114,11 @@ public class UsageDetailsInner {
     /**
      * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
      *
-     * @param scope The scope of the usage details. The scope can be '/subscriptions/{subscriptionId}' for a subscription, or '/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}' for a billing perdiod.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;UsageDetailInner&gt; object
      */
-    public Observable<Page<UsageDetailInner>> listAsync(final String scope) {
-        return listWithServiceResponseAsync(scope)
+    public Observable<Page<UsageDetailInner>> listAsync() {
+        return listWithServiceResponseAsync()
             .map(new Func1<ServiceResponse<Page<UsageDetailInner>>, Page<UsageDetailInner>>() {
                 @Override
                 public Page<UsageDetailInner> call(ServiceResponse<Page<UsageDetailInner>> response) {
@@ -125,12 +130,11 @@ public class UsageDetailsInner {
     /**
      * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
      *
-     * @param scope The scope of the usage details. The scope can be '/subscriptions/{subscriptionId}' for a subscription, or '/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}' for a billing perdiod.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;UsageDetailInner&gt; object
      */
-    public Observable<ServiceResponse<Page<UsageDetailInner>>> listWithServiceResponseAsync(final String scope) {
-        return listSinglePageAsync(scope)
+    public Observable<ServiceResponse<Page<UsageDetailInner>>> listWithServiceResponseAsync() {
+        return listSinglePageAsync()
             .concatMap(new Func1<ServiceResponse<Page<UsageDetailInner>>, Observable<ServiceResponse<Page<UsageDetailInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<UsageDetailInner>>> call(ServiceResponse<Page<UsageDetailInner>> page) {
@@ -146,13 +150,12 @@ public class UsageDetailsInner {
     /**
      * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
      *
-     * @param scope The scope of the usage details. The scope can be '/subscriptions/{subscriptionId}' for a subscription, or '/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}' for a billing perdiod.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;UsageDetailInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<UsageDetailInner>>> listSinglePageAsync(final String scope) {
-        if (scope == null) {
-            throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
+    public Observable<ServiceResponse<Page<UsageDetailInner>>> listSinglePageAsync() {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
@@ -161,7 +164,7 @@ public class UsageDetailsInner {
         final String filter = null;
         final String skiptoken = null;
         final Integer top = null;
-        return service.list(scope, expand, filter, skiptoken, top, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.list(this.client.subscriptionId(), expand, filter, skiptoken, top, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<UsageDetailInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<UsageDetailInner>>> call(Response<ResponseBody> response) {
@@ -178,7 +181,6 @@ public class UsageDetailsInner {
     /**
      * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
      *
-     * @param scope The scope of the usage details. The scope can be '/subscriptions/{subscriptionId}' for a subscription, or '/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}' for a billing perdiod.
      * @param expand May be used to expand the properties/additionalProperties or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details.
      * @param filter May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
      * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
@@ -188,8 +190,8 @@ public class UsageDetailsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;UsageDetailInner&gt; object if successful.
      */
-    public PagedList<UsageDetailInner> list(final String scope, final String expand, final String filter, final String skiptoken, final Integer top) {
-        ServiceResponse<Page<UsageDetailInner>> response = listSinglePageAsync(scope, expand, filter, skiptoken, top).toBlocking().single();
+    public PagedList<UsageDetailInner> list(final String expand, final String filter, final String skiptoken, final Integer top) {
+        ServiceResponse<Page<UsageDetailInner>> response = listSinglePageAsync(expand, filter, skiptoken, top).toBlocking().single();
         return new PagedList<UsageDetailInner>(response.body()) {
             @Override
             public Page<UsageDetailInner> nextPage(String nextPageLink) {
@@ -201,7 +203,6 @@ public class UsageDetailsInner {
     /**
      * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
      *
-     * @param scope The scope of the usage details. The scope can be '/subscriptions/{subscriptionId}' for a subscription, or '/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}' for a billing perdiod.
      * @param expand May be used to expand the properties/additionalProperties or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details.
      * @param filter May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
      * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
@@ -210,9 +211,9 @@ public class UsageDetailsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<UsageDetailInner>> listAsync(final String scope, final String expand, final String filter, final String skiptoken, final Integer top, final ListOperationCallback<UsageDetailInner> serviceCallback) {
+    public ServiceFuture<List<UsageDetailInner>> listAsync(final String expand, final String filter, final String skiptoken, final Integer top, final ListOperationCallback<UsageDetailInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(scope, expand, filter, skiptoken, top),
+            listSinglePageAsync(expand, filter, skiptoken, top),
             new Func1<String, Observable<ServiceResponse<Page<UsageDetailInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<UsageDetailInner>>> call(String nextPageLink) {
@@ -225,7 +226,6 @@ public class UsageDetailsInner {
     /**
      * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
      *
-     * @param scope The scope of the usage details. The scope can be '/subscriptions/{subscriptionId}' for a subscription, or '/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}' for a billing perdiod.
      * @param expand May be used to expand the properties/additionalProperties or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details.
      * @param filter May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
      * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
@@ -233,8 +233,8 @@ public class UsageDetailsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;UsageDetailInner&gt; object
      */
-    public Observable<Page<UsageDetailInner>> listAsync(final String scope, final String expand, final String filter, final String skiptoken, final Integer top) {
-        return listWithServiceResponseAsync(scope, expand, filter, skiptoken, top)
+    public Observable<Page<UsageDetailInner>> listAsync(final String expand, final String filter, final String skiptoken, final Integer top) {
+        return listWithServiceResponseAsync(expand, filter, skiptoken, top)
             .map(new Func1<ServiceResponse<Page<UsageDetailInner>>, Page<UsageDetailInner>>() {
                 @Override
                 public Page<UsageDetailInner> call(ServiceResponse<Page<UsageDetailInner>> response) {
@@ -246,7 +246,6 @@ public class UsageDetailsInner {
     /**
      * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
      *
-     * @param scope The scope of the usage details. The scope can be '/subscriptions/{subscriptionId}' for a subscription, or '/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}' for a billing perdiod.
      * @param expand May be used to expand the properties/additionalProperties or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details.
      * @param filter May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
      * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
@@ -254,8 +253,8 @@ public class UsageDetailsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;UsageDetailInner&gt; object
      */
-    public Observable<ServiceResponse<Page<UsageDetailInner>>> listWithServiceResponseAsync(final String scope, final String expand, final String filter, final String skiptoken, final Integer top) {
-        return listSinglePageAsync(scope, expand, filter, skiptoken, top)
+    public Observable<ServiceResponse<Page<UsageDetailInner>>> listWithServiceResponseAsync(final String expand, final String filter, final String skiptoken, final Integer top) {
+        return listSinglePageAsync(expand, filter, skiptoken, top)
             .concatMap(new Func1<ServiceResponse<Page<UsageDetailInner>>, Observable<ServiceResponse<Page<UsageDetailInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<UsageDetailInner>>> call(ServiceResponse<Page<UsageDetailInner>> page) {
@@ -271,7 +270,6 @@ public class UsageDetailsInner {
     /**
      * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
      *
-    ServiceResponse<PageImpl<UsageDetailInner>> * @param scope The scope of the usage details. The scope can be '/subscriptions/{subscriptionId}' for a subscription, or '/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}' for a billing perdiod.
     ServiceResponse<PageImpl<UsageDetailInner>> * @param expand May be used to expand the properties/additionalProperties or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details.
     ServiceResponse<PageImpl<UsageDetailInner>> * @param filter May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
     ServiceResponse<PageImpl<UsageDetailInner>> * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
@@ -279,14 +277,14 @@ public class UsageDetailsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;UsageDetailInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<UsageDetailInner>>> listSinglePageAsync(final String scope, final String expand, final String filter, final String skiptoken, final Integer top) {
-        if (scope == null) {
-            throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
+    public Observable<ServiceResponse<Page<UsageDetailInner>>> listSinglePageAsync(final String expand, final String filter, final String skiptoken, final Integer top) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.list(scope, expand, filter, skiptoken, top, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.list(this.client.subscriptionId(), expand, filter, skiptoken, top, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<UsageDetailInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<UsageDetailInner>>> call(Response<ResponseBody> response) {
@@ -301,6 +299,253 @@ public class UsageDetailsInner {
     }
 
     private ServiceResponse<PageImpl<UsageDetailInner>> listDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<UsageDetailInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<UsageDetailInner>>() { }.getType())
+                .registerError(ErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+     *
+     * @param billingPeriodName Billing Period Name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;UsageDetailInner&gt; object if successful.
+     */
+    public PagedList<UsageDetailInner> listByBillingPeriod(final String billingPeriodName) {
+        ServiceResponse<Page<UsageDetailInner>> response = listByBillingPeriodSinglePageAsync(billingPeriodName).toBlocking().single();
+        return new PagedList<UsageDetailInner>(response.body()) {
+            @Override
+            public Page<UsageDetailInner> nextPage(String nextPageLink) {
+                return listByBillingPeriodNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+     *
+     * @param billingPeriodName Billing Period Name.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<UsageDetailInner>> listByBillingPeriodAsync(final String billingPeriodName, final ListOperationCallback<UsageDetailInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByBillingPeriodSinglePageAsync(billingPeriodName),
+            new Func1<String, Observable<ServiceResponse<Page<UsageDetailInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<UsageDetailInner>>> call(String nextPageLink) {
+                    return listByBillingPeriodNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+     *
+     * @param billingPeriodName Billing Period Name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;UsageDetailInner&gt; object
+     */
+    public Observable<Page<UsageDetailInner>> listByBillingPeriodAsync(final String billingPeriodName) {
+        return listByBillingPeriodWithServiceResponseAsync(billingPeriodName)
+            .map(new Func1<ServiceResponse<Page<UsageDetailInner>>, Page<UsageDetailInner>>() {
+                @Override
+                public Page<UsageDetailInner> call(ServiceResponse<Page<UsageDetailInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+     *
+     * @param billingPeriodName Billing Period Name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;UsageDetailInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<UsageDetailInner>>> listByBillingPeriodWithServiceResponseAsync(final String billingPeriodName) {
+        return listByBillingPeriodSinglePageAsync(billingPeriodName)
+            .concatMap(new Func1<ServiceResponse<Page<UsageDetailInner>>, Observable<ServiceResponse<Page<UsageDetailInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<UsageDetailInner>>> call(ServiceResponse<Page<UsageDetailInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByBillingPeriodNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+     *
+     * @param billingPeriodName Billing Period Name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;UsageDetailInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<UsageDetailInner>>> listByBillingPeriodSinglePageAsync(final String billingPeriodName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (billingPeriodName == null) {
+            throw new IllegalArgumentException("Parameter billingPeriodName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final String expand = null;
+        final String filter = null;
+        final String skiptoken = null;
+        final Integer top = null;
+        return service.listByBillingPeriod(this.client.subscriptionId(), billingPeriodName, expand, filter, skiptoken, top, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<UsageDetailInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<UsageDetailInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<UsageDetailInner>> result = listByBillingPeriodDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<UsageDetailInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+     *
+     * @param billingPeriodName Billing Period Name.
+     * @param expand May be used to expand the properties/additionalProperties or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details.
+     * @param filter May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
+     * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
+     * @param top May be used to limit the number of results to the most recent N usageDetails.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;UsageDetailInner&gt; object if successful.
+     */
+    public PagedList<UsageDetailInner> listByBillingPeriod(final String billingPeriodName, final String expand, final String filter, final String skiptoken, final Integer top) {
+        ServiceResponse<Page<UsageDetailInner>> response = listByBillingPeriodSinglePageAsync(billingPeriodName, expand, filter, skiptoken, top).toBlocking().single();
+        return new PagedList<UsageDetailInner>(response.body()) {
+            @Override
+            public Page<UsageDetailInner> nextPage(String nextPageLink) {
+                return listByBillingPeriodNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+     *
+     * @param billingPeriodName Billing Period Name.
+     * @param expand May be used to expand the properties/additionalProperties or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details.
+     * @param filter May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
+     * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
+     * @param top May be used to limit the number of results to the most recent N usageDetails.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<UsageDetailInner>> listByBillingPeriodAsync(final String billingPeriodName, final String expand, final String filter, final String skiptoken, final Integer top, final ListOperationCallback<UsageDetailInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByBillingPeriodSinglePageAsync(billingPeriodName, expand, filter, skiptoken, top),
+            new Func1<String, Observable<ServiceResponse<Page<UsageDetailInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<UsageDetailInner>>> call(String nextPageLink) {
+                    return listByBillingPeriodNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+     *
+     * @param billingPeriodName Billing Period Name.
+     * @param expand May be used to expand the properties/additionalProperties or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details.
+     * @param filter May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
+     * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
+     * @param top May be used to limit the number of results to the most recent N usageDetails.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;UsageDetailInner&gt; object
+     */
+    public Observable<Page<UsageDetailInner>> listByBillingPeriodAsync(final String billingPeriodName, final String expand, final String filter, final String skiptoken, final Integer top) {
+        return listByBillingPeriodWithServiceResponseAsync(billingPeriodName, expand, filter, skiptoken, top)
+            .map(new Func1<ServiceResponse<Page<UsageDetailInner>>, Page<UsageDetailInner>>() {
+                @Override
+                public Page<UsageDetailInner> call(ServiceResponse<Page<UsageDetailInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+     *
+     * @param billingPeriodName Billing Period Name.
+     * @param expand May be used to expand the properties/additionalProperties or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details.
+     * @param filter May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
+     * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
+     * @param top May be used to limit the number of results to the most recent N usageDetails.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;UsageDetailInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<UsageDetailInner>>> listByBillingPeriodWithServiceResponseAsync(final String billingPeriodName, final String expand, final String filter, final String skiptoken, final Integer top) {
+        return listByBillingPeriodSinglePageAsync(billingPeriodName, expand, filter, skiptoken, top)
+            .concatMap(new Func1<ServiceResponse<Page<UsageDetailInner>>, Observable<ServiceResponse<Page<UsageDetailInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<UsageDetailInner>>> call(ServiceResponse<Page<UsageDetailInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByBillingPeriodNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+     *
+    ServiceResponse<PageImpl<UsageDetailInner>> * @param billingPeriodName Billing Period Name.
+    ServiceResponse<PageImpl<UsageDetailInner>> * @param expand May be used to expand the properties/additionalProperties or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details.
+    ServiceResponse<PageImpl<UsageDetailInner>> * @param filter May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
+    ServiceResponse<PageImpl<UsageDetailInner>> * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
+    ServiceResponse<PageImpl<UsageDetailInner>> * @param top May be used to limit the number of results to the most recent N usageDetails.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;UsageDetailInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<UsageDetailInner>>> listByBillingPeriodSinglePageAsync(final String billingPeriodName, final String expand, final String filter, final String skiptoken, final Integer top) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (billingPeriodName == null) {
+            throw new IllegalArgumentException("Parameter billingPeriodName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listByBillingPeriod(this.client.subscriptionId(), billingPeriodName, expand, filter, skiptoken, top, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<UsageDetailInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<UsageDetailInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<UsageDetailInner>> result = listByBillingPeriodDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<UsageDetailInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<UsageDetailInner>> listByBillingPeriodDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<UsageDetailInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<UsageDetailInner>>() { }.getType())
                 .registerError(ErrorResponseException.class)
@@ -412,6 +657,117 @@ public class UsageDetailsInner {
     }
 
     private ServiceResponse<PageImpl<UsageDetailInner>> listNextDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<UsageDetailInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<UsageDetailInner>>() { }.getType())
+                .registerError(ErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;UsageDetailInner&gt; object if successful.
+     */
+    public PagedList<UsageDetailInner> listByBillingPeriodNext(final String nextPageLink) {
+        ServiceResponse<Page<UsageDetailInner>> response = listByBillingPeriodNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<UsageDetailInner>(response.body()) {
+            @Override
+            public Page<UsageDetailInner> nextPage(String nextPageLink) {
+                return listByBillingPeriodNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<UsageDetailInner>> listByBillingPeriodNextAsync(final String nextPageLink, final ServiceFuture<List<UsageDetailInner>> serviceFuture, final ListOperationCallback<UsageDetailInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByBillingPeriodNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<UsageDetailInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<UsageDetailInner>>> call(String nextPageLink) {
+                    return listByBillingPeriodNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;UsageDetailInner&gt; object
+     */
+    public Observable<Page<UsageDetailInner>> listByBillingPeriodNextAsync(final String nextPageLink) {
+        return listByBillingPeriodNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<UsageDetailInner>>, Page<UsageDetailInner>>() {
+                @Override
+                public Page<UsageDetailInner> call(ServiceResponse<Page<UsageDetailInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;UsageDetailInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<UsageDetailInner>>> listByBillingPeriodNextWithServiceResponseAsync(final String nextPageLink) {
+        return listByBillingPeriodNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<UsageDetailInner>>, Observable<ServiceResponse<Page<UsageDetailInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<UsageDetailInner>>> call(ServiceResponse<Page<UsageDetailInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByBillingPeriodNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+     *
+    ServiceResponse<PageImpl<UsageDetailInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;UsageDetailInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<UsageDetailInner>>> listByBillingPeriodNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listByBillingPeriodNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<UsageDetailInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<UsageDetailInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<UsageDetailInner>> result = listByBillingPeriodNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<UsageDetailInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<UsageDetailInner>> listByBillingPeriodNextDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<UsageDetailInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<UsageDetailInner>>() { }.getType())
                 .registerError(ErrorResponseException.class)

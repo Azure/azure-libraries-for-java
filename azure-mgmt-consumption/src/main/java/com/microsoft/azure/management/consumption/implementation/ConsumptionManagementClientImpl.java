@@ -28,11 +28,11 @@ public class ConsumptionManagementClientImpl extends AzureServiceClient {
         return this.azureClient;
     }
 
-    /** Version of the API to be used with the client request. The current version is 2017-11-30. */
+    /** Version of the API to be used with the client request. The current version is 2018-01-31. */
     private String apiVersion;
 
     /**
-     * Gets Version of the API to be used with the client request. The current version is 2017-11-30.
+     * Gets Version of the API to be used with the client request. The current version is 2018-01-31.
      *
      * @return the apiVersion value.
      */
@@ -146,6 +146,19 @@ public class ConsumptionManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The MarketplacesInner object to access its operations.
+     */
+    private MarketplacesInner marketplaces;
+
+    /**
+     * Gets the MarketplacesInner object to access its operations.
+     * @return the MarketplacesInner object.
+     */
+    public MarketplacesInner marketplaces() {
+        return this.marketplaces;
+    }
+
+    /**
      * The ReservationsSummariesInner object to access its operations.
      */
     private ReservationsSummariesInner reservationsSummaries;
@@ -172,6 +185,19 @@ public class ConsumptionManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The BudgetsInner object to access its operations.
+     */
+    private BudgetsInner budgets;
+
+    /**
+     * Gets the BudgetsInner object to access its operations.
+     * @return the BudgetsInner object.
+     */
+    public BudgetsInner budgets() {
+        return this.budgets;
+    }
+
+    /**
      * The OperationsInner object to access its operations.
      */
     private OperationsInner operations;
@@ -182,6 +208,19 @@ public class ConsumptionManagementClientImpl extends AzureServiceClient {
      */
     public OperationsInner operations() {
         return this.operations;
+    }
+
+    /**
+     * The PriceSheetsInner object to access its operations.
+     */
+    private PriceSheetsInner priceSheets;
+
+    /**
+     * Gets the PriceSheetsInner object to access its operations.
+     * @return the PriceSheetsInner object.
+     */
+    public PriceSheetsInner priceSheets() {
+        return this.priceSheets;
     }
 
     /**
@@ -215,14 +254,17 @@ public class ConsumptionManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2017-11-30";
+        this.apiVersion = "2018-01-31";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
         this.usageDetails = new UsageDetailsInner(restClient().retrofit(), this);
+        this.marketplaces = new MarketplacesInner(restClient().retrofit(), this);
         this.reservationsSummaries = new ReservationsSummariesInner(restClient().retrofit(), this);
         this.reservationsDetails = new ReservationsDetailsInner(restClient().retrofit(), this);
+        this.budgets = new BudgetsInner(restClient().retrofit(), this);
         this.operations = new OperationsInner(restClient().retrofit(), this);
+        this.priceSheets = new PriceSheetsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 
@@ -233,6 +275,6 @@ public class ConsumptionManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "ConsumptionManagementClient", "2017-11-30");
+        return String.format("%s (%s, %s)", super.userAgent(), "ConsumptionManagementClient", "2018-01-31");
     }
 }

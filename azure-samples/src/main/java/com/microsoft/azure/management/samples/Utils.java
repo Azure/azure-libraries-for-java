@@ -2462,7 +2462,8 @@ public final class Utils {
         if (resource.volumes() != null) {
             info.append("\n\tVolume mapping: ");
             for (Map.Entry<String, Volume> entry: resource.volumes().entrySet()) {
-                info.append("\n\t\tName: ").append(entry.getKey()).append(" -> ").append(entry.getValue().azureFile().shareName());
+                info.append("\n\t\tName: ").append(entry.getKey()).append(" -> ")
+                    .append(entry.getValue().azureFile() != null ? entry.getValue().azureFile().shareName() : "empty direcory volume");
             }
         }
         if (resource.containers() != null) {

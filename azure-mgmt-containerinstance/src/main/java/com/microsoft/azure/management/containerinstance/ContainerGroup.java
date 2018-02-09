@@ -11,9 +11,11 @@ import com.microsoft.azure.management.containerinstance.implementation.Container
 import com.microsoft.azure.management.containerinstance.implementation.ContainerInstanceManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import rx.Observable;
 
 import java.util.Collection;
@@ -27,7 +29,8 @@ import java.util.Set;
 @Beta(Beta.SinceVersion.V1_3_0)
 public interface ContainerGroup extends
     GroupableResource<ContainerInstanceManager, ContainerGroupInner>,
-    Refreshable<ContainerGroup> {
+    Refreshable<ContainerGroup>,
+    Updatable<ContainerGroup.Update> {
 
     /***********************************************************
      * Getters
@@ -70,6 +73,18 @@ public interface ContainerGroup extends
      */
     @Beta(Beta.SinceVersion.V1_5_0)
     ContainerGroupRestartPolicy restartPolicy();
+
+    /**
+     * @return the DNS prefix which was specified at creation time
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    String dnsPrefix();
+
+    /**
+     * @return the FQDN for the container group
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    String fqdn();
 
     /**
      * @return the IP address
@@ -254,6 +269,15 @@ public interface ContainerGroup extends
             WithFirstContainerInstance withNewAzureFileShareVolume(String volumeName, String shareName);
 
             /**
+             * Specifies an empty directory volume that can be shared by the container instances in the container group.
+             *
+             * @param name the name of the empty directory volume
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_7_0)
+            WithFirstContainerInstance withEmptyDirectoryVolume(String name);
+
+            /**
              * Begins the definition of a volume that can be shared by the container instances in the container group.
              *
              * <p>
@@ -279,7 +303,6 @@ public interface ContainerGroup extends
              * @return the next stage of the definition
              */
             VolumeDefinitionStages.VolumeDefinitionBlank<WithVolume> defineVolume(String name);
-
         }
 
         /**
@@ -345,6 +368,76 @@ public interface ContainerGroup extends
                 WithVolumeAttach<ParentT> withStorageAccountKey(String storageAccountKey);
             }
 
+            /**
+             * The stage of the volume definition allowing to specify the secrets map.
+             *
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithSecretsMap<ParentT> {
+                /**
+                 * Specifies the secrets map.
+                 * <p>
+                 * The secret value must be specified in Base64 encoding
+                 *
+                 * @param secrets the new volume secrets map; value must be in Base64 encoding
+                 * @return the next stage of the definition
+                 */
+                @Beta(Beta.SinceVersion.V1_7_0)
+                WithVolumeAttach<ParentT> withSecrets(Map<String, String> secrets);
+            }
+
+            /**
+             * The stage of the volume definition allowing to specify the Git URL mappings.
+             *
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithGitUrl<ParentT> {
+                /**
+                 * Specifies the Git URL for the new volume.
+                 *
+                 * @param gitUrl the Git URL for the new volume
+                 * @return the next stage of the definition
+                 */
+                @Beta(Beta.SinceVersion.V1_7_0)
+                WithGitDirectoryName<ParentT> withGitUrl(String gitUrl);
+            }
+
+            /**
+             * The stage of the volume definition allowing to specify the Git target directory name mappings.
+             *
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithGitDirectoryName<ParentT> extends WithGitRevision<ParentT> {
+                /**
+                 * Specifies the Git target directory name for the new volume.
+                 * <p>
+                 * Must not contain or start with '..'.  If '.' is supplied, the volume directory will be the
+                 * git repository.  Otherwise, if specified, the volume will contain the git repository in the
+                 * subdirectory with the given name.
+                 *
+                 * @param gitDirectoryName the Git target directory name for the new volume
+                 * @return the next stage of the definition
+                 */
+                @Beta(Beta.SinceVersion.V1_7_0)
+                WithGitRevision<ParentT> withGitDirectoryName(String gitDirectoryName);
+            }
+
+            /**
+             * The stage of the volume definition allowing to specify the Git revision.
+             *
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithGitRevision<ParentT> extends WithVolumeAttach<ParentT> {
+                /**
+                 * Specifies the Git revision for the new volume.
+                 *
+                 * @param gitRevision the Git revision for the new volume
+                 * @return the next stage of the definition
+                 */
+                @Beta(Beta.SinceVersion.V1_7_0)
+                WithVolumeAttach<ParentT> withGitRevision(String gitRevision);
+            }
+
             /** The final stage of the volume definition.
              * <p>
              * At this stage, any remaining optional settings can be specified, or the subnet definition
@@ -363,6 +456,10 @@ public interface ContainerGroup extends
                     WithAzureFileShare<ParentT>,
                     WithStorageAccountName<ParentT>,
                     WithStorageAccountKey<ParentT>,
+                    WithSecretsMap<ParentT>,
+                    WithGitUrl<ParentT>,
+                    WithGitDirectoryName<ParentT>,
+                    WithGitRevision<ParentT>,
                     WithVolumeAttach<ParentT> {
             }
         }
@@ -737,13 +834,36 @@ public interface ContainerGroup extends
         }
 
         /**
+         * The stage of the container group definition allowing to specify the DNS prefix label.
+         */
+        interface WithDnsPrefix {
+            /**
+             * Specifies the DNS prefix to be used to create the FQDN for the container group.
+             *
+             * @param dnsPrefix the DNS prefix to be used to create the FQDN for the container group
+             * @return the next stage of the definition
+             */
+            WithCreate withDnsPrefix(String dnsPrefix);
+        }
+
+        /**
          * The stage of the definition which contains all the minimum required inputs for the resource to be created
          *   (via {@link WithCreate#create()}), but also allows for any other optional settings to be specified.
          */
         interface WithCreate extends
             WithRestartPolicy,
+            WithDnsPrefix,
             Creatable<ContainerGroup>,
             Resource.DefinitionWithTags<WithCreate> {
         }
     }
+
+    /**
+     * The template for an update operation, containing all the settings that can be modified.
+     */
+    interface Update extends
+        Resource.UpdateWithTags<Update>,
+        Appliable<ContainerGroup> {
+    }
+
 }

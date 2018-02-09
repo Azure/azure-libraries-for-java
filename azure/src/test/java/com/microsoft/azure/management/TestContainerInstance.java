@@ -27,7 +27,7 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
             .withNewResourceGroup(rgName)
             .withLinux()
             .withPublicImageRegistryOnly()
-            .withoutVolume()
+            .withEmptyDirectoryVolume("emptydir1")
             .defineContainerInstance("tomcat")
                 .withImage("tomcat")
                 .withExternalTcpPort(8080)
@@ -38,13 +38,15 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
                 .withExternalTcpPort(80)
                 .attach()
             .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
+            .withDnsPrefix(cgName)
             .withTag("tag1", "value1")
             .create();
 
         Assert.assertEquals(cgName, containerGroup.name());
         Assert.assertEquals("Linux", containerGroup.osType().toString());
         Assert.assertEquals(0, containerGroup.imageRegistryServers().size());
-        Assert.assertEquals(0, containerGroup.volumes().size());
+        Assert.assertEquals(1, containerGroup.volumes().size());
+        Assert.assertNotNull(containerGroup.volumes().get("emptydir1"));
         Assert.assertNotNull(containerGroup.ipAddress());
         Assert.assertTrue(containerGroup.isIPAddressPublic());
         Assert.assertEquals(2, containerGroup.externalTcpPorts().length);
@@ -79,6 +81,7 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
         Assert.assertEquals(0, nginxContainer.environmentVariables().size());
         Assert.assertTrue(containerGroup.tags().containsKey("tag1"));
         Assert.assertEquals(ContainerGroupRestartPolicy.NEVER, containerGroup.restartPolicy());
+        Assert.assertEquals(cgName, containerGroup.dnsPrefix());
 
         ContainerGroup containerGroup2 = containerGroups.getByResourceGroup(rgName, cgName);
 
@@ -96,6 +99,12 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
 
     @Override
     public ContainerGroup updateResource(ContainerGroup containerGroup) throws Exception {
+        containerGroup.update()
+            .withoutTag("tag1")
+            .withTag("tag2", "value2")
+            .apply();
+        Assert.assertFalse(containerGroup.tags().containsKey("tag"));
+        Assert.assertTrue(containerGroup.tags().containsKey("tag2"));
         return containerGroup;
     }
 
@@ -132,7 +141,8 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
         if (resource.volumes() != null) {
             info.append("\n\tVolume mapping: ");
             for (Map.Entry<String, Volume> entry: resource.volumes().entrySet()) {
-                info.append("\n\t\tName: ").append(entry.getKey()).append(" -> ").append(entry.getValue().azureFile().shareName());
+                info.append("\n\t\tName: ").append(entry.getKey()).append(" -> ")
+                    .append(entry.getValue().azureFile() != null ? entry.getValue().azureFile().shareName() : "empty direcory volume");
             }
         }
         if (resource.containers() != null) {

@@ -60,6 +60,7 @@ public class ManageContainerInstanceWithMultipleContainerImages {
                     .withMemorySizeInGB(0.8)
                     .attach()
                 .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
+                .withDnsPrefix(aciName)
                 .create();
 
             Utils.print(containerGroup);

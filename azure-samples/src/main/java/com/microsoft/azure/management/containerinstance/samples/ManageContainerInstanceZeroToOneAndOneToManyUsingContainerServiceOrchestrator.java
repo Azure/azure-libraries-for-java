@@ -195,6 +195,7 @@ public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOr
                     .withImage(privateRepoUrl)
                     .withExternalTcpPort(80)
                     .attach()
+                .withDnsPrefix(aciName)
                 .create();
 
             Utils.print(containerGroup);

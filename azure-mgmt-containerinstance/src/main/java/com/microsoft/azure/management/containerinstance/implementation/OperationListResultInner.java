@@ -24,6 +24,12 @@ public class OperationListResultInner {
     private List<Operation> value;
 
     /**
+     * The URI to fetch the next page of operations.
+     */
+    @JsonProperty(value = "nextLink")
+    private String nextLink;
+
+    /**
      * Get the value value.
      *
      * @return the value value
@@ -40,6 +46,26 @@ public class OperationListResultInner {
      */
     public OperationListResultInner withValue(List<Operation> value) {
         this.value = value;
+        return this;
+    }
+
+    /**
+     * Get the nextLink value.
+     *
+     * @return the nextLink value
+     */
+    public String nextLink() {
+        return this.nextLink;
+    }
+
+    /**
+     * Set the nextLink value.
+     *
+     * @param nextLink the nextLink value to set
+     * @return the OperationListResultInner object itself.
+     */
+    public OperationListResultInner withNextLink(String nextLink) {
+        this.nextLink = nextLink;
         return this;
     }
 

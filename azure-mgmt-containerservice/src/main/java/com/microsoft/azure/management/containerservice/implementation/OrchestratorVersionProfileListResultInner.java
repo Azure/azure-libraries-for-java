@@ -37,7 +37,7 @@ public class OrchestratorVersionProfileListResultInner {
     private String type;
 
     /**
-     * List of orchstrator version profiles.
+     * List of orchestrator version profiles.
      */
     @JsonProperty(value = "properties.orchestrators", required = true)
     private List<OrchestratorVersionProfile> orchestrators;

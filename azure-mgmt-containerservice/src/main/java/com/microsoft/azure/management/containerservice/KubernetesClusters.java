@@ -56,4 +56,44 @@ public interface KubernetesClusters extends
      * @return a future representation of a set of Kubernetes versions which can be used when creating a service in this region
      */
     Observable<Set<String>> listKubernetesVersionsAsync(Region region);
+
+    /**
+     * Returns the admin Kube.config content which can be used with a Kubernetes client.
+     *
+     * @param resourceGroupName the resource group name where the cluster is
+     * @param kubernetesClusterName the managed cluster name
+     * @return the Kube.config content which can be used with a Kubernetes client
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    byte[] getAdminKubeConfigContent(String resourceGroupName, String kubernetesClusterName);
+
+    /**
+     * Returns asynchronously the admin Kube.config content which can be used with a Kubernetes client.
+     *
+     * @param resourceGroupName the resource group name where the cluster is
+     * @param kubernetesClusterName the managed cluster name
+     * @return a future representation of the Kube.config content which can be used with a Kubernetes client
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    Observable<byte[]> getAdminKubeConfigContentAsync(String resourceGroupName, String kubernetesClusterName);
+
+    /**
+     * Returns the user Kube.config content which can be used with a Kubernetes client.
+     *
+     * @param resourceGroupName the resource group name where the cluster is
+     * @param kubernetesClusterName the managed cluster name
+     * @return the Kube.config content which can be used with a Kubernetes client
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    byte[] getUserKubeConfigContent(String resourceGroupName, String kubernetesClusterName);
+
+    /**
+     * Returns asynchronously the user Kube.config content which can be used with a Kubernetes client.
+     *
+     * @param resourceGroupName the resource group name where the cluster is
+     * @param kubernetesClusterName the managed cluster name
+     * @return a future representation of the Kube.config content which can be used with a Kubernetes client
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    Observable<byte[]> getUserKubeConfigContentAsync(String resourceGroupName, String kubernetesClusterName);
 }

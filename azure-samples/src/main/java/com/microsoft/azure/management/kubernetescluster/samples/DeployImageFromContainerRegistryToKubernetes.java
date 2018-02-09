@@ -79,7 +79,7 @@ public class DeployImageFromContainerRegistryToKubernetes {
         final String acrName = SdkContext.randomResourceName("acrsample", 20);
         final String aksName = SdkContext.randomResourceName("akssample", 30);
         final String rootUserName = "aksuser";
-        final Region region = Region.UK_WEST;
+        final Region region = Region.US_EAST;
         final String dockerImageName = "nginx";
         final String dockerImageTag = "latest";
         final String dockerContainerName = "acrsample-nginx";

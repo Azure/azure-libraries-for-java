@@ -90,7 +90,6 @@ public interface KubernetesCluster extends
      */
     Map<String, KubernetesClusterAgentPool> agentPools();
 
-
     // Fluent interfaces
 
     /**

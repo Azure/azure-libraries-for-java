@@ -8,7 +8,6 @@
 
 package com.microsoft.azure.management.containerservice.implementation;
 
-import com.microsoft.azure.management.containerservice.ManagedClusterPropertiesAccessProfiles;
 import java.util.List;
 import com.microsoft.azure.management.containerservice.ContainerServiceAgentPoolProfile;
 import com.microsoft.azure.management.containerservice.ContainerServiceLinuxProfile;
@@ -46,12 +45,6 @@ public class ManagedClusterInner extends Resource {
      */
     @JsonProperty(value = "properties.kubernetesVersion")
     private String kubernetesVersion;
-
-    /**
-     * Access profiles for the managed cluster.
-     */
-    @JsonProperty(value = "properties.accessProfiles")
-    private ManagedClusterPropertiesAccessProfiles accessProfiles;
 
     /**
      * Properties of the agent pool.
@@ -128,26 +121,6 @@ public class ManagedClusterInner extends Resource {
      */
     public ManagedClusterInner withKubernetesVersion(String kubernetesVersion) {
         this.kubernetesVersion = kubernetesVersion;
-        return this;
-    }
-
-    /**
-     * Get the accessProfiles value.
-     *
-     * @return the accessProfiles value
-     */
-    public ManagedClusterPropertiesAccessProfiles accessProfiles() {
-        return this.accessProfiles;
-    }
-
-    /**
-     * Set the accessProfiles value.
-     *
-     * @param accessProfiles the accessProfiles value to set
-     * @return the ManagedClusterInner object itself.
-     */
-    public ManagedClusterInner withAccessProfiles(ManagedClusterPropertiesAccessProfiles accessProfiles) {
-        this.accessProfiles = accessProfiles;
         return this;
     }
 

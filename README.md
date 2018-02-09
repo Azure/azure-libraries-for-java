@@ -2,7 +2,7 @@
 
 # Azure Management Libraries for Java
 
-This README is based on the released stable version (1.5.1). If you are looking for other releases, see [More Information](#more-information).
+This README is based on the released stable version (1.6.0). If you are looking for other releases, see [More Information](#more-information).
 
 The Azure Management Libraries for Java is a higher-level, object-oriented API for *managing* Azure resources, that is optimized for ease of use, succinctness and consistency.
 
@@ -24,7 +24,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
 * [More information](#more-information)
 
 ## Feature Availability and Road Map
-:triangular_flag_on_post: *as of Version 1.5.1*
+:triangular_flag_on_post: *as of Version 1.6.0*
 
 <table>
   <tr>
@@ -60,8 +60,8 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
   <tr>
     <td>More services</td>
     <td>Resource Manager<br>Key Vault<br>Redis<br>CDN<br>Batch<br>Service bus</td>
-    <td valign="top">Web apps<br>Function Apps<br>Graph RBAC<br>Cosmos DB<br>Search</td>
-    <td valign="top">Monitor<br>Data Lake<br>Batch AI</td>
+    <td valign="top">Web apps<br>Function Apps<br>Graph RBAC<br>Cosmos DB<br>Monitor<br>Batch AI<br>Search</td>
+    <td valign="top">Data Lake</td>
   </tr>
   <tr>
     <td>Fundamentals</td>
@@ -165,10 +165,14 @@ You can create a virtual machine scale set instance by using a `define() … cre
 <li><a href="https://github.com/Azure-Samples/managed-disk-java-create-virtual-machine-using-specialized-disk-from-snapshot">Create virtual machine using specialized VHD from snapshot</li>
 <li><a href="https://github.com/Azure-Samples/managed-disk-java-convert-existing-virtual-machines-to-use-managed-disks">Convert virtual machines to use managed disks</li>
 <li><a href="https://github.com/azure-samples/compute-java-manage-virtual-machine-with-unmanaged-disks">Manage virtual machine with unmanaged disks</li>
-<li><a href="https://github.com/Azure-Samples/aad-java-manage-resources-from-vm-with-msi">Manage Azure resources from a virtual machine with managed service identity (MSI)</a></li>
+<li><a href="https://github.com/Azure-Samples/aad-java-manage-resources-from-vm-with-msi">Manage Azure resources from a virtual machine with system assigned managed service identity (MSI)</a></li>
 <li><a href="https://github.com/Azure-Samples/compute-java-manage-vm-from-vm-with-msi-credentials">Manage Azure resources from a virtual machine with managed service identity (MSI) credentials</a></li>
+<li><a href="https://github.com/Azure-Samples/compute-java-manage-user-assigned-msi-enabled-virtual-machine">Manage Azure resources from a virtual machine with system assigned managed service identity (MSI)</a></li>
 <li><a href="https://github.com/Azure-Samples/compute-java-manage-vms-in-availability-zones">Manage virtual machines in availability zones</a></li>
 <li><a href="https://github.com/Azure-Samples/compute-java-manage-vmss-in-availability-zones">Manage virtual machine scale sets in availability zones</a></li>
+
+<li><a href="https://github.com/Azure-Samples/Azure-Samples/compute-java-list-compute-skus">List compute SKUs</a></li>
+
 </ul></td>
   </tr>
   <tr>
@@ -283,6 +287,7 @@ ApplicationGateway applicationGateway = azure.applicationGateways().define("myFi
 <li><a href="https://github.com/Azure-Samples/network-java-use-network-watcher-to-check-connectivity">Use network watcher to check connectivity between virtual machines in peered networks</a></li>
 <li><a href="https://github.com/Azure-Samples/network-java-manage-virtual-network-with-site-to-site-vpn-connection">Manage virtual network with site-to-site VPN connection</a></li>
 <li><a href="https://github.com/Azure-Samples/network-java-manage-virtual-network-to-virtual-network-vpn-connection">Manage virtual network to virtual network VPN connection</a></li>
+<li><a href="https://github.com/Azure-Samples/network-java-manage-vpn-client-connection">Manage client to virtual network VPN connection</a></li>
 </ul>
 </td>
   </tr>
@@ -354,6 +359,8 @@ WebApp webApp = azure.webApps()
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-storage-connections-for-web-apps">Manage storage connections for Web apps</a></li>
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-data-connections-for-web-apps">Manage data connections (such as SQL database and Redis cache) for Web apps</a></li>
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-authentication-for-web-apps">Manage authentication for Web apps</a></li>
+<li><a href="https://github.com/Azure-Samples/app-service-java-access-key-vault-by-msi-for-web-apps">Safegaurd Web app secrets in Key Vault</a></li>
+<li><a href="https://github.com/Azure-Samples/app-service-java-access-key-vault-convenience-for-web-apps">Safegaurd Web app secrets in Key Vault using convenience API</a></li>
 </ul></td>
   </tr>
 
@@ -377,6 +384,7 @@ WebApp webApp = azure.webApps()
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-functions-with-custom-domains">Manage functions with custom domains</a></li>
 <li><a href="https://github.com/Azure-Samples/app-service-java-configure-deployment-sources-for-functions">Configure deployment sources for functions</a></li>
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-authentication-for-functions">Manage authentication for functions</a></li>
+<li><a href="https://github.com/Azure-Samples/app-service-java-manage-logs-for-function-apps">Get function logs</a></li>
 </ul></td>
   </tr>
 
@@ -435,6 +443,7 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/storage-java-manage-storage-accounts">Manage storage accounts</a></li>
 <li><a href="https://github.com/Azure-Samples/storage-java-manage-storage-accounts-async">Manage storage accounts asynchronously</a></li>
+<li><a href="https://github.com/Azure-Samples/storage-java-manage-storage-account-network-rules">Manage network rules of a storage account</a></li>
 </ul></td>
   </tr>
 
@@ -536,6 +545,13 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
   </tr>
 
   <tr>
+    <td>Monitor</td>
+    <td><ul style="list-style-type:circle">
+<li><a href="https://github.com/Azure-Samples/Azure-Samples/monitor-java-query-metrics-activitylogs">Get metrics and activity logs for a resource</a></li>
+</ul></td>
+  </tr>
+
+  <tr>
     <td>CDN</td>
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/cdn-java-manage-cdn">Manage CDNs</a></li>
@@ -546,6 +562,13 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
     <td>Batch</td>
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/batch-java-manage-batch-accounts">Manage batch accounts</a></li>
+</ul></td>
+  </tr>
+
+  <tr>
+    <td>Batch AI</td>
+    <td><ul style="list-style-type:circle">
+<li><a href="https://github.com/Azure-Samples/batchai-java-run-batchai-job">Create Batch AI cluster and execute AI job</a></li>
 </ul></td>
   </tr>
 
@@ -562,13 +585,13 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 
 ### Latest stable release
 
-If you are using released builds from 1.5.1, add the following to your POM file:
+If you are using released builds from 1.6.0, add the following to your POM file:
 
 ```xml
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure</artifactId>
-    <version>1.5.1</version>
+    <version>1.6.0</version>
 </dependency>
 ```
 
@@ -595,22 +618,22 @@ If you are using snapshots builds for this repo, add the following repository an
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure</artifactId>
-    <version>1.5.2-SNAPSHOT</version>
+    <version>1.6.1-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure-client-runtime</artifactId>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>1.3.1-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure-client-authentication</artifactId>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>1.3.1-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.microsoft.rest</groupId>
     <artifactId>client-runtime</artifactId>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>1.3.1-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -622,7 +645,7 @@ If you are using snapshots builds for this repo, add the following repository an
 
 ## Upgrading from older versions
 
-If you are migrating your code from 1.5.0 to 1.5.1, you can use these release notes for [preparing your code for 1.5.1 from 1.5.0](./notes/prepare-for-1.5.1.md).
+If you are migrating your code from 1.5.x to 1.6.0, you can use these release notes for [preparing your code for 1.6.0 from 1.5.x](./notes/prepare-for-1.6.0.md).
 
 In general, Azure Libraries for Java follow [semantic versioning](http://semver.org/), so user code should continue working in a compatible fashion between minor versions of the same major version release train, with the following caveats:
 
@@ -656,7 +679,8 @@ If you would like to become an active contributor to this project please follow 
 
 | Version           | SHA1                                                                                      | Remarks                                               |
 |-------------------|-------------------------------------------------------------------------------------------|-------------------------------------------------------|
-| 1.5.0       | [1.5.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.5.0)               | Tagged release for 1.5.0 version of Azure management libraries |
+| 1.6.0       | [1.6.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.6.0)               | Tagged release for 1.6.0 version of Azure management libraries |
+| 1.5.1       | [1.5.1](https://github.com/Azure/azure-libraries-for-java/tree/v1.5.1)               | Tagged release for 1.5.1 version of Azure management libraries |
 | 1.4.0       | [1.4.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.4.0)               | Tagged release for 1.4.0 version of Azure management libraries |
 | 1.3.0       | [1.3.0](https://github.com/Azure/azure-sdk-for-java/tree/v1.3.0)               | Tagged release for 1.3.0 version of Azure management libraries |
 | 1.2.1       | [1.2.1](https://github.com/Azure/azure-sdk-for-java/tree/v1.2.1)               | Tagged release for 1.2.1 version of Azure management libraries |

@@ -680,7 +680,7 @@ If you would like to become an active contributor to this project please follow 
 | Version           | SHA1                                                                                      | Remarks                                               |
 |-------------------|-------------------------------------------------------------------------------------------|-------------------------------------------------------|
 | 1.6.0       | [1.6.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.6.0)               | Tagged release for 1.6.0 version of Azure management libraries |
-| 1.5.0       | [1.5.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.5.0)               | Tagged release for 1.5.0 version of Azure management libraries |
+| 1.5.1       | [1.5.1](https://github.com/Azure/azure-libraries-for-java/tree/v1.5.1)               | Tagged release for 1.5.1 version of Azure management libraries |
 | 1.4.0       | [1.4.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.4.0)               | Tagged release for 1.4.0 version of Azure management libraries |
 | 1.3.0       | [1.3.0](https://github.com/Azure/azure-sdk-for-java/tree/v1.3.0)               | Tagged release for 1.3.0 version of Azure management libraries |
 | 1.2.1       | [1.2.1](https://github.com/Azure/azure-sdk-for-java/tree/v1.2.1)               | Tagged release for 1.2.1 version of Azure management libraries |

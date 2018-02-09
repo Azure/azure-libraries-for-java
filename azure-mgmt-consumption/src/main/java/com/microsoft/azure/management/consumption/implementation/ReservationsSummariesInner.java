@@ -10,9 +10,12 @@ package com.microsoft.azure.management.consumption.implementation;
 
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
+import com.microsoft.azure.AzureServiceFuture;
+import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.consumption.Datagrain;
 import com.microsoft.azure.management.consumption.ErrorResponseException;
-import com.microsoft.rest.ServiceCallback;
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import java.io.IOException;
@@ -23,6 +26,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
@@ -53,67 +57,116 @@ public class ReservationsSummariesInner {
      * used by Retrofit to perform actually REST calls.
      */
     interface ReservationsSummariesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.consumption.ReservationsSummaries list" })
-        @GET("{scope}/providers/Microsoft.Consumption/reservationSummaries")
-        Observable<Response<ResponseBody>> list(@Path(value = "scope", encoded = true) String scope, @Query("grain") Datagrain grain, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.consumption.ReservationsSummaries listByReservationOrder" })
+        @GET("providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/providers/Microsoft.Consumption/reservationSummaries")
+        Observable<Response<ResponseBody>> listByReservationOrder(@Path("reservationOrderId") String reservationOrderId, @Query("grain") Datagrain grain, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.consumption.ReservationsSummaries listByReservationOrderAndReservation" })
+        @GET("providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationSummaries")
+        Observable<Response<ResponseBody>> listByReservationOrderAndReservation(@Path("reservationOrderId") String reservationOrderId, @Path("reservationId") String reservationId, @Query("grain") Datagrain grain, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.consumption.ReservationsSummaries listByReservationOrderNext" })
+        @GET
+        Observable<Response<ResponseBody>> listByReservationOrderNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.consumption.ReservationsSummaries listByReservationOrderAndReservationNext" })
+        @GET
+        Observable<Response<ResponseBody>> listByReservationOrderAndReservationNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
     /**
      * Lists the reservations summaries for daily or monthly grain.
      *
-     * @param scope The scope of the reservation summaries. The scope can be 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}' or 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}/reservations/{ReservationId}'
+     * @param reservationOrderId Order Id of the reservation
      * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the List&lt;ReservationSummariesInner&gt; object if successful.
+     * @return the PagedList&lt;ReservationSummariesInner&gt; object if successful.
      */
-    public List<ReservationSummariesInner> list(String scope, Datagrain grain) {
-        return listWithServiceResponseAsync(scope, grain).toBlocking().single().body();
+    public PagedList<ReservationSummariesInner> listByReservationOrder(final String reservationOrderId, final Datagrain grain) {
+        ServiceResponse<Page<ReservationSummariesInner>> response = listByReservationOrderSinglePageAsync(reservationOrderId, grain).toBlocking().single();
+        return new PagedList<ReservationSummariesInner>(response.body()) {
+            @Override
+            public Page<ReservationSummariesInner> nextPage(String nextPageLink) {
+                return listByReservationOrderNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
     }
 
     /**
      * Lists the reservations summaries for daily or monthly grain.
      *
-     * @param scope The scope of the reservation summaries. The scope can be 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}' or 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}/reservations/{ReservationId}'
+     * @param reservationOrderId Order Id of the reservation
      * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ReservationSummariesInner>> listAsync(String scope, Datagrain grain, final ServiceCallback<List<ReservationSummariesInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listWithServiceResponseAsync(scope, grain), serviceCallback);
+    public ServiceFuture<List<ReservationSummariesInner>> listByReservationOrderAsync(final String reservationOrderId, final Datagrain grain, final ListOperationCallback<ReservationSummariesInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByReservationOrderSinglePageAsync(reservationOrderId, grain),
+            new Func1<String, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(String nextPageLink) {
+                    return listByReservationOrderNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
     }
 
     /**
      * Lists the reservations summaries for daily or monthly grain.
      *
-     * @param scope The scope of the reservation summaries. The scope can be 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}' or 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}/reservations/{ReservationId}'
+     * @param reservationOrderId Order Id of the reservation
      * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ReservationSummariesInner&gt; object
+     * @return the observable to the PagedList&lt;ReservationSummariesInner&gt; object
      */
-    public Observable<List<ReservationSummariesInner>> listAsync(String scope, Datagrain grain) {
-        return listWithServiceResponseAsync(scope, grain).map(new Func1<ServiceResponse<List<ReservationSummariesInner>>, List<ReservationSummariesInner>>() {
-            @Override
-            public List<ReservationSummariesInner> call(ServiceResponse<List<ReservationSummariesInner>> response) {
-                return response.body();
-            }
-        });
+    public Observable<Page<ReservationSummariesInner>> listByReservationOrderAsync(final String reservationOrderId, final Datagrain grain) {
+        return listByReservationOrderWithServiceResponseAsync(reservationOrderId, grain)
+            .map(new Func1<ServiceResponse<Page<ReservationSummariesInner>>, Page<ReservationSummariesInner>>() {
+                @Override
+                public Page<ReservationSummariesInner> call(ServiceResponse<Page<ReservationSummariesInner>> response) {
+                    return response.body();
+                }
+            });
     }
 
     /**
      * Lists the reservations summaries for daily or monthly grain.
      *
-     * @param scope The scope of the reservation summaries. The scope can be 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}' or 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}/reservations/{ReservationId}'
+     * @param reservationOrderId Order Id of the reservation
      * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ReservationSummariesInner&gt; object
+     * @return the observable to the PagedList&lt;ReservationSummariesInner&gt; object
      */
-    public Observable<ServiceResponse<List<ReservationSummariesInner>>> listWithServiceResponseAsync(String scope, Datagrain grain) {
-        if (scope == null) {
-            throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
+    public Observable<ServiceResponse<Page<ReservationSummariesInner>>> listByReservationOrderWithServiceResponseAsync(final String reservationOrderId, final Datagrain grain) {
+        return listByReservationOrderSinglePageAsync(reservationOrderId, grain)
+            .concatMap(new Func1<ServiceResponse<Page<ReservationSummariesInner>>, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(ServiceResponse<Page<ReservationSummariesInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByReservationOrderNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param reservationOrderId Order Id of the reservation
+     * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ReservationSummariesInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ReservationSummariesInner>>> listByReservationOrderSinglePageAsync(final String reservationOrderId, final Datagrain grain) {
+        if (reservationOrderId == null) {
+            throw new IllegalArgumentException("Parameter reservationOrderId is required and cannot be null.");
         }
         if (grain == null) {
             throw new IllegalArgumentException("Parameter grain is required and cannot be null.");
@@ -122,14 +175,13 @@ public class ReservationsSummariesInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         final String filter = null;
-        return service.list(scope, grain, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<ReservationSummariesInner>>>>() {
+        return service.listByReservationOrder(reservationOrderId, grain, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<List<ReservationSummariesInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl1<ReservationSummariesInner>> result = listDelegate(response);
-                        ServiceResponse<List<ReservationSummariesInner>> clientResponse = new ServiceResponse<List<ReservationSummariesInner>>(result.body().items(), result.response());
-                        return Observable.just(clientResponse);
+                        ServiceResponse<PageImpl<ReservationSummariesInner>> result = listByReservationOrderDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ReservationSummariesInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -140,62 +192,100 @@ public class ReservationsSummariesInner {
     /**
      * Lists the reservations summaries for daily or monthly grain.
      *
-     * @param scope The scope of the reservation summaries. The scope can be 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}' or 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}/reservations/{ReservationId}'
+     * @param reservationOrderId Order Id of the reservation
      * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
      * @param filter Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the List&lt;ReservationSummariesInner&gt; object if successful.
+     * @return the PagedList&lt;ReservationSummariesInner&gt; object if successful.
      */
-    public List<ReservationSummariesInner> list(String scope, Datagrain grain, String filter) {
-        return listWithServiceResponseAsync(scope, grain, filter).toBlocking().single().body();
+    public PagedList<ReservationSummariesInner> listByReservationOrder(final String reservationOrderId, final Datagrain grain, final String filter) {
+        ServiceResponse<Page<ReservationSummariesInner>> response = listByReservationOrderSinglePageAsync(reservationOrderId, grain, filter).toBlocking().single();
+        return new PagedList<ReservationSummariesInner>(response.body()) {
+            @Override
+            public Page<ReservationSummariesInner> nextPage(String nextPageLink) {
+                return listByReservationOrderNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
     }
 
     /**
      * Lists the reservations summaries for daily or monthly grain.
      *
-     * @param scope The scope of the reservation summaries. The scope can be 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}' or 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}/reservations/{ReservationId}'
+     * @param reservationOrderId Order Id of the reservation
      * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
      * @param filter Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ReservationSummariesInner>> listAsync(String scope, Datagrain grain, String filter, final ServiceCallback<List<ReservationSummariesInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listWithServiceResponseAsync(scope, grain, filter), serviceCallback);
+    public ServiceFuture<List<ReservationSummariesInner>> listByReservationOrderAsync(final String reservationOrderId, final Datagrain grain, final String filter, final ListOperationCallback<ReservationSummariesInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByReservationOrderSinglePageAsync(reservationOrderId, grain, filter),
+            new Func1<String, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(String nextPageLink) {
+                    return listByReservationOrderNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
     }
 
     /**
      * Lists the reservations summaries for daily or monthly grain.
      *
-     * @param scope The scope of the reservation summaries. The scope can be 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}' or 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}/reservations/{ReservationId}'
+     * @param reservationOrderId Order Id of the reservation
      * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
      * @param filter Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ReservationSummariesInner&gt; object
+     * @return the observable to the PagedList&lt;ReservationSummariesInner&gt; object
      */
-    public Observable<List<ReservationSummariesInner>> listAsync(String scope, Datagrain grain, String filter) {
-        return listWithServiceResponseAsync(scope, grain, filter).map(new Func1<ServiceResponse<List<ReservationSummariesInner>>, List<ReservationSummariesInner>>() {
-            @Override
-            public List<ReservationSummariesInner> call(ServiceResponse<List<ReservationSummariesInner>> response) {
-                return response.body();
-            }
-        });
+    public Observable<Page<ReservationSummariesInner>> listByReservationOrderAsync(final String reservationOrderId, final Datagrain grain, final String filter) {
+        return listByReservationOrderWithServiceResponseAsync(reservationOrderId, grain, filter)
+            .map(new Func1<ServiceResponse<Page<ReservationSummariesInner>>, Page<ReservationSummariesInner>>() {
+                @Override
+                public Page<ReservationSummariesInner> call(ServiceResponse<Page<ReservationSummariesInner>> response) {
+                    return response.body();
+                }
+            });
     }
 
     /**
      * Lists the reservations summaries for daily or monthly grain.
      *
-     * @param scope The scope of the reservation summaries. The scope can be 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}' or 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}/reservations/{ReservationId}'
+     * @param reservationOrderId Order Id of the reservation
      * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
      * @param filter Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ReservationSummariesInner&gt; object
+     * @return the observable to the PagedList&lt;ReservationSummariesInner&gt; object
      */
-    public Observable<ServiceResponse<List<ReservationSummariesInner>>> listWithServiceResponseAsync(String scope, Datagrain grain, String filter) {
-        if (scope == null) {
-            throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
+    public Observable<ServiceResponse<Page<ReservationSummariesInner>>> listByReservationOrderWithServiceResponseAsync(final String reservationOrderId, final Datagrain grain, final String filter) {
+        return listByReservationOrderSinglePageAsync(reservationOrderId, grain, filter)
+            .concatMap(new Func1<ServiceResponse<Page<ReservationSummariesInner>>, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(ServiceResponse<Page<ReservationSummariesInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByReservationOrderNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+    ServiceResponse<PageImpl<ReservationSummariesInner>> * @param reservationOrderId Order Id of the reservation
+    ServiceResponse<PageImpl<ReservationSummariesInner>> * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
+    ServiceResponse<PageImpl<ReservationSummariesInner>> * @param filter Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ReservationSummariesInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ReservationSummariesInner>>> listByReservationOrderSinglePageAsync(final String reservationOrderId, final Datagrain grain, final String filter) {
+        if (reservationOrderId == null) {
+            throw new IllegalArgumentException("Parameter reservationOrderId is required and cannot be null.");
         }
         if (grain == null) {
             throw new IllegalArgumentException("Parameter grain is required and cannot be null.");
@@ -203,14 +293,13 @@ public class ReservationsSummariesInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.list(scope, grain, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<ReservationSummariesInner>>>>() {
+        return service.listByReservationOrder(reservationOrderId, grain, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<List<ReservationSummariesInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl1<ReservationSummariesInner>> result = listDelegate(response);
-                        ServiceResponse<List<ReservationSummariesInner>> clientResponse = new ServiceResponse<List<ReservationSummariesInner>>(result.body().items(), result.response());
-                        return Observable.just(clientResponse);
+                        ServiceResponse<PageImpl<ReservationSummariesInner>> result = listByReservationOrderDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ReservationSummariesInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -218,9 +307,486 @@ public class ReservationsSummariesInner {
             });
     }
 
-    private ServiceResponse<PageImpl1<ReservationSummariesInner>> listDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<ReservationSummariesInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<ReservationSummariesInner>>() { }.getType())
+    private ServiceResponse<PageImpl<ReservationSummariesInner>> listByReservationOrderDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ReservationSummariesInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ReservationSummariesInner>>() { }.getType())
+                .registerError(ErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param reservationOrderId Order Id of the reservation
+     * @param reservationId Id of the reservation
+     * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ReservationSummariesInner&gt; object if successful.
+     */
+    public PagedList<ReservationSummariesInner> listByReservationOrderAndReservation(final String reservationOrderId, final String reservationId, final Datagrain grain) {
+        ServiceResponse<Page<ReservationSummariesInner>> response = listByReservationOrderAndReservationSinglePageAsync(reservationOrderId, reservationId, grain).toBlocking().single();
+        return new PagedList<ReservationSummariesInner>(response.body()) {
+            @Override
+            public Page<ReservationSummariesInner> nextPage(String nextPageLink) {
+                return listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param reservationOrderId Order Id of the reservation
+     * @param reservationId Id of the reservation
+     * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ReservationSummariesInner>> listByReservationOrderAndReservationAsync(final String reservationOrderId, final String reservationId, final Datagrain grain, final ListOperationCallback<ReservationSummariesInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByReservationOrderAndReservationSinglePageAsync(reservationOrderId, reservationId, grain),
+            new Func1<String, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(String nextPageLink) {
+                    return listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param reservationOrderId Order Id of the reservation
+     * @param reservationId Id of the reservation
+     * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ReservationSummariesInner&gt; object
+     */
+    public Observable<Page<ReservationSummariesInner>> listByReservationOrderAndReservationAsync(final String reservationOrderId, final String reservationId, final Datagrain grain) {
+        return listByReservationOrderAndReservationWithServiceResponseAsync(reservationOrderId, reservationId, grain)
+            .map(new Func1<ServiceResponse<Page<ReservationSummariesInner>>, Page<ReservationSummariesInner>>() {
+                @Override
+                public Page<ReservationSummariesInner> call(ServiceResponse<Page<ReservationSummariesInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param reservationOrderId Order Id of the reservation
+     * @param reservationId Id of the reservation
+     * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ReservationSummariesInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ReservationSummariesInner>>> listByReservationOrderAndReservationWithServiceResponseAsync(final String reservationOrderId, final String reservationId, final Datagrain grain) {
+        return listByReservationOrderAndReservationSinglePageAsync(reservationOrderId, reservationId, grain)
+            .concatMap(new Func1<ServiceResponse<Page<ReservationSummariesInner>>, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(ServiceResponse<Page<ReservationSummariesInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByReservationOrderAndReservationNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param reservationOrderId Order Id of the reservation
+     * @param reservationId Id of the reservation
+     * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ReservationSummariesInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ReservationSummariesInner>>> listByReservationOrderAndReservationSinglePageAsync(final String reservationOrderId, final String reservationId, final Datagrain grain) {
+        if (reservationOrderId == null) {
+            throw new IllegalArgumentException("Parameter reservationOrderId is required and cannot be null.");
+        }
+        if (reservationId == null) {
+            throw new IllegalArgumentException("Parameter reservationId is required and cannot be null.");
+        }
+        if (grain == null) {
+            throw new IllegalArgumentException("Parameter grain is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final String filter = null;
+        return service.listByReservationOrderAndReservation(reservationOrderId, reservationId, grain, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ReservationSummariesInner>> result = listByReservationOrderAndReservationDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ReservationSummariesInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param reservationOrderId Order Id of the reservation
+     * @param reservationId Id of the reservation
+     * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
+     * @param filter Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ReservationSummariesInner&gt; object if successful.
+     */
+    public PagedList<ReservationSummariesInner> listByReservationOrderAndReservation(final String reservationOrderId, final String reservationId, final Datagrain grain, final String filter) {
+        ServiceResponse<Page<ReservationSummariesInner>> response = listByReservationOrderAndReservationSinglePageAsync(reservationOrderId, reservationId, grain, filter).toBlocking().single();
+        return new PagedList<ReservationSummariesInner>(response.body()) {
+            @Override
+            public Page<ReservationSummariesInner> nextPage(String nextPageLink) {
+                return listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param reservationOrderId Order Id of the reservation
+     * @param reservationId Id of the reservation
+     * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
+     * @param filter Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ReservationSummariesInner>> listByReservationOrderAndReservationAsync(final String reservationOrderId, final String reservationId, final Datagrain grain, final String filter, final ListOperationCallback<ReservationSummariesInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByReservationOrderAndReservationSinglePageAsync(reservationOrderId, reservationId, grain, filter),
+            new Func1<String, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(String nextPageLink) {
+                    return listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param reservationOrderId Order Id of the reservation
+     * @param reservationId Id of the reservation
+     * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
+     * @param filter Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ReservationSummariesInner&gt; object
+     */
+    public Observable<Page<ReservationSummariesInner>> listByReservationOrderAndReservationAsync(final String reservationOrderId, final String reservationId, final Datagrain grain, final String filter) {
+        return listByReservationOrderAndReservationWithServiceResponseAsync(reservationOrderId, reservationId, grain, filter)
+            .map(new Func1<ServiceResponse<Page<ReservationSummariesInner>>, Page<ReservationSummariesInner>>() {
+                @Override
+                public Page<ReservationSummariesInner> call(ServiceResponse<Page<ReservationSummariesInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param reservationOrderId Order Id of the reservation
+     * @param reservationId Id of the reservation
+     * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
+     * @param filter Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ReservationSummariesInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ReservationSummariesInner>>> listByReservationOrderAndReservationWithServiceResponseAsync(final String reservationOrderId, final String reservationId, final Datagrain grain, final String filter) {
+        return listByReservationOrderAndReservationSinglePageAsync(reservationOrderId, reservationId, grain, filter)
+            .concatMap(new Func1<ServiceResponse<Page<ReservationSummariesInner>>, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(ServiceResponse<Page<ReservationSummariesInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByReservationOrderAndReservationNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+    ServiceResponse<PageImpl<ReservationSummariesInner>> * @param reservationOrderId Order Id of the reservation
+    ServiceResponse<PageImpl<ReservationSummariesInner>> * @param reservationId Id of the reservation
+    ServiceResponse<PageImpl<ReservationSummariesInner>> * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
+    ServiceResponse<PageImpl<ReservationSummariesInner>> * @param filter Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ReservationSummariesInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ReservationSummariesInner>>> listByReservationOrderAndReservationSinglePageAsync(final String reservationOrderId, final String reservationId, final Datagrain grain, final String filter) {
+        if (reservationOrderId == null) {
+            throw new IllegalArgumentException("Parameter reservationOrderId is required and cannot be null.");
+        }
+        if (reservationId == null) {
+            throw new IllegalArgumentException("Parameter reservationId is required and cannot be null.");
+        }
+        if (grain == null) {
+            throw new IllegalArgumentException("Parameter grain is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listByReservationOrderAndReservation(reservationOrderId, reservationId, grain, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ReservationSummariesInner>> result = listByReservationOrderAndReservationDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ReservationSummariesInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<ReservationSummariesInner>> listByReservationOrderAndReservationDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ReservationSummariesInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ReservationSummariesInner>>() { }.getType())
+                .registerError(ErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ReservationSummariesInner&gt; object if successful.
+     */
+    public PagedList<ReservationSummariesInner> listByReservationOrderNext(final String nextPageLink) {
+        ServiceResponse<Page<ReservationSummariesInner>> response = listByReservationOrderNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<ReservationSummariesInner>(response.body()) {
+            @Override
+            public Page<ReservationSummariesInner> nextPage(String nextPageLink) {
+                return listByReservationOrderNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ReservationSummariesInner>> listByReservationOrderNextAsync(final String nextPageLink, final ServiceFuture<List<ReservationSummariesInner>> serviceFuture, final ListOperationCallback<ReservationSummariesInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByReservationOrderNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(String nextPageLink) {
+                    return listByReservationOrderNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ReservationSummariesInner&gt; object
+     */
+    public Observable<Page<ReservationSummariesInner>> listByReservationOrderNextAsync(final String nextPageLink) {
+        return listByReservationOrderNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<ReservationSummariesInner>>, Page<ReservationSummariesInner>>() {
+                @Override
+                public Page<ReservationSummariesInner> call(ServiceResponse<Page<ReservationSummariesInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ReservationSummariesInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ReservationSummariesInner>>> listByReservationOrderNextWithServiceResponseAsync(final String nextPageLink) {
+        return listByReservationOrderNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<ReservationSummariesInner>>, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(ServiceResponse<Page<ReservationSummariesInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByReservationOrderNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+    ServiceResponse<PageImpl<ReservationSummariesInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ReservationSummariesInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ReservationSummariesInner>>> listByReservationOrderNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listByReservationOrderNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ReservationSummariesInner>> result = listByReservationOrderNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ReservationSummariesInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<ReservationSummariesInner>> listByReservationOrderNextDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ReservationSummariesInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ReservationSummariesInner>>() { }.getType())
+                .registerError(ErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ReservationSummariesInner&gt; object if successful.
+     */
+    public PagedList<ReservationSummariesInner> listByReservationOrderAndReservationNext(final String nextPageLink) {
+        ServiceResponse<Page<ReservationSummariesInner>> response = listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<ReservationSummariesInner>(response.body()) {
+            @Override
+            public Page<ReservationSummariesInner> nextPage(String nextPageLink) {
+                return listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ReservationSummariesInner>> listByReservationOrderAndReservationNextAsync(final String nextPageLink, final ServiceFuture<List<ReservationSummariesInner>> serviceFuture, final ListOperationCallback<ReservationSummariesInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(String nextPageLink) {
+                    return listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ReservationSummariesInner&gt; object
+     */
+    public Observable<Page<ReservationSummariesInner>> listByReservationOrderAndReservationNextAsync(final String nextPageLink) {
+        return listByReservationOrderAndReservationNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<ReservationSummariesInner>>, Page<ReservationSummariesInner>>() {
+                @Override
+                public Page<ReservationSummariesInner> call(ServiceResponse<Page<ReservationSummariesInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ReservationSummariesInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ReservationSummariesInner>>> listByReservationOrderAndReservationNextWithServiceResponseAsync(final String nextPageLink) {
+        return listByReservationOrderAndReservationNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<ReservationSummariesInner>>, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(ServiceResponse<Page<ReservationSummariesInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByReservationOrderAndReservationNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the reservations summaries for daily or monthly grain.
+     *
+    ServiceResponse<PageImpl<ReservationSummariesInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ReservationSummariesInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ReservationSummariesInner>>> listByReservationOrderAndReservationNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listByReservationOrderAndReservationNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ReservationSummariesInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ReservationSummariesInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ReservationSummariesInner>> result = listByReservationOrderAndReservationNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ReservationSummariesInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<ReservationSummariesInner>> listByReservationOrderAndReservationNextDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ReservationSummariesInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ReservationSummariesInner>>() { }.getType())
                 .registerError(ErrorResponseException.class)
                 .build(response);
     }

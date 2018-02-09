@@ -10,6 +10,7 @@ package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.monitor.implementation.MetricDefinitionInner;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
@@ -81,6 +82,7 @@ public interface MetricDefinition extends
      *
      * @return the stage of start time filter definition.
      */
+    @Method
     MetricsQueryDefinitionStages.WithMetricStartTimeFilter defineQuery();
 
     /**

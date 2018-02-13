@@ -397,7 +397,7 @@ WebApp webApp = azure.webApps()
 You can create a Cosmos DB account by using a `define() … create()` method chain.
 
 ```java
-CosmosAccount cosmosDBAccount = azure.cosmosDBs().define(cosmosDBName)
+CosmosAccount cosmosDBAccount = azure.cosmosDBAccounts().define(cosmosDBName)
 	.withRegion(Region.US_EAST)
 	.withNewResourceGroup(rgName)
 	.withKind(DatabaseAccountKind.GLOBAL_DOCUMENT_DB)

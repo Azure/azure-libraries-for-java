@@ -12,13 +12,12 @@ import java.util.List;
 import com.microsoft.azure.management.eventhub.AccessRights;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
 
 /**
  * Single item in a List or Get AuthorizationRule operation.
  */
 @JsonFlatten
-public class AuthorizationRuleInner extends Resource {
+public class AuthorizationRuleInner extends NestedResourceInner {
     /**
      * The rights associated with the rule.
      */

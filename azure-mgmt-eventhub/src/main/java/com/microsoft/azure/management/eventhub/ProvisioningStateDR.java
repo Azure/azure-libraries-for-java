@@ -12,32 +12,35 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for Policykey.
+ * Defines values for ProvisioningStateDR.
  */
-public enum Policykey {
-    /** Enum value PrimaryKey. */
-    PRIMARY_KEY("PrimaryKey"),
+public enum ProvisioningStateDR {
+    /** Enum value Accepted. */
+    ACCEPTED("Accepted"),
 
-    /** Enum value SecondaryKey. */
-    SECONDARY_KEY("SecondaryKey");
+    /** Enum value Succeeded. */
+    SUCCEEDED("Succeeded"),
 
-    /** The actual serialized value for a Policykey instance. */
+    /** Enum value Failed. */
+    FAILED("Failed");
+
+    /** The actual serialized value for a ProvisioningStateDR instance. */
     private String value;
 
-    Policykey(String value) {
+    ProvisioningStateDR(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a Policykey instance.
+     * Parses a serialized value to a ProvisioningStateDR instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed Policykey object, or null if unable to parse.
+     * @return the parsed ProvisioningStateDR object, or null if unable to parse.
      */
     @JsonCreator
-    public static Policykey fromString(String value) {
-        Policykey[] items = Policykey.values();
-        for (Policykey item : items) {
+    public static ProvisioningStateDR fromString(String value) {
+        ProvisioningStateDR[] items = ProvisioningStateDR.values();
+        for (ProvisioningStateDR item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

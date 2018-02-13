@@ -159,6 +159,19 @@ public class EventHubManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The DisasterRecoveryConfigsInner object to access its operations.
+     */
+    private DisasterRecoveryConfigsInner disasterRecoveryConfigs;
+
+    /**
+     * Gets the DisasterRecoveryConfigsInner object to access its operations.
+     * @return the DisasterRecoveryConfigsInner object.
+     */
+    public DisasterRecoveryConfigsInner disasterRecoveryConfigs() {
+        return this.disasterRecoveryConfigs;
+    }
+
+    /**
      * The EventHubsInner object to access its operations.
      */
     private EventHubsInner eventHubs;
@@ -215,12 +228,13 @@ public class EventHubManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2015-08-01";
+        this.apiVersion = "2017-04-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
         this.operations = new OperationsInner(restClient().retrofit(), this);
         this.namespaces = new NamespacesInner(restClient().retrofit(), this);
+        this.disasterRecoveryConfigs = new DisasterRecoveryConfigsInner(restClient().retrofit(), this);
         this.eventHubs = new EventHubsInner(restClient().retrofit(), this);
         this.consumerGroups = new ConsumerGroupsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
@@ -233,6 +247,6 @@ public class EventHubManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "EventHubManagementClient", "2015-08-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "EventHubManagementClient", "2017-04-01");
     }
 }

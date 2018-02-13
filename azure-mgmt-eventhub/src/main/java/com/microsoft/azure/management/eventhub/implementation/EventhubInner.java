@@ -8,9 +8,10 @@
 
 package com.microsoft.azure.management.eventhub.implementation;
 
-import org.joda.time.DateTime;
 import java.util.List;
+import org.joda.time.DateTime;
 import com.microsoft.azure.management.eventhub.EntityStatus;
+import com.microsoft.azure.management.eventhub.CaptureDescription;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -19,7 +20,13 @@ import com.microsoft.azure.Resource;
  * Single item in List or Get Event Hub operation.
  */
 @JsonFlatten
-public class EventHubResourceInner extends Resource {
+public class EventhubInner extends Resource {
+    /**
+     * Current number of shards on the Event Hub.
+     */
+    @JsonProperty(value = "properties.partitionIds", access = JsonProperty.Access.WRITE_ONLY)
+    private List<String> partitionIds;
+
     /**
      * Exact time the Event Hub was created.
      */
@@ -27,22 +34,24 @@ public class EventHubResourceInner extends Resource {
     private DateTime createdAt;
 
     /**
-     * Number of days to retain the events for this Event Hub.
+     * The exact time the message was updated.
+     */
+    @JsonProperty(value = "properties.updatedAt", access = JsonProperty.Access.WRITE_ONLY)
+    private DateTime updatedAt;
+
+    /**
+     * Number of days to retain the events for this Event Hub, value should be
+     * 1 to 7 days.
      */
     @JsonProperty(value = "properties.messageRetentionInDays")
     private Long messageRetentionInDays;
 
     /**
-     * Number of partitions created for the Event Hub.
+     * Number of partitions created for the Event Hub, allowed values are from
+     * 1 to 32 partitions.
      */
     @JsonProperty(value = "properties.partitionCount")
     private Long partitionCount;
-
-    /**
-     * Current number of shards on the Event Hub.
-     */
-    @JsonProperty(value = "properties.partitionIds", access = JsonProperty.Access.WRITE_ONLY)
-    private List<String> partitionIds;
 
     /**
      * Enumerates the possible values for the status of the Event Hub. Possible
@@ -53,10 +62,19 @@ public class EventHubResourceInner extends Resource {
     private EntityStatus status;
 
     /**
-     * The exact time the message was updated.
+     * Properties of capture description.
      */
-    @JsonProperty(value = "properties.updatedAt", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime updatedAt;
+    @JsonProperty(value = "properties.captureDescription")
+    private CaptureDescription captureDescription;
+
+    /**
+     * Get the partitionIds value.
+     *
+     * @return the partitionIds value
+     */
+    public List<String> partitionIds() {
+        return this.partitionIds;
+    }
 
     /**
      * Get the createdAt value.
@@ -65,6 +83,15 @@ public class EventHubResourceInner extends Resource {
      */
     public DateTime createdAt() {
         return this.createdAt;
+    }
+
+    /**
+     * Get the updatedAt value.
+     *
+     * @return the updatedAt value
+     */
+    public DateTime updatedAt() {
+        return this.updatedAt;
     }
 
     /**
@@ -80,9 +107,9 @@ public class EventHubResourceInner extends Resource {
      * Set the messageRetentionInDays value.
      *
      * @param messageRetentionInDays the messageRetentionInDays value to set
-     * @return the EventHubResourceInner object itself.
+     * @return the EventhubInner object itself.
      */
-    public EventHubResourceInner withMessageRetentionInDays(Long messageRetentionInDays) {
+    public EventhubInner withMessageRetentionInDays(Long messageRetentionInDays) {
         this.messageRetentionInDays = messageRetentionInDays;
         return this;
     }
@@ -100,20 +127,11 @@ public class EventHubResourceInner extends Resource {
      * Set the partitionCount value.
      *
      * @param partitionCount the partitionCount value to set
-     * @return the EventHubResourceInner object itself.
+     * @return the EventhubInner object itself.
      */
-    public EventHubResourceInner withPartitionCount(Long partitionCount) {
+    public EventhubInner withPartitionCount(Long partitionCount) {
         this.partitionCount = partitionCount;
         return this;
-    }
-
-    /**
-     * Get the partitionIds value.
-     *
-     * @return the partitionIds value
-     */
-    public List<String> partitionIds() {
-        return this.partitionIds;
     }
 
     /**
@@ -129,20 +147,31 @@ public class EventHubResourceInner extends Resource {
      * Set the status value.
      *
      * @param status the status value to set
-     * @return the EventHubResourceInner object itself.
+     * @return the EventhubInner object itself.
      */
-    public EventHubResourceInner withStatus(EntityStatus status) {
+    public EventhubInner withStatus(EntityStatus status) {
         this.status = status;
         return this;
     }
 
     /**
-     * Get the updatedAt value.
+     * Get the captureDescription value.
      *
-     * @return the updatedAt value
+     * @return the captureDescription value
      */
-    public DateTime updatedAt() {
-        return this.updatedAt;
+    public CaptureDescription captureDescription() {
+        return this.captureDescription;
+    }
+
+    /**
+     * Set the captureDescription value.
+     *
+     * @param captureDescription the captureDescription value to set
+     * @return the EventhubInner object itself.
+     */
+    public EventhubInner withCaptureDescription(CaptureDescription captureDescription) {
+        this.captureDescription = captureDescription;
+        return this;
     }
 
 }

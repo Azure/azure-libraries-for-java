@@ -18,7 +18,7 @@ import com.microsoft.azure.Resource;
  * Single item in a List or Get AuthorizationRule operation.
  */
 @JsonFlatten
-public class SharedAccessAuthorizationRuleResourceInner extends Resource {
+public class AuthorizationRuleInner extends Resource {
     /**
      * The rights associated with the rule.
      */
@@ -38,9 +38,9 @@ public class SharedAccessAuthorizationRuleResourceInner extends Resource {
      * Set the rights value.
      *
      * @param rights the rights value to set
-     * @return the SharedAccessAuthorizationRuleResourceInner object itself.
+     * @return the AuthorizationRuleInner object itself.
      */
-    public SharedAccessAuthorizationRuleResourceInner withRights(List<AccessRights> rights) {
+    public AuthorizationRuleInner withRights(List<AccessRights> rights) {
         this.rights = rights;
         return this;
     }

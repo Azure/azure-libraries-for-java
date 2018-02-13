@@ -14,7 +14,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>azure-mgmt-eventhub</artifactId>
-  <version>1.6.1-beta-SNAPSHOT</version>
+  <version>1.6.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Microsoft Azure SDK for EventHub Management</name>
     <description>This package contains Microsoft EventHub Management SDK.</description>
@@ -48,6 +48,15 @@
             <version>1.6.1-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-mgmt-storage</artifactId>
+            <version>1.6.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-storage</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.jcraft</groupId>
             <artifactId>jsch</artifactId>
             <version>0.1.53</version>
@@ -57,6 +66,12 @@
             <groupId>com.github.cverges.expect4j</groupId>
             <artifactId>expect4j</artifactId>
             <version>1.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
             <scope>test</scope>
         </dependency>
         <dependency>

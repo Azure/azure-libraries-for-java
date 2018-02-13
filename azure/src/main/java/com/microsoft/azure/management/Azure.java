@@ -44,6 +44,10 @@ import com.microsoft.azure.management.dns.DnsZones;
 import com.microsoft.azure.management.dns.implementation.DnsZoneManager;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccounts;
 import com.microsoft.azure.management.cosmosdb.implementation.CosmosDBManager;
+import com.microsoft.azure.management.eventhub.EventHubDisasterRecoveryPairings;
+import com.microsoft.azure.management.eventhub.EventHubNamespaces;
+import com.microsoft.azure.management.eventhub.EventHubs;
+import com.microsoft.azure.management.eventhub.implementation.EventHubManager;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryGroups;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryUsers;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryApplications;
@@ -134,6 +138,7 @@ public final class Azure {
     private final AuthorizationManager authorizationManager;
     private final MSIManager msiManager;
     private final MonitorManager monitorManager;
+    private final EventHubManager eventHubManager;
     private final String subscriptionId;
     private final Authenticated authenticated;
 
@@ -412,6 +417,7 @@ public final class Azure {
         this.authorizationManager = AuthorizationManager.authenticate(restClient, subscriptionId);
         this.msiManager = MSIManager.authenticate(restClient, subscriptionId);
         this.monitorManager = MonitorManager.authenticate(restClient, subscriptionId);
+        this.eventHubManager = EventHubManager.authenticate(restClient, subscriptionId);
         this.subscriptionId = subscriptionId;
         this.authenticated = authenticated;
     }
@@ -836,5 +842,29 @@ public final class Azure {
     @Beta(SinceVersion.V1_6_0)
     public MetricDefinitions metricDefinitions() {
         return this.monitorManager.metricDefinitions();
+    }
+
+    /**
+     * @return entry point to managing event hub namespaces.
+     */
+    @Beta(SinceVersion.V1_7_0)
+    public EventHubNamespaces eventHubNamespaces() {
+        return this.eventHubManager.namespaces();
+    }
+
+    /**
+     * @return entry point to managing event hubs.
+     */
+    @Beta(SinceVersion.V1_7_0)
+    public EventHubs eventHubs() {
+        return this.eventHubManager.eventHubs();
+    }
+
+    /**
+     * @return entry point to managing event hub namespace geo disaster recovery.
+     */
+    @Beta(SinceVersion.V1_7_0)
+    public EventHubDisasterRecoveryPairings eventHubDisasterRecoveryPairings() {
+        return this.eventHubManager.eventHubDisasterRecoveryPairings();
     }
 }

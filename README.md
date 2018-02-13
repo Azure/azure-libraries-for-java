@@ -171,7 +171,7 @@ You can create a virtual machine scale set instance by using a `define() … cre
 <li><a href="https://github.com/Azure-Samples/compute-java-manage-vms-in-availability-zones">Manage virtual machines in availability zones</a></li>
 <li><a href="https://github.com/Azure-Samples/compute-java-manage-vmss-in-availability-zones">Manage virtual machine scale sets in availability zones</a></li>
 
-<li><a href="https://github.com/Azure-Samples/Azure-Samples/compute-java-list-compute-skus">List compute SKUs</a></li>
+<li><a href="https://github.com/Azure-Samples/compute-java-list-compute-skus">List compute SKUs</a></li>
 
 </ul></td>
   </tr>
@@ -547,7 +547,7 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
   <tr>
     <td>Monitor</td>
     <td><ul style="list-style-type:circle">
-<li><a href="https://github.com/Azure-Samples/Azure-Samples/monitor-java-query-metrics-activitylogs">Get metrics and activity logs for a resource</a></li>
+<li><a href="https://github.com/Azure-Samples/monitor-java-query-metrics-activitylogs">Get metrics and activity logs for a resource</a></li>
 </ul></td>
   </tr>
 

@@ -11,10 +11,9 @@ package com.microsoft.azure.management.eventhub.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.management.eventhub.Policykey;
-import com.microsoft.azure.management.eventhub.RegenerateKeysParameters;
+import com.microsoft.azure.management.eventhub.AccessRights;
+import com.microsoft.azure.management.eventhub.ErrorResponseException;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -64,13 +63,13 @@ public class EventHubsInner {
      * used by Retrofit to perform actually REST calls.
      */
     interface EventHubsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.EventHubs listAll" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.EventHubs listByNamespace" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs")
-        Observable<Response<ResponseBody>> listAll(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listByNamespace(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.EventHubs createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("eventHubName") String eventHubName, @Path("subscriptionId") String subscriptionId, @Body EventHubCreateOrUpdateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("eventHubName") String eventHubName, @Path("subscriptionId") String subscriptionId, @Body EventhubInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.EventHubs delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}", method = "DELETE", hasBody = true)
@@ -86,7 +85,7 @@ public class EventHubsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.EventHubs createOrUpdateAuthorizationRule" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}")
-        Observable<Response<ResponseBody>> createOrUpdateAuthorizationRule(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("eventHubName") String eventHubName, @Path("authorizationRuleName") String authorizationRuleName, @Path("subscriptionId") String subscriptionId, @Body SharedAccessAuthorizationRuleCreateOrUpdateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> createOrUpdateAuthorizationRule(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("eventHubName") String eventHubName, @Path("authorizationRuleName") String authorizationRuleName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body AuthorizationRuleInner parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.EventHubs getAuthorizationRule" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}")
@@ -102,11 +101,11 @@ public class EventHubsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.EventHubs regenerateKeys" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}/regenerateKeys")
-        Observable<Response<ResponseBody>> regenerateKeys(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("eventHubName") String eventHubName, @Path("authorizationRuleName") String authorizationRuleName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body RegenerateKeysParameters parameters, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> regenerateKeys(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("eventHubName") String eventHubName, @Path("authorizationRuleName") String authorizationRuleName, @Path("subscriptionId") String subscriptionId, @Body RegenerateAccessKeyParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.EventHubs listAllNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.EventHubs listByNamespaceNext" })
         @GET
-        Observable<Response<ResponseBody>> listAllNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listByNamespaceNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.EventHubs listAuthorizationRulesNext" })
         @GET
@@ -120,16 +119,16 @@ public class EventHubsInner {
      * @param resourceGroupName Name of the resource group within the azure subscription.
      * @param namespaceName The Namespace name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;EventHubResourceInner&gt; object if successful.
+     * @return the PagedList&lt;EventhubInner&gt; object if successful.
      */
-    public PagedList<EventHubResourceInner> listAll(final String resourceGroupName, final String namespaceName) {
-        ServiceResponse<Page<EventHubResourceInner>> response = listAllSinglePageAsync(resourceGroupName, namespaceName).toBlocking().single();
-        return new PagedList<EventHubResourceInner>(response.body()) {
+    public PagedList<EventhubInner> listByNamespace(final String resourceGroupName, final String namespaceName) {
+        ServiceResponse<Page<EventhubInner>> response = listByNamespaceSinglePageAsync(resourceGroupName, namespaceName).toBlocking().single();
+        return new PagedList<EventhubInner>(response.body()) {
             @Override
-            public Page<EventHubResourceInner> nextPage(String nextPageLink) {
-                return listAllNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            public Page<EventhubInner> nextPage(String nextPageLink) {
+                return listByNamespaceNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
@@ -143,13 +142,13 @@ public class EventHubsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<EventHubResourceInner>> listAllAsync(final String resourceGroupName, final String namespaceName, final ListOperationCallback<EventHubResourceInner> serviceCallback) {
+    public ServiceFuture<List<EventhubInner>> listByNamespaceAsync(final String resourceGroupName, final String namespaceName, final ListOperationCallback<EventhubInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listAllSinglePageAsync(resourceGroupName, namespaceName),
-            new Func1<String, Observable<ServiceResponse<Page<EventHubResourceInner>>>>() {
+            listByNamespaceSinglePageAsync(resourceGroupName, namespaceName),
+            new Func1<String, Observable<ServiceResponse<Page<EventhubInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<EventHubResourceInner>>> call(String nextPageLink) {
-                    return listAllNextSinglePageAsync(nextPageLink);
+                public Observable<ServiceResponse<Page<EventhubInner>>> call(String nextPageLink) {
+                    return listByNamespaceNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
@@ -161,13 +160,13 @@ public class EventHubsInner {
      * @param resourceGroupName Name of the resource group within the azure subscription.
      * @param namespaceName The Namespace name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;EventHubResourceInner&gt; object
+     * @return the observable to the PagedList&lt;EventhubInner&gt; object
      */
-    public Observable<Page<EventHubResourceInner>> listAllAsync(final String resourceGroupName, final String namespaceName) {
-        return listAllWithServiceResponseAsync(resourceGroupName, namespaceName)
-            .map(new Func1<ServiceResponse<Page<EventHubResourceInner>>, Page<EventHubResourceInner>>() {
+    public Observable<Page<EventhubInner>> listByNamespaceAsync(final String resourceGroupName, final String namespaceName) {
+        return listByNamespaceWithServiceResponseAsync(resourceGroupName, namespaceName)
+            .map(new Func1<ServiceResponse<Page<EventhubInner>>, Page<EventhubInner>>() {
                 @Override
-                public Page<EventHubResourceInner> call(ServiceResponse<Page<EventHubResourceInner>> response) {
+                public Page<EventhubInner> call(ServiceResponse<Page<EventhubInner>> response) {
                     return response.body();
                 }
             });
@@ -179,18 +178,18 @@ public class EventHubsInner {
      * @param resourceGroupName Name of the resource group within the azure subscription.
      * @param namespaceName The Namespace name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;EventHubResourceInner&gt; object
+     * @return the observable to the PagedList&lt;EventhubInner&gt; object
      */
-    public Observable<ServiceResponse<Page<EventHubResourceInner>>> listAllWithServiceResponseAsync(final String resourceGroupName, final String namespaceName) {
-        return listAllSinglePageAsync(resourceGroupName, namespaceName)
-            .concatMap(new Func1<ServiceResponse<Page<EventHubResourceInner>>, Observable<ServiceResponse<Page<EventHubResourceInner>>>>() {
+    public Observable<ServiceResponse<Page<EventhubInner>>> listByNamespaceWithServiceResponseAsync(final String resourceGroupName, final String namespaceName) {
+        return listByNamespaceSinglePageAsync(resourceGroupName, namespaceName)
+            .concatMap(new Func1<ServiceResponse<Page<EventhubInner>>, Observable<ServiceResponse<Page<EventhubInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<EventHubResourceInner>>> call(ServiceResponse<Page<EventHubResourceInner>> page) {
+                public Observable<ServiceResponse<Page<EventhubInner>>> call(ServiceResponse<Page<EventhubInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listAllNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listByNamespaceNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
@@ -198,12 +197,12 @@ public class EventHubsInner {
     /**
      * Gets all the Event Hubs in a Namespace.
      *
-    ServiceResponse<PageImpl<EventHubResourceInner>> * @param resourceGroupName Name of the resource group within the azure subscription.
-    ServiceResponse<PageImpl<EventHubResourceInner>> * @param namespaceName The Namespace name
+    ServiceResponse<PageImpl<EventhubInner>> * @param resourceGroupName Name of the resource group within the azure subscription.
+    ServiceResponse<PageImpl<EventhubInner>> * @param namespaceName The Namespace name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;EventHubResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;EventhubInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<EventHubResourceInner>>> listAllSinglePageAsync(final String resourceGroupName, final String namespaceName) {
+    public Observable<ServiceResponse<Page<EventhubInner>>> listByNamespaceSinglePageAsync(final String resourceGroupName, final String namespaceName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -216,13 +215,13 @@ public class EventHubsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listAll(resourceGroupName, namespaceName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<EventHubResourceInner>>>>() {
+        return service.listByNamespace(resourceGroupName, namespaceName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<EventhubInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<EventHubResourceInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<EventhubInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<EventHubResourceInner>> result = listAllDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<EventHubResourceInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<EventhubInner>> result = listByNamespaceDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<EventhubInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -230,10 +229,10 @@ public class EventHubsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<EventHubResourceInner>> listAllDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<EventHubResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<EventHubResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+    private ServiceResponse<PageImpl<EventhubInner>> listByNamespaceDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<EventhubInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<EventhubInner>>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
@@ -245,11 +244,11 @@ public class EventHubsInner {
      * @param eventHubName The Event Hub name
      * @param parameters Parameters supplied to create an Event Hub resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the EventHubResourceInner object if successful.
+     * @return the EventhubInner object if successful.
      */
-    public EventHubResourceInner createOrUpdate(String resourceGroupName, String namespaceName, String eventHubName, EventHubCreateOrUpdateParametersInner parameters) {
+    public EventhubInner createOrUpdate(String resourceGroupName, String namespaceName, String eventHubName, EventhubInner parameters) {
         return createOrUpdateWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, parameters).toBlocking().single().body();
     }
 
@@ -264,7 +263,7 @@ public class EventHubsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<EventHubResourceInner> createOrUpdateAsync(String resourceGroupName, String namespaceName, String eventHubName, EventHubCreateOrUpdateParametersInner parameters, final ServiceCallback<EventHubResourceInner> serviceCallback) {
+    public ServiceFuture<EventhubInner> createOrUpdateAsync(String resourceGroupName, String namespaceName, String eventHubName, EventhubInner parameters, final ServiceCallback<EventhubInner> serviceCallback) {
         return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, parameters), serviceCallback);
     }
 
@@ -276,12 +275,12 @@ public class EventHubsInner {
      * @param eventHubName The Event Hub name
      * @param parameters Parameters supplied to create an Event Hub resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the EventHubResourceInner object
+     * @return the observable to the EventhubInner object
      */
-    public Observable<EventHubResourceInner> createOrUpdateAsync(String resourceGroupName, String namespaceName, String eventHubName, EventHubCreateOrUpdateParametersInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, parameters).map(new Func1<ServiceResponse<EventHubResourceInner>, EventHubResourceInner>() {
+    public Observable<EventhubInner> createOrUpdateAsync(String resourceGroupName, String namespaceName, String eventHubName, EventhubInner parameters) {
+        return createOrUpdateWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, parameters).map(new Func1<ServiceResponse<EventhubInner>, EventhubInner>() {
             @Override
-            public EventHubResourceInner call(ServiceResponse<EventHubResourceInner> response) {
+            public EventhubInner call(ServiceResponse<EventhubInner> response) {
                 return response.body();
             }
         });
@@ -295,9 +294,9 @@ public class EventHubsInner {
      * @param eventHubName The Event Hub name
      * @param parameters Parameters supplied to create an Event Hub resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the EventHubResourceInner object
+     * @return the observable to the EventhubInner object
      */
-    public Observable<ServiceResponse<EventHubResourceInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, EventHubCreateOrUpdateParametersInner parameters) {
+    public Observable<ServiceResponse<EventhubInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, EventhubInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -318,11 +317,11 @@ public class EventHubsInner {
         }
         Validator.validate(parameters);
         return service.createOrUpdate(resourceGroupName, namespaceName, eventHubName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<EventHubResourceInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<EventhubInner>>>() {
                 @Override
-                public Observable<ServiceResponse<EventHubResourceInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<EventhubInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<EventHubResourceInner> clientResponse = createOrUpdateDelegate(response);
+                        ServiceResponse<EventhubInner> clientResponse = createOrUpdateDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -331,10 +330,10 @@ public class EventHubsInner {
             });
     }
 
-    private ServiceResponse<EventHubResourceInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<EventHubResourceInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<EventHubResourceInner>() { }.getType())
-                .registerError(CloudException.class)
+    private ServiceResponse<EventhubInner> createOrUpdateDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<EventhubInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<EventhubInner>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
@@ -345,7 +344,7 @@ public class EventHubsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String resourceGroupName, String namespaceName, String eventHubName) {
@@ -423,11 +422,11 @@ public class EventHubsInner {
             });
     }
 
-    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
+    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, ErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
@@ -438,11 +437,11 @@ public class EventHubsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the EventHubResourceInner object if successful.
+     * @return the EventhubInner object if successful.
      */
-    public EventHubResourceInner get(String resourceGroupName, String namespaceName, String eventHubName) {
+    public EventhubInner get(String resourceGroupName, String namespaceName, String eventHubName) {
         return getWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName).toBlocking().single().body();
     }
 
@@ -456,7 +455,7 @@ public class EventHubsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<EventHubResourceInner> getAsync(String resourceGroupName, String namespaceName, String eventHubName, final ServiceCallback<EventHubResourceInner> serviceCallback) {
+    public ServiceFuture<EventhubInner> getAsync(String resourceGroupName, String namespaceName, String eventHubName, final ServiceCallback<EventhubInner> serviceCallback) {
         return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName), serviceCallback);
     }
 
@@ -467,12 +466,12 @@ public class EventHubsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the EventHubResourceInner object
+     * @return the observable to the EventhubInner object
      */
-    public Observable<EventHubResourceInner> getAsync(String resourceGroupName, String namespaceName, String eventHubName) {
-        return getWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName).map(new Func1<ServiceResponse<EventHubResourceInner>, EventHubResourceInner>() {
+    public Observable<EventhubInner> getAsync(String resourceGroupName, String namespaceName, String eventHubName) {
+        return getWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName).map(new Func1<ServiceResponse<EventhubInner>, EventhubInner>() {
             @Override
-            public EventHubResourceInner call(ServiceResponse<EventHubResourceInner> response) {
+            public EventhubInner call(ServiceResponse<EventhubInner> response) {
                 return response.body();
             }
         });
@@ -485,9 +484,9 @@ public class EventHubsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the EventHubResourceInner object
+     * @return the observable to the EventhubInner object
      */
-    public Observable<ServiceResponse<EventHubResourceInner>> getWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName) {
+    public Observable<ServiceResponse<EventhubInner>> getWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -504,11 +503,11 @@ public class EventHubsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.get(resourceGroupName, namespaceName, eventHubName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<EventHubResourceInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<EventhubInner>>>() {
                 @Override
-                public Observable<ServiceResponse<EventHubResourceInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<EventhubInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<EventHubResourceInner> clientResponse = getDelegate(response);
+                        ServiceResponse<EventhubInner> clientResponse = getDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -517,10 +516,10 @@ public class EventHubsInner {
             });
     }
 
-    private ServiceResponse<EventHubResourceInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<EventHubResourceInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<EventHubResourceInner>() { }.getType())
-                .registerError(CloudException.class)
+    private ServiceResponse<EventhubInner> getDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<EventhubInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<EventhubInner>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
@@ -531,15 +530,15 @@ public class EventHubsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;SharedAccessAuthorizationRuleResourceInner&gt; object if successful.
+     * @return the PagedList&lt;AuthorizationRuleInner&gt; object if successful.
      */
-    public PagedList<SharedAccessAuthorizationRuleResourceInner> listAuthorizationRules(final String resourceGroupName, final String namespaceName, final String eventHubName) {
-        ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>> response = listAuthorizationRulesSinglePageAsync(resourceGroupName, namespaceName, eventHubName).toBlocking().single();
-        return new PagedList<SharedAccessAuthorizationRuleResourceInner>(response.body()) {
+    public PagedList<AuthorizationRuleInner> listAuthorizationRules(final String resourceGroupName, final String namespaceName, final String eventHubName) {
+        ServiceResponse<Page<AuthorizationRuleInner>> response = listAuthorizationRulesSinglePageAsync(resourceGroupName, namespaceName, eventHubName).toBlocking().single();
+        return new PagedList<AuthorizationRuleInner>(response.body()) {
             @Override
-            public Page<SharedAccessAuthorizationRuleResourceInner> nextPage(String nextPageLink) {
+            public Page<AuthorizationRuleInner> nextPage(String nextPageLink) {
                 return listAuthorizationRulesNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
@@ -555,12 +554,12 @@ public class EventHubsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<SharedAccessAuthorizationRuleResourceInner>> listAuthorizationRulesAsync(final String resourceGroupName, final String namespaceName, final String eventHubName, final ListOperationCallback<SharedAccessAuthorizationRuleResourceInner> serviceCallback) {
+    public ServiceFuture<List<AuthorizationRuleInner>> listAuthorizationRulesAsync(final String resourceGroupName, final String namespaceName, final String eventHubName, final ListOperationCallback<AuthorizationRuleInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listAuthorizationRulesSinglePageAsync(resourceGroupName, namespaceName, eventHubName),
-            new Func1<String, Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>>>() {
+            new Func1<String, Observable<ServiceResponse<Page<AuthorizationRuleInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>> call(String nextPageLink) {
+                public Observable<ServiceResponse<Page<AuthorizationRuleInner>>> call(String nextPageLink) {
                     return listAuthorizationRulesNextSinglePageAsync(nextPageLink);
                 }
             },
@@ -574,13 +573,13 @@ public class EventHubsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SharedAccessAuthorizationRuleResourceInner&gt; object
+     * @return the observable to the PagedList&lt;AuthorizationRuleInner&gt; object
      */
-    public Observable<Page<SharedAccessAuthorizationRuleResourceInner>> listAuthorizationRulesAsync(final String resourceGroupName, final String namespaceName, final String eventHubName) {
+    public Observable<Page<AuthorizationRuleInner>> listAuthorizationRulesAsync(final String resourceGroupName, final String namespaceName, final String eventHubName) {
         return listAuthorizationRulesWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName)
-            .map(new Func1<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>, Page<SharedAccessAuthorizationRuleResourceInner>>() {
+            .map(new Func1<ServiceResponse<Page<AuthorizationRuleInner>>, Page<AuthorizationRuleInner>>() {
                 @Override
-                public Page<SharedAccessAuthorizationRuleResourceInner> call(ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>> response) {
+                public Page<AuthorizationRuleInner> call(ServiceResponse<Page<AuthorizationRuleInner>> response) {
                     return response.body();
                 }
             });
@@ -593,13 +592,13 @@ public class EventHubsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SharedAccessAuthorizationRuleResourceInner&gt; object
+     * @return the observable to the PagedList&lt;AuthorizationRuleInner&gt; object
      */
-    public Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>> listAuthorizationRulesWithServiceResponseAsync(final String resourceGroupName, final String namespaceName, final String eventHubName) {
+    public Observable<ServiceResponse<Page<AuthorizationRuleInner>>> listAuthorizationRulesWithServiceResponseAsync(final String resourceGroupName, final String namespaceName, final String eventHubName) {
         return listAuthorizationRulesSinglePageAsync(resourceGroupName, namespaceName, eventHubName)
-            .concatMap(new Func1<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>, Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>>>() {
+            .concatMap(new Func1<ServiceResponse<Page<AuthorizationRuleInner>>, Observable<ServiceResponse<Page<AuthorizationRuleInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>> call(ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>> page) {
+                public Observable<ServiceResponse<Page<AuthorizationRuleInner>>> call(ServiceResponse<Page<AuthorizationRuleInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
@@ -612,13 +611,13 @@ public class EventHubsInner {
     /**
      * Gets the authorization rules for an Event Hub.
      *
-    ServiceResponse<PageImpl<SharedAccessAuthorizationRuleResourceInner>> * @param resourceGroupName Name of the resource group within the azure subscription.
-    ServiceResponse<PageImpl<SharedAccessAuthorizationRuleResourceInner>> * @param namespaceName The Namespace name
-    ServiceResponse<PageImpl<SharedAccessAuthorizationRuleResourceInner>> * @param eventHubName The Event Hub name
+    ServiceResponse<PageImpl<AuthorizationRuleInner>> * @param resourceGroupName Name of the resource group within the azure subscription.
+    ServiceResponse<PageImpl<AuthorizationRuleInner>> * @param namespaceName The Namespace name
+    ServiceResponse<PageImpl<AuthorizationRuleInner>> * @param eventHubName The Event Hub name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;SharedAccessAuthorizationRuleResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;AuthorizationRuleInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>> listAuthorizationRulesSinglePageAsync(final String resourceGroupName, final String namespaceName, final String eventHubName) {
+    public Observable<ServiceResponse<Page<AuthorizationRuleInner>>> listAuthorizationRulesSinglePageAsync(final String resourceGroupName, final String namespaceName, final String eventHubName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -635,12 +634,12 @@ public class EventHubsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.listAuthorizationRules(resourceGroupName, namespaceName, eventHubName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AuthorizationRuleInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<AuthorizationRuleInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<SharedAccessAuthorizationRuleResourceInner>> result = listAuthorizationRulesDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<AuthorizationRuleInner>> result = listAuthorizationRulesDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<AuthorizationRuleInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -648,10 +647,10 @@ public class EventHubsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<SharedAccessAuthorizationRuleResourceInner>> listAuthorizationRulesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SharedAccessAuthorizationRuleResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<SharedAccessAuthorizationRuleResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+    private ServiceResponse<PageImpl<AuthorizationRuleInner>> listAuthorizationRulesDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AuthorizationRuleInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<AuthorizationRuleInner>>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
@@ -662,14 +661,14 @@ public class EventHubsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param authorizationRuleName The authorization rule name.
-     * @param parameters The shared access AuthorizationRule.
+     * @param rights The rights associated with the rule.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the SharedAccessAuthorizationRuleResourceInner object if successful.
+     * @return the AuthorizationRuleInner object if successful.
      */
-    public SharedAccessAuthorizationRuleResourceInner createOrUpdateAuthorizationRule(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, SharedAccessAuthorizationRuleCreateOrUpdateParametersInner parameters) {
-        return createOrUpdateAuthorizationRuleWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, parameters).toBlocking().single().body();
+    public AuthorizationRuleInner createOrUpdateAuthorizationRule(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, List<AccessRights> rights) {
+        return createOrUpdateAuthorizationRuleWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, rights).toBlocking().single().body();
     }
 
     /**
@@ -679,13 +678,13 @@ public class EventHubsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param authorizationRuleName The authorization rule name.
-     * @param parameters The shared access AuthorizationRule.
+     * @param rights The rights associated with the rule.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<SharedAccessAuthorizationRuleResourceInner> createOrUpdateAuthorizationRuleAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, SharedAccessAuthorizationRuleCreateOrUpdateParametersInner parameters, final ServiceCallback<SharedAccessAuthorizationRuleResourceInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateAuthorizationRuleWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, parameters), serviceCallback);
+    public ServiceFuture<AuthorizationRuleInner> createOrUpdateAuthorizationRuleAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, List<AccessRights> rights, final ServiceCallback<AuthorizationRuleInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateAuthorizationRuleWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, rights), serviceCallback);
     }
 
     /**
@@ -695,14 +694,14 @@ public class EventHubsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param authorizationRuleName The authorization rule name.
-     * @param parameters The shared access AuthorizationRule.
+     * @param rights The rights associated with the rule.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the SharedAccessAuthorizationRuleResourceInner object
+     * @return the observable to the AuthorizationRuleInner object
      */
-    public Observable<SharedAccessAuthorizationRuleResourceInner> createOrUpdateAuthorizationRuleAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, SharedAccessAuthorizationRuleCreateOrUpdateParametersInner parameters) {
-        return createOrUpdateAuthorizationRuleWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, parameters).map(new Func1<ServiceResponse<SharedAccessAuthorizationRuleResourceInner>, SharedAccessAuthorizationRuleResourceInner>() {
+    public Observable<AuthorizationRuleInner> createOrUpdateAuthorizationRuleAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, List<AccessRights> rights) {
+        return createOrUpdateAuthorizationRuleWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, rights).map(new Func1<ServiceResponse<AuthorizationRuleInner>, AuthorizationRuleInner>() {
             @Override
-            public SharedAccessAuthorizationRuleResourceInner call(ServiceResponse<SharedAccessAuthorizationRuleResourceInner> response) {
+            public AuthorizationRuleInner call(ServiceResponse<AuthorizationRuleInner> response) {
                 return response.body();
             }
         });
@@ -715,11 +714,11 @@ public class EventHubsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param authorizationRuleName The authorization rule name.
-     * @param parameters The shared access AuthorizationRule.
+     * @param rights The rights associated with the rule.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the SharedAccessAuthorizationRuleResourceInner object
+     * @return the observable to the AuthorizationRuleInner object
      */
-    public Observable<ServiceResponse<SharedAccessAuthorizationRuleResourceInner>> createOrUpdateAuthorizationRuleWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, SharedAccessAuthorizationRuleCreateOrUpdateParametersInner parameters) {
+    public Observable<ServiceResponse<AuthorizationRuleInner>> createOrUpdateAuthorizationRuleWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, List<AccessRights> rights) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -735,19 +734,21 @@ public class EventHubsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (parameters == null) {
-            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
-        }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        Validator.validate(parameters);
-        return service.createOrUpdateAuthorizationRule(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SharedAccessAuthorizationRuleResourceInner>>>() {
+        if (rights == null) {
+            throw new IllegalArgumentException("Parameter rights is required and cannot be null.");
+        }
+        Validator.validate(rights);
+        AuthorizationRuleInner parameters = new AuthorizationRuleInner();
+        parameters.withRights(rights);
+        return service.createOrUpdateAuthorizationRule(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AuthorizationRuleInner>>>() {
                 @Override
-                public Observable<ServiceResponse<SharedAccessAuthorizationRuleResourceInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<AuthorizationRuleInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<SharedAccessAuthorizationRuleResourceInner> clientResponse = createOrUpdateAuthorizationRuleDelegate(response);
+                        ServiceResponse<AuthorizationRuleInner> clientResponse = createOrUpdateAuthorizationRuleDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -756,10 +757,10 @@ public class EventHubsInner {
             });
     }
 
-    private ServiceResponse<SharedAccessAuthorizationRuleResourceInner> createOrUpdateAuthorizationRuleDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<SharedAccessAuthorizationRuleResourceInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<SharedAccessAuthorizationRuleResourceInner>() { }.getType())
-                .registerError(CloudException.class)
+    private ServiceResponse<AuthorizationRuleInner> createOrUpdateAuthorizationRuleDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AuthorizationRuleInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<AuthorizationRuleInner>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
@@ -771,11 +772,11 @@ public class EventHubsInner {
      * @param eventHubName The Event Hub name
      * @param authorizationRuleName The authorization rule name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the SharedAccessAuthorizationRuleResourceInner object if successful.
+     * @return the AuthorizationRuleInner object if successful.
      */
-    public SharedAccessAuthorizationRuleResourceInner getAuthorizationRule(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
+    public AuthorizationRuleInner getAuthorizationRule(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
         return getAuthorizationRuleWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName).toBlocking().single().body();
     }
 
@@ -790,7 +791,7 @@ public class EventHubsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<SharedAccessAuthorizationRuleResourceInner> getAuthorizationRuleAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, final ServiceCallback<SharedAccessAuthorizationRuleResourceInner> serviceCallback) {
+    public ServiceFuture<AuthorizationRuleInner> getAuthorizationRuleAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, final ServiceCallback<AuthorizationRuleInner> serviceCallback) {
         return ServiceFuture.fromResponse(getAuthorizationRuleWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName), serviceCallback);
     }
 
@@ -802,12 +803,12 @@ public class EventHubsInner {
      * @param eventHubName The Event Hub name
      * @param authorizationRuleName The authorization rule name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the SharedAccessAuthorizationRuleResourceInner object
+     * @return the observable to the AuthorizationRuleInner object
      */
-    public Observable<SharedAccessAuthorizationRuleResourceInner> getAuthorizationRuleAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
-        return getAuthorizationRuleWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName).map(new Func1<ServiceResponse<SharedAccessAuthorizationRuleResourceInner>, SharedAccessAuthorizationRuleResourceInner>() {
+    public Observable<AuthorizationRuleInner> getAuthorizationRuleAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
+        return getAuthorizationRuleWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName).map(new Func1<ServiceResponse<AuthorizationRuleInner>, AuthorizationRuleInner>() {
             @Override
-            public SharedAccessAuthorizationRuleResourceInner call(ServiceResponse<SharedAccessAuthorizationRuleResourceInner> response) {
+            public AuthorizationRuleInner call(ServiceResponse<AuthorizationRuleInner> response) {
                 return response.body();
             }
         });
@@ -821,9 +822,9 @@ public class EventHubsInner {
      * @param eventHubName The Event Hub name
      * @param authorizationRuleName The authorization rule name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the SharedAccessAuthorizationRuleResourceInner object
+     * @return the observable to the AuthorizationRuleInner object
      */
-    public Observable<ServiceResponse<SharedAccessAuthorizationRuleResourceInner>> getAuthorizationRuleWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
+    public Observable<ServiceResponse<AuthorizationRuleInner>> getAuthorizationRuleWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -843,11 +844,11 @@ public class EventHubsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.getAuthorizationRule(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SharedAccessAuthorizationRuleResourceInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AuthorizationRuleInner>>>() {
                 @Override
-                public Observable<ServiceResponse<SharedAccessAuthorizationRuleResourceInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<AuthorizationRuleInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<SharedAccessAuthorizationRuleResourceInner> clientResponse = getAuthorizationRuleDelegate(response);
+                        ServiceResponse<AuthorizationRuleInner> clientResponse = getAuthorizationRuleDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -856,10 +857,10 @@ public class EventHubsInner {
             });
     }
 
-    private ServiceResponse<SharedAccessAuthorizationRuleResourceInner> getAuthorizationRuleDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<SharedAccessAuthorizationRuleResourceInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<SharedAccessAuthorizationRuleResourceInner>() { }.getType())
-                .registerError(CloudException.class)
+    private ServiceResponse<AuthorizationRuleInner> getAuthorizationRuleDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AuthorizationRuleInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<AuthorizationRuleInner>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
@@ -871,7 +872,7 @@ public class EventHubsInner {
      * @param eventHubName The Event Hub name
      * @param authorizationRuleName The authorization rule name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void deleteAuthorizationRule(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
@@ -955,11 +956,11 @@ public class EventHubsInner {
             });
     }
 
-    private ServiceResponse<Void> deleteAuthorizationRuleDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
+    private ServiceResponse<Void> deleteAuthorizationRuleDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, ErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
@@ -971,11 +972,11 @@ public class EventHubsInner {
      * @param eventHubName The Event Hub name
      * @param authorizationRuleName The authorization rule name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ResourceListKeysInner object if successful.
+     * @return the AccessKeysInner object if successful.
      */
-    public ResourceListKeysInner listKeys(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
+    public AccessKeysInner listKeys(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
         return listKeysWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName).toBlocking().single().body();
     }
 
@@ -990,7 +991,7 @@ public class EventHubsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ResourceListKeysInner> listKeysAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, final ServiceCallback<ResourceListKeysInner> serviceCallback) {
+    public ServiceFuture<AccessKeysInner> listKeysAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, final ServiceCallback<AccessKeysInner> serviceCallback) {
         return ServiceFuture.fromResponse(listKeysWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName), serviceCallback);
     }
 
@@ -1002,12 +1003,12 @@ public class EventHubsInner {
      * @param eventHubName The Event Hub name
      * @param authorizationRuleName The authorization rule name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ResourceListKeysInner object
+     * @return the observable to the AccessKeysInner object
      */
-    public Observable<ResourceListKeysInner> listKeysAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
-        return listKeysWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName).map(new Func1<ServiceResponse<ResourceListKeysInner>, ResourceListKeysInner>() {
+    public Observable<AccessKeysInner> listKeysAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
+        return listKeysWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName).map(new Func1<ServiceResponse<AccessKeysInner>, AccessKeysInner>() {
             @Override
-            public ResourceListKeysInner call(ServiceResponse<ResourceListKeysInner> response) {
+            public AccessKeysInner call(ServiceResponse<AccessKeysInner> response) {
                 return response.body();
             }
         });
@@ -1021,9 +1022,9 @@ public class EventHubsInner {
      * @param eventHubName The Event Hub name
      * @param authorizationRuleName The authorization rule name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ResourceListKeysInner object
+     * @return the observable to the AccessKeysInner object
      */
-    public Observable<ServiceResponse<ResourceListKeysInner>> listKeysWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
+    public Observable<ServiceResponse<AccessKeysInner>> listKeysWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1043,11 +1044,11 @@ public class EventHubsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.listKeys(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ResourceListKeysInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AccessKeysInner>>>() {
                 @Override
-                public Observable<ServiceResponse<ResourceListKeysInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<AccessKeysInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<ResourceListKeysInner> clientResponse = listKeysDelegate(response);
+                        ServiceResponse<AccessKeysInner> clientResponse = listKeysDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1056,10 +1057,10 @@ public class EventHubsInner {
             });
     }
 
-    private ServiceResponse<ResourceListKeysInner> listKeysDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ResourceListKeysInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ResourceListKeysInner>() { }.getType())
-                .registerError(CloudException.class)
+    private ServiceResponse<AccessKeysInner> listKeysDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AccessKeysInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<AccessKeysInner>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
@@ -1070,13 +1071,14 @@ public class EventHubsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param authorizationRuleName The authorization rule name.
+     * @param parameters Parameters supplied to regenerate the AuthorizationRule Keys (PrimaryKey/SecondaryKey).
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ResourceListKeysInner object if successful.
+     * @return the AccessKeysInner object if successful.
      */
-    public ResourceListKeysInner regenerateKeys(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
-        return regenerateKeysWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName).toBlocking().single().body();
+    public AccessKeysInner regenerateKeys(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, RegenerateAccessKeyParametersInner parameters) {
+        return regenerateKeysWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, parameters).toBlocking().single().body();
     }
 
     /**
@@ -1086,12 +1088,13 @@ public class EventHubsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param authorizationRuleName The authorization rule name.
+     * @param parameters Parameters supplied to regenerate the AuthorizationRule Keys (PrimaryKey/SecondaryKey).
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ResourceListKeysInner> regenerateKeysAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, final ServiceCallback<ResourceListKeysInner> serviceCallback) {
-        return ServiceFuture.fromResponse(regenerateKeysWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName), serviceCallback);
+    public ServiceFuture<AccessKeysInner> regenerateKeysAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, RegenerateAccessKeyParametersInner parameters, final ServiceCallback<AccessKeysInner> serviceCallback) {
+        return ServiceFuture.fromResponse(regenerateKeysWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, parameters), serviceCallback);
     }
 
     /**
@@ -1101,13 +1104,14 @@ public class EventHubsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param authorizationRuleName The authorization rule name.
+     * @param parameters Parameters supplied to regenerate the AuthorizationRule Keys (PrimaryKey/SecondaryKey).
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ResourceListKeysInner object
+     * @return the observable to the AccessKeysInner object
      */
-    public Observable<ResourceListKeysInner> regenerateKeysAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
-        return regenerateKeysWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName).map(new Func1<ServiceResponse<ResourceListKeysInner>, ResourceListKeysInner>() {
+    public Observable<AccessKeysInner> regenerateKeysAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, RegenerateAccessKeyParametersInner parameters) {
+        return regenerateKeysWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, parameters).map(new Func1<ServiceResponse<AccessKeysInner>, AccessKeysInner>() {
             @Override
-            public ResourceListKeysInner call(ServiceResponse<ResourceListKeysInner> response) {
+            public AccessKeysInner call(ServiceResponse<AccessKeysInner> response) {
                 return response.body();
             }
         });
@@ -1120,10 +1124,11 @@ public class EventHubsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param authorizationRuleName The authorization rule name.
+     * @param parameters Parameters supplied to regenerate the AuthorizationRule Keys (PrimaryKey/SecondaryKey).
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ResourceListKeysInner object
+     * @return the observable to the AccessKeysInner object
      */
-    public Observable<ServiceResponse<ResourceListKeysInner>> regenerateKeysWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName) {
+    public Observable<ServiceResponse<AccessKeysInner>> regenerateKeysWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, RegenerateAccessKeyParametersInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1139,18 +1144,19 @@ public class EventHubsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        final Policykey policykey = null;
-        RegenerateKeysParameters parameters = new RegenerateKeysParameters();
-        parameters.withPolicykey(null);
-        return service.regenerateKeys(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ResourceListKeysInner>>>() {
+        Validator.validate(parameters);
+        return service.regenerateKeys(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AccessKeysInner>>>() {
                 @Override
-                public Observable<ServiceResponse<ResourceListKeysInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<AccessKeysInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<ResourceListKeysInner> clientResponse = regenerateKeysDelegate(response);
+                        ServiceResponse<AccessKeysInner> clientResponse = regenerateKeysDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1159,109 +1165,10 @@ public class EventHubsInner {
             });
     }
 
-    /**
-     * Regenerates the ACS and SAS connection strings for the Event Hub.
-     *
-     * @param resourceGroupName Name of the resource group within the azure subscription.
-     * @param namespaceName The Namespace name
-     * @param eventHubName The Event Hub name
-     * @param authorizationRuleName The authorization rule name.
-     * @param policykey Key that needs to be regenerated. Possible values include: 'PrimaryKey', 'SecondaryKey'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ResourceListKeysInner object if successful.
-     */
-    public ResourceListKeysInner regenerateKeys(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, Policykey policykey) {
-        return regenerateKeysWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, policykey).toBlocking().single().body();
-    }
-
-    /**
-     * Regenerates the ACS and SAS connection strings for the Event Hub.
-     *
-     * @param resourceGroupName Name of the resource group within the azure subscription.
-     * @param namespaceName The Namespace name
-     * @param eventHubName The Event Hub name
-     * @param authorizationRuleName The authorization rule name.
-     * @param policykey Key that needs to be regenerated. Possible values include: 'PrimaryKey', 'SecondaryKey'
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<ResourceListKeysInner> regenerateKeysAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, Policykey policykey, final ServiceCallback<ResourceListKeysInner> serviceCallback) {
-        return ServiceFuture.fromResponse(regenerateKeysWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, policykey), serviceCallback);
-    }
-
-    /**
-     * Regenerates the ACS and SAS connection strings for the Event Hub.
-     *
-     * @param resourceGroupName Name of the resource group within the azure subscription.
-     * @param namespaceName The Namespace name
-     * @param eventHubName The Event Hub name
-     * @param authorizationRuleName The authorization rule name.
-     * @param policykey Key that needs to be regenerated. Possible values include: 'PrimaryKey', 'SecondaryKey'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ResourceListKeysInner object
-     */
-    public Observable<ResourceListKeysInner> regenerateKeysAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, Policykey policykey) {
-        return regenerateKeysWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, policykey).map(new Func1<ServiceResponse<ResourceListKeysInner>, ResourceListKeysInner>() {
-            @Override
-            public ResourceListKeysInner call(ServiceResponse<ResourceListKeysInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Regenerates the ACS and SAS connection strings for the Event Hub.
-     *
-     * @param resourceGroupName Name of the resource group within the azure subscription.
-     * @param namespaceName The Namespace name
-     * @param eventHubName The Event Hub name
-     * @param authorizationRuleName The authorization rule name.
-     * @param policykey Key that needs to be regenerated. Possible values include: 'PrimaryKey', 'SecondaryKey'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ResourceListKeysInner object
-     */
-    public Observable<ServiceResponse<ResourceListKeysInner>> regenerateKeysWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, String authorizationRuleName, Policykey policykey) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (namespaceName == null) {
-            throw new IllegalArgumentException("Parameter namespaceName is required and cannot be null.");
-        }
-        if (eventHubName == null) {
-            throw new IllegalArgumentException("Parameter eventHubName is required and cannot be null.");
-        }
-        if (authorizationRuleName == null) {
-            throw new IllegalArgumentException("Parameter authorizationRuleName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        RegenerateKeysParameters parameters = new RegenerateKeysParameters();
-        parameters.withPolicykey(policykey);
-        return service.regenerateKeys(resourceGroupName, namespaceName, eventHubName, authorizationRuleName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ResourceListKeysInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ResourceListKeysInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ResourceListKeysInner> clientResponse = regenerateKeysDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<ResourceListKeysInner> regenerateKeysDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ResourceListKeysInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ResourceListKeysInner>() { }.getType())
-                .registerError(CloudException.class)
+    private ServiceResponse<AccessKeysInner> regenerateKeysDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AccessKeysInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<AccessKeysInner>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
@@ -1270,16 +1177,16 @@ public class EventHubsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;EventHubResourceInner&gt; object if successful.
+     * @return the PagedList&lt;EventhubInner&gt; object if successful.
      */
-    public PagedList<EventHubResourceInner> listAllNext(final String nextPageLink) {
-        ServiceResponse<Page<EventHubResourceInner>> response = listAllNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<EventHubResourceInner>(response.body()) {
+    public PagedList<EventhubInner> listByNamespaceNext(final String nextPageLink) {
+        ServiceResponse<Page<EventhubInner>> response = listByNamespaceNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<EventhubInner>(response.body()) {
             @Override
-            public Page<EventHubResourceInner> nextPage(String nextPageLink) {
-                return listAllNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            public Page<EventhubInner> nextPage(String nextPageLink) {
+                return listByNamespaceNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
@@ -1293,13 +1200,13 @@ public class EventHubsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<EventHubResourceInner>> listAllNextAsync(final String nextPageLink, final ServiceFuture<List<EventHubResourceInner>> serviceFuture, final ListOperationCallback<EventHubResourceInner> serviceCallback) {
+    public ServiceFuture<List<EventhubInner>> listByNamespaceNextAsync(final String nextPageLink, final ServiceFuture<List<EventhubInner>> serviceFuture, final ListOperationCallback<EventhubInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listAllNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<EventHubResourceInner>>>>() {
+            listByNamespaceNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<EventhubInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<EventHubResourceInner>>> call(String nextPageLink) {
-                    return listAllNextSinglePageAsync(nextPageLink);
+                public Observable<ServiceResponse<Page<EventhubInner>>> call(String nextPageLink) {
+                    return listByNamespaceNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
@@ -1310,13 +1217,13 @@ public class EventHubsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;EventHubResourceInner&gt; object
+     * @return the observable to the PagedList&lt;EventhubInner&gt; object
      */
-    public Observable<Page<EventHubResourceInner>> listAllNextAsync(final String nextPageLink) {
-        return listAllNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<EventHubResourceInner>>, Page<EventHubResourceInner>>() {
+    public Observable<Page<EventhubInner>> listByNamespaceNextAsync(final String nextPageLink) {
+        return listByNamespaceNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<EventhubInner>>, Page<EventhubInner>>() {
                 @Override
-                public Page<EventHubResourceInner> call(ServiceResponse<Page<EventHubResourceInner>> response) {
+                public Page<EventhubInner> call(ServiceResponse<Page<EventhubInner>> response) {
                     return response.body();
                 }
             });
@@ -1327,18 +1234,18 @@ public class EventHubsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;EventHubResourceInner&gt; object
+     * @return the observable to the PagedList&lt;EventhubInner&gt; object
      */
-    public Observable<ServiceResponse<Page<EventHubResourceInner>>> listAllNextWithServiceResponseAsync(final String nextPageLink) {
-        return listAllNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<EventHubResourceInner>>, Observable<ServiceResponse<Page<EventHubResourceInner>>>>() {
+    public Observable<ServiceResponse<Page<EventhubInner>>> listByNamespaceNextWithServiceResponseAsync(final String nextPageLink) {
+        return listByNamespaceNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<EventhubInner>>, Observable<ServiceResponse<Page<EventhubInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<EventHubResourceInner>>> call(ServiceResponse<Page<EventHubResourceInner>> page) {
+                public Observable<ServiceResponse<Page<EventhubInner>>> call(ServiceResponse<Page<EventhubInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listAllNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listByNamespaceNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
@@ -1346,22 +1253,22 @@ public class EventHubsInner {
     /**
      * Gets all the Event Hubs in a Namespace.
      *
-    ServiceResponse<PageImpl<EventHubResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<EventhubInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;EventHubResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;EventhubInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<EventHubResourceInner>>> listAllNextSinglePageAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<EventhubInner>>> listByNamespaceNextSinglePageAsync(final String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listAllNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<EventHubResourceInner>>>>() {
+        return service.listByNamespaceNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<EventhubInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<EventHubResourceInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<EventhubInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<EventHubResourceInner>> result = listAllNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<EventHubResourceInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<EventhubInner>> result = listByNamespaceNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<EventhubInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -1369,10 +1276,10 @@ public class EventHubsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<EventHubResourceInner>> listAllNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<EventHubResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<EventHubResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+    private ServiceResponse<PageImpl<EventhubInner>> listByNamespaceNextDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<EventhubInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<EventhubInner>>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
@@ -1381,15 +1288,15 @@ public class EventHubsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;SharedAccessAuthorizationRuleResourceInner&gt; object if successful.
+     * @return the PagedList&lt;AuthorizationRuleInner&gt; object if successful.
      */
-    public PagedList<SharedAccessAuthorizationRuleResourceInner> listAuthorizationRulesNext(final String nextPageLink) {
-        ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>> response = listAuthorizationRulesNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<SharedAccessAuthorizationRuleResourceInner>(response.body()) {
+    public PagedList<AuthorizationRuleInner> listAuthorizationRulesNext(final String nextPageLink) {
+        ServiceResponse<Page<AuthorizationRuleInner>> response = listAuthorizationRulesNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<AuthorizationRuleInner>(response.body()) {
             @Override
-            public Page<SharedAccessAuthorizationRuleResourceInner> nextPage(String nextPageLink) {
+            public Page<AuthorizationRuleInner> nextPage(String nextPageLink) {
                 return listAuthorizationRulesNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
@@ -1404,12 +1311,12 @@ public class EventHubsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<SharedAccessAuthorizationRuleResourceInner>> listAuthorizationRulesNextAsync(final String nextPageLink, final ServiceFuture<List<SharedAccessAuthorizationRuleResourceInner>> serviceFuture, final ListOperationCallback<SharedAccessAuthorizationRuleResourceInner> serviceCallback) {
+    public ServiceFuture<List<AuthorizationRuleInner>> listAuthorizationRulesNextAsync(final String nextPageLink, final ServiceFuture<List<AuthorizationRuleInner>> serviceFuture, final ListOperationCallback<AuthorizationRuleInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listAuthorizationRulesNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>>>() {
+            new Func1<String, Observable<ServiceResponse<Page<AuthorizationRuleInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>> call(String nextPageLink) {
+                public Observable<ServiceResponse<Page<AuthorizationRuleInner>>> call(String nextPageLink) {
                     return listAuthorizationRulesNextSinglePageAsync(nextPageLink);
                 }
             },
@@ -1421,13 +1328,13 @@ public class EventHubsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SharedAccessAuthorizationRuleResourceInner&gt; object
+     * @return the observable to the PagedList&lt;AuthorizationRuleInner&gt; object
      */
-    public Observable<Page<SharedAccessAuthorizationRuleResourceInner>> listAuthorizationRulesNextAsync(final String nextPageLink) {
+    public Observable<Page<AuthorizationRuleInner>> listAuthorizationRulesNextAsync(final String nextPageLink) {
         return listAuthorizationRulesNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>, Page<SharedAccessAuthorizationRuleResourceInner>>() {
+            .map(new Func1<ServiceResponse<Page<AuthorizationRuleInner>>, Page<AuthorizationRuleInner>>() {
                 @Override
-                public Page<SharedAccessAuthorizationRuleResourceInner> call(ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>> response) {
+                public Page<AuthorizationRuleInner> call(ServiceResponse<Page<AuthorizationRuleInner>> response) {
                     return response.body();
                 }
             });
@@ -1438,13 +1345,13 @@ public class EventHubsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SharedAccessAuthorizationRuleResourceInner&gt; object
+     * @return the observable to the PagedList&lt;AuthorizationRuleInner&gt; object
      */
-    public Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>> listAuthorizationRulesNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<AuthorizationRuleInner>>> listAuthorizationRulesNextWithServiceResponseAsync(final String nextPageLink) {
         return listAuthorizationRulesNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>, Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>>>() {
+            .concatMap(new Func1<ServiceResponse<Page<AuthorizationRuleInner>>, Observable<ServiceResponse<Page<AuthorizationRuleInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>> call(ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>> page) {
+                public Observable<ServiceResponse<Page<AuthorizationRuleInner>>> call(ServiceResponse<Page<AuthorizationRuleInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
@@ -1457,22 +1364,22 @@ public class EventHubsInner {
     /**
      * Gets the authorization rules for an Event Hub.
      *
-    ServiceResponse<PageImpl<SharedAccessAuthorizationRuleResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<AuthorizationRuleInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;SharedAccessAuthorizationRuleResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;AuthorizationRuleInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>> listAuthorizationRulesNextSinglePageAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<AuthorizationRuleInner>>> listAuthorizationRulesNextSinglePageAsync(final String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
         return service.listAuthorizationRulesNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AuthorizationRuleInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<AuthorizationRuleInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<SharedAccessAuthorizationRuleResourceInner>> result = listAuthorizationRulesNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<SharedAccessAuthorizationRuleResourceInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<AuthorizationRuleInner>> result = listAuthorizationRulesNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<AuthorizationRuleInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -1480,10 +1387,10 @@ public class EventHubsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<SharedAccessAuthorizationRuleResourceInner>> listAuthorizationRulesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SharedAccessAuthorizationRuleResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<SharedAccessAuthorizationRuleResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+    private ServiceResponse<PageImpl<AuthorizationRuleInner>> listAuthorizationRulesNextDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AuthorizationRuleInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<AuthorizationRuleInner>>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 

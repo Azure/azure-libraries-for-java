@@ -17,10 +17,36 @@ import com.microsoft.azure.Resource;
  */
 public class TrackedResourceInner extends Resource {
     /**
+     * Resource location.
+     */
+    @JsonProperty(value = "location")
+    private String location;
+
+    /**
      * Resource tags.
      */
     @JsonProperty(value = "tags")
     private Map<String, String> tags;
+
+    /**
+     * Get the location value.
+     *
+     * @return the location value
+     */
+    public String location() {
+        return this.location;
+    }
+
+    /**
+     * Set the location value.
+     *
+     * @param location the location value to set
+     * @return the TrackedResourceInner object itself.
+     */
+    public TrackedResourceInner withLocation(String location) {
+        this.location = location;
+        return this;
+    }
 
     /**
      * Get the tags value.

@@ -16,6 +16,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CheckNameAvailabilityResultInner {
     /**
+     * The detailed info regarding the reason associated with the Namespace.
+     */
+    @JsonProperty(value = "message", access = JsonProperty.Access.WRITE_ONLY)
+    private String message;
+
+    /**
      * Value indicating Namespace is availability, true if the Namespace is
      * available; otherwise, false.
      */
@@ -31,10 +37,13 @@ public class CheckNameAvailabilityResultInner {
     private UnavailableReason reason;
 
     /**
-     * The detailed info regarding the reason associated with the Namespace.
+     * Get the message value.
+     *
+     * @return the message value
      */
-    @JsonProperty(value = "message", access = JsonProperty.Access.WRITE_ONLY)
-    private String message;
+    public String message() {
+        return this.message;
+    }
 
     /**
      * Get the nameAvailable value.
@@ -74,15 +83,6 @@ public class CheckNameAvailabilityResultInner {
     public CheckNameAvailabilityResultInner withReason(UnavailableReason reason) {
         this.reason = reason;
         return this;
-    }
-
-    /**
-     * Get the message value.
-     *
-     * @return the message value
-     */
-    public String message() {
-        return this.message;
     }
 
 }

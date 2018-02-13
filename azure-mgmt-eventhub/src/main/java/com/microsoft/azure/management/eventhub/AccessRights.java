@@ -8,49 +8,37 @@
 
 package com.microsoft.azure.management.eventhub;
 
+import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for AccessRights.
  */
-public enum AccessRights {
-    /** Enum value Manage. */
-    MANAGE("Manage"),
+public final class AccessRights extends ExpandableStringEnum<AccessRights> {
+    /** Static value Manage for AccessRights. */
+    public static final AccessRights MANAGE = fromString("Manage");
 
-    /** Enum value Send. */
-    SEND("Send"),
+    /** Static value Send for AccessRights. */
+    public static final AccessRights SEND = fromString("Send");
 
-    /** Enum value Listen. */
-    LISTEN("Listen");
+    /** Static value Listen for AccessRights. */
+    public static final AccessRights LISTEN = fromString("Listen");
 
-    /** The actual serialized value for a AccessRights instance. */
-    private String value;
-
-    AccessRights(String value) {
-        this.value = value;
+    /**
+     * Creates or finds a AccessRights from its string representation.
+     * @param name a name to look for
+     * @return the corresponding AccessRights
+     */
+    @JsonCreator
+    public static AccessRights fromString(String name) {
+        return fromString(name, AccessRights.class);
     }
 
     /**
-     * Parses a serialized value to a AccessRights instance.
-     *
-     * @param value the serialized value to parse.
-     * @return the parsed AccessRights object, or null if unable to parse.
+     * @return known AccessRights values
      */
-    @JsonCreator
-    public static AccessRights fromString(String value) {
-        AccessRights[] items = AccessRights.values();
-        for (AccessRights item : items) {
-            if (item.toString().equalsIgnoreCase(value)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    @JsonValue
-    @Override
-    public String toString() {
-        return this.value;
+    public static Collection<AccessRights> values() {
+        return values(AccessRights.class);
     }
 }

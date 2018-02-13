@@ -11,24 +11,25 @@ package com.microsoft.azure.management.eventhub;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * SKU parameters supplied to the create Namespace operation.
+ * SKU parameters supplied to the create namespace operation.
  */
 public class Sku {
     /**
      * Name of this SKU. Possible values include: 'Basic', 'Standard'.
      */
-    @JsonProperty(value = "name")
+    @JsonProperty(value = "name", required = true)
     private SkuName name;
 
     /**
      * The billing tier of this particular SKU. Possible values include:
-     * 'Basic', 'Standard', 'Premium'.
+     * 'Basic', 'Standard'.
      */
-    @JsonProperty(value = "tier", required = true)
+    @JsonProperty(value = "tier")
     private SkuTier tier;
 
     /**
-     * The Event Hubs throughput units.
+     * The Event Hubs throughput units, vaule should be 0 to 20 throughput
+     * units.
      */
     @JsonProperty(value = "capacity")
     private Integer capacity;

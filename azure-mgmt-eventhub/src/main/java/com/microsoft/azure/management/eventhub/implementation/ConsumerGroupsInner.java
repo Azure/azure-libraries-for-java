@@ -11,14 +11,13 @@ package com.microsoft.azure.management.eventhub.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.eventhub.ErrorResponseException;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
 import java.io.IOException;
 import java.util.List;
 import okhttp3.ResponseBody;
@@ -63,7 +62,7 @@ public class ConsumerGroupsInner {
     interface ConsumerGroupsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.ConsumerGroups createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("eventHubName") String eventHubName, @Path("consumerGroupName") String consumerGroupName, @Path("subscriptionId") String subscriptionId, @Body ConsumerGroupCreateOrUpdateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("eventHubName") String eventHubName, @Path("consumerGroupName") String consumerGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body ConsumerGroupInner parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.ConsumerGroups delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}", method = "DELETE", hasBody = true)
@@ -73,13 +72,13 @@ public class ConsumerGroupsInner {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}")
         Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("eventHubName") String eventHubName, @Path("consumerGroupName") String consumerGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.ConsumerGroups listAll" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.ConsumerGroups listByEventHub" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups")
-        Observable<Response<ResponseBody>> listAll(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("eventHubName") String eventHubName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listByEventHub(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("eventHubName") String eventHubName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.ConsumerGroups listAllNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.ConsumerGroups listByEventHubNext" })
         @GET
-        Observable<Response<ResponseBody>> listAllNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listByEventHubNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
@@ -90,14 +89,13 @@ public class ConsumerGroupsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param consumerGroupName The consumer group name
-     * @param parameters Parameters supplied to create or update a consumer group resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ConsumerGroupResourceInner object if successful.
+     * @return the ConsumerGroupInner object if successful.
      */
-    public ConsumerGroupResourceInner createOrUpdate(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName, ConsumerGroupCreateOrUpdateParametersInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, consumerGroupName, parameters).toBlocking().single().body();
+    public ConsumerGroupInner createOrUpdate(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName) {
+        return createOrUpdateWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, consumerGroupName).toBlocking().single().body();
     }
 
     /**
@@ -107,13 +105,12 @@ public class ConsumerGroupsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param consumerGroupName The consumer group name
-     * @param parameters Parameters supplied to create or update a consumer group resource.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ConsumerGroupResourceInner> createOrUpdateAsync(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName, ConsumerGroupCreateOrUpdateParametersInner parameters, final ServiceCallback<ConsumerGroupResourceInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, consumerGroupName, parameters), serviceCallback);
+    public ServiceFuture<ConsumerGroupInner> createOrUpdateAsync(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName, final ServiceCallback<ConsumerGroupInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, consumerGroupName), serviceCallback);
     }
 
     /**
@@ -123,14 +120,13 @@ public class ConsumerGroupsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param consumerGroupName The consumer group name
-     * @param parameters Parameters supplied to create or update a consumer group resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ConsumerGroupResourceInner object
+     * @return the observable to the ConsumerGroupInner object
      */
-    public Observable<ConsumerGroupResourceInner> createOrUpdateAsync(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName, ConsumerGroupCreateOrUpdateParametersInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, consumerGroupName, parameters).map(new Func1<ServiceResponse<ConsumerGroupResourceInner>, ConsumerGroupResourceInner>() {
+    public Observable<ConsumerGroupInner> createOrUpdateAsync(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName) {
+        return createOrUpdateWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, consumerGroupName).map(new Func1<ServiceResponse<ConsumerGroupInner>, ConsumerGroupInner>() {
             @Override
-            public ConsumerGroupResourceInner call(ServiceResponse<ConsumerGroupResourceInner> response) {
+            public ConsumerGroupInner call(ServiceResponse<ConsumerGroupInner> response) {
                 return response.body();
             }
         });
@@ -143,11 +139,10 @@ public class ConsumerGroupsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param consumerGroupName The consumer group name
-     * @param parameters Parameters supplied to create or update a consumer group resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ConsumerGroupResourceInner object
+     * @return the observable to the ConsumerGroupInner object
      */
-    public Observable<ServiceResponse<ConsumerGroupResourceInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName, ConsumerGroupCreateOrUpdateParametersInner parameters) {
+    public Observable<ServiceResponse<ConsumerGroupInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -163,19 +158,18 @@ public class ConsumerGroupsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (parameters == null) {
-            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
-        }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        Validator.validate(parameters);
-        return service.createOrUpdate(resourceGroupName, namespaceName, eventHubName, consumerGroupName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ConsumerGroupResourceInner>>>() {
+        final String userMetadata = null;
+        ConsumerGroupInner parameters = new ConsumerGroupInner();
+        parameters.withUserMetadata(null);
+        return service.createOrUpdate(resourceGroupName, namespaceName, eventHubName, consumerGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ConsumerGroupInner>>>() {
                 @Override
-                public Observable<ServiceResponse<ConsumerGroupResourceInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<ConsumerGroupInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<ConsumerGroupResourceInner> clientResponse = createOrUpdateDelegate(response);
+                        ServiceResponse<ConsumerGroupInner> clientResponse = createOrUpdateDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -184,10 +178,109 @@ public class ConsumerGroupsInner {
             });
     }
 
-    private ServiceResponse<ConsumerGroupResourceInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ConsumerGroupResourceInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ConsumerGroupResourceInner>() { }.getType())
-                .registerError(CloudException.class)
+    /**
+     * Creates or updates an Event Hubs consumer group as a nested resource within a Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @param eventHubName The Event Hub name
+     * @param consumerGroupName The consumer group name
+     * @param userMetadata Usermetadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ConsumerGroupInner object if successful.
+     */
+    public ConsumerGroupInner createOrUpdate(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName, String userMetadata) {
+        return createOrUpdateWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, consumerGroupName, userMetadata).toBlocking().single().body();
+    }
+
+    /**
+     * Creates or updates an Event Hubs consumer group as a nested resource within a Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @param eventHubName The Event Hub name
+     * @param consumerGroupName The consumer group name
+     * @param userMetadata Usermetadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ConsumerGroupInner> createOrUpdateAsync(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName, String userMetadata, final ServiceCallback<ConsumerGroupInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, consumerGroupName, userMetadata), serviceCallback);
+    }
+
+    /**
+     * Creates or updates an Event Hubs consumer group as a nested resource within a Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @param eventHubName The Event Hub name
+     * @param consumerGroupName The consumer group name
+     * @param userMetadata Usermetadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ConsumerGroupInner object
+     */
+    public Observable<ConsumerGroupInner> createOrUpdateAsync(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName, String userMetadata) {
+        return createOrUpdateWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, consumerGroupName, userMetadata).map(new Func1<ServiceResponse<ConsumerGroupInner>, ConsumerGroupInner>() {
+            @Override
+            public ConsumerGroupInner call(ServiceResponse<ConsumerGroupInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Creates or updates an Event Hubs consumer group as a nested resource within a Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @param eventHubName The Event Hub name
+     * @param consumerGroupName The consumer group name
+     * @param userMetadata Usermetadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ConsumerGroupInner object
+     */
+    public Observable<ServiceResponse<ConsumerGroupInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName, String userMetadata) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (namespaceName == null) {
+            throw new IllegalArgumentException("Parameter namespaceName is required and cannot be null.");
+        }
+        if (eventHubName == null) {
+            throw new IllegalArgumentException("Parameter eventHubName is required and cannot be null.");
+        }
+        if (consumerGroupName == null) {
+            throw new IllegalArgumentException("Parameter consumerGroupName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        ConsumerGroupInner parameters = new ConsumerGroupInner();
+        parameters.withUserMetadata(userMetadata);
+        return service.createOrUpdate(resourceGroupName, namespaceName, eventHubName, consumerGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ConsumerGroupInner>>>() {
+                @Override
+                public Observable<ServiceResponse<ConsumerGroupInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<ConsumerGroupInner> clientResponse = createOrUpdateDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<ConsumerGroupInner> createOrUpdateDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ConsumerGroupInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ConsumerGroupInner>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
@@ -199,7 +292,7 @@ public class ConsumerGroupsInner {
      * @param eventHubName The Event Hub name
      * @param consumerGroupName The consumer group name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName) {
@@ -283,11 +376,11 @@ public class ConsumerGroupsInner {
             });
     }
 
-    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
+    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, ErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
@@ -299,11 +392,11 @@ public class ConsumerGroupsInner {
      * @param eventHubName The Event Hub name
      * @param consumerGroupName The consumer group name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ConsumerGroupResourceInner object if successful.
+     * @return the ConsumerGroupInner object if successful.
      */
-    public ConsumerGroupResourceInner get(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName) {
+    public ConsumerGroupInner get(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName) {
         return getWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, consumerGroupName).toBlocking().single().body();
     }
 
@@ -318,7 +411,7 @@ public class ConsumerGroupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ConsumerGroupResourceInner> getAsync(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName, final ServiceCallback<ConsumerGroupResourceInner> serviceCallback) {
+    public ServiceFuture<ConsumerGroupInner> getAsync(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName, final ServiceCallback<ConsumerGroupInner> serviceCallback) {
         return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, consumerGroupName), serviceCallback);
     }
 
@@ -330,12 +423,12 @@ public class ConsumerGroupsInner {
      * @param eventHubName The Event Hub name
      * @param consumerGroupName The consumer group name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ConsumerGroupResourceInner object
+     * @return the observable to the ConsumerGroupInner object
      */
-    public Observable<ConsumerGroupResourceInner> getAsync(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName) {
-        return getWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, consumerGroupName).map(new Func1<ServiceResponse<ConsumerGroupResourceInner>, ConsumerGroupResourceInner>() {
+    public Observable<ConsumerGroupInner> getAsync(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName) {
+        return getWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, consumerGroupName).map(new Func1<ServiceResponse<ConsumerGroupInner>, ConsumerGroupInner>() {
             @Override
-            public ConsumerGroupResourceInner call(ServiceResponse<ConsumerGroupResourceInner> response) {
+            public ConsumerGroupInner call(ServiceResponse<ConsumerGroupInner> response) {
                 return response.body();
             }
         });
@@ -349,9 +442,9 @@ public class ConsumerGroupsInner {
      * @param eventHubName The Event Hub name
      * @param consumerGroupName The consumer group name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ConsumerGroupResourceInner object
+     * @return the observable to the ConsumerGroupInner object
      */
-    public Observable<ServiceResponse<ConsumerGroupResourceInner>> getWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName) {
+    public Observable<ServiceResponse<ConsumerGroupInner>> getWithServiceResponseAsync(String resourceGroupName, String namespaceName, String eventHubName, String consumerGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -371,11 +464,11 @@ public class ConsumerGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.get(resourceGroupName, namespaceName, eventHubName, consumerGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ConsumerGroupResourceInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ConsumerGroupInner>>>() {
                 @Override
-                public Observable<ServiceResponse<ConsumerGroupResourceInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<ConsumerGroupInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<ConsumerGroupResourceInner> clientResponse = getDelegate(response);
+                        ServiceResponse<ConsumerGroupInner> clientResponse = getDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -384,10 +477,10 @@ public class ConsumerGroupsInner {
             });
     }
 
-    private ServiceResponse<ConsumerGroupResourceInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ConsumerGroupResourceInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ConsumerGroupResourceInner>() { }.getType())
-                .registerError(CloudException.class)
+    private ServiceResponse<ConsumerGroupInner> getDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ConsumerGroupInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ConsumerGroupInner>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
@@ -398,16 +491,16 @@ public class ConsumerGroupsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ConsumerGroupResourceInner&gt; object if successful.
+     * @return the PagedList&lt;ConsumerGroupInner&gt; object if successful.
      */
-    public PagedList<ConsumerGroupResourceInner> listAll(final String resourceGroupName, final String namespaceName, final String eventHubName) {
-        ServiceResponse<Page<ConsumerGroupResourceInner>> response = listAllSinglePageAsync(resourceGroupName, namespaceName, eventHubName).toBlocking().single();
-        return new PagedList<ConsumerGroupResourceInner>(response.body()) {
+    public PagedList<ConsumerGroupInner> listByEventHub(final String resourceGroupName, final String namespaceName, final String eventHubName) {
+        ServiceResponse<Page<ConsumerGroupInner>> response = listByEventHubSinglePageAsync(resourceGroupName, namespaceName, eventHubName).toBlocking().single();
+        return new PagedList<ConsumerGroupInner>(response.body()) {
             @Override
-            public Page<ConsumerGroupResourceInner> nextPage(String nextPageLink) {
-                return listAllNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            public Page<ConsumerGroupInner> nextPage(String nextPageLink) {
+                return listByEventHubNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
@@ -422,13 +515,13 @@ public class ConsumerGroupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ConsumerGroupResourceInner>> listAllAsync(final String resourceGroupName, final String namespaceName, final String eventHubName, final ListOperationCallback<ConsumerGroupResourceInner> serviceCallback) {
+    public ServiceFuture<List<ConsumerGroupInner>> listByEventHubAsync(final String resourceGroupName, final String namespaceName, final String eventHubName, final ListOperationCallback<ConsumerGroupInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listAllSinglePageAsync(resourceGroupName, namespaceName, eventHubName),
-            new Func1<String, Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>>>() {
+            listByEventHubSinglePageAsync(resourceGroupName, namespaceName, eventHubName),
+            new Func1<String, Observable<ServiceResponse<Page<ConsumerGroupInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>> call(String nextPageLink) {
-                    return listAllNextSinglePageAsync(nextPageLink);
+                public Observable<ServiceResponse<Page<ConsumerGroupInner>>> call(String nextPageLink) {
+                    return listByEventHubNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
@@ -441,13 +534,13 @@ public class ConsumerGroupsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ConsumerGroupResourceInner&gt; object
+     * @return the observable to the PagedList&lt;ConsumerGroupInner&gt; object
      */
-    public Observable<Page<ConsumerGroupResourceInner>> listAllAsync(final String resourceGroupName, final String namespaceName, final String eventHubName) {
-        return listAllWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName)
-            .map(new Func1<ServiceResponse<Page<ConsumerGroupResourceInner>>, Page<ConsumerGroupResourceInner>>() {
+    public Observable<Page<ConsumerGroupInner>> listByEventHubAsync(final String resourceGroupName, final String namespaceName, final String eventHubName) {
+        return listByEventHubWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName)
+            .map(new Func1<ServiceResponse<Page<ConsumerGroupInner>>, Page<ConsumerGroupInner>>() {
                 @Override
-                public Page<ConsumerGroupResourceInner> call(ServiceResponse<Page<ConsumerGroupResourceInner>> response) {
+                public Page<ConsumerGroupInner> call(ServiceResponse<Page<ConsumerGroupInner>> response) {
                     return response.body();
                 }
             });
@@ -460,18 +553,18 @@ public class ConsumerGroupsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ConsumerGroupResourceInner&gt; object
+     * @return the observable to the PagedList&lt;ConsumerGroupInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>> listAllWithServiceResponseAsync(final String resourceGroupName, final String namespaceName, final String eventHubName) {
-        return listAllSinglePageAsync(resourceGroupName, namespaceName, eventHubName)
-            .concatMap(new Func1<ServiceResponse<Page<ConsumerGroupResourceInner>>, Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>>>() {
+    public Observable<ServiceResponse<Page<ConsumerGroupInner>>> listByEventHubWithServiceResponseAsync(final String resourceGroupName, final String namespaceName, final String eventHubName) {
+        return listByEventHubSinglePageAsync(resourceGroupName, namespaceName, eventHubName)
+            .concatMap(new Func1<ServiceResponse<Page<ConsumerGroupInner>>, Observable<ServiceResponse<Page<ConsumerGroupInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>> call(ServiceResponse<Page<ConsumerGroupResourceInner>> page) {
+                public Observable<ServiceResponse<Page<ConsumerGroupInner>>> call(ServiceResponse<Page<ConsumerGroupInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listAllNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listByEventHubNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
@@ -479,13 +572,13 @@ public class ConsumerGroupsInner {
     /**
      * Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
      *
-    ServiceResponse<PageImpl<ConsumerGroupResourceInner>> * @param resourceGroupName Name of the resource group within the azure subscription.
-    ServiceResponse<PageImpl<ConsumerGroupResourceInner>> * @param namespaceName The Namespace name
-    ServiceResponse<PageImpl<ConsumerGroupResourceInner>> * @param eventHubName The Event Hub name
+    ServiceResponse<PageImpl<ConsumerGroupInner>> * @param resourceGroupName Name of the resource group within the azure subscription.
+    ServiceResponse<PageImpl<ConsumerGroupInner>> * @param namespaceName The Namespace name
+    ServiceResponse<PageImpl<ConsumerGroupInner>> * @param eventHubName The Event Hub name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ConsumerGroupResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;ConsumerGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>> listAllSinglePageAsync(final String resourceGroupName, final String namespaceName, final String eventHubName) {
+    public Observable<ServiceResponse<Page<ConsumerGroupInner>>> listByEventHubSinglePageAsync(final String resourceGroupName, final String namespaceName, final String eventHubName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -501,13 +594,13 @@ public class ConsumerGroupsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listAll(resourceGroupName, namespaceName, eventHubName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>>>() {
+        return service.listByEventHub(resourceGroupName, namespaceName, eventHubName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ConsumerGroupInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<ConsumerGroupInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ConsumerGroupResourceInner>> result = listAllDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ConsumerGroupResourceInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<ConsumerGroupInner>> result = listByEventHubDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ConsumerGroupInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -515,10 +608,10 @@ public class ConsumerGroupsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<ConsumerGroupResourceInner>> listAllDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ConsumerGroupResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ConsumerGroupResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+    private ServiceResponse<PageImpl<ConsumerGroupInner>> listByEventHubDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ConsumerGroupInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ConsumerGroupInner>>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
@@ -527,16 +620,16 @@ public class ConsumerGroupsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ConsumerGroupResourceInner&gt; object if successful.
+     * @return the PagedList&lt;ConsumerGroupInner&gt; object if successful.
      */
-    public PagedList<ConsumerGroupResourceInner> listAllNext(final String nextPageLink) {
-        ServiceResponse<Page<ConsumerGroupResourceInner>> response = listAllNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ConsumerGroupResourceInner>(response.body()) {
+    public PagedList<ConsumerGroupInner> listByEventHubNext(final String nextPageLink) {
+        ServiceResponse<Page<ConsumerGroupInner>> response = listByEventHubNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<ConsumerGroupInner>(response.body()) {
             @Override
-            public Page<ConsumerGroupResourceInner> nextPage(String nextPageLink) {
-                return listAllNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            public Page<ConsumerGroupInner> nextPage(String nextPageLink) {
+                return listByEventHubNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
@@ -550,13 +643,13 @@ public class ConsumerGroupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ConsumerGroupResourceInner>> listAllNextAsync(final String nextPageLink, final ServiceFuture<List<ConsumerGroupResourceInner>> serviceFuture, final ListOperationCallback<ConsumerGroupResourceInner> serviceCallback) {
+    public ServiceFuture<List<ConsumerGroupInner>> listByEventHubNextAsync(final String nextPageLink, final ServiceFuture<List<ConsumerGroupInner>> serviceFuture, final ListOperationCallback<ConsumerGroupInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listAllNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>>>() {
+            listByEventHubNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<ConsumerGroupInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>> call(String nextPageLink) {
-                    return listAllNextSinglePageAsync(nextPageLink);
+                public Observable<ServiceResponse<Page<ConsumerGroupInner>>> call(String nextPageLink) {
+                    return listByEventHubNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
@@ -567,13 +660,13 @@ public class ConsumerGroupsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ConsumerGroupResourceInner&gt; object
+     * @return the observable to the PagedList&lt;ConsumerGroupInner&gt; object
      */
-    public Observable<Page<ConsumerGroupResourceInner>> listAllNextAsync(final String nextPageLink) {
-        return listAllNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ConsumerGroupResourceInner>>, Page<ConsumerGroupResourceInner>>() {
+    public Observable<Page<ConsumerGroupInner>> listByEventHubNextAsync(final String nextPageLink) {
+        return listByEventHubNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<ConsumerGroupInner>>, Page<ConsumerGroupInner>>() {
                 @Override
-                public Page<ConsumerGroupResourceInner> call(ServiceResponse<Page<ConsumerGroupResourceInner>> response) {
+                public Page<ConsumerGroupInner> call(ServiceResponse<Page<ConsumerGroupInner>> response) {
                     return response.body();
                 }
             });
@@ -584,18 +677,18 @@ public class ConsumerGroupsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ConsumerGroupResourceInner&gt; object
+     * @return the observable to the PagedList&lt;ConsumerGroupInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>> listAllNextWithServiceResponseAsync(final String nextPageLink) {
-        return listAllNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ConsumerGroupResourceInner>>, Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>>>() {
+    public Observable<ServiceResponse<Page<ConsumerGroupInner>>> listByEventHubNextWithServiceResponseAsync(final String nextPageLink) {
+        return listByEventHubNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<ConsumerGroupInner>>, Observable<ServiceResponse<Page<ConsumerGroupInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>> call(ServiceResponse<Page<ConsumerGroupResourceInner>> page) {
+                public Observable<ServiceResponse<Page<ConsumerGroupInner>>> call(ServiceResponse<Page<ConsumerGroupInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listAllNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listByEventHubNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
@@ -603,22 +696,22 @@ public class ConsumerGroupsInner {
     /**
      * Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
      *
-    ServiceResponse<PageImpl<ConsumerGroupResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ConsumerGroupInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ConsumerGroupResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;ConsumerGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>> listAllNextSinglePageAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<ConsumerGroupInner>>> listByEventHubNextSinglePageAsync(final String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listAllNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>>>() {
+        return service.listByEventHubNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ConsumerGroupInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ConsumerGroupResourceInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<ConsumerGroupInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ConsumerGroupResourceInner>> result = listAllNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ConsumerGroupResourceInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<ConsumerGroupInner>> result = listByEventHubNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ConsumerGroupInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -626,10 +719,10 @@ public class ConsumerGroupsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<ConsumerGroupResourceInner>> listAllNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ConsumerGroupResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ConsumerGroupResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+    private ServiceResponse<PageImpl<ConsumerGroupInner>> listByEventHubNextDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ConsumerGroupInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ConsumerGroupInner>>() { }.getType())
+                .registerError(ErrorResponseException.class)
                 .build(response);
     }
 

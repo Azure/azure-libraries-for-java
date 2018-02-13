@@ -13,18 +13,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Namespace/EventHub Connection String.
  */
-public class ResourceListKeysInner {
+public class AccessKeysInner {
     /**
-     * Primary connection string of the created Namespace AuthorizationRule.
+     * Primary connection string of the created namespace AuthorizationRule.
      */
     @JsonProperty(value = "primaryConnectionString", access = JsonProperty.Access.WRITE_ONLY)
     private String primaryConnectionString;
 
     /**
-     * Secondary connection string of the created Namespace AuthorizationRule.
+     * Secondary connection string of the created namespace AuthorizationRule.
      */
     @JsonProperty(value = "secondaryConnectionString", access = JsonProperty.Access.WRITE_ONLY)
     private String secondaryConnectionString;
+
+    /**
+     * Primary connection string of the alias if GEO DR is enabled.
+     */
+    @JsonProperty(value = "aliasPrimaryConnectionString", access = JsonProperty.Access.WRITE_ONLY)
+    private String aliasPrimaryConnectionString;
+
+    /**
+     * Secondary  connection string of the alias if GEO DR is enabled.
+     */
+    @JsonProperty(value = "aliasSecondaryConnectionString", access = JsonProperty.Access.WRITE_ONLY)
+    private String aliasSecondaryConnectionString;
 
     /**
      * A base64-encoded 256-bit primary key for signing and validating the SAS
@@ -62,6 +74,24 @@ public class ResourceListKeysInner {
      */
     public String secondaryConnectionString() {
         return this.secondaryConnectionString;
+    }
+
+    /**
+     * Get the aliasPrimaryConnectionString value.
+     *
+     * @return the aliasPrimaryConnectionString value
+     */
+    public String aliasPrimaryConnectionString() {
+        return this.aliasPrimaryConnectionString;
+    }
+
+    /**
+     * Get the aliasSecondaryConnectionString value.
+     *
+     * @return the aliasSecondaryConnectionString value
+     */
+    public String aliasSecondaryConnectionString() {
+        return this.aliasSecondaryConnectionString;
     }
 
     /**

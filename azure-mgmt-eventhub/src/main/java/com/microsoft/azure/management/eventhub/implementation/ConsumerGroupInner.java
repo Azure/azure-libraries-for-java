@@ -17,18 +17,12 @@ import com.microsoft.azure.Resource;
  * Single item in List or Get Consumer group operation.
  */
 @JsonFlatten
-public class ConsumerGroupResourceInner extends Resource {
+public class ConsumerGroupInner extends Resource {
     /**
      * Exact time the message was created.
      */
     @JsonProperty(value = "properties.createdAt", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime createdAt;
-
-    /**
-     * The path of the Event Hub.
-     */
-    @JsonProperty(value = "properties.eventHubPath", access = JsonProperty.Access.WRITE_ONLY)
-    private String eventHubPath;
 
     /**
      * The exact time the message was updated.
@@ -37,7 +31,10 @@ public class ConsumerGroupResourceInner extends Resource {
     private DateTime updatedAt;
 
     /**
-     * The user metadata.
+     * Usermetadata is a placeholder to store user-defined string data with
+     * maximum length 1024. e.g. it can be used to store descriptive data, such
+     * as list of teams and their contact information also user-defined
+     * configuration settings can be stored.
      */
     @JsonProperty(value = "properties.userMetadata")
     private String userMetadata;
@@ -49,15 +46,6 @@ public class ConsumerGroupResourceInner extends Resource {
      */
     public DateTime createdAt() {
         return this.createdAt;
-    }
-
-    /**
-     * Get the eventHubPath value.
-     *
-     * @return the eventHubPath value
-     */
-    public String eventHubPath() {
-        return this.eventHubPath;
     }
 
     /**
@@ -82,9 +70,9 @@ public class ConsumerGroupResourceInner extends Resource {
      * Set the userMetadata value.
      *
      * @param userMetadata the userMetadata value to set
-     * @return the ConsumerGroupResourceInner object itself.
+     * @return the ConsumerGroupInner object itself.
      */
-    public ConsumerGroupResourceInner withUserMetadata(String userMetadata) {
+    public ConsumerGroupInner withUserMetadata(String userMetadata) {
         this.userMetadata = userMetadata;
         return this;
     }

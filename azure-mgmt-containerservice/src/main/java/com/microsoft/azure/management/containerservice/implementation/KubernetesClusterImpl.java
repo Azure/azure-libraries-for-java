@@ -81,7 +81,7 @@ public class KubernetesClusterImpl extends
     @Override
     public byte[] adminKubeConfigContent() {
         if (this.adminKubeConfigContent == null) {
-            this.userKubeConfigContent = this.manager().kubernetesClusters()
+            this.adminKubeConfigContent = this.manager().kubernetesClusters()
                 .getAdminKubeConfigContent(this.resourceGroupName(), this.name());
         }
         return this.adminKubeConfigContent;

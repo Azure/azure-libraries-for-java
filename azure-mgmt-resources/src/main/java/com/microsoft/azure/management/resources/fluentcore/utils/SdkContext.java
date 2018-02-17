@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
+import rx.Observable;
 import rx.Scheduler;
 import rx.schedulers.Schedulers;
 
@@ -87,6 +88,18 @@ public class SdkContext {
      */
     public static void sleep(int milliseconds) {
         delayProvider.sleep(milliseconds);
+    }
+
+    /**
+     * Wrapper delayed emission, based on delayProvider.
+     *
+     * @param event the event to emit
+     * @param milliseconds the delay in milliseconds
+     * @param <T> the type of event
+     * @return delayed observable
+     */
+    public static <T> Observable<T>  delayedEmitAsync(T event, int milliseconds) {
+        return delayProvider.delayedEmitAsync(event, milliseconds);
     }
 
     /**

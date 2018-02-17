@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.resources.core;
 
 import com.microsoft.azure.management.resources.fluentcore.utils.DelayProvider;
+import rx.Observable;
 
 public class TestDelayProvider extends DelayProvider {
     private boolean isRecordMode;
@@ -17,6 +18,15 @@ public class TestDelayProvider extends DelayProvider {
     public void sleep(int milliseconds) {
         if (isRecordMode) {
             super.sleep(milliseconds);
+        }
+    }
+
+    @Override
+    public <T> Observable<T> delayedEmitAsync(T event, int milliseconds) {
+        if (isRecordMode) {
+            return super.delayedEmitAsync(event, milliseconds);
+        } else {
+            return Observable.just(event);
         }
     }
 

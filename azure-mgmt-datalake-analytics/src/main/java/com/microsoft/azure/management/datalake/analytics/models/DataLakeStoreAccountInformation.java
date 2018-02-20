@@ -10,16 +10,17 @@ package com.microsoft.azure.management.datalake.analytics.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.SubResource;
 
 /**
  * Data Lake Store account information.
  */
 @JsonFlatten
-public class DataLakeStoreAccountInfo extends SubResource {
+public class DataLakeStoreAccountInformation extends SubResource {
     /**
-     * the optional suffix for the Data Lake Store account.
+     * The optional suffix for the Data Lake Store account.
      */
-    @JsonProperty(value = "properties.suffix")
+    @JsonProperty(value = "properties.suffix", access = JsonProperty.Access.WRITE_ONLY)
     private String suffix;
 
     /**
@@ -29,17 +30,6 @@ public class DataLakeStoreAccountInfo extends SubResource {
      */
     public String suffix() {
         return this.suffix;
-    }
-
-    /**
-     * Set the suffix value.
-     *
-     * @param suffix the suffix value to set
-     * @return the DataLakeStoreAccountInfo object itself.
-     */
-    public DataLakeStoreAccountInfo withSuffix(String suffix) {
-        this.suffix = suffix;
-        return this;
     }
 
 }

@@ -8,9 +8,10 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import java.util.UUID;
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.joda.time.DateTime;
+
+import java.util.UUID;
 
 /**
  * Run info for a specific job pipeline.

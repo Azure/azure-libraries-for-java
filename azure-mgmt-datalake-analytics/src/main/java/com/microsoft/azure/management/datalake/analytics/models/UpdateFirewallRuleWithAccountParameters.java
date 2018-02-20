@@ -12,10 +12,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * The parameters used to update a firewall rule.
+ * The parameters used to update a firewall rule while updating a Data Lake
+ * Analytics account.
  */
 @JsonFlatten
-public class UpdateFirewallRuleParameters {
+public class UpdateFirewallRuleWithAccountParameters {
+    /**
+     * The unique name of the firewall rule to update.
+     */
+    @JsonProperty(value = "name", required = true)
+    private String name;
+
     /**
      * The start IP address for the firewall rule. This can be either ipv4 or
      * ipv6. Start and End should be in the same protocol.
@@ -31,6 +38,26 @@ public class UpdateFirewallRuleParameters {
     private String endIpAddress;
 
     /**
+     * Get the name value.
+     *
+     * @return the name value
+     */
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Set the name value.
+     *
+     * @param name the name value to set
+     * @return the UpdateFirewallRuleWithAccountParameters object itself.
+     */
+    public UpdateFirewallRuleWithAccountParameters withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    /**
      * Get the startIpAddress value.
      *
      * @return the startIpAddress value
@@ -43,9 +70,9 @@ public class UpdateFirewallRuleParameters {
      * Set the startIpAddress value.
      *
      * @param startIpAddress the startIpAddress value to set
-     * @return the UpdateFirewallRuleParameters object itself.
+     * @return the UpdateFirewallRuleWithAccountParameters object itself.
      */
-    public UpdateFirewallRuleParameters withStartIpAddress(String startIpAddress) {
+    public UpdateFirewallRuleWithAccountParameters withStartIpAddress(String startIpAddress) {
         this.startIpAddress = startIpAddress;
         return this;
     }
@@ -63,9 +90,9 @@ public class UpdateFirewallRuleParameters {
      * Set the endIpAddress value.
      *
      * @param endIpAddress the endIpAddress value to set
-     * @return the UpdateFirewallRuleParameters object itself.
+     * @return the UpdateFirewallRuleWithAccountParameters object itself.
      */
-    public UpdateFirewallRuleParameters withEndIpAddress(String endIpAddress) {
+    public UpdateFirewallRuleWithAccountParameters withEndIpAddress(String endIpAddress) {
         this.endIpAddress = endIpAddress;
         return this;
     }

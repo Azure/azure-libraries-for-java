@@ -8,9 +8,10 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.microsoft.rest.ExpandableStringEnum;
+
+import java.util.Collection;
 
 /**
  * Defines values for FileType.

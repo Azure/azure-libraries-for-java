@@ -12,22 +12,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * The parameters used to update a firewall rule.
+ * The parameters used to create a new firewall rule.
  */
 @JsonFlatten
-public class UpdateFirewallRuleParameters {
+public class CreateOrUpdateFirewallRuleParameters {
     /**
      * The start IP address for the firewall rule. This can be either ipv4 or
      * ipv6. Start and End should be in the same protocol.
      */
-    @JsonProperty(value = "properties.startIpAddress")
+    @JsonProperty(value = "properties.startIpAddress", required = true)
     private String startIpAddress;
 
     /**
      * The end IP address for the firewall rule. This can be either ipv4 or
      * ipv6. Start and End should be in the same protocol.
      */
-    @JsonProperty(value = "properties.endIpAddress")
+    @JsonProperty(value = "properties.endIpAddress", required = true)
     private String endIpAddress;
 
     /**
@@ -43,9 +43,9 @@ public class UpdateFirewallRuleParameters {
      * Set the startIpAddress value.
      *
      * @param startIpAddress the startIpAddress value to set
-     * @return the UpdateFirewallRuleParameters object itself.
+     * @return the CreateOrUpdateFirewallRuleParameters object itself.
      */
-    public UpdateFirewallRuleParameters withStartIpAddress(String startIpAddress) {
+    public CreateOrUpdateFirewallRuleParameters withStartIpAddress(String startIpAddress) {
         this.startIpAddress = startIpAddress;
         return this;
     }
@@ -63,9 +63,9 @@ public class UpdateFirewallRuleParameters {
      * Set the endIpAddress value.
      *
      * @param endIpAddress the endIpAddress value to set
-     * @return the UpdateFirewallRuleParameters object itself.
+     * @return the CreateOrUpdateFirewallRuleParameters object itself.
      */
-    public UpdateFirewallRuleParameters withEndIpAddress(String endIpAddress) {
+    public CreateOrUpdateFirewallRuleParameters withEndIpAddress(String endIpAddress) {
         this.endIpAddress = endIpAddress;
         return this;
     }

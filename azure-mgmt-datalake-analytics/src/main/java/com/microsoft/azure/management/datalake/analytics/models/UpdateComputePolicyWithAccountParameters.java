@@ -13,12 +13,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * The parameters used to create a new compute policy.
+ * The parameters used to update a compute policy while updating a Data Lake
+ * Analytics account.
  */
 @JsonFlatten
-public class ComputePolicyAccountCreateParameters {
+public class UpdateComputePolicyWithAccountParameters {
     /**
-     * The unique name of the policy to create.
+     * The unique name of the compute policy to update.
      */
     @JsonProperty(value = "name", required = true)
     private String name;
@@ -26,14 +27,14 @@ public class ComputePolicyAccountCreateParameters {
     /**
      * The AAD object identifier for the entity to create a policy for.
      */
-    @JsonProperty(value = "properties.objectId", required = true)
+    @JsonProperty(value = "properties.objectId")
     private UUID objectId;
 
     /**
      * The type of AAD object the object identifier refers to. Possible values
      * include: 'User', 'Group', 'ServicePrincipal'.
      */
-    @JsonProperty(value = "properties.objectType", required = true)
+    @JsonProperty(value = "properties.objectType")
     private AADObjectType objectType;
 
     /**
@@ -65,9 +66,9 @@ public class ComputePolicyAccountCreateParameters {
      * Set the name value.
      *
      * @param name the name value to set
-     * @return the ComputePolicyAccountCreateParameters object itself.
+     * @return the UpdateComputePolicyWithAccountParameters object itself.
      */
-    public ComputePolicyAccountCreateParameters withName(String name) {
+    public UpdateComputePolicyWithAccountParameters withName(String name) {
         this.name = name;
         return this;
     }
@@ -85,9 +86,9 @@ public class ComputePolicyAccountCreateParameters {
      * Set the objectId value.
      *
      * @param objectId the objectId value to set
-     * @return the ComputePolicyAccountCreateParameters object itself.
+     * @return the UpdateComputePolicyWithAccountParameters object itself.
      */
-    public ComputePolicyAccountCreateParameters withObjectId(UUID objectId) {
+    public UpdateComputePolicyWithAccountParameters withObjectId(UUID objectId) {
         this.objectId = objectId;
         return this;
     }
@@ -105,9 +106,9 @@ public class ComputePolicyAccountCreateParameters {
      * Set the objectType value.
      *
      * @param objectType the objectType value to set
-     * @return the ComputePolicyAccountCreateParameters object itself.
+     * @return the UpdateComputePolicyWithAccountParameters object itself.
      */
-    public ComputePolicyAccountCreateParameters withObjectType(AADObjectType objectType) {
+    public UpdateComputePolicyWithAccountParameters withObjectType(AADObjectType objectType) {
         this.objectType = objectType;
         return this;
     }
@@ -125,9 +126,9 @@ public class ComputePolicyAccountCreateParameters {
      * Set the maxDegreeOfParallelismPerJob value.
      *
      * @param maxDegreeOfParallelismPerJob the maxDegreeOfParallelismPerJob value to set
-     * @return the ComputePolicyAccountCreateParameters object itself.
+     * @return the UpdateComputePolicyWithAccountParameters object itself.
      */
-    public ComputePolicyAccountCreateParameters withMaxDegreeOfParallelismPerJob(Integer maxDegreeOfParallelismPerJob) {
+    public UpdateComputePolicyWithAccountParameters withMaxDegreeOfParallelismPerJob(Integer maxDegreeOfParallelismPerJob) {
         this.maxDegreeOfParallelismPerJob = maxDegreeOfParallelismPerJob;
         return this;
     }
@@ -145,9 +146,9 @@ public class ComputePolicyAccountCreateParameters {
      * Set the minPriorityPerJob value.
      *
      * @param minPriorityPerJob the minPriorityPerJob value to set
-     * @return the ComputePolicyAccountCreateParameters object itself.
+     * @return the UpdateComputePolicyWithAccountParameters object itself.
      */
-    public ComputePolicyAccountCreateParameters withMinPriorityPerJob(Integer minPriorityPerJob) {
+    public UpdateComputePolicyWithAccountParameters withMinPriorityPerJob(Integer minPriorityPerJob) {
         this.minPriorityPerJob = minPriorityPerJob;
         return this;
     }

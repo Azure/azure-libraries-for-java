@@ -13,9 +13,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * SAS token information.
  */
-public class SasTokenInfo {
+public class SasTokenInformation {
     /**
-     * the access token for the associated Azure Storage Container.
+     * The access token for the associated Azure Storage Container.
      */
     @JsonProperty(value = "accessToken", access = JsonProperty.Access.WRITE_ONLY)
     private String accessToken;

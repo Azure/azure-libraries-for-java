@@ -8,9 +8,10 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.UUID;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A Data Lake Analytics catalog U-SQL table index item.

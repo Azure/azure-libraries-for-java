@@ -141,6 +141,45 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
     }
 
     /**
+     * The Accounts object to access its operations.
+     */
+    private Accounts accounts;
+
+    /**
+     * Gets the Accounts object to access its operations.
+     * @return the Accounts object.
+     */
+    public Accounts accounts() {
+        return this.accounts;
+    }
+
+    /**
+     * The DataLakeStoreAccounts object to access its operations.
+     */
+    private DataLakeStoreAccounts dataLakeStoreAccounts;
+
+    /**
+     * Gets the DataLakeStoreAccounts object to access its operations.
+     * @return the DataLakeStoreAccounts object.
+     */
+    public DataLakeStoreAccounts dataLakeStoreAccounts() {
+        return this.dataLakeStoreAccounts;
+    }
+
+    /**
+     * The StorageAccounts object to access its operations.
+     */
+    private StorageAccounts storageAccounts;
+
+    /**
+     * Gets the StorageAccounts object to access its operations.
+     * @return the StorageAccounts object.
+     */
+    public StorageAccounts storageAccounts() {
+        return this.storageAccounts;
+    }
+
+    /**
      * The ComputePolicies object to access its operations.
      */
     private ComputePolicies computePolicies;
@@ -167,42 +206,16 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
     }
 
     /**
-     * The StorageAccounts object to access its operations.
+     * The Operations object to access its operations.
      */
-    private StorageAccounts storageAccounts;
+    private Operations operations;
 
     /**
-     * Gets the StorageAccounts object to access its operations.
-     * @return the StorageAccounts object.
+     * Gets the Operations object to access its operations.
+     * @return the Operations object.
      */
-    public StorageAccounts storageAccounts() {
-        return this.storageAccounts;
-    }
-
-    /**
-     * The DataLakeStoreAccounts object to access its operations.
-     */
-    private DataLakeStoreAccounts dataLakeStoreAccounts;
-
-    /**
-     * Gets the DataLakeStoreAccounts object to access its operations.
-     * @return the DataLakeStoreAccounts object.
-     */
-    public DataLakeStoreAccounts dataLakeStoreAccounts() {
-        return this.dataLakeStoreAccounts;
-    }
-
-    /**
-     * The Accounts object to access its operations.
-     */
-    private Accounts accounts;
-
-    /**
-     * Gets the Accounts object to access its operations.
-     * @return the Accounts object.
-     */
-    public Accounts accounts() {
-        return this.accounts;
+    public Operations operations() {
+        return this.operations;
     }
 
     /**
@@ -216,19 +229,6 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
      */
     public Locations locations() {
         return this.locations;
-    }
-
-    /**
-     * The Operations object to access its operations.
-     */
-    private Operations operations;
-
-    /**
-     * Gets the Operations object to access its operations.
-     * @return the Operations object.
-     */
-    public Operations operations() {
-        return this.operations;
     }
 
     /**
@@ -266,13 +266,13 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
+        this.accounts = new AccountsImpl(restClient().retrofit(), this);
+        this.dataLakeStoreAccounts = new DataLakeStoreAccountsImpl(restClient().retrofit(), this);
+        this.storageAccounts = new StorageAccountsImpl(restClient().retrofit(), this);
         this.computePolicies = new ComputePoliciesImpl(restClient().retrofit(), this);
         this.firewallRules = new FirewallRulesImpl(restClient().retrofit(), this);
-        this.storageAccounts = new StorageAccountsImpl(restClient().retrofit(), this);
-        this.dataLakeStoreAccounts = new DataLakeStoreAccountsImpl(restClient().retrofit(), this);
-        this.accounts = new AccountsImpl(restClient().retrofit(), this);
-        this.locations = new LocationsImpl(restClient().retrofit(), this);
         this.operations = new OperationsImpl(restClient().retrofit(), this);
+        this.locations = new LocationsImpl(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

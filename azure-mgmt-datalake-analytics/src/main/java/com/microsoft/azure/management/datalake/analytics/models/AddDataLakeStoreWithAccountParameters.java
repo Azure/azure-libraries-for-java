@@ -12,40 +12,40 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * The parameters used to add a new Azure Storage account.
+ * The parameters used to add a new Data Lake Store account while creating a
+ * new Data Lake Analytics account.
  */
 @JsonFlatten
-public class AddStorageAccountParameters {
+public class AddDataLakeStoreWithAccountParameters {
     /**
-     * The access key associated with this Azure Storage account that will be
-     * used to connect to it.
+     * The unique name of the Data Lake Store account to add.
      */
-    @JsonProperty(value = "properties.accessKey", required = true)
-    private String accessKey;
+    @JsonProperty(value = "name", required = true)
+    private String name;
 
     /**
-     * The optional suffix for the storage account.
+     * The optional suffix for the Data Lake Store account.
      */
     @JsonProperty(value = "properties.suffix")
     private String suffix;
 
     /**
-     * Get the accessKey value.
+     * Get the name value.
      *
-     * @return the accessKey value
+     * @return the name value
      */
-    public String accessKey() {
-        return this.accessKey;
+    public String name() {
+        return this.name;
     }
 
     /**
-     * Set the accessKey value.
+     * Set the name value.
      *
-     * @param accessKey the accessKey value to set
-     * @return the AddStorageAccountParameters object itself.
+     * @param name the name value to set
+     * @return the AddDataLakeStoreWithAccountParameters object itself.
      */
-    public AddStorageAccountParameters withAccessKey(String accessKey) {
-        this.accessKey = accessKey;
+    public AddDataLakeStoreWithAccountParameters withName(String name) {
+        this.name = name;
         return this;
     }
 
@@ -62,9 +62,9 @@ public class AddStorageAccountParameters {
      * Set the suffix value.
      *
      * @param suffix the suffix value to set
-     * @return the AddStorageAccountParameters object itself.
+     * @return the AddDataLakeStoreWithAccountParameters object itself.
      */
-    public AddStorageAccountParameters withSuffix(String suffix) {
+    public AddDataLakeStoreWithAccountParameters withSuffix(String suffix) {
         this.suffix = suffix;
         return this;
     }

@@ -9,7 +9,6 @@
 package com.microsoft.azure.management.datalake.analytics.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.SubResource;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 import java.util.UUID;

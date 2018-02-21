@@ -177,20 +177,26 @@ public abstract class TestBase {
                 }
             }));
         }
-        else { // Record mode
-            final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
-            credentials = ApplicationTokenCredentials.fromFile(credFile);
+        else {
+            if (System.getenv("AZURE_AUTH_LOCATION") != null) { // Record mode
+                final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
+                credentials = ApplicationTokenCredentials.fromFile(credFile);
+            } else {
+                credentials = new ApplicationTokenCredentials(System.getenv("AZURE_CLIENT_ID"), System.getenv("AZURE_TENANT_ID"),
+                        System.getenv("AZURE_CLIENT_SECRET"), AzureEnvironment.AZURE);
+                credentials.withDefaultSubscriptionId(System.getenv("AZURE_SUBSCRIPTION_ID"));
+            }
             restClient = buildRestClient(new RestClient.Builder()
-                    .withBaseUrl(this.baseUri())
-                    .withSerializerAdapter(new AzureJacksonAdapter())
-                    .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                    .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                    .withCredentials(credentials)
-                    .withLogLevel(LogLevel.NONE)
-                    .withReadTimeout(3, TimeUnit.MINUTES)
-                    .withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS))
-                    .withNetworkInterceptor(interceptorManager.initInterceptor())
-                    .withInterceptor(new ResourceManagerThrottlingInterceptor())
+                            .withBaseUrl(this.baseUri())
+                            .withSerializerAdapter(new AzureJacksonAdapter())
+                            .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
+                            .withInterceptor(new ProviderRegistrationInterceptor(credentials))
+                            .withCredentials(credentials)
+                            .withLogLevel(LogLevel.NONE)
+                            .withReadTimeout(3, TimeUnit.MINUTES)
+                            .withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS))
+                            .withNetworkInterceptor(interceptorManager.initInterceptor())
+                            .withInterceptor(new ResourceManagerThrottlingInterceptor())
                     ,false);
 
             defaultSubscription = credentials.defaultSubscriptionId();

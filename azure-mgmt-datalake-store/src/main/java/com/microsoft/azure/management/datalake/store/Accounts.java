@@ -10,19 +10,19 @@ package com.microsoft.azure.management.datalake.store;
 
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.datalake.store.models.CreateDataLakeStoreAccountParameters;
 import com.microsoft.azure.management.datalake.store.models.DataLakeStoreAccount;
 import com.microsoft.azure.management.datalake.store.models.DataLakeStoreAccountBasic;
 import com.microsoft.azure.management.datalake.store.models.NameAvailabilityInformation;
 import com.microsoft.azure.management.datalake.store.models.UpdateDataLakeStoreAccountParameters;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.List;
 import rx.Observable;
+
+import java.util.List;
 
 /**
  * An instance of this class provides access to all the operations defined

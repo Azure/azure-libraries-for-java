@@ -6,15 +6,17 @@
 
 package com.microsoft.azure.management.datalake.analytics;
 
+import com.microsoft.azure.management.datalake.analytics.models.AddDataLakeStoreWithAccountParameters;
 import com.microsoft.azure.management.datalake.analytics.models.CapabilityInformation;
+import com.microsoft.azure.management.datalake.analytics.models.CreateDataLakeAnalyticsAccountParameters;
 import com.microsoft.azure.management.datalake.analytics.models.DataLakeAnalyticsAccount;
 import com.microsoft.azure.management.datalake.analytics.models.DataLakeAnalyticsAccountBasic;
-import com.microsoft.azure.management.datalake.analytics.models.DataLakeAnalyticsAccountUpdateParameters;
-import com.microsoft.azure.management.datalake.analytics.models.DataLakeStoreAccountInfo;
+import com.microsoft.azure.management.datalake.analytics.models.DataLakeStoreAccountInformation;
 import com.microsoft.azure.management.datalake.analytics.models.NameAvailabilityInformation;
 import com.microsoft.azure.management.datalake.analytics.models.OperationListResult;
-import com.microsoft.azure.management.datalake.analytics.models.StorageAccountInfo;
-import com.microsoft.azure.management.datalake.store.models.DataLakeStoreAccount;
+import com.microsoft.azure.management.datalake.analytics.models.StorageAccountInformation;
+import com.microsoft.azure.management.datalake.analytics.models.UpdateDataLakeAnalyticsAccountParameters;
+import com.microsoft.azure.management.datalake.store.models.CreateDataLakeStoreAccountParameters;
 import com.microsoft.azure.management.storage.SkuName;
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,10 +35,11 @@ public class DataLakeAnalyticsAccountOperationsTests extends DataLakeAnalyticsMa
         String adlsName2 = generateRandomResourceName("adls2",15);
 
         // Ensure that the account name is available
-        NameAvailabilityInformation checkNameGetResponse = dataLakeAnalyticsAccountManagementClient.accounts().checkNameAvailability(
-                environmentLocation.name(),
-                adlaAcct
-        );
+        NameAvailabilityInformation checkNameGetResponse =
+                dataLakeAnalyticsAccountManagementClient.accounts().checkNameAvailability(
+                        environmentLocation.name(),
+                        adlaAcct
+                );
 
         Assert.assertTrue(checkNameGetResponse.nameAvailable());
 
@@ -54,39 +57,43 @@ public class DataLakeAnalyticsAccountOperationsTests extends DataLakeAnalyticsMa
                 .getKeys().get(0).value();
 
         // Create second ADLS account
-        DataLakeStoreAccount adlsCreateParams = new DataLakeStoreAccount();
-        adlsCreateParams.withLocation(environmentLocation.name());
+        CreateDataLakeStoreAccountParameters adlsCreateParams = new CreateDataLakeStoreAccountParameters()
+                .withLocation(environmentLocation.name());
+
         dataLakeStoreAccountManagementClient.accounts().create(
                 rgName,
                 adlsName2,
                 adlsCreateParams
         );
 
-        DataLakeStoreAccountInfo adlsInfo = new DataLakeStoreAccountInfo();
-        adlsInfo.withName(adlsName);
+        AddDataLakeStoreWithAccountParameters adlsInfo = new AddDataLakeStoreWithAccountParameters()
+                .withName(adlsName);
 
-        List<DataLakeStoreAccountInfo> adlsAccts = new ArrayList<DataLakeStoreAccountInfo>();
+        List<AddDataLakeStoreWithAccountParameters> adlsAccts = new ArrayList<AddDataLakeStoreWithAccountParameters>();
         adlsAccts.add(adlsInfo);
 
-        DataLakeAnalyticsAccount createParams = new DataLakeAnalyticsAccount();
-        createParams.withLocation(environmentLocation.name());
-        createParams.withDataLakeStoreAccounts(adlsAccts);
-        createParams.withDefaultDataLakeStoreAccount(adlsName);
         HashMap<String, String> tags = new HashMap<String, String>();
         tags.put("testkey", "testvalue");
-        createParams.withTags(tags);
+
+        CreateDataLakeAnalyticsAccountParameters createParams = new CreateDataLakeAnalyticsAccountParameters()
+                .withLocation(environmentLocation.name())
+                .withDefaultDataLakeStoreAccount(adlsName)
+                .withDataLakeStoreAccounts(adlsAccts)
+                .withTags(tags);
 
         // Ensure that the account name is no longer available
-        DataLakeAnalyticsAccount createResponse = dataLakeAnalyticsAccountManagementClient.accounts().create(
-                rgName,
-                adlaAcct,
-                createParams
-        );
+        DataLakeAnalyticsAccount createResponse =
+                dataLakeAnalyticsAccountManagementClient.accounts().create(
+                        rgName,
+                        adlaAcct,
+                        createParams
+                );
 
-        checkNameGetResponse = dataLakeAnalyticsAccountManagementClient.accounts().checkNameAvailability(
-                environmentLocation.name(),
-                adlaAcct
-        );
+        checkNameGetResponse =
+                dataLakeAnalyticsAccountManagementClient.accounts().checkNameAvailability(
+                        environmentLocation.name(),
+                        adlaAcct
+                );
 
         Assert.assertFalse(checkNameGetResponse.nameAvailable());
         Assert.assertEquals(environmentLocation.name(), createResponse.location());
@@ -98,15 +105,17 @@ public class DataLakeAnalyticsAccountOperationsTests extends DataLakeAnalyticsMa
         Assert.assertEquals(adlsName, createResponse.dataLakeStoreAccounts().get(0).name());
 
         // Update the tags
-        DataLakeAnalyticsAccountUpdateParameters updateParams = new DataLakeAnalyticsAccountUpdateParameters();
-        createParams.getTags().put("testkey2", "testvalue2");
-        updateParams.withTags(createParams.getTags());
+        tags.put("testkey2", "testvalue2");
 
-        DataLakeAnalyticsAccount updateResponse = dataLakeAnalyticsAccountManagementClient.accounts().update(
-                rgName,
-                adlaAcct,
-                updateParams
-        );
+        UpdateDataLakeAnalyticsAccountParameters updateParams = new UpdateDataLakeAnalyticsAccountParameters()
+                .withTags(tags);
+
+        DataLakeAnalyticsAccount updateResponse =
+                dataLakeAnalyticsAccountManagementClient.accounts().update(
+                        rgName,
+                        adlaAcct,
+                        updateParams
+                );
 
         Assert.assertEquals(environmentLocation.name(), updateResponse.location());
         Assert.assertEquals("Microsoft.DataLakeAnalytics/accounts", updateResponse.type());
@@ -117,10 +126,11 @@ public class DataLakeAnalyticsAccountOperationsTests extends DataLakeAnalyticsMa
         Assert.assertEquals(adlsName, updateResponse.dataLakeStoreAccounts().get(0).name());
 
         // Get the account
-        DataLakeAnalyticsAccount getResponse = dataLakeAnalyticsAccountManagementClient.accounts().get(
-                rgName,
-                adlaAcct
-        );
+        DataLakeAnalyticsAccount getResponse =
+                dataLakeAnalyticsAccountManagementClient.accounts().get(
+                        rgName,
+                        adlaAcct
+                );
 
         Assert.assertEquals(environmentLocation.name(), getResponse.location());
         Assert.assertEquals("Microsoft.DataLakeAnalytics/accounts", getResponse.type());
@@ -176,19 +186,21 @@ public class DataLakeAnalyticsAccountOperationsTests extends DataLakeAnalyticsMa
         );
 
         // List ADLS accounts
-        List<DataLakeStoreAccountInfo> adlsListResult = dataLakeAnalyticsAccountManagementClient.dataLakeStoreAccounts().listByAccount(
-                rgName,
-                adlaAcct
-        );
+        List<DataLakeStoreAccountInformation> adlsListResult =
+                dataLakeAnalyticsAccountManagementClient.dataLakeStoreAccounts().listByAccount(
+                        rgName,
+                        adlaAcct
+                );
 
         Assert.assertEquals(2, adlsListResult.size());
 
         // Get the one we just added
-        DataLakeStoreAccountInfo adlsGetResult = dataLakeAnalyticsAccountManagementClient.dataLakeStoreAccounts().get(
-                rgName,
-                adlaAcct,
-                adlsName2
-        );
+        DataLakeStoreAccountInformation adlsGetResult =
+                dataLakeAnalyticsAccountManagementClient.dataLakeStoreAccounts().get(
+                        rgName,
+                        adlaAcct,
+                        adlsName2
+                );
 
         Assert.assertEquals(adlsName2, adlsGetResult.name());
 
@@ -200,10 +212,11 @@ public class DataLakeAnalyticsAccountOperationsTests extends DataLakeAnalyticsMa
         );
 
         // List again, confirming there is only one ADLS account
-        adlsListResult = dataLakeAnalyticsAccountManagementClient.dataLakeStoreAccounts().listByAccount(
-                rgName,
-                adlaAcct
-        );
+        adlsListResult =
+                dataLakeAnalyticsAccountManagementClient.dataLakeStoreAccounts().listByAccount(
+                        rgName,
+                        adlaAcct
+                );
 
         Assert.assertEquals(1, adlsListResult.size());
 
@@ -216,19 +229,21 @@ public class DataLakeAnalyticsAccountOperationsTests extends DataLakeAnalyticsMa
         );
 
         // List ADLS accounts
-        List<StorageAccountInfo> storeListResult = dataLakeAnalyticsAccountManagementClient.storageAccounts().listByAccount(
-                rgName,
-                adlaAcct
-        );
+        List<StorageAccountInformation> storeListResult =
+                dataLakeAnalyticsAccountManagementClient.storageAccounts().listByAccount(
+                        rgName,
+                        adlaAcct
+                );
 
         Assert.assertEquals(1, storeListResult.size());
 
         // Get the one we just added
-        StorageAccountInfo storageGetResult = dataLakeAnalyticsAccountManagementClient.storageAccounts().get(
-                rgName,
-                adlaAcct,
-                storageAcct
-        );
+        StorageAccountInformation storageGetResult =
+                dataLakeAnalyticsAccountManagementClient.storageAccounts().get(
+                        rgName,
+                        adlaAcct,
+                        storageAcct
+                );
 
         Assert.assertEquals(storageAcct, storageGetResult.name());
 
@@ -240,15 +255,19 @@ public class DataLakeAnalyticsAccountOperationsTests extends DataLakeAnalyticsMa
         );
 
         // List again, confirming there is only one ADLS account
-        storeListResult = dataLakeAnalyticsAccountManagementClient.storageAccounts().listByAccount(
-                rgName,
-                adlaAcct
-        );
+        storeListResult =
+                dataLakeAnalyticsAccountManagementClient.storageAccounts().listByAccount(
+                        rgName,
+                        adlaAcct
+                );
 
         Assert.assertEquals(0, storeListResult.size());
 
         // Check that Locations_GetCapability and Operations_List are functional
-        CapabilityInformation capabilityGetResponse = dataLakeAnalyticsAccountManagementClient.locations().getCapability(environmentLocation.name());
+        CapabilityInformation capabilityGetResponse =
+                dataLakeAnalyticsAccountManagementClient.locations().getCapability(
+                        environmentLocation.name()
+                );
 
         Assert.assertNotNull(capabilityGetResponse);
 

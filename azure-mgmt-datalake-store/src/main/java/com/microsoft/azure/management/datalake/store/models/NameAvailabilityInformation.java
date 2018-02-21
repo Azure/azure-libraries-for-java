@@ -15,21 +15,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class NameAvailabilityInformation {
     /**
-     * the Boolean value of true or false to indicate whether the Data Lake
+     * The Boolean value of true or false to indicate whether the Data Lake
      * Store account name is available or not.
      */
     @JsonProperty(value = "nameAvailable", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean nameAvailable;
 
     /**
-     * the reason why the Data Lake Store account name is not available, if
+     * The reason why the Data Lake Store account name is not available, if
      * nameAvailable is false.
      */
     @JsonProperty(value = "reason", access = JsonProperty.Access.WRITE_ONLY)
     private String reason;
 
     /**
-     * the message describing why the Data Lake Store account name is not
+     * The message describing why the Data Lake Store account name is not
      * available, if nameAvailable is false.
      */
     @JsonProperty(value = "message", access = JsonProperty.Access.WRITE_ONLY)

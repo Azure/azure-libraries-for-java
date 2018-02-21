@@ -139,6 +139,19 @@ public class DataLakeStoreAccountManagementClientImpl extends AzureServiceClient
     }
 
     /**
+     * The Accounts object to access its operations.
+     */
+    private Accounts accounts;
+
+    /**
+     * Gets the Accounts object to access its operations.
+     * @return the Accounts object.
+     */
+    public Accounts accounts() {
+        return this.accounts;
+    }
+
+    /**
      * The FirewallRules object to access its operations.
      */
     private FirewallRules firewallRules;
@@ -165,16 +178,16 @@ public class DataLakeStoreAccountManagementClientImpl extends AzureServiceClient
     }
 
     /**
-     * The Accounts object to access its operations.
+     * The Operations object to access its operations.
      */
-    private Accounts accounts;
+    private Operations operations;
 
     /**
-     * Gets the Accounts object to access its operations.
-     * @return the Accounts object.
+     * Gets the Operations object to access its operations.
+     * @return the Operations object.
      */
-    public Accounts accounts() {
-        return this.accounts;
+    public Operations operations() {
+        return this.operations;
     }
 
     /**
@@ -188,19 +201,6 @@ public class DataLakeStoreAccountManagementClientImpl extends AzureServiceClient
      */
     public Locations locations() {
         return this.locations;
-    }
-
-    /**
-     * The Operations object to access its operations.
-     */
-    private Operations operations;
-
-    /**
-     * Gets the Operations object to access its operations.
-     * @return the Operations object.
-     */
-    public Operations operations() {
-        return this.operations;
     }
 
     /**
@@ -238,11 +238,11 @@ public class DataLakeStoreAccountManagementClientImpl extends AzureServiceClient
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
+        this.accounts = new AccountsImpl(restClient().retrofit(), this);
         this.firewallRules = new FirewallRulesImpl(restClient().retrofit(), this);
         this.trustedIdProviders = new TrustedIdProvidersImpl(restClient().retrofit(), this);
-        this.accounts = new AccountsImpl(restClient().retrofit(), this);
-        this.locations = new LocationsImpl(restClient().retrofit(), this);
         this.operations = new OperationsImpl(restClient().retrofit(), this);
+        this.locations = new LocationsImpl(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

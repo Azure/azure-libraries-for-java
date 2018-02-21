@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Data Lake Store Trusted Identity Provider update parameters.
+ * The parameters used to update a trusted identity provider.
  */
 @JsonFlatten
 public class UpdateTrustedIdProviderParameters {

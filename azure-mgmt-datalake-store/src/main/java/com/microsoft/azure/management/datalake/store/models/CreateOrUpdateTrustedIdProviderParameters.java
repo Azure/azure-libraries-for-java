@@ -10,17 +10,16 @@ package com.microsoft.azure.management.datalake.store.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.SubResource;
 
 /**
- * Data Lake Store trusted identity provider information.
+ * The parameters used to create a new trusted identity provider.
  */
 @JsonFlatten
-public class TrustedIdProvider extends SubResource {
+public class CreateOrUpdateTrustedIdProviderParameters {
     /**
      * The URL of this trusted identity provider.
      */
-    @JsonProperty(value = "properties.idProvider", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.idProvider", required = true)
     private String idProvider;
 
     /**
@@ -30,6 +29,17 @@ public class TrustedIdProvider extends SubResource {
      */
     public String idProvider() {
         return this.idProvider;
+    }
+
+    /**
+     * Set the idProvider value.
+     *
+     * @param idProvider the idProvider value to set
+     * @return the CreateOrUpdateTrustedIdProviderParameters object itself.
+     */
+    public CreateOrUpdateTrustedIdProviderParameters withIdProvider(String idProvider) {
+        this.idProvider = idProvider;
+        return this;
     }
 
 }

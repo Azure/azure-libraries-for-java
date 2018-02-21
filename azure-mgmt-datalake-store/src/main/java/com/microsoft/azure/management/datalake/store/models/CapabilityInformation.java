@@ -16,32 +16,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CapabilityInformation {
     /**
-     * the subscription credentials that uniquely identifies the subscription.
+     * The subscription credentials that uniquely identifies the subscription.
      */
     @JsonProperty(value = "subscriptionId", access = JsonProperty.Access.WRITE_ONLY)
     private UUID subscriptionId;
 
     /**
-     * the subscription state. Possible values include: 'Registered',
+     * The subscription state. Possible values include: 'Registered',
      * 'Suspended', 'Deleted', 'Unregistered', 'Warned'.
      */
     @JsonProperty(value = "state", access = JsonProperty.Access.WRITE_ONLY)
     private SubscriptionState state;
 
     /**
-     * the maximum supported number of accounts under this subscription.
+     * The maximum supported number of accounts under this subscription.
      */
     @JsonProperty(value = "maxAccountCount", access = JsonProperty.Access.WRITE_ONLY)
     private Integer maxAccountCount;
 
     /**
-     * the current number of accounts under this subscription.
+     * The current number of accounts under this subscription.
      */
     @JsonProperty(value = "accountCount", access = JsonProperty.Access.WRITE_ONLY)
     private Integer accountCount;
 
     /**
-     * the Boolean value of true or false to indicate the maintenance state.
+     * The Boolean value of true or false to indicate the maintenance state.
      */
     @JsonProperty(value = "migrationState", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean migrationState;

@@ -44,9 +44,7 @@ public interface EventHubAuthorizationRule
          * The first stage of event hub authorization rule definition.
          */
         @Beta(Beta.SinceVersion.V1_7_0)
-        interface Blank extends AuthorizationRule
-                .DefinitionStages
-                .WithListenOrSendOrManage<WithEventHub> {
+        interface Blank extends WithEventHub {
         }
 
         /**
@@ -61,7 +59,7 @@ public interface EventHubAuthorizationRule
              * @return the next stage of the definition
              */
             @Beta(Beta.SinceVersion.V1_7_0)
-            WithCreate forExistingEventHub(String eventHubResourceId);
+            WithAccessPolicy withExistingEventHubId(String eventHubResourceId);
             /**
              * Specifies that authorization rule needs to be created for the given event hub.
              *
@@ -71,7 +69,7 @@ public interface EventHubAuthorizationRule
              * @return the next stage of the definition
              */
             @Beta(Beta.SinceVersion.V1_7_0)
-            WithCreate forExistingEventHub(String resourceGroupName, String namespaceName, String eventHubName);
+            WithAccessPolicy withExistingEventHub(String resourceGroupName, String namespaceName, String eventHubName);
             /**
              * Specifies that authorization rule needs to be created for the given event hub.
              *
@@ -79,7 +77,17 @@ public interface EventHubAuthorizationRule
              * @return the next stage of the definition
              */
             @Beta(Beta.SinceVersion.V1_7_0)
-            WithCreate forExistingEventHub(EventHub eventHub);
+            WithAccessPolicy withExistingEventHub(EventHub eventHub);
+        }
+
+        /**
+         * Stage of the authorization rule definition allowing to specify access policy.
+         */
+        @Beta(Beta.SinceVersion.V1_7_0)
+        interface WithAccessPolicy extends AuthorizationRule
+                .DefinitionStages
+                .WithListenOrSendOrManage<WithCreate> {
+
         }
 
         /**
@@ -99,6 +107,7 @@ public interface EventHubAuthorizationRule
     interface Definition extends
             DefinitionStages.Blank,
             DefinitionStages.WithEventHub,
+            DefinitionStages.WithAccessPolicy,
             DefinitionStages.WithCreate {
     }
 

@@ -69,19 +69,19 @@ class EventHubConsumerGroupImpl
     }
 
     @Override
-    public EventHubConsumerGroupImpl forExistingEventHub(EventHub eventHub) {
+    public EventHubConsumerGroupImpl withExistingEventHub(EventHub eventHub) {
         this.ancestor = new Ancestors().new TwoAncestor(selfId(eventHub.id()));
         return this;
     }
 
     @Override
-    public EventHubConsumerGroupImpl forExistingEventHub(String eventHubId) {
+    public EventHubConsumerGroupImpl withExistingEventHubId(String eventHubId) {
         this.ancestor = new Ancestors().new TwoAncestor(selfId(eventHubId));
         return this;
     }
 
     @Override
-    public EventHubConsumerGroupImpl forExistingEventHub(String resourceGroupName, String namespaceName, String eventHubName) {
+    public EventHubConsumerGroupImpl withExistingEventHub(String resourceGroupName, String namespaceName, String eventHubName) {
         this.ancestor = new Ancestors().new TwoAncestor(resourceGroupName, eventHubName, namespaceName);
         return this;
     }

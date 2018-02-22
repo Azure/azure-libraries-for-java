@@ -52,19 +52,19 @@ class EventHubAuthorizationRuleImpl extends AuthorizationRuleBaseImpl<EventHubAu
     }
 
     @Override
-    public EventHubAuthorizationRuleImpl forExistingEventHub(String eventHubResourceId) {
+    public EventHubAuthorizationRuleImpl withExistingEventHubId(String eventHubResourceId) {
         this.ancestor = new Ancestors().new TwoAncestor(selfId(eventHubResourceId));
         return this;
     }
 
     @Override
-    public EventHubAuthorizationRuleImpl forExistingEventHub(String resourceGroupName, String namespaceName, String eventHubName) {
+    public EventHubAuthorizationRuleImpl withExistingEventHub(String resourceGroupName, String namespaceName, String eventHubName) {
         this.ancestor = new Ancestors().new TwoAncestor(resourceGroupName, eventHubName, namespaceName);
         return this;
     }
 
     @Override
-    public EventHubAuthorizationRuleImpl forExistingEventHub(EventHub eventHub) {
+    public EventHubAuthorizationRuleImpl withExistingEventHub(EventHub eventHub) {
         this.ancestor = new Ancestors().new TwoAncestor(selfId(eventHub.id()));
         return this;
     }

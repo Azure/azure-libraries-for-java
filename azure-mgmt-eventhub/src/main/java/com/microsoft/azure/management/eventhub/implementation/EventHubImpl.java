@@ -217,8 +217,8 @@ class EventHubImpl
             public Observable<Indexable> call(final Context context) {
                 return manager.eventHubAuthorizationRules()
                         .define(ruleName)
-                        .withSendingEnabled()
-                        .forExistingEventHub(ancestor().resourceGroupName(), ancestor().ancestor1Name(), name())
+                        .withExistingEventHub(ancestor().resourceGroupName(), ancestor().ancestor1Name(), name())
+                        .withSendAccess()
                         .createAsync();
             }
         });
@@ -232,8 +232,8 @@ class EventHubImpl
             public Observable<Indexable> call(final Context context) {
                 return manager.eventHubAuthorizationRules()
                         .define(ruleName)
-                        .withListeningEnabled()
-                        .forExistingEventHub(ancestor().resourceGroupName(), ancestor().ancestor1Name(), name())
+                        .withExistingEventHub(ancestor().resourceGroupName(), ancestor().ancestor1Name(), name())
+                        .withListenAccess()
                         .createAsync();
             }
         });
@@ -247,8 +247,8 @@ class EventHubImpl
             public Observable<Indexable> call(final Context context) {
                 return manager.eventHubAuthorizationRules()
                         .define(ruleName)
-                        .withManagementEnabled()
-                        .forExistingEventHub(ancestor().resourceGroupName(), ancestor().ancestor1Name(), name())
+                        .withExistingEventHub(ancestor().resourceGroupName(), ancestor().ancestor1Name(), name())
+                        .withManageAccess()
                         .createAsync();
             }
         });
@@ -276,7 +276,7 @@ class EventHubImpl
             public Observable<Indexable> call(final Context context) {
                 return manager.consumerGroups()
                         .define(name)
-                        .forExistingEventHub(ancestor().resourceGroupName(), ancestor().ancestor1Name(), name())
+                        .withExistingEventHub(ancestor().resourceGroupName(), ancestor().ancestor1Name(), name())
                         .createAsync();
             }
         });
@@ -290,7 +290,7 @@ class EventHubImpl
             public Observable<Indexable> call(final Context context) {
                 return manager.consumerGroups()
                         .define(name)
-                        .forExistingEventHub(ancestor().resourceGroupName(), ancestor().ancestor1Name(), name())
+                        .withExistingEventHub(ancestor().resourceGroupName(), ancestor().ancestor1Name(), name())
                         .withUserMetadata(metadata)
                         .createAsync();
             }

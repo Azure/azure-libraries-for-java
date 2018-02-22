@@ -38,9 +38,7 @@ public interface EventHubNamespaceAuthorizationRule
          * The first stage of event hub namespace authorization rule definition.
          */
         @Beta(Beta.SinceVersion.V1_7_0)
-        interface Blank extends AuthorizationRule
-                .DefinitionStages
-                .WithListenOrSendOrManage<DefinitionStages.WithNamespace> {
+        interface Blank extends WithNamespace {
         }
 
         /**
@@ -55,7 +53,7 @@ public interface EventHubNamespaceAuthorizationRule
              * @return the next stage of the definition
              */
             @Beta(Beta.SinceVersion.V1_7_0)
-            WithCreate forExistingNamespace(String namespaceResourceId);
+            WithAccessPolicy withExistingNamespaceId(String namespaceResourceId);
             /**
              * Specifies that authorization rule needs to be created for the given event hub namespace.
              *
@@ -64,7 +62,7 @@ public interface EventHubNamespaceAuthorizationRule
              * @return the next stage of the definition
              */
             @Beta(Beta.SinceVersion.V1_7_0)
-            WithCreate forExistingNamespace(String resourceGroupName, String namespaceName);
+            WithAccessPolicy withExistingNamespace(String resourceGroupName, String namespaceName);
             /**
              * Specifies that authorization rule needs to be created for the given event hub namespace.
              *
@@ -72,7 +70,17 @@ public interface EventHubNamespaceAuthorizationRule
              * @return the next stage of the definition
              */
             @Beta(Beta.SinceVersion.V1_7_0)
-            WithCreate forExistingNamespace(EventHubNamespace namespace);
+            WithAccessPolicy withExistingNamespace(EventHubNamespace namespace);
+        }
+
+        /**
+         * Stage of the authorization rule definition allowing to specify access policy.
+         */
+        @Beta(Beta.SinceVersion.V1_7_0)
+        interface WithAccessPolicy extends AuthorizationRule
+                .DefinitionStages
+                .WithListenOrSendOrManage<WithCreate> {
+
         }
 
         /**
@@ -92,6 +100,7 @@ public interface EventHubNamespaceAuthorizationRule
     interface Definition extends
             DefinitionStages.Blank,
             DefinitionStages.WithNamespace,
+            DefinitionStages.WithAccessPolicy,
             DefinitionStages.WithCreate {
     }
 

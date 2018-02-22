@@ -147,8 +147,8 @@ class EventHubNamespaceImpl
             public Observable<Indexable> call(Context context) {
                 return manager().namespaceAuthorizationRules()
                         .define(ruleName)
-                        .withSendingEnabled()
-                        .forExistingNamespace(resourceGroupName(), name())
+                        .withExistingNamespace(resourceGroupName(), name())
+                        .withSendAccess()
                         .createAsync();
             }
         });
@@ -162,8 +162,8 @@ class EventHubNamespaceImpl
             public Observable<Indexable> call(Context context) {
                 return manager().namespaceAuthorizationRules()
                         .define(ruleName)
-                        .withListeningEnabled()
-                        .forExistingNamespace(resourceGroupName(), name())
+                        .withExistingNamespace(resourceGroupName(), name())
+                        .withListenAccess()
                         .createAsync();
             }
         });
@@ -177,8 +177,8 @@ class EventHubNamespaceImpl
             public Observable<Indexable> call(Context context) {
                 return manager().namespaceAuthorizationRules()
                         .define(ruleName)
-                        .withManagementEnabled()
-                        .forExistingNamespace(resourceGroupName(), name())
+                        .withExistingNamespace(resourceGroupName(), name())
+                        .withManageAccess()
                         .createAsync();
             }
         });

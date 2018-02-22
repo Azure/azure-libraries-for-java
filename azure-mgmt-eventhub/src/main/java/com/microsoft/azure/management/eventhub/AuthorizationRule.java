@@ -77,7 +77,7 @@ public interface AuthorizationRule<RuleT extends AuthorizationRule<RuleT>> exten
              * @return the next stage of the definition
              */
             @Beta(Beta.SinceVersion.V1_7_0)
-            T withListeningEnabled();
+            T withListenAccess();
         }
 
         /**
@@ -93,7 +93,7 @@ public interface AuthorizationRule<RuleT extends AuthorizationRule<RuleT>> exten
              * @return the next stage of the definition
              */
             @Beta(Beta.SinceVersion.V1_7_0)
-            T withSendingEnabled();
+            T withSendAccess();
         }
 
         /**
@@ -109,7 +109,7 @@ public interface AuthorizationRule<RuleT extends AuthorizationRule<RuleT>> exten
              * @return the next stage of the definition
              */
             @Beta(Beta.SinceVersion.V1_7_0)
-            T withManagementEnabled();
+            T withManageAccess();
         }
 
         /**
@@ -149,7 +149,7 @@ public interface AuthorizationRule<RuleT extends AuthorizationRule<RuleT>> exten
              * @return the next stage of the update
              */
             @Beta(Beta.SinceVersion.V1_7_0)
-            T withListeningEnabled();
+            T withListenAccess();
         }
 
         /**
@@ -165,7 +165,7 @@ public interface AuthorizationRule<RuleT extends AuthorizationRule<RuleT>> exten
              * @return the next stage of the update
              */
             @Beta(Beta.SinceVersion.V1_7_0)
-            T withSendingEnabled();
+            T withSendAccess();
         }
 
         /**
@@ -181,7 +181,7 @@ public interface AuthorizationRule<RuleT extends AuthorizationRule<RuleT>> exten
              * @return the next stage of the update
              */
             @Beta(Beta.SinceVersion.V1_7_0)
-            T withManagementEnabled();
+            T withManageAccess();
         }
 
         /**

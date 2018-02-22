@@ -47,19 +47,19 @@ class EventHubNamespaceAuthorizationRuleImpl extends AuthorizationRuleBaseImpl<E
     }
 
     @Override
-    public EventHubNamespaceAuthorizationRuleImpl forExistingNamespace(String namespaceResourceId) {
+    public EventHubNamespaceAuthorizationRuleImpl withExistingNamespaceId(String namespaceResourceId) {
         this.ancestor = new Ancestors().new OneAncestor(selfId(namespaceResourceId));
         return this;
     }
 
     @Override
-    public EventHubNamespaceAuthorizationRuleImpl forExistingNamespace(String resourceGroupName, String namespaceName) {
+    public EventHubNamespaceAuthorizationRuleImpl withExistingNamespace(String resourceGroupName, String namespaceName) {
         this.ancestor = new Ancestors().new OneAncestor(resourceGroupName, namespaceName);
         return this;
     }
 
     @Override
-    public EventHubNamespaceAuthorizationRuleImpl forExistingNamespace(EventHubNamespace namespace) {
+    public EventHubNamespaceAuthorizationRuleImpl withExistingNamespace(EventHubNamespace namespace) {
         this.ancestor = new Ancestors().new OneAncestor(selfId(namespace.id()));
         return this;
     }

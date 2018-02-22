@@ -8,6 +8,7 @@ package com.microsoft.azure.management.eventhub;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.eventhub.implementation.ConsumerGroupsInner;
 import com.microsoft.azure.management.eventhub.implementation.EventHubManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
@@ -21,6 +22,7 @@ import rx.Observable;
 /**
  * Entry point to manage event hub consumer groups.
  */
+@Fluent
 @Beta(Beta.SinceVersion.V1_7_0)
 public interface EventHubConsumerGroups extends
         SupportsCreating<EventHubConsumerGroup.DefinitionStages.Blank>,

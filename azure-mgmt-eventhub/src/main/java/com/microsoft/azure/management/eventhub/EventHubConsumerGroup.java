@@ -95,7 +95,7 @@ public interface EventHubConsumerGroup extends
              * @return next stage of the consumer group definition
              */
             @Beta(Beta.SinceVersion.V1_7_0)
-            WithCreate forExistingEventHub(EventHub eventHub);
+            WithCreate withExistingEventHub(EventHub eventHub);
 
             /**
              * Specifies the event hub for which consumer group needs to be created.
@@ -104,7 +104,7 @@ public interface EventHubConsumerGroup extends
              * @return next stage of the consumer group definition
              */
             @Beta(Beta.SinceVersion.V1_7_0)
-            WithCreate forExistingEventHub(String eventHubId);
+            WithCreate withExistingEventHubId(String eventHubId);
 
             /**
              * Specifies the event hub for which consumer group needs to be created.
@@ -115,7 +115,7 @@ public interface EventHubConsumerGroup extends
              * @return next stage of the consumer group definition
              */
             @Beta(Beta.SinceVersion.V1_7_0)
-            WithCreate forExistingEventHub(String resourceGroupName, String namespaceName, String eventHubName);
+            WithCreate withExistingEventHub(String resourceGroupName, String namespaceName, String eventHubName);
         }
 
         /**

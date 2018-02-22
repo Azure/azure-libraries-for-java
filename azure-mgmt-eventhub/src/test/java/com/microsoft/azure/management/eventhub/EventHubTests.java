@@ -56,11 +56,11 @@ public class EventHubTests extends TestBase {
 
         EventHubNamespace namespace1 = eventHubManager.namespaces()
                 .define(namespaceName1)
-                .withRegion(REGION)
-                .withNewResourceGroup(RG_NAME)
-                // SDK should use Sku as 'Standard' and set capacity.capacity in it as 1
-                .withAutoScaling()
-                .create();
+                    .withRegion(REGION)
+                    .withNewResourceGroup(RG_NAME)
+                    // SDK should use Sku as 'Standard' and set capacity.capacity in it as 1
+                    .withAutoScaling()
+                    .create();
 
         Assert.assertNotNull(namespace1);
         Assert.assertNotNull(namespace1.inner());
@@ -72,11 +72,11 @@ public class EventHubTests extends TestBase {
 
         EventHubNamespace namespace2 = eventHubManager.namespaces()
                 .define(namespaceName2)
-                .withRegion(REGION)
-                .withExistingResourceGroup(RG_NAME)
-                // SDK should use Sku as 'Standard' and set capacity.capacity in it as 11
-                .withCurrentThroughputUnits(11)
-                .create();
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(RG_NAME)
+                    // SDK should use Sku as 'Standard' and set capacity.capacity in it as 11
+                    .withCurrentThroughputUnits(11)
+                    .create();
 
         Assert.assertNotNull(namespace2);
         Assert.assertNotNull(namespace2.inner());
@@ -88,10 +88,10 @@ public class EventHubTests extends TestBase {
 
         EventHubNamespace namespace3 = eventHubManager.namespaces()
                 .define(namespaceName3)
-                .withRegion(REGION)
-                .withExistingResourceGroup(RG_NAME)
-                .withSku(EventHubNamespaceSkuType.BASIC)
-                .create();
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(RG_NAME)
+                    .withSku(EventHubNamespaceSkuType.BASIC)
+                    .create();
 
         Assert.assertNotNull(namespace3);
         Assert.assertNotNull(namespace3.inner());
@@ -119,11 +119,11 @@ public class EventHubTests extends TestBase {
 
         EventHubNamespace namespace = eventHubManager.namespaces()
                 .define(namespaceName)
-                .withRegion(REGION)
-                .withNewResourceGroup(RG_NAME)
-                .withNewEventHub(eventHubName1)
-                .withNewEventHub(eventHubName2)
-                .create();
+                    .withRegion(REGION)
+                    .withNewResourceGroup(RG_NAME)
+                    .withNewEventHub(eventHubName1)
+                    .withNewEventHub(eventHubName2)
+                    .create();
 
         Assert.assertNotNull(namespace);
         Assert.assertNotNull(namespace.inner());
@@ -149,11 +149,11 @@ public class EventHubTests extends TestBase {
 
         eventHubManager.namespaces()
                 .eventHubs()
-                .define(eventHubName3)
-                .withExistingNamespaceId(namespace.id())
-                .withPartitionCount(5)
-                .withRetentionPeriodInDays(6)
-                .create();
+                    .define(eventHubName3)
+                    .withExistingNamespaceId(namespace.id())
+                    .withPartitionCount(5)
+                    .withRetentionPeriodInDays(6)
+                    .create();
 
         hubs = namespace.listEventHubs();
         set.clear();
@@ -172,11 +172,11 @@ public class EventHubTests extends TestBase {
 
         EventHubNamespace namespace = eventHubManager.namespaces()
                 .define(namespaceName)
-                .withRegion(REGION)
-                .withNewResourceGroup(RG_NAME)
-                .withNewManageRule("mngRule1")
-                .withNewSendRule("sndRule1")
-                .create();
+                    .withRegion(REGION)
+                    .withNewResourceGroup(RG_NAME)
+                    .withNewManageRule("mngRule1")
+                    .withNewSendRule("sndRule1")
+                    .create();
 
         Assert.assertNotNull(namespace);
         Assert.assertNotNull(namespace.inner());
@@ -202,10 +202,10 @@ public class EventHubTests extends TestBase {
 
         eventHubManager.namespaces()
                 .authorizationRules()
-                .define("sndRule2")
-                .withSendingEnabled()
-                .forExistingNamespace(namespace.id())
-                .create();
+                    .define("sndRule2")
+                    .withExistingNamespaceId(namespace.id())
+                    .withSendAccess()
+                    .create();
 
         rules = namespace.listAuthorizationRules();
         set.clear();
@@ -225,15 +225,15 @@ public class EventHubTests extends TestBase {
 
         Creatable<EventHubNamespace> namespaceCreatable = eventHubManager.namespaces()
                 .define(namespaceName)
-                .withRegion(REGION)
-                .withNewResourceGroup(RG_NAME);
+                    .withRegion(REGION)
+                    .withNewResourceGroup(RG_NAME);
 
         EventHub eventHub = eventHubManager.eventHubs()
                 .define(eventHubName)
-                .withNewNamespace(namespaceCreatable)
-                .withNewConsumerGroup("grp1")
-                .withNewConsumerGroup("grp2", "metadata111")
-                .create();
+                    .withNewNamespace(namespaceCreatable)
+                    .withNewConsumerGroup("grp1")
+                    .withNewConsumerGroup("grp2", "metadata111")
+                    .create();
 
         Assert.assertNotNull(eventHub);
         Assert.assertNotNull(eventHub.inner());
@@ -259,10 +259,10 @@ public class EventHubTests extends TestBase {
 
         eventHubManager.eventHubs()
                 .consumerGroups()
-                .define("grp3")
-                .forExistingEventHub(eventHub.id())
-                .withUserMetadata("metadata222")
-                .create();
+                    .define("grp3")
+                    .withExistingEventHubId(eventHub.id())
+                    .withUserMetadata("metadata222")
+                    .create();
 
         cGroups = eventHub.listConsumerGroups();
         set.clear();
@@ -282,15 +282,15 @@ public class EventHubTests extends TestBase {
 
         Creatable<EventHubNamespace> namespaceCreatable = eventHubManager.namespaces()
                 .define(namespaceName)
-                .withRegion(REGION)
-                .withNewResourceGroup(RG_NAME);
+                    .withRegion(REGION)
+                    .withNewResourceGroup(RG_NAME);
 
         EventHub eventHub = eventHubManager.eventHubs()
                 .define(eventHubName)
-                .withNewNamespace(namespaceCreatable)
-                .withNewManageRule("mngRule1")
-                .withNewSendRule("sndRule1")
-                .create();
+                    .withNewNamespace(namespaceCreatable)
+                    .withNewManageRule("mngRule1")
+                    .withNewSendRule("sndRule1")
+                    .create();
 
         Assert.assertNotNull(eventHub);
         Assert.assertNotNull(eventHub.inner());
@@ -317,9 +317,9 @@ public class EventHubTests extends TestBase {
         eventHubManager.eventHubs()
                 .authorizationRules()
                 .define("sndRule2")
-                .withSendingEnabled()
-                .forExistingEventHub(eventHub.id())
-                .create();
+                    .withExistingEventHubId(eventHub.id())
+                    .withSendAccess()
+                    .create();
 
         rules = eventHub.listAuthorizationRules();
         set.clear();
@@ -342,27 +342,27 @@ public class EventHubTests extends TestBase {
 
         Creatable<StorageAccount> storageAccountCreatable = storageManager.storageAccounts()
                 .define(stgName)
-                .withRegion(REGION)
-                .withNewResourceGroup(RG_NAME)
-                .withSku(StorageAccountSkuType.STANDARD_LRS);
+                    .withRegion(REGION)
+                    .withNewResourceGroup(RG_NAME)
+                    .withSku(StorageAccountSkuType.STANDARD_LRS);
 
         Creatable<EventHubNamespace> namespaceCreatable = eventHubManager.namespaces()
                 .define(namespaceName)
-                .withRegion(REGION)
-                .withNewResourceGroup(RG_NAME);
+                    .withRegion(REGION)
+                    .withNewResourceGroup(RG_NAME);
 
         final String containerName1 = "eventsctr1";
 
         EventHub eventHub1 = eventHubManager.eventHubs()
                 .define(eventHubName1)
-                .withNewNamespace(namespaceCreatable)
-                .withNewStorageAccountForCapturedData(storageAccountCreatable, containerName1)
-                .withDataCaptureEnabled()
-                // Window config is optional if not set service will choose default for it2
-                //
-                .withDataCaptureWindowSizeInSeconds(120)
-                .withDataCaptureWindowSizeInMB(300)
-                .create();
+                    .withNewNamespace(namespaceCreatable)
+                    .withNewStorageAccountForCapturedData(storageAccountCreatable, containerName1)
+                    .withDataCaptureEnabled()
+                    // Window config is optional if not set service will choose default for it2
+                    //
+                    .withDataCaptureWindowSizeInSeconds(120)
+                    .withDataCaptureWindowSizeInMB(300)
+                    .create();
 
         Assert.assertNotNull(eventHub1);
         Assert.assertNotNull(eventHub1.inner());
@@ -385,10 +385,10 @@ public class EventHubTests extends TestBase {
 
         EventHub eventHub2 = eventHubManager.eventHubs()
                 .define(eventHubName2)
-                .withNewNamespace(namespaceCreatable)
-                .withExistingStorageAccountForCapturedData(stgAccountId, containerName2)
-                .withDataCaptureEnabled()
-                .create();
+                    .withNewNamespace(namespaceCreatable)
+                    .withExistingStorageAccountForCapturedData(stgAccountId, containerName2)
+                    .withDataCaptureEnabled()
+                    .create();
 
         Assert.assertTrue(eventHub2.isDataCaptureEnabled());
         Assert.assertNotNull(eventHub2.captureDestination());
@@ -414,13 +414,13 @@ public class EventHubTests extends TestBase {
 
         Creatable<EventHubNamespace> namespaceCreatable = eventHubManager.namespaces()
                 .define(namespaceName)
-                .withRegion(REGION)
-                .withNewResourceGroup(RG_NAME);
+                    .withRegion(REGION)
+                    .withNewResourceGroup(RG_NAME);
 
         EventHub eventHub = eventHubManager.eventHubs()
                 .define(eventHubName)
-                .withNewNamespace(namespaceCreatable)
-                .create();
+                    .withNewNamespace(namespaceCreatable)
+                    .create();
 
         boolean exceptionThrown = false;
         try {

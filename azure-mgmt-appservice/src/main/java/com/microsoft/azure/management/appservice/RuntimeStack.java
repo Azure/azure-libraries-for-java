@@ -46,6 +46,12 @@ public class RuntimeStack {
     /** Ruby 2.3. */
     public static final RuntimeStack RUBY_2_3 = new RuntimeStack("RUBY", "2.3");
 
+    /** Tomcat 8.5-jre8 image with catalina root set to Azure wwwroot. */
+    public static final RuntimeStack TOMCAT_8_5_JRE8 = new RuntimeStack("TOMCAT", "8.5-jre8");
+
+    /** Tomcat 9.0-jre8 image with catalina root set to Azure wwwroot. */
+    public static final RuntimeStack TOMCAT_9_0_JRE8 = new RuntimeStack("TOMCAT", "9.0-jre8");
+
     /** The name of the language runtime stack. */
     private String stack;
     /** The version of the runtime. */

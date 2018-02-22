@@ -26,8 +26,6 @@ import com.microsoft.azure.management.storage.StorageAccountKey;
 import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.credentials.TokenCredentials;
 import okhttp3.Request;
-import okhttp3.ResponseBody;
-import okio.BufferedSource;
 import org.joda.time.DateTime;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -38,10 +36,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.Streaming;
 import rx.Completable;
-import rx.Emitter;
-import rx.Emitter.BackpressureMode;
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action0;
@@ -56,7 +51,6 @@ import java.io.PipedOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,7 +71,7 @@ class FunctionAppImpl
     private StorageAccount currentStorageAccount;
     private final FunctionAppKeyService functionAppKeyService;
     private final FunctionService functionService;
-    private final KuduService kuduService;
+    private final KuduClient kuduClient;
     private FunctionDeploymentSlots deploymentSlots;
 
     FunctionAppImpl(final String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
@@ -86,16 +80,11 @@ class FunctionAppImpl
         String defaultHostName = defaultHostName().startsWith("http") ? defaultHostName() : "http://" + defaultHostName();
         functionService = manager.restClient().newBuilder()
                 .withBaseUrl(defaultHostName)
-                .withCredentials(new KuduCredentials(this))
+                .withCredentials(new FunctionCredentials(this))
                 .withLogLevel(LogLevel.BODY_AND_HEADERS)
                 .build()
                 .retrofit().create(FunctionService.class);
-        kuduService = manager.restClient().newBuilder()
-                .withBaseUrl("https://" + defaultHostName.replace("http://", "").replace(name, name + ".scm"))
-                .withLogLevel(LogLevel.BODY_AND_HEADERS)
-                .withReadTimeout(3, TimeUnit.MINUTES)
-                .build()
-                .retrofit().create(KuduService.class);
+        kuduClient = new KuduClient(this);
     }
 
     @Override
@@ -345,28 +334,10 @@ class FunctionAppImpl
     @Override
     public Observable<String> streamApplicationLogsAsync() {
         return functionService.ping()
-                .flatMap(new Func1<Void, Observable<ResponseBody>>() {
+                .flatMap(new Func1<Void, Observable<String>>() {
                     @Override
-                    public Observable<ResponseBody> call(Void aVoid) {
-                        return kuduService.streamApplicationLogs();
-                    }
-                }).flatMap(new Func1<ResponseBody, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(ResponseBody responseBody) {
-                        final BufferedSource source = responseBody.source();
-                        return Observable.fromEmitter(new Action1<Emitter<String>>() {
-                            @Override
-                            public void call(Emitter<String> stringEmitter) {
-                                try {
-                                    while (!source.exhausted()) {
-                                        stringEmitter.onNext(source.readUtf8Line());
-                                    }
-                                    stringEmitter.onCompleted();
-                                } catch (IOException e) {
-                                    stringEmitter.onError(e);
-                                }
-                            }
-                        }, BackpressureMode.BUFFER);
+                    public Observable<String> call(Void aVoid) {
+                        return kuduClient.streamApplicationLogsAsync();
                     }
                 });
     }
@@ -410,24 +381,17 @@ class FunctionAppImpl
         Observable<Void> ping();
     }
 
-    private interface KuduService {
-        @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamApplicationLogs", "x-ms-body-logging: false" })
-        @GET("api/logstream/application")
-        @Streaming
-        Observable<ResponseBody> streamApplicationLogs();
-    }
-
     private static class FunctionKeyListResult {
         @JsonProperty("keys")
         private List<NameValuePair> keys;
     }
 
-    private static final class KuduCredentials extends TokenCredentials {
+    private static final class FunctionCredentials extends TokenCredentials {
         private String token;
         private long expire;
         private final FunctionAppImpl functionApp;
 
-        private KuduCredentials(FunctionAppImpl functionApp) {
+        private FunctionCredentials(FunctionAppImpl functionApp) {
             super("Bearer", null);
             this.functionApp = functionApp;
         }

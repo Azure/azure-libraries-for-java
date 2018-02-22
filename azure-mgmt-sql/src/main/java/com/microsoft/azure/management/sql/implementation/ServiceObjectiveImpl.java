@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import com.microsoft.azure.management.sql.ServiceObjective;
 import rx.Observable;
@@ -19,15 +18,12 @@ import rx.Observable;
 class ServiceObjectiveImpl
         extends RefreshableWrapperImpl<ServiceObjectiveInner, ServiceObjective>
         implements ServiceObjective {
-    private final ResourceId resourceId;
-    private final ServersInner serversInner;
+    private final SqlServerImpl sqlServer;
 
-    protected ServiceObjectiveImpl(ServiceObjectiveInner innerObject, ServersInner serversInner) {
+    protected ServiceObjectiveImpl(ServiceObjectiveInner innerObject, SqlServerImpl sqlServer) {
         super(innerObject);
-        this.resourceId = ResourceId.fromString(this.inner().id());
-        this.serversInner = serversInner;
+        this.sqlServer = sqlServer;
     }
-
 
     @Override
     public String name() {
@@ -41,12 +37,12 @@ class ServiceObjectiveImpl
 
     @Override
     public String resourceGroupName() {
-        return this.resourceId.resourceGroupName();
+        return this.sqlServer.resourceGroupName();
     }
 
     @Override
     public String sqlServerName() {
-        return this.resourceId.parent().name();
+        return this.sqlServer.name();
     }
 
     @Override
@@ -65,17 +61,18 @@ class ServiceObjectiveImpl
     }
 
     @Override
+    public boolean enabled() {
+        return false;
+    }
+
+    @Override
     public String description() {
         return this.inner().description();
     }
 
     @Override
-    public boolean enabled() {
-        return this.inner().enabled();
-    }
-
-    @Override
     protected Observable<ServiceObjectiveInner> getInnerAsync() {
-        return this.serversInner.getServiceObjectiveAsync(this.resourceGroupName(), this.sqlServerName(), this.name());
+        return this.sqlServer.manager().inner().serviceObjectives()
+            .getAsync(this.resourceGroupName(), this.sqlServerName(), this.name());
     }
 }

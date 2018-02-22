@@ -21,35 +21,44 @@ class RestorePointImpl
         extends WrapperImpl<RestorePointInner>
         implements RestorePoint {
     private final ResourceId resourceId;
+    private final String sqlServerName;
+    private final String resourceGroupName;
 
-    protected RestorePointImpl(RestorePointInner innerObject) {
+    protected RestorePointImpl(String resourceGroupName, String sqlServerName, RestorePointInner innerObject) {
         super(innerObject);
+        this.resourceGroupName = resourceGroupName;
+        this.sqlServerName = sqlServerName;
         this.resourceId = ResourceId.fromString(this.inner().id());
     }
 
     @Override
     public String name() {
-        return this.resourceId.name();
+        return this.inner().name();
     }
 
     @Override
     public String id() {
-        return this.resourceId.id();
+        return this.inner().id();
     }
 
     @Override
     public String resourceGroupName() {
-        return this.resourceId.resourceGroupName();
+        return this.resourceGroupName;
     }
 
     @Override
     public String sqlServerName() {
-        return resourceId.parent().parent().name();
+        return this.sqlServerName;
     }
 
     @Override
     public String databaseName() {
         return resourceId.parent().name();
+    }
+
+    @Override
+    public String databaseId() {
+        return resourceId.parent().id();
     }
 
     @Override

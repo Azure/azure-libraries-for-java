@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.sql;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
@@ -37,4 +38,23 @@ public interface SqlServers extends
         SupportsBatchDeletion,
         HasManager<SqlServerManager>,
         HasInner<ServersInner> {
+
+    /**
+     * @return the SQL Server Firewall Rules API entry point
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    SqlFirewallRuleOperations firewallRules();
+
+    /**
+     * @return the SQL Server Elastic Pools API entry point
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    SqlElasticPoolOperations elasticPools();
+
+    /**
+     * @return the SQL Server Database API entry point
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    SqlDatabaseOperations databases();
+
 }

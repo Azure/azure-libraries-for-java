@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.sql;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
@@ -19,6 +20,7 @@ import org.joda.time.DateTime;
  * An immutable client-side representation of an Azure SQL database's Restore Point.
  */
 @Fluent
+@Beta(Beta.SinceVersion.V1_7_0)
 public interface RestorePoint extends
         HasInner<RestorePointInner>,
         HasResourceGroup,
@@ -33,6 +35,12 @@ public interface RestorePoint extends
      * @return name of the SQL Database to which this replication belongs
      */
     String databaseName();
+
+    /**
+     * @return the ID of the SQL Database to which this replication belongs
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    String databaseId();
 
     /**
      * @return the restore point type of the Azure SQL Database restore point.

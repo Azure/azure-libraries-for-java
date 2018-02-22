@@ -6,18 +6,25 @@
 
 package com.microsoft.azure.management.sql;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.sql.implementation.ServerMetricInner;
+import com.microsoft.azure.management.sql.implementation.ServerUsageInner;
 import org.joda.time.DateTime;
-
 
 /**
  * An immutable client-side representation of an Azure SQL ServerMetric.
  */
 @Fluent
+@Beta(Beta.SinceVersion.V1_7_0)
 public interface ServerMetric extends
-        HasInner<ServerMetricInner> {
+    HasInner<ServerUsageInner> {
+
+    /**
+     * @return Name of the server usage metric
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    String name();
 
     /**
      * @return the name of the resource
@@ -49,4 +56,3 @@ public interface ServerMetric extends
      */
     DateTime nextResetTime();
 }
-

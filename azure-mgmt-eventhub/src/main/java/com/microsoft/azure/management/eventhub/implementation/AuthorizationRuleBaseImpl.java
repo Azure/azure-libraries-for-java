@@ -76,7 +76,7 @@ abstract class AuthorizationRuleBaseImpl<RuleT extends AuthorizationRule<RuleT>,
 
 
     @SuppressWarnings("unchecked")
-    public RuleImpl withListeningEnabled() {
+    public RuleImpl withListenAccess() {
         if (this.inner().rights() == null) {
             this.inner().withRights(new ArrayList<AccessRights>());
         }
@@ -87,7 +87,7 @@ abstract class AuthorizationRuleBaseImpl<RuleT extends AuthorizationRule<RuleT>,
     }
 
     @SuppressWarnings("unchecked")
-    public RuleImpl withSendingEnabled() {
+    public RuleImpl withSendAccess() {
         if (this.inner().rights() == null) {
             this.inner().withRights(new ArrayList<AccessRights>());
         }
@@ -98,9 +98,9 @@ abstract class AuthorizationRuleBaseImpl<RuleT extends AuthorizationRule<RuleT>,
     }
 
     @SuppressWarnings("unchecked")
-    public RuleImpl withManagementEnabled() {
-        withListeningEnabled();
-        withSendingEnabled();
+    public RuleImpl withManageAccess() {
+        withListenAccess();
+        withSendAccess();
         if (!this.inner().rights().contains(AccessRights.MANAGE)) {
             this.inner().rights().add(AccessRights.MANAGE);
         }

@@ -9,6 +9,7 @@ package com.microsoft.azure.management.eventhub;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.eventhub.implementation.ArmDisasterRecoveryInner;
 import com.microsoft.azure.management.eventhub.implementation.EventHubManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
@@ -68,6 +69,7 @@ public interface EventHubDisasterRecoveryPairing extends
     /**
      * Break the pairing between a primary and secondary namespace.
      */
+    @Method
     @Beta(Beta.SinceVersion.V1_7_0)
     void breakPairing();
     /**
@@ -80,6 +82,7 @@ public interface EventHubDisasterRecoveryPairing extends
     /**
      * Perform fail over so that the secondary namespace becomes the primary.
      */
+    @Method
     @Beta(Beta.SinceVersion.V1_7_0)
     void failOver();
     /**

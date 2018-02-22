@@ -14,13 +14,12 @@ import com.microsoft.azure.management.eventhub.EntityStatus;
 import com.microsoft.azure.management.eventhub.CaptureDescription;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
 
 /**
  * Single item in List or Get Event Hub operation.
  */
 @JsonFlatten
-public class EventhubInner extends Resource {
+public class EventhubInner extends NestedResourceInner {
     /**
      * Current number of shards on the Event Hub.
      */

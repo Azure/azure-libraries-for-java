@@ -12,13 +12,12 @@ import com.microsoft.azure.management.eventhub.ProvisioningStateDR;
 import com.microsoft.azure.management.eventhub.RoleDisasterRecovery;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
 
 /**
  * Single item in List or Get Alias(Disaster Recovery configuration) operation.
  */
 @JsonFlatten
-public class ArmDisasterRecoveryInner extends Resource {
+public class ArmDisasterRecoveryInner extends NestedResourceInner {
     /**
      * Provisioning state of the Alias(Disaster Recovery configuration) -
      * possible values 'Accepted' or 'Succeeded' or 'Failed'. Possible values

@@ -14,6 +14,9 @@ import com.microsoft.azure.management.appservice.PricingTier;
 import com.microsoft.azure.management.appservice.RuntimeStack;
 import com.microsoft.azure.management.appservice.WebApp;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import rx.Completable;
+
+import java.io.File;
 
 /**
  * The implementation for WebApp.
@@ -36,9 +39,11 @@ class WebAppImpl
     private static final String SETTING_REGISTRY_PASSWORD = "DOCKER_REGISTRY_SERVER_PASSWORD";
 
     private DeploymentSlots deploymentSlots;
+    private KuduClient kuduClient;
 
     WebAppImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
         super(name, innerObject, configObject, manager);
+        kuduClient = new KuduClient(this);
     }
 
     @Override
@@ -172,5 +177,15 @@ class WebAppImpl
     @Override
     public WebAppImpl withNewLinuxPlan(Creatable<AppServicePlan> appServicePlanCreatable) {
         return super.withNewAppServicePlan(appServicePlanCreatable);
+    }
+
+    @Override
+    public Completable warDeployAsync(File warFile) {
+        return kuduClient.warDeployAsync(warFile);
+    }
+
+    @Override
+    public void warDeploy(File warFile) {
+        warDeployAsync(warFile).await();
     }
 }

@@ -10,7 +10,6 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServicePlan;
@@ -23,28 +22,17 @@ import com.microsoft.azure.management.appservice.WebAppSourceControl;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.LogLevel;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import retrofit2.http.Body;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
-import retrofit2.http.Streaming;
 import rx.Completable;
 import rx.Observable;
 import rx.exceptions.Exceptions;
 import rx.functions.Func1;
-import rx.functions.Func2;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * The base implementation for web apps and function apps.
@@ -62,18 +50,9 @@ abstract class AppServiceBaseImpl<
     FluentUpdateT>
         extends WebAppBaseImpl<FluentT, FluentImplT> {
 
-    private final KuduService kuduService;
-
     AppServiceBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
         super(name, innerObject, configObject, manager);
         String defaultHostName = defaultHostName().startsWith("http") ? defaultHostName() : "http://" + defaultHostName();
-        kuduService = manager.restClient().newBuilder()
-                .withBaseUrl("https://" + defaultHostName.replace("http://", "").replace(name, name + ".scm"))
-                .withLogLevel(LogLevel.BODY_AND_HEADERS)
-                .withConnectionTimeout(3, TimeUnit.MINUTES)
-                .withReadTimeout(3, TimeUnit.MINUTES)
-                .build()
-                .retrofit().create(KuduService.class);
     }
 
     @Override
@@ -442,47 +421,5 @@ abstract class AppServiceBaseImpl<
         inner().withServerFarmId(appServicePlan.id());
         this.withRegion(appServicePlan.regionName());
         return withOperatingSystem(appServicePlan.operatingSystem());
-    }
-
-    private interface KuduService {
-        @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps warDeploy", "x-ms-body-logging: false" })
-        @POST("api/wardeploy")
-        @Streaming
-        Observable<Void> warDeploy(@Body RequestBody warFile);
-    }
-
-    public Completable warDeployAsync(File warFile) {
-        try {
-            RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(new FileInputStream(warFile)));
-            return kuduService.warDeploy(body)
-                    .toCompletable()
-                    .retryWhen(new Func1<Observable<? extends Throwable>, Observable<?>>() {
-                        @Override
-                        public Observable<?> call(Observable<? extends Throwable> observable) {
-                            return observable.zipWith(Observable.range(1, 30), new Func2<Throwable, Integer, Integer>() {
-                                @Override
-                                public Integer call(Throwable throwable, Integer integer) {
-                                    if (throwable instanceof CloudException
-                                            && ((CloudException) throwable).response().code() == 502) {
-                                        return integer;
-                                    } else {
-                                        throw Exceptions.propagate(throwable);
-                                    }
-                                }
-                            }).flatMap(new Func1<Integer, Observable<?>>() {
-                                @Override
-                                public Observable<?> call(Integer i) {
-                                    return Observable.timer(i, TimeUnit.SECONDS);
-                                }
-                            });
-                        }
-                    });
-        } catch (IOException e) {
-            return Completable.error(e);
-        }
-    }
-
-    public void warDeploy(File warFile) {
-        warDeployAsync(warFile).await();
     }
 }

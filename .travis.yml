@@ -24,6 +24,7 @@ script:
    export AZURE_AUTH_LOCATION=$TRAVIS_BUILD_DIR/my.azureauth.txt || travis_terminate 1 ;
    mvn -Dorg.slf4j.simpleLogger.defaultLogLevel=error || travis_terminate 1 ;
   fi
+  if [ ${TRAVIS_EVENT_TYPE} = "push" ]; then
   image=azuresdk-a01-droid:java-$TRAVIS_BUILD_NUMBER
   docker build -t $image -f Dockerfile .
   docker images
@@ -35,4 +36,5 @@ script:
   docker tag azuresdk-a01-droid:java-$TRAVIS_BUILD_NUMBER azureclidev.azurecr.io/azuresdk-a01-droid:java-latest
   docker push azureclidev.azurecr.io/azuresdk-a01-droid:java-$TRAVIS_BUILD_NUMBER
   docker push azureclidev.azurecr.io/azuresdk-a01-droid:java-latest
+  fi
 

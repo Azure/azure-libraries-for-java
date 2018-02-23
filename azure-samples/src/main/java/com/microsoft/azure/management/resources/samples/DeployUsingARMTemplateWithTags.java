@@ -162,7 +162,7 @@ public final class DeployUsingARMTemplateWithTags {
         final ObjectMapper mapper = new ObjectMapper();
         final ObjectNode parameter = mapper.createObjectNode();
         parameter.put("type", type);
-        if (type == "int") {
+        if ("int".equals(type)) {
             parameter.put("defaultValue", Integer.parseInt(fieldValue));
         } else {
             parameter.put("defaultValue", fieldValue);

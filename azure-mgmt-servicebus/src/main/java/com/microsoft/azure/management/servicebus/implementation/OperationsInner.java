@@ -80,7 +80,7 @@ public class OperationsInner {
             @Override
             public Page<OperationInner> nextPage(String nextPageLink) {
                 // Temporary work-around for https://github.com/Azure/azure-sdk-for-java/issues/1641
-                if (nextPageLink == "") {
+                if (nextPageLink.isEmpty()) {
                     PageImpl<OperationInner> emptyPage = new PageImpl<>();
                     emptyPage.setItems(new ArrayList<OperationInner>());
                     return emptyPage;

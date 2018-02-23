@@ -9,7 +9,6 @@ package com.microsoft.azure.management.appservice.implementation;
 import com.google.common.io.ByteStreams;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.appservice.WebAppBase;
-import com.microsoft.rest.LogLevel;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -44,7 +43,6 @@ class KuduClient {
                 .withBaseUrl("https://" + webAppBase.defaultHostName()
                         .replace("http://", "")
                         .replace(webAppBase.name(), webAppBase.name() + ".scm"))
-                .withLogLevel(LogLevel.BODY_AND_HEADERS)
                 .withConnectionTimeout(3, TimeUnit.MINUTES)
                 .withReadTimeout(3, TimeUnit.MINUTES)
                 .build()

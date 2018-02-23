@@ -98,7 +98,12 @@ class EventHubImpl
         if (this.inner().captureDescription() == null) {
             return 0;
         }
-        return Utils.toPrimitiveInt(this.inner().captureDescription().sizeLimitInBytes());
+        int inBytes = Utils.toPrimitiveInt(this.inner().captureDescription().sizeLimitInBytes());
+        if (inBytes != 0) {
+            return inBytes / (1024 * 1024);
+        } else {
+            return 0;
+        }
     }
 
     @Override

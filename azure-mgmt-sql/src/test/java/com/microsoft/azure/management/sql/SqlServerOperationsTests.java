@@ -10,7 +10,9 @@ import com.microsoft.azure.management.resources.core.TestUtilities;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.management.storage.StorageAccount;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -27,6 +29,167 @@ public class SqlServerOperationsTests extends SqlServerTest {
     private static final String SQL_FIREWALLRULE_NAME = "firewallrule1";
     private static final String START_IPADDRESS = "10.102.1.10";
     private static final String END_IPADDRESS = "10.102.1.12";
+
+
+    @Test
+    public void canCRUDSqlServerWithImportDatabase() throws Exception {
+        if (isPlaybackMode()) {
+            // The test makes calls to the Azure Storage data plane APIs which are not mocked at this time.
+            return;
+        }
+        // Create
+
+        String rgName = RG_NAME;
+        String sqlServerName = SQL_SERVER_NAME;
+        String sqlServerAdminName = "sqladmin";
+        String sqlServerAdminPassword = "N0t@P@ssw0rd!";
+        String id = SdkContext.randomUuid();
+        String storageName = SdkContext.randomResourceName(SQL_SERVER_NAME, 22);
+
+        SqlServer sqlServer = sqlServerManager
+            .sqlServers()
+            .define(sqlServerName)
+                .withRegion(Region.US_EAST)
+                .withNewResourceGroup(rgName)
+                .withAdministratorLogin(sqlServerAdminName)
+                .withAdministratorPassword(sqlServerAdminPassword)
+                .withActiveDirectoryAdministrator("DSEng", id)
+                .create();
+
+        SqlDatabase dbFromSample = sqlServer.databases()
+            .define("db-from-sample")
+            .fromSample(SampleName.ADVENTURE_WORKS_LT)
+            .withBasicEdition()
+            .create();
+        Assert.assertNotNull(dbFromSample);
+        Assert.assertEquals(DatabaseEditions.BASIC, dbFromSample.edition());
+
+        SqlDatabaseImportExportResponse exportedDB;
+        StorageAccount storageAccount = storageManager.storageAccounts().getByResourceGroup(sqlServer.resourceGroupName(), storageName);
+        if (storageAccount == null) {
+            Creatable<StorageAccount> storageAccountCreatable = storageManager.storageAccounts()
+                .define(storageName)
+                .withRegion(sqlServer.regionName())
+                .withExistingResourceGroup(sqlServer.resourceGroupName());
+
+            exportedDB = dbFromSample.exportTo(storageAccountCreatable, "from-sample", "dbfromsample.bacpac")
+                .withSqlAdministratorLoginAndPassword(sqlServerAdminName, sqlServerAdminPassword)
+                .execute();
+            storageAccount = storageManager.storageAccounts().getByResourceGroup(sqlServer.resourceGroupName(), storageName);
+        } else {
+            exportedDB = dbFromSample.exportTo(storageAccount, "from-sample", "dbfromsample.bacpac")
+                .withSqlAdministratorLoginAndPassword(sqlServerAdminName, sqlServerAdminPassword)
+                .execute();
+        }
+
+        SqlDatabase dbFromImport = sqlServer.databases()
+            .define("db-from-import")
+            .defineElasticPool("ep1")
+                .withBasicPool()
+                .attach()
+            .importFrom(storageAccount, "from-sample", "dbfromsample.bacpac")
+            .withSqlAdministratorLoginAndPassword(sqlServerAdminName, sqlServerAdminPassword)
+            .create();
+        Assert.assertNotNull(dbFromImport);
+        Assert.assertEquals("ep1", dbFromImport.elasticPoolName());
+
+        dbFromImport.delete();
+        dbFromSample.delete();
+        sqlServer.elasticPools().delete("ep1");
+        sqlServerManager.sqlServers().deleteByResourceGroup(rgName, sqlServerName);
+    }
+
+    @Test
+    public void canCRUDSqlServerWithFirewallRule() throws Exception {
+        // Create
+
+        String rgName = RG_NAME;
+        String sqlServerName = SQL_SERVER_NAME;
+        String sqlServerAdminName = "sqladmin";
+        String id = SdkContext.randomUuid();
+
+        SqlServer sqlServer = sqlServerManager
+            .sqlServers()
+                .define(SQL_SERVER_NAME)
+                    .withRegion(Region.US_CENTRAL)
+                    .withNewResourceGroup(RG_NAME)
+                    .withAdministratorLogin(sqlServerAdminName)
+                    .withAdministratorPassword("N0t@P@ssw0rd!")
+                    .withActiveDirectoryAdministrator("DSEng", id)
+                    .withoutAccessFromAzureServices()
+                    .defineFirewallRule("somefirewallrule1")
+                        .withIPAddress("0.0.0.1")
+                        .attach()
+                    .create();
+        Assert.assertEquals(sqlServerAdminName, sqlServer.administratorLogin());
+        Assert.assertEquals("v12.0", sqlServer.kind());
+        Assert.assertEquals("12.0", sqlServer.version());
+
+        sqlServer = sqlServerManager.sqlServers().getByResourceGroup(RG_NAME, SQL_SERVER_NAME);
+        Assert.assertEquals(sqlServerAdminName, sqlServer.administratorLogin());
+        Assert.assertEquals("v12.0", sqlServer.kind());
+        Assert.assertEquals("12.0", sqlServer.version());
+
+        SqlActiveDirectoryAdministrator sqlADAdmin = sqlServer.getActiveDirectoryAdministrator();
+        Assert.assertNotNull(sqlADAdmin);
+        Assert.assertEquals("DSEng", sqlADAdmin.signInName());
+        Assert.assertNotNull(sqlADAdmin.id());
+        Assert.assertEquals("ActiveDirectory", sqlADAdmin.administratorType());
+
+        sqlADAdmin = sqlServer.setActiveDirectoryAdministrator("DSEngAll", id);
+        Assert.assertNotNull(sqlADAdmin);
+        Assert.assertEquals("DSEngAll", sqlADAdmin.signInName());
+        Assert.assertNotNull(sqlADAdmin.id());
+        Assert.assertEquals("ActiveDirectory", sqlADAdmin.administratorType());
+        sqlServer.removeActiveDirectoryAdministrator();
+        sqlADAdmin = sqlServer.getActiveDirectoryAdministrator();
+        Assert.assertNull(sqlADAdmin);
+
+        SqlFirewallRule firewallRule = sqlServerManager.sqlServers().firewallRules().getBySqlServer(RG_NAME, SQL_SERVER_NAME, "somefirewallrule1");
+        Assert.assertEquals("0.0.0.1", firewallRule.startIPAddress());
+        Assert.assertEquals("0.0.0.1", firewallRule.endIPAddress());
+
+        firewallRule = sqlServerManager.sqlServers().firewallRules().getBySqlServer(RG_NAME, SQL_SERVER_NAME, "AllowAllWindowsAzureIps");
+        Assert.assertNull(firewallRule);
+
+        sqlServer.enableAccessFromAzureServices();
+        firewallRule = sqlServerManager.sqlServers().firewallRules().getBySqlServer(RG_NAME, SQL_SERVER_NAME, "AllowAllWindowsAzureIps");
+        Assert.assertEquals("0.0.0.0", firewallRule.startIPAddress());
+        Assert.assertEquals("0.0.0.0", firewallRule.endIPAddress());
+
+        sqlServer.update()
+            .withNewFirewallRule("0.0.0.2", "0.0.0.2", "newFirewallRule1")
+            .apply();
+        sqlServer.firewallRules().delete("newFirewallRule2");
+        Assert.assertNull(sqlServer.firewallRules().get("newFirewallRule2"));
+
+        firewallRule = sqlServerManager.sqlServers().firewallRules()
+            .define("newFirewallRule2")
+            .withExistingSqlServer(RG_NAME, SQL_SERVER_NAME)
+            .withIPAddress("0.0.0.3")
+            .create();
+
+        Assert.assertEquals("0.0.0.3", firewallRule.startIPAddress());
+        Assert.assertEquals("0.0.0.3", firewallRule.endIPAddress());
+
+        firewallRule = firewallRule.update().withStartIPAddress("0.0.0.1").apply();
+
+        Assert.assertEquals("0.0.0.1", firewallRule.startIPAddress());
+        Assert.assertEquals("0.0.0.3", firewallRule.endIPAddress());
+
+        sqlServer.firewallRules().delete("somefirewallrule1");
+        firewallRule = sqlServerManager.sqlServers().firewallRules().getBySqlServer(RG_NAME, SQL_SERVER_NAME, "somefirewallrule1");
+        Assert.assertNull(firewallRule);
+
+        firewallRule = sqlServer.firewallRules().define("somefirewallrule2")
+            .withIPAddress("0.0.0.4")
+            .create();
+
+        Assert.assertEquals("0.0.0.4", firewallRule.startIPAddress());
+        Assert.assertEquals("0.0.0.4", firewallRule.endIPAddress());
+
+        firewallRule.delete();
+    }
 
     @Ignore("Depends on the existing SQL server")
     @Test
@@ -85,6 +248,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .withNewResourceGroup(RG_NAME)
                 .withAdministratorLogin("userName")
                 .withAdministratorPassword("Password~1")
+                .withoutAccessFromAzureServices()
                 .withNewDatabase(SQL_DATABASE_NAME)
                 .withNewDatabase(database2Name)
                 .withNewElasticPool(elasticPool1Name, ElasticPoolEditions.STANDARD)
@@ -434,12 +598,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
         databaseInElasticPool.refresh();
 
         // Validate that trying to get an invalid database from elastic pool returns null.
-        try {
-            elasticPool.getDatabase("does_not_exist");
-            Assert.assertNotNull(null);
-        }
-        catch(Exception ex) {
-        }
+        SqlDatabase db_which_does_not_exist = elasticPool.getDatabase("does_not_exist");
+        Assert.assertNull(db_which_does_not_exist);
 
         // Delete
         sqlServer.databases().delete(SQL_DATABASE_NAME);
@@ -662,7 +822,6 @@ public class SqlServerOperationsTests extends SqlServerTest {
                     .withoutElasticPool(elasticPool1Name)
                     .withoutElasticPool(elasticPool2Name)
                     .withoutElasticPool(elasticPool3Name)
-                    .withoutElasticPool(elasticPool1Name)
                     .withoutDatabase(database1InEPName)
                     .withoutDatabase(SQL_DATABASE_NAME)
                     .withoutDatabase(database2InEPName)
@@ -774,7 +933,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Assert.assertNotNull(sqlServer);
         Assert.assertEquals(RG_NAME, sqlServer.resourceGroupName());
         Assert.assertNotNull(sqlServer.fullyQualifiedDomainName());
-        Assert.assertEquals(ServerVersion.ONE_TWO_FULL_STOP_ZERO, sqlServer.version());
+//        Assert.assertEquals(ServerVersion.ONE_TWO_FULL_STOP_ZERO, sqlServer.version());
         Assert.assertEquals("userName", sqlServer.administratorLogin());
     }
 

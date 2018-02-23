@@ -8,67 +8,52 @@
 
 package com.microsoft.azure.management.sql;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for CreateMode.
  */
-public final class CreateMode {
+public final class CreateMode extends ExpandableStringEnum<CreateMode> {
     /** Static value Copy for CreateMode. */
-    public static final CreateMode COPY = new CreateMode("Copy");
+    public static final CreateMode COPY = fromString("Copy");
 
     /** Static value Default for CreateMode. */
-    public static final CreateMode DEFAULT = new CreateMode("Default");
+    public static final CreateMode DEFAULT = fromString("Default");
 
     /** Static value NonReadableSecondary for CreateMode. */
-    public static final CreateMode NON_READABLE_SECONDARY = new CreateMode("NonReadableSecondary");
+    public static final CreateMode NON_READABLE_SECONDARY = fromString("NonReadableSecondary");
 
     /** Static value OnlineSecondary for CreateMode. */
-    public static final CreateMode ONLINE_SECONDARY = new CreateMode("OnlineSecondary");
+    public static final CreateMode ONLINE_SECONDARY = fromString("OnlineSecondary");
 
     /** Static value PointInTimeRestore for CreateMode. */
-    public static final CreateMode POINT_IN_TIME_RESTORE = new CreateMode("PointInTimeRestore");
+    public static final CreateMode POINT_IN_TIME_RESTORE = fromString("PointInTimeRestore");
 
     /** Static value Recovery for CreateMode. */
-    public static final CreateMode RECOVERY = new CreateMode("Recovery");
+    public static final CreateMode RECOVERY = fromString("Recovery");
 
     /** Static value Restore for CreateMode. */
-    public static final CreateMode RESTORE = new CreateMode("Restore");
+    public static final CreateMode RESTORE = fromString("Restore");
 
-    private String value;
+    /** Static value RestoreLongTermRetentionBackup for CreateMode. */
+    public static final CreateMode RESTORE_LONG_TERM_RETENTION_BACKUP = fromString("RestoreLongTermRetentionBackup");
 
     /**
-     * Creates a custom value for CreateMode.
-     * @param value the custom value
+     * Creates or finds a CreateMode from its string representation.
+     * @param name a name to look for
+     * @return the corresponding CreateMode
      */
-    public CreateMode(String value) {
-        this.value = value;
+    @JsonCreator
+    public static CreateMode fromString(String name) {
+        return fromString(name, CreateMode.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof CreateMode)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        CreateMode rhs = (CreateMode) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known CreateMode values
+     */
+    public static Collection<CreateMode> values() {
+        return values(CreateMode.class);
     }
 }

@@ -7,18 +7,17 @@
 package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.sql.ElasticPoolEditions;
 import com.microsoft.azure.management.sql.RecommendedElasticPool;
 import com.microsoft.azure.management.sql.RecommendedElasticPoolMetric;
 import com.microsoft.azure.management.sql.SqlDatabase;
 import org.joda.time.DateTime;
 import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,13 +28,11 @@ class RecommendedElasticPoolImpl
         extends RefreshableWrapperImpl<RecommendedElasticPoolInner, RecommendedElasticPool>
         implements RecommendedElasticPool {
 
-    private final ResourceId resourceId;
-    private final SqlServerManager manager;
+    private final SqlServerImpl sqlServer;
 
-    protected RecommendedElasticPoolImpl(RecommendedElasticPoolInner innerObject, SqlServerManager manager) {
+    protected RecommendedElasticPoolImpl(RecommendedElasticPoolInner innerObject, SqlServerImpl sqlServer) {
         super(innerObject);
-        this.resourceId = ResourceId.fromString(this.inner().id());
-        this.manager = manager;
+        this.sqlServer = sqlServer;
     }
 
     @Override
@@ -46,12 +43,12 @@ class RecommendedElasticPoolImpl
 
     @Override
     public SqlServerManager manager() {
-        return this.manager;
+        return this.sqlServer.manager();
     }
 
     @Override
     public String sqlServerName() {
-        return this.resourceId.parent().name();
+        return this.sqlServer.name();
     }
 
     @Override
@@ -104,52 +101,88 @@ class RecommendedElasticPoolImpl
         ArrayList<SqlDatabase> databases = new ArrayList<>();
 
         for (DatabaseInner databaseInner : this.inner().databases()) {
-            databases.add(new SqlDatabaseImpl(databaseInner.name(), databaseInner, this.manager()));
+            databases.add(new SqlDatabaseImpl(databaseInner.name(), this.sqlServer, databaseInner, this.manager()));
         }
 
-        return databases;
+        return Collections.unmodifiableList(databases);
     }
 
     @Override
     public List<SqlDatabase> listDatabases() {
-        final RecommendedElasticPoolImpl self = this;
-        PagedListConverter<DatabaseInner, SqlDatabase> converter = new PagedListConverter<DatabaseInner, SqlDatabase>() {
-            @Override
-            public Observable<SqlDatabase> typeConvertAsync(DatabaseInner databaseInner) {
-                return Observable.just((SqlDatabase) new SqlDatabaseImpl(databaseInner.name(), databaseInner, self.manager()));
+        List<SqlDatabase> databasesList = new ArrayList<>();
+        List<DatabaseInner> databaseInners = this.sqlServer.manager().inner().databases().listByRecommendedElasticPool(
+            this.sqlServer.resourceGroupName(),
+            this.sqlServer.name(),
+            this.name());
+        if (databaseInners != null) {
+            for (DatabaseInner inner : databaseInners) {
+                databasesList.add(new SqlDatabaseImpl(inner.name(), this.sqlServer, inner, this.manager()));
             }
-        };
-        return converter.convert(ReadableWrappersImpl.convertToPagedList(
-                this.manager().inner().recommendedElasticPools().listDatabases(
-                        this.resourceGroupName(),
-                        this.sqlServerName(),
-                        this.name())));
+        }
+        return Collections.unmodifiableList(databasesList);
+    }
+
+    @Override
+    public Observable<SqlDatabase> listDatabasesAsync() {
+        final RecommendedElasticPoolImpl self = this;
+        return this.sqlServer.manager().inner().databases().listByRecommendedElasticPoolAsync(
+            this.sqlServer.resourceGroupName(),
+            this.sqlServer.name(),
+            this.name())
+            .flatMap(new Func1<List<DatabaseInner>, Observable<DatabaseInner>>() {
+                @Override
+                public Observable<DatabaseInner> call(List<DatabaseInner> databaseInners) {
+                    return Observable.from(databaseInners);
+                }
+            }).map(new Func1<DatabaseInner, SqlDatabase>() {
+                @Override
+                public SqlDatabase call(DatabaseInner databaseInner) {
+                    return new SqlDatabaseImpl(databaseInner.name(), self.sqlServer, databaseInner, self.manager());
+                }
+            });
     }
 
     @Override
     public SqlDatabase getDatabase(String databaseName) {
-        DatabaseInner databaseInner = this.manager().inner().recommendedElasticPools().getDatabases(
-                this.resourceGroupName(),
-                this.sqlServerName(),
-                this.name(),
-                databaseName);
+        DatabaseInner databaseInner = this.sqlServer.manager().inner().databases().getByRecommendedElasticPool(
+            this.sqlServer.resourceGroupName(),
+            this.sqlServer.name(),
+            this.name(),
+            databaseName);
 
-        return new SqlDatabaseImpl(databaseInner.name(), databaseInner, this.manager());
+        return new SqlDatabaseImpl(databaseInner.name(), this.sqlServer, databaseInner, this.manager());
+    }
+
+    @Override
+    public Observable<SqlDatabase> getDatabaseAsync(String databaseName) {
+        final RecommendedElasticPoolImpl self = this;
+        return this.sqlServer.manager().inner().databases().getByRecommendedElasticPoolAsync(
+                this.sqlServer.resourceGroupName(),
+                this.sqlServer.name(),
+                this.name(),
+                databaseName)
+            .map(new Func1<DatabaseInner, SqlDatabase>() {
+                @Override
+                public SqlDatabase call(DatabaseInner databaseInner) {
+                    return new SqlDatabaseImpl(databaseInner.name(), self.sqlServer, databaseInner, self.manager());
+                }
+            });
     }
 
     @Override
     public List<RecommendedElasticPoolMetric> listMetrics() {
-        PagedListConverter<RecommendedElasticPoolMetricInner, RecommendedElasticPoolMetric> converter = new PagedListConverter<RecommendedElasticPoolMetricInner, RecommendedElasticPoolMetric>() {
-            @Override
-            public Observable<RecommendedElasticPoolMetric> typeConvertAsync(RecommendedElasticPoolMetricInner recommendedElasticPoolMetricInner) {
-                return Observable.just((RecommendedElasticPoolMetric) new RecommendedElasticPoolMetricImpl(recommendedElasticPoolMetricInner));
-            }
-        };
-        return converter.convert(ReadableWrappersImpl.convertToPagedList(
-                this.manager().inner().recommendedElasticPools().listMetrics(
+        List<RecommendedElasticPoolMetric> recommendedElasticPoolMetrics = new ArrayList<>();
+        List<RecommendedElasticPoolMetricInner> recommendedElasticPoolMetricInners = this.sqlServer.manager().inner()
+            .recommendedElasticPools().listMetrics(
                         this.resourceGroupName(),
                         this.sqlServerName(),
-                        this.name())));
+                        this.name());
+        if (recommendedElasticPoolMetricInners != null) {
+            for (RecommendedElasticPoolMetricInner inner : recommendedElasticPoolMetricInners) {
+                recommendedElasticPoolMetrics.add(new RecommendedElasticPoolMetricImpl(inner));
+            }
+        }
+        return Collections.unmodifiableList(recommendedElasticPoolMetrics);
     }
 
     @Override
@@ -164,6 +197,6 @@ class RecommendedElasticPoolImpl
 
     @Override
     public String resourceGroupName() {
-        return this.resourceId.resourceGroupName();
+        return this.sqlServer.resourceGroupName();
     }
 }

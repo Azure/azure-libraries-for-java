@@ -407,7 +407,7 @@ public final class Azure {
         this.cdnManager = CdnManager.authenticate(restClient, subscriptionId);
         this.dnsZoneManager = DnsZoneManager.authenticate(restClient, subscriptionId);
         this.appServiceManager = AppServiceManager.authenticate(restClient, tenantId, subscriptionId);
-        this.sqlServerManager = SqlServerManager.authenticate(restClient, subscriptionId);
+        this.sqlServerManager = SqlServerManager.authenticate(restClient, tenantId, subscriptionId);
         this.serviceBusManager = ServiceBusManager.authenticate(restClient, subscriptionId);
         this.containerInstanceManager = ContainerInstanceManager.authenticate(restClient, subscriptionId);
         this.containerRegistryManager = ContainerRegistryManager.authenticate(restClient, subscriptionId);

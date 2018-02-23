@@ -8,70 +8,73 @@
 
 package com.microsoft.azure.management.sql;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ServiceObjectiveName.
  */
-public final class ServiceObjectiveName {
+public final class ServiceObjectiveName extends ExpandableStringEnum<ServiceObjectiveName> {
     /** Static value Basic for ServiceObjectiveName. */
-    public static final ServiceObjectiveName BASIC = new ServiceObjectiveName("Basic");
+    public static final ServiceObjectiveName BASIC = fromString("Basic");
 
     /** Static value S0 for ServiceObjectiveName. */
-    public static final ServiceObjectiveName S0 = new ServiceObjectiveName("S0");
+    public static final ServiceObjectiveName S0 = fromString("S0");
 
     /** Static value S1 for ServiceObjectiveName. */
-    public static final ServiceObjectiveName S1 = new ServiceObjectiveName("S1");
+    public static final ServiceObjectiveName S1 = fromString("S1");
 
     /** Static value S2 for ServiceObjectiveName. */
-    public static final ServiceObjectiveName S2 = new ServiceObjectiveName("S2");
+    public static final ServiceObjectiveName S2 = fromString("S2");
 
     /** Static value S3 for ServiceObjectiveName. */
-    public static final ServiceObjectiveName S3 = new ServiceObjectiveName("S3");
+    public static final ServiceObjectiveName S3 = fromString("S3");
 
     /** Static value P1 for ServiceObjectiveName. */
-    public static final ServiceObjectiveName P1 = new ServiceObjectiveName("P1");
+    public static final ServiceObjectiveName P1 = fromString("P1");
 
     /** Static value P2 for ServiceObjectiveName. */
-    public static final ServiceObjectiveName P2 = new ServiceObjectiveName("P2");
+    public static final ServiceObjectiveName P2 = fromString("P2");
 
     /** Static value P3 for ServiceObjectiveName. */
-    public static final ServiceObjectiveName P3 = new ServiceObjectiveName("P3");
+    public static final ServiceObjectiveName P3 = fromString("P3");
 
-    private String value;
+    /** Static value P4 for ServiceObjectiveName. */
+    public static final ServiceObjectiveName P4 = fromString("P4");
+
+    /** Static value P6 for ServiceObjectiveName. */
+    public static final ServiceObjectiveName P6 = fromString("P6");
+
+    /** Static value P11 for ServiceObjectiveName. */
+    public static final ServiceObjectiveName P11 = fromString("P11");
+
+    /** Static value P15 for ServiceObjectiveName. */
+    public static final ServiceObjectiveName P15 = fromString("P15");
+
+    /** Static value System for ServiceObjectiveName. */
+    public static final ServiceObjectiveName SYSTEM = fromString("System");
+
+    /** Static value System2 for ServiceObjectiveName. */
+    public static final ServiceObjectiveName SYSTEM2 = fromString("System2");
+
+    /** Static value ElasticPool for ServiceObjectiveName. */
+    public static final ServiceObjectiveName ELASTIC_POOL = fromString("ElasticPool");
 
     /**
-     * Creates a custom value for ServiceObjectiveName.
-     * @param value the custom value
+     * Creates or finds a ServiceObjectiveName from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ServiceObjectiveName
      */
-    public ServiceObjectiveName(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ServiceObjectiveName fromString(String name) {
+        return fromString(name, ServiceObjectiveName.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ServiceObjectiveName)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ServiceObjectiveName rhs = (ServiceObjectiveName) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ServiceObjectiveName values
+     */
+    public static Collection<ServiceObjectiveName> values() {
+        return values(ServiceObjectiveName.class);
     }
 }

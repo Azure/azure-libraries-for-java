@@ -10,6 +10,8 @@ import com.microsoft.azure.management.sql.samples.ManageSqlDatabase;
 import com.microsoft.azure.management.sql.samples.ManageSqlDatabaseInElasticPool;
 import com.microsoft.azure.management.sql.samples.ManageSqlDatabasesAcrossDifferentDataCenters;
 import com.microsoft.azure.management.sql.samples.ManageSqlFirewallRules;
+import com.microsoft.azure.management.sql.samples.ManageSqlImportExportDatabase;
+import com.microsoft.azure.management.sql.samples.ManageSqlWithRecoveredOrRestoredDatabase;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
@@ -44,4 +46,21 @@ public class SqlSampleTests extends SamplesTestBase {
     public void testManageSqlFirewallRules() {
         Assert.assertTrue(ManageSqlFirewallRules.runSample(azure));
     }
+
+    @Test
+    public void testManageSqlImportExportDatabase() {
+        // Skip test in "playback" mode due to HTTP calls made outside of the management plane which can not be recorded at this time
+        if (!isPlaybackMode()) {
+            Assert.assertTrue(ManageSqlImportExportDatabase.runSample(azure));
+        }
+    }
+
+    @Test
+    public void testManageSqlWithRecoveredOrRestoredDatabase() {
+        // Run test in "playback" mode only since dependent resources can take significant time to become available on the service side.
+        if (isPlaybackMode()) {
+            Assert.assertTrue(ManageSqlWithRecoveredOrRestoredDatabase.runSample(azure));
+        }
+    }
+
 }

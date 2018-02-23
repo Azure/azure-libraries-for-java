@@ -10,13 +10,12 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.management.sql.SqlSubResource;
 
 /**
- * Represents an Azure SQL Database Service Objective.
+ * Represents a database service objective.
  */
 @JsonFlatten
-public class ServiceObjectiveInner extends SqlSubResource {
+public class ServiceObjectiveInner extends ProxyResourceInner {
     /**
      * The name for the service objective.
      */
@@ -28,13 +27,13 @@ public class ServiceObjectiveInner extends SqlSubResource {
      * objective.
      */
     @JsonProperty(value = "properties.isDefault", access = JsonProperty.Access.WRITE_ONLY)
-    private Boolean isDefault;
+    private boolean isDefault;
 
     /**
      * Gets whether the service level objective is a system service objective.
      */
     @JsonProperty(value = "properties.isSystem", access = JsonProperty.Access.WRITE_ONLY)
-    private Boolean isSystem;
+    private boolean isSystem;
 
     /**
      * The description for the service level objective.
@@ -46,7 +45,7 @@ public class ServiceObjectiveInner extends SqlSubResource {
      * Gets whether the service level objective is enabled.
      */
     @JsonProperty(value = "properties.enabled", access = JsonProperty.Access.WRITE_ONLY)
-    private Boolean enabled;
+    private boolean enabled;
 
     /**
      * Get the serviceObjectiveName value.
@@ -62,7 +61,7 @@ public class ServiceObjectiveInner extends SqlSubResource {
      *
      * @return the isDefault value
      */
-    public Boolean isDefault() {
+    public boolean isDefault() {
         return this.isDefault;
     }
 
@@ -71,7 +70,7 @@ public class ServiceObjectiveInner extends SqlSubResource {
      *
      * @return the isSystem value
      */
-    public Boolean isSystem() {
+    public boolean isSystem() {
         return this.isSystem;
     }
 
@@ -89,7 +88,7 @@ public class ServiceObjectiveInner extends SqlSubResource {
      *
      * @return the enabled value
      */
-    public Boolean enabled() {
+    public boolean enabled() {
         return this.enabled;
     }
 

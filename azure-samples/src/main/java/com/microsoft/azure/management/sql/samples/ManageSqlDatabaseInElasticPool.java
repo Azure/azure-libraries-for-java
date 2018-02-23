@@ -27,7 +27,7 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Azure Storage sample for managing SQL Database -
+ * Azure SQL sample for managing SQL Database -
  *  - Create a SQL Server with elastic pool and 2 databases
  *  - Create another database and add it to elastic pool through database update
  *  - Create one more database and add it to elastic pool through elastic pool update.
@@ -177,7 +177,10 @@ public final class ManageSqlDatabaseInElasticPool {
             System.out.println("List and delete all databases from SQL Server");
             for (SqlDatabase databaseInServer: sqlServer.databases().list()) {
                 Utils.print(databaseInServer);
-                databaseInServer.delete();
+                // Can not delete reserved database "master"
+                if (!databaseInServer.name().equals("master")) {
+                    databaseInServer.delete();
+                }
             }
 
             // ============================================================

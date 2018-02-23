@@ -7,31 +7,31 @@
 package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.ListToMapConverter;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.management.sql.ElasticPoolEditions;
 import com.microsoft.azure.management.sql.RecommendedElasticPool;
 import com.microsoft.azure.management.sql.ServerMetric;
-import com.microsoft.azure.management.sql.ServerVersion;
 import com.microsoft.azure.management.sql.ServiceObjective;
-import com.microsoft.azure.management.sql.SqlDatabase;
-import com.microsoft.azure.management.sql.SqlElasticPool;
+import com.microsoft.azure.management.sql.SqlDatabaseOperations;
+import com.microsoft.azure.management.sql.SqlElasticPoolOperations;
 import com.microsoft.azure.management.sql.SqlFirewallRule;
+import com.microsoft.azure.management.sql.SqlFirewallRuleOperations;
+import com.microsoft.azure.management.sql.SqlRestorableDroppedDatabase;
 import com.microsoft.azure.management.sql.SqlServer;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Implementation for SqlServer and its parent interfaces.
@@ -48,25 +48,21 @@ public class SqlServerImpl
             SqlServer,
             SqlServer.Definition,
             SqlServer.Update {
-    private final Map<String, SqlElasticPool.DefinitionStages.WithCreate> elasticPoolCreatableMap;
-    private final Map<String, SqlFirewallRule.DefinitionStages.WithCreate> firewallRuleCreatableMap;
-    private final Map<String, SqlDatabase.DefinitionStages.WithAllDifferentOptions> databaseCreatableMap;
-    private FirewallRulesImpl firewallRulesImpl;
-    private ElasticPoolsImpl elasticPoolsImpl;
-    private DatabasesImpl databasesImpl;
-    private final List<String> elasticPoolsToDelete;
-    private final List<String> firewallRulesToDelete;
-    private final List<String> databasesToDelete;
+
+    private FunctionalTaskItem sqlADAdminCreator;
+    private boolean allowAzureServicesAccess;
+    private SqlFirewallRulesAsExternalChildResourcesImpl sqlFirewallRules;
+    private SqlElasticPoolsAsExternalChildResourcesImpl sqlElasticPools;
+    private SqlDatabasesAsExternalChildResourcesImpl sqlDatabases;
 
     protected SqlServerImpl(String name, ServerInner innerObject, SqlServerManager manager) {
         super(name, innerObject, manager);
-        this.databaseCreatableMap = new HashMap<>();
-        this.elasticPoolCreatableMap = new HashMap<>();
-        this.firewallRuleCreatableMap = new HashMap<>();
 
-        this.elasticPoolsToDelete = new ArrayList<>();
-        this.databasesToDelete = new ArrayList<>();
-        this.firewallRulesToDelete = new ArrayList<>();
+        this.sqlADAdminCreator = null;
+        this.allowAzureServicesAccess = true;
+        this.sqlFirewallRules = new SqlFirewallRulesAsExternalChildResourcesImpl(this, "SqlFirewallRule");
+        this.sqlElasticPools = new SqlElasticPoolsAsExternalChildResourcesImpl(this, "SqlElasticPool");
+        this.sqlDatabases = new SqlDatabasesAsExternalChildResourcesImpl(this, "SqlDatabase");
     }
 
     @Override
@@ -78,30 +74,65 @@ public class SqlServerImpl
     @Override
     public Observable<SqlServer> createResourceAsync() {
         final SqlServer self = this;
-
         return this.manager().inner().servers().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
-                .map(new Func1<ServerInner, SqlServer>() {
-                    @Override
-                    public SqlServer call(ServerInner serverInner) {
-                        setInner(serverInner);
-
-                        deleteChildResources();
-                        createOrUpdateChildResources();
-
-                        return self;
-                    }
-                });
+            .map(new Func1<ServerInner, SqlServer>() {
+                @Override
+                public SqlServer call(ServerInner serverInner) {
+                    setInner(serverInner);
+                    return self;
+                }
+            });
     }
 
+    @Override
+    public void beforeGroupCreateOrUpdate() {
+        if (this.isInCreateMode()) {
+            if (allowAzureServicesAccess) {
+                this.sqlFirewallRules
+                    .defineInlineFirewallRule("AllowAllWindowsAzureIps")
+                    .withStartIPAddress("0.0.0.0")
+                    .withEndIPAddress("0.0.0.0");
+            }
+            if (sqlADAdminCreator != null) {
+                this.addPostRunDependent(sqlADAdminCreator);
+            }
+        }
+        if (this.sqlElasticPools != null && this.sqlDatabases != null) {
+            // Databases must be deleted before the Elastic Pools (only an empty Elastic Pool can be deleted)
+            List<SqlDatabaseImpl> dbToBeRemoved = this.sqlDatabases.getChildren(ExternalChildResourceImpl.PendingOperation.ToBeRemoved);
+            List<SqlElasticPoolImpl> epToBeRemoved = this.sqlElasticPools.getChildren(ExternalChildResourceImpl.PendingOperation.ToBeRemoved);
+            for (SqlElasticPoolImpl epItem : epToBeRemoved) {
+                for (SqlDatabaseImpl dbItem : dbToBeRemoved) {
+                    epItem.addParentDependency(dbItem);
+                }
+            }
+
+            // Databases in a new Elastic Pool should be created after the Elastic Pool
+            List<SqlDatabaseImpl> dbToBeCreated = this.sqlDatabases.getChildren(ExternalChildResourceImpl.PendingOperation.ToBeCreated);
+            List<SqlElasticPoolImpl> epToBeCreated = this.sqlElasticPools.getChildren(ExternalChildResourceImpl.PendingOperation.ToBeCreated);
+            for (SqlElasticPoolImpl epItem : epToBeCreated) {
+                for (SqlDatabaseImpl dbItem : dbToBeCreated) {
+                    if (dbItem.elasticPoolName() != null && dbItem.elasticPoolName().equals(epItem.name())) {
+                        dbItem.addParentDependency(epItem);
+                    }
+                }
+            }
+
+        }
+    }
+
+    @Override
+    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+        this.sqlADAdminCreator = null;
+        this.sqlFirewallRules.clear();
+        this.sqlElasticPools.clear();
+        this.sqlDatabases.clear();
+        return Completable.complete();
+    }
 
     @Override
     public String fullyQualifiedDomainName() {
         return this.inner().fullyQualifiedDomainName();
-    }
-
-    @Override
-    public ServerVersion version() {
-        return this.inner().version();
     }
 
     @Override
@@ -110,93 +141,154 @@ public class SqlServerImpl
     }
 
     @Override
-    public FirewallRules firewallRules() {
-        if (this.firewallRulesImpl == null) {
-            this.firewallRulesImpl = new FirewallRulesImpl(this.manager(), this.resourceGroupName(), this.name());
-        }
-        return this.firewallRulesImpl;
+    public String kind() {
+        return this.inner().kind();
     }
 
     @Override
-    public ElasticPools elasticPools() {
-        if (this.elasticPoolsImpl == null) {
-            this.elasticPoolsImpl = new ElasticPoolsImpl(
-                    this.manager(),
-                    (DatabasesImpl) this.databases(),
-                    this.resourceGroupName(),
-                    this.name(),
-                    this.region());
-        }
-        return this.elasticPoolsImpl;
-    }
-
-    @Override
-    public Databases databases() {
-        if (this.databasesImpl == null) {
-            this.databasesImpl = new DatabasesImpl(
-                    this.manager(),
-                    this.resourceGroupName(),
-                    this.name(),
-                    this.region());
-        }
-        return this.databasesImpl;
+    public String state() {
+        return this.inner().state();
     }
 
     @Override
     public List<ServerMetric> listUsages() {
-        PagedListConverter<ServerMetricInner, ServerMetric> converter = new PagedListConverter<ServerMetricInner, ServerMetric>() {
-            @Override
-            public Observable<ServerMetric> typeConvertAsync(ServerMetricInner serverMetricInner) {
-                return Observable.just((ServerMetric) new ServerMetricImpl(serverMetricInner));
+        return listUsageMetrics();
+    }
+
+    @Override
+    public List<ServerMetric> listUsageMetrics() {
+        List<ServerMetric> serverMetrics = new ArrayList<>();
+        List<ServerUsageInner> serverUsageInners = this.manager().inner().serverUsages()
+            .listByServer(this.resourceGroupName(), this.name());
+        if (serverUsageInners != null) {
+            for (ServerUsageInner serverUsageInner : serverUsageInners) {
+                serverMetrics.add(new ServerMetricImpl(serverUsageInner));
             }
-        };
-        return converter.convert(ReadableWrappersImpl.convertToPagedList(
-                this.manager().inner().servers().listUsages(
-                        this.resourceGroupName(),
-                        this.name())));
+        }
+        return Collections.unmodifiableList(serverMetrics);
     }
 
     @Override
     public List<ServiceObjective> listServiceObjectives() {
-        final ServersInner innerCollection = this.manager().inner().servers();
-        PagedListConverter<ServiceObjectiveInner, ServiceObjective> converter = new PagedListConverter<ServiceObjectiveInner, ServiceObjective>() {
-            @Override
-            public Observable<ServiceObjective> typeConvertAsync(ServiceObjectiveInner serviceObjectiveInner) {
-                return Observable.just((ServiceObjective) new ServiceObjectiveImpl(serviceObjectiveInner, innerCollection));
+        List<ServiceObjective> serviceObjectives = new ArrayList<>();
+        List<ServiceObjectiveInner> serviceObjectiveInners = this.manager().inner().serviceObjectives()
+            .listByServer(this.resourceGroupName(), this.name());
+        if (serviceObjectiveInners != null) {
+            for (ServiceObjectiveInner inner : serviceObjectiveInners) {
+                serviceObjectives.add(new ServiceObjectiveImpl(inner, this));
             }
-        };
-        return converter.convert(ReadableWrappersImpl.convertToPagedList(
-                        this.manager().inner().servers().listServiceObjectives(
-                        this.resourceGroupName(),
-                        this.name())));
+        }
+        return Collections.unmodifiableList(serviceObjectives);
     }
 
     @Override
     public ServiceObjective getServiceObjective(String serviceObjectiveName) {
-        return new ServiceObjectiveImpl(
-                this.manager().inner().servers().getServiceObjective(this.resourceGroupName(), this.name(), serviceObjectiveName),
-                this.manager().inner().servers());
+        ServiceObjectiveInner inner = this.manager().inner().serviceObjectives()
+            .get(this.resourceGroupName(), this.name(), serviceObjectiveName);
+        return (inner != null) ? new ServiceObjectiveImpl(inner, this) : null;
     }
 
     @Override
     public Map<String, RecommendedElasticPool> listRecommendedElasticPools() {
-        final SqlServerImpl self = this;
-        ListToMapConverter<RecommendedElasticPool, RecommendedElasticPoolInner> converter = new ListToMapConverter<RecommendedElasticPool, RecommendedElasticPoolInner>() {
-            @Override
-            protected String name(RecommendedElasticPoolInner recommendedElasticPoolInner) {
-                return recommendedElasticPoolInner.name();
+        Map<String, RecommendedElasticPool> recommendedElasticPoolMap = new HashMap<>();
+        List<RecommendedElasticPoolInner> recommendedElasticPoolInners = this.manager().inner()
+            .recommendedElasticPools().listByServer(this.resourceGroupName(), this.name());
+        if (recommendedElasticPoolInners != null) {
+            for (RecommendedElasticPoolInner inner : recommendedElasticPoolInners) {
+                recommendedElasticPoolMap.put(inner.name(), new RecommendedElasticPoolImpl(inner, this));
             }
+        }
 
-            @Override
-            protected RecommendedElasticPool impl(RecommendedElasticPoolInner recommendedElasticPoolInner) {
-                return new RecommendedElasticPoolImpl(
-                        recommendedElasticPoolInner,
-                        self.manager());
+        return Collections.unmodifiableMap(recommendedElasticPoolMap);
+    }
+
+    @Override
+    public List<SqlRestorableDroppedDatabase> listRestorableDroppedDatabases() {
+        List<SqlRestorableDroppedDatabase> sqlRestorableDroppedDatabases = new ArrayList<>();
+        List<RestorableDroppedDatabaseInner> restorableDroppedDatabasesInners = this.manager().inner()
+            .restorableDroppedDatabases().listByServer(this.resourceGroupName(), this.name());
+        if (restorableDroppedDatabasesInners != null) {
+            for (RestorableDroppedDatabaseInner restorableDroppedDatabaseInner : restorableDroppedDatabasesInners) {
+                sqlRestorableDroppedDatabases.add(new SqlRestorableDroppedDatabaseImpl(this.resourceGroupName(), this.name(), restorableDroppedDatabaseInner, this.manager()));
             }
-        };
-        return converter.convertToUnmodifiableMap(this.manager().inner().recommendedElasticPools().list(
-                this.resourceGroupName(),
-                this.name()));
+        }
+        return Collections.unmodifiableList(sqlRestorableDroppedDatabases);
+    }
+
+    @Override
+    public Observable<SqlRestorableDroppedDatabase> listRestorableDroppedDatabasesAsync() {
+        final SqlServerImpl self = this;
+        return this.manager().inner()
+            .restorableDroppedDatabases().listByServerAsync(this.resourceGroupName(), this.name())
+            .flatMap(new Func1<List<RestorableDroppedDatabaseInner>, Observable<RestorableDroppedDatabaseInner>>() {
+                @Override
+                public Observable<RestorableDroppedDatabaseInner> call(List<RestorableDroppedDatabaseInner> restorableDroppedDatabaseInners) {
+                    return Observable.from(restorableDroppedDatabaseInners);
+                }
+            })
+            .map(new Func1<RestorableDroppedDatabaseInner, SqlRestorableDroppedDatabase>() {
+                @Override
+                public SqlRestorableDroppedDatabase call(RestorableDroppedDatabaseInner restorableDroppedDatabaseInner) {
+                    return new SqlRestorableDroppedDatabaseImpl(self.resourceGroupName(), self.name(), restorableDroppedDatabaseInner, self.manager());
+                }
+            });
+    }
+
+    @Override
+    public String version() {
+        return this.inner().version();
+    }
+
+    @Override
+    public SqlFirewallRule enableAccessFromAzureServices() {
+        SqlFirewallRule firewallRule = this.manager().sqlServers().firewallRules()
+                .getBySqlServer(this.resourceGroupName(), this.name(), "AllowAllWindowsAzureIps");
+        if (firewallRule == null) {
+            firewallRule = this.manager().sqlServers().firewallRules()
+                .define("AllowAllWindowsAzureIps")
+                .withExistingSqlServer(this.resourceGroupName(), this.name())
+                .withIPAddress("0.0.0.0")
+                .create();
+        }
+
+        return firewallRule;
+    }
+
+    @Override
+    public void removeAccessFromAzureServices() {
+        SqlFirewallRule firewallRule = this.manager().sqlServers().firewallRules()
+            .getBySqlServer(this.resourceGroupName(), this.name(), "AllowAllWindowsAzureIps");
+        if (firewallRule != null) {
+            this.manager().sqlServers().firewallRules()
+                .deleteBySqlServer(this.resourceGroupName(), this.name(), "AllowAllWindowsAzureIps");
+        }
+    }
+
+    @Override
+    public SqlActiveDirectoryAdministratorImpl setActiveDirectoryAdministrator(String userLogin, String objectId) {
+        ServerAzureADAdministratorInner serverAzureADAdministratorInner = new ServerAzureADAdministratorInner()
+            .withLogin(userLogin)
+            .withSid(UUID.fromString(objectId))
+            .withTenantId(UUID.fromString(this.manager().tenantId()));
+
+        return new SqlActiveDirectoryAdministratorImpl(this.manager().inner().serverAzureADAdministrators().createOrUpdate(this.resourceGroupName(), this.name(), serverAzureADAdministratorInner));
+    }
+
+    @Override
+    public SqlActiveDirectoryAdministratorImpl getActiveDirectoryAdministrator() {
+        ServerAzureADAdministratorInner serverAzureADAdministratorInner = this.manager().inner().serverAzureADAdministrators().get(this.resourceGroupName(), this.name());
+
+        return serverAzureADAdministratorInner != null ? new SqlActiveDirectoryAdministratorImpl(serverAzureADAdministratorInner) : null;
+    }
+
+    @Override
+    public void removeActiveDirectoryAdministrator() {
+        this.manager().inner().serverAzureADAdministrators().delete(this.resourceGroupName(), this.name());
+    }
+
+    @Override
+    public SqlFirewallRuleOperations.SqlFirewallRuleActionsDefinition firewallRules() {
+        return new SqlFirewallRuleOperationsImpl(this, this.manager());
     }
 
     @Override
@@ -212,52 +304,38 @@ public class SqlServerImpl
     }
 
     @Override
-    public SqlServerImpl withNewDatabase(String databaseName) {
-        this.databaseCreatableMap.remove(databaseName);
-
-        this.databaseCreatableMap.put(databaseName,
-                this.databases().define(databaseName));
+    public SqlServerImpl withoutAccessFromAzureServices() {
+        allowAzureServicesAccess = false;
         return this;
     }
 
     @Override
-    public SqlServerImpl withoutDatabase(String databaseName) {
-        this.databasesToDelete.add(databaseName);
-        return this;
-    }
+    public SqlServer.DefinitionStages.WithCreate withActiveDirectoryAdministrator(final String userLogin, final String objectId) {
+        final SqlServerImpl self = this;
+        sqlADAdminCreator = new FunctionalTaskItem() {
+            @Override
+            public Observable<Indexable> call(final Context context) {
+                ServerAzureADAdministratorInner serverAzureADAdministratorInner = new ServerAzureADAdministratorInner()
+                    .withLogin(userLogin)
+                    .withSid(UUID.fromString(objectId))
+                    .withTenantId(UUID.fromString(self.manager().tenantId()));
 
-    @Override
-    public SqlServerImpl withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition, String... databaseNames) {
-        if (this.elasticPoolCreatableMap.get(elasticPoolName) == null) {
-            this.elasticPoolCreatableMap.put(elasticPoolName, this.elasticPools().define(elasticPoolName).withEdition(elasticPoolEdition));
-        }
-
-        if (databaseNames != null) {
-            for (String databaseName : databaseNames) {
-                this.withDatabaseInElasticPool(databaseName, elasticPoolName);
+                return self.manager().inner().serverAzureADAdministrators()
+                    .createOrUpdateAsync(self.resourceGroupName(), self.name(), serverAzureADAdministratorInner)
+                    .flatMap(new Func1<ServerAzureADAdministratorInner, Observable<Indexable>>() {
+                        @Override
+                        public Observable<Indexable> call(ServerAzureADAdministratorInner serverAzureADAdministratorInner) {
+                            return context.voidObservable();
+                        }
+                    });
             }
-        }
-
+        };
         return this;
     }
 
     @Override
-    public SqlServerImpl withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition) {
-        return withNewElasticPool(elasticPoolName, elasticPoolEdition, (String[]) null);
-    }
-
-    @Override
-    public SqlServerImpl withoutElasticPool(String elasticPoolName) {
-        this.elasticPoolsToDelete.add(elasticPoolName);
-        return this;
-    }
-
-    private void withDatabaseInElasticPool(String databaseName, String elasticPoolName) {
-        this.databaseCreatableMap.remove(databaseName);
-
-        this.databaseCreatableMap.put(databaseName,
-                (SqlDatabase.DefinitionStages.WithAllDifferentOptions) this.databases().define(databaseName)
-                    .withExistingElasticPool(elasticPoolName));
+    public SqlFirewallRuleImpl defineFirewallRule(String name) {
+        return this.sqlFirewallRules.defineInlineFirewallRule(name);
     }
 
     @Override
@@ -272,92 +350,76 @@ public class SqlServerImpl
 
     @Override
     public SqlServerImpl withNewFirewallRule(String startIPAddress, String endIPAddress, String firewallRuleName) {
-        this.firewallRuleCreatableMap.remove(firewallRuleName);
-
-        this.firewallRuleCreatableMap.put(firewallRuleName,
-                this.firewallRules().define(firewallRuleName).withIPAddressRange(startIPAddress, endIPAddress));
-        return this;
+        return sqlFirewallRules
+            .defineInlineFirewallRule(firewallRuleName)
+            .withStartIPAddress(startIPAddress)
+            .withEndIPAddress(endIPAddress)
+            .attach();
     }
 
     @Override
     public SqlServerImpl withoutFirewallRule(String firewallRuleName) {
-        this.firewallRulesToDelete.add(firewallRuleName);
+        sqlFirewallRules.removeInlineFirewallRule(firewallRuleName);
         return this;
     }
 
-    private Observable<Indexable> createOrUpdateFirewallRulesAsync() {
-        final SqlServerImpl self = this;
-        if (this.firewallRuleCreatableMap.size() > 0) {
-            return Utils.rootResource(this.firewallRulesImpl
-                    .sqlFirewallRules()
-                    .createAsync(new ArrayList<Creatable<SqlFirewallRule>>(this.firewallRuleCreatableMap.values())))
-                    .map(new Func1<Indexable, Indexable>() {
-                        @Override
-                        public Indexable call(Indexable indexable) {
-                            self.firewallRuleCreatableMap.clear();
-                            return indexable;
-                        }
-                    });
-        }
-        return Observable.empty();
+    @Override
+    public SqlElasticPoolOperations.SqlElasticPoolActionsDefinition elasticPools() {
+        return new SqlElasticPoolOperationsImpl(this, this.manager());
     }
 
-    private Observable<Indexable> createOrUpdateElasticPoolsAndDatabasesAsync() {
-        if (this.elasticPoolCreatableMap.size() > 0) {
-            this.elasticPoolsImpl.elasticPools().create(new ArrayList<Creatable<SqlElasticPool>>(this.elasticPoolCreatableMap.values()));
-            this.elasticPoolCreatableMap.clear();
-        }
-
-        final SqlServerImpl self = this;
-        if (this.databaseCreatableMap.size() > 0) {
-            return Utils.rootResource(this.databasesImpl
-                    .databases()
-                    .createAsync(new ArrayList<Creatable<SqlDatabase>>(this.databaseCreatableMap.values())))
-                    .map(new Func1<Indexable, Indexable>() {
-                        @Override
-                        public Indexable call(Indexable indexable) {
-                            self.databaseCreatableMap.clear();
-                            return indexable;
-                        }
-                    });
-        }
-        return Observable.empty();
+    @Override
+    public SqlDatabaseOperations.SqlDatabaseActionsDefinition databases() {
+        return new SqlDatabaseOperationsImpl(this, this.manager());
     }
 
-    private void createOrUpdateChildResources() {
-        Observable<Indexable> createFirewallRules = createOrUpdateFirewallRulesAsync();
-        Observable<Indexable> createDatabases = createOrUpdateElasticPoolsAndDatabasesAsync();
-        Observable.merge(createFirewallRules, createDatabases).defaultIfEmpty(null).toBlocking().last();
+    @Override
+    public SqlElasticPoolImpl defineElasticPool(String name) {
+        return this.sqlElasticPools.defineInlineElasticPool(name);
     }
 
-    private void deleteChildResources() {
-        Completable deleteFirewallRules = deleteFirewallRule();
-        Completable deleteDatabasesAndElasticPools = deleteDatabasesAndElasticPools();
-        Completable.merge(deleteFirewallRules, deleteDatabasesAndElasticPools).await();
+    @Override
+    public SqlServerImpl withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition) {
+        return sqlElasticPools
+            .defineInlineElasticPool(elasticPoolName)
+            .withEdition(elasticPoolEdition)
+            .attach();
     }
 
-    private Completable deleteDatabasesAndElasticPools() {
-        List<Completable> deleteDBList = new ArrayList<>();
-        for (String databaseName : this.databasesToDelete) {
-            deleteDBList.add(this.databases().deleteAsync(databaseName));
-        }
-        Completable deleteDBs = Completable.merge(deleteDBList);
-
-        List<Completable> deleteElasticPoolList = new ArrayList<>();
-        for (String elasticPoolName : this.elasticPoolsToDelete) {
-            deleteElasticPoolList.add(this.elasticPools().deleteAsync(elasticPoolName));
-        }
-        Completable deletePools = Completable.merge(deleteElasticPoolList);
-        return Completable.concat(deleteDBs, deletePools);
+    @Override
+    public SqlServerImpl withoutElasticPool(String elasticPoolName) {
+        sqlElasticPools.removeInlineElasticPool(elasticPoolName);
+        return this;
     }
 
-    private Completable deleteFirewallRule() {
-        List<Completable> deleteTaskList = new ArrayList<>();
-
-        for (String firewallRuleName : this.firewallRulesToDelete) {
-            deleteTaskList.add(this.firewallRules().deleteAsync(firewallRuleName));
+    @Override
+    public SqlServerImpl withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition, String... databaseNames) {
+        this.withNewElasticPool(elasticPoolName, elasticPoolEdition);
+        for (String dbName : databaseNames) {
+            this.defineDatabase(dbName)
+                .withExistingElasticPool(elasticPoolName)
+                .attach();
         }
-        return Completable.merge(deleteTaskList);
+        return this;
+    }
+
+    @Override
+    public SqlDatabaseImpl defineDatabase(String name) {
+        return this.sqlDatabases
+            .defineInlineDatabase(name);
+    }
+
+    @Override
+    public SqlServerImpl withNewDatabase(String databaseName) {
+        return this.sqlDatabases
+            .defineInlineDatabase(databaseName)
+            .attach();
+    }
+
+    @Override
+    public SqlServerImpl withoutDatabase(String databaseName) {
+        this.sqlDatabases.removeInlineDatabase(databaseName);
+        return this;
     }
 
 }

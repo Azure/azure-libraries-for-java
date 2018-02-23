@@ -26,8 +26,9 @@ public interface ServiceObjective extends
         HasName,
         HasId {
     /**
-     * @return name of the SQL Server to which this replication belongs
+     * @return name of the SQL Server to which this service objective belongs
      */
+    @Deprecated
     String sqlServerName();
 
     /**
@@ -36,23 +37,22 @@ public interface ServiceObjective extends
     String serviceObjectiveName();
 
     /**
-     * @return whether the service level objective is the default service
-     * objective.
+     * @return whether the service level objective is the default service objective
      */
     boolean isDefault();
 
     /**
-     * @return whether the service level objective is a system service objective.
+     * @return whether the service level objective is a system service objective
      */
     boolean isSystem();
 
     /**
-     * @return the description for the service level objective.
+     * @return the description for the service level objective
      */
     String description();
 
     /**
-     * @return whether the service level objective is enabled.
+     * @return whether the service level objective is enabled
      */
     boolean enabled();
 }

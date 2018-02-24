@@ -395,7 +395,10 @@ class Token {
     }
 
     boolean isTerminalMatched(Character charToMatch) {
-        return terminalChar.equals(charToMatch);
+        if (terminalChar == null && charToMatch == null) {
+            return true;
+        }
+        return terminalChar != null && terminalChar.equals(charToMatch);
     }
 
     boolean isTerminalCharNull() {

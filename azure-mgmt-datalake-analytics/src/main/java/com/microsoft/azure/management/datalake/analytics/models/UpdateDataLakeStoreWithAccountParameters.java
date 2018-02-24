@@ -12,40 +12,40 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Azure Storage account information.
+ * The parameters used to update a Data Lake Store account while updating a
+ * Data Lake Analytics account.
  */
 @JsonFlatten
-public class StorageAccountInfo extends SubResource {
+public class UpdateDataLakeStoreWithAccountParameters {
     /**
-     * the access key associated with this Azure Storage account that will be
-     * used to connect to it.
+     * The unique name of the Data Lake Store account to update.
      */
-    @JsonProperty(value = "properties.accessKey", required = true)
-    private String accessKey;
+    @JsonProperty(value = "name", required = true)
+    private String name;
 
     /**
-     * the optional suffix for the storage account.
+     * The optional suffix for the Data Lake Store account.
      */
     @JsonProperty(value = "properties.suffix")
     private String suffix;
 
     /**
-     * Get the accessKey value.
+     * Get the name value.
      *
-     * @return the accessKey value
+     * @return the name value
      */
-    public String accessKey() {
-        return this.accessKey;
+    public String name() {
+        return this.name;
     }
 
     /**
-     * Set the accessKey value.
+     * Set the name value.
      *
-     * @param accessKey the accessKey value to set
-     * @return the StorageAccountInfo object itself.
+     * @param name the name value to set
+     * @return the UpdateDataLakeStoreWithAccountParameters object itself.
      */
-    public StorageAccountInfo withAccessKey(String accessKey) {
-        this.accessKey = accessKey;
+    public UpdateDataLakeStoreWithAccountParameters withName(String name) {
+        this.name = name;
         return this;
     }
 
@@ -62,9 +62,9 @@ public class StorageAccountInfo extends SubResource {
      * Set the suffix value.
      *
      * @param suffix the suffix value to set
-     * @return the StorageAccountInfo object itself.
+     * @return the UpdateDataLakeStoreWithAccountParameters object itself.
      */
-    public StorageAccountInfo withSuffix(String suffix) {
+    public UpdateDataLakeStoreWithAccountParameters withSuffix(String suffix) {
         this.suffix = suffix;
         return this;
     }

@@ -8,21 +8,16 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
+import java.util.UUID;
+
 /**
- * The parameters used to create a new compute policy.
+ * Data Lake Analytics compute policy information.
  */
 @JsonFlatten
-public class ComputePolicy {
-    /**
-     * The name of the compute policy.
-     */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
-
+public class ComputePolicy extends SubResource {
     /**
      * The AAD object identifier for the entity to create a policy for.
      */
@@ -40,23 +35,14 @@ public class ComputePolicy {
      * The maximum degree of parallelism per job this user can use to submit
      * jobs.
      */
-    @JsonProperty(value = "properties.maxDegreeOfParallelismPerJob")
+    @JsonProperty(value = "properties.maxDegreeOfParallelismPerJob", access = JsonProperty.Access.WRITE_ONLY)
     private Integer maxDegreeOfParallelismPerJob;
 
     /**
      * The minimum priority per job this user can use to submit jobs.
      */
-    @JsonProperty(value = "properties.minPriorityPerJob")
+    @JsonProperty(value = "properties.minPriorityPerJob", access = JsonProperty.Access.WRITE_ONLY)
     private Integer minPriorityPerJob;
-
-    /**
-     * Get the name value.
-     *
-     * @return the name value
-     */
-    public String name() {
-        return this.name;
-    }
 
     /**
      * Get the objectId value.
@@ -86,34 +72,12 @@ public class ComputePolicy {
     }
 
     /**
-     * Set the maxDegreeOfParallelismPerJob value.
-     *
-     * @param maxDegreeOfParallelismPerJob the maxDegreeOfParallelismPerJob value to set
-     * @return the ComputePolicy object itself.
-     */
-    public ComputePolicy withMaxDegreeOfParallelismPerJob(Integer maxDegreeOfParallelismPerJob) {
-        this.maxDegreeOfParallelismPerJob = maxDegreeOfParallelismPerJob;
-        return this;
-    }
-
-    /**
      * Get the minPriorityPerJob value.
      *
      * @return the minPriorityPerJob value
      */
     public Integer minPriorityPerJob() {
         return this.minPriorityPerJob;
-    }
-
-    /**
-     * Set the minPriorityPerJob value.
-     *
-     * @param minPriorityPerJob the minPriorityPerJob value to set
-     * @return the ComputePolicy object itself.
-     */
-    public ComputePolicy withMinPriorityPerJob(Integer minPriorityPerJob) {
-        this.minPriorityPerJob = minPriorityPerJob;
-        return this;
     }
 
 }

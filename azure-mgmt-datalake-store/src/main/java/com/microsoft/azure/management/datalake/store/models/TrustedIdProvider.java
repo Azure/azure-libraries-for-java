@@ -12,14 +12,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Data Lake Store Trusted Identity Provider information.
+ * Data Lake Store trusted identity provider information.
  */
 @JsonFlatten
 public class TrustedIdProvider extends SubResource {
     /**
      * The URL of this trusted identity provider.
      */
-    @JsonProperty(value = "properties.idProvider", required = true)
+    @JsonProperty(value = "properties.idProvider", access = JsonProperty.Access.WRITE_ONLY)
     private String idProvider;
 
     /**
@@ -29,17 +29,6 @@ public class TrustedIdProvider extends SubResource {
      */
     public String idProvider() {
         return this.idProvider;
-    }
-
-    /**
-     * Set the idProvider value.
-     *
-     * @param idProvider the idProvider value to set
-     * @return the TrustedIdProvider object itself.
-     */
-    public TrustedIdProvider withIdProvider(String idProvider) {
-        this.idProvider = idProvider;
-        return this;
     }
 
 }

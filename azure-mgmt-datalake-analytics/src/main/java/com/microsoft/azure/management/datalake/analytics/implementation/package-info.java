@@ -8,4 +8,4 @@
  * This package contains the implementation classes for DataLakeAnalyticsCatalogManagementClient.
  * Creates an Azure Data Lake Analytics catalog client.
  */
-package com.microsoft.azure.management.datalake.analytics.implementation;
+package com.microsoft.azure.datalake.analytics.implementation;

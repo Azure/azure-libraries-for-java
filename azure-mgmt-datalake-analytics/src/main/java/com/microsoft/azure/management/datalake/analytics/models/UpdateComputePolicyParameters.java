@@ -13,21 +13,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * The parameters used to create a new compute policy.
+ * The parameters used to update a compute policy.
  */
 @JsonFlatten
-public class ComputePolicyCreateOrUpdateParameters {
+public class UpdateComputePolicyParameters {
     /**
      * The AAD object identifier for the entity to create a policy for.
      */
-    @JsonProperty(value = "properties.objectId", required = true)
+    @JsonProperty(value = "properties.objectId")
     private UUID objectId;
 
     /**
      * The type of AAD object the object identifier refers to. Possible values
      * include: 'User', 'Group', 'ServicePrincipal'.
      */
-    @JsonProperty(value = "properties.objectType", required = true)
+    @JsonProperty(value = "properties.objectType")
     private AADObjectType objectType;
 
     /**
@@ -59,9 +59,9 @@ public class ComputePolicyCreateOrUpdateParameters {
      * Set the objectId value.
      *
      * @param objectId the objectId value to set
-     * @return the ComputePolicyCreateOrUpdateParameters object itself.
+     * @return the UpdateComputePolicyParameters object itself.
      */
-    public ComputePolicyCreateOrUpdateParameters withObjectId(UUID objectId) {
+    public UpdateComputePolicyParameters withObjectId(UUID objectId) {
         this.objectId = objectId;
         return this;
     }
@@ -79,9 +79,9 @@ public class ComputePolicyCreateOrUpdateParameters {
      * Set the objectType value.
      *
      * @param objectType the objectType value to set
-     * @return the ComputePolicyCreateOrUpdateParameters object itself.
+     * @return the UpdateComputePolicyParameters object itself.
      */
-    public ComputePolicyCreateOrUpdateParameters withObjectType(AADObjectType objectType) {
+    public UpdateComputePolicyParameters withObjectType(AADObjectType objectType) {
         this.objectType = objectType;
         return this;
     }
@@ -99,9 +99,9 @@ public class ComputePolicyCreateOrUpdateParameters {
      * Set the maxDegreeOfParallelismPerJob value.
      *
      * @param maxDegreeOfParallelismPerJob the maxDegreeOfParallelismPerJob value to set
-     * @return the ComputePolicyCreateOrUpdateParameters object itself.
+     * @return the UpdateComputePolicyParameters object itself.
      */
-    public ComputePolicyCreateOrUpdateParameters withMaxDegreeOfParallelismPerJob(Integer maxDegreeOfParallelismPerJob) {
+    public UpdateComputePolicyParameters withMaxDegreeOfParallelismPerJob(Integer maxDegreeOfParallelismPerJob) {
         this.maxDegreeOfParallelismPerJob = maxDegreeOfParallelismPerJob;
         return this;
     }
@@ -119,9 +119,9 @@ public class ComputePolicyCreateOrUpdateParameters {
      * Set the minPriorityPerJob value.
      *
      * @param minPriorityPerJob the minPriorityPerJob value to set
-     * @return the ComputePolicyCreateOrUpdateParameters object itself.
+     * @return the UpdateComputePolicyParameters object itself.
      */
-    public ComputePolicyCreateOrUpdateParameters withMinPriorityPerJob(Integer minPriorityPerJob) {
+    public UpdateComputePolicyParameters withMinPriorityPerJob(Integer minPriorityPerJob) {
         this.minPriorityPerJob = minPriorityPerJob;
         return this;
     }

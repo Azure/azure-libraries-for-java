@@ -28,6 +28,7 @@ public class DataLakeStoreManagementTest extends TestBase {
         resourceManagementClient = ResourceManager
                 .authenticate(restClient)
                 .withSubscription(defaultSubscription);
+
         resourceManagementClient.resourceGroups()
                 .define(resourceGroupName)
                 .withRegion(environmentLocation)

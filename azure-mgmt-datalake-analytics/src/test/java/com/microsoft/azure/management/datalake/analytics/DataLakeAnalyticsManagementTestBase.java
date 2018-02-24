@@ -8,8 +8,19 @@ package com.microsoft.azure.management.datalake.analytics;
 
 import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.management.datalake.analytics.models.*;
-import com.microsoft.azure.management.datalake.store.models.DataLakeStoreAccount;
+import com.microsoft.azure.management.datalake.analytics.implementation.DataLakeAnalyticsAccountManagementClientImpl;
+import com.microsoft.azure.management.datalake.analytics.implementation.DataLakeAnalyticsCatalogManagementClientImpl;
+import com.microsoft.azure.management.datalake.analytics.implementation.DataLakeAnalyticsJobManagementClientImpl;
+import com.microsoft.azure.management.datalake.analytics.models.AddDataLakeStoreWithAccountParameters;
+import com.microsoft.azure.management.datalake.analytics.models.CreateDataLakeAnalyticsAccountParameters;
+import com.microsoft.azure.management.datalake.analytics.models.CreateJobParameters;
+import com.microsoft.azure.management.datalake.analytics.models.CreateUSqlJobProperties;
+import com.microsoft.azure.management.datalake.analytics.models.JobInformation;
+import com.microsoft.azure.management.datalake.analytics.models.JobResult;
+import com.microsoft.azure.management.datalake.analytics.models.JobState;
+import com.microsoft.azure.management.datalake.analytics.models.JobType;
+import com.microsoft.azure.management.datalake.store.implementation.DataLakeStoreAccountManagementClientImpl;
+import com.microsoft.azure.management.datalake.store.models.CreateDataLakeStoreAccountParameters;
 import com.microsoft.azure.management.resources.core.AzureTestCredentials;
 import com.microsoft.azure.management.resources.core.TestBase;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
@@ -19,10 +30,6 @@ import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.RestClient;
-import com.microsoft.azure.management.datalake.analytics.implementation.DataLakeAnalyticsAccountManagementClientImpl;
-import com.microsoft.azure.management.datalake.analytics.implementation.DataLakeAnalyticsCatalogManagementClientImpl;
-import com.microsoft.azure.management.datalake.analytics.implementation.DataLakeAnalyticsJobManagementClientImpl;
-import com.microsoft.azure.management.datalake.store.implementation.DataLakeStoreAccountManagementClientImpl;
 import org.junit.Assert;
 
 import java.io.File;
@@ -59,10 +66,12 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase
         addTextReplacementRule("https://(.*)." + adlaSuffix, playbackUri);
 
         // Generate creds and a set of rest clients for catalog and job
-        ApplicationTokenCredentials credentials = new AzureTestCredentials(
-                playbackUri,
-                ZERO_TENANT,
-                isPlaybackMode());
+        ApplicationTokenCredentials credentials =
+                new AzureTestCredentials(
+                        playbackUri,
+                        ZERO_TENANT,
+                        isPlaybackMode()
+                );
 
         if (isRecordMode())
         {
@@ -136,25 +145,31 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase
                 .create();
 
         // Create the ADLS account
-        DataLakeStoreAccount createParams = new DataLakeStoreAccount();
-        createParams.withLocation(environmentLocation.name());
+        CreateDataLakeStoreAccountParameters createParams = new CreateDataLakeStoreAccountParameters()
+                .withLocation(environmentLocation.name());
+
         dataLakeStoreAccountManagementClient.accounts().create(
                 rgName,
                 adlsName,
                 createParams);
 
         // Create the ADLA account for job and catalog use
-        DataLakeStoreAccountInfo adlsInfo = new DataLakeStoreAccountInfo();
-        adlsInfo.withName(adlsName);
-        List<DataLakeStoreAccountInfo> adlsAccts = new ArrayList<DataLakeStoreAccountInfo>();
+        AddDataLakeStoreWithAccountParameters adlsInfo = new AddDataLakeStoreWithAccountParameters()
+                .withName(adlsName);
+
+        List<AddDataLakeStoreWithAccountParameters> adlsAccts = new ArrayList<AddDataLakeStoreWithAccountParameters>();
         adlsAccts.add(adlsInfo);
 
-        DataLakeAnalyticsAccount adlaCreateParams = new DataLakeAnalyticsAccount();
-        adlaCreateParams.withLocation(environmentLocation.name());
-        adlaCreateParams.withDataLakeStoreAccounts(adlsAccts);
-        adlaCreateParams.withDefaultDataLakeStoreAccount(adlsName);
+        CreateDataLakeAnalyticsAccountParameters adlaCreateParams = new CreateDataLakeAnalyticsAccountParameters()
+                .withLocation(environmentLocation.name())
+                .withDefaultDataLakeStoreAccount(adlsName)
+                .withDataLakeStoreAccounts(adlsAccts);
 
-        dataLakeAnalyticsAccountManagementClient.accounts().create(rgName, jobAndCatalogAdlaName, adlaCreateParams);
+        dataLakeAnalyticsAccountManagementClient.accounts().create(
+                rgName,
+                jobAndCatalogAdlaName,
+                adlaCreateParams
+        );
 
         // Wait for 5 minutes for the server to restore the account cache
 		// Without this, the test will pass non-deterministically
@@ -176,18 +191,20 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase
         jobToSubmit.withType(JobType.USQL);
         jobToSubmit.withProperties(jobProperties);
 
-        JobInformation jobCreateResponse = dataLakeAnalyticsJobManagementClient.jobs().create(
-                adlaAcct,
-                jobId,
-                jobToSubmit
-        );
+        JobInformation jobCreateResponse =
+                dataLakeAnalyticsJobManagementClient.jobs().create(
+                        adlaAcct,
+                        jobId,
+                        jobToSubmit
+                );
 
         Assert.assertNotNull(jobCreateResponse);
 
-        JobInformation getJobResponse = dataLakeAnalyticsJobManagementClient.jobs().get(
-                adlaAcct,
-                jobCreateResponse.jobId()
-        );
+        JobInformation getJobResponse =
+                dataLakeAnalyticsJobManagementClient.jobs().get(
+                        adlaAcct,
+                        jobCreateResponse.jobId()
+                );
 
         Assert.assertNotNull(getJobResponse);
 
@@ -200,10 +217,11 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase
             // Wait 5 seconds before polling again
             SdkContext.sleep(5 * 1000);
             curWaitInSeconds += 5;
-            getJobResponse = dataLakeAnalyticsJobManagementClient.jobs().get(
-                    adlaAcct,
-                    jobCreateResponse.jobId()
-            );
+            getJobResponse =
+                    dataLakeAnalyticsJobManagementClient.jobs().get(
+                            adlaAcct,
+                            jobCreateResponse.jobId()
+                    );
 
             Assert.assertNotNull(getJobResponse);
         }

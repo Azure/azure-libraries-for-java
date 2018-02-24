@@ -8,11 +8,12 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import java.util.List;
-import org.joda.time.Period;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.joda.time.Period;
+
+import java.util.List;
 
 /**
  * U-SQL job properties used when retrieving U-SQL jobs.

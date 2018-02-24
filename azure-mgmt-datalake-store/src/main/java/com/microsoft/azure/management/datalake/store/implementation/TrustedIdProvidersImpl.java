@@ -14,6 +14,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.datalake.store.models.CreateOrUpdateTrustedIdProviderParameters;
 import com.microsoft.azure.management.datalake.store.models.PageImpl;
 import com.microsoft.azure.management.datalake.store.models.TrustedIdProvider;
 import com.microsoft.azure.management.datalake.store.models.UpdateTrustedIdProviderParameters;
@@ -65,25 +66,25 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
      * used by Retrofit to perform actually REST calls.
      */
     interface TrustedIdProvidersService {
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.store.TrustedIdProviders listByAccount" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{accountName}/trustedIdProviders")
+        Observable<Response<ResponseBody>> listByAccount(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.store.TrustedIdProviders createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{accountName}/trustedIdProviders/{trustedIdProviderName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("trustedIdProviderName") String trustedIdProviderName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TrustedIdProvider parameters, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.store.TrustedIdProviders update" })
-        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{accountName}/trustedIdProviders/{trustedIdProviderName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("trustedIdProviderName") String trustedIdProviderName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body UpdateTrustedIdProviderParameters parameters, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.store.TrustedIdProviders delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{accountName}/trustedIdProviders/{trustedIdProviderName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("trustedIdProviderName") String trustedIdProviderName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> createOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("trustedIdProviderName") String trustedIdProviderName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body CreateOrUpdateTrustedIdProviderParameters parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.store.TrustedIdProviders get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{accountName}/trustedIdProviders/{trustedIdProviderName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("trustedIdProviderName") String trustedIdProviderName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> get(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("trustedIdProviderName") String trustedIdProviderName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.store.TrustedIdProviders listByAccount" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{accountName}/trustedIdProviders")
-        Observable<Response<ResponseBody>> listByAccount(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.store.TrustedIdProviders update" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{accountName}/trustedIdProviders/{trustedIdProviderName}")
+        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("trustedIdProviderName") String trustedIdProviderName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body UpdateTrustedIdProviderParameters parameters, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.store.TrustedIdProviders delete" })
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{accountName}/trustedIdProviders/{trustedIdProviderName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> delete(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("trustedIdProviderName") String trustedIdProviderName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.store.TrustedIdProviders listByAccountNext" })
         @GET
@@ -92,12 +93,135 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     }
 
     /**
+     * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
+     *
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;TrustedIdProvider&gt; object if successful.
+     */
+    public PagedList<TrustedIdProvider> listByAccount(final String resourceGroupName, final String accountName) {
+        ServiceResponse<Page<TrustedIdProvider>> response = listByAccountSinglePageAsync(resourceGroupName, accountName).toBlocking().single();
+        return new PagedList<TrustedIdProvider>(response.body()) {
+            @Override
+            public Page<TrustedIdProvider> nextPage(String nextPageLink) {
+                return listByAccountNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
+     *
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<TrustedIdProvider>> listByAccountAsync(final String resourceGroupName, final String accountName, final ListOperationCallback<TrustedIdProvider> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByAccountSinglePageAsync(resourceGroupName, accountName),
+            new Func1<String, Observable<ServiceResponse<Page<TrustedIdProvider>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<TrustedIdProvider>>> call(String nextPageLink) {
+                    return listByAccountNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
+     *
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;TrustedIdProvider&gt; object
+     */
+    public Observable<Page<TrustedIdProvider>> listByAccountAsync(final String resourceGroupName, final String accountName) {
+        return listByAccountWithServiceResponseAsync(resourceGroupName, accountName)
+            .map(new Func1<ServiceResponse<Page<TrustedIdProvider>>, Page<TrustedIdProvider>>() {
+                @Override
+                public Page<TrustedIdProvider> call(ServiceResponse<Page<TrustedIdProvider>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
+     *
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;TrustedIdProvider&gt; object
+     */
+    public Observable<ServiceResponse<Page<TrustedIdProvider>>> listByAccountWithServiceResponseAsync(final String resourceGroupName, final String accountName) {
+        return listByAccountSinglePageAsync(resourceGroupName, accountName)
+            .concatMap(new Func1<ServiceResponse<Page<TrustedIdProvider>>, Observable<ServiceResponse<Page<TrustedIdProvider>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<TrustedIdProvider>>> call(ServiceResponse<Page<TrustedIdProvider>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByAccountNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
+     *
+    ServiceResponse<PageImpl<TrustedIdProvider>> * @param resourceGroupName The name of the Azure resource group.
+    ServiceResponse<PageImpl<TrustedIdProvider>> * @param accountName The name of the Data Lake Store account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;TrustedIdProvider&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<TrustedIdProvider>>> listByAccountSinglePageAsync(final String resourceGroupName, final String accountName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listByAccount(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<TrustedIdProvider>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<TrustedIdProvider>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<TrustedIdProvider>> result = listByAccountDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<TrustedIdProvider>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<TrustedIdProvider>> listByAccountDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<TrustedIdProvider>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<TrustedIdProvider>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
      * Creates or updates the specified trusted identity provider. During update, the trusted identity provider with the specified name will be replaced with this new provider.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to add or replace the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
-     * @param idProvider The URL of this trusted identity provider
+     * @param idProvider The URL of this trusted identity provider.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -110,10 +234,10 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     /**
      * Creates or updates the specified trusted identity provider. During update, the trusted identity provider with the specified name will be replaced with this new provider.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to add or replace the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
-     * @param idProvider The URL of this trusted identity provider
+     * @param idProvider The URL of this trusted identity provider.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -125,10 +249,10 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     /**
      * Creates or updates the specified trusted identity provider. During update, the trusted identity provider with the specified name will be replaced with this new provider.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to add or replace the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
-     * @param idProvider The URL of this trusted identity provider
+     * @param idProvider The URL of this trusted identity provider.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the TrustedIdProvider object
      */
@@ -144,14 +268,17 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     /**
      * Creates or updates the specified trusted identity provider. During update, the trusted identity provider with the specified name will be replaced with this new provider.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to add or replace the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
-     * @param idProvider The URL of this trusted identity provider
+     * @param idProvider The URL of this trusted identity provider.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the TrustedIdProvider object
      */
     public Observable<ServiceResponse<TrustedIdProvider>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String accountName, String trustedIdProviderName, String idProvider) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -161,120 +288,15 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
         if (trustedIdProviderName == null) {
             throw new IllegalArgumentException("Parameter trustedIdProviderName is required and cannot be null.");
         }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         if (idProvider == null) {
             throw new IllegalArgumentException("Parameter idProvider is required and cannot be null.");
         }
-        final String name = null;
-        TrustedIdProvider parameters = new TrustedIdProvider();
-        parameters.withName(null);
+        CreateOrUpdateTrustedIdProviderParameters parameters = new CreateOrUpdateTrustedIdProviderParameters();
         parameters.withIdProvider(idProvider);
-        return service.createOrUpdate(resourceGroupName, accountName, trustedIdProviderName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<TrustedIdProvider>>>() {
-                @Override
-                public Observable<ServiceResponse<TrustedIdProvider>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<TrustedIdProvider> clientResponse = createOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    /**
-     * Creates or updates the specified trusted identity provider. During update, the trusted identity provider with the specified name will be replaced with this new provider.
-     *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to add or replace the trusted identity provider.
-     * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
-     * @param idProvider The URL of this trusted identity provider
-     * @param name Resource name
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the TrustedIdProvider object if successful.
-     */
-    public TrustedIdProvider createOrUpdate(String resourceGroupName, String accountName, String trustedIdProviderName, String idProvider, String name) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, trustedIdProviderName, idProvider, name).toBlocking().single().body();
-    }
-
-    /**
-     * Creates or updates the specified trusted identity provider. During update, the trusted identity provider with the specified name will be replaced with this new provider.
-     *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to add or replace the trusted identity provider.
-     * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
-     * @param idProvider The URL of this trusted identity provider
-     * @param name Resource name
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<TrustedIdProvider> createOrUpdateAsync(String resourceGroupName, String accountName, String trustedIdProviderName, String idProvider, String name, final ServiceCallback<TrustedIdProvider> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, trustedIdProviderName, idProvider, name), serviceCallback);
-    }
-
-    /**
-     * Creates or updates the specified trusted identity provider. During update, the trusted identity provider with the specified name will be replaced with this new provider.
-     *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to add or replace the trusted identity provider.
-     * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
-     * @param idProvider The URL of this trusted identity provider
-     * @param name Resource name
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the TrustedIdProvider object
-     */
-    public Observable<TrustedIdProvider> createOrUpdateAsync(String resourceGroupName, String accountName, String trustedIdProviderName, String idProvider, String name) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, trustedIdProviderName, idProvider, name).map(new Func1<ServiceResponse<TrustedIdProvider>, TrustedIdProvider>() {
-            @Override
-            public TrustedIdProvider call(ServiceResponse<TrustedIdProvider> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates the specified trusted identity provider. During update, the trusted identity provider with the specified name will be replaced with this new provider.
-     *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to add or replace the trusted identity provider.
-     * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
-     * @param idProvider The URL of this trusted identity provider
-     * @param name Resource name
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the TrustedIdProvider object
-     */
-    public Observable<ServiceResponse<TrustedIdProvider>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String accountName, String trustedIdProviderName, String idProvider, String name) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (accountName == null) {
-            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
-        }
-        if (trustedIdProviderName == null) {
-            throw new IllegalArgumentException("Parameter trustedIdProviderName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        if (idProvider == null) {
-            throw new IllegalArgumentException("Parameter idProvider is required and cannot be null.");
-        }
-        TrustedIdProvider parameters = new TrustedIdProvider();
-        parameters.withName(name);
-        parameters.withIdProvider(idProvider);
-        return service.createOrUpdate(resourceGroupName, accountName, trustedIdProviderName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+        return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, accountName, trustedIdProviderName, this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<TrustedIdProvider>>>() {
                 @Override
                 public Observable<ServiceResponse<TrustedIdProvider>> call(Response<ResponseBody> response) {
@@ -296,10 +318,103 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     }
 
     /**
+     * Gets the specified Data Lake Store trusted identity provider.
+     *
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
+     * @param trustedIdProviderName The name of the trusted identity provider to retrieve.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the TrustedIdProvider object if successful.
+     */
+    public TrustedIdProvider get(String resourceGroupName, String accountName, String trustedIdProviderName) {
+        return getWithServiceResponseAsync(resourceGroupName, accountName, trustedIdProviderName).toBlocking().single().body();
+    }
+
+    /**
+     * Gets the specified Data Lake Store trusted identity provider.
+     *
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
+     * @param trustedIdProviderName The name of the trusted identity provider to retrieve.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<TrustedIdProvider> getAsync(String resourceGroupName, String accountName, String trustedIdProviderName, final ServiceCallback<TrustedIdProvider> serviceCallback) {
+        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, accountName, trustedIdProviderName), serviceCallback);
+    }
+
+    /**
+     * Gets the specified Data Lake Store trusted identity provider.
+     *
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
+     * @param trustedIdProviderName The name of the trusted identity provider to retrieve.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the TrustedIdProvider object
+     */
+    public Observable<TrustedIdProvider> getAsync(String resourceGroupName, String accountName, String trustedIdProviderName) {
+        return getWithServiceResponseAsync(resourceGroupName, accountName, trustedIdProviderName).map(new Func1<ServiceResponse<TrustedIdProvider>, TrustedIdProvider>() {
+            @Override
+            public TrustedIdProvider call(ServiceResponse<TrustedIdProvider> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets the specified Data Lake Store trusted identity provider.
+     *
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
+     * @param trustedIdProviderName The name of the trusted identity provider to retrieve.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the TrustedIdProvider object
+     */
+    public Observable<ServiceResponse<TrustedIdProvider>> getWithServiceResponseAsync(String resourceGroupName, String accountName, String trustedIdProviderName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (trustedIdProviderName == null) {
+            throw new IllegalArgumentException("Parameter trustedIdProviderName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.get(this.client.subscriptionId(), resourceGroupName, accountName, trustedIdProviderName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<TrustedIdProvider>>>() {
+                @Override
+                public Observable<ServiceResponse<TrustedIdProvider>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<TrustedIdProvider> clientResponse = getDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<TrustedIdProvider> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<TrustedIdProvider, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<TrustedIdProvider>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
      * Updates the specified trusted identity provider.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to which to update the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -313,8 +428,8 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     /**
      * Updates the specified trusted identity provider.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to which to update the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -327,8 +442,8 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     /**
      * Updates the specified trusted identity provider.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to which to update the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the TrustedIdProvider object
@@ -345,13 +460,16 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     /**
      * Updates the specified trusted identity provider.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to which to update the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the TrustedIdProvider object
      */
     public Observable<ServiceResponse<TrustedIdProvider>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String trustedIdProviderName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -361,16 +479,13 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
         if (trustedIdProviderName == null) {
             throw new IllegalArgumentException("Parameter trustedIdProviderName is required and cannot be null.");
         }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         final String idProvider = null;
         UpdateTrustedIdProviderParameters parameters = new UpdateTrustedIdProviderParameters();
         parameters.withIdProvider(null);
-        return service.update(resourceGroupName, accountName, trustedIdProviderName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+        return service.update(this.client.subscriptionId(), resourceGroupName, accountName, trustedIdProviderName, this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<TrustedIdProvider>>>() {
                 @Override
                 public Observable<ServiceResponse<TrustedIdProvider>> call(Response<ResponseBody> response) {
@@ -387,10 +502,10 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     /**
      * Updates the specified trusted identity provider.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to which to update the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
-     * @param idProvider The URL of this trusted identity provider
+     * @param idProvider The URL of this trusted identity provider.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -403,10 +518,10 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     /**
      * Updates the specified trusted identity provider.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to which to update the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
-     * @param idProvider The URL of this trusted identity provider
+     * @param idProvider The URL of this trusted identity provider.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -418,10 +533,10 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     /**
      * Updates the specified trusted identity provider.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to which to update the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
-     * @param idProvider The URL of this trusted identity provider
+     * @param idProvider The URL of this trusted identity provider.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the TrustedIdProvider object
      */
@@ -437,14 +552,17 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     /**
      * Updates the specified trusted identity provider.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account to which to update the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider. This is used for differentiation of providers in the account.
-     * @param idProvider The URL of this trusted identity provider
+     * @param idProvider The URL of this trusted identity provider.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the TrustedIdProvider object
      */
     public Observable<ServiceResponse<TrustedIdProvider>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String trustedIdProviderName, String idProvider) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -454,9 +572,6 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
         if (trustedIdProviderName == null) {
             throw new IllegalArgumentException("Parameter trustedIdProviderName is required and cannot be null.");
         }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
@@ -465,7 +580,7 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
             parameters = new UpdateTrustedIdProviderParameters();
             parameters.withIdProvider(idProvider);
         }
-        return service.update(resourceGroupName, accountName, trustedIdProviderName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+        return service.update(this.client.subscriptionId(), resourceGroupName, accountName, trustedIdProviderName, this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<TrustedIdProvider>>>() {
                 @Override
                 public Observable<ServiceResponse<TrustedIdProvider>> call(Response<ResponseBody> response) {
@@ -489,8 +604,8 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     /**
      * Deletes the specified trusted identity provider from the specified Data Lake Store account.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account from which to delete the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider to delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -503,8 +618,8 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     /**
      * Deletes the specified trusted identity provider from the specified Data Lake Store account.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account from which to delete the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider to delete.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -517,8 +632,8 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     /**
      * Deletes the specified trusted identity provider from the specified Data Lake Store account.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account from which to delete the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider to delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
@@ -535,13 +650,16 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
     /**
      * Deletes the specified trusted identity provider from the specified Data Lake Store account.
      *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account from which to delete the trusted identity provider.
+     * @param resourceGroupName The name of the Azure resource group.
+     * @param accountName The name of the Data Lake Store account.
      * @param trustedIdProviderName The name of the trusted identity provider to delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
     public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String accountName, String trustedIdProviderName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -551,13 +669,10 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
         if (trustedIdProviderName == null) {
             throw new IllegalArgumentException("Parameter trustedIdProviderName is required and cannot be null.");
         }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.delete(resourceGroupName, accountName, trustedIdProviderName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.delete(this.client.subscriptionId(), resourceGroupName, accountName, trustedIdProviderName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -575,222 +690,6 @@ public class TrustedIdProvidersImpl implements TrustedIdProviders {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets the specified Data Lake Store trusted identity provider.
-     *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account from which to get the trusted identity provider.
-     * @param trustedIdProviderName The name of the trusted identity provider to retrieve.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the TrustedIdProvider object if successful.
-     */
-    public TrustedIdProvider get(String resourceGroupName, String accountName, String trustedIdProviderName) {
-        return getWithServiceResponseAsync(resourceGroupName, accountName, trustedIdProviderName).toBlocking().single().body();
-    }
-
-    /**
-     * Gets the specified Data Lake Store trusted identity provider.
-     *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account from which to get the trusted identity provider.
-     * @param trustedIdProviderName The name of the trusted identity provider to retrieve.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<TrustedIdProvider> getAsync(String resourceGroupName, String accountName, String trustedIdProviderName, final ServiceCallback<TrustedIdProvider> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, accountName, trustedIdProviderName), serviceCallback);
-    }
-
-    /**
-     * Gets the specified Data Lake Store trusted identity provider.
-     *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account from which to get the trusted identity provider.
-     * @param trustedIdProviderName The name of the trusted identity provider to retrieve.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the TrustedIdProvider object
-     */
-    public Observable<TrustedIdProvider> getAsync(String resourceGroupName, String accountName, String trustedIdProviderName) {
-        return getWithServiceResponseAsync(resourceGroupName, accountName, trustedIdProviderName).map(new Func1<ServiceResponse<TrustedIdProvider>, TrustedIdProvider>() {
-            @Override
-            public TrustedIdProvider call(ServiceResponse<TrustedIdProvider> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the specified Data Lake Store trusted identity provider.
-     *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account from which to get the trusted identity provider.
-     * @param trustedIdProviderName The name of the trusted identity provider to retrieve.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the TrustedIdProvider object
-     */
-    public Observable<ServiceResponse<TrustedIdProvider>> getWithServiceResponseAsync(String resourceGroupName, String accountName, String trustedIdProviderName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (accountName == null) {
-            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
-        }
-        if (trustedIdProviderName == null) {
-            throw new IllegalArgumentException("Parameter trustedIdProviderName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.get(resourceGroupName, accountName, trustedIdProviderName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<TrustedIdProvider>>>() {
-                @Override
-                public Observable<ServiceResponse<TrustedIdProvider>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<TrustedIdProvider> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<TrustedIdProvider> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<TrustedIdProvider, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<TrustedIdProvider>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
-     *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account from which to get the trusted identity providers.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;TrustedIdProvider&gt; object if successful.
-     */
-    public PagedList<TrustedIdProvider> listByAccount(final String resourceGroupName, final String accountName) {
-        ServiceResponse<Page<TrustedIdProvider>> response = listByAccountSinglePageAsync(resourceGroupName, accountName).toBlocking().single();
-        return new PagedList<TrustedIdProvider>(response.body()) {
-            @Override
-            public Page<TrustedIdProvider> nextPage(String nextPageLink) {
-                return listByAccountNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
-     *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account from which to get the trusted identity providers.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<TrustedIdProvider>> listByAccountAsync(final String resourceGroupName, final String accountName, final ListOperationCallback<TrustedIdProvider> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByAccountSinglePageAsync(resourceGroupName, accountName),
-            new Func1<String, Observable<ServiceResponse<Page<TrustedIdProvider>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<TrustedIdProvider>>> call(String nextPageLink) {
-                    return listByAccountNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
-     *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account from which to get the trusted identity providers.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;TrustedIdProvider&gt; object
-     */
-    public Observable<Page<TrustedIdProvider>> listByAccountAsync(final String resourceGroupName, final String accountName) {
-        return listByAccountWithServiceResponseAsync(resourceGroupName, accountName)
-            .map(new Func1<ServiceResponse<Page<TrustedIdProvider>>, Page<TrustedIdProvider>>() {
-                @Override
-                public Page<TrustedIdProvider> call(ServiceResponse<Page<TrustedIdProvider>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
-     *
-     * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-     * @param accountName The name of the Data Lake Store account from which to get the trusted identity providers.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;TrustedIdProvider&gt; object
-     */
-    public Observable<ServiceResponse<Page<TrustedIdProvider>>> listByAccountWithServiceResponseAsync(final String resourceGroupName, final String accountName) {
-        return listByAccountSinglePageAsync(resourceGroupName, accountName)
-            .concatMap(new Func1<ServiceResponse<Page<TrustedIdProvider>>, Observable<ServiceResponse<Page<TrustedIdProvider>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<TrustedIdProvider>>> call(ServiceResponse<Page<TrustedIdProvider>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByAccountNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
-     *
-    ServiceResponse<PageImpl<TrustedIdProvider>> * @param resourceGroupName The name of the Azure resource group that contains the Data Lake Store account.
-    ServiceResponse<PageImpl<TrustedIdProvider>> * @param accountName The name of the Data Lake Store account from which to get the trusted identity providers.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;TrustedIdProvider&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<TrustedIdProvider>>> listByAccountSinglePageAsync(final String resourceGroupName, final String accountName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (accountName == null) {
-            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listByAccount(resourceGroupName, accountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<TrustedIdProvider>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<TrustedIdProvider>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<TrustedIdProvider>> result = listByAccountDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<TrustedIdProvider>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<TrustedIdProvider>> listByAccountDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<TrustedIdProvider>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<TrustedIdProvider>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

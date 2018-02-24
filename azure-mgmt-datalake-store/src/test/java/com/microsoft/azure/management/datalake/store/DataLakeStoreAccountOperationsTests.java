@@ -8,9 +8,10 @@ package com.microsoft.azure.management.datalake.store;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.datalake.store.models.CapabilityInformation;
+import com.microsoft.azure.management.datalake.store.models.CreateDataLakeStoreAccountParameters;
 import com.microsoft.azure.management.datalake.store.models.DataLakeStoreAccount;
 import com.microsoft.azure.management.datalake.store.models.DataLakeStoreAccountBasic;
-import com.microsoft.azure.management.datalake.store.models.DataLakeStoreAccountUpdateParameters;
+import com.microsoft.azure.management.datalake.store.models.UpdateDataLakeStoreAccountParameters;
 import com.microsoft.azure.management.datalake.store.models.NameAvailabilityInformation;
 import com.microsoft.azure.management.datalake.store.models.OperationListResult;
 import org.junit.Assert;
@@ -26,24 +27,28 @@ public class DataLakeStoreAccountOperationsTests extends DataLakeStoreManagement
         String adlsAcct = generateRandomResourceName("adlsacct", 15);
 
         // Ensure that the account name is available
-        NameAvailabilityInformation checkNameGetResponse = dataLakeStoreAccountManagementClient.accounts().checkNameAvailability(
-                environmentLocation.name(),
-                adlsAcct
-        );
+        NameAvailabilityInformation checkNameGetResponse =
+                dataLakeStoreAccountManagementClient.accounts().checkNameAvailability(
+                        environmentLocation.name(),
+                        adlsAcct
+                );
 
         Assert.assertTrue(checkNameGetResponse.nameAvailable());
 
         // Create
-        DataLakeStoreAccount createParams = new DataLakeStoreAccount();
-        createParams.withLocation(environmentLocation.name());
-        createParams.withTags(new HashMap<String, String>());
-        createParams.getTags().put("testkey", "testvalue");
+        HashMap<String, String> tags = new HashMap<String, String>();
+        tags.put("testley", "testvalue");
 
-        DataLakeStoreAccount createResponse = dataLakeStoreAccountManagementClient.accounts().create(
-                resourceGroupName,
-                adlsAcct,
-                createParams
-        );
+        CreateDataLakeStoreAccountParameters createParams = new CreateDataLakeStoreAccountParameters()
+                .withLocation(environmentLocation.name())
+                .withTags(tags);
+
+        DataLakeStoreAccount createResponse =
+                dataLakeStoreAccountManagementClient.accounts().create(
+                        resourceGroupName,
+                        adlsAcct,
+                        createParams
+                );
 
         Assert.assertEquals(environmentLocation.name(), createResponse.location());
         Assert.assertEquals("Microsoft.DataLakeStore/accounts", createResponse.type());
@@ -52,15 +57,17 @@ public class DataLakeStoreAccountOperationsTests extends DataLakeStoreManagement
         Assert.assertEquals(1, createResponse.getTags().size());
 
         // Update the tags
-        createParams.getTags().put("testkey2", "testvalue2");
-        DataLakeStoreAccountUpdateParameters updateParams = new DataLakeStoreAccountUpdateParameters();
-        updateParams.withTags((createParams.getTags()));
+        tags.put("testkey2", "testvalue2");
 
-        DataLakeStoreAccount updateResponse = dataLakeStoreAccountManagementClient.accounts().update(
-                resourceGroupName,
-                adlsAcct,
-                updateParams
-        );
+        UpdateDataLakeStoreAccountParameters updateParams = new UpdateDataLakeStoreAccountParameters()
+                .withTags(tags);
+
+        DataLakeStoreAccount updateResponse =
+                dataLakeStoreAccountManagementClient.accounts().update(
+                        resourceGroupName,
+                        adlsAcct,
+                        updateParams
+                );
 
         Assert.assertEquals(environmentLocation.name(), updateResponse.location());
         Assert.assertEquals("Microsoft.DataLakeStore/accounts", updateResponse.type());
@@ -69,10 +76,11 @@ public class DataLakeStoreAccountOperationsTests extends DataLakeStoreManagement
         Assert.assertEquals(2, updateResponse.getTags().size());
 
         // Get the account
-        DataLakeStoreAccount getResponse = dataLakeStoreAccountManagementClient.accounts().get(
-                resourceGroupName,
-                adlsAcct
-        );
+        DataLakeStoreAccount getResponse =
+                dataLakeStoreAccountManagementClient.accounts().get(
+                        resourceGroupName,
+                        adlsAcct
+                );
 
         Assert.assertEquals(environmentLocation.name(), getResponse.location());
         Assert.assertEquals("Microsoft.DataLakeStore/accounts", getResponse.type());
@@ -101,7 +109,10 @@ public class DataLakeStoreAccountOperationsTests extends DataLakeStoreManagement
         Assert.assertEquals(2, discoveredAcct.getTags().size());
 
         // List within a resource group
-        listResult = dataLakeStoreAccountManagementClient.accounts().listByResourceGroup(resourceGroupName);
+        listResult =
+                dataLakeStoreAccountManagementClient.accounts().listByResourceGroup(
+                        resourceGroupName
+                );
 
         discoveredAcct = null;
         for (DataLakeStoreAccountBasic acct : listResult)
@@ -121,7 +132,10 @@ public class DataLakeStoreAccountOperationsTests extends DataLakeStoreManagement
         Assert.assertEquals(2, discoveredAcct.getTags().size());
 
         // Check that Locations_GetCapability and Operations_List are functional
-        CapabilityInformation capabilityGetResponse = dataLakeStoreAccountManagementClient.locations().getCapability(environmentLocation.name());
+        CapabilityInformation capabilityGetResponse =
+                dataLakeStoreAccountManagementClient.locations().getCapability(
+                        environmentLocation.name()
+                );
 
         Assert.assertNotNull(capabilityGetResponse);
 
@@ -130,9 +144,15 @@ public class DataLakeStoreAccountOperationsTests extends DataLakeStoreManagement
         Assert.assertNotNull(operationsListResponse);
 
         // Delete the ADLS account
-        dataLakeStoreAccountManagementClient.accounts().delete(resourceGroupName, adlsAcct);
+        dataLakeStoreAccountManagementClient.accounts().delete(
+                resourceGroupName,
+                adlsAcct
+        );
 
         // Do it again, it should not throw
-        dataLakeStoreAccountManagementClient.accounts().delete(resourceGroupName, adlsAcct);
+        dataLakeStoreAccountManagementClient.accounts().delete(
+                resourceGroupName,
+                adlsAcct
+        );
     }
 }

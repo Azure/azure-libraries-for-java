@@ -8,4 +8,4 @@
  * This package contains the models classes for DataLakeAnalyticsCatalogManagementClient.
  * Creates an Azure Data Lake Analytics catalog client.
  */
-package com.microsoft.azure.management.datalake.analytics.models;
+package com.microsoft.azure.datalake.analytics.models;

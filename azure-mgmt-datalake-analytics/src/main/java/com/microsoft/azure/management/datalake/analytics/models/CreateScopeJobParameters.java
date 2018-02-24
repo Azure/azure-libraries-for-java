@@ -8,8 +8,9 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Map;
 
 /**
  * The parameters used to submit a new Data Lake Analytics Scope job. (Only for

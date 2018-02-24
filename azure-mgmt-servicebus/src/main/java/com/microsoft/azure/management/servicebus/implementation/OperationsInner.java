@@ -8,7 +8,6 @@
 
 package com.microsoft.azure.management.servicebus.implementation;
 
-import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
@@ -17,18 +16,20 @@ import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import okhttp3.ResponseBody;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
 import rx.Observable;
+import rx.functions.Func1;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -80,7 +81,7 @@ public class OperationsInner {
             @Override
             public Page<OperationInner> nextPage(String nextPageLink) {
                 // Temporary work-around for https://github.com/Azure/azure-sdk-for-java/issues/1641
-                if (nextPageLink.isEmpty()) {
+                if (nextPageLink != null && nextPageLink.isEmpty()) {
                     PageImpl<OperationInner> emptyPage = new PageImpl<>();
                     emptyPage.setItems(new ArrayList<OperationInner>());
                     return emptyPage;

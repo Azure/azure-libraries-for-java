@@ -138,11 +138,11 @@ class ActivityLogsImpl
             public Observable<EventData> typeConvertAsync(EventDataInner inner) {
                 return Observable.just((EventData) new EventDataImpl(inner));
             }
-        }).convert(this.inner().list(filter, StringUtils.join(this.responsePropertySelector, ',')));
+        }).convert(this.inner().list(filter, createPropertyFilter()));
     }
 
     private Observable<EventData> listEventDataAsync(String filter) {
-        return this.inner().listAsync(filter, StringUtils.join(this.responsePropertySelector, ','))
+        return this.inner().listAsync(filter, createPropertyFilter())
                 .flatMap(new Func1<Page<EventDataInner>, Observable<EventData>>() {
                     @Override
                     public Observable<EventData> call(Page<EventDataInner> eventDataInnerPage) {
@@ -155,5 +155,13 @@ class ActivityLogsImpl
                                 });
                     }
                 });
+    }
+
+    private String createPropertyFilter() {
+        String propertyFilter = StringUtils.join(this.responsePropertySelector, ',');
+        if (propertyFilter != null && propertyFilter.trim().isEmpty()) {
+            propertyFilter = null;
+        }
+        return propertyFilter;
     }
 }

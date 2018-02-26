@@ -92,7 +92,7 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
         containerGroup.refresh();
 
         Set<Operation> containerGroupOperations = containerGroups.listOperations();
-        Assert.assertEquals(4, containerGroupOperations.size());
+        Assert.assertEquals(7, containerGroupOperations.size());
 
         return containerGroup;
     }

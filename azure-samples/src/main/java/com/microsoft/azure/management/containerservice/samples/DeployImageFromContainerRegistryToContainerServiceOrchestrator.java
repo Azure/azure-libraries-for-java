@@ -102,14 +102,18 @@ public class DeployImageFromContainerRegistryToContainerServiceOrchestrator {
             //   If the environment variable was not set then reuse the main service principal set for running this sample.
 
             if (servicePrincipalClientId.isEmpty() || servicePrincipalSecret.isEmpty()) {
-                String envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION_2");
+                servicePrincipalClientId = System.getenv("AZURE_CLIENT_ID");
+                servicePrincipalSecret = System.getenv("AZURE_CLIENT_SECRET");
+                if (servicePrincipalClientId.isEmpty() || servicePrincipalSecret.isEmpty()) {
+                    String envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION_2");
 
-                if (envSecondaryServicePrincipal == null || !envSecondaryServicePrincipal.isEmpty() || !Files.exists(Paths.get(envSecondaryServicePrincipal))) {
-                    envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION");
+                    if (envSecondaryServicePrincipal == null || !envSecondaryServicePrincipal.isEmpty() || !Files.exists(Paths.get(envSecondaryServicePrincipal))) {
+                        envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION");
+                    }
+
+                    servicePrincipalClientId = Utils.getSecondaryServicePrincipalClientID(envSecondaryServicePrincipal);
+                    servicePrincipalSecret = Utils.getSecondaryServicePrincipalSecret(envSecondaryServicePrincipal);
                 }
-
-                servicePrincipalClientId = Utils.getSecondaryServicePrincipalClientID(envSecondaryServicePrincipal);
-                servicePrincipalSecret = Utils.getSecondaryServicePrincipalSecret(envSecondaryServicePrincipal);
             }
 
 

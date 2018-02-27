@@ -302,6 +302,7 @@ public interface SqlDatabase
      * @param policyName the name of the security alert policy
      * @return the first stage of the SqlDatabaseThreatDetectionPolicy definition
      */
+    @Beta(Beta.SinceVersion.V1_7_0)
     SqlDatabaseThreatDetectionPolicy.DefinitionStages.Blank defineThreatDetectionPolicy(String policyName);
 
     /**
@@ -310,6 +311,7 @@ public interface SqlDatabase
      * @return the SQL database threat detection policy for the current database
      */
     @Method
+    @Beta(Beta.SinceVersion.V1_7_0)
     SqlDatabaseThreatDetectionPolicy getThreatDetectionPolicy();
 
     /**

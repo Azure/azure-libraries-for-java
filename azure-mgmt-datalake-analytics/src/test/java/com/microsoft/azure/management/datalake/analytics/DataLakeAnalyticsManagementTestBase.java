@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.datalake.analytics;
 
+import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.management.datalake.analytics.implementation.DataLakeAnalyticsAccountManagementClientImpl;
@@ -73,22 +74,25 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase
                         isPlaybackMode()
                 );
 
-        if (isRecordMode())
-        {
-            final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
-
-            try
-            {
-                credentials = ApplicationTokenCredentials.fromFile(credFile);
+        if (isRecordMode()) {
+            if (System.getenv("AZURE_AUTH_LOCATION") != null) { // Record mode
+                final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
+                try {
+                    credentials = ApplicationTokenCredentials.fromFile(credFile);
+                } catch (IOException e) {
+                    Assert.fail("Failed to read credentials from file: " + credFile + " with error: " + e.getMessage());
+                }
+            } else {
+                String clientId = System.getenv("AZURE_CLIENT_ID");
+                String tenantId = System.getenv("AZURE_TENANT_ID");
+                String clientSecret = System.getenv("AZURE_CLIENT_SECRET");
+                String subscriptionId = System.getenv("AZURE_SUBSCRIPTION_ID");
+                if (clientId == null || tenantId == null || clientSecret == null || subscriptionId == null) {
+                    throw new IllegalArgumentException("When running tests in record mode either 'AZURE_AUTH_LOCATION' or 'AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET and AZURE_SUBSCRIPTION_ID' needs to be set");
+                }
+                credentials = new ApplicationTokenCredentials(clientId, tenantId, clientSecret, AzureEnvironment.AZURE);
+                credentials.withDefaultSubscriptionId(subscriptionId);
             }
-            catch (IOException e)
-            {
-                Assert.fail("Failed to read credentials from file: " + credFile + " with error: " + e.getMessage());
-            }
-        }
-
-        if (isRecordMode())
-        {
             RestClient restClientWithTimeout = buildRestClient(new RestClient.Builder()
                     .withConnectionTimeout(5, TimeUnit.MINUTES)
                     .withBaseUrl("https://{accountName}.{adlaJobDnsSuffix}")

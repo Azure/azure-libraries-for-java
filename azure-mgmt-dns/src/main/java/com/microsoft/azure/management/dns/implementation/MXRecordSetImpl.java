@@ -6,8 +6,8 @@
 package com.microsoft.azure.management.dns.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.MxRecord;
 import com.microsoft.azure.management.dns.MXRecordSet;
+import com.microsoft.azure.management.dns.MxRecord;
 import com.microsoft.azure.management.dns.RecordType;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ class MXRecordSetImpl
                 for (MxRecord recordToRemove : this.recordSetRemoveInfo.mxRecords()) {
                     for (MxRecord record : resource.mxRecords()) {
                         if (record.exchange().equalsIgnoreCase(recordToRemove.exchange())
-                                && (record.preference().equals(recordToRemove.preference()))) {
+                                && (record.preference() != null && record.preference().equals(recordToRemove.preference()))) {
                             resource.mxRecords().remove(record);
                             break;
                         }

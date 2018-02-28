@@ -2,7 +2,7 @@
 
 # Azure Management Libraries for Java
 
-This README is based on the released stable version (1.6.0). If you are looking for other releases, see [More Information](#more-information).
+This README is based on the released stable version (1.7.0). If you are looking for other releases, see [More Information](#more-information).
 
 The Azure Management Libraries for Java is a higher-level, object-oriented API for *managing* Azure resources, that is optimized for ease of use, succinctness and consistency.
 
@@ -24,7 +24,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
 * [More information](#more-information)
 
 ## Feature Availability and Road Map
-:triangular_flag_on_post: *as of Version 1.6.0*
+:triangular_flag_on_post: *as of Version 1.7.0*
 
 <table>
   <tr>
@@ -47,7 +47,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
   </tr>
   <tr>
     <td>SQL Database</td>
-    <td>Databases<br>Firewalls<br>Elastic pools</td>
+    <td>Databases<br>Firewalls<br>Elastic pools<br>import, export, recover and restore dbs</td>
     <td></td>
     <td valign="top">More features</td>
   </tr>
@@ -60,7 +60,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
   <tr>
     <td>More services</td>
     <td>Resource Manager<br>Key Vault<br>Redis<br>CDN<br>Batch<br>Service bus</td>
-    <td valign="top">Web apps<br>Function Apps<br>Graph RBAC<br>Cosmos DB<br>Monitor<br>Batch AI<br>Search</td>
+    <td valign="top">Web apps<br>Function Apps<br>Graph RBAC<br>Cosmos DB<br>Monitor<br>Batch AI<br>Search<br>Event Hub</td>
     <td valign="top">Data Lake</td>
   </tr>
   <tr>
@@ -591,7 +591,7 @@ If you are using released builds from 1.6.0, add the following to your POM file:
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure</artifactId>
-    <version>1.6.0</version>
+    <version>1.7.0</version>
 </dependency>
 ```
 
@@ -618,7 +618,7 @@ If you are using snapshots builds for this repo, add the following repository an
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure</artifactId>
-    <version>1.6.1-SNAPSHOT</version>
+    <version>1.7.1-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.microsoft.azure</groupId>
@@ -645,7 +645,7 @@ If you are using snapshots builds for this repo, add the following repository an
 
 ## Upgrading from older versions
 
-If you are migrating your code from 1.5.x to 1.6.0, you can use these release notes for [preparing your code for 1.6.0 from 1.5.x](./notes/prepare-for-1.6.0.md).
+If you are migrating your code from 1.6.x to 1.7.0, you can use these release notes for [preparing your code for 1.7.0 from 1.6.x](./notes/prepare-for-1.7.0.md).
 
 In general, Azure Libraries for Java follow [semantic versioning](http://semver.org/), so user code should continue working in a compatible fashion between minor versions of the same major version release train, with the following caveats:
 
@@ -679,6 +679,7 @@ If you would like to become an active contributor to this project please follow 
 
 | Version           | SHA1                                                                                      | Remarks                                               |
 |-------------------|-------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| 1.7.0       | [1.7.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.7.0)               | Tagged release for 1.7.0 version of Azure management libraries |
 | 1.6.0       | [1.6.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.6.0)               | Tagged release for 1.6.0 version of Azure management libraries |
 | 1.5.1       | [1.5.1](https://github.com/Azure/azure-libraries-for-java/tree/v1.5.1)               | Tagged release for 1.5.1 version of Azure management libraries |
 | 1.4.0       | [1.4.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.4.0)               | Tagged release for 1.4.0 version of Azure management libraries |

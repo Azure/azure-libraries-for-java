@@ -27,7 +27,7 @@ ENV MAVEN_HOME /usr/share/maven
 ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 
 COPY . /azure-libraries-for-java
-COPY ./сi/app /app
+COPY ./ci/app /app
 
 RUN mvn install -DskipTests=true -f /azure-libraries-for-java/pom.xml -Dmaven.repo.local=/repository -q
 

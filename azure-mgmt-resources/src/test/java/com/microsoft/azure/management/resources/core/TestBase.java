@@ -196,7 +196,7 @@ public abstract class TestBase {
                 credentials = new ApplicationTokenCredentials(clientId, tenantId, clientSecret, AzureEnvironment.AZURE);
                 credentials.withDefaultSubscriptionId(subscriptionId);
             }
-            restClient = buildRestClient(new RestClient.Builder()
+            RestClient.Builder builder = new RestClient.Builder()
                             .withBaseUrl(this.baseUri())
                             .withSerializerAdapter(new AzureJacksonAdapter())
                             .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
@@ -204,11 +204,11 @@ public abstract class TestBase {
                             .withCredentials(credentials)
                             .withLogLevel(LogLevel.NONE)
                             .withReadTimeout(3, TimeUnit.MINUTES)
-                            .withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS))
-                            .withNetworkInterceptor(interceptorManager.initInterceptor())
-                            .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                    ,false);
-
+                            .withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS));
+            if (!interceptorManager.isNoneMode()) {
+                builder.withNetworkInterceptor(interceptorManager.initInterceptor());
+            }
+            restClient = buildRestClient(builder.withInterceptor(new ResourceManagerThrottlingInterceptor()),false);
             defaultSubscription = credentials.defaultSubscriptionId();
             interceptorManager.addTextReplacementRule(defaultSubscription, ZERO_SUBSCRIPTION);
             interceptorManager.addTextReplacementRule(credentials.domain(), ZERO_TENANT);

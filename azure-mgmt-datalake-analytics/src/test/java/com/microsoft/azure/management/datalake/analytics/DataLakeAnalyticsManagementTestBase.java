@@ -93,29 +93,32 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase
                 credentials = new ApplicationTokenCredentials(clientId, tenantId, clientSecret, AzureEnvironment.AZURE);
                 credentials.withDefaultSubscriptionId(subscriptionId);
             }
-            RestClient restClientWithTimeout = buildRestClient(new RestClient.Builder()
+            RestClient.Builder builder = new RestClient.Builder()
                     .withConnectionTimeout(5, TimeUnit.MINUTES)
                     .withBaseUrl("https://{accountName}.{adlaJobDnsSuffix}")
                     .withSerializerAdapter(new AzureJacksonAdapter())
                     .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
                     .withCredentials(credentials)
-                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
-                    .withNetworkInterceptor(interceptorManager.initInterceptor()),
-                    true
-            );
+                    .withLogLevel(LogLevel.BODY_AND_HEADERS);
+            if (!interceptorManager.isNoneMode()) {
+                builder.withNetworkInterceptor(interceptorManager.initInterceptor());
+            }
+            RestClient restClientWithTimeout = buildRestClient(builder, true);
 
             dataLakeAnalyticsJobManagementClient = new DataLakeAnalyticsJobManagementClientImpl(restClientWithTimeout)
                     .withAdlaJobDnsSuffix(adlaSuffix);
 
-            RestClient catalogRestClient = buildRestClient(new RestClient.Builder()
+            RestClient.Builder catalogRestClientBuilder = new RestClient.Builder()
                     .withBaseUrl("https://{accountName}.{adlaCatalogDnsSuffix}")
                     .withSerializerAdapter(new AzureJacksonAdapter())
                     .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
                     .withCredentials(credentials)
-                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
-                    .withNetworkInterceptor(interceptorManager.initInterceptor()),
-                    false
-            );
+                    .withLogLevel(LogLevel.BODY_AND_HEADERS);
+            if (!interceptorManager.isNoneMode()) {
+                builder.withNetworkInterceptor(interceptorManager.initInterceptor());
+            }
+
+            RestClient catalogRestClient = buildRestClient(builder,false);
 
             dataLakeAnalyticsCatalogManagementClient = new DataLakeAnalyticsCatalogManagementClientImpl(catalogRestClient)
                     .withAdlaCatalogDnsSuffix(adlaSuffix);

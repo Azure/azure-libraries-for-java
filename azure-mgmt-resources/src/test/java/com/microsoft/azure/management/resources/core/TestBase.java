@@ -47,7 +47,8 @@ public abstract class TestBase {
 
     public enum TestMode {
         PLAYBACK,
-        RECORD
+        RECORD,
+        NONE
     }
 
     protected final static String ZERO_SUBSCRIPTION = "00000000-0000-0000-0000-000000000000";
@@ -86,6 +87,8 @@ public abstract class TestBase {
                 testMode = TestMode.RECORD;
             } else if (azureTestMode.equalsIgnoreCase("Playback")) {
                 testMode = TestMode.PLAYBACK;
+            } else if (azureTestMode.equalsIgnoreCase("None")) {
+                testMode = TestMode.NONE;
             } else {
                 throw new IOException("Unknown AZURE_TEST_MODE: " + azureTestMode);
             }

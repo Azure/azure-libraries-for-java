@@ -454,6 +454,8 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 <li><a href="https://github.com/Azure-Samples/sql-database-java-manage-sql-dbs-in-elastic-pool">Manage SQL databases in elastic pools</a></li>
 <li><a href="https://github.com/Azure-Samples/sql-database-java-manage-firewalls-for-sql-databases">Manage firewalls for SQL databases</a></li>
 <li><a href="https://github.com/Azure-Samples/sql-database-java-manage-sql-databases-across-regions">Manage SQL databases across regions</a></li>
+<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-import-export-db">Import and export SQL databases</a></li>
+<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-recover-restore-db">Restore and recover SQL databases</a></li>
 </ul></td>
   </tr>
 

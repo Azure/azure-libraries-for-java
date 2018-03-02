@@ -580,6 +580,15 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 <li><a href="https://github.com/Azure-Samples/search-java-manage-search-service">Manage Azure search</a></li>
 </ul></td>
   </tr>
+  
+  <tr>
+    <td>Event Hub</td>
+    <td><ul style="list-style-type:circle">
+<li><a href="https://github.com/Azure-Samples/eventhub-java-manage-event-hub">Manage event hub and associated resources</a></li>
+<li><a href="https://github.com/Azure-Samples/eventhub-java-manage-event-hub-geo-disaster-recovery">Manage event hub geo-disaster recovery</a></li>
+</ul></td>
+  </tr>
+  
 
 </table>
 

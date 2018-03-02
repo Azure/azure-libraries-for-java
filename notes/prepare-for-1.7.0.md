@@ -31,26 +31,6 @@ The following methods and/or types have been changed in V1.7 compared to the pre
   </tr>
 </table>
 
-## Renames/Removals
-
-The following methods and/or types have been either renamed or removed in V1.7 compared to the previous release (V1.6):
-
-<table>
-  <tr>
-    <th align=left>Area/Model</th>
-    <th align=left>In V1.6</th>
-    <th align=left>In V1.7</th>
-    <th align=left>Remarks</th>
-    <th align=left>Ref</th>
-  </tr>
-  <tr>
-    <td><code>TBD</code></td>
-    <td><code>.TBD()</code></td>
-    <td><i>TBD</i></td>
-    <td>Use <code>TBD()</code> instead</td>
-    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/TBD">PR #TBD </a></td>
-  </tr>
-</table>
 
 ## Deprecated API's ##
 

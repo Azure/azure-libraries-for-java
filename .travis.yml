@@ -25,11 +25,12 @@ script:
    mvn -Dorg.slf4j.simpleLogger.defaultLogLevel=error || travis_terminate 1 ;
   fi
   if [ ${TRAVIS_EVENT_TYPE} = "push" ]; then
+  java -jar ./ci/java-test-collector-1.0-SNAPSHOT.jar ./
   image=azuresdk-a01-droid:java-$TRAVIS_BUILD_NUMBER
-  docker build -t $image -f Dockerfile .
+  docker build -t $image -f ci/Dockerfile .
   docker images
   image=azuresdk-a01-droid:java-$TRAVIS_BUILD_NUMBER
-  docker build --pull -t $image -f Dockerfile .
+  docker build --pull -t $image -f ci/Dockerfile .
   docker images
   docker login azureclidev.azurecr.io -u $AZURESDKDEV_ACR_SP_USERNAME -p $AZURESDK_ACR_SP_PASSWORD
   docker tag azuresdk-a01-droid:java-$TRAVIS_BUILD_NUMBER azureclidev.azurecr.io/azuresdk-a01-droid:java-$TRAVIS_BUILD_NUMBER

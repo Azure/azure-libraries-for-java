@@ -15,11 +15,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for RestorePointType.
  */
 public enum RestorePointTypes {
-    /** Enum value DISCRETE. */
-    DISCRETE("DISCRETE"),
-
     /** Enum value CONTINUOUS. */
-    CONTINUOUS("CONTINUOUS");
+    CONTINUOUS("CONTINUOUS"),
+
+    /** Enum value DISCRETE. */
+    DISCRETE("DISCRETE");
 
     /** The actual serialized value for a RestorePointType instance. */
     private String value;

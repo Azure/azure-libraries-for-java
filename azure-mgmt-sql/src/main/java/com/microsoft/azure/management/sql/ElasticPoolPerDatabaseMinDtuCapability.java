@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ElasticPoolPerDatabaseMinDtuCapability {
     /**
-     * The minimum DTUs per database.
+     * The maximum DTUs per database.
      */
     @JsonProperty(value = "limit", access = JsonProperty.Access.WRITE_ONLY)
-    private Integer limit;
+    private Long limit;
 
     /**
      * The status of the capability. Possible values include: 'Visible',
@@ -28,17 +28,11 @@ public class ElasticPoolPerDatabaseMinDtuCapability {
     private CapabilityStatus status;
 
     /**
-     * The reason for the capability not being available.
-     */
-    @JsonProperty(value = "reason")
-    private String reason;
-
-    /**
      * Get the limit value.
      *
      * @return the limit value
      */
-    public Integer limit() {
+    public Long limit() {
         return this.limit;
     }
 
@@ -49,26 +43,6 @@ public class ElasticPoolPerDatabaseMinDtuCapability {
      */
     public CapabilityStatus status() {
         return this.status;
-    }
-
-    /**
-     * Get the reason value.
-     *
-     * @return the reason value
-     */
-    public String reason() {
-        return this.reason;
-    }
-
-    /**
-     * Set the reason value.
-     *
-     * @param reason the reason value to set
-     * @return the ElasticPoolPerDatabaseMinDtuCapability object itself.
-     */
-    public ElasticPoolPerDatabaseMinDtuCapability withReason(String reason) {
-        this.reason = reason;
-        return this;
     }
 
 }

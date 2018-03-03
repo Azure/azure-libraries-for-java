@@ -16,40 +16,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ElasticPoolDtuCapability {
     /**
-     * The DTU limit for the pool.
+     * The maximum size of the database (see 'unit' for the units).
      */
     @JsonProperty(value = "limit", access = JsonProperty.Access.WRITE_ONLY)
-    private Integer limit;
+    private Long limit;
 
     /**
      * The maximum number of databases supported.
      */
     @JsonProperty(value = "maxDatabaseCount", access = JsonProperty.Access.WRITE_ONLY)
-    private Integer maxDatabaseCount;
-
-    /**
-     * The included (free) max size for this DTU.
-     */
-    @JsonProperty(value = "includedMaxSize", access = JsonProperty.Access.WRITE_ONLY)
-    private MaxSizeCapability includedMaxSize;
-
-    /**
-     * The list of supported max sizes.
-     */
-    @JsonProperty(value = "supportedMaxSizes", access = JsonProperty.Access.WRITE_ONLY)
-    private List<MaxSizeCapability> supportedMaxSizes;
-
-    /**
-     * The list of supported per database max sizes.
-     */
-    @JsonProperty(value = "supportedPerDatabaseMaxSizes", access = JsonProperty.Access.WRITE_ONLY)
-    private List<MaxSizeCapability> supportedPerDatabaseMaxSizes;
-
-    /**
-     * The list of supported per database max DTUs.
-     */
-    @JsonProperty(value = "supportedPerDatabaseMaxDtus", access = JsonProperty.Access.WRITE_ONLY)
-    private List<ElasticPoolPerDatabaseMaxDtuCapability> supportedPerDatabaseMaxDtus;
+    private Long maxDatabaseCount;
 
     /**
      * The status of the capability. Possible values include: 'Visible',
@@ -59,17 +35,35 @@ public class ElasticPoolDtuCapability {
     private CapabilityStatus status;
 
     /**
-     * The reason for the capability not being available.
+     * The list of supported max sizes.
      */
-    @JsonProperty(value = "reason")
-    private String reason;
+    @JsonProperty(value = "supportedMaxSizes", access = JsonProperty.Access.WRITE_ONLY)
+    private List<MaxSizeCapability> supportedMaxSizes;
+
+    /**
+     * The included (free) max size for this service level objective.
+     */
+    @JsonProperty(value = "includedMaxSize", access = JsonProperty.Access.WRITE_ONLY)
+    private MaxSizeCapability includedMaxSize;
+
+    /**
+     * The list of supported max database sizes.
+     */
+    @JsonProperty(value = "supportedPerDatabaseMaxSizes", access = JsonProperty.Access.WRITE_ONLY)
+    private List<MaxSizeCapability> supportedPerDatabaseMaxSizes;
+
+    /**
+     * The list of supported max database DTUs.
+     */
+    @JsonProperty(value = "supportedPerDatabaseMaxDtus", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ElasticPoolPerDatabaseMaxDtuCapability> supportedPerDatabaseMaxDtus;
 
     /**
      * Get the limit value.
      *
      * @return the limit value
      */
-    public Integer limit() {
+    public Long limit() {
         return this.limit;
     }
 
@@ -78,17 +72,17 @@ public class ElasticPoolDtuCapability {
      *
      * @return the maxDatabaseCount value
      */
-    public Integer maxDatabaseCount() {
+    public Long maxDatabaseCount() {
         return this.maxDatabaseCount;
     }
 
     /**
-     * Get the includedMaxSize value.
+     * Get the status value.
      *
-     * @return the includedMaxSize value
+     * @return the status value
      */
-    public MaxSizeCapability includedMaxSize() {
-        return this.includedMaxSize;
+    public CapabilityStatus status() {
+        return this.status;
     }
 
     /**
@@ -98,6 +92,15 @@ public class ElasticPoolDtuCapability {
      */
     public List<MaxSizeCapability> supportedMaxSizes() {
         return this.supportedMaxSizes;
+    }
+
+    /**
+     * Get the includedMaxSize value.
+     *
+     * @return the includedMaxSize value
+     */
+    public MaxSizeCapability includedMaxSize() {
+        return this.includedMaxSize;
     }
 
     /**
@@ -116,35 +119,6 @@ public class ElasticPoolDtuCapability {
      */
     public List<ElasticPoolPerDatabaseMaxDtuCapability> supportedPerDatabaseMaxDtus() {
         return this.supportedPerDatabaseMaxDtus;
-    }
-
-    /**
-     * Get the status value.
-     *
-     * @return the status value
-     */
-    public CapabilityStatus status() {
-        return this.status;
-    }
-
-    /**
-     * Get the reason value.
-     *
-     * @return the reason value
-     */
-    public String reason() {
-        return this.reason;
-    }
-
-    /**
-     * Set the reason value.
-     *
-     * @param reason the reason value to set
-     * @return the ElasticPoolDtuCapability object itself.
-     */
-    public ElasticPoolDtuCapability withReason(String reason) {
-        this.reason = reason;
-        return this;
     }
 
 }

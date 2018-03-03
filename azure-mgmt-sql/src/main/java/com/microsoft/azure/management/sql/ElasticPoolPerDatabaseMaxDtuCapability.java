@@ -19,13 +19,7 @@ public class ElasticPoolPerDatabaseMaxDtuCapability {
      * The maximum DTUs per database.
      */
     @JsonProperty(value = "limit", access = JsonProperty.Access.WRITE_ONLY)
-    private Integer limit;
-
-    /**
-     * The list of supported min database DTUs.
-     */
-    @JsonProperty(value = "supportedPerDatabaseMinDtus", access = JsonProperty.Access.WRITE_ONLY)
-    private List<ElasticPoolPerDatabaseMinDtuCapability> supportedPerDatabaseMinDtus;
+    private Long limit;
 
     /**
      * The status of the capability. Possible values include: 'Visible',
@@ -35,27 +29,18 @@ public class ElasticPoolPerDatabaseMaxDtuCapability {
     private CapabilityStatus status;
 
     /**
-     * The reason for the capability not being available.
+     * The list of supported min database DTUs.
      */
-    @JsonProperty(value = "reason")
-    private String reason;
+    @JsonProperty(value = "supportedPerDatabaseMinDtus", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ElasticPoolPerDatabaseMinDtuCapability> supportedPerDatabaseMinDtus;
 
     /**
      * Get the limit value.
      *
      * @return the limit value
      */
-    public Integer limit() {
+    public Long limit() {
         return this.limit;
-    }
-
-    /**
-     * Get the supportedPerDatabaseMinDtus value.
-     *
-     * @return the supportedPerDatabaseMinDtus value
-     */
-    public List<ElasticPoolPerDatabaseMinDtuCapability> supportedPerDatabaseMinDtus() {
-        return this.supportedPerDatabaseMinDtus;
     }
 
     /**
@@ -68,23 +53,12 @@ public class ElasticPoolPerDatabaseMaxDtuCapability {
     }
 
     /**
-     * Get the reason value.
+     * Get the supportedPerDatabaseMinDtus value.
      *
-     * @return the reason value
+     * @return the supportedPerDatabaseMinDtus value
      */
-    public String reason() {
-        return this.reason;
-    }
-
-    /**
-     * Set the reason value.
-     *
-     * @param reason the reason value to set
-     * @return the ElasticPoolPerDatabaseMaxDtuCapability object itself.
-     */
-    public ElasticPoolPerDatabaseMaxDtuCapability withReason(String reason) {
-        this.reason = reason;
-        return this;
+    public List<ElasticPoolPerDatabaseMinDtuCapability> supportedPerDatabaseMinDtus() {
+        return this.supportedPerDatabaseMinDtus;
     }
 
 }

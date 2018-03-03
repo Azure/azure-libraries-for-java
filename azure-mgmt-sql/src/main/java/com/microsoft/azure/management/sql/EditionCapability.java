@@ -12,33 +12,33 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The edition capability.
+ * The database edition capabilities.
  */
 public class EditionCapability {
     /**
-     * The database edition name.
+     * The edition name.
      */
     @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
-     * The list of supported service objectives for the edition.
-     */
-    @JsonProperty(value = "supportedServiceLevelObjectives", access = JsonProperty.Access.WRITE_ONLY)
-    private List<ServiceLevelObjectiveCapability> supportedServiceLevelObjectives;
-
-    /**
-     * The status of the capability. Possible values include: 'Visible',
+     * The status of the edition. Possible values include: 'Visible',
      * 'Available', 'Default', 'Disabled'.
      */
     @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
     private CapabilityStatus status;
 
     /**
-     * The reason for the capability not being available.
+     * The list of supported service objectives for the edition.
      */
-    @JsonProperty(value = "reason")
-    private String reason;
+    @JsonProperty(value = "supportedServiceLevelObjectives", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ServiceObjectiveCapability> supportedServiceLevelObjectives;
+
+    /**
+     * Whether or not zone redundancy is supported for the edition.
+     */
+    @JsonProperty(value = "zoneRedundant", access = JsonProperty.Access.WRITE_ONLY)
+    private Boolean zoneRedundant;
 
     /**
      * Get the name value.
@@ -47,15 +47,6 @@ public class EditionCapability {
      */
     public String name() {
         return this.name;
-    }
-
-    /**
-     * Get the supportedServiceLevelObjectives value.
-     *
-     * @return the supportedServiceLevelObjectives value
-     */
-    public List<ServiceLevelObjectiveCapability> supportedServiceLevelObjectives() {
-        return this.supportedServiceLevelObjectives;
     }
 
     /**
@@ -68,23 +59,21 @@ public class EditionCapability {
     }
 
     /**
-     * Get the reason value.
+     * Get the supportedServiceLevelObjectives value.
      *
-     * @return the reason value
+     * @return the supportedServiceLevelObjectives value
      */
-    public String reason() {
-        return this.reason;
+    public List<ServiceObjectiveCapability> supportedServiceLevelObjectives() {
+        return this.supportedServiceLevelObjectives;
     }
 
     /**
-     * Set the reason value.
+     * Get the zoneRedundant value.
      *
-     * @param reason the reason value to set
-     * @return the EditionCapability object itself.
+     * @return the zoneRedundant value
      */
-    public EditionCapability withReason(String reason) {
-        this.reason = reason;
-        return this;
+    public Boolean zoneRedundant() {
+        return this.zoneRedundant;
     }
 
 }

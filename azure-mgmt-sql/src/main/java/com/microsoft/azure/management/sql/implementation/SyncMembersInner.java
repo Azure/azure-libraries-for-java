@@ -427,8 +427,8 @@ public class SyncMembersInner {
     private ServiceResponse<SyncMemberInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SyncMemberInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<SyncMemberInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
                 .register(201, new TypeToken<SyncMemberInner>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

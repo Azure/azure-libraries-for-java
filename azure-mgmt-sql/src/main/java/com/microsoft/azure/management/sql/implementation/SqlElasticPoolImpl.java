@@ -535,7 +535,7 @@ public class SqlElasticPoolImpl
 
     @Override
     public SqlElasticPoolImpl withStorageCapacity(SqlElasticPoolStandardStorage storageCapacity) {
-        this.inner().withDtu(storageCapacity.capacityInMB());
+        this.inner().withStorageMB(storageCapacity.capacityInMB());
         return this;
     }
 
@@ -559,7 +559,7 @@ public class SqlElasticPoolImpl
 
     @Override
     public SqlElasticPoolImpl withStorageCapacity(SqlElasticPoolPremiumSorage storageCapacity) {
-        this.inner().withDtu(storageCapacity.capacityInMB());
+        this.inner().withStorageMB(storageCapacity.capacityInMB());
         return this;
     }
 

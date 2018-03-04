@@ -20,7 +20,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
 @JsonFlatten
 public class ReplicationLinkInner extends ProxyResourceInner {
     /**
-     * Location of the server that contains this replication link.
+     * Location of the server that contains this firewall rule.
      */
     @JsonProperty(value = "location", access = JsonProperty.Access.WRITE_ONLY)
     private String location;

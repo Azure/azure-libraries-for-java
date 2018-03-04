@@ -530,8 +530,8 @@ public class SyncAgentsInner {
     private ServiceResponse<SyncAgentInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SyncAgentInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<SyncAgentInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
                 .register(201, new TypeToken<SyncAgentInner>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

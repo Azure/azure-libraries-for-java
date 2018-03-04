@@ -11,14 +11,14 @@ package com.microsoft.azure.management.sql;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The maximum size capability.
+ * The maximum size limits for a database.
  */
 public class MaxSizeCapability {
     /**
-     * The maximum size limit (see 'unit' for the units).
+     * The maximum size of the database (see 'unit' for the units).
      */
     @JsonProperty(value = "limit", access = JsonProperty.Access.WRITE_ONLY)
-    private Integer limit;
+    private long limit;
 
     /**
      * The units that the limit is expressed in. Possible values include:
@@ -28,24 +28,18 @@ public class MaxSizeCapability {
     private MaxSizeUnits unit;
 
     /**
-     * The status of the capability. Possible values include: 'Visible',
-     * 'Available', 'Default', 'Disabled'.
+     * The status of the maximum size capability. Possible values include:
+     * 'Visible', 'Available', 'Default', 'Disabled'.
      */
     @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
     private CapabilityStatus status;
-
-    /**
-     * The reason for the capability not being available.
-     */
-    @JsonProperty(value = "reason")
-    private String reason;
 
     /**
      * Get the limit value.
      *
      * @return the limit value
      */
-    public Integer limit() {
+    public long limit() {
         return this.limit;
     }
 
@@ -65,26 +59,6 @@ public class MaxSizeCapability {
      */
     public CapabilityStatus status() {
         return this.status;
-    }
-
-    /**
-     * Get the reason value.
-     *
-     * @return the reason value
-     */
-    public String reason() {
-        return this.reason;
-    }
-
-    /**
-     * Set the reason value.
-     *
-     * @param reason the reason value to set
-     * @return the MaxSizeCapability object itself.
-     */
-    public MaxSizeCapability withReason(String reason) {
-        this.reason = reason;
-        return this;
     }
 
 }

@@ -22,6 +22,7 @@ import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.RestClient;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -93,7 +94,7 @@ public final class ManageSqlWithRecoveredOrRestoredDatabase {
 
             RestorePoint restorePointInTime = dbToRestore.listRestorePoints().get(0);
             // Restore point might not be ready right away and we will have to wait for it.
-            DateTime currentTime = new DateTime();
+            DateTime currentTime = new DateTime(DateTimeZone.UTC);
             long waitForRestoreToBeReady = restorePointInTime.earliestRestoreDate().getMillis() - currentTime.getMillis();
             if (waitForRestoreToBeReady > 0) {
                 SdkContext.sleep((int) waitForRestoreToBeReady);

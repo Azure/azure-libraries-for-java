@@ -12,7 +12,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The elastic pool edition capability.
+ * The elastic pool edition capabilities.
  */
 public class ElasticPoolEditionCapability {
     /**
@@ -22,23 +22,23 @@ public class ElasticPoolEditionCapability {
     private String name;
 
     /**
+     * The status of the elastic pool edition. Possible values include:
+     * 'Visible', 'Available', 'Default', 'Disabled'.
+     */
+    @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
+    private CapabilityStatus status;
+
+    /**
      * The list of supported elastic pool DTU levels for the edition.
      */
     @JsonProperty(value = "supportedElasticPoolDtus", access = JsonProperty.Access.WRITE_ONLY)
     private List<ElasticPoolDtuCapability> supportedElasticPoolDtus;
 
     /**
-     * The status of the capability. Possible values include: 'Visible',
-     * 'Available', 'Default', 'Disabled'.
+     * Whether or not zone redundancy is supported for the edition.
      */
-    @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
-    private CapabilityStatus status;
-
-    /**
-     * The reason for the capability not being available.
-     */
-    @JsonProperty(value = "reason")
-    private String reason;
+    @JsonProperty(value = "zoneRedundant", access = JsonProperty.Access.WRITE_ONLY)
+    private Boolean zoneRedundant;
 
     /**
      * Get the name value.
@@ -47,15 +47,6 @@ public class ElasticPoolEditionCapability {
      */
     public String name() {
         return this.name;
-    }
-
-    /**
-     * Get the supportedElasticPoolDtus value.
-     *
-     * @return the supportedElasticPoolDtus value
-     */
-    public List<ElasticPoolDtuCapability> supportedElasticPoolDtus() {
-        return this.supportedElasticPoolDtus;
     }
 
     /**
@@ -68,23 +59,21 @@ public class ElasticPoolEditionCapability {
     }
 
     /**
-     * Get the reason value.
+     * Get the supportedElasticPoolDtus value.
      *
-     * @return the reason value
+     * @return the supportedElasticPoolDtus value
      */
-    public String reason() {
-        return this.reason;
+    public List<ElasticPoolDtuCapability> supportedElasticPoolDtus() {
+        return this.supportedElasticPoolDtus;
     }
 
     /**
-     * Set the reason value.
+     * Get the zoneRedundant value.
      *
-     * @param reason the reason value to set
-     * @return the ElasticPoolEditionCapability object itself.
+     * @return the zoneRedundant value
      */
-    public ElasticPoolEditionCapability withReason(String reason) {
-        this.reason = reason;
-        return this;
+    public Boolean zoneRedundant() {
+        return this.zoneRedundant;
     }
 
 }

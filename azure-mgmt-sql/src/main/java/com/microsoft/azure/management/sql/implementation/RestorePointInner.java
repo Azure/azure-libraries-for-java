@@ -14,30 +14,49 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * A database restore point.
+ * Database restore points.
  */
 @JsonFlatten
 public class RestorePointInner extends ProxyResourceInner {
     /**
-     * The restore point type of the database restore point. Possible values
-     * include: 'DISCRETE', 'CONTINUOUS'.
+     * Resource location.
+     */
+    @JsonProperty(value = "location", access = JsonProperty.Access.WRITE_ONLY)
+    private String location;
+
+    /**
+     * The type of restore point. Possible values include: 'CONTINUOUS',
+     * 'DISCRETE'.
      */
     @JsonProperty(value = "properties.restorePointType", access = JsonProperty.Access.WRITE_ONLY)
     private RestorePointTypes restorePointType;
 
     /**
-     * Restore point creation time (ISO8601 format). Populated when
-     * restorePointType = CONTINUOUS. Null otherwise.
+     * The earliest time to which this database can be restored.
+     */
+    @JsonProperty(value = "properties.earliestRestoreDate", access = JsonProperty.Access.WRITE_ONLY)
+    private DateTime earliestRestoreDate;
+
+    /**
+     * The time the backup was taken.
      */
     @JsonProperty(value = "properties.restorePointCreationDate", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime restorePointCreationDate;
 
     /**
-     * Earliest restore time (ISO8601 format). Populated when restorePointType
-     * = DISCRETE. Null otherwise.
+     * The label of restore point for backup request by user.
      */
-    @JsonProperty(value = "properties.earliestRestoreDate", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime earliestRestoreDate;
+    @JsonProperty(value = "properties.restorePointLabel", access = JsonProperty.Access.WRITE_ONLY)
+    private String restorePointLabel;
+
+    /**
+     * Get the location value.
+     *
+     * @return the location value
+     */
+    public String location() {
+        return this.location;
+    }
 
     /**
      * Get the restorePointType value.
@@ -46,6 +65,15 @@ public class RestorePointInner extends ProxyResourceInner {
      */
     public RestorePointTypes restorePointType() {
         return this.restorePointType;
+    }
+
+    /**
+     * Get the earliestRestoreDate value.
+     *
+     * @return the earliestRestoreDate value
+     */
+    public DateTime earliestRestoreDate() {
+        return this.earliestRestoreDate;
     }
 
     /**
@@ -58,12 +86,12 @@ public class RestorePointInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the earliestRestoreDate value.
+     * Get the restorePointLabel value.
      *
-     * @return the earliestRestoreDate value
+     * @return the restorePointLabel value
      */
-    public DateTime earliestRestoreDate() {
-        return this.earliestRestoreDate;
+    public String restorePointLabel() {
+        return this.restorePointLabel;
     }
 
 }

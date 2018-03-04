@@ -402,9 +402,9 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
 
     private ServiceResponse<ServerAzureADAdministratorInner> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ServerAzureADAdministratorInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ServerAzureADAdministratorInner>() { }.getType())
                 .register(202, new TypeToken<ServerAzureADAdministratorInner>() { }.getType())
                 .register(204, new TypeToken<ServerAzureADAdministratorInner>() { }.getType())
-                .register(200, new TypeToken<ServerAzureADAdministratorInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

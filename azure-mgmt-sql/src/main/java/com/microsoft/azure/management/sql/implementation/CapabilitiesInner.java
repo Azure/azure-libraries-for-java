@@ -52,45 +52,45 @@ public class CapabilitiesInner {
      */
     interface CapabilitiesService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Capabilities listByLocation" })
-        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/capabilities")
-        Observable<Response<ResponseBody>> listByLocation(@Path("locationName") String locationName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationId}/capabilities")
+        Observable<Response<ResponseBody>> listByLocation(@Path("subscriptionId") String subscriptionId, @Path("locationId") String locationId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
     /**
-     * Gets the subscription capabilities available for the specified location.
+     * Gets the capabilities available for the specified location.
      *
-     * @param locationName The location name whose capabilities are retrieved.
+     * @param locationId The location id whose capabilities are retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the LocationCapabilitiesInner object if successful.
      */
-    public LocationCapabilitiesInner listByLocation(String locationName) {
-        return listByLocationWithServiceResponseAsync(locationName).toBlocking().single().body();
+    public LocationCapabilitiesInner listByLocation(String locationId) {
+        return listByLocationWithServiceResponseAsync(locationId).toBlocking().single().body();
     }
 
     /**
-     * Gets the subscription capabilities available for the specified location.
+     * Gets the capabilities available for the specified location.
      *
-     * @param locationName The location name whose capabilities are retrieved.
+     * @param locationId The location id whose capabilities are retrieved.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<LocationCapabilitiesInner> listByLocationAsync(String locationName, final ServiceCallback<LocationCapabilitiesInner> serviceCallback) {
-        return ServiceFuture.fromResponse(listByLocationWithServiceResponseAsync(locationName), serviceCallback);
+    public ServiceFuture<LocationCapabilitiesInner> listByLocationAsync(String locationId, final ServiceCallback<LocationCapabilitiesInner> serviceCallback) {
+        return ServiceFuture.fromResponse(listByLocationWithServiceResponseAsync(locationId), serviceCallback);
     }
 
     /**
-     * Gets the subscription capabilities available for the specified location.
+     * Gets the capabilities available for the specified location.
      *
-     * @param locationName The location name whose capabilities are retrieved.
+     * @param locationId The location id whose capabilities are retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the LocationCapabilitiesInner object
      */
-    public Observable<LocationCapabilitiesInner> listByLocationAsync(String locationName) {
-        return listByLocationWithServiceResponseAsync(locationName).map(new Func1<ServiceResponse<LocationCapabilitiesInner>, LocationCapabilitiesInner>() {
+    public Observable<LocationCapabilitiesInner> listByLocationAsync(String locationId) {
+        return listByLocationWithServiceResponseAsync(locationId).map(new Func1<ServiceResponse<LocationCapabilitiesInner>, LocationCapabilitiesInner>() {
             @Override
             public LocationCapabilitiesInner call(ServiceResponse<LocationCapabilitiesInner> response) {
                 return response.body();
@@ -99,21 +99,21 @@ public class CapabilitiesInner {
     }
 
     /**
-     * Gets the subscription capabilities available for the specified location.
+     * Gets the capabilities available for the specified location.
      *
-     * @param locationName The location name whose capabilities are retrieved.
+     * @param locationId The location id whose capabilities are retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the LocationCapabilitiesInner object
      */
-    public Observable<ServiceResponse<LocationCapabilitiesInner>> listByLocationWithServiceResponseAsync(String locationName) {
-        if (locationName == null) {
-            throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
-        }
+    public Observable<ServiceResponse<LocationCapabilitiesInner>> listByLocationWithServiceResponseAsync(String locationId) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-05-01";
-        return service.listByLocation(locationName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (locationId == null) {
+            throw new IllegalArgumentException("Parameter locationId is required and cannot be null.");
+        }
+        final String apiVersion = "2014-04-01";
+        return service.listByLocation(this.client.subscriptionId(), locationId, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LocationCapabilitiesInner>>>() {
                 @Override
                 public Observable<ServiceResponse<LocationCapabilitiesInner>> call(Response<ResponseBody> response) {

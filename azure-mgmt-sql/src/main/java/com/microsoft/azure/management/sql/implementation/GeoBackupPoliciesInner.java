@@ -165,8 +165,8 @@ public class GeoBackupPoliciesInner {
 
     private ServiceResponse<GeoBackupPolicyInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<GeoBackupPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(201, new TypeToken<GeoBackupPolicyInner>() { }.getType())
                 .register(200, new TypeToken<GeoBackupPolicyInner>() { }.getType())
+                .register(201, new TypeToken<GeoBackupPolicyInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

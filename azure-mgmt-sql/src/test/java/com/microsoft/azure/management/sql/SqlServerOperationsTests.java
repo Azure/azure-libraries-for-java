@@ -203,10 +203,22 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
     @Test
     public void canCRUDSqlServer() throws Exception {
+
+        // Check if the name is available
+        CheckNameAvailabilityResult checkNameResult = sqlServerManager.sqlServers()
+            .checkNameAvailability(SQL_SERVER_NAME);
+        Assert.assertTrue(checkNameResult.isAvailable());
+
         // Create
         SqlServer sqlServer = createSqlServer();
 
         validateSqlServer(sqlServer);
+
+        // Confirm the server name is unavailable
+        checkNameResult = sqlServerManager.sqlServers()
+            .checkNameAvailability(SQL_SERVER_NAME);
+        Assert.assertFalse(checkNameResult.isAvailable());
+        Assert.assertEquals(CheckNameAvailabilityReason.ALREADY_EXISTS.toString(), checkNameResult.unavailabilityReason());
 
         List<ServiceObjective> serviceObjectives = sqlServer.listServiceObjectives();
 

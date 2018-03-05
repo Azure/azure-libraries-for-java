@@ -315,6 +315,26 @@ public interface SqlDatabase
     SqlDatabaseThreatDetectionPolicy getThreatDetectionPolicy();
 
     /**
+     * Renames the database.
+     *
+     * @param newDatabaseName the new name for the database
+     * @return the renamed SQL database
+     */
+    @Method
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlDatabase rename(String newDatabaseName);
+
+    /**
+     * Renames the database asynchronously.
+     *
+     * @param newDatabaseName the new name for the database
+     * @return a representation of the deferred computation of this call
+     */
+    @Method
+    @Beta(Beta.SinceVersion.V1_8_0)
+    Observable<SqlDatabase> renameAsync(String newDatabaseName);
+
+    /**
      * Deletes the database from the server.
      */
     @Method
@@ -603,6 +623,16 @@ public interface SqlDatabase
              */
             @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabase.DefinitionStages.WithAttachAfterElasticPoolOptions<ParentT> fromRestorePoint(RestorePoint restorePoint);
+
+            /**
+             * Creates a new database from a restore point.
+             *
+             * @param restorePoint the restore point
+             * @param restorePointDateTime date and time to restore from
+             * @return The next stage of the definition.
+             */
+            @Beta(Beta.SinceVersion.V1_8_0)
+            SqlDatabase.DefinitionStages.WithAttachAfterElasticPoolOptions<ParentT> fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime);
         }
 
         /**
@@ -619,6 +649,16 @@ public interface SqlDatabase
              */
             @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabase.DefinitionStages.WithAttachAllOptions<ParentT> fromRestorePoint(RestorePoint restorePoint);
+
+            /**
+             * Creates a new database from a restore point.
+             *
+             * @param restorePoint the restore point
+             * @param restorePointDateTime date and time to restore from
+             * @return The next stage of the definition.
+             */
+            @Beta(Beta.SinceVersion.V1_8_0)
+            SqlDatabase.DefinitionStages.WithAttachAllOptions<ParentT> fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime);
         }
 
         /**

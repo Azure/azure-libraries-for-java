@@ -95,7 +95,7 @@ public final class ManageSqlWithRecoveredOrRestoredDatabase {
             RestorePoint restorePointInTime = dbToRestore.listRestorePoints().get(0);
             // Restore point might not be ready right away and we will have to wait for it.
             DateTime currentTime = new DateTime(DateTimeZone.UTC);
-            long waitForRestoreToBeReady = restorePointInTime.earliestRestoreDate().getMillis() - currentTime.getMillis();
+            long waitForRestoreToBeReady = restorePointInTime.earliestRestoreDate().getMillis() - currentTime.getMillis() + 5 * 60 * 1000;
             if (waitForRestoreToBeReady > 0) {
                 SdkContext.sleep((int) waitForRestoreToBeReady);
             }
@@ -103,6 +103,15 @@ public final class ManageSqlWithRecoveredOrRestoredDatabase {
             SqlDatabase dbRestorePointInTime = sqlServer.databases()
                 .define("db-restore-pit")
                 .fromRestorePoint(restorePointInTime)
+                .create();
+            Utils.print(dbRestorePointInTime);
+            dbRestorePointInTime.delete();
+
+            // ============================================================
+            // Restore the database form a point in time restore which is 5 minutes ago.
+            dbRestorePointInTime = sqlServer.databases()
+                .define("db-restore-pit")
+                .fromRestorePoint(restorePointInTime, new DateTime(DateTimeZone.UTC).minusMinutes(5))
                 .create();
             Utils.print(dbRestorePointInTime);
             dbRestorePointInTime.delete();

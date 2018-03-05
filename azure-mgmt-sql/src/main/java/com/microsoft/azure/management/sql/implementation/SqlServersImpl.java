@@ -8,11 +8,14 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.microsoft.azure.management.sql.CheckNameAvailabilityResult;
 import com.microsoft.azure.management.sql.SqlDatabaseOperations;
 import com.microsoft.azure.management.sql.SqlElasticPoolOperations;
 import com.microsoft.azure.management.sql.SqlFirewallRuleOperations;
 import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.sql.SqlServers;
+import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * Implementation for SqlServers and its parent interfaces.
@@ -80,5 +83,21 @@ class SqlServersImpl
         }
 
         return this.databases;
+    }
+
+    @Override
+    public CheckNameAvailabilityResult checkNameAvailability(String name) {
+        return new CheckNameAvailabilityResultImpl(this.inner().checkNameAvailability(name));
+    }
+
+    @Override
+    public Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name) {
+        return this.inner().checkNameAvailabilityAsync(name)
+            .map(new Func1<CheckNameAvailabilityResponseInner, CheckNameAvailabilityResult>() {
+                @Override
+                public CheckNameAvailabilityResult call(CheckNameAvailabilityResponseInner checkNameAvailabilityResponseInner) {
+                    return new CheckNameAvailabilityResultImpl(checkNameAvailabilityResponseInner);
+                }
+            });
     }
 }

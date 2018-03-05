@@ -57,10 +57,8 @@ public class SqlSampleTests extends SamplesTestBase {
 
     @Test
     public void testManageSqlWithRecoveredOrRestoredDatabase() {
-        // Run test in "playback" mode only since dependent resources can take significant time to become available on the service side.
-        if (isPlaybackMode()) {
-            Assert.assertTrue(ManageSqlWithRecoveredOrRestoredDatabase.runSample(azure));
-        }
+        // This test can take significant time to run since it depends on the availability of certain resources on the service side.
+        Assert.assertTrue(ManageSqlWithRecoveredOrRestoredDatabase.runSample(azure));
     }
 
 }

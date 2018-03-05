@@ -13,6 +13,7 @@ import com.microsoft.azure.management.sql.SampleName;
 import com.microsoft.azure.management.sql.SqlDatabase;
 import com.microsoft.azure.management.sql.SqlElasticPoolOperations;
 import com.microsoft.azure.management.storage.StorageAccount;
+import org.joda.time.DateTime;
 
 import java.util.Objects;
 
@@ -119,6 +120,12 @@ public class SqlDatabaseForElasticPoolImpl
     @Override
     public SqlDatabaseForElasticPoolImpl fromRestorePoint(RestorePoint restorePoint) {
         this.sqlDatabase.fromRestorePoint(restorePoint);
+        return this;
+    }
+
+    @Override
+    public SqlDatabaseForElasticPoolImpl fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime) {
+        this.sqlDatabase.fromRestorePoint(restorePoint, restorePointDateTime);
         return this;
     }
 

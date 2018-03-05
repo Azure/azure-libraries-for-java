@@ -8,6 +8,7 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
@@ -360,6 +361,32 @@ class SqlDatabaseImpl
         DatabaseSecurityAlertPolicyInner policyInner = this.sqlServerManager.inner().databaseThreatDetectionPolicies()
             .get(this.resourceGroupName, this.sqlServerName, this.name());
         return policyInner != null ? new SqlDatabaseThreatDetectionPolicyImpl(policyInner.name(), this, policyInner, this.sqlServerManager) : null;
+    }
+
+    @Override
+    public SqlDatabase rename(String newDatabaseName) {
+        ResourceId resourceId = ResourceId.fromString(this.id());
+        String newId = resourceId.parent().id() + "/databases/" + newDatabaseName;
+        this.sqlServerManager.inner().databases()
+            .rename(this.resourceGroupName, this.sqlServerName, this.name(), newId);
+        return this.sqlServerManager.sqlServers().databases()
+            .getBySqlServer(this.resourceGroupName, this.sqlServerName, newDatabaseName);
+    }
+
+    @Override
+    public Observable<SqlDatabase> renameAsync(final String newDatabaseName) {
+        final SqlDatabaseImpl self = this;
+        ResourceId resourceId = ResourceId.fromString(this.id());
+        String newId = resourceId.parent().id() + "/databases/" + newDatabaseName;
+        return this.sqlServerManager.inner().databases()
+            .renameAsync(this.resourceGroupName, this.sqlServerName, self.name(), newId)
+            .flatMap(new Func1<Void, Observable<SqlDatabase>>() {
+                @Override
+                public Observable<SqlDatabase> call(Void aVoid) {
+                    return self.sqlServerManager.sqlServers().databases()
+                        .getBySqlServerAsync(self.resourceGroupName, self.sqlServerName, newDatabaseName);
+                }
+            });
     }
 
     @Override

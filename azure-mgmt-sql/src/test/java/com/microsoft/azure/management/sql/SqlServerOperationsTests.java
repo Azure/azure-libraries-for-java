@@ -402,6 +402,11 @@ public class SqlServerOperationsTests extends SqlServerTest {
         sqlDatabase = Utils.<SqlDatabase>rootResource(resourceStream)
                 .toBlocking()
                 .first();
+
+        // Rename the database
+        sqlDatabase = sqlDatabase.rename("renamedDatabase");
+        validateSqlDatabase(sqlDatabase, "renamedDatabase");
+
         sqlServer.databases().delete(sqlDatabase.name());
 
         sqlServerManager.sqlServers().deleteByResourceGroup(sqlServer.resourceGroupName(), sqlServer.name());

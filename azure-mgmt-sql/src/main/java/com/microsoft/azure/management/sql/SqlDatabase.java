@@ -315,6 +315,26 @@ public interface SqlDatabase
     SqlDatabaseThreatDetectionPolicy getThreatDetectionPolicy();
 
     /**
+     * Renames the database.
+     *
+     * @param newDatabaseName the new name for the database
+     * @return the renamed SQL database
+     */
+    @Method
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlDatabase rename(String newDatabaseName);
+
+    /**
+     * Renames the database asynchronously.
+     *
+     * @param newDatabaseName the new name for the database
+     * @return a representation of the deferred computation of this call
+     */
+    @Method
+    @Beta(Beta.SinceVersion.V1_8_0)
+    Observable<SqlDatabase> renameAsync(String newDatabaseName);
+
+    /**
      * Deletes the database from the server.
      */
     @Method

@@ -839,8 +839,13 @@ class SqlDatabaseImpl
 
     @Override
     public SqlDatabaseImpl fromRestorePoint(RestorePoint restorePoint) {
+        return fromRestorePoint(restorePoint, restorePoint.earliestRestoreDate());
+    }
+
+    @Override
+    public SqlDatabaseImpl fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime) {
         Objects.requireNonNull(restorePoint);
-        this.inner().withRestorePointInTime(restorePoint.earliestRestoreDate());
+        this.inner().withRestorePointInTime(restorePointDateTime);
         return this.withSourceDatabase(restorePoint.databaseId())
             .withMode(CreateMode.POINT_IN_TIME_RESTORE);
     }

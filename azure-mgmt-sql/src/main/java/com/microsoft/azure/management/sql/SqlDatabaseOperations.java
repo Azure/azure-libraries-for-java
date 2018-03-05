@@ -12,6 +12,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.storage.StorageAccount;
+import org.joda.time.DateTime;
 
 /**
  * A representation of the Azure SQL Database operations.
@@ -299,6 +300,16 @@ public interface SqlDatabaseOperations extends
              */
             @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithCreateAllOptions fromRestorePoint(RestorePoint restorePoint);
+
+            /**
+             * Creates a new database from a restore point.
+             *
+             * @param restorePoint the restore point
+             * @param restorePointDateTime date and time to restore from
+             * @return The next stage of the definition.
+             */
+            @Beta(Beta.SinceVersion.V1_8_0)
+            SqlDatabaseOperations.DefinitionStages.WithCreateAllOptions fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime);
         }
 
         /**
@@ -313,6 +324,16 @@ public interface SqlDatabaseOperations extends
              */
             @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithCreateAfterElasticPoolOptions fromRestorePoint(RestorePoint restorePoint);
+
+            /**
+             * Creates a new database from a restore point.
+             *
+             * @param restorePoint the restore point
+             * @param restorePointDateTime date and time to restore from
+             * @return The next stage of the definition.
+             */
+            @Beta(Beta.SinceVersion.V1_8_0)
+            SqlDatabaseOperations.DefinitionStages.WithCreateAfterElasticPoolOptions fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime);
         }
 
         /**

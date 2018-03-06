@@ -55,7 +55,8 @@ final class PolicyDefinitionsImpl
     @Override
     protected PolicyDefinitionImpl wrapModel(String name) {
         return new PolicyDefinitionImpl(
-                new PolicyDefinitionInner().withName(name).withPolicyType(PolicyType.NOT_SPECIFIED).withDisplayName(name),
+                name,
+                new PolicyDefinitionInner().withPolicyType(PolicyType.NOT_SPECIFIED).withDisplayName(name),
                 client);
     }
 
@@ -64,7 +65,7 @@ final class PolicyDefinitionsImpl
         if (inner == null) {
             return null;
         }
-        return new PolicyDefinitionImpl(inner, client);
+        return new PolicyDefinitionImpl(inner.name(), inner, client);
     }
 
     @Override

@@ -52,8 +52,8 @@ final class PolicyAssignmentsImpl
 
     @Override
     protected PolicyAssignmentImpl wrapModel(String name) {
-        return new PolicyAssignmentImpl(
-                new PolicyAssignmentInner().withName(name).withDisplayName(name),
+        return new PolicyAssignmentImpl(name,
+                new PolicyAssignmentInner().withDisplayName(name),
                 client);
     }
 
@@ -62,7 +62,7 @@ final class PolicyAssignmentsImpl
         if (inner == null) {
             return null;
         }
-        return new PolicyAssignmentImpl(inner, client);
+        return new PolicyAssignmentImpl(inner.name(), inner, client);
     }
 
     @Override

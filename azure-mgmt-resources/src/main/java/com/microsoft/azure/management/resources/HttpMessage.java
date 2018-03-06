@@ -11,7 +11,7 @@ package com.microsoft.azure.management.resources;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The HttpMessage model.
+ * HTTP message.
  */
 public class HttpMessage {
     /**

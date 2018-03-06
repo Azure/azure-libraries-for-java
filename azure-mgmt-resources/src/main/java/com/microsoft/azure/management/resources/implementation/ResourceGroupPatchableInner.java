@@ -15,13 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Resource group information.
  */
-public class ResourceGroupInner {
-    /**
-     * The ID of the resource group.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private String id;
-
+public class ResourceGroupPatchableInner {
     /**
      * The name of the resource group.
      */
@@ -33,14 +27,6 @@ public class ResourceGroupInner {
      */
     @JsonProperty(value = "properties")
     private ResourceGroupProperties properties;
-
-    /**
-     * The location of the resource group. It cannot be changed after the
-     * resource group has been created. It must be one of the supported Azure
-     * locations.
-     */
-    @JsonProperty(value = "location", required = true)
-    private String location;
 
     /**
      * The ID of the resource that manages this resource group.
@@ -55,15 +41,6 @@ public class ResourceGroupInner {
     private Map<String, String> tags;
 
     /**
-     * Get the id value.
-     *
-     * @return the id value
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
      * Get the name value.
      *
      * @return the name value
@@ -76,9 +53,9 @@ public class ResourceGroupInner {
      * Set the name value.
      *
      * @param name the name value to set
-     * @return the ResourceGroupInner object itself.
+     * @return the ResourceGroupPatchableInner object itself.
      */
-    public ResourceGroupInner withName(String name) {
+    public ResourceGroupPatchableInner withName(String name) {
         this.name = name;
         return this;
     }
@@ -96,30 +73,10 @@ public class ResourceGroupInner {
      * Set the properties value.
      *
      * @param properties the properties value to set
-     * @return the ResourceGroupInner object itself.
+     * @return the ResourceGroupPatchableInner object itself.
      */
-    public ResourceGroupInner withProperties(ResourceGroupProperties properties) {
+    public ResourceGroupPatchableInner withProperties(ResourceGroupProperties properties) {
         this.properties = properties;
-        return this;
-    }
-
-    /**
-     * Get the location value.
-     *
-     * @return the location value
-     */
-    public String location() {
-        return this.location;
-    }
-
-    /**
-     * Set the location value.
-     *
-     * @param location the location value to set
-     * @return the ResourceGroupInner object itself.
-     */
-    public ResourceGroupInner withLocation(String location) {
-        this.location = location;
         return this;
     }
 
@@ -136,9 +93,9 @@ public class ResourceGroupInner {
      * Set the managedBy value.
      *
      * @param managedBy the managedBy value to set
-     * @return the ResourceGroupInner object itself.
+     * @return the ResourceGroupPatchableInner object itself.
      */
-    public ResourceGroupInner withManagedBy(String managedBy) {
+    public ResourceGroupPatchableInner withManagedBy(String managedBy) {
         this.managedBy = managedBy;
         return this;
     }
@@ -156,9 +113,9 @@ public class ResourceGroupInner {
      * Set the tags value.
      *
      * @param tags the tags value to set
-     * @return the ResourceGroupInner object itself.
+     * @return the ResourceGroupPatchableInner object itself.
      */
-    public ResourceGroupInner withTags(Map<String, String> tags) {
+    public ResourceGroupPatchableInner withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }

@@ -179,7 +179,7 @@ class DeploymentSlotBaseImpl<
             @Override
             public Observable<Indexable> call(WebAppBase webAppBase) {
                 if (webAppBase == null || !isInCreateMode()) {
-                    return Observable.just((Indexable) DeploymentSlotBaseImpl.this);
+                    return DeploymentSlotBaseImpl.super.submitAppSettings();
                 }
                 return webAppBase.getAppSettingsAsync().flatMap(new Func1<Map<String, AppSetting>, Observable<Indexable>>() {
                     @Override
@@ -203,7 +203,7 @@ class DeploymentSlotBaseImpl<
             @Override
             public Observable<Indexable> call(WebAppBase webAppBase) {
                 if (webAppBase == null || !isInCreateMode()) {
-                    return Observable.just((Indexable) DeploymentSlotBaseImpl.this);
+                    return DeploymentSlotBaseImpl.super.submitConnectionStrings();
                 }
                 return webAppBase.getConnectionStringsAsync().flatMap(new Func1<Map<String, ConnectionString>, Observable<Indexable>>() {
                     @Override

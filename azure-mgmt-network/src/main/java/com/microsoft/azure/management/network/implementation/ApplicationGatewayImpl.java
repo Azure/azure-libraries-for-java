@@ -24,6 +24,7 @@ import com.microsoft.azure.management.network.ApplicationGatewaySslCertificate;
 import com.microsoft.azure.management.network.ApplicationGatewaySslPolicy;
 import com.microsoft.azure.management.network.ApplicationGatewaySslProtocol;
 import com.microsoft.azure.management.network.ApplicationGatewayTier;
+import com.microsoft.azure.management.network.ApplicationGatewayUrlPathMap;
 import com.microsoft.azure.management.network.IPAllocationMethod;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.PublicIPAddress;
@@ -35,6 +36,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.implementa
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -80,6 +82,7 @@ class ApplicationGatewayImpl
     private Map<String, ApplicationGatewaySslCertificate> sslCerts;
     private Map<String, ApplicationGatewayAuthenticationCertificate> authCertificates;
     private Map<String, ApplicationGatewayRedirectConfiguration> redirectConfigs;
+    private Map<String, ApplicationGatewayUrlPathMap> urlPathMaps;
 
     private static final String DEFAULT = "default";
     private ApplicationGatewayFrontendImpl defaultPrivateFrontend;
@@ -127,6 +130,7 @@ class ApplicationGatewayImpl
         initializeRequestRoutingRulesFromInner();
         initializeSslCertificatesFromInner();
         initializeAuthCertificatesFromInner();
+        initializeUrlPathMapsFromInner();
         this.defaultPrivateFrontend = null;
         this.defaultPublicFrontend = null;
         this.creatablePipsByFrontend = new HashMap<>();
@@ -220,6 +224,17 @@ class ApplicationGatewayImpl
         }
     }
 
+    private void initializeUrlPathMapsFromInner() {
+        this.urlPathMaps = new TreeMap<>();
+        List<ApplicationGatewayUrlPathMapInner> inners = this.inner().urlPathMaps();
+        if (inners != null) {
+            for (ApplicationGatewayUrlPathMapInner inner : inners) {
+                ApplicationGatewayUrlPathMapImpl wrapper = new ApplicationGatewayUrlPathMapImpl(inner, this);
+                this.urlPathMaps.put(inner.name(), wrapper);
+            }
+        }
+    }
+
     private void initializeRequestRoutingRulesFromInner() {
         this.rules = new TreeMap<>();
         List<ApplicationGatewayRequestRoutingRuleInner> inners = this.inner().requestRoutingRules();
@@ -269,6 +284,9 @@ class ApplicationGatewayImpl
 
         // Reset and update SSL certs
         this.inner().withSslCertificates(innersFromWrappers(this.sslCerts.values()));
+
+        // Reset and update URL path maps
+        this.inner().withUrlPathMaps(innersFromWrappers(this.urlPathMaps.values()));
 
         // Reset and update backend HTTP settings configs
         this.inner().withBackendHttpSettingsCollection(innersFromWrappers(this.backendConfigs.values()));
@@ -692,6 +710,13 @@ class ApplicationGatewayImpl
         return this;
     }
 
+    ApplicationGatewayImpl withUrlPathMap(ApplicationGatewayUrlPathMapImpl urlPathMap) {
+        if (urlPathMap != null) {
+            this.urlPathMaps.put(urlPathMap.name(), urlPathMap);
+        }
+        return this;
+    }
+
     ApplicationGatewayImpl withRequestRoutingRule(ApplicationGatewayRequestRoutingRuleImpl rule) {
         if (rule != null) {
             this.rules.put(rule.name(), rule);
@@ -750,120 +775,82 @@ class ApplicationGatewayImpl
 
     @Override
     public ApplicationGatewaySslCertificateImpl defineSslCertificate(String name) {
-        ApplicationGatewaySslCertificate cert = this.sslCerts.get(name);
-        if (cert == null) {
-            ApplicationGatewaySslCertificateInner inner = new ApplicationGatewaySslCertificateInner()
-                    .withName(name);
-            return new ApplicationGatewaySslCertificateImpl(inner, this);
-        } else {
-            return (ApplicationGatewaySslCertificateImpl) cert;
-        }
+        return defineChild(name, this.sslCerts, ApplicationGatewaySslCertificateInner.class, ApplicationGatewaySslCertificateImpl.class);
     }
 
     //TODO @Override - since app gateways don't support more than one today, no need to expose this
     private ApplicationGatewayIPConfigurationImpl defineIPConfiguration(String name) {
-        ApplicationGatewayIPConfiguration config = this.ipConfigs.get(name);
-        if (config == null) {
-            ApplicationGatewayIPConfigurationInner inner = new ApplicationGatewayIPConfigurationInner()
-                    .withName(name);
-            return new ApplicationGatewayIPConfigurationImpl(inner, this);
-        } else {
-            return (ApplicationGatewayIPConfigurationImpl) config;
-        }
+        return defineChild(name, this.ipConfigs, ApplicationGatewayIPConfigurationInner.class, ApplicationGatewayIPConfigurationImpl.class);
     }
 
     //TODO @Override - since app gateways don't support more than one today, no need to expose this
     private ApplicationGatewayFrontendImpl defineFrontend(String name) {
-        ApplicationGatewayFrontend frontend = this.frontends.get(name);
-        if (frontend == null) {
-            ApplicationGatewayFrontendIPConfigurationInner inner = new ApplicationGatewayFrontendIPConfigurationInner()
-                    .withName(name);
-            return new ApplicationGatewayFrontendImpl(inner, this);
-        } else {
-            return (ApplicationGatewayFrontendImpl) frontend;
-        }
-    }
-
-    @Override
-    public ApplicationGatewayBackendImpl defineBackend(String name) {
-        ApplicationGatewayBackend backend = this.backends.get(name);
-        if (backend == null) {
-            ApplicationGatewayBackendAddressPoolInner inner = new ApplicationGatewayBackendAddressPoolInner()
-                    .withName(name);
-            return new ApplicationGatewayBackendImpl(inner, this);
-        } else {
-            return (ApplicationGatewayBackendImpl) backend;
-        }
-    }
-
-    @Override
-    public ApplicationGatewayAuthenticationCertificateImpl defineAuthenticationCertificate(String name) {
-        ApplicationGatewayAuthenticationCertificate cert = this.authCertificates.get(name);
-        if (cert == null) {
-            ApplicationGatewayAuthenticationCertificateInner inner = new ApplicationGatewayAuthenticationCertificateInner().withName(name);
-            return new ApplicationGatewayAuthenticationCertificateImpl(inner, this);
-        } else {
-            return (ApplicationGatewayAuthenticationCertificateImpl) cert;
-        }
-    }
-
-    @Override
-    public ApplicationGatewayProbeImpl defineProbe(String name) {
-        ApplicationGatewayProbe probe = this.probes.get(name);
-        if (probe == null) {
-            ApplicationGatewayProbeInner inner = new ApplicationGatewayProbeInner().withName(name);
-            return new ApplicationGatewayProbeImpl(inner, this);
-        } else {
-            return (ApplicationGatewayProbeImpl) probe;
-        }
-    }
-
-    @Override
-    public ApplicationGatewayListenerImpl defineListener(String name) {
-        ApplicationGatewayListener httpListener = this.listeners.get(name);
-        if (httpListener == null) {
-            ApplicationGatewayHttpListenerInner inner = new ApplicationGatewayHttpListenerInner()
-                    .withName(name);
-            return new ApplicationGatewayListenerImpl(inner, this);
-        } else {
-            return (ApplicationGatewayListenerImpl) httpListener;
-        }
+        return defineChild(name, this.frontends, ApplicationGatewayFrontendIPConfigurationInner.class, ApplicationGatewayFrontendImpl.class);
     }
 
     @Override
     public ApplicationGatewayRedirectConfigurationImpl defineRedirectConfiguration(String name) {
-        ApplicationGatewayRedirectConfiguration redirectConfig = this.redirectConfigs.get(name);
-        if (redirectConfig == null) {
-            ApplicationGatewayRedirectConfigurationInner inner = new ApplicationGatewayRedirectConfigurationInner()
-                    .withName(name);
-            return new ApplicationGatewayRedirectConfigurationImpl(inner, this);
-        } else {
-            return (ApplicationGatewayRedirectConfigurationImpl) redirectConfig;
-        }
+        return defineChild(name, this.redirectConfigs, ApplicationGatewayRedirectConfigurationInner.class, ApplicationGatewayRedirectConfigurationImpl.class);
     }
 
     @Override
     public ApplicationGatewayRequestRoutingRuleImpl defineRequestRoutingRule(String name) {
-        ApplicationGatewayRequestRoutingRule rule = this.rules.get(name);
-        if (rule == null) {
-            ApplicationGatewayRequestRoutingRuleInner inner = new ApplicationGatewayRequestRoutingRuleInner()
-                    .withName(name);
-            return new ApplicationGatewayRequestRoutingRuleImpl(inner, this);
-        } else {
-            return (ApplicationGatewayRequestRoutingRuleImpl) rule;
-        }
+        return defineChild(name, this.rules, ApplicationGatewayRequestRoutingRuleInner.class, ApplicationGatewayRequestRoutingRuleImpl.class);
+    }
+
+    @Override
+    public ApplicationGatewayBackendImpl defineBackend(String name) {
+        return defineChild(name, this.backends, ApplicationGatewayBackendAddressPoolInner.class, ApplicationGatewayBackendImpl.class);
+    }
+
+    @Override
+    public ApplicationGatewayAuthenticationCertificateImpl defineAuthenticationCertificate(String name) {
+        return defineChild(name, this.authCertificates, ApplicationGatewayAuthenticationCertificateInner.class, ApplicationGatewayAuthenticationCertificateImpl.class);
+    }
+
+    @Override
+    public ApplicationGatewayProbeImpl defineProbe(String name) {
+        return defineChild(name, this.probes, ApplicationGatewayProbeInner.class, ApplicationGatewayProbeImpl.class);
+    }
+
+    @Override
+    public ApplicationGatewayUrlPathMapImpl defineUrlPathMap(String name) {
+        return defineChild(name, this.urlPathMaps, ApplicationGatewayUrlPathMapInner.class, ApplicationGatewayUrlPathMapImpl.class);
+    }
+
+    @Override
+    public ApplicationGatewayListenerImpl defineListener(String name) {
+        return defineChild(name, this.listeners, ApplicationGatewayHttpListenerInner.class, ApplicationGatewayListenerImpl.class);
     }
 
     @Override
     public ApplicationGatewayBackendHttpConfigurationImpl defineBackendHttpConfiguration(String name) {
-        ApplicationGatewayBackendHttpConfiguration httpConfig = this.backendConfigs.get(name);
-        if (httpConfig == null) {
-            ApplicationGatewayBackendHttpSettingsInner inner = new ApplicationGatewayBackendHttpSettingsInner()
-                    .withName(name)
-                    .withPort(80); // Default port
-            return new ApplicationGatewayBackendHttpConfigurationImpl(inner, this);
+        ApplicationGatewayBackendHttpConfigurationImpl config = defineChild(name, this.backendConfigs, ApplicationGatewayBackendHttpSettingsInner.class, ApplicationGatewayBackendHttpConfigurationImpl.class);
+        if (config.inner().id() == null) {
+            return config.withPort(80); // Default port
         } else {
-            return (ApplicationGatewayBackendHttpConfigurationImpl) httpConfig;
+            return config;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private <ChildImplT, ChildT, ChildInnerT> ChildImplT defineChild(
+            String name,
+            Map<String, ChildT> children,
+            Class<ChildInnerT> innerClass,
+            Class<ChildImplT> implClass) {
+        ChildT child = children.get(name);
+        if (child == null) {
+            ChildInnerT inner;
+            try {
+                inner = innerClass.newInstance();
+                innerClass.getDeclaredMethod("withName", String.class).invoke(inner, name);
+                return implClass.getDeclaredConstructor(innerClass, ApplicationGatewayImpl.class).newInstance(inner, this);
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
+                return null;
+            }
+        } else {
+            return (ChildImplT) child;
         }
     }
 
@@ -1091,6 +1078,12 @@ class ApplicationGatewayImpl
     }
 
     @Override
+    public ApplicationGatewayImpl withoutUrlPathMap(String name) {
+        this.urlPathMaps.remove(name);
+        return this;
+    }
+
+    @Override
     public ApplicationGatewayImpl withoutRequestRoutingRule(String name) {
         this.rules.remove(name);
         return this;
@@ -1184,6 +1177,11 @@ class ApplicationGatewayImpl
         return (ApplicationGatewayFrontendImpl) this.frontends.get(frontendName);
     }
 
+    @Override
+    public ApplicationGatewayUrlPathMapImpl updateUrlPathMap(String name) {
+        return (ApplicationGatewayUrlPathMapImpl) this.urlPathMaps.get(name);
+    }
+
     // Getters
 
     @Override
@@ -1246,6 +1244,11 @@ class ApplicationGatewayImpl
     @Override
     public Map<String, ApplicationGatewayAuthenticationCertificate> authenticationCertificates() {
         return Collections.unmodifiableMap(this.authCertificates);
+    }
+
+    @Override
+    public Map<String, ApplicationGatewayUrlPathMap> urlPathMaps() {
+        return Collections.unmodifiableMap(this.urlPathMaps);
     }
 
     @Override

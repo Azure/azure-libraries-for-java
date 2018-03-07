@@ -38,6 +38,8 @@ public class SqlDatabaseAutomaticTuningImpl
     private String sqlServerName;
     private String sqlDatabaseName;
 
+    private Map<String, AutomaticTuningOptions> automaticTuningOptionsMap;
+
     SqlDatabaseAutomaticTuningImpl(SqlDatabaseImpl database, DatabaseAutomaticTuningInner innerObject) {
         this(database.resourceGroupName, database.sqlServerName, database.name(), innerObject, database.sqlServerManager);
     }
@@ -52,6 +54,7 @@ public class SqlDatabaseAutomaticTuningImpl
         this.sqlDatabaseName = sqlDatabaseName;
 
         this.key = UUID.randomUUID().toString();
+        this.automaticTuningOptionsMap = new HashMap<String, AutomaticTuningOptions>();
     }
 
     @Override
@@ -77,12 +80,11 @@ public class SqlDatabaseAutomaticTuningImpl
 
     @Override
     public SqlDatabaseAutomaticTuningImpl withAutomaticTuningOptions(String tuningOptionName, AutomaticTuningOptionModeDesired desiredState) {
-        if (this.inner().options() == null) {
-            this.inner().withOptions(new HashMap<String, AutomaticTuningOptions>());
+        if (this.automaticTuningOptionsMap == null) {
+            this.automaticTuningOptionsMap = new HashMap<String, AutomaticTuningOptions>();
         }
-        AutomaticTuningOptions item = this.inner().options().get(tuningOptionName);
-        this.inner().options()
-            .put(tuningOptionName, item != null ? item.withDesiredState(desiredState) : new AutomaticTuningOptions().withDesiredState(desiredState));
+        this.automaticTuningOptionsMap
+            .put(tuningOptionName, new AutomaticTuningOptions().withDesiredState(desiredState));
         return this;
     }
 
@@ -115,12 +117,14 @@ public class SqlDatabaseAutomaticTuningImpl
     @Override
     public Observable<SqlDatabaseAutomaticTuning> applyAsync() {
         final SqlDatabaseAutomaticTuningImpl self = this;
+        this.inner().withOptions(this.automaticTuningOptionsMap);
         return this.sqlServerManager.inner().databaseAutomaticTunings()
             .updateAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.inner())
             .map(new Func1<DatabaseAutomaticTuningInner, SqlDatabaseAutomaticTuning>() {
                 @Override
                 public SqlDatabaseAutomaticTuning call(DatabaseAutomaticTuningInner databaseAutomaticTuningInner) {
                     self.setInner(databaseAutomaticTuningInner);
+                    self.automaticTuningOptionsMap.clear();
                     return self;
                 }
             });

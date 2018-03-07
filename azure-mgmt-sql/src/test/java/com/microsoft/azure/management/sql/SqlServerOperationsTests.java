@@ -84,19 +84,19 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Assert.assertEquals(4, databaseAutomaticTuning.tuningOptions().size());
 
         // The following results in "InternalServerError" at the moment
-//        databaseAutomaticTuning.update()
-//            .withAutomaticTuningMode(AutomaticTuningMode.AUTO)
-//            .withAutomaticTuningOptions("createIndex", AutomaticTuningOptionModeDesired.OFF)
-//            .withAutomaticTuningOptions("dropIndex", AutomaticTuningOptionModeDesired.ON)
-//            .withAutomaticTuningOptions("forceLastGoodPlan", AutomaticTuningOptionModeDesired.DEFAULT)
-//            .apply();
-//        Assert.assertEquals(AutomaticTuningMode.AUTO, databaseAutomaticTuning.desiredState());
-//        Assert.assertEquals(AutomaticTuningMode.AUTO, databaseAutomaticTuning.actualState());
-//        Assert.assertEquals(AutomaticTuningOptionModeDesired.OFF, databaseAutomaticTuning.tuningOptions().get("createIndex").desiredState());
-//        Assert.assertEquals(AutomaticTuningOptionModeActual.OFF, databaseAutomaticTuning.tuningOptions().get("createIndex").actualState());
-//        Assert.assertEquals(AutomaticTuningOptionModeDesired.ON, databaseAutomaticTuning.tuningOptions().get("dropIndex").desiredState());
-//        Assert.assertEquals(AutomaticTuningOptionModeActual.ON, databaseAutomaticTuning.tuningOptions().get("dropIndex").actualState());
-//        Assert.assertEquals(AutomaticTuningOptionModeDesired.DEFAULT, databaseAutomaticTuning.tuningOptions().get("forceLastGoodPlan").desiredState());
+        databaseAutomaticTuning.update()
+            .withAutomaticTuningMode(AutomaticTuningMode.AUTO)
+            .withAutomaticTuningOptions("createIndex", AutomaticTuningOptionModeDesired.OFF)
+            .withAutomaticTuningOptions("dropIndex", AutomaticTuningOptionModeDesired.ON)
+            .withAutomaticTuningOptions("forceLastGoodPlan", AutomaticTuningOptionModeDesired.DEFAULT)
+            .apply();
+        Assert.assertEquals(AutomaticTuningMode.AUTO, databaseAutomaticTuning.desiredState());
+        Assert.assertEquals(AutomaticTuningMode.AUTO, databaseAutomaticTuning.actualState());
+        Assert.assertEquals(AutomaticTuningOptionModeDesired.OFF, databaseAutomaticTuning.tuningOptions().get("createIndex").desiredState());
+        Assert.assertEquals(AutomaticTuningOptionModeActual.OFF, databaseAutomaticTuning.tuningOptions().get("createIndex").actualState());
+        Assert.assertEquals(AutomaticTuningOptionModeDesired.ON, databaseAutomaticTuning.tuningOptions().get("dropIndex").desiredState());
+        Assert.assertEquals(AutomaticTuningOptionModeActual.ON, databaseAutomaticTuning.tuningOptions().get("dropIndex").actualState());
+        Assert.assertEquals(AutomaticTuningOptionModeDesired.DEFAULT, databaseAutomaticTuning.tuningOptions().get("forceLastGoodPlan").desiredState());
 
         // cleanup
         dbFromSample.delete();

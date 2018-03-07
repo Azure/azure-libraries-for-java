@@ -18,6 +18,7 @@ import com.microsoft.azure.management.cdn.DeepCreatedOrigin;
 import com.microsoft.azure.management.cdn.EndpointResourceState;
 import com.microsoft.azure.management.cdn.GeoFilter;
 import com.microsoft.azure.management.cdn.GeoFilterActions;
+import com.microsoft.azure.management.cdn.OptimizationType;
 import com.microsoft.azure.management.cdn.QueryStringCachingBehavior;
 import com.microsoft.azure.management.cdn.ResourceUsage;
 import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
@@ -277,7 +278,7 @@ class CdnEndpointImpl extends ExternalChildResourceImpl<CdnEndpoint,
     }
 
     @Override
-    public String optimizationType() {
+    public OptimizationType optimizationType() {
         return this.inner().optimizationType();
     }
 

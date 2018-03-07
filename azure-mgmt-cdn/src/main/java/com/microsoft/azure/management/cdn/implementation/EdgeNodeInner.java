@@ -12,13 +12,13 @@ import java.util.List;
 import com.microsoft.azure.management.cdn.IpAddressGroup;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
 
 /**
- * Edge node of CDN service.
+ * Edgenode is a global Point of Presence (POP) location used to deliver CDN
+ * content to end users.
  */
 @JsonFlatten
-public class EdgeNodeInner extends Resource {
+public class EdgeNodeInner extends ProxyResourceInner {
     /**
      * List of ip address groups.
      */

@@ -69,7 +69,7 @@ public interface CdnEndpoint extends
     /**
      * @return optimization type
      */
-    String optimizationType();
+    OptimizationType optimizationType();
 
     /**
      * @return list of Geo filters

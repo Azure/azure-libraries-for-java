@@ -1069,6 +1069,7 @@ public class EndpointsInner {
 
     private ServiceResponse<EndpointInner> beginStartDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<EndpointInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<EndpointInner>() { }.getType())
                 .register(202, new TypeToken<EndpointInner>() { }.getType())
                 .registerError(ErrorResponseException.class)
                 .build(response);
@@ -1238,6 +1239,7 @@ public class EndpointsInner {
 
     private ServiceResponse<EndpointInner> beginStopDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<EndpointInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<EndpointInner>() { }.getType())
                 .register(202, new TypeToken<EndpointInner>() { }.getType())
                 .registerError(ErrorResponseException.class)
                 .build(response);
@@ -1425,6 +1427,7 @@ public class EndpointsInner {
 
     private ServiceResponse<Void> beginPurgeContentDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(ErrorResponseException.class)
                 .build(response);
@@ -1612,6 +1615,7 @@ public class EndpointsInner {
 
     private ServiceResponse<Void> beginLoadContentDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(ErrorResponseException.class)
                 .build(response);

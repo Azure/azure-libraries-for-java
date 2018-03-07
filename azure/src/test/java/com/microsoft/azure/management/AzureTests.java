@@ -980,10 +980,11 @@ public class AzureTests extends TestBase {
     }
 
     @Test
-    @Ignore("QuotaExceeded error: Public preview limit of 5 for managed cluster(AKS) has been reached for subscription sub-id in location ukwest. Same error even after deleting all clusters")
     public void testKubernetesCluster() throws Exception {
-        new TestKubernetesCluster()
-            .runTest(azure.kubernetesClusters(), azure.resourceGroups());
+        if (!isPlaybackMode()) {
+            new TestKubernetesCluster()
+                .runTest(azure.kubernetesClusters(), azure.resourceGroups());
+        }
     }
 
     @Test

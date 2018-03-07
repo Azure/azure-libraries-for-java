@@ -315,6 +315,15 @@ public interface SqlDatabase
     SqlDatabaseThreatDetectionPolicy getThreatDetectionPolicy();
 
     /**
+     * Gets a SQL database automatic tuning state and options.
+     *
+     * @return the SQL database automatic tuning state and options
+     */
+    @Method
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlDatabaseAutomaticTuning getDatabaseAutomaticTuning();
+
+    /**
      * Renames the database.
      *
      * @param newDatabaseName the new name for the database

@@ -22,6 +22,7 @@ import com.microsoft.azure.management.sql.SqlFirewallRule;
 import com.microsoft.azure.management.sql.SqlFirewallRuleOperations;
 import com.microsoft.azure.management.sql.SqlRestorableDroppedDatabase;
 import com.microsoft.azure.management.sql.SqlServer;
+import com.microsoft.azure.management.sql.SqlServerAutomaticTuning;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
@@ -285,6 +286,14 @@ public class SqlServerImpl
     public void removeActiveDirectoryAdministrator() {
         this.manager().inner().serverAzureADAdministrators().delete(this.resourceGroupName(), this.name());
     }
+
+    @Override
+    public SqlServerAutomaticTuning getServerAutomaticTuning() {
+        ServerAutomaticTuningInner serverAutomaticTuningInner = this.manager().inner().serverAutomaticTunings()
+            .get(this.resourceGroupName(), this.name());
+        return serverAutomaticTuningInner != null ? new SqlServerAutomaticTuningImpl(this, serverAutomaticTuningInner) : null;
+    }
+
 
     @Override
     public SqlFirewallRuleOperations.SqlFirewallRuleActionsDefinition firewallRules() {

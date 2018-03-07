@@ -25,6 +25,7 @@ import com.microsoft.azure.management.sql.SampleName;
 import com.microsoft.azure.management.sql.ServiceObjectiveName;
 import com.microsoft.azure.management.sql.ServiceTierAdvisor;
 import com.microsoft.azure.management.sql.SqlDatabase;
+import com.microsoft.azure.management.sql.SqlDatabaseAutomaticTuning;
 import com.microsoft.azure.management.sql.SqlDatabaseBasicStorage;
 import com.microsoft.azure.management.sql.SqlDatabaseMetric;
 import com.microsoft.azure.management.sql.SqlDatabaseMetricDefinition;
@@ -361,6 +362,13 @@ class SqlDatabaseImpl
         DatabaseSecurityAlertPolicyInner policyInner = this.sqlServerManager.inner().databaseThreatDetectionPolicies()
             .get(this.resourceGroupName, this.sqlServerName, this.name());
         return policyInner != null ? new SqlDatabaseThreatDetectionPolicyImpl(policyInner.name(), this, policyInner, this.sqlServerManager) : null;
+    }
+
+    @Override
+    public SqlDatabaseAutomaticTuning getDatabaseAutomaticTuning() {
+        DatabaseAutomaticTuningInner databaseAutomaticTuningInner = this.sqlServerManager.inner().databaseAutomaticTunings()
+            .get(this.resourceGroupName, this.sqlServerName, this.name());
+        return databaseAutomaticTuningInner != null ? new SqlDatabaseAutomaticTuningImpl(this, databaseAutomaticTuningInner) : null;
     }
 
     @Override

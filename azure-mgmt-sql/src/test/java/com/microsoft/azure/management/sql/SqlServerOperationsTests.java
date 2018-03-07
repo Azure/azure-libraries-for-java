@@ -33,6 +33,76 @@ public class SqlServerOperationsTests extends SqlServerTest {
     private static final String START_IPADDRESS = "10.102.1.10";
     private static final String END_IPADDRESS = "10.102.1.12";
 
+
+    @Test
+    public void canChangeSqlServerAndDatabaseAutomaticTuning () throws Exception {
+        String rgName = RG_NAME;
+        String sqlServerName = SQL_SERVER_NAME;
+        String sqlServerAdminName = "sqladmin";
+        String sqlServerAdminPassword = "N0t@P@ssw0rd!";
+        String databaseName = "db-from-sample";
+        String id = SdkContext.randomUuid();
+        String storageName = SdkContext.randomResourceName(SQL_SERVER_NAME, 22);
+
+        // Create
+        SqlServer sqlServer = sqlServerManager
+            .sqlServers()
+                .define(sqlServerName)
+                .withRegion(Region.US_EAST)
+                .withNewResourceGroup(rgName)
+                .withAdministratorLogin(sqlServerAdminName)
+                .withAdministratorPassword(sqlServerAdminPassword)
+                .defineDatabase(databaseName)
+                    .fromSample(SampleName.ADVENTURE_WORKS_LT)
+                    .withBasicEdition()
+                    .attach()
+                .create();
+        SqlDatabase dbFromSample = sqlServer.databases().get(databaseName);
+        Assert.assertNotNull(dbFromSample);
+        Assert.assertEquals(DatabaseEditions.BASIC, dbFromSample.edition());
+
+        SqlServerAutomaticTuning serverAutomaticTuning = sqlServer.getServerAutomaticTuning();
+        Assert.assertEquals(AutomaticTuningServerMode.UNSPECIFIED, serverAutomaticTuning.desiredState());
+        Assert.assertEquals(AutomaticTuningServerMode.UNSPECIFIED, serverAutomaticTuning.actualState());
+        Assert.assertEquals(4, serverAutomaticTuning.tuningOptions().size());
+
+        serverAutomaticTuning.update()
+            .withAutomaticTuningMode(AutomaticTuningServerMode.AUTO)
+            .withAutomaticTuningOptions("createIndex", AutomaticTuningOptionModeDesired.OFF)
+            .withAutomaticTuningOptions("dropIndex", AutomaticTuningOptionModeDesired.ON)
+            .withAutomaticTuningOptions("forceLastGoodPlan", AutomaticTuningOptionModeDesired.DEFAULT)
+            .apply();
+        Assert.assertEquals(AutomaticTuningServerMode.AUTO, serverAutomaticTuning.desiredState());
+        Assert.assertEquals(AutomaticTuningServerMode.AUTO, serverAutomaticTuning.actualState());
+        Assert.assertEquals(AutomaticTuningOptionModeDesired.OFF, serverAutomaticTuning.tuningOptions().get("createIndex").desiredState());
+        Assert.assertEquals(AutomaticTuningOptionModeActual.OFF, serverAutomaticTuning.tuningOptions().get("createIndex").actualState());
+        Assert.assertEquals(AutomaticTuningOptionModeDesired.ON, serverAutomaticTuning.tuningOptions().get("dropIndex").desiredState());
+        Assert.assertEquals(AutomaticTuningOptionModeActual.ON, serverAutomaticTuning.tuningOptions().get("dropIndex").actualState());
+        Assert.assertEquals(AutomaticTuningOptionModeDesired.DEFAULT, serverAutomaticTuning.tuningOptions().get("forceLastGoodPlan").desiredState());
+
+        SqlDatabaseAutomaticTuning databaseAutomaticTuning = dbFromSample.getDatabaseAutomaticTuning();
+        Assert.assertEquals(4, databaseAutomaticTuning.tuningOptions().size());
+
+        // The following results in "InternalServerError" at the moment
+//        databaseAutomaticTuning.update()
+//            .withAutomaticTuningMode(AutomaticTuningMode.AUTO)
+//            .withAutomaticTuningOptions("createIndex", AutomaticTuningOptionModeDesired.OFF)
+//            .withAutomaticTuningOptions("dropIndex", AutomaticTuningOptionModeDesired.ON)
+//            .withAutomaticTuningOptions("forceLastGoodPlan", AutomaticTuningOptionModeDesired.DEFAULT)
+//            .apply();
+//        Assert.assertEquals(AutomaticTuningMode.AUTO, databaseAutomaticTuning.desiredState());
+//        Assert.assertEquals(AutomaticTuningMode.AUTO, databaseAutomaticTuning.actualState());
+//        Assert.assertEquals(AutomaticTuningOptionModeDesired.OFF, databaseAutomaticTuning.tuningOptions().get("createIndex").desiredState());
+//        Assert.assertEquals(AutomaticTuningOptionModeActual.OFF, databaseAutomaticTuning.tuningOptions().get("createIndex").actualState());
+//        Assert.assertEquals(AutomaticTuningOptionModeDesired.ON, databaseAutomaticTuning.tuningOptions().get("dropIndex").desiredState());
+//        Assert.assertEquals(AutomaticTuningOptionModeActual.ON, databaseAutomaticTuning.tuningOptions().get("dropIndex").actualState());
+//        Assert.assertEquals(AutomaticTuningOptionModeDesired.DEFAULT, databaseAutomaticTuning.tuningOptions().get("forceLastGoodPlan").desiredState());
+
+        // cleanup
+        dbFromSample.delete();
+        sqlServerManager.sqlServers().deleteByResourceGroup(rgName, sqlServerName);
+    }
+
     @Test
     public void canCRUDSqlServerWithImportDatabase() throws Exception {
         if (isPlaybackMode()) {

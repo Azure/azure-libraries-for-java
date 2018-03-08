@@ -530,7 +530,7 @@ public interface SqlElasticPool
             UpdateStages.WithDtu,
             UpdateStages.WithStorageCapacity,
             UpdateStages.WithDatabase,
-            Resource.UpdateWithTags<SqlElasticPool>,
+            Resource.UpdateWithTags<SqlElasticPool.Update>,
             Appliable<SqlElasticPool> {
     }
 

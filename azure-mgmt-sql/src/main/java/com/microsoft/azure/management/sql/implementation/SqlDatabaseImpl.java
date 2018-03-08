@@ -950,19 +950,24 @@ class SqlDatabaseImpl
 
     @Override
     public SqlDatabaseImpl withTags(Map<String, String> tags) {
-        this.inner().withTags(tags);
+        this.inner().withTags(new HashMap<>(tags));
         return this;
     }
 
     @Override
     public SqlDatabaseImpl withTag(String key, String value) {
+        if (this.inner().getTags() == null) {
+            this.inner().withTags(new HashMap<String, String>());
+        }
         this.inner().getTags().put(key, value);
         return this;
     }
 
     @Override
     public SqlDatabaseImpl withoutTag(String key) {
-        this.inner().getTags().remove(key);
+        if (this.inner().getTags() != null) {
+            this.inner().getTags().remove(key);
+        }
         return this;
     }
 

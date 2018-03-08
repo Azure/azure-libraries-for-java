@@ -950,7 +950,7 @@ class SqlDatabaseImpl
 
     @Override
     public SqlDatabaseImpl withTags(Map<String, String> tags) {
-        this.inner().withTags(tags);
+        this.inner().withTags(new HashMap<>(tags));
         return this;
     }
 

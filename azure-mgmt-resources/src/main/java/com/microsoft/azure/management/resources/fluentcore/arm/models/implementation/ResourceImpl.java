@@ -108,6 +108,9 @@ public abstract class ResourceImpl<
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withTag(String key, String value) {
+        if (this.inner().getTags() == null) {
+            this.inner().withTags(new HashMap<String, String>());
+        }
         this.inner().getTags().put(key, value);
         return (FluentModelImplT) this;
     }
@@ -119,7 +122,9 @@ public abstract class ResourceImpl<
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withoutTag(String key) {
-        this.inner().getTags().remove(key);
+        if (this.inner().getTags() != null) {
+            this.inner().getTags().remove(key);
+        }
         return (FluentModelImplT) this;
     }
 

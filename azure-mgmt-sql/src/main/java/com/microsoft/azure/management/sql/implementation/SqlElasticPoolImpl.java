@@ -633,7 +633,7 @@ public class SqlElasticPoolImpl
 
     @Override
     public SqlElasticPoolImpl withTags(Map<String, String> tags) {
-        this.inner().withTags(tags);
+        this.inner().withTags(new HashMap<>(tags));
         return this;
     }
 

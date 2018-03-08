@@ -29,7 +29,6 @@ import java.util.regex.Pattern;
  */
 public class ResourceManagerThrottlingInterceptor implements Interceptor {
     private static final String LOGGING_HEADER = "x-ms-logging-context";
-    private static final ReentrantLock REENTRANT_LOCK = new ReentrantLock();
     private static final ConcurrentMap<String, ReentrantLock> REENTRANT_LOCK_MAP = new ConcurrentHashMap<>();
 
     @Override

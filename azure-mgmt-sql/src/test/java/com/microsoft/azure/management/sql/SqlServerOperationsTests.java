@@ -132,6 +132,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .define("db-from-sample")
             .fromSample(SampleName.ADVENTURE_WORKS_LT)
             .withBasicEdition()
+            .withTag("tag1", "value1")
             .create();
         Assert.assertNotNull(dbFromSample);
         Assert.assertEquals(DatabaseEditions.BASIC, dbFromSample.edition());
@@ -161,6 +162,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .attach()
             .importFrom(storageAccount, "from-sample", "dbfromsample.bacpac")
             .withSqlAdministratorLoginAndPassword(sqlServerAdminName, sqlServerAdminPassword)
+            .withTag("tag2", "value2")
             .create();
         Assert.assertNotNull(dbFromImport);
         Assert.assertEquals("ep1", dbFromImport.elasticPoolName());
@@ -192,6 +194,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                     .defineFirewallRule("somefirewallrule1")
                         .withIPAddress("0.0.0.1")
                         .attach()
+                    .withTag("tag1", "value1")
                     .create();
         Assert.assertEquals(sqlServerAdminName, sqlServer.administratorLogin());
         Assert.assertEquals("v12.0", sqlServer.kind());
@@ -360,6 +363,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .withNewFirewallRule(START_IPADDRESS, END_IPADDRESS, SQL_FIREWALLRULE_NAME)
                 .withNewFirewallRule(START_IPADDRESS, END_IPADDRESS)
                 .withNewFirewallRule(START_IPADDRESS)
+                .withTag("tag2", "value2")
                 .apply();
 
         validateMultiCreation(database2Name, database1InEPName, database2InEPName, elasticPool1Name, elasticPool2Name, elasticPool3Name, sqlServer, true);
@@ -601,7 +605,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         Creatable<SqlElasticPool> sqlElasticPoolCreatable = sqlServer.elasticPools()
                 .define(SQL_ELASTIC_POOL_NAME)
-                .withEdition(ElasticPoolEditions.STANDARD);
+                .withEdition(ElasticPoolEditions.STANDARD)
+                .withTag("tag1", "value1");
 
         Observable<Indexable> resourceStream = sqlServer.databases()
                 .define(SQL_DATABASE_NAME)
@@ -725,6 +730,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Observable<Indexable> resourceStream = sqlServer.elasticPools()
                 .define(SQL_ELASTIC_POOL_NAME)
                 .withEdition(ElasticPoolEditions.STANDARD)
+                .withTag("tag1", "value1")
                 .createAsync();
         SqlElasticPool sqlElasticPool = Utils.<SqlElasticPool>rootResource(resourceStream)
                 .toBlocking()
@@ -738,6 +744,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .withDatabaseDtuMin(10)
                 .withStorageCapacity(102400)
                 .withNewDatabase(SQL_DATABASE_NAME)
+                .withTag("tag2", "value2")
                 .apply();
 
         validateSqlElasticPool(sqlElasticPool);

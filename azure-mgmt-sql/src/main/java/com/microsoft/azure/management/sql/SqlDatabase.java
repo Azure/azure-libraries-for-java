@@ -969,7 +969,7 @@ public interface SqlDatabase
         UpdateStages.WithElasticPoolName,
         UpdateStages.WithMaxSizeBytes,
         UpdateStages.WithServiceObjective,
-        Resource.UpdateWithTags<SqlDatabase>,
+        Resource.UpdateWithTags<SqlDatabase.Update>,
         Appliable<SqlDatabase> {
     }
 

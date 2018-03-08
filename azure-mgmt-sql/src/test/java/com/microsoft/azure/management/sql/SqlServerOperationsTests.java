@@ -33,6 +33,30 @@ public class SqlServerOperationsTests extends SqlServerTest {
     private static final String START_IPADDRESS = "10.102.1.10";
     private static final String END_IPADDRESS = "10.102.1.12";
 
+    @Test
+    public void a1_test_sql() throws Exception {
+        String id = UUID.randomUUID().toString();
+        SqlServer sqlServer = sqlServerManager.sqlServers().getByResourceGroup("a1-test-sql", "mysql112233");
+        if (sqlServer == null) {
+            sqlServer = sqlServerManager
+                .sqlServers()
+                .define("mysql112233")
+                .withRegion(Region.US_WEST)
+                .withNewResourceGroup("a1-test-sql")
+                .withAdministratorLogin("adminsql")
+                .withAdministratorPassword("passSQL1")
+                .withActiveDirectoryAdministrator("DSEng", id)
+//                    .withoutAccessFromAzureServices()
+                .defineFirewallRule("somefirewallrule1")
+                .withIPAddressRange("0.0.0.1", "255.255.255.255")
+                .attach()
+                .create();
+        }
+
+        SqlDatabase db = sqlServer.databases()
+            .get("db-sample");
+
+    }
 
     @Test
     public void canChangeSqlServerAndDatabaseAutomaticTuning () throws Exception {

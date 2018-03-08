@@ -7,7 +7,7 @@
 // regenerated.
 
 /**
- * This package contains the classes for MonitorManagementClient.
+ * This package contains the classes for managing Azure Monitor and getting logs and metrics.
  * Monitor Management Client.
  */
 package com.microsoft.azure.management.monitor;

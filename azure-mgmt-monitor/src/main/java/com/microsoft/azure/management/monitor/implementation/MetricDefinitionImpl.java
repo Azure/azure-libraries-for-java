@@ -165,7 +165,8 @@ class MetricDefinitionImpl
                 this.top,
                 this.orderBy,
                 this.odataFilter,
-                this.resultType).map(new Func1<ResponseInner, MetricCollection>() {
+                this.resultType,
+                this.inner.namespace()).map(new Func1<ResponseInner, MetricCollection>() {
                     @Override
                     public MetricCollection call(ResponseInner responseInner) {
                         return new MetricCollectionImpl(responseInner);

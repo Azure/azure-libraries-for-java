@@ -104,6 +104,57 @@ public class SqlServerOperationsTests extends SqlServerTest {
     }
 
     @Test
+    public void canGetSqlServerCapabilitiesAndCreateIdentity () throws Exception {
+        String rgName = RG_NAME;
+        String sqlServerName = SQL_SERVER_NAME;
+        String sqlServerAdminName = "sqladmin";
+        String sqlServerAdminPassword = "N0t@P@ssw0rd!";
+        String databaseName = "db-from-sample";
+        String id = SdkContext.randomUuid();
+        String storageName = SdkContext.randomResourceName(SQL_SERVER_NAME, 22);
+
+        RegionCapabilities regionCapabilities = sqlServerManager.sqlServers().getCapabilitiesByRegion(Region.US_EAST);
+        Assert.assertNotNull(regionCapabilities);
+        Assert.assertNotNull(regionCapabilities.supportedCapabilitiesByServerVersion().get("12.0"));
+        Assert.assertTrue(regionCapabilities.supportedCapabilitiesByServerVersion().get("12.0").supportedEditions().size() > 0);
+        Assert.assertTrue(regionCapabilities.supportedCapabilitiesByServerVersion().get("12.0").supportedElasticPoolEditions().size() > 0);
+
+        // Create
+        SqlServer sqlServer = sqlServerManager
+            .sqlServers()
+            .define(sqlServerName)
+            .withRegion(Region.US_EAST)
+            .withNewResourceGroup(rgName)
+            .withAdministratorLogin(sqlServerAdminName)
+            .withAdministratorPassword(sqlServerAdminPassword)
+            .withSystemAssignedManagedServiceIdentity()
+            .defineDatabase(databaseName)
+                .fromSample(SampleName.ADVENTURE_WORKS_LT)
+                .withBasicEdition()
+                .attach()
+            .create();
+        SqlDatabase dbFromSample = sqlServer.databases().get(databaseName);
+        Assert.assertNotNull(dbFromSample);
+        Assert.assertEquals(DatabaseEditions.BASIC, dbFromSample.edition());
+
+        Assert.assertTrue(sqlServer.isManagedServiceIdentityEnabled());
+        Assert.assertEquals(sqlServerManager.tenantId(), sqlServer.systemAssignedManagedServiceIdentityTenantId());
+        Assert.assertNotNull(sqlServer.systemAssignedManagedServiceIdentityPrincipalId());
+
+        sqlServer.update()
+            .withSystemAssignedManagedServiceIdentity()
+            .apply();
+        Assert.assertTrue(sqlServer.isManagedServiceIdentityEnabled());
+        Assert.assertEquals(sqlServerManager.tenantId(), sqlServer.systemAssignedManagedServiceIdentityTenantId());
+        Assert.assertNotNull(sqlServer.systemAssignedManagedServiceIdentityPrincipalId());
+
+
+        // cleanup
+        dbFromSample.delete();
+        sqlServerManager.sqlServers().deleteByResourceGroup(rgName, sqlServerName);
+    }
+
+    @Test
     public void canCRUDSqlServerWithImportDatabase() throws Exception {
         if (isPlaybackMode()) {
             // The test makes calls to the Azure Storage data plane APIs which are not mocked at this time.

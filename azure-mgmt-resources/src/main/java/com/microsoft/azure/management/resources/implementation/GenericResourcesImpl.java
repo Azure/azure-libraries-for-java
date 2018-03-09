@@ -45,19 +45,19 @@ final class GenericResourcesImpl
 
     @Override
     public PagedList<GenericResource> listByResourceGroup(String groupName) {
-        return wrapList(this.manager().inner().resources().list(Utils.createOdataFilterForGroupAndTags(groupName, null, null), null, null));
+        return wrapList(this.manager().inner().resources().listByResourceGroup(groupName));
     }
 
     @Override
     public PagedList<GenericResource> listByTag(String resourceGroupName, String tagName, String tagValue) {
-        return wrapList(this.manager().inner().resources().list(
-                Utils.createOdataFilterForGroupAndTags(resourceGroupName, tagName, tagValue), null, null));
+        return wrapList(this.manager().inner().resources().listByResourceGroup(resourceGroupName,
+                Utils.createOdataFilterForTags(tagName, tagValue), null, null));
     }
 
     @Override
     public Observable<GenericResource> listByTagAsync(String resourceGroupName, String tagName, String tagValue) {
-        return wrapPageAsync(this.manager().inner().resources().listAsync(
-                Utils.createOdataFilterForGroupAndTags(resourceGroupName, tagName, tagValue), null, null));
+        return wrapPageAsync(this.manager().inner().resources().listByResourceGroupAsync(resourceGroupName,
+                Utils.createOdataFilterForTags(tagName, tagValue), null, null));
     }
 
     @Override
@@ -238,6 +238,6 @@ final class GenericResourcesImpl
 
     @Override
     public Observable<GenericResource> listByResourceGroupAsync(String resourceGroupName) {
-        return wrapPageAsync(this.manager().inner().resources().listAsync(Utils.createOdataFilterForGroupAndTags(resourceGroupName, null, null), null, null));
+        return wrapPageAsync(this.manager().inner().resources().listByResourceGroupAsync(resourceGroupName));
     }
 }

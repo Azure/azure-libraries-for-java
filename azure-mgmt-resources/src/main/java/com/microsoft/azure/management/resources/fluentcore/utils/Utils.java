@@ -99,33 +99,6 @@ public final class Utils {
     }
 
     /**
-     * Creates an Odata filter string that can be used for filtering list results by group & tags.
-     *
-     * @param groupName the name of the resource group. If not provided, all resources will be returned.
-     * @param tagName the name of the tag. If not provided, all resources will be returned.
-     * @param tagValue the value of the tag. If not provided, only tag name will be filtered.
-     * @return the Odata filter to pass into list methods
-     */
-    public static String createOdataFilterForGroupAndTags(String groupName, String tagName, String tagValue) {
-        String groupFilter = null;
-        if (groupName != null) {
-            groupFilter = String.format("resourceGroup eq '%s'", groupName);
-        }
-
-        String tagNameFilter = null;
-        if (tagName != null) {
-            tagNameFilter = String.format("tagname eq '%s'", tagName);
-        }
-
-        String tagValueFilter = null;
-        if (tagValue != null) {
-            tagValueFilter = String.format("tagvalue eq '%s'", tagValue);
-        }
-
-        return Joiner.on(" and ").skipNulls().join(groupFilter, tagNameFilter, tagValueFilter);
-    }
-
-    /**
      * Gets an observable of {@link U} that emits only the root resource from a given
      * observable of {@link Indexable}.
      *

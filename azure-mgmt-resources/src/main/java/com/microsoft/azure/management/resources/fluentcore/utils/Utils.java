@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
-import com.google.common.base.Joiner;
 import com.google.common.primitives.Ints;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;

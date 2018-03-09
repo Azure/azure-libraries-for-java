@@ -54,11 +54,12 @@ public final class ManageBatchAI {
         try {
             //=============================================================
             // Create a new storage account and an Azure file share resource
-
+            System.out.println("Creating a storage account...");
             StorageAccount storageAccount = azure.storageAccounts().define(saName)
                     .withRegion(region)
                     .withNewResourceGroup(rgName)
                     .create();
+            System.out.println("Created storage account.");
 
             StorageAccountKey storageAccountKey = storageAccount.getKeys().get(0);
 
@@ -84,6 +85,7 @@ public final class ManageBatchAI {
 
             //=============================================================
             // Create Batch AI cluster that uses Azure file share to host the training data and scripts for the learning job
+            System.out.println("Creating Batch AI cluster...");
             BatchAICluster cluster = azure.batchAIClusters().define(clusterName)
                     .withRegion(region)
                     .withNewResourceGroup(rgName)
@@ -98,9 +100,12 @@ public final class ManageBatchAI {
                         .withAccountKey(storageAccountKey.value())
                         .attach()
                     .create();
+            System.out.println("Created Batch AI cluster.");
+            Utils.print(cluster);
 
             // =============================================================
             // Create Microsoft Cognitive Toolkit job to run on the cluster
+            System.out.println("Creating Batch AI job...");
             BatchAIJob job = cluster.jobs().define("myJob")
                     .withRegion(region)
                     .withNodeCount(1)
@@ -113,17 +118,21 @@ public final class ManageBatchAI {
                     .withOutputDirectory("MODEL", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/model")
                     .withContainerImage("microsoft/cntk:2.1-gpu-python3.5-cuda8.0-cudnn6.0")
                     .create();
+            System.out.println("Created Batch AI job.");
+            Utils.print(job);
 
             // =============================================================
             // Wait for job results
 
             // Wait for job to start running
+            System.out.println("Waiting for Batch AI job to start running...");
             while (ExecutionState.QUEUED.equals(job.executionState())) {
                 SdkContext.sleep(5000);
                 job.refresh();
             }
 
             // Wait for job to complete and job output to become available
+            System.out.println("Waiting for Batch AI job to complete...");
             while (!(ExecutionState.SUCCEEDED.equals(job.executionState()) || ExecutionState.FAILED.equals(job.executionState()))) {
                 SdkContext.sleep(5000);
                 job.refresh();

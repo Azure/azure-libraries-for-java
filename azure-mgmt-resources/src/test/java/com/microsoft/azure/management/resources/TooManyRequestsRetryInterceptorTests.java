@@ -8,6 +8,7 @@ package com.microsoft.azure.management.resources;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.RestClient;
+import org.junit.Ignore;
 import org.junit.Test;
 import rx.Observable;
 import rx.Subscriber;
@@ -39,7 +40,7 @@ public class TooManyRequestsRetryInterceptorTests extends ResourceManagerTestBas
         resourceGroups.beginDeleteByName(rgName);
     }
 
-    @Test
+    @Ignore("Not for every testing")
     public void canGenerate429() throws Exception {
         Observable.range(1, 1250).flatMap(new Func1<Integer, Observable<Void>>() {
             @Override

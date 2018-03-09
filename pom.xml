@@ -52,6 +52,19 @@
     </snapshotRepository>
   </distributionManagement>
 
+  <pluginRepositories>
+    <pluginRepository>
+      <id>ossrh</id>
+      <name>Sonatype Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <layout>default</layout>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -216,7 +229,7 @@
         <version>3.0.0</version>
         <configuration>
           <doctitle>Microsoft Azure Management Libraries for Java ${project.version}</doctitle>
-          <windowtitle>Microsoft Azure Management Libraries for Java ${project.version}</windowtitle>            
+          <windowtitle>Microsoft Azure Management Libraries for Java ${project.version}</windowtitle>
           <additionalparam>-Xdoclint:none</additionalparam>
           <excludePackageNames>*.samples;*.implementation.*;*.utils.*;com.microsoft.azure.utility;*.management.billing;*.management.cognitiveservices;*.management.consumption;*.management.customerinsights;*.management.devices;*.management.devtestlab;*.management.insights;*.management.logic;*.management.machinelearning;*.management.notificationhubs;*.management.powerbi;*.management.recoveryservices;*.management.relay;*.management.scheduler;*.management.servicefabric;*.management.streamanalytics</excludePackageNames>
           <bottom><![CDATA[<code>/**
@@ -328,6 +341,12 @@
               </fileset>
             </filesets>
           </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>com.microsoft.azure</groupId>
+          <artifactId>bundler-maven-plugin</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
         </plugin>
       </plugins>
     </pluginManagement>

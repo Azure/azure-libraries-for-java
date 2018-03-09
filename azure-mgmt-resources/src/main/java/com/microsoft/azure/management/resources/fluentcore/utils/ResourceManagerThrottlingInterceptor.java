@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import okhttp3.Interceptor;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -14,6 +15,8 @@ import okio.BufferedSource;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
@@ -26,15 +29,20 @@ import java.util.regex.Pattern;
  */
 public class ResourceManagerThrottlingInterceptor implements Interceptor {
     private static final String LOGGING_HEADER = "x-ms-logging-context";
-    private static final ReentrantLock REENTRANT_LOCK = new ReentrantLock();
+    private static final ConcurrentMap<String, ReentrantLock> REENTRANT_LOCK_MAP = new ConcurrentHashMap<>();
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         // Gate control
+        String subscriptionId = ResourceUtils.extractFromResourceId(chain.request().url().url().getPath(), "subscriptions");
+        if (subscriptionId == null) {
+            subscriptionId = "global";
+        }
+        REENTRANT_LOCK_MAP.putIfAbsent(subscriptionId, new ReentrantLock());
         try {
-            synchronized (REENTRANT_LOCK) {
-                if (REENTRANT_LOCK.isLocked()) {
-                    REENTRANT_LOCK.wait();
+            synchronized (REENTRANT_LOCK_MAP.get(subscriptionId)) {
+                if (REENTRANT_LOCK_MAP.get(subscriptionId).isLocked()) {
+                    REENTRANT_LOCK_MAP.get(subscriptionId).wait();
                 }
             }
         } catch (InterruptedException e) {
@@ -46,12 +54,12 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
         }
 
         try {
-            synchronized (REENTRANT_LOCK) {
-                if (REENTRANT_LOCK.isLocked()) {
-                    REENTRANT_LOCK.wait();
+            synchronized (REENTRANT_LOCK_MAP.get(subscriptionId)) {
+                if (REENTRANT_LOCK_MAP.get(subscriptionId).isLocked()) {
+                    REENTRANT_LOCK_MAP.get(subscriptionId).wait();
                     return chain.proceed(chain.request());
                 } else {
-                    REENTRANT_LOCK.lock();
+                    REENTRANT_LOCK_MAP.get(subscriptionId).lock();
                 }
             }
         } catch (InterruptedException e) {
@@ -84,9 +92,9 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
         } catch (Throwable t) {
             throw new IOException(t);
         } finally {
-            synchronized (REENTRANT_LOCK) {
-                REENTRANT_LOCK.unlock();
-                REENTRANT_LOCK.notifyAll();
+            synchronized (REENTRANT_LOCK_MAP.get(subscriptionId)) {
+                REENTRANT_LOCK_MAP.get(subscriptionId).unlock();
+                REENTRANT_LOCK_MAP.get(subscriptionId).notifyAll();
             }
         }
     }

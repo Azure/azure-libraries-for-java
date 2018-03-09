@@ -319,7 +319,7 @@ public interface SqlElasticPoolOperations extends
             SqlElasticPoolOperations.DefinitionStages.WithDtu,
             SqlElasticPoolOperations.DefinitionStages.WithStorageCapacity,
             SqlElasticPoolOperations.DefinitionStages.WithDatabase,
-            Resource.DefinitionWithTags<SqlElasticPool>,
+            Resource.DefinitionWithTags<SqlElasticPoolOperations.DefinitionStages.WithCreate>,
             Creatable<SqlElasticPool> {
         }
     }

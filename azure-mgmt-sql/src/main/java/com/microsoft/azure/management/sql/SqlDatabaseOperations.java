@@ -594,7 +594,7 @@ public interface SqlDatabaseOperations extends
          * specify.
          */
         interface WithCreateFinal extends
-            Resource.DefinitionWithTags<SqlDatabase>,
+            Resource.DefinitionWithTags<SqlDatabaseOperations.DefinitionStages.WithCreateFinal>,
             Creatable<SqlDatabase> {
         }
     }

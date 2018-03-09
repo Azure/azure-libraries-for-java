@@ -36,11 +36,11 @@ public final class CdnManager extends Manager<CdnManager, CdnManagementClientImp
     }
 
     /**
-     * Creates an instance of TrafficManager that exposes traffic manager management API entry points.
+     * Creates an instance of CDN Manager that exposes CDN manager management API entry points.
      *
      * @param credentials the credentials to use
      * @param subscriptionId the subscription UUID
-     * @return the TrafficManager
+     * @return the CDN Manager
      */
     public static CdnManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
         return new CdnManager(new RestClient.Builder()
@@ -54,11 +54,11 @@ public final class CdnManager extends Manager<CdnManager, CdnManagementClientImp
     }
 
     /**
-     * Creates an instance of TrafficManager that exposes traffic manager management API entry points.
+     * Creates an instance of CDN Manager that exposes CDN manager management API entry points.
      *
      * @param restClient the RestClient to be used for API calls.
      * @param subscriptionId the subscription UUID
-     * @return the TrafficManager
+     * @return the CDN Manager
      */
     public static CdnManager authenticate(RestClient restClient, String subscriptionId) {
         return new CdnManager(restClient, subscriptionId);
@@ -69,11 +69,11 @@ public final class CdnManager extends Manager<CdnManager, CdnManagementClientImp
      */
     public interface Configurable extends AzureConfigurable<Configurable> {
         /**
-         * Creates an instance of TrafficManager that exposes traffic manager management API entry points.
+         * Creates an instance of CDN Manager that exposes CDN manager management API entry points.
          *
          * @param credentials the credentials to use
          * @param subscriptionId the subscription UUID
-         * @return the interface exposing traffic manager management API entry points that work across subscriptions
+         * @return the interface exposing CDN manager management API entry points that work across subscriptions
          */
         CdnManager authenticate(AzureTokenCredentials credentials, String subscriptionId);
     }
@@ -97,7 +97,7 @@ public final class CdnManager extends Manager<CdnManager, CdnManagementClientImp
     }
 
     /**
-     * @return entry point to traffic manager profile management
+     * @return entry point to CDN manager profile management
      */
     public CdnProfiles profiles() {
         if (this.profiles == null) {

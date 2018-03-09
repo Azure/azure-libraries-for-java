@@ -4,7 +4,7 @@
  * license information.
  */
 
-package com.microsoft.azure.management.redis;
+package com.microsoft.azure.management.monitor;
 
 
 import com.microsoft.azure.management.compute.implementation.ComputeManager;

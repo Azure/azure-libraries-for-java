@@ -161,6 +161,15 @@ public interface SqlServer extends
     @Method
     void removeActiveDirectoryAdministrator();
 
+    /**
+     * Gets a SQL server automatic tuning state and options.
+     *
+     * @return the SQL server automatic tuning state and options
+     */
+    @Method
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlServerAutomaticTuning getServerAutomaticTuning();
+
 
     // Collections
 

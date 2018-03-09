@@ -34,7 +34,10 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         // Gate control
-        String subscriptionId = ResourceUtils.subscriptionFromResourceId(chain.request().url().url().getPath());
+        String subscriptionId = ResourceUtils.extractFromResourceId(chain.request().url().url().getPath(), "subscriptions");
+        if (subscriptionId == null) {
+            subscriptionId = "global";
+        }
         REENTRANT_LOCK_MAP.putIfAbsent(subscriptionId, new ReentrantLock());
         try {
             synchronized (REENTRANT_LOCK_MAP.get(subscriptionId)) {

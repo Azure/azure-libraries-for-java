@@ -159,19 +159,6 @@ public class ResourceManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The ResourceGroupsInner object to access its operations.
-     */
-    private ResourceGroupsInner resourceGroups;
-
-    /**
-     * Gets the ResourceGroupsInner object to access its operations.
-     * @return the ResourceGroupsInner object.
-     */
-    public ResourceGroupsInner resourceGroups() {
-        return this.resourceGroups;
-    }
-
-    /**
      * The ResourcesInner object to access its operations.
      */
     private ResourcesInner resources;
@@ -182,6 +169,19 @@ public class ResourceManagementClientImpl extends AzureServiceClient {
      */
     public ResourcesInner resources() {
         return this.resources;
+    }
+
+    /**
+     * The ResourceGroupsInner object to access its operations.
+     */
+    private ResourceGroupsInner resourceGroups;
+
+    /**
+     * Gets the ResourceGroupsInner object to access its operations.
+     * @return the ResourceGroupsInner object.
+     */
+    public ResourceGroupsInner resourceGroups() {
+        return this.resourceGroups;
     }
 
     /**
@@ -241,14 +241,14 @@ public class ResourceManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2016-09-01";
+        this.apiVersion = "2017-05-10";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
         this.deployments = new DeploymentsInner(restClient().retrofit(), this);
         this.providers = new ProvidersInner(restClient().retrofit(), this);
-        this.resourceGroups = new ResourceGroupsInner(restClient().retrofit(), this);
         this.resources = new ResourcesInner(restClient().retrofit(), this);
+        this.resourceGroups = new ResourceGroupsInner(restClient().retrofit(), this);
         this.tags = new TagsInner(restClient().retrofit(), this);
         this.deploymentOperations = new DeploymentOperationsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
@@ -261,6 +261,6 @@ public class ResourceManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "ResourceManagementClient", "2016-09-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "ResourceManagementClient", "2017-05-10");
     }
 }

@@ -79,6 +79,7 @@ public final class Utils {
         }
         return value;
     }
+
     /**
      * Creates an Odata filter string that can be used for filtering list results by tags.
      *

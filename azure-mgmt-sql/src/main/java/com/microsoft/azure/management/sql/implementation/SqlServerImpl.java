@@ -25,6 +25,8 @@ import com.microsoft.azure.management.sql.SqlFirewallRuleOperations;
 import com.microsoft.azure.management.sql.SqlRestorableDroppedDatabase;
 import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.sql.SqlServerAutomaticTuning;
+import com.microsoft.azure.management.sql.SqlVirtualNetworkRule;
+import com.microsoft.azure.management.sql.SqlVirtualNetworkRuleOperations;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
@@ -55,6 +57,7 @@ public class SqlServerImpl
     private FunctionalTaskItem sqlADAdminCreator;
     private boolean allowAzureServicesAccess;
     private SqlFirewallRulesAsExternalChildResourcesImpl sqlFirewallRules;
+    private SqlVirtualNetworkRulesAsExternalChildResourcesImpl sqlVirtualNetworkRules;
     private SqlElasticPoolsAsExternalChildResourcesImpl sqlElasticPools;
     private SqlDatabasesAsExternalChildResourcesImpl sqlDatabases;
 
@@ -64,6 +67,7 @@ public class SqlServerImpl
         this.sqlADAdminCreator = null;
         this.allowAzureServicesAccess = true;
         this.sqlFirewallRules = new SqlFirewallRulesAsExternalChildResourcesImpl(this, "SqlFirewallRule");
+        this.sqlVirtualNetworkRules = new SqlVirtualNetworkRulesAsExternalChildResourcesImpl(this, "SqlVirtualNetworkRule");
         this.sqlElasticPools = new SqlElasticPoolsAsExternalChildResourcesImpl(this, "SqlElasticPool");
         this.sqlDatabases = new SqlDatabasesAsExternalChildResourcesImpl(this, "SqlDatabase");
     }
@@ -323,6 +327,11 @@ public class SqlServerImpl
     }
 
     @Override
+    public SqlVirtualNetworkRuleOperations.SqlVirtualNetworkRuleActionsDefinition virtualNetworkRules() {
+        return new SqlVirtualNetworkRuleOperationsImpl(this, this.manager());
+    }
+
+    @Override
     public SqlServerImpl withAdministratorLogin(String administratorLogin) {
         this.inner().withAdministratorLogin(administratorLogin);
         return this;
@@ -381,7 +390,7 @@ public class SqlServerImpl
 
     @Override
     public SqlServerImpl withNewFirewallRule(String startIPAddress, String endIPAddress, String firewallRuleName) {
-        return sqlFirewallRules
+        return this.sqlFirewallRules
             .defineInlineFirewallRule(firewallRuleName)
             .withStartIPAddress(startIPAddress)
             .withEndIPAddress(endIPAddress)
@@ -392,6 +401,11 @@ public class SqlServerImpl
     public SqlServerImpl withoutFirewallRule(String firewallRuleName) {
         sqlFirewallRules.removeInlineFirewallRule(firewallRuleName);
         return this;
+    }
+
+    @Override
+    public SqlVirtualNetworkRule.DefinitionStages.Blank<SqlServer.DefinitionStages.WithCreate> defineVirtualNetworkRule(String virtualNetworkRuleName) {
+        return this.sqlVirtualNetworkRules.defineInlineVirtualNetworkRule(virtualNetworkRuleName);
     }
 
     @Override
@@ -411,7 +425,7 @@ public class SqlServerImpl
 
     @Override
     public SqlServerImpl withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition) {
-        return sqlElasticPools
+        return this.sqlElasticPools
             .defineInlineElasticPool(elasticPoolName)
             .withEdition(elasticPoolEdition)
             .attach();

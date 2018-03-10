@@ -11,6 +11,7 @@ import com.microsoft.azure.management.sql.samples.ManageSqlDatabaseInElasticPool
 import com.microsoft.azure.management.sql.samples.ManageSqlDatabasesAcrossDifferentDataCenters;
 import com.microsoft.azure.management.sql.samples.ManageSqlFirewallRules;
 import com.microsoft.azure.management.sql.samples.ManageSqlImportExportDatabase;
+import com.microsoft.azure.management.sql.samples.ManageSqlVirtualNetworkRules;
 import com.microsoft.azure.management.sql.samples.ManageSqlWithRecoveredOrRestoredDatabase;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
@@ -45,6 +46,11 @@ public class SqlSampleTests extends SamplesTestBase {
     @Test
     public void testManageSqlFirewallRules() {
         Assert.assertTrue(ManageSqlFirewallRules.runSample(azure));
+    }
+
+    @Test
+    public void testManageSqlVirtualNetworkRules() {
+        Assert.assertTrue(ManageSqlVirtualNetworkRules.runSample(azure));
     }
 
     @Test

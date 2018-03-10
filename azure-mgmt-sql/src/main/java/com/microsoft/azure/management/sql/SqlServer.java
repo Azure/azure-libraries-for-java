@@ -207,6 +207,12 @@ public interface SqlServer extends
     SqlFirewallRuleOperations.SqlFirewallRuleActionsDefinition firewallRules();
 
     /**
+     * @return returns entry point to manage SQL Virtual Network Rule for this server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlVirtualNetworkRuleOperations.SqlVirtualNetworkRuleActionsDefinition virtualNetworkRules();
+
+    /**
      * @return returns entry point to manage the SQL Elastic Pools for this server.
      */
     @Beta(Beta.SinceVersion.V1_7_0)
@@ -423,6 +429,21 @@ public interface SqlServer extends
         }
 
         /**
+         * The stage of the SQL Server definition allowing to specify the SQL Virtual Network Rules.
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithVirtualNetworkRule {
+            /**
+             * Begins the definition of a new SQL Virtual Network Rule to be added to this server.
+             *
+             * @param virtualNetworkRuleName the name of the new SQL Virtual Network Rule
+             * @return the first stage of the new SQL Virtual Network Rule definition
+             */
+            @Beta(Beta.SinceVersion.V1_8_0)
+            SqlVirtualNetworkRule.DefinitionStages.Blank<WithCreate> defineVirtualNetworkRule(String virtualNetworkRuleName);
+        }
+
+        /**
          * A SQL Server definition with sufficient inputs to create a new
          * SQL Server in the cloud, but exposing additional optional inputs to
          * specify.
@@ -435,6 +456,7 @@ public interface SqlServer extends
             WithElasticPool,
             WithDatabase,
             WithFirewallRule,
+            WithVirtualNetworkRule,
             DefinitionWithTags<WithCreate> {
         }
     }
@@ -540,8 +562,6 @@ public interface SqlServer extends
             @Deprecated
             Update withoutDatabase(String databaseName);
         }
-
-
 
         /**
          * The stage of the SQL Server update definition allowing to specify the SQL Firewall rules.

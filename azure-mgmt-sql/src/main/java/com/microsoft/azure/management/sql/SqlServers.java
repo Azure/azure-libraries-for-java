@@ -8,6 +8,7 @@ package com.microsoft.azure.management.sql;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
@@ -75,4 +76,22 @@ public interface SqlServers extends
      */
     @Beta(Beta.SinceVersion.V1_8_0)
     Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name);
+
+    /**
+     * Gets the Azure SQL server capabilities for a given Azure region.
+     *
+     * @param region the location to get the Azure SQL server capabilities for
+     * @return the server capabilities object
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    RegionCapabilities getCapabilitiesByRegion(Region region);
+
+    /**
+     * Gets the Azure SQL server capabilities for a given Azure region asynchronously.
+     *
+     * @param region the location to get the Azure SQL server capabilities for
+     * @return a representation of the future computation of this call, returning the server capabilities object
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    Observable<RegionCapabilities> getCapabilitiesByRegionAsync(Region region);
 }

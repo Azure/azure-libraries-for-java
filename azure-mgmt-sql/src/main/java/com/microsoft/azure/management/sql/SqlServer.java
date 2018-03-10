@@ -59,6 +59,33 @@ public interface SqlServer extends
     @Beta(Beta.SinceVersion.V1_7_0)
     String state();
 
+    /**
+     * @return true if Managed Service Identity is enabled for the SQL server
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    boolean isManagedServiceIdentityEnabled();
+
+    /**
+     * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID assigned
+     * to the SQL server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    String systemAssignedManagedServiceIdentityTenantId();
+
+    /**
+     * @return the System Assigned (Local) Managed Service Identity specific Active Directory service principal ID
+     * assigned to the SQL server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    String systemAssignedManagedServiceIdentityPrincipalId();
+
+    /**
+     * @return the type of Managed Service Identity used for the SQL server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    IdentityType managedServiceIdentityType();
+
+
     // Actions
 
     /**
@@ -271,6 +298,21 @@ public interface SqlServer extends
         }
 
         /**
+         * A SQL Server definition setting the managed service identity.
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithSystemAssignedManagedServiceIdentity {
+            /**
+             * Sets a system assigned (local) Managed Service Identity (MSI) for the SQL server resource.
+             *
+             * @return Next stage of the SQL Server definition
+             */
+            @Beta(Beta.SinceVersion.V1_8_0)
+            @Method
+            WithCreate withSystemAssignedManagedServiceIdentity();
+        }
+
+        /**
          * A SQL Server definition for specifying elastic pool.
          */
         interface WithElasticPool {
@@ -389,6 +431,7 @@ public interface SqlServer extends
         interface WithCreate extends
             Creatable<SqlServer>,
             WithActiveDirectoryAdministrator,
+            WithSystemAssignedManagedServiceIdentity,
             WithElasticPool,
             WithDatabase,
             WithFirewallRule,
@@ -406,6 +449,7 @@ public interface SqlServer extends
             UpdateStages.WithElasticPool,
             UpdateStages.WithDatabase,
             UpdateStages.WithFirewallRule,
+            UpdateStages.WithSystemAssignedManagedServiceIdentity,
             Resource.UpdateWithTags<Update> {
     }
 
@@ -424,6 +468,21 @@ public interface SqlServer extends
              * @return Next stage of the update.
              */
             Update withAdministratorPassword(String administratorLoginPassword);
+        }
+
+        /**
+         * A SQL Server definition setting the managed service identity.
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithSystemAssignedManagedServiceIdentity {
+            /**
+             * Sets a system assigned (local) Managed Service Identity (MSI) for the SQL server resource.
+             *
+             * @return Next stage of the SQL Server definition
+             */
+            @Beta(Beta.SinceVersion.V1_8_0)
+            @Method
+            Update withSystemAssignedManagedServiceIdentity();
         }
 
 

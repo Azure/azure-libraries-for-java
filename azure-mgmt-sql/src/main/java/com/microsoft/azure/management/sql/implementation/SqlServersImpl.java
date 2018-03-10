@@ -7,8 +7,10 @@
 package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.sql.CheckNameAvailabilityResult;
+import com.microsoft.azure.management.sql.RegionCapabilities;
 import com.microsoft.azure.management.sql.SqlDatabaseOperations;
 import com.microsoft.azure.management.sql.SqlElasticPoolOperations;
 import com.microsoft.azure.management.sql.SqlFirewallRuleOperations;
@@ -97,6 +99,25 @@ class SqlServersImpl
                 @Override
                 public CheckNameAvailabilityResult call(CheckNameAvailabilityResponseInner checkNameAvailabilityResponseInner) {
                     return new CheckNameAvailabilityResultImpl(checkNameAvailabilityResponseInner);
+                }
+            });
+    }
+
+    @Override
+    public RegionCapabilities getCapabilitiesByRegion(Region region) {
+        LocationCapabilitiesInner capabilitiesInner = this.manager().inner().capabilities()
+            .listByLocation(region.name());
+        return capabilitiesInner != null ? new RegionCapabilitiesImpl(capabilitiesInner) : null;
+    }
+
+    @Override
+    public Observable<RegionCapabilities> getCapabilitiesByRegionAsync(Region region) {
+        return this.manager().inner().capabilities()
+            .listByLocationAsync(region.name())
+            .map(new Func1<LocationCapabilitiesInner, RegionCapabilities>() {
+                @Override
+                public RegionCapabilities call(LocationCapabilitiesInner capabilitiesInner) {
+                    return new RegionCapabilitiesImpl(capabilitiesInner);
                 }
             });
     }

@@ -8,40 +8,39 @@
 
 package com.microsoft.azure.management.keyvault.implementation;
 
+import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.keyvault.AccessPolicyUpdateKind;
+import com.microsoft.azure.management.keyvault.VaultCheckNameAvailabilityParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.Resource;
-import com.microsoft.azure.management.keyvault.AccessPolicyUpdateKind;
-import com.microsoft.azure.management.keyvault.VaultCheckNameAvailabilityParameters;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.HTTP;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.PATCH;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import rx.Observable;
-import rx.functions.Func1;
-
 import java.io.IOException;
 import java.util.List;
+import okhttp3.ResponseBody;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
+import retrofit2.http.HTTP;
+import retrofit2.http.PATCH;
+import retrofit2.http.Path;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Query;
+import retrofit2.http.Url;
+import retrofit2.Response;
+import rx.functions.Func1;
+import rx.Observable;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -72,6 +71,10 @@ public class VaultsInner implements InnerSupportsGet<VaultInner>, InnerSupportsD
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.keyvault.Vaults createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}")
         Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("vaultName") String vaultName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Body VaultCreateOrUpdateParametersInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.keyvault.Vaults beginCreateOrUpdate" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}")
+        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("vaultName") String vaultName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Body VaultCreateOrUpdateParametersInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.keyvault.Vaults update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}")
@@ -151,7 +154,7 @@ public class VaultsInner implements InnerSupportsGet<VaultInner>, InnerSupportsD
      * @return the VaultInner object if successful.
      */
     public VaultInner createOrUpdate(String resourceGroupName, String vaultName, VaultCreateOrUpdateParametersInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, vaultName, parameters).toBlocking().single().body();
+        return createOrUpdateWithServiceResponseAsync(resourceGroupName, vaultName, parameters).toBlocking().last().body();
     }
 
     /**
@@ -175,7 +178,7 @@ public class VaultsInner implements InnerSupportsGet<VaultInner>, InnerSupportsD
      * @param vaultName Name of the vault
      * @param parameters Parameters to create or update the vault
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VaultInner object
+     * @return the observable for the request
      */
     public Observable<VaultInner> createOrUpdateAsync(String resourceGroupName, String vaultName, VaultCreateOrUpdateParametersInner parameters) {
         return createOrUpdateWithServiceResponseAsync(resourceGroupName, vaultName, parameters).map(new Func1<ServiceResponse<VaultInner>, VaultInner>() {
@@ -193,7 +196,7 @@ public class VaultsInner implements InnerSupportsGet<VaultInner>, InnerSupportsD
      * @param vaultName Name of the vault
      * @param parameters Parameters to create or update the vault
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VaultInner object
+     * @return the observable for the request
      */
     public Observable<ServiceResponse<VaultInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String vaultName, VaultCreateOrUpdateParametersInner parameters) {
         if (resourceGroupName == null) {
@@ -212,12 +215,89 @@ public class VaultsInner implements InnerSupportsGet<VaultInner>, InnerSupportsD
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        return service.createOrUpdate(resourceGroupName, vaultName, this.client.subscriptionId(), this.client.apiVersion(), parameters, this.client.acceptLanguage(), this.client.userAgent())
+        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, vaultName, this.client.subscriptionId(), this.client.apiVersion(), parameters, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VaultInner>() { }.getType());
+    }
+
+    /**
+     * Create or update a key vault in the specified subscription.
+     *
+     * @param resourceGroupName The name of the Resource Group to which the server belongs.
+     * @param vaultName Name of the vault
+     * @param parameters Parameters to create or update the vault
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the VaultInner object if successful.
+     */
+    public VaultInner beginCreateOrUpdate(String resourceGroupName, String vaultName, VaultCreateOrUpdateParametersInner parameters) {
+        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, vaultName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Create or update a key vault in the specified subscription.
+     *
+     * @param resourceGroupName The name of the Resource Group to which the server belongs.
+     * @param vaultName Name of the vault
+     * @param parameters Parameters to create or update the vault
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<VaultInner> beginCreateOrUpdateAsync(String resourceGroupName, String vaultName, VaultCreateOrUpdateParametersInner parameters, final ServiceCallback<VaultInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, vaultName, parameters), serviceCallback);
+    }
+
+    /**
+     * Create or update a key vault in the specified subscription.
+     *
+     * @param resourceGroupName The name of the Resource Group to which the server belongs.
+     * @param vaultName Name of the vault
+     * @param parameters Parameters to create or update the vault
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the VaultInner object
+     */
+    public Observable<VaultInner> beginCreateOrUpdateAsync(String resourceGroupName, String vaultName, VaultCreateOrUpdateParametersInner parameters) {
+        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, vaultName, parameters).map(new Func1<ServiceResponse<VaultInner>, VaultInner>() {
+            @Override
+            public VaultInner call(ServiceResponse<VaultInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Create or update a key vault in the specified subscription.
+     *
+     * @param resourceGroupName The name of the Resource Group to which the server belongs.
+     * @param vaultName Name of the vault
+     * @param parameters Parameters to create or update the vault
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the VaultInner object
+     */
+    public Observable<ServiceResponse<VaultInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String vaultName, VaultCreateOrUpdateParametersInner parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vaultName == null) {
+            throw new IllegalArgumentException("Parameter vaultName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        return service.beginCreateOrUpdate(resourceGroupName, vaultName, this.client.subscriptionId(), this.client.apiVersion(), parameters, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VaultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<VaultInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<VaultInner> clientResponse = createOrUpdateDelegate(response);
+                        ServiceResponse<VaultInner> clientResponse = beginCreateOrUpdateDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -226,7 +306,7 @@ public class VaultsInner implements InnerSupportsGet<VaultInner>, InnerSupportsD
             });
     }
 
-    private ServiceResponse<VaultInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<VaultInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VaultInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<VaultInner>() { }.getType())
                 .register(201, new TypeToken<VaultInner>() { }.getType())

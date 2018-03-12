@@ -40,7 +40,7 @@ public class VaultProperties {
     /**
      * The URI of the vault for performing operations on keys and secrets.
      */
-    @JsonProperty(value = "vaultUri", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "vaultUri")
     private String vaultUri;
 
     /**
@@ -77,6 +77,24 @@ public class VaultProperties {
      */
     @JsonProperty(value = "createMode")
     private CreateMode createMode;
+
+    /**
+     * Property specifying whether protection against purge is enabled for this
+     * vault. Setting this property to true activates protection against purge
+     * for this vault and its content - only the Key Vault service may initiate
+     * a hard, irrecoverable deletion. The setting is effective only if soft
+     * delete is also enabled. Enabling this functionality is irreversible -
+     * that is, the property does not accept false as its value.
+     */
+    @JsonProperty(value = "enablePurgeProtection")
+    private Boolean enablePurgeProtection;
+
+    /**
+     * A collection of rules governing the accessibility of the vault from
+     * specific network locations.
+     */
+    @JsonProperty(value = "networkAcls")
+    private NetworkRuleSet networkAcls;
 
     /**
      * Get the tenantId value.
@@ -145,6 +163,17 @@ public class VaultProperties {
      */
     public String vaultUri() {
         return this.vaultUri;
+    }
+
+    /**
+     * Set the vaultUri value.
+     *
+     * @param vaultUri the vaultUri value to set
+     * @return the VaultProperties object itself.
+     */
+    public VaultProperties withVaultUri(String vaultUri) {
+        this.vaultUri = vaultUri;
+        return this;
     }
 
     /**
@@ -244,6 +273,46 @@ public class VaultProperties {
      */
     public VaultProperties withCreateMode(CreateMode createMode) {
         this.createMode = createMode;
+        return this;
+    }
+
+    /**
+     * Get the enablePurgeProtection value.
+     *
+     * @return the enablePurgeProtection value
+     */
+    public Boolean enablePurgeProtection() {
+        return this.enablePurgeProtection;
+    }
+
+    /**
+     * Set the enablePurgeProtection value.
+     *
+     * @param enablePurgeProtection the enablePurgeProtection value to set
+     * @return the VaultProperties object itself.
+     */
+    public VaultProperties withEnablePurgeProtection(Boolean enablePurgeProtection) {
+        this.enablePurgeProtection = enablePurgeProtection;
+        return this;
+    }
+
+    /**
+     * Get the networkAcls value.
+     *
+     * @return the networkAcls value
+     */
+    public NetworkRuleSet networkAcls() {
+        return this.networkAcls;
+    }
+
+    /**
+     * Set the networkAcls value.
+     *
+     * @param networkAcls the networkAcls value to set
+     * @return the VaultProperties object itself.
+     */
+    public VaultProperties withNetworkAcls(NetworkRuleSet networkAcls) {
+        this.networkAcls = networkAcls;
         return this;
     }
 

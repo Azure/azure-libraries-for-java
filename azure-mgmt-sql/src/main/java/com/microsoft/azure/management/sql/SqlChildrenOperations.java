@@ -52,6 +52,16 @@ public interface SqlChildrenOperations<T> {
     T getBySqlServer(SqlServer sqlServer, String name);
 
     /**
+     * Asynchronously gets the information about a child resource from Azure SQL server, identifying it by its name and its resource group.
+     *
+     * @param sqlServer the SQL server parent resource
+     * @param name the name of the child resource
+     * @return a representation of the deferred computation of this call returning the found resource
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    Observable<T> getBySqlServerAsync(SqlServer sqlServer, String name);
+
+    /**
      * Gets the information about a child resource from Azure SQL server using the resource ID.
      *
      * @param id the ID of the resource.
@@ -125,8 +135,16 @@ public interface SqlChildrenOperations<T> {
      * @param sqlServer the parent Azure SQL server.
      * @return the list of resources
      */
-    @Deprecated
     List<T> listBySqlServer(SqlServer sqlServer);
+
+    /**
+     * Asynchronously lists Azure SQL child resources of the specified Azure SQL server in the specified resource group.
+     *
+     * @param sqlServer the parent Azure SQL server.
+     * @return a representation of the deferred computation of this call
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    Observable<T> listBySqlServerAsync(SqlServer sqlServer);
 
     /**
      * Base interface for Azure SQL Server child resource actions.

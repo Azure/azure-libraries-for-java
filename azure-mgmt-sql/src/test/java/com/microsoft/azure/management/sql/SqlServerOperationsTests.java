@@ -35,7 +35,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
 
     @Test
-    public void canChangeSqlServerAndDatabaseAutomaticTuning () throws Exception {
+    public void canChangeSqlServerAndDatabaseAutomaticTuning() throws Exception {
         String rgName = RG_NAME;
         String sqlServerName = SQL_SERVER_NAME;
         String sqlServerAdminName = "sqladmin";
@@ -47,16 +47,16 @@ public class SqlServerOperationsTests extends SqlServerTest {
         // Create
         SqlServer sqlServer = sqlServerManager
             .sqlServers()
-                .define(sqlServerName)
-                .withRegion(Region.US_EAST)
-                .withNewResourceGroup(rgName)
-                .withAdministratorLogin(sqlServerAdminName)
-                .withAdministratorPassword(sqlServerAdminPassword)
-                .defineDatabase(databaseName)
-                    .fromSample(SampleName.ADVENTURE_WORKS_LT)
-                    .withBasicEdition()
-                    .attach()
-                .create();
+            .define(sqlServerName)
+            .withRegion(Region.US_EAST)
+            .withNewResourceGroup(rgName)
+            .withAdministratorLogin(sqlServerAdminName)
+            .withAdministratorPassword(sqlServerAdminPassword)
+            .defineDatabase(databaseName)
+            .fromSample(SampleName.ADVENTURE_WORKS_LT)
+            .withBasicEdition()
+            .attach()
+            .create();
         SqlDatabase dbFromSample = sqlServer.databases().get(databaseName);
         Assert.assertNotNull(dbFromSample);
         Assert.assertEquals(DatabaseEditions.BASIC, dbFromSample.edition());
@@ -104,14 +104,72 @@ public class SqlServerOperationsTests extends SqlServerTest {
     }
 
     @Test
+    public void canCreateAndAquireServerDnsAlias () throws Exception {
+        String rgName = RG_NAME;
+        String sqlServerName1 = SQL_SERVER_NAME + "1";
+        String sqlServerName2 = SQL_SERVER_NAME + "2";
+        String sqlServerAdminName = "sqladmin";
+        String sqlServerAdminPassword = "N0t@P@ssw0rd!";
+
+        // Create
+        SqlServer sqlServer1 = sqlServerManager
+            .sqlServers()
+            .define(sqlServerName1)
+            .withRegion(Region.US_EAST)
+            .withNewResourceGroup(rgName)
+            .withAdministratorLogin(sqlServerAdminName)
+            .withAdministratorPassword(sqlServerAdminPassword)
+            .create();
+        Assert.assertNotNull(sqlServer1);
+
+        SqlServerDnsAlias dnsAlias = sqlServer1.dnsAliases()
+            .define(SQL_SERVER_NAME)
+            .create();
+
+        Assert.assertNotNull(dnsAlias);
+        Assert.assertEquals(rgName, dnsAlias.resourceGroupName());
+        Assert.assertEquals(sqlServerName1, dnsAlias.sqlServerName());
+
+        dnsAlias = sqlServerManager.sqlServers().dnsAliases()
+            .getBySqlServer(rgName, sqlServerName1, SQL_SERVER_NAME);
+        Assert.assertNotNull(dnsAlias);
+        Assert.assertEquals(rgName, dnsAlias.resourceGroupName());
+        Assert.assertEquals(sqlServerName1, dnsAlias.sqlServerName());
+
+        Assert.assertEquals(1, sqlServer1.databases().list().size());
+
+        SqlServer sqlServer2 = sqlServerManager
+            .sqlServers()
+            .define(sqlServerName2)
+            .withRegion(Region.US_EAST)
+            .withNewResourceGroup(rgName)
+            .withAdministratorLogin(sqlServerAdminName)
+            .withAdministratorPassword(sqlServerAdminPassword)
+            .create();
+        Assert.assertNotNull(sqlServer2);
+
+        sqlServer2.dnsAliases().acquire(SQL_SERVER_NAME, sqlServer1.id());
+        SdkContext.sleep(3 * 60 * 1000);
+
+        dnsAlias = sqlServer2.dnsAliases().get(SQL_SERVER_NAME);
+        Assert.assertNotNull(dnsAlias);
+        Assert.assertEquals(rgName, dnsAlias.resourceGroupName());
+        Assert.assertEquals(sqlServerName2, dnsAlias.sqlServerName());
+
+        // cleanup
+        dnsAlias.delete();
+
+        sqlServerManager.sqlServers().deleteByResourceGroup(rgName, sqlServerName1);
+        sqlServerManager.sqlServers().deleteByResourceGroup(rgName, sqlServerName2);
+    }
+
+    @Test
     public void canGetSqlServerCapabilitiesAndCreateIdentity () throws Exception {
         String rgName = RG_NAME;
         String sqlServerName = SQL_SERVER_NAME;
         String sqlServerAdminName = "sqladmin";
         String sqlServerAdminPassword = "N0t@P@ssw0rd!";
         String databaseName = "db-from-sample";
-        String id = SdkContext.randomUuid();
-        String storageName = SdkContext.randomResourceName(SQL_SERVER_NAME, 22);
 
         RegionCapabilities regionCapabilities = sqlServerManager.sqlServers().getCapabilitiesByRegion(Region.US_EAST);
         Assert.assertNotNull(regionCapabilities);

@@ -224,6 +224,12 @@ public interface SqlServer extends
     @Beta(Beta.SinceVersion.V1_7_0)
     SqlDatabaseOperations.SqlDatabaseActionsDefinition databases();
 
+    /**
+     * @return returns entry point to manage SQL Server DNS aliases for this server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlServerDnsAliasOperations.SqlServerDnsAliasActionsDefinition dnsAliases();
+
 
     /**************************************************************
      * Fluent interfaces to provision a SqlServer

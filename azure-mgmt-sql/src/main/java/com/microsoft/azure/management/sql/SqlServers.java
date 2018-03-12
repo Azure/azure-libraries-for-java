@@ -54,6 +54,12 @@ public interface SqlServers extends
     SqlVirtualNetworkRuleOperations virtualNetworkRules();
 
     /**
+     * @return the SQL Server DNS aliases API entry point
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlServerDnsAliasOperations dnsAliases();
+
+    /**
      * @return the SQL Server Elastic Pools API entry point
      */
     @Beta(Beta.SinceVersion.V1_7_0)

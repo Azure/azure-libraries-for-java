@@ -7,7 +7,6 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRule;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRuleOperations;
 import com.microsoft.azure.management.sql.SqlServer;
@@ -25,24 +24,22 @@ import java.util.Objects;
  */
 @LangDefinition
 public class SqlVirtualNetworkRuleOperationsImpl
+    extends
+        SqlChildrenOperationsImpl<SqlVirtualNetworkRule>
     implements
         SqlVirtualNetworkRuleOperations,
         SqlVirtualNetworkRuleOperations.SqlVirtualNetworkRuleActionsDefinition {
 
-    private SqlServerManager sqlServerManager;
-    private SqlServer sqlServer;
     private SqlVirtualNetworkRulesAsExternalChildResourcesImpl sqlVirtualNetworkRules;
 
     SqlVirtualNetworkRuleOperationsImpl(SqlServer parent, SqlServerManager sqlServerManager) {
-        Objects.requireNonNull(sqlServerManager);
-        this.sqlServer = parent;
-        this.sqlServerManager = sqlServerManager;
+        super(parent, sqlServerManager);
+        Objects.requireNonNull(parent);
         this.sqlVirtualNetworkRules = new SqlVirtualNetworkRulesAsExternalChildResourcesImpl(sqlServerManager, "SqlVirtualNetworkRule");
     }
 
     SqlVirtualNetworkRuleOperationsImpl(SqlServerManager sqlServerManager) {
-        Objects.requireNonNull(sqlServerManager);
-        this.sqlServerManager = sqlServerManager;
+        super(null, sqlServerManager);
         this.sqlVirtualNetworkRules = new SqlVirtualNetworkRulesAsExternalChildResourcesImpl(sqlServerManager, "SqlVirtualNetworkRule");
     }
 
@@ -76,35 +73,16 @@ public class SqlVirtualNetworkRuleOperationsImpl
     }
 
     @Override
-    public SqlVirtualNetworkRule get(String name) {
-        if (sqlServer == null) {
-            return null;
-        }
-        return this.getBySqlServer(this.sqlServer.resourceGroupName(), this.sqlServer.name(), name);
-    }
-
-    @Override
-    public Observable<SqlVirtualNetworkRule> getAsync(String name) {
-        if (sqlServer == null) {
-            return null;
-        }
-        return this.getBySqlServerAsync(this.sqlServer.resourceGroupName(), this.sqlServer.name(), name);
-    }
-
-    @Override
-    public SqlVirtualNetworkRule getById(String id) {
-        Objects.requireNonNull(id);
-        return this.getBySqlServer(ResourceUtils.groupFromResourceId(id),
-            ResourceUtils.nameFromResourceId(ResourceUtils.parentRelativePathFromResourceId(id)),
-            ResourceUtils.nameFromResourceId(id));
-    }
-
-    @Override
-    public Observable<SqlVirtualNetworkRule> getByIdAsync(String id) {
-        Objects.requireNonNull(id);
-        return this.getBySqlServerAsync(ResourceUtils.groupFromResourceId(id),
-            ResourceUtils.nameFromResourceId(ResourceUtils.parentRelativePathFromResourceId(id)),
-            ResourceUtils.nameFromResourceId(id));
+    public Observable<SqlVirtualNetworkRule> getBySqlServerAsync(final SqlServer sqlServer, final String name) {
+        Objects.requireNonNull(sqlServer);
+        return sqlServer.manager().inner().virtualNetworkRules()
+            .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
+            .map(new Func1<VirtualNetworkRuleInner, SqlVirtualNetworkRule>() {
+                @Override
+                public SqlVirtualNetworkRule call(VirtualNetworkRuleInner inner) {
+                    return new SqlVirtualNetworkRuleImpl(inner.name(), (SqlServerImpl) sqlServer, inner, sqlServer.manager());
+                }
+            });
     }
 
     @Override
@@ -115,37 +93,6 @@ public class SqlVirtualNetworkRuleOperationsImpl
     @Override
     public Completable deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
         return this.sqlServerManager.inner().virtualNetworkRules().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
-    }
-
-    @Override
-    public void deleteById(String id) {
-        Objects.requireNonNull(id);
-        this.deleteBySqlServer(ResourceUtils.groupFromResourceId(id),
-            ResourceUtils.nameFromResourceId(ResourceUtils.parentRelativePathFromResourceId(id)),
-            ResourceUtils.nameFromResourceId(id));
-    }
-
-    @Override
-    public Completable deleteByIdAsync(String id) {
-        Objects.requireNonNull(id);
-        return this.deleteBySqlServerAsync(ResourceUtils.groupFromResourceId(id),
-            ResourceUtils.nameFromResourceId(ResourceUtils.parentRelativePathFromResourceId(id)),
-            ResourceUtils.nameFromResourceId(id));
-    }
-
-    @Override
-    public void delete(String name) {
-        if (sqlServer != null) {
-            this.deleteBySqlServer(this.sqlServer.resourceGroupName(), this.sqlServer.name(), name);
-        }
-    }
-
-    @Override
-    public Completable deleteAsync(String name) {
-        if (sqlServer == null) {
-            return null;
-        }
-        return this.deleteBySqlServerAsync(this.sqlServer.resourceGroupName(), this.sqlServer.name(), name);
     }
 
     @Override
@@ -186,19 +133,22 @@ public class SqlVirtualNetworkRuleOperationsImpl
     }
 
     @Override
-    public List<SqlVirtualNetworkRule> list() {
-        if (sqlServer == null) {
-            return null;
-        }
-        return this.listBySqlServer(this.sqlServer.resourceGroupName(), this.sqlServer.name());
-    }
-
-    @Override
-    public Observable<SqlVirtualNetworkRule> listAsync() {
-        if (sqlServer == null) {
-            return null;
-        }
-        return this.listBySqlServerAsync(this.sqlServer.resourceGroupName(), this.sqlServer.name());
+    public Observable<SqlVirtualNetworkRule> listBySqlServerAsync(final SqlServer sqlServer) {
+        Objects.requireNonNull(sqlServer);
+        return sqlServer.manager().inner().virtualNetworkRules()
+            .listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
+            .flatMap(new Func1<Page<VirtualNetworkRuleInner>, Observable<VirtualNetworkRuleInner>>() {
+                @Override
+                public Observable<VirtualNetworkRuleInner> call(Page<VirtualNetworkRuleInner> virtualNetworkRuleInnerPage) {
+                    return Observable.from(virtualNetworkRuleInnerPage.items());
+                }
+            })
+            .map(new Func1<VirtualNetworkRuleInner, SqlVirtualNetworkRule>() {
+                @Override
+                public SqlVirtualNetworkRule call(VirtualNetworkRuleInner inner) {
+                    return new SqlVirtualNetworkRuleImpl(inner.name(), (SqlServerImpl) sqlServer, inner, sqlServerManager);
+                }
+            });
     }
 
     @Override

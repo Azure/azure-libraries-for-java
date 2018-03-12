@@ -50,13 +50,11 @@ public interface SqlVirtualNetworkRule
     /**
      * @return the parent SQL server ID
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     String parentId();
 
     /**
      * Deletes the virtual network rule.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     @Method
     void delete();
 
@@ -65,7 +63,6 @@ public interface SqlVirtualNetworkRule
      *
      * @return a representation of the deferred computation of this call
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     @Method
     Completable deleteAsync();
 
@@ -79,7 +76,7 @@ public interface SqlVirtualNetworkRule
      *
      * @param <ParentT> the stage of the parent definition to return to after attaching this definition
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(Beta.SinceVersion.V1_8_0)
     interface SqlVirtualNetworkRuleDefinition<ParentT> extends
         SqlVirtualNetworkRule.DefinitionStages.Blank<ParentT>,
         SqlVirtualNetworkRule.DefinitionStages.WithSubnet<ParentT>,
@@ -90,6 +87,7 @@ public interface SqlVirtualNetworkRule
     /**
      * Grouping of all the SQL Virtual Network Rule definition stages.
      */
+    @Beta(Beta.SinceVersion.V1_8_0)
     interface DefinitionStages {
         /**
          * The first stage of the SQL Server Virtual Network Rule definition.
@@ -138,7 +136,6 @@ public interface SqlVirtualNetworkRule
          * can be attached to the parent SQL Server definition.
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(Beta.SinceVersion.V1_7_0)
         interface WithAttach<ParentT> extends
             Attachable.InDefinition<ParentT> {
         }
@@ -147,6 +144,7 @@ public interface SqlVirtualNetworkRule
     /**
      * The template for a SQL Virtual Network Rule update operation, containing all the settings that can be modified.
      */
+    @Beta(Beta.SinceVersion.V1_8_0)
     interface Update extends
         SqlVirtualNetworkRule.UpdateStages.WithSubnet,
         SqlVirtualNetworkRule.UpdateStages.WithServiceEndpoint,
@@ -156,6 +154,7 @@ public interface SqlVirtualNetworkRule
     /**
      * Grouping of all the SQL Virtual Network Rule update stages.
      */
+    @Beta(Beta.SinceVersion.V1_8_0)
     interface UpdateStages {
         /**
          * The SQL Virtual Network Rule definition to set the virtual network ID and the subnet name.

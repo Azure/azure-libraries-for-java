@@ -25,6 +25,7 @@ import com.microsoft.azure.management.sql.SqlFirewallRuleOperations;
 import com.microsoft.azure.management.sql.SqlRestorableDroppedDatabase;
 import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.sql.SqlServerAutomaticTuning;
+import com.microsoft.azure.management.sql.SqlServerDnsAliasOperations;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRule;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRuleOperations;
 import rx.Completable;
@@ -57,9 +58,14 @@ public class SqlServerImpl
     private FunctionalTaskItem sqlADAdminCreator;
     private boolean allowAzureServicesAccess;
     private SqlFirewallRulesAsExternalChildResourcesImpl sqlFirewallRules;
+    private SqlFirewallRuleOperations.SqlFirewallRuleActionsDefinition sqlFirewallRuleOperations;
     private SqlVirtualNetworkRulesAsExternalChildResourcesImpl sqlVirtualNetworkRules;
+    private SqlVirtualNetworkRuleOperations.SqlVirtualNetworkRuleActionsDefinition sqlVirtualNetworkRuleOperations;
     private SqlElasticPoolsAsExternalChildResourcesImpl sqlElasticPools;
+    private SqlElasticPoolOperations.SqlElasticPoolActionsDefinition sqlElasticPoolOperations;
     private SqlDatabasesAsExternalChildResourcesImpl sqlDatabases;
+    private SqlDatabaseOperations.SqlDatabaseActionsDefinition sqlDatabaseOperations;
+    private SqlServerDnsAliasOperations.SqlServerDnsAliasActionsDefinition sqlServerDnsAliasOperations;
 
     protected SqlServerImpl(String name, ServerInner innerObject, SqlServerManager manager) {
         super(name, innerObject, manager);
@@ -323,12 +329,18 @@ public class SqlServerImpl
 
     @Override
     public SqlFirewallRuleOperations.SqlFirewallRuleActionsDefinition firewallRules() {
-        return new SqlFirewallRuleOperationsImpl(this, this.manager());
+        if (this.sqlFirewallRuleOperations == null) {
+            this.sqlFirewallRuleOperations = new SqlFirewallRuleOperationsImpl(this, this.manager());
+        }
+        return this.sqlFirewallRuleOperations;
     }
 
     @Override
     public SqlVirtualNetworkRuleOperations.SqlVirtualNetworkRuleActionsDefinition virtualNetworkRules() {
-        return new SqlVirtualNetworkRuleOperationsImpl(this, this.manager());
+        if (this.sqlVirtualNetworkRuleOperations == null) {
+            this.sqlVirtualNetworkRuleOperations = new SqlVirtualNetworkRuleOperationsImpl(this, this.manager());
+        }
+        return this.sqlVirtualNetworkRuleOperations;
     }
 
     @Override
@@ -410,12 +422,26 @@ public class SqlServerImpl
 
     @Override
     public SqlElasticPoolOperations.SqlElasticPoolActionsDefinition elasticPools() {
-        return new SqlElasticPoolOperationsImpl(this, this.manager());
+        if (this.sqlElasticPoolOperations == null) {
+            this.sqlElasticPoolOperations = new SqlElasticPoolOperationsImpl(this, this.manager());
+        }
+        return this.sqlElasticPoolOperations;
     }
 
     @Override
     public SqlDatabaseOperations.SqlDatabaseActionsDefinition databases() {
-        return new SqlDatabaseOperationsImpl(this, this.manager());
+        if (this.sqlDatabaseOperations == null) {
+            this.sqlDatabaseOperations = new SqlDatabaseOperationsImpl(this, this.manager());
+        }
+        return this.sqlDatabaseOperations;
+    }
+
+    @Override
+    public SqlServerDnsAliasOperations.SqlServerDnsAliasActionsDefinition dnsAliases() {
+        if (this.sqlServerDnsAliasOperations == null) {
+            this.sqlServerDnsAliasOperations = new SqlServerDnsAliasOperationsImpl(this, this.manager());
+        }
+        return this.sqlServerDnsAliasOperations;
     }
 
     @Override

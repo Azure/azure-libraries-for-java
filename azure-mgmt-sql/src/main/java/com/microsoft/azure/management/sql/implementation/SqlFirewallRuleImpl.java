@@ -7,6 +7,7 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.sql.SqlFirewallRule;
@@ -206,8 +207,10 @@ public class SqlFirewallRuleImpl
 
     @Override
     public SqlFirewallRuleImpl withExistingSqlServerId(String sqlServerId) {
-        this.resourceGroupName = ResourceUtils.groupFromResourceId(sqlServerId);
-        this.sqlServerName = ResourceUtils.nameFromResourceId(ResourceUtils.parentRelativePathFromResourceId(sqlServerId));
+        Objects.requireNonNull(sqlServerId);
+        ResourceId resourceId = ResourceId.fromString(sqlServerId);
+        this.resourceGroupName = resourceId.resourceGroupName();
+        this.sqlServerName = resourceId.name();
         return this;
     }
 

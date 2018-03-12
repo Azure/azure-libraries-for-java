@@ -37,6 +37,7 @@ class SqlServersImpl
     private SqlVirtualNetworkRuleOperations virtualNetworkRules;
     private SqlElasticPoolOperations elasticPools;
     private SqlDatabaseOperations databases;
+    private SqlServerDnsAliasOperationsImpl dnsAliases;
 
     protected SqlServersImpl(SqlServerManager manager) {
         super(manager.inner().servers(), manager);
@@ -78,6 +79,15 @@ class SqlServersImpl
         }
 
         return this.virtualNetworkRules;
+    }
+
+    @Override
+    public SqlServerDnsAliasOperationsImpl dnsAliases() {
+        if (this.dnsAliases == null) {
+            this.dnsAliases = new SqlServerDnsAliasOperationsImpl(this.manager());
+        }
+
+        return this.dnsAliases;
     }
 
     @Override

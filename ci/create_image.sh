@@ -9,14 +9,6 @@ function title {
 
 #############################################
 
-curl -L https://a01tools.blob.core.windows.net/droid/latest/linux/a01droid \
-     -o ci/app/a01droid
-chmod +x ci/app/a01droid
-
-curl -L https://a01tools.blob.core.windows.net/droid/latest/linux/a01dispatcher \
-     -o ci/app/a01dispatcher
-chmod +x ci/app/a01dispatcher
-
 title 'Generating tasks list'
 java -jar ./ci/java-test-collector-1.0-SNAPSHOT.jar ./
 

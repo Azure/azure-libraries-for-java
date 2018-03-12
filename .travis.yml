@@ -12,11 +12,4 @@ script:
 - |-
   ./ci/run_tests.sh
   ./ci/create_image.sh
-#jobs:
-#  include:
-#    - stage: test
-#      script: ./ci/run_tests.sh
-#    - stage: publish
-#      script: ./ci/create_image.sh
-#      if: repo = Azure/azure-libararies-for-java and type = push
 

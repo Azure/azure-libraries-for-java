@@ -16,6 +16,7 @@ import com.microsoft.azure.management.sql.SqlElasticPoolOperations;
 import com.microsoft.azure.management.sql.SqlFirewallRuleOperations;
 import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.sql.SqlServers;
+import com.microsoft.azure.management.sql.SqlVirtualNetworkRuleOperations;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -33,8 +34,10 @@ class SqlServersImpl
         implements SqlServers {
 
     private SqlFirewallRuleOperations firewallRules;
+    private SqlVirtualNetworkRuleOperations virtualNetworkRules;
     private SqlElasticPoolOperations elasticPools;
     private SqlDatabaseOperations databases;
+    private SqlServerDnsAliasOperationsImpl dnsAliases;
 
     protected SqlServersImpl(SqlServerManager manager) {
         super(manager.inner().servers(), manager);
@@ -62,7 +65,7 @@ class SqlServersImpl
 
     @Override
     public SqlFirewallRuleOperations firewallRules() {
-        if (firewallRules == null) {
+        if (this.firewallRules == null) {
             this.firewallRules = new SqlFirewallRuleOperationsImpl(this.manager());
         }
 
@@ -70,8 +73,26 @@ class SqlServersImpl
     }
 
     @Override
+    public SqlVirtualNetworkRuleOperations virtualNetworkRules() {
+        if (this.virtualNetworkRules == null) {
+            this.virtualNetworkRules = new SqlVirtualNetworkRuleOperationsImpl(this.manager());
+        }
+
+        return this.virtualNetworkRules;
+    }
+
+    @Override
+    public SqlServerDnsAliasOperationsImpl dnsAliases() {
+        if (this.dnsAliases == null) {
+            this.dnsAliases = new SqlServerDnsAliasOperationsImpl(this.manager());
+        }
+
+        return this.dnsAliases;
+    }
+
+    @Override
     public SqlElasticPoolOperations elasticPools() {
-        if (elasticPools == null) {
+        if (this.elasticPools == null) {
             this.elasticPools = new SqlElasticPoolOperationsImpl(this.manager());
         }
 
@@ -80,7 +101,7 @@ class SqlServersImpl
 
     @Override
     public SqlDatabaseOperations databases() {
-        if (databases == null) {
+        if (this.databases == null) {
             this.databases = new SqlDatabaseOperationsImpl(this.manager());
         }
 

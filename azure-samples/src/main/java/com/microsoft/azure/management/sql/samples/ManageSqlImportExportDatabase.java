@@ -79,12 +79,12 @@ public final class ManageSqlImportExportDatabase {
                     .withRegion(sqlServer.regionName())
                     .withExistingResourceGroup(sqlServer.resourceGroupName());
 
-                exportedDB = dbFromSample.exportTo(storageAccountCreatable, "from-sample", "dbfromsample.bacpac")
+                exportedDB = dbFromSample.exportTo(storageAccountCreatable, "container-name", "dbfromsample.bacpac")
                     .withSqlAdministratorLoginAndPassword(administratorLogin, administratorPassword)
                     .execute();
                 storageAccount = azure.storageAccounts().getByResourceGroup(sqlServer.resourceGroupName(), storageName);
             } else {
-                exportedDB = dbFromSample.exportTo(storageAccount, "from-sample", "dbfromsample.bacpac")
+                exportedDB = dbFromSample.exportTo(storageAccount, "container-name", "dbfromsample.bacpac")
                     .withSqlAdministratorLoginAndPassword(administratorLogin, administratorPassword)
                     .execute();
             }
@@ -98,7 +98,7 @@ public final class ManageSqlImportExportDatabase {
                     .defineElasticPool("epi")
                         .withStandardPool()
                         .attach()
-                    .importFrom(storageAccount, "from-sample", "dbfromsample.bacpac")
+                    .importFrom(storageAccount, "container-name", "dbfromsample.bacpac")
                         .withSqlAdministratorLoginAndPassword(administratorLogin, administratorPassword)
                     .create();
             Utils.print(dbFromImport);
@@ -119,7 +119,7 @@ public final class ManageSqlImportExportDatabase {
             System.out.println("Importing data from a BACPAC to an empty database within an elastic pool.");
 
             dbEmpty
-                .importBacpac(storageAccount, "from-sample", "dbfromsample.bacpac")
+                .importBacpac(storageAccount, "container-name", "dbfromsample.bacpac")
                 .withSqlAdministratorLoginAndPassword(administratorLogin, administratorPassword)
                 .execute();
             Utils.print(dbFromImport);

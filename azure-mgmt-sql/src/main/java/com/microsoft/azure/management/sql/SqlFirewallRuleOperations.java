@@ -88,7 +88,6 @@ public interface SqlFirewallRuleOperations extends
          * The final stage of the SQL Firewall Rule definition.
          */
         interface WithCreate extends Creatable<SqlFirewallRule> {
-//        interface WithCreate extends SqlChildrenCreatableDefinition<SqlFirewallRule> {
         }
     }
 

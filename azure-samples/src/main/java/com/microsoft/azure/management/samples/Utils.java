@@ -146,6 +146,7 @@ import com.microsoft.azure.management.sql.SqlDatabase;
 import com.microsoft.azure.management.sql.SqlElasticPool;
 import com.microsoft.azure.management.sql.SqlFirewallRule;
 import com.microsoft.azure.management.sql.SqlServer;
+import com.microsoft.azure.management.sql.SqlVirtualNetworkRule;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountEncryptionStatus;
 import com.microsoft.azure.management.storage.StorageAccountKey;
@@ -1503,6 +1504,21 @@ public final class Utils {
                 .append("\n\tSqlServer Name: ").append(firewallRule.sqlServerName())
                 .append("\n\tStart IP Address of the firewall rule: ").append(firewallRule.startIPAddress())
                 .append("\n\tEnd IP Address of the firewall rule: ").append(firewallRule.endIPAddress());
+
+        System.out.println(builder.toString());
+    }
+
+    /**
+     * Prints information for the passed virtual network rule.
+     * @param virtualNetworkRule virtual network rule to be printed.
+     */
+    public static void print(SqlVirtualNetworkRule virtualNetworkRule) {
+        StringBuilder builder = new StringBuilder().append("SQL virtual network rule: ").append(virtualNetworkRule.id())
+            .append("Name: ").append(virtualNetworkRule.name())
+            .append("\n\tResource group: ").append(virtualNetworkRule.resourceGroupName())
+            .append("\n\tSqlServer Name: ").append(virtualNetworkRule.sqlServerName())
+            .append("\n\tSubnet ID: ").append(virtualNetworkRule.subnetId())
+            .append("\n\tState: ").append(virtualNetworkRule.state());
 
         System.out.println(builder.toString());
     }

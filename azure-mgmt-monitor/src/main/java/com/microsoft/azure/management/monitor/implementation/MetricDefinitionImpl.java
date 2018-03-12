@@ -95,6 +95,11 @@ class MetricDefinitionImpl
         return this.dimensions;
     }
 
+    @Override
+    public List<AggregationType> supportedAggregationTypes() {
+        return this.inner.supportedAggregationTypes();
+    }
+
     @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     public Unit unit() {
         return this.inner.unit();

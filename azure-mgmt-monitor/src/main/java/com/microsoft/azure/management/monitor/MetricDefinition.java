@@ -46,6 +46,29 @@ public interface MetricDefinition extends
     LocalizableString name();
 
     /**
+     * Get the namespace value.
+     *
+     * @return the namespace value
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    String namespace();
+
+    /**
+     * Get the isDimensionRequired value.
+     *
+     * @return the isDimensionRequired value
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    boolean isDimensionRequired();
+
+    /**
+     * the name and the display name of the dimension, i.e. it is a localizable
+     * string.
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    List<LocalizableString> dimensions();
+
+    /**
      * Get the unit value.
      *
      * @return the unit value

@@ -38,6 +38,9 @@ public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
                 .execute();
 
         Assert.assertNotNull(metrics);
+        Assert.assertNotNull(metrics.namespace());
+        Assert.assertNotNull(metrics.resourceRegion());
+        Assert.assertEquals("Microsoft.Compute/virtualMachines", metrics.namespace());
 
         // Activity Logs
         PagedList<EventData> retVal = monitorManager.activityLogs()

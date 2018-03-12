@@ -24,6 +24,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
 import rx.functions.Func1;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +40,7 @@ class MetricDefinitionImpl
     private final MonitorManager myManager;
     private MetricDefinitionInner inner;
     private LocalizableString name;
+    private List<LocalizableString> dimensions;
     private DateTime queryStartTime;
     private DateTime queryEndTime;
     private String aggreagation;
@@ -53,6 +55,14 @@ class MetricDefinitionImpl
         this.myManager = monitorManager;
         this.inner = innerModel;
         this.name = (inner.name() == null) ? null : new LocalizableStringImpl(inner.name());
+        this.dimensions = null;
+        if( this.inner.dimensions() != null &&
+                this.inner.dimensions().size() >0) {
+            this.dimensions = new ArrayList<>();
+            for(LocalizableStringInner lsi : inner.dimensions()) {
+                this.dimensions.add(new LocalizableStringImpl(lsi));
+            }
+        }
     }
 
     @Override
@@ -68,6 +78,21 @@ class MetricDefinitionImpl
     @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     public LocalizableString name() {
         return this.name;
+    }
+
+    @Override
+    public String namespace() {
+        return this.inner.namespace();
+    }
+
+    @Override
+    public boolean isDimensionRequired() {
+        return this.inner.isDimensionRequired();
+    }
+
+    @Override
+    public List<LocalizableString> dimensions() {
+        return this.dimensions;
     }
 
     @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)

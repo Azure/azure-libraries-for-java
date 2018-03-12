@@ -11,5 +11,7 @@ before_script:
 script:
 - |-
   ./ci/run_tests.sh
-  ./ci/create_image.sh
+  if [ ${TRAVIS_JDK_VERSION} = "oraclejdk8" ]; then
+    ./ci/create_image.sh ;
+  fi
 

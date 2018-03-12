@@ -12,7 +12,7 @@ import com.microsoft.azure.management.resources.ResourceManagementErrorWithDetai
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The ResourceGroupExportResultInner model.
+ * Resource group export result.
  */
 public class ResourceGroupExportResultInner {
     /**

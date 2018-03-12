@@ -13,7 +13,9 @@ import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskIte
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.management.sql.IdentityType;
 import com.microsoft.azure.management.sql.RecommendedElasticPool;
+import com.microsoft.azure.management.sql.ResourceIdentity;
 import com.microsoft.azure.management.sql.ServerMetric;
 import com.microsoft.azure.management.sql.ServiceObjective;
 import com.microsoft.azure.management.sql.SqlDatabaseOperations;
@@ -22,6 +24,10 @@ import com.microsoft.azure.management.sql.SqlFirewallRule;
 import com.microsoft.azure.management.sql.SqlFirewallRuleOperations;
 import com.microsoft.azure.management.sql.SqlRestorableDroppedDatabase;
 import com.microsoft.azure.management.sql.SqlServer;
+import com.microsoft.azure.management.sql.SqlServerAutomaticTuning;
+import com.microsoft.azure.management.sql.SqlServerDnsAliasOperations;
+import com.microsoft.azure.management.sql.SqlVirtualNetworkRule;
+import com.microsoft.azure.management.sql.SqlVirtualNetworkRuleOperations;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
@@ -52,8 +58,14 @@ public class SqlServerImpl
     private FunctionalTaskItem sqlADAdminCreator;
     private boolean allowAzureServicesAccess;
     private SqlFirewallRulesAsExternalChildResourcesImpl sqlFirewallRules;
+    private SqlFirewallRuleOperations.SqlFirewallRuleActionsDefinition sqlFirewallRuleOperations;
+    private SqlVirtualNetworkRulesAsExternalChildResourcesImpl sqlVirtualNetworkRules;
+    private SqlVirtualNetworkRuleOperations.SqlVirtualNetworkRuleActionsDefinition sqlVirtualNetworkRuleOperations;
     private SqlElasticPoolsAsExternalChildResourcesImpl sqlElasticPools;
+    private SqlElasticPoolOperations.SqlElasticPoolActionsDefinition sqlElasticPoolOperations;
     private SqlDatabasesAsExternalChildResourcesImpl sqlDatabases;
+    private SqlDatabaseOperations.SqlDatabaseActionsDefinition sqlDatabaseOperations;
+    private SqlServerDnsAliasOperations.SqlServerDnsAliasActionsDefinition sqlServerDnsAliasOperations;
 
     protected SqlServerImpl(String name, ServerInner innerObject, SqlServerManager manager) {
         super(name, innerObject, manager);
@@ -61,6 +73,7 @@ public class SqlServerImpl
         this.sqlADAdminCreator = null;
         this.allowAzureServicesAccess = true;
         this.sqlFirewallRules = new SqlFirewallRulesAsExternalChildResourcesImpl(this, "SqlFirewallRule");
+        this.sqlVirtualNetworkRules = new SqlVirtualNetworkRulesAsExternalChildResourcesImpl(this, "SqlVirtualNetworkRule");
         this.sqlElasticPools = new SqlElasticPoolsAsExternalChildResourcesImpl(this, "SqlElasticPool");
         this.sqlDatabases = new SqlDatabasesAsExternalChildResourcesImpl(this, "SqlDatabase");
     }
@@ -148,6 +161,26 @@ public class SqlServerImpl
     @Override
     public String state() {
         return this.inner().state();
+    }
+
+    @Override
+    public boolean isManagedServiceIdentityEnabled() {
+        return this.inner().identity() != null && this.inner().identity().type().equals(IdentityType.SYSTEM_ASSIGNED);
+    }
+
+    @Override
+    public String systemAssignedManagedServiceIdentityTenantId() {
+        return this.inner().identity() != null ? this.inner().identity().tenantId().toString() : null;
+    }
+
+    @Override
+    public String systemAssignedManagedServiceIdentityPrincipalId() {
+        return this.inner().identity() != null ? this.inner().identity().principalId().toString() : null;
+    }
+
+    @Override
+    public IdentityType managedServiceIdentityType() {
+        return this.inner().identity() != null ? this.inner().identity().type() : null;
     }
 
     @Override
@@ -287,8 +320,27 @@ public class SqlServerImpl
     }
 
     @Override
+    public SqlServerAutomaticTuning getServerAutomaticTuning() {
+        ServerAutomaticTuningInner serverAutomaticTuningInner = this.manager().inner().serverAutomaticTunings()
+            .get(this.resourceGroupName(), this.name());
+        return serverAutomaticTuningInner != null ? new SqlServerAutomaticTuningImpl(this, serverAutomaticTuningInner) : null;
+    }
+
+
+    @Override
     public SqlFirewallRuleOperations.SqlFirewallRuleActionsDefinition firewallRules() {
-        return new SqlFirewallRuleOperationsImpl(this, this.manager());
+        if (this.sqlFirewallRuleOperations == null) {
+            this.sqlFirewallRuleOperations = new SqlFirewallRuleOperationsImpl(this, this.manager());
+        }
+        return this.sqlFirewallRuleOperations;
+    }
+
+    @Override
+    public SqlVirtualNetworkRuleOperations.SqlVirtualNetworkRuleActionsDefinition virtualNetworkRules() {
+        if (this.sqlVirtualNetworkRuleOperations == null) {
+            this.sqlVirtualNetworkRuleOperations = new SqlVirtualNetworkRuleOperationsImpl(this, this.manager());
+        }
+        return this.sqlVirtualNetworkRuleOperations;
     }
 
     @Override
@@ -350,7 +402,7 @@ public class SqlServerImpl
 
     @Override
     public SqlServerImpl withNewFirewallRule(String startIPAddress, String endIPAddress, String firewallRuleName) {
-        return sqlFirewallRules
+        return this.sqlFirewallRules
             .defineInlineFirewallRule(firewallRuleName)
             .withStartIPAddress(startIPAddress)
             .withEndIPAddress(endIPAddress)
@@ -364,13 +416,32 @@ public class SqlServerImpl
     }
 
     @Override
+    public SqlVirtualNetworkRule.DefinitionStages.Blank<SqlServer.DefinitionStages.WithCreate> defineVirtualNetworkRule(String virtualNetworkRuleName) {
+        return this.sqlVirtualNetworkRules.defineInlineVirtualNetworkRule(virtualNetworkRuleName);
+    }
+
+    @Override
     public SqlElasticPoolOperations.SqlElasticPoolActionsDefinition elasticPools() {
-        return new SqlElasticPoolOperationsImpl(this, this.manager());
+        if (this.sqlElasticPoolOperations == null) {
+            this.sqlElasticPoolOperations = new SqlElasticPoolOperationsImpl(this, this.manager());
+        }
+        return this.sqlElasticPoolOperations;
     }
 
     @Override
     public SqlDatabaseOperations.SqlDatabaseActionsDefinition databases() {
-        return new SqlDatabaseOperationsImpl(this, this.manager());
+        if (this.sqlDatabaseOperations == null) {
+            this.sqlDatabaseOperations = new SqlDatabaseOperationsImpl(this, this.manager());
+        }
+        return this.sqlDatabaseOperations;
+    }
+
+    @Override
+    public SqlServerDnsAliasOperations.SqlServerDnsAliasActionsDefinition dnsAliases() {
+        if (this.sqlServerDnsAliasOperations == null) {
+            this.sqlServerDnsAliasOperations = new SqlServerDnsAliasOperationsImpl(this, this.manager());
+        }
+        return this.sqlServerDnsAliasOperations;
     }
 
     @Override
@@ -380,7 +451,7 @@ public class SqlServerImpl
 
     @Override
     public SqlServerImpl withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition) {
-        return sqlElasticPools
+        return this.sqlElasticPools
             .defineInlineElasticPool(elasticPoolName)
             .withEdition(elasticPoolEdition)
             .attach();
@@ -422,4 +493,9 @@ public class SqlServerImpl
         return this;
     }
 
+    @Override
+    public SqlServerImpl withSystemAssignedManagedServiceIdentity() {
+        this.inner().withIdentity(new ResourceIdentity().withType(IdentityType.SYSTEM_ASSIGNED));
+        return this;
+    }
 }

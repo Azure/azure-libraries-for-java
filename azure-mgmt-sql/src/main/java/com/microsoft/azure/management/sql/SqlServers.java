@@ -8,6 +8,7 @@ package com.microsoft.azure.management.sql;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
@@ -21,6 +22,7 @@ import com.microsoft.azure.management.resources.fluentcore.collection.SupportsLi
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.sql.implementation.ServersInner;
 import com.microsoft.azure.management.sql.implementation.SqlServerManager;
+import rx.Observable;
 
 /**
  *  Entry point to SQL Server management API.
@@ -46,6 +48,18 @@ public interface SqlServers extends
     SqlFirewallRuleOperations firewallRules();
 
     /**
+     * @return the SQL Server VirtualNetwork Rules API entry point
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlVirtualNetworkRuleOperations virtualNetworkRules();
+
+    /**
+     * @return the SQL Server DNS aliases API entry point
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlServerDnsAliasOperations dnsAliases();
+
+    /**
      * @return the SQL Server Elastic Pools API entry point
      */
     @Beta(Beta.SinceVersion.V1_7_0)
@@ -57,4 +71,39 @@ public interface SqlServers extends
     @Beta(Beta.SinceVersion.V1_7_0)
     SqlDatabaseOperations databases();
 
+    /**
+     * Checks if the specified container registry name is valid and available.
+     *
+     * @param name the container registry name to check
+     * @return whether the name is available and other info if not
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    CheckNameAvailabilityResult checkNameAvailability(String name);
+
+    /**
+     * Checks if container registry name is valid and is not in use asynchronously.
+     *
+     * @param name the container registry name to check
+     * @return a representation of the future computation of this call, returning whether the name is available or other info if not
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name);
+
+    /**
+     * Gets the Azure SQL server capabilities for a given Azure region.
+     *
+     * @param region the location to get the Azure SQL server capabilities for
+     * @return the server capabilities object
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    RegionCapabilities getCapabilitiesByRegion(Region region);
+
+    /**
+     * Gets the Azure SQL server capabilities for a given Azure region asynchronously.
+     *
+     * @param region the location to get the Azure SQL server capabilities for
+     * @return a representation of the future computation of this call, returning the server capabilities object
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    Observable<RegionCapabilities> getCapabilitiesByRegionAsync(Region region);
 }

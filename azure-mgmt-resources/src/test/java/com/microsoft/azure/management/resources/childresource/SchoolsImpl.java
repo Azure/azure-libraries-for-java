@@ -15,7 +15,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -198,17 +197,17 @@ class SchoolsImpl {
 
         @Override
         public Observable<TeacherImpl> updateResourceAsync() {
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public Observable<Void> deleteResourceAsync() {
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
         }
 
         @Override
         protected Observable<Object> getInnerAsync() {
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
         }
 
         public SchoolImpl attach() {
@@ -325,17 +324,17 @@ class SchoolsImpl {
 
         @Override
         public Observable<StudentImpl> updateResourceAsync() {
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public Observable<Void> deleteResourceAsync() {
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
         }
 
         @Override
         protected Observable<Object> getInnerAsync() {
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
         }
 
         public SchoolImpl attach() {

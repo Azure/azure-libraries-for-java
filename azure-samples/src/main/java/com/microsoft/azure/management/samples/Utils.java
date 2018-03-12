@@ -24,6 +24,8 @@ import com.microsoft.azure.management.batch.Application;
 import com.microsoft.azure.management.batch.ApplicationPackage;
 import com.microsoft.azure.management.batch.BatchAccount;
 import com.microsoft.azure.management.batch.BatchAccountKeys;
+import com.microsoft.azure.management.batchai.BatchAICluster;
+import com.microsoft.azure.management.batchai.BatchAIJob;
 import com.microsoft.azure.management.compute.AvailabilitySet;
 import com.microsoft.azure.management.compute.DataDisk;
 import com.microsoft.azure.management.compute.ImageDataDisk;
@@ -144,6 +146,7 @@ import com.microsoft.azure.management.sql.SqlDatabase;
 import com.microsoft.azure.management.sql.SqlElasticPool;
 import com.microsoft.azure.management.sql.SqlFirewallRule;
 import com.microsoft.azure.management.sql.SqlServer;
+import com.microsoft.azure.management.sql.SqlVirtualNetworkRule;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountEncryptionStatus;
 import com.microsoft.azure.management.storage.StorageAccountKey;
@@ -1506,6 +1509,21 @@ public final class Utils {
     }
 
     /**
+     * Prints information for the passed virtual network rule.
+     * @param virtualNetworkRule virtual network rule to be printed.
+     */
+    public static void print(SqlVirtualNetworkRule virtualNetworkRule) {
+        StringBuilder builder = new StringBuilder().append("SQL virtual network rule: ").append(virtualNetworkRule.id())
+            .append("Name: ").append(virtualNetworkRule.name())
+            .append("\n\tResource group: ").append(virtualNetworkRule.resourceGroupName())
+            .append("\n\tSqlServer Name: ").append(virtualNetworkRule.sqlServerName())
+            .append("\n\tSubnet ID: ").append(virtualNetworkRule.subnetId())
+            .append("\n\tState: ").append(virtualNetworkRule.state());
+
+        System.out.println(builder.toString());
+    }
+
+    /**
      * Prints information of the elastic pool passed in.
      * @param elasticPool elastic pool to be printed
      */
@@ -2616,6 +2634,83 @@ public final class Utils {
                 .append("\n\tNamespace: ").append(resource.namespaceName())
                 .append("\n\tEvent hub name: ").append(resource.eventHubName())
                 .append("\n\tUser metadata: ").append(resource.userMetadata());
+        System.out.println(info.toString());
+    }
+
+    /**
+     * Print Batch AI Cluster.
+     *
+     * @param resource batch ai cluster
+     */
+    public static void print(BatchAICluster resource) {
+        StringBuilder info = new StringBuilder("Batch AI cluster: ")
+                .append("\n\tId: ").append(resource.id())
+                .append("\n\tName: ").append(resource.name())
+                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tRegion: ").append(resource.regionName())
+                .append("\n\tVM Size: ").append(resource.vmSize())
+                .append("\n\tVM Priority: ").append(resource.vmPriority())
+                .append("\n\tSubnet: ").append(resource.subnet())
+                .append("\n\tAllocation state: ").append(resource.allocationState())
+                .append("\n\tAllocation state transition time: ").append(resource.allocationStateTransitionTime())
+                .append("\n\tCreation time: ").append(resource.creationTime())
+                .append("\n\tCurrent node count: ").append(resource.currentNodeCount())
+                .append("\n\tAllocation state transition time: ").append(resource.allocationStateTransitionTime())
+                .append("\n\tAllocation state transition time: ").append(resource.allocationStateTransitionTime());
+        if (resource.scaleSettings().autoScale() != null) {
+            info.append("\n\tAuto scale settings: ")
+                    .append("\n\t\tInitial node count: ").append(resource.scaleSettings().autoScale().initialNodeCount())
+                    .append("\n\t\tMinimum node count: ").append(resource.scaleSettings().autoScale().minimumNodeCount())
+                    .append("\n\t\tMaximum node count: ").append(resource.scaleSettings().autoScale().maximumNodeCount());
+        }
+        if (resource.scaleSettings().manual() != null) {
+            info.append("\n\tManual scale settings: ")
+                    .append("\n\t\tTarget node count: ").append(resource.scaleSettings().manual().targetNodeCount())
+                    .append("\n\t\tDeallocation option: ")
+                    .append(resource.scaleSettings().manual().nodeDeallocationOption());
+        }
+        if (resource.nodeStateCounts() != null) {
+            info.append("\n\tNode state counts: ")
+                    .append("\n\t\tRunning nodes count: ").append(resource.nodeStateCounts().runningNodeCount())
+                    .append("\n\t\tIdle nodes count: ").append(resource.nodeStateCounts().idleNodeCount())
+                    .append("\n\t\tPreparing nodes count: ").append(resource.nodeStateCounts().preparingNodeCount())
+                    .append("\n\t\tLeaving nodes count: ").append(resource.nodeStateCounts().leavingNodeCount())
+                    .append("\n\t\tPreparing nodes count: ").append(resource.nodeStateCounts().preparingNodeCount());
+        }
+        if (resource.virtualMachineConfiguration() != null && resource.virtualMachineConfiguration().imageReference() != null) {
+            info.append("\n\tVirtual machine configuration: ")
+                    .append("\n\t\tPublisher: ").append(resource.virtualMachineConfiguration().imageReference().publisher())
+                    .append("\n\t\tOffer: ").append(resource.virtualMachineConfiguration().imageReference().offer())
+                    .append("\n\t\tSku: ").append(resource.virtualMachineConfiguration().imageReference().sku())
+                    .append("\n\t\tVersion: ").append(resource.virtualMachineConfiguration().imageReference().version());
+        }
+        if (resource.nodeSetup() != null && resource.nodeSetup().setupTask() != null) {
+            info.append("\n\tSetup task: ")
+                    .append("\n\t\tCommand line: ").append(resource.nodeSetup().setupTask().commandLine())
+                    .append("\n\t\tRun elevated: ").append(resource.nodeSetup().setupTask().runElevated())
+                    .append("\n\t\tStdout/err Path Prefix: ").append(resource.nodeSetup().setupTask().stdOutErrPathPrefix());
+        }
+        System.out.println(info.toString());
+    }
+
+    /**
+     * Print Batch AI Job.
+     *
+     * @param resource batch ai job
+     */
+    public static void print(BatchAIJob resource) {
+        StringBuilder info = new StringBuilder("Batch AI job: ")
+                .append("\n\tId: ").append(resource.id())
+                .append("\n\tName: ").append(resource.name())
+                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tCluster Id: ").append(resource.cluster())
+                .append("\n\tCreation time: ").append(resource.creationTime())
+                .append("\n\tNode count: ").append(resource.nodeCount())
+                .append("\n\tPriority: ").append(resource.priority())
+                .append("\n\tExecution state: ").append(resource.executionState())
+                .append("\n\tExecution state transition time: ").append(resource.executionStateTransitionTime())
+                .append("\n\tTool type: ").append(resource.toolType())
+                .append("\n\tExperiment name: ").append(resource.experimentName());
         System.out.println(info.toString());
     }
 

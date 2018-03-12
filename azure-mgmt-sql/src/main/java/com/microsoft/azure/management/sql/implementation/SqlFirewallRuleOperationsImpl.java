@@ -53,7 +53,8 @@ public class SqlFirewallRuleOperationsImpl
 
     @Override
     public Observable<SqlFirewallRule> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
-        return this.sqlServerManager.inner().firewallRules().getAsync(resourceGroupName, sqlServerName, name)
+        return this.sqlServerManager.inner().firewallRules()
+            .getAsync(resourceGroupName, sqlServerName, name)
             .map(new Func1<FirewallRuleInner, SqlFirewallRule>() {
                 @Override
                 public SqlFirewallRule call(FirewallRuleInner inner) {
@@ -64,27 +65,38 @@ public class SqlFirewallRuleOperationsImpl
 
     @Override
     public SqlFirewallRule getBySqlServer(SqlServer sqlServer, String name) {
-        if (sqlServer == null) {
-            return null;
-        }
+        Objects.requireNonNull(sqlServer);
         FirewallRuleInner inner = this.sqlServerManager.inner().firewallRules().get(sqlServer.resourceGroupName(), sqlServer.name(), name);
-        return (inner != null) ? new SqlFirewallRuleImpl(inner.name(), (SqlServerImpl) sqlServer, inner, sqlServerManager) : null;
+        return (inner != null) ? new SqlFirewallRuleImpl(inner.name(), (SqlServerImpl) sqlServer, inner, sqlServer.manager()) : null;
+    }
+
+    @Override
+    public Observable<SqlFirewallRule> getBySqlServerAsync(final SqlServer sqlServer, final String name) {
+        Objects.requireNonNull(sqlServer);
+        return this.sqlServerManager.inner().firewallRules()
+            .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
+            .map(new Func1<FirewallRuleInner, SqlFirewallRule>() {
+                @Override
+                public SqlFirewallRule call(FirewallRuleInner inner) {
+                    return new SqlFirewallRuleImpl(name, (SqlServerImpl) sqlServer, inner, sqlServer.manager());
+                }
+            });
     }
 
     @Override
     public SqlFirewallRule get(String name) {
-        if (sqlServer == null) {
+        if (this.sqlServer == null) {
             return null;
         }
-        return this.getBySqlServer(this.sqlServer.resourceGroupName(), this.sqlServer.name(), name);
+        return this.getBySqlServer(this.sqlServer, name);
     }
 
     @Override
     public Observable<SqlFirewallRule> getAsync(String name) {
-        if (sqlServer == null) {
+        if (this.sqlServer == null) {
             return null;
         }
-        return this.getBySqlServerAsync(this.sqlServer.resourceGroupName(), this.sqlServer.name(), name);
+        return this.getBySqlServerAsync(this.sqlServer, name);
     }
 
     @Override
@@ -131,14 +143,14 @@ public class SqlFirewallRuleOperationsImpl
 
     @Override
     public void delete(String name) {
-        if (sqlServer != null) {
+        if (this.sqlServer != null) {
             this.deleteBySqlServer(this.sqlServer.resourceGroupName(), this.sqlServer.name(), name);
         }
     }
 
     @Override
     public Completable deleteAsync(String name) {
-        if (sqlServer == null) {
+        if (this.sqlServer == null) {
             return null;
         }
         return this.deleteBySqlServerAsync(this.sqlServer.resourceGroupName(), this.sqlServer.name(), name);
@@ -147,8 +159,11 @@ public class SqlFirewallRuleOperationsImpl
     @Override
     public List<SqlFirewallRule> listBySqlServer(String resourceGroupName, String sqlServerName) {
         List<SqlFirewallRule> firewallRuleSet = new ArrayList<>();
-        for (FirewallRuleInner inner : this.sqlServerManager.inner().firewallRules().listByServer(resourceGroupName, sqlServerName)) {
-            firewallRuleSet.add(new SqlFirewallRuleImpl(resourceGroupName, sqlServerName, inner.name(), inner, this.sqlServerManager));
+        List<FirewallRuleInner> firewallRuleInners = this.sqlServerManager.inner().firewallRules().listByServer(resourceGroupName, sqlServerName);
+        if (firewallRuleInners != null) {
+            for (FirewallRuleInner inner : firewallRuleInners) {
+                firewallRuleSet.add(new SqlFirewallRuleImpl(resourceGroupName, sqlServerName, inner.name(), inner, this.sqlServerManager));
+            }
         }
         return Collections.unmodifiableList(firewallRuleSet);
     }
@@ -172,21 +187,39 @@ public class SqlFirewallRuleOperationsImpl
 
     @Override
     public List<SqlFirewallRule> listBySqlServer(SqlServer sqlServer) {
+        Objects.requireNonNull(sqlServer);
         List<SqlFirewallRule> firewallRuleSet = new ArrayList<>();
-        if (sqlServer != null) {
-            for (FirewallRuleInner inner : this.sqlServerManager.inner().firewallRules().listByServer(sqlServer.resourceGroupName(), sqlServer.name())) {
-                firewallRuleSet.add(new SqlFirewallRuleImpl(inner.name(), (SqlServerImpl) sqlServer, inner, this.sqlServerManager));
-            }
+        for (FirewallRuleInner inner : sqlServer.manager().inner().firewallRules().listByServer(sqlServer.resourceGroupName(), sqlServer.name())) {
+            firewallRuleSet.add(new SqlFirewallRuleImpl(inner.name(), (SqlServerImpl) sqlServer, inner, sqlServer.manager()));
         }
         return Collections.unmodifiableList(firewallRuleSet);
     }
 
     @Override
+    public Observable<SqlFirewallRule> listBySqlServerAsync(final SqlServer sqlServer) {
+        Objects.requireNonNull(sqlServer);
+        return sqlServer.manager().inner().firewallRules()
+            .listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
+            .flatMap(new Func1<List<FirewallRuleInner>, Observable<FirewallRuleInner>>() {
+                @Override
+                public Observable<FirewallRuleInner> call(List<FirewallRuleInner> firewallRuleInners) {
+                    return Observable.from(firewallRuleInners);
+                }
+            })
+            .map(new Func1<FirewallRuleInner, SqlFirewallRule>() {
+                @Override
+                public SqlFirewallRule call(FirewallRuleInner inner) {
+                    return new SqlFirewallRuleImpl(inner.name(), (SqlServerImpl) sqlServer, inner, sqlServer.manager());
+                }
+            });
+    }
+
+    @Override
     public List<SqlFirewallRule> list() {
-        if (sqlServer == null) {
+        if (this.sqlServer == null) {
             return null;
         }
-        return this.listBySqlServer(this.sqlServer.resourceGroupName(), this.sqlServer.name());
+        return this.listBySqlServer(this.sqlServer);
     }
 
     @Override

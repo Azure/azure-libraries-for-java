@@ -72,6 +72,18 @@ public class SqlElasticPoolOperationsImpl
     }
 
     @Override
+    public Observable<SqlElasticPool> getBySqlServerAsync(final SqlServer sqlServer, String name) {
+        Objects.requireNonNull(sqlServer);
+        return sqlServer.manager().inner().elasticPools().getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
+            .map(new Func1<ElasticPoolInner, SqlElasticPool>() {
+                @Override
+                public SqlElasticPool call(ElasticPoolInner inner) {
+                    return new SqlElasticPoolImpl(inner.name(), (SqlServerImpl) sqlServer, inner, manager);
+                }
+            });
+    }
+
+    @Override
     public SqlElasticPool get(String name) {
         if (sqlServer == null) {
             return null;
@@ -195,6 +207,24 @@ public class SqlElasticPoolOperationsImpl
             }
         }
         return Collections.unmodifiableList(elasticPoolSet);
+    }
+
+    @Override
+    public Observable<SqlElasticPool> listBySqlServerAsync(final SqlServer sqlServer) {
+        Objects.requireNonNull(sqlServer);
+        return sqlServer.manager().inner().elasticPools().listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
+            .flatMap(new Func1<List<ElasticPoolInner>, Observable<ElasticPoolInner>>() {
+                @Override
+                public Observable<ElasticPoolInner> call(List<ElasticPoolInner> elasticPoolInners) {
+                    return Observable.from(elasticPoolInners);
+                }
+            })
+            .map(new Func1<ElasticPoolInner, SqlElasticPool>() {
+                @Override
+                public SqlElasticPool call(ElasticPoolInner inner) {
+                    return new SqlElasticPoolImpl(inner.name(), (SqlServerImpl) sqlServer, inner, manager);
+                }
+            });
     }
 
     @Override

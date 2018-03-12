@@ -25,8 +25,8 @@ import java.util.Objects;
 @LangDefinition
 public class SqlDatabaseOperationsImpl
     implements
-    SqlDatabaseOperations,
-    SqlDatabaseOperations.SqlDatabaseActionsDefinition {
+        SqlDatabaseOperations,
+        SqlDatabaseOperations.SqlDatabaseActionsDefinition {
 
     private SqlServerManager manager;
     private SqlServerImpl sqlServer;
@@ -69,6 +69,18 @@ public class SqlDatabaseOperationsImpl
         }
         DatabaseInner inner = this.manager.inner().databases().get(sqlServer.resourceGroupName(), sqlServer.name(), name);
         return (inner != null) ? new SqlDatabaseImpl(inner.name(), (SqlServerImpl) sqlServer, inner, manager) : null;
+    }
+
+    @Override
+    public Observable<SqlDatabase> getBySqlServerAsync(final SqlServer sqlServer, String name) {
+        Objects.requireNonNull(sqlServer);
+        return sqlServer.manager().inner().databases().getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
+            .map(new Func1<DatabaseInner, SqlDatabase>() {
+                @Override
+                public SqlDatabase call(DatabaseInner inner) {
+                    return new SqlDatabaseImpl(inner.name(), (SqlServerImpl) sqlServer, inner, manager);
+                }
+            });
     }
 
     @Override
@@ -179,6 +191,11 @@ public class SqlDatabaseOperationsImpl
             }
         }
         return Collections.unmodifiableList(firewallRuleSet);
+    }
+
+    @Override
+    public Observable<SqlDatabase> listBySqlServerAsync(SqlServer sqlServer) {
+        return null;
     }
 
     @Override

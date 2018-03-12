@@ -59,6 +59,33 @@ public interface SqlServer extends
     @Beta(Beta.SinceVersion.V1_7_0)
     String state();
 
+    /**
+     * @return true if Managed Service Identity is enabled for the SQL server
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    boolean isManagedServiceIdentityEnabled();
+
+    /**
+     * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID assigned
+     * to the SQL server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    String systemAssignedManagedServiceIdentityTenantId();
+
+    /**
+     * @return the System Assigned (Local) Managed Service Identity specific Active Directory service principal ID
+     * assigned to the SQL server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    String systemAssignedManagedServiceIdentityPrincipalId();
+
+    /**
+     * @return the type of Managed Service Identity used for the SQL server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    IdentityType managedServiceIdentityType();
+
+
     // Actions
 
     /**
@@ -161,6 +188,15 @@ public interface SqlServer extends
     @Method
     void removeActiveDirectoryAdministrator();
 
+    /**
+     * Gets a SQL server automatic tuning state and options.
+     *
+     * @return the SQL server automatic tuning state and options
+     */
+    @Method
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlServerAutomaticTuning getServerAutomaticTuning();
+
 
     // Collections
 
@@ -169,6 +205,12 @@ public interface SqlServer extends
      */
     @Beta(Beta.SinceVersion.V1_7_0)
     SqlFirewallRuleOperations.SqlFirewallRuleActionsDefinition firewallRules();
+
+    /**
+     * @return returns entry point to manage SQL Virtual Network Rule for this server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlVirtualNetworkRuleOperations.SqlVirtualNetworkRuleActionsDefinition virtualNetworkRules();
 
     /**
      * @return returns entry point to manage the SQL Elastic Pools for this server.
@@ -181,6 +223,12 @@ public interface SqlServer extends
      */
     @Beta(Beta.SinceVersion.V1_7_0)
     SqlDatabaseOperations.SqlDatabaseActionsDefinition databases();
+
+    /**
+     * @return returns entry point to manage SQL Server DNS aliases for this server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlServerDnsAliasOperations.SqlServerDnsAliasActionsDefinition dnsAliases();
 
 
     /**************************************************************
@@ -259,6 +307,21 @@ public interface SqlServer extends
              * @return Next stage of the SQL Server definition
              */
             WithCreate withActiveDirectoryAdministrator(String userLogin, String id);
+        }
+
+        /**
+         * A SQL Server definition setting the managed service identity.
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithSystemAssignedManagedServiceIdentity {
+            /**
+             * Sets a system assigned (local) Managed Service Identity (MSI) for the SQL server resource.
+             *
+             * @return Next stage of the SQL Server definition
+             */
+            @Beta(Beta.SinceVersion.V1_8_0)
+            @Method
+            WithCreate withSystemAssignedManagedServiceIdentity();
         }
 
         /**
@@ -372,6 +435,21 @@ public interface SqlServer extends
         }
 
         /**
+         * The stage of the SQL Server definition allowing to specify the SQL Virtual Network Rules.
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithVirtualNetworkRule {
+            /**
+             * Begins the definition of a new SQL Virtual Network Rule to be added to this server.
+             *
+             * @param virtualNetworkRuleName the name of the new SQL Virtual Network Rule
+             * @return the first stage of the new SQL Virtual Network Rule definition
+             */
+            @Beta(Beta.SinceVersion.V1_8_0)
+            SqlVirtualNetworkRule.DefinitionStages.Blank<WithCreate> defineVirtualNetworkRule(String virtualNetworkRuleName);
+        }
+
+        /**
          * A SQL Server definition with sufficient inputs to create a new
          * SQL Server in the cloud, but exposing additional optional inputs to
          * specify.
@@ -380,9 +458,11 @@ public interface SqlServer extends
         interface WithCreate extends
             Creatable<SqlServer>,
             WithActiveDirectoryAdministrator,
+            WithSystemAssignedManagedServiceIdentity,
             WithElasticPool,
             WithDatabase,
             WithFirewallRule,
+            WithVirtualNetworkRule,
             DefinitionWithTags<WithCreate> {
         }
     }
@@ -397,6 +477,7 @@ public interface SqlServer extends
             UpdateStages.WithElasticPool,
             UpdateStages.WithDatabase,
             UpdateStages.WithFirewallRule,
+            UpdateStages.WithSystemAssignedManagedServiceIdentity,
             Resource.UpdateWithTags<Update> {
     }
 
@@ -415,6 +496,21 @@ public interface SqlServer extends
              * @return Next stage of the update.
              */
             Update withAdministratorPassword(String administratorLoginPassword);
+        }
+
+        /**
+         * A SQL Server definition setting the managed service identity.
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithSystemAssignedManagedServiceIdentity {
+            /**
+             * Sets a system assigned (local) Managed Service Identity (MSI) for the SQL server resource.
+             *
+             * @return Next stage of the SQL Server definition
+             */
+            @Beta(Beta.SinceVersion.V1_8_0)
+            @Method
+            Update withSystemAssignedManagedServiceIdentity();
         }
 
 
@@ -472,8 +568,6 @@ public interface SqlServer extends
             @Deprecated
             Update withoutDatabase(String databaseName);
         }
-
-
 
         /**
          * The stage of the SQL Server update definition allowing to specify the SQL Firewall rules.

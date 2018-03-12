@@ -56,10 +56,10 @@ class MetricDefinitionImpl
         this.inner = innerModel;
         this.name = (inner.name() == null) ? null : new LocalizableStringImpl(inner.name());
         this.dimensions = null;
-        if( this.inner.dimensions() != null &&
-                this.inner.dimensions().size() >0) {
+        if (this.inner.dimensions() != null
+                && this.inner.dimensions().size() > 0) {
             this.dimensions = new ArrayList<>();
-            for(LocalizableStringInner lsi : inner.dimensions()) {
+            for (LocalizableStringInner lsi : inner.dimensions()) {
                 this.dimensions.add(new LocalizableStringImpl(lsi));
             }
         }

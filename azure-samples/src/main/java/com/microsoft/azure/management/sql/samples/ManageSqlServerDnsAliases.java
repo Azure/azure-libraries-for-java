@@ -22,7 +22,6 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.concurrent.TimeUnit;
 
@@ -95,7 +94,7 @@ public class ManageSqlServerDnsAliases {
             String sqlCommand = "CREATE TABLE [Dns_Alias_Sample_Test] ([Name] [varchar](30) NOT NULL)";
             stmt.execute(sqlCommand);
 
-            sqlCommand ="INSERT Dns_Alias_Sample_Test VALUES ('Test')";
+            sqlCommand = "INSERT Dns_Alias_Sample_Test VALUES ('Test')";
             stmt.execute(sqlCommand);
 
             // Close the connection to the "test" database
@@ -142,7 +141,7 @@ public class ManageSqlServerDnsAliases {
             sqlCommand = "CREATE TABLE [Dns_Alias_Sample_Prod] ([Name] [varchar](30) NOT NULL)";
             stmt.execute(sqlCommand);
 
-            sqlCommand ="INSERT Dns_Alias_Sample_Prod VALUES ('Production')";
+            sqlCommand = "INSERT Dns_Alias_Sample_Prod VALUES ('Production')";
             stmt.execute(sqlCommand);
 
             // Close the connection to the "production" database
@@ -171,8 +170,7 @@ public class ManageSqlServerDnsAliases {
             ResultSet resultSet = stmt.executeQuery(sqlCommand);
             // Print results from select statement
             System.out.println("SELECT * FROM Dns_Alias_Sample_Test");
-            while (resultSet.next())
-            {
+            while (resultSet.next()) {
                 System.out.format("\t%s\n", resultSet.getString(1));
             }
 
@@ -187,8 +185,7 @@ public class ManageSqlServerDnsAliases {
             resultSet = stmt.executeQuery(sqlCommand);
             // Print results from select statement
             System.out.println("SELECT * FROM Dns_Alias_Sample_Prod");
-            while (resultSet.next())
-            {
+            while (resultSet.next()) {
                 System.out.format("\t%s\n", resultSet.getString(1));
             }
 

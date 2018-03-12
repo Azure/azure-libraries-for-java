@@ -146,6 +146,19 @@ public class FeatureClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The SubscriptionFeaturesInner object to access its operations.
+     */
+    private SubscriptionFeaturesInner subscriptionFeatures;
+
+    /**
+     * Gets the SubscriptionFeaturesInner object to access its operations.
+     * @return the SubscriptionFeaturesInner object.
+     */
+    public SubscriptionFeaturesInner subscriptionFeatures() {
+        return this.subscriptionFeatures;
+    }
+
+    /**
      * Initializes an instance of FeatureClient client.
      *
      * @param credentials the management credentials for Azure
@@ -181,6 +194,7 @@ public class FeatureClientImpl extends AzureServiceClient {
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
         this.features = new FeaturesInner(restClient().retrofit(), this);
+        this.subscriptionFeatures = new SubscriptionFeaturesInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

@@ -62,6 +62,10 @@ public class FeaturesInner {
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Features/features")
         Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Features operations" })
+        @GET("providers/Microsoft.Features/operations")
+        Observable<Response<ResponseBody>> operations(@Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Features list1" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features")
         Observable<Response<ResponseBody>> list1(@Path("resourceProviderNamespace") String resourceProviderNamespace, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -71,8 +75,8 @@ public class FeaturesInner {
         Observable<Response<ResponseBody>> get(@Path("resourceProviderNamespace") String resourceProviderNamespace, @Path("featureName") String featureName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Features register" })
-        @POST("subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features/{featureName}/register")
-        Observable<Response<ResponseBody>> register(@Path("resourceProviderNamespace") String resourceProviderNamespace, @Path("featureName") String featureName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @POST("providers/Microsoft.Features/providers/{providerNamespace}/features/{featureName}/register")
+        Observable<Response<ResponseBody>> register(@Path("resourceProviderNamespace") String resourceProviderNamespace, @Path("featureName") String featureName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Features listNext" })
         @GET
@@ -187,6 +191,72 @@ public class FeaturesInner {
     private ServiceResponse<PageImpl<FeatureResultInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<FeatureResultInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<FeatureResultInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets all the preview feature operations.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the FeatureOperationResultInner object if successful.
+     */
+    public FeatureOperationResultInner operations() {
+        return operationsWithServiceResponseAsync().toBlocking().single().body();
+    }
+
+    /**
+     * Gets all the preview feature operations.
+     *
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<FeatureOperationResultInner> operationsAsync(final ServiceCallback<FeatureOperationResultInner> serviceCallback) {
+        return ServiceFuture.fromResponse(operationsWithServiceResponseAsync(), serviceCallback);
+    }
+
+    /**
+     * Gets all the preview feature operations.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the FeatureOperationResultInner object
+     */
+    public Observable<FeatureOperationResultInner> operationsAsync() {
+        return operationsWithServiceResponseAsync().map(new Func1<ServiceResponse<FeatureOperationResultInner>, FeatureOperationResultInner>() {
+            @Override
+            public FeatureOperationResultInner call(ServiceResponse<FeatureOperationResultInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets all the preview feature operations.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the FeatureOperationResultInner object
+     */
+    public Observable<ServiceResponse<FeatureOperationResultInner>> operationsWithServiceResponseAsync() {
+        return service.operations(this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FeatureOperationResultInner>>>() {
+                @Override
+                public Observable<ServiceResponse<FeatureOperationResultInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<FeatureOperationResultInner> clientResponse = operationsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<FeatureOperationResultInner> operationsDelegate(Response<ResponseBody> response) throws CloudException, IOException {
+        return this.client.restClient().responseBuilderFactory().<FeatureOperationResultInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<FeatureOperationResultInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -393,7 +463,7 @@ public class FeaturesInner {
     }
 
     /**
-     * Registers the preview feature for the subscription.
+     * Registers the preview feature.
      *
      * @param resourceProviderNamespace The namespace of the resource provider.
      * @param featureName The name of the feature to register.
@@ -407,7 +477,7 @@ public class FeaturesInner {
     }
 
     /**
-     * Registers the preview feature for the subscription.
+     * Registers the preview feature.
      *
      * @param resourceProviderNamespace The namespace of the resource provider.
      * @param featureName The name of the feature to register.
@@ -420,7 +490,7 @@ public class FeaturesInner {
     }
 
     /**
-     * Registers the preview feature for the subscription.
+     * Registers the preview feature.
      *
      * @param resourceProviderNamespace The namespace of the resource provider.
      * @param featureName The name of the feature to register.
@@ -437,7 +507,7 @@ public class FeaturesInner {
     }
 
     /**
-     * Registers the preview feature for the subscription.
+     * Registers the preview feature.
      *
      * @param resourceProviderNamespace The namespace of the resource provider.
      * @param featureName The name of the feature to register.
@@ -451,13 +521,10 @@ public class FeaturesInner {
         if (featureName == null) {
             throw new IllegalArgumentException("Parameter featureName is required and cannot be null.");
         }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.register(resourceProviderNamespace, featureName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.register(resourceProviderNamespace, featureName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FeatureResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<FeatureResultInner>> call(Response<ResponseBody> response) {

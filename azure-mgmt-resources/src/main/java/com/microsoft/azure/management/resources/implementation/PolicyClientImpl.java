@@ -51,6 +51,18 @@ public class PolicyClientImpl extends AzureServiceClient {
         return this;
     }
 
+    /** The API version to use for the operation. */
+    private String apiVersion;
+
+    /**
+     * Gets The API version to use for the operation.
+     *
+     * @return the apiVersion value.
+     */
+    public String apiVersion() {
+        return this.apiVersion;
+    }
+
     /** Gets or sets the preferred language for the response. */
     private String acceptLanguage;
 
@@ -134,19 +146,6 @@ public class PolicyClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The PolicySetDefinitionsInner object to access its operations.
-     */
-    private PolicySetDefinitionsInner policySetDefinitions;
-
-    /**
-     * Gets the PolicySetDefinitionsInner object to access its operations.
-     * @return the PolicySetDefinitionsInner object.
-     */
-    public PolicySetDefinitionsInner policySetDefinitions() {
-        return this.policySetDefinitions;
-    }
-
-    /**
      * The PolicyDefinitionsInner object to access its operations.
      */
     private PolicyDefinitionsInner policyDefinitions;
@@ -190,11 +189,11 @@ public class PolicyClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
+        this.apiVersion = "2016-04-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
         this.policyAssignments = new PolicyAssignmentsInner(restClient().retrofit(), this);
-        this.policySetDefinitions = new PolicySetDefinitionsInner(restClient().retrofit(), this);
         this.policyDefinitions = new PolicyDefinitionsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
@@ -206,6 +205,6 @@ public class PolicyClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s)", super.userAgent(), "PolicyClient");
+        return String.format("%s (%s, %s)", super.userAgent(), "PolicyClient", "2016-04-01");
     }
 }

@@ -28,9 +28,18 @@ public class NodeSetup {
 
     /**
      * Information on shared volumes to be used by jobs.
+     * Specified mount volumes will be available to all jobs executing on the
+     * cluster. The volumes will be mounted at location specified by
+     * $AZ_BATCHAI_MOUNT_ROOT environment variable.
      */
     @JsonProperty(value = "mountVolumes")
     private MountVolumes mountVolumes;
+
+    /**
+     * Specifies settings for performance counters collecting and uploading.
+     */
+    @JsonProperty(value = "performanceCountersSettings")
+    private PerformanceCountersSettings performanceCountersSettings;
 
     /**
      * Get the setupTask value.
@@ -69,6 +78,26 @@ public class NodeSetup {
      */
     public NodeSetup withMountVolumes(MountVolumes mountVolumes) {
         this.mountVolumes = mountVolumes;
+        return this;
+    }
+
+    /**
+     * Get the performanceCountersSettings value.
+     *
+     * @return the performanceCountersSettings value
+     */
+    public PerformanceCountersSettings performanceCountersSettings() {
+        return this.performanceCountersSettings;
+    }
+
+    /**
+     * Set the performanceCountersSettings value.
+     *
+     * @param performanceCountersSettings the performanceCountersSettings value to set
+     * @return the NodeSetup object itself.
+     */
+    public NodeSetup withPerformanceCountersSettings(PerformanceCountersSettings performanceCountersSettings) {
+        this.performanceCountersSettings = performanceCountersSettings;
         return this;
     }
 

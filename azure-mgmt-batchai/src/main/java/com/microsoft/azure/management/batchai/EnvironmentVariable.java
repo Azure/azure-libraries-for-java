@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * A collection of environment variables to set.
  */
-public class EnvironmentSetting {
+public class EnvironmentVariable {
     /**
      * The name of the environment variable.
      */
@@ -23,7 +23,7 @@ public class EnvironmentSetting {
     /**
      * The value of the environment variable.
      */
-    @JsonProperty(value = "value")
+    @JsonProperty(value = "value", required = true)
     private String value;
 
     /**
@@ -39,9 +39,9 @@ public class EnvironmentSetting {
      * Set the name value.
      *
      * @param name the name value to set
-     * @return the EnvironmentSetting object itself.
+     * @return the EnvironmentVariable object itself.
      */
-    public EnvironmentSetting withName(String name) {
+    public EnvironmentVariable withName(String name) {
         this.name = name;
         return this;
     }
@@ -59,9 +59,9 @@ public class EnvironmentSetting {
      * Set the value value.
      *
      * @param value the value value to set
-     * @return the EnvironmentSetting object itself.
+     * @return the EnvironmentVariable object itself.
      */
-    public EnvironmentSetting withValue(String value) {
+    public EnvironmentVariable withValue(String value) {
         this.value = value;
         return this;
     }

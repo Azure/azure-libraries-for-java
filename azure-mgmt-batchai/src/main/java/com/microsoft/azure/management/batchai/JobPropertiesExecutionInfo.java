@@ -24,7 +24,7 @@ public class JobPropertiesExecutionInfo {
      * started running. This property is present only for job that are in the
      * running or completed state.
      */
-    @JsonProperty(value = "startTime")
+    @JsonProperty(value = "startTime", required = true)
     private DateTime startTime;
 
     /**

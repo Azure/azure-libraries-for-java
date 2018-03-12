@@ -22,6 +22,12 @@ public class JobsListOutputFilesOptionsInner {
     private String outputdirectoryid;
 
     /**
+     * The path to the directory.
+     */
+    @JsonProperty(value = "")
+    private String directory;
+
+    /**
      * The number of minutes after which the download link will expire.
      */
     @JsonProperty(value = "")
@@ -51,6 +57,26 @@ public class JobsListOutputFilesOptionsInner {
      */
     public JobsListOutputFilesOptionsInner withOutputdirectoryid(String outputdirectoryid) {
         this.outputdirectoryid = outputdirectoryid;
+        return this;
+    }
+
+    /**
+     * Get the directory value.
+     *
+     * @return the directory value
+     */
+    public String directory() {
+        return this.directory;
+    }
+
+    /**
+     * Set the directory value.
+     *
+     * @param directory the directory value to set
+     * @return the JobsListOutputFilesOptionsInner object itself.
+     */
+    public JobsListOutputFilesOptionsInner withDirectory(String directory) {
+        this.directory = directory;
         return this;
     }
 

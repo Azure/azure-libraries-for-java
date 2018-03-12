@@ -150,7 +150,7 @@ public interface BatchAIJob extends
      * variables are set by the Batch AI Service: AZ_BATCHAI_PS_HOSTS,
      * AZ_BATCHAI_WORKER_HOSTS.
      */
-    List<EnvironmentSetting> environmentVariables();
+    List<EnvironmentVariable> environmentVariables();
 
     /**
      * @return constraints associated with the Job.

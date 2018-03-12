@@ -15,7 +15,7 @@ import com.microsoft.azure.management.batchai.CaffeSettings;
 import com.microsoft.azure.management.batchai.ChainerSettings;
 import com.microsoft.azure.management.batchai.ContainerSettings;
 import com.microsoft.azure.management.batchai.CustomToolkitSettings;
-import com.microsoft.azure.management.batchai.EnvironmentSetting;
+import com.microsoft.azure.management.batchai.EnvironmentVariable;
 import com.microsoft.azure.management.batchai.ExecutionState;
 import com.microsoft.azure.management.batchai.ImageSourceRegistry;
 import com.microsoft.azure.management.batchai.InputDirectory;
@@ -303,7 +303,7 @@ class BatchAIJobImpl
     }
 
     @Override
-    public List<EnvironmentSetting> environmentVariables() {
+    public List<EnvironmentVariable> environmentVariables() {
         return inner().environmentVariables();
     }
 

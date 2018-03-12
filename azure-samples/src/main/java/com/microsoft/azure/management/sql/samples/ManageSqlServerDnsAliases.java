@@ -89,6 +89,7 @@ public class ManageSqlServerDnsAliases {
             // ============================================================
             // Create a new table into the "test" SQL Server database and insert one value.
             System.out.println("Creating a new table into the \"test\" SQL Server database and insert one value");
+
             Statement stmt = conTest.createStatement();
 
             String sqlCommand = "CREATE TABLE [Dns_Alias_Sample_Test] ([Name] [varchar](30) NOT NULL)";
@@ -123,6 +124,7 @@ public class ManageSqlServerDnsAliases {
             // ============================================================
             // Create a connection to the "production" SQL Server.
             System.out.println("Creating a connection to the \"production\" SQL Server");
+
             String connectionToSqlProdUrl = String.format("jdbc:sqlserver://%s:1433;database=%s;user=%s;password=%s;",
                 sqlServerForProd.fullyQualifiedDomainName(),
                 dbName,
@@ -136,6 +138,7 @@ public class ManageSqlServerDnsAliases {
             // ============================================================
             // Create a new table into the "production" SQL Server database and insert one value.
             System.out.println("Creating a new table into the \"production\" SQL Server database and insert one value");
+
             stmt = conProd.createStatement();
 
             sqlCommand = "CREATE TABLE [Dns_Alias_Sample_Prod] ([Name] [varchar](30) NOT NULL)";
@@ -151,6 +154,7 @@ public class ManageSqlServerDnsAliases {
             // ============================================================
             // Create a SQL Server DNS alias and use it to query the "test" database.
             System.out.println("Creating a SQL Server DNS alias and use it to query the \"test\" database");
+
             SqlServerDnsAlias dnsAlias = sqlServerForTest.dnsAliases()
                 .define(sqlServerDnsAlias)
                 .create();
@@ -173,12 +177,20 @@ public class ManageSqlServerDnsAliases {
             while (resultSet.next()) {
                 System.out.format("\t%s\n", resultSet.getString(1));
             }
+            conDnsAlias.close();
+
 
             // ============================================================
             // Use the "production" SQL Server to acquire the SQL Server DNS Alias and use it to query the "production" database.
             System.out.println("Using the \"production\" SQL Server to acquire the SQL Server DNS Alias and use it to query the \"production\" database");
+
             sqlServerForProd.dnsAliases().acquire(sqlServerDnsAlias, sqlServerForTest.id());
-            SdkContext.sleep(5 * 60 * 1000);
+
+            // It takes some time for the DNS alias to reflect the new Server connection
+            SdkContext.sleep(10 * 60 * 1000);
+
+            // Re-establish the connection.
+            conDnsAlias = DriverManager.getConnection(connectionUrl);
 
             stmt = conDnsAlias.createStatement();
             sqlCommand = "SELECT * FROM Dns_Alias_Sample_Prod;";
@@ -190,7 +202,6 @@ public class ManageSqlServerDnsAliases {
             }
 
             conDnsAlias.close();
-
 
             // Delete the SQL Servers.
             System.out.println("Deleting the Sql Servers");

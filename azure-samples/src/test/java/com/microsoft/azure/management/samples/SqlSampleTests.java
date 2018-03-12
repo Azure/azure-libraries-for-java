@@ -11,6 +11,7 @@ import com.microsoft.azure.management.sql.samples.ManageSqlDatabaseInElasticPool
 import com.microsoft.azure.management.sql.samples.ManageSqlDatabasesAcrossDifferentDataCenters;
 import com.microsoft.azure.management.sql.samples.ManageSqlFirewallRules;
 import com.microsoft.azure.management.sql.samples.ManageSqlImportExportDatabase;
+import com.microsoft.azure.management.sql.samples.ManageSqlServerDnsAliases;
 import com.microsoft.azure.management.sql.samples.ManageSqlVirtualNetworkRules;
 import com.microsoft.azure.management.sql.samples.ManageSqlWithRecoveredOrRestoredDatabase;
 import com.microsoft.rest.RestClient;
@@ -65,6 +66,14 @@ public class SqlSampleTests extends SamplesTestBase {
     public void testManageSqlWithRecoveredOrRestoredDatabase() {
         // This test can take significant time to run since it depends on the availability of certain resources on the service side.
         Assert.assertTrue(ManageSqlWithRecoveredOrRestoredDatabase.runSample(azure));
+    }
+
+    @Test
+    public void testManageSqlServerDnsAliases() {
+        // Skip test in "playback" mode due to HTTP calls made outside of the management plane which can not be recorded at this time
+        if (!isPlaybackMode()) {
+            Assert.assertTrue(ManageSqlServerDnsAliases.runSample(azure));
+        }
     }
 
 }

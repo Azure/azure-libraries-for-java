@@ -103,6 +103,7 @@ public final class QueryMetricsAndActivityLogs {
                             .execute();
 
                     System.out.println("Metrics for '" + storageAccount.id() + "':");
+                    System.out.println("Namespacse: " + metricCollection.namespace());
                     System.out.println("Query time: " + metricCollection.timespan());
                     System.out.println("Time Grain: " + metricCollection.interval());
                     System.out.println("Cost: " + metricCollection.cost());

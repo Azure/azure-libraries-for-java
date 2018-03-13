@@ -8,100 +8,85 @@
 
 package com.microsoft.azure.management.cognitiveservices;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for Kind.
  */
-public final class Kind {
-    /** Static value Academic for Kind. */
-    public static final Kind ACADEMIC = new Kind("Academic");
+public final class Kind extends ExpandableStringEnum<Kind> {
+    /** Static value Bing.Autosuggest.v7 for Kind. */
+    public static final Kind BING_AUTOSUGGESTV7 = fromString("Bing.Autosuggest.v7");
 
-    /** Static value Bing.Autosuggest for Kind. */
-    public static final Kind BING_AUTOSUGGEST = new Kind("Bing.Autosuggest");
+    /** Static value Bing.CustomSearch for Kind. */
+    public static final Kind BING_CUSTOM_SEARCH = fromString("Bing.CustomSearch");
 
-    /** Static value Bing.Search for Kind. */
-    public static final Kind BING_SEARCH = new Kind("Bing.Search");
+    /** Static value Bing.Search.v7 for Kind. */
+    public static final Kind BING_SEARCHV7 = fromString("Bing.Search.v7");
 
     /** Static value Bing.Speech for Kind. */
-    public static final Kind BING_SPEECH = new Kind("Bing.Speech");
+    public static final Kind BING_SPEECH = fromString("Bing.Speech");
 
-    /** Static value Bing.SpellCheck for Kind. */
-    public static final Kind BING_SPELL_CHECK = new Kind("Bing.SpellCheck");
+    /** Static value Bing.SpellCheck.v7 for Kind. */
+    public static final Kind BING_SPELL_CHECKV7 = fromString("Bing.SpellCheck.v7");
 
     /** Static value ComputerVision for Kind. */
-    public static final Kind COMPUTER_VISION = new Kind("ComputerVision");
+    public static final Kind COMPUTER_VISION = fromString("ComputerVision");
 
     /** Static value ContentModerator for Kind. */
-    public static final Kind CONTENT_MODERATOR = new Kind("ContentModerator");
+    public static final Kind CONTENT_MODERATOR = fromString("ContentModerator");
 
     /** Static value CustomSpeech for Kind. */
-    public static final Kind CUSTOM_SPEECH = new Kind("CustomSpeech");
+    public static final Kind CUSTOM_SPEECH = fromString("CustomSpeech");
+
+    /** Static value CustomVision.Prediction for Kind. */
+    public static final Kind CUSTOM_VISION_PREDICTION = fromString("CustomVision.Prediction");
+
+    /** Static value CustomVision.Training for Kind. */
+    public static final Kind CUSTOM_VISION_TRAINING = fromString("CustomVision.Training");
 
     /** Static value Emotion for Kind. */
-    public static final Kind EMOTION = new Kind("Emotion");
+    public static final Kind EMOTION = fromString("Emotion");
 
     /** Static value Face for Kind. */
-    public static final Kind FACE = new Kind("Face");
+    public static final Kind FACE = fromString("Face");
 
     /** Static value LUIS for Kind. */
-    public static final Kind LUIS = new Kind("LUIS");
+    public static final Kind LUIS = fromString("LUIS");
 
-    /** Static value Recommendations for Kind. */
-    public static final Kind RECOMMENDATIONS = new Kind("Recommendations");
+    /** Static value QnAMaker for Kind. */
+    public static final Kind QN_AMAKER = fromString("QnAMaker");
 
     /** Static value SpeakerRecognition for Kind. */
-    public static final Kind SPEAKER_RECOGNITION = new Kind("SpeakerRecognition");
-
-    /** Static value Speech for Kind. */
-    public static final Kind SPEECH = new Kind("Speech");
+    public static final Kind SPEAKER_RECOGNITION = fromString("SpeakerRecognition");
 
     /** Static value SpeechTranslation for Kind. */
-    public static final Kind SPEECH_TRANSLATION = new Kind("SpeechTranslation");
+    public static final Kind SPEECH_TRANSLATION = fromString("SpeechTranslation");
 
     /** Static value TextAnalytics for Kind. */
-    public static final Kind TEXT_ANALYTICS = new Kind("TextAnalytics");
+    public static final Kind TEXT_ANALYTICS = fromString("TextAnalytics");
 
     /** Static value TextTranslation for Kind. */
-    public static final Kind TEXT_TRANSLATION = new Kind("TextTranslation");
+    public static final Kind TEXT_TRANSLATION = fromString("TextTranslation");
 
     /** Static value WebLM for Kind. */
-    public static final Kind WEB_LM = new Kind("WebLM");
-
-    private String value;
+    public static final Kind WEB_LM = fromString("WebLM");
 
     /**
-     * Creates a custom value for Kind.
-     * @param value the custom value
+     * Creates or finds a Kind from its string representation.
+     * @param name a name to look for
+     * @return the corresponding Kind
      */
-    public Kind(String value) {
-        this.value = value;
+    @JsonCreator
+    public static Kind fromString(String name) {
+        return fromString(name, Kind.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Kind)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        Kind rhs = (Kind) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known Kind values
+     */
+    public static Collection<Kind> values() {
+        return values(Kind.class);
     }
 }

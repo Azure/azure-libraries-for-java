@@ -9,6 +9,8 @@
 package com.microsoft.azure.management.dns.implementation;
 
 import java.util.List;
+import com.microsoft.azure.management.dns.ZoneType;
+import com.microsoft.azure.management.dns.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -29,14 +31,14 @@ public class ZoneInner extends Resource {
      * This is a read-only property and any attempt to set this value will be
      * ignored.
      */
-    @JsonProperty(value = "properties.maxNumberOfRecordSets")
+    @JsonProperty(value = "properties.maxNumberOfRecordSets", access = JsonProperty.Access.WRITE_ONLY)
     private Long maxNumberOfRecordSets;
 
     /**
      * The current number of record sets in this DNS zone.  This is a read-only
      * property and any attempt to set this value will be ignored.
      */
-    @JsonProperty(value = "properties.numberOfRecordSets")
+    @JsonProperty(value = "properties.numberOfRecordSets", access = JsonProperty.Access.WRITE_ONLY)
     private Long numberOfRecordSets;
 
     /**
@@ -45,6 +47,27 @@ public class ZoneInner extends Resource {
      */
     @JsonProperty(value = "properties.nameServers", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> nameServers;
+
+    /**
+     * The type of this DNS zone (Public or Private). Possible values include:
+     * 'Public', 'Private'.
+     */
+    @JsonProperty(value = "properties.zoneType")
+    private ZoneType zoneType;
+
+    /**
+     * A list of references to virtual networks that register hostnames in this
+     * DNS zone. This is a only when ZoneType is Private.
+     */
+    @JsonProperty(value = "properties.registrationVirtualNetworks")
+    private List<SubResource> registrationVirtualNetworks;
+
+    /**
+     * A list of references to virtual networks that resolve records in this
+     * DNS zone. This is a only when ZoneType is Private.
+     */
+    @JsonProperty(value = "properties.resolutionVirtualNetworks")
+    private List<SubResource> resolutionVirtualNetworks;
 
     /**
      * Get the etag value.
@@ -76,17 +99,6 @@ public class ZoneInner extends Resource {
     }
 
     /**
-     * Set the maxNumberOfRecordSets value.
-     *
-     * @param maxNumberOfRecordSets the maxNumberOfRecordSets value to set
-     * @return the ZoneInner object itself.
-     */
-    public ZoneInner withMaxNumberOfRecordSets(Long maxNumberOfRecordSets) {
-        this.maxNumberOfRecordSets = maxNumberOfRecordSets;
-        return this;
-    }
-
-    /**
      * Get the numberOfRecordSets value.
      *
      * @return the numberOfRecordSets value
@@ -96,23 +108,72 @@ public class ZoneInner extends Resource {
     }
 
     /**
-     * Set the numberOfRecordSets value.
-     *
-     * @param numberOfRecordSets the numberOfRecordSets value to set
-     * @return the ZoneInner object itself.
-     */
-    public ZoneInner withNumberOfRecordSets(Long numberOfRecordSets) {
-        this.numberOfRecordSets = numberOfRecordSets;
-        return this;
-    }
-
-    /**
      * Get the nameServers value.
      *
      * @return the nameServers value
      */
     public List<String> nameServers() {
         return this.nameServers;
+    }
+
+    /**
+     * Get the zoneType value.
+     *
+     * @return the zoneType value
+     */
+    public ZoneType zoneType() {
+        return this.zoneType;
+    }
+
+    /**
+     * Set the zoneType value.
+     *
+     * @param zoneType the zoneType value to set
+     * @return the ZoneInner object itself.
+     */
+    public ZoneInner withZoneType(ZoneType zoneType) {
+        this.zoneType = zoneType;
+        return this;
+    }
+
+    /**
+     * Get the registrationVirtualNetworks value.
+     *
+     * @return the registrationVirtualNetworks value
+     */
+    public List<SubResource> registrationVirtualNetworks() {
+        return this.registrationVirtualNetworks;
+    }
+
+    /**
+     * Set the registrationVirtualNetworks value.
+     *
+     * @param registrationVirtualNetworks the registrationVirtualNetworks value to set
+     * @return the ZoneInner object itself.
+     */
+    public ZoneInner withRegistrationVirtualNetworks(List<SubResource> registrationVirtualNetworks) {
+        this.registrationVirtualNetworks = registrationVirtualNetworks;
+        return this;
+    }
+
+    /**
+     * Get the resolutionVirtualNetworks value.
+     *
+     * @return the resolutionVirtualNetworks value
+     */
+    public List<SubResource> resolutionVirtualNetworks() {
+        return this.resolutionVirtualNetworks;
+    }
+
+    /**
+     * Set the resolutionVirtualNetworks value.
+     *
+     * @param resolutionVirtualNetworks the resolutionVirtualNetworks value to set
+     * @return the ZoneInner object itself.
+     */
+    public ZoneInner withResolutionVirtualNetworks(List<SubResource> resolutionVirtualNetworks) {
+        this.resolutionVirtualNetworks = resolutionVirtualNetworks;
+        return this;
     }
 
 }

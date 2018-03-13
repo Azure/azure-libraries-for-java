@@ -17,19 +17,19 @@ public class CheckNameAvailabilityOutputInner {
     /**
      * Indicates whether the name is available.
      */
-    @JsonProperty(value = "nameAvailable")
+    @JsonProperty(value = "nameAvailable", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean nameAvailable;
 
     /**
      * The reason why the name is not available.
      */
-    @JsonProperty(value = "reason")
+    @JsonProperty(value = "reason", access = JsonProperty.Access.WRITE_ONLY)
     private String reason;
 
     /**
      * The detailed error message describing why the name is not available.
      */
-    @JsonProperty(value = "message")
+    @JsonProperty(value = "message", access = JsonProperty.Access.WRITE_ONLY)
     private String message;
 
     /**
@@ -42,17 +42,6 @@ public class CheckNameAvailabilityOutputInner {
     }
 
     /**
-     * Set the nameAvailable value.
-     *
-     * @param nameAvailable the nameAvailable value to set
-     * @return the CheckNameAvailabilityOutputInner object itself.
-     */
-    public CheckNameAvailabilityOutputInner withNameAvailable(Boolean nameAvailable) {
-        this.nameAvailable = nameAvailable;
-        return this;
-    }
-
-    /**
      * Get the reason value.
      *
      * @return the reason value
@@ -62,34 +51,12 @@ public class CheckNameAvailabilityOutputInner {
     }
 
     /**
-     * Set the reason value.
-     *
-     * @param reason the reason value to set
-     * @return the CheckNameAvailabilityOutputInner object itself.
-     */
-    public CheckNameAvailabilityOutputInner withReason(String reason) {
-        this.reason = reason;
-        return this;
-    }
-
-    /**
      * Get the message value.
      *
      * @return the message value
      */
     public String message() {
         return this.message;
-    }
-
-    /**
-     * Set the message value.
-     *
-     * @param message the message value to set
-     * @return the CheckNameAvailabilityOutputInner object itself.
-     */
-    public CheckNameAvailabilityOutputInner withMessage(String message) {
-        this.message = message;
-        return this;
     }
 
 }

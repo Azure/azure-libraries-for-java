@@ -18,7 +18,7 @@ public class OperationInner {
     /**
      * Operation name: {provider}/{resource}/{operation}.
      */
-    @JsonProperty(value = "name")
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
@@ -34,17 +34,6 @@ public class OperationInner {
      */
     public String name() {
         return this.name;
-    }
-
-    /**
-     * Set the name value.
-     *
-     * @param name the name value to set
-     * @return the OperationInner object itself.
-     */
-    public OperationInner withName(String name) {
-        this.name = name;
-        return this;
     }
 
     /**

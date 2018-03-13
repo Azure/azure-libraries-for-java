@@ -8,49 +8,37 @@
 
 package com.microsoft.azure.management.compute;
 
+import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for DiskCreateOptionTypes.
  */
-public enum DiskCreateOptionTypes {
-    /** Enum value FromImage. */
-    FROM_IMAGE("FromImage"),
+public final class DiskCreateOptionTypes extends ExpandableStringEnum<DiskCreateOptionTypes> {
+    /** Static value FromImage for DiskCreateOptionTypes. */
+    public static final DiskCreateOptionTypes FROM_IMAGE = fromString("FromImage");
 
-    /** Enum value Empty. */
-    EMPTY("Empty"),
+    /** Static value Empty for DiskCreateOptionTypes. */
+    public static final DiskCreateOptionTypes EMPTY = fromString("Empty");
 
-    /** Enum value Attach. */
-    ATTACH("Attach");
+    /** Static value Attach for DiskCreateOptionTypes. */
+    public static final DiskCreateOptionTypes ATTACH = fromString("Attach");
 
-    /** The actual serialized value for a DiskCreateOptionTypes instance. */
-    private String value;
-
-    DiskCreateOptionTypes(String value) {
-        this.value = value;
+    /**
+     * Creates or finds a DiskCreateOptionTypes from its string representation.
+     * @param name a name to look for
+     * @return the corresponding DiskCreateOptionTypes
+     */
+    @JsonCreator
+    public static DiskCreateOptionTypes fromString(String name) {
+        return fromString(name, DiskCreateOptionTypes.class);
     }
 
     /**
-     * Parses a serialized value to a DiskCreateOptionTypes instance.
-     *
-     * @param value the serialized value to parse.
-     * @return the parsed DiskCreateOptionTypes object, or null if unable to parse.
+     * @return known DiskCreateOptionTypes values
      */
-    @JsonCreator
-    public static DiskCreateOptionTypes fromString(String value) {
-        DiskCreateOptionTypes[] items = DiskCreateOptionTypes.values();
-        for (DiskCreateOptionTypes item : items) {
-            if (item.toString().equalsIgnoreCase(value)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    @JsonValue
-    @Override
-    public String toString() {
-        return this.value;
+    public static Collection<DiskCreateOptionTypes> values() {
+        return values(DiskCreateOptionTypes.class);
     }
 }

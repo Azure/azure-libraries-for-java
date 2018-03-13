@@ -230,6 +230,12 @@ public interface SqlServer extends
     @Beta(Beta.SinceVersion.V1_8_0)
     SqlServerDnsAliasOperations.SqlServerDnsAliasActionsDefinition dnsAliases();
 
+    /**
+     * @return returns entry point to manage SQL Server Keys for this server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlServerKeyOperations.SqlServerKeyActionsDefinition serverKeys();
+
 
     /**************************************************************
      * Fluent interfaces to provision a SqlServer

@@ -146,6 +146,7 @@ import com.microsoft.azure.management.sql.SqlDatabase;
 import com.microsoft.azure.management.sql.SqlElasticPool;
 import com.microsoft.azure.management.sql.SqlFirewallRule;
 import com.microsoft.azure.management.sql.SqlServer;
+import com.microsoft.azure.management.sql.SqlServerKey;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRule;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountEncryptionStatus;
@@ -1519,6 +1520,24 @@ public final class Utils {
             .append("\n\tSqlServer Name: ").append(virtualNetworkRule.sqlServerName())
             .append("\n\tSubnet ID: ").append(virtualNetworkRule.subnetId())
             .append("\n\tState: ").append(virtualNetworkRule.state());
+
+        System.out.println(builder.toString());
+    }
+
+    /**
+     * Prints information for the passed SQL server key.
+     * @param serverKey virtual network rule to be printed.
+     */
+    public static void print(SqlServerKey serverKey) {
+        StringBuilder builder = new StringBuilder().append("SQL server key: ").append(serverKey.id())
+            .append("Name: ").append(serverKey.name())
+            .append("\n\tResource group: ").append(serverKey.resourceGroupName())
+            .append("\n\tSqlServer Name: ").append(serverKey.sqlServerName())
+            .append("\n\tRegion: ").append(serverKey.region().name())
+            .append("\n\tServer Key Type: ").append(serverKey.serverKeyType())
+            .append("\n\tServer Key URI: ").append(serverKey.uri())
+            .append("\n\tServer Key Thumbprint: ").append(serverKey.thumbprint())
+            .append("\n\tServer Key Creation Date: ").append(serverKey.creationDate().toString());
 
         System.out.println(builder.toString());
     }

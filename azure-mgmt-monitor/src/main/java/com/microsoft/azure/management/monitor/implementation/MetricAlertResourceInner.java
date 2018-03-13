@@ -10,6 +10,7 @@ package com.microsoft.azure.management.monitor.implementation;
 
 import java.util.List;
 import org.joda.time.Period;
+import com.microsoft.azure.management.monitor.MetricAlertCriteria;
 import com.microsoft.azure.management.monitor.Action;
 import com.microsoft.azure.management.monitor.AlertStatus;
 import org.joda.time.DateTime;
@@ -62,16 +63,10 @@ public class MetricAlertResourceInner extends Resource {
     private Period windowSize;
 
     /**
-     * schema to use to interpret the criteria JSON.
-     */
-    @JsonProperty(value = "properties.criteriaSchemaId", required = true)
-    private String criteriaSchemaId;
-
-    /**
-     * json data that follows the schema defined by criteria schema id.
+     * criteria.
      */
     @JsonProperty(value = "properties.criteria", required = true)
-    private String criteria;
+    private MetricAlertCriteria criteria;
 
     /**
      * the array of actions that are performed when the alert rule becomes
@@ -213,31 +208,11 @@ public class MetricAlertResourceInner extends Resource {
     }
 
     /**
-     * Get the criteriaSchemaId value.
-     *
-     * @return the criteriaSchemaId value
-     */
-    public String criteriaSchemaId() {
-        return this.criteriaSchemaId;
-    }
-
-    /**
-     * Set the criteriaSchemaId value.
-     *
-     * @param criteriaSchemaId the criteriaSchemaId value to set
-     * @return the MetricAlertResourceInner object itself.
-     */
-    public MetricAlertResourceInner withCriteriaSchemaId(String criteriaSchemaId) {
-        this.criteriaSchemaId = criteriaSchemaId;
-        return this;
-    }
-
-    /**
      * Get the criteria value.
      *
      * @return the criteria value
      */
-    public String criteria() {
+    public MetricAlertCriteria criteria() {
         return this.criteria;
     }
 
@@ -247,7 +222,7 @@ public class MetricAlertResourceInner extends Resource {
      * @param criteria the criteria value to set
      * @return the MetricAlertResourceInner object itself.
      */
-    public MetricAlertResourceInner withCriteria(String criteria) {
+    public MetricAlertResourceInner withCriteria(MetricAlertCriteria criteria) {
         this.criteria = criteria;
         return this;
     }

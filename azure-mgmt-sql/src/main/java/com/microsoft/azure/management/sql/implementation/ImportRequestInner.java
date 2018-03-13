@@ -8,7 +8,7 @@
 
 package com.microsoft.azure.management.sql.implementation;
 
-import com.microsoft.azure.management.sql.DatabaseEditions;
+import com.microsoft.azure.management.sql.DatabaseEdition;
 import com.microsoft.azure.management.sql.ServiceObjectiveName;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -28,7 +28,7 @@ public class ImportRequestInner extends ExportRequestInner {
      * 'Stretch', 'DataWarehouse', 'System', 'System2'.
      */
     @JsonProperty(value = "edition", required = true)
-    private DatabaseEditions edition;
+    private DatabaseEdition edition;
 
     /**
      * The name of the service objective to assign to the database. Possible
@@ -76,7 +76,7 @@ public class ImportRequestInner extends ExportRequestInner {
      *
      * @return the edition value
      */
-    public DatabaseEditions edition() {
+    public DatabaseEdition edition() {
         return this.edition;
     }
 
@@ -86,7 +86,7 @@ public class ImportRequestInner extends ExportRequestInner {
      * @param edition the edition value to set
      * @return the ImportRequestInner object itself.
      */
-    public ImportRequestInner withEdition(DatabaseEditions edition) {
+    public ImportRequestInner withEdition(DatabaseEdition edition) {
         this.edition = edition;
         return this;
     }

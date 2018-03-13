@@ -11,7 +11,7 @@ package com.microsoft.azure.management.sql.implementation;
 import org.joda.time.DateTime;
 import java.util.UUID;
 import com.microsoft.azure.management.sql.CreateMode;
-import com.microsoft.azure.management.sql.DatabaseEditions;
+import com.microsoft.azure.management.sql.DatabaseEdition;
 import com.microsoft.azure.management.sql.ServiceObjectiveName;
 import java.util.List;
 import com.microsoft.azure.management.sql.RecommendedIndex;
@@ -165,7 +165,7 @@ public class DatabaseInner extends TrackedResourceInner {
      * 'System2'.
      */
     @JsonProperty(value = "properties.edition")
-    private DatabaseEditions edition;
+    private DatabaseEdition edition;
 
     /**
      * The max size of the database expressed in bytes. If createMode is not
@@ -481,7 +481,7 @@ public class DatabaseInner extends TrackedResourceInner {
      *
      * @return the edition value
      */
-    public DatabaseEditions edition() {
+    public DatabaseEdition edition() {
         return this.edition;
     }
 
@@ -491,7 +491,7 @@ public class DatabaseInner extends TrackedResourceInner {
      * @param edition the edition value to set
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner withEdition(DatabaseEditions edition) {
+    public DatabaseInner withEdition(DatabaseEdition edition) {
         this.edition = edition;
         return this;
     }

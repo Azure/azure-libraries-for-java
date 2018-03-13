@@ -11,7 +11,7 @@ package com.microsoft.azure.management.sql.implementation;
 import java.util.Map;
 import org.joda.time.DateTime;
 import com.microsoft.azure.management.sql.ElasticPoolState;
-import com.microsoft.azure.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.management.sql.ElasticPoolEdition;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -45,7 +45,7 @@ public class ElasticPoolUpdateInner extends Resource {
      * 'Standard', 'Premium'.
      */
     @JsonProperty(value = "properties.edition")
-    private ElasticPoolEditions edition;
+    private ElasticPoolEdition edition;
 
     /**
      * The total shared DTU for the database elastic pool.
@@ -122,7 +122,7 @@ public class ElasticPoolUpdateInner extends Resource {
      *
      * @return the edition value
      */
-    public ElasticPoolEditions edition() {
+    public ElasticPoolEdition edition() {
         return this.edition;
     }
 
@@ -132,7 +132,7 @@ public class ElasticPoolUpdateInner extends Resource {
      * @param edition the edition value to set
      * @return the ElasticPoolUpdateInner object itself.
      */
-    public ElasticPoolUpdateInner withEdition(ElasticPoolEditions edition) {
+    public ElasticPoolUpdateInner withEdition(ElasticPoolEdition edition) {
         this.edition = edition;
         return this;
     }

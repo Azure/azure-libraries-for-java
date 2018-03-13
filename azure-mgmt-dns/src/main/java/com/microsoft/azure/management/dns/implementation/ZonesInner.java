@@ -30,6 +30,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.HTTP;
+import retrofit2.http.PATCH;
 import retrofit2.http.Path;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -42,7 +43,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in Zones.
  */
-public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDelete<ZoneDeleteResultInner>, InnerSupportsListing<ZoneInner> {
+public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDelete<Void>, InnerSupportsListing<ZoneInner> {
     /** The Retrofit service to perform REST calls. */
     private ZonesService service;
     /** The service client containing this operation class. */
@@ -79,6 +80,10 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.dns.Zones getByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}")
         Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("zoneName") String zoneName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.dns.Zones update" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}")
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("zoneName") String zoneName, @Path("subscriptionId") String subscriptionId, @Body ZoneInner parameters, @Header("If-Match") String ifMatch, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.dns.Zones listByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones")
@@ -298,10 +303,9 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ZoneDeleteResultInner object if successful.
      */
-    public ZoneDeleteResultInner delete(String resourceGroupName, String zoneName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, zoneName).toBlocking().last().body();
+    public void delete(String resourceGroupName, String zoneName) {
+        deleteWithServiceResponseAsync(resourceGroupName, zoneName).toBlocking().last().body();
     }
 
     /**
@@ -313,7 +317,7 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ZoneDeleteResultInner> deleteAsync(String resourceGroupName, String zoneName, final ServiceCallback<ZoneDeleteResultInner> serviceCallback) {
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String zoneName, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, zoneName), serviceCallback);
     }
 
@@ -325,10 +329,10 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ZoneDeleteResultInner> deleteAsync(String resourceGroupName, String zoneName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, zoneName).map(new Func1<ServiceResponse<ZoneDeleteResultInner>, ZoneDeleteResultInner>() {
+    public Observable<Void> deleteAsync(String resourceGroupName, String zoneName) {
+        return deleteWithServiceResponseAsync(resourceGroupName, zoneName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
-            public ZoneDeleteResultInner call(ServiceResponse<ZoneDeleteResultInner> response) {
+            public Void call(ServiceResponse<Void> response) {
                 return response.body();
             }
         });
@@ -342,7 +346,7 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<ZoneDeleteResultInner>> deleteWithServiceResponseAsync(String resourceGroupName, String zoneName) {
+    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String zoneName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -357,7 +361,7 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
         }
         final String ifMatch = null;
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, zoneName, this.client.subscriptionId(), ifMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ZoneDeleteResultInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
     /**
      * Deletes a DNS zone. WARNING: All DNS records in the zone will also be deleted. This operation cannot be undone.
@@ -368,10 +372,9 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ZoneDeleteResultInner object if successful.
      */
-    public ZoneDeleteResultInner delete(String resourceGroupName, String zoneName, String ifMatch) {
-        return deleteWithServiceResponseAsync(resourceGroupName, zoneName, ifMatch).toBlocking().last().body();
+    public void delete(String resourceGroupName, String zoneName, String ifMatch) {
+        deleteWithServiceResponseAsync(resourceGroupName, zoneName, ifMatch).toBlocking().last().body();
     }
 
     /**
@@ -384,7 +387,7 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ZoneDeleteResultInner> deleteAsync(String resourceGroupName, String zoneName, String ifMatch, final ServiceCallback<ZoneDeleteResultInner> serviceCallback) {
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String zoneName, String ifMatch, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, zoneName, ifMatch), serviceCallback);
     }
 
@@ -397,10 +400,10 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ZoneDeleteResultInner> deleteAsync(String resourceGroupName, String zoneName, String ifMatch) {
-        return deleteWithServiceResponseAsync(resourceGroupName, zoneName, ifMatch).map(new Func1<ServiceResponse<ZoneDeleteResultInner>, ZoneDeleteResultInner>() {
+    public Observable<Void> deleteAsync(String resourceGroupName, String zoneName, String ifMatch) {
+        return deleteWithServiceResponseAsync(resourceGroupName, zoneName, ifMatch).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
-            public ZoneDeleteResultInner call(ServiceResponse<ZoneDeleteResultInner> response) {
+            public Void call(ServiceResponse<Void> response) {
                 return response.body();
             }
         });
@@ -415,7 +418,7 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<ZoneDeleteResultInner>> deleteWithServiceResponseAsync(String resourceGroupName, String zoneName, String ifMatch) {
+    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String zoneName, String ifMatch) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -429,7 +432,7 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, zoneName, this.client.subscriptionId(), ifMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ZoneDeleteResultInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
     /**
@@ -440,10 +443,9 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ZoneDeleteResultInner object if successful.
      */
-    public ZoneDeleteResultInner beginDelete(String resourceGroupName, String zoneName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, zoneName).toBlocking().single().body();
+    public void beginDelete(String resourceGroupName, String zoneName) {
+        beginDeleteWithServiceResponseAsync(resourceGroupName, zoneName).toBlocking().single().body();
     }
 
     /**
@@ -455,7 +457,7 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ZoneDeleteResultInner> beginDeleteAsync(String resourceGroupName, String zoneName, final ServiceCallback<ZoneDeleteResultInner> serviceCallback) {
+    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String zoneName, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, zoneName), serviceCallback);
     }
 
@@ -465,12 +467,12 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @param resourceGroupName The name of the resource group.
      * @param zoneName The name of the DNS zone (without a terminating dot).
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ZoneDeleteResultInner object
+     * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ZoneDeleteResultInner> beginDeleteAsync(String resourceGroupName, String zoneName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, zoneName).map(new Func1<ServiceResponse<ZoneDeleteResultInner>, ZoneDeleteResultInner>() {
+    public Observable<Void> beginDeleteAsync(String resourceGroupName, String zoneName) {
+        return beginDeleteWithServiceResponseAsync(resourceGroupName, zoneName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
-            public ZoneDeleteResultInner call(ServiceResponse<ZoneDeleteResultInner> response) {
+            public Void call(ServiceResponse<Void> response) {
                 return response.body();
             }
         });
@@ -482,9 +484,9 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @param resourceGroupName The name of the resource group.
      * @param zoneName The name of the DNS zone (without a terminating dot).
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ZoneDeleteResultInner object
+     * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<ZoneDeleteResultInner>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String zoneName) {
+    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String zoneName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -499,11 +501,11 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
         }
         final String ifMatch = null;
         return service.beginDelete(resourceGroupName, zoneName, this.client.subscriptionId(), ifMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ZoneDeleteResultInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
-                public Observable<ServiceResponse<ZoneDeleteResultInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<ZoneDeleteResultInner> clientResponse = beginDeleteDelegate(response);
+                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -521,10 +523,9 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ZoneDeleteResultInner object if successful.
      */
-    public ZoneDeleteResultInner beginDelete(String resourceGroupName, String zoneName, String ifMatch) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, zoneName, ifMatch).toBlocking().single().body();
+    public void beginDelete(String resourceGroupName, String zoneName, String ifMatch) {
+        beginDeleteWithServiceResponseAsync(resourceGroupName, zoneName, ifMatch).toBlocking().single().body();
     }
 
     /**
@@ -537,7 +538,7 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ZoneDeleteResultInner> beginDeleteAsync(String resourceGroupName, String zoneName, String ifMatch, final ServiceCallback<ZoneDeleteResultInner> serviceCallback) {
+    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String zoneName, String ifMatch, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, zoneName, ifMatch), serviceCallback);
     }
 
@@ -548,12 +549,12 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @param zoneName The name of the DNS zone (without a terminating dot).
      * @param ifMatch The etag of the DNS zone. Omit this value to always delete the current zone. Specify the last-seen etag value to prevent accidentally deleting any concurrent changes.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ZoneDeleteResultInner object
+     * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ZoneDeleteResultInner> beginDeleteAsync(String resourceGroupName, String zoneName, String ifMatch) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, zoneName, ifMatch).map(new Func1<ServiceResponse<ZoneDeleteResultInner>, ZoneDeleteResultInner>() {
+    public Observable<Void> beginDeleteAsync(String resourceGroupName, String zoneName, String ifMatch) {
+        return beginDeleteWithServiceResponseAsync(resourceGroupName, zoneName, ifMatch).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
-            public ZoneDeleteResultInner call(ServiceResponse<ZoneDeleteResultInner> response) {
+            public Void call(ServiceResponse<Void> response) {
                 return response.body();
             }
         });
@@ -566,9 +567,9 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
      * @param zoneName The name of the DNS zone (without a terminating dot).
      * @param ifMatch The etag of the DNS zone. Omit this value to always delete the current zone. Specify the last-seen etag value to prevent accidentally deleting any concurrent changes.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ZoneDeleteResultInner object
+     * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<ZoneDeleteResultInner>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String zoneName, String ifMatch) {
+    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String zoneName, String ifMatch) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -582,11 +583,11 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.beginDelete(resourceGroupName, zoneName, this.client.subscriptionId(), ifMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ZoneDeleteResultInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
-                public Observable<ServiceResponse<ZoneDeleteResultInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<ZoneDeleteResultInner> clientResponse = beginDeleteDelegate(response);
+                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -595,11 +596,11 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
             });
     }
 
-    private ServiceResponse<ZoneDeleteResultInner> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ZoneDeleteResultInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
+    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
-                .register(200, new TypeToken<ZoneDeleteResultInner>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -684,6 +685,192 @@ public class ZonesInner implements InnerSupportsGet<ZoneInner>, InnerSupportsDel
     }
 
     private ServiceResponse<ZoneInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ZoneInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ZoneInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Updates a DNS zone. Does not modify DNS records within the zone.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param zoneName The name of the DNS zone (without a terminating dot).
+     * @param parameters Parameters supplied to the Update operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ZoneInner object if successful.
+     */
+    public ZoneInner update(String resourceGroupName, String zoneName, ZoneInner parameters) {
+        return updateWithServiceResponseAsync(resourceGroupName, zoneName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Updates a DNS zone. Does not modify DNS records within the zone.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param zoneName The name of the DNS zone (without a terminating dot).
+     * @param parameters Parameters supplied to the Update operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ZoneInner> updateAsync(String resourceGroupName, String zoneName, ZoneInner parameters, final ServiceCallback<ZoneInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, zoneName, parameters), serviceCallback);
+    }
+
+    /**
+     * Updates a DNS zone. Does not modify DNS records within the zone.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param zoneName The name of the DNS zone (without a terminating dot).
+     * @param parameters Parameters supplied to the Update operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ZoneInner object
+     */
+    public Observable<ZoneInner> updateAsync(String resourceGroupName, String zoneName, ZoneInner parameters) {
+        return updateWithServiceResponseAsync(resourceGroupName, zoneName, parameters).map(new Func1<ServiceResponse<ZoneInner>, ZoneInner>() {
+            @Override
+            public ZoneInner call(ServiceResponse<ZoneInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Updates a DNS zone. Does not modify DNS records within the zone.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param zoneName The name of the DNS zone (without a terminating dot).
+     * @param parameters Parameters supplied to the Update operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ZoneInner object
+     */
+    public Observable<ServiceResponse<ZoneInner>> updateWithServiceResponseAsync(String resourceGroupName, String zoneName, ZoneInner parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (zoneName == null) {
+            throw new IllegalArgumentException("Parameter zoneName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String ifMatch = null;
+        return service.update(resourceGroupName, zoneName, this.client.subscriptionId(), parameters, ifMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ZoneInner>>>() {
+                @Override
+                public Observable<ServiceResponse<ZoneInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<ZoneInner> clientResponse = updateDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Updates a DNS zone. Does not modify DNS records within the zone.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param zoneName The name of the DNS zone (without a terminating dot).
+     * @param parameters Parameters supplied to the Update operation.
+     * @param ifMatch The etag of the DNS zone. Omit this value to always overwrite the current zone. Specify the last-seen etag value to prevent accidentally overwritting any concurrent changes.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ZoneInner object if successful.
+     */
+    public ZoneInner update(String resourceGroupName, String zoneName, ZoneInner parameters, String ifMatch) {
+        return updateWithServiceResponseAsync(resourceGroupName, zoneName, parameters, ifMatch).toBlocking().single().body();
+    }
+
+    /**
+     * Updates a DNS zone. Does not modify DNS records within the zone.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param zoneName The name of the DNS zone (without a terminating dot).
+     * @param parameters Parameters supplied to the Update operation.
+     * @param ifMatch The etag of the DNS zone. Omit this value to always overwrite the current zone. Specify the last-seen etag value to prevent accidentally overwritting any concurrent changes.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ZoneInner> updateAsync(String resourceGroupName, String zoneName, ZoneInner parameters, String ifMatch, final ServiceCallback<ZoneInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, zoneName, parameters, ifMatch), serviceCallback);
+    }
+
+    /**
+     * Updates a DNS zone. Does not modify DNS records within the zone.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param zoneName The name of the DNS zone (without a terminating dot).
+     * @param parameters Parameters supplied to the Update operation.
+     * @param ifMatch The etag of the DNS zone. Omit this value to always overwrite the current zone. Specify the last-seen etag value to prevent accidentally overwritting any concurrent changes.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ZoneInner object
+     */
+    public Observable<ZoneInner> updateAsync(String resourceGroupName, String zoneName, ZoneInner parameters, String ifMatch) {
+        return updateWithServiceResponseAsync(resourceGroupName, zoneName, parameters, ifMatch).map(new Func1<ServiceResponse<ZoneInner>, ZoneInner>() {
+            @Override
+            public ZoneInner call(ServiceResponse<ZoneInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Updates a DNS zone. Does not modify DNS records within the zone.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param zoneName The name of the DNS zone (without a terminating dot).
+     * @param parameters Parameters supplied to the Update operation.
+     * @param ifMatch The etag of the DNS zone. Omit this value to always overwrite the current zone. Specify the last-seen etag value to prevent accidentally overwritting any concurrent changes.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ZoneInner object
+     */
+    public Observable<ServiceResponse<ZoneInner>> updateWithServiceResponseAsync(String resourceGroupName, String zoneName, ZoneInner parameters, String ifMatch) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (zoneName == null) {
+            throw new IllegalArgumentException("Parameter zoneName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        return service.update(resourceGroupName, zoneName, this.client.subscriptionId(), parameters, ifMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ZoneInner>>>() {
+                @Override
+                public Observable<ServiceResponse<ZoneInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<ZoneInner> clientResponse = updateDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<ZoneInner> updateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ZoneInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<ZoneInner>() { }.getType())
                 .registerError(CloudException.class)

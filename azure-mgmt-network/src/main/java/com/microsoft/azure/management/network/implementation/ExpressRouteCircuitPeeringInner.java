@@ -12,6 +12,7 @@ import com.microsoft.azure.management.network.ExpressRouteCircuitPeeringType;
 import com.microsoft.azure.management.network.ExpressRouteCircuitPeeringState;
 import com.microsoft.azure.management.network.ExpressRouteCircuitPeeringConfig;
 import com.microsoft.azure.management.network.Ipv6ExpressRouteCircuitPeeringConfig;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.SubResource;
@@ -46,7 +47,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * The peer ASN.
      */
     @JsonProperty(value = "properties.peerASN")
-    private Integer peerASN;
+    private Long peerASN;
 
     /**
      * The primary address prefix.
@@ -128,6 +129,13 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
     private Ipv6ExpressRouteCircuitPeeringConfig ipv6PeeringConfig;
 
     /**
+     * The list of circuit connections associated with Azure Private Peering
+     * for this circuit.
+     */
+    @JsonProperty(value = "properties.connections")
+    private List<ExpressRouteCircuitConnectionInner> connections;
+
+    /**
      * Gets name of the resource that is unique within a resource group. This
      * name can be used to access the resource.
      */
@@ -205,7 +213,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      *
      * @return the peerASN value
      */
-    public Integer peerASN() {
+    public Long peerASN() {
         return this.peerASN;
     }
 
@@ -215,7 +223,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param peerASN the peerASN value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withPeerASN(Integer peerASN) {
+    public ExpressRouteCircuitPeeringInner withPeerASN(Long peerASN) {
         this.peerASN = peerASN;
         return this;
     }
@@ -477,6 +485,26 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      */
     public ExpressRouteCircuitPeeringInner withIpv6PeeringConfig(Ipv6ExpressRouteCircuitPeeringConfig ipv6PeeringConfig) {
         this.ipv6PeeringConfig = ipv6PeeringConfig;
+        return this;
+    }
+
+    /**
+     * Get the connections value.
+     *
+     * @return the connections value
+     */
+    public List<ExpressRouteCircuitConnectionInner> connections() {
+        return this.connections;
+    }
+
+    /**
+     * Set the connections value.
+     *
+     * @param connections the connections value to set
+     * @return the ExpressRouteCircuitPeeringInner object itself.
+     */
+    public ExpressRouteCircuitPeeringInner withConnections(List<ExpressRouteCircuitConnectionInner> connections) {
+        this.connections = connections;
         return this;
     }
 

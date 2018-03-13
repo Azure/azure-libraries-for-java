@@ -16,6 +16,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.network.TagsObject;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -24,12 +25,14 @@ import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.HTTP;
+import retrofit2.http.PATCH;
 import retrofit2.http.Path;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -83,6 +86,14 @@ public class NetworkSecurityGroupsInner implements InnerSupportsGet<NetworkSecur
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.NetworkSecurityGroups beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}")
         Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("networkSecurityGroupName") String networkSecurityGroupName, @Path("subscriptionId") String subscriptionId, @Body NetworkSecurityGroupInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.NetworkSecurityGroups updateTags" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}")
+        Observable<Response<ResponseBody>> updateTags(@Path("resourceGroupName") String resourceGroupName, @Path("networkSecurityGroupName") String networkSecurityGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.NetworkSecurityGroups beginUpdateTags" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}")
+        Observable<Response<ResponseBody>> beginUpdateTags(@Path("resourceGroupName") String resourceGroupName, @Path("networkSecurityGroupName") String networkSecurityGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.NetworkSecurityGroups list" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/networkSecurityGroups")
@@ -163,8 +174,10 @@ public class NetworkSecurityGroupsInner implements InnerSupportsGet<NetworkSecur
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
@@ -229,8 +242,10 @@ public class NetworkSecurityGroupsInner implements InnerSupportsGet<NetworkSecur
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
-        return service.beginDelete(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.beginDelete(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -246,8 +261,8 @@ public class NetworkSecurityGroupsInner implements InnerSupportsGet<NetworkSecur
 
     private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(202, new TypeToken<Void>() { }.getType())
                 .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
@@ -315,9 +330,11 @@ public class NetworkSecurityGroupsInner implements InnerSupportsGet<NetworkSecur
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String expand = null;
-        return service.getByResourceGroup(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
+        return service.getByResourceGroup(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), this.client.apiVersion(), expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkSecurityGroupInner>>>() {
                 @Override
                 public Observable<ServiceResponse<NetworkSecurityGroupInner>> call(Response<ResponseBody> response) {
@@ -397,8 +414,10 @@ public class NetworkSecurityGroupsInner implements InnerSupportsGet<NetworkSecur
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
-        return service.getByResourceGroup(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getByResourceGroup(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), this.client.apiVersion(), expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkSecurityGroupInner>>>() {
                 @Override
                 public Observable<ServiceResponse<NetworkSecurityGroupInner>> call(Response<ResponseBody> response) {
@@ -488,9 +507,11 @@ public class NetworkSecurityGroupsInner implements InnerSupportsGet<NetworkSecur
         if (parameters == null) {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(parameters);
-        final String apiVersion = "2017-08-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<NetworkSecurityGroupInner>() { }.getType());
     }
 
@@ -563,9 +584,11 @@ public class NetworkSecurityGroupsInner implements InnerSupportsGet<NetworkSecur
         if (parameters == null) {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(parameters);
-        final String apiVersion = "2017-08-01";
-        return service.beginCreateOrUpdate(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginCreateOrUpdate(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkSecurityGroupInner>>>() {
                 @Override
                 public Observable<ServiceResponse<NetworkSecurityGroupInner>> call(Response<ResponseBody> response) {
@@ -581,7 +604,329 @@ public class NetworkSecurityGroupsInner implements InnerSupportsGet<NetworkSecur
 
     private ServiceResponse<NetworkSecurityGroupInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<NetworkSecurityGroupInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<NetworkSecurityGroupInner>() { }.getType())
                 .register(201, new TypeToken<NetworkSecurityGroupInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the NetworkSecurityGroupInner object if successful.
+     */
+    public NetworkSecurityGroupInner updateTags(String resourceGroupName, String networkSecurityGroupName) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, networkSecurityGroupName).toBlocking().last().body();
+    }
+
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<NetworkSecurityGroupInner> updateTagsAsync(String resourceGroupName, String networkSecurityGroupName, final ServiceCallback<NetworkSecurityGroupInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, networkSecurityGroupName), serviceCallback);
+    }
+
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<NetworkSecurityGroupInner> updateTagsAsync(String resourceGroupName, String networkSecurityGroupName) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, networkSecurityGroupName).map(new Func1<ServiceResponse<NetworkSecurityGroupInner>, NetworkSecurityGroupInner>() {
+            @Override
+            public NetworkSecurityGroupInner call(ServiceResponse<NetworkSecurityGroupInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<NetworkSecurityGroupInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String networkSecurityGroupName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (networkSecurityGroupName == null) {
+            throw new IllegalArgumentException("Parameter networkSecurityGroupName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final Map<String, String> tags = null;
+        TagsObject parameters = new TagsObject();
+        parameters.withTags(null);
+        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<NetworkSecurityGroupInner>() { }.getType());
+    }
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the NetworkSecurityGroupInner object if successful.
+     */
+    public NetworkSecurityGroupInner updateTags(String resourceGroupName, String networkSecurityGroupName, Map<String, String> tags) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, networkSecurityGroupName, tags).toBlocking().last().body();
+    }
+
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @param tags Resource tags.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<NetworkSecurityGroupInner> updateTagsAsync(String resourceGroupName, String networkSecurityGroupName, Map<String, String> tags, final ServiceCallback<NetworkSecurityGroupInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, networkSecurityGroupName, tags), serviceCallback);
+    }
+
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<NetworkSecurityGroupInner> updateTagsAsync(String resourceGroupName, String networkSecurityGroupName, Map<String, String> tags) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, networkSecurityGroupName, tags).map(new Func1<ServiceResponse<NetworkSecurityGroupInner>, NetworkSecurityGroupInner>() {
+            @Override
+            public NetworkSecurityGroupInner call(ServiceResponse<NetworkSecurityGroupInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<NetworkSecurityGroupInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String networkSecurityGroupName, Map<String, String> tags) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (networkSecurityGroupName == null) {
+            throw new IllegalArgumentException("Parameter networkSecurityGroupName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(tags);
+        TagsObject parameters = new TagsObject();
+        parameters.withTags(tags);
+        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<NetworkSecurityGroupInner>() { }.getType());
+    }
+
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the NetworkSecurityGroupInner object if successful.
+     */
+    public NetworkSecurityGroupInner beginUpdateTags(String resourceGroupName, String networkSecurityGroupName) {
+        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, networkSecurityGroupName).toBlocking().single().body();
+    }
+
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<NetworkSecurityGroupInner> beginUpdateTagsAsync(String resourceGroupName, String networkSecurityGroupName, final ServiceCallback<NetworkSecurityGroupInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, networkSecurityGroupName), serviceCallback);
+    }
+
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NetworkSecurityGroupInner object
+     */
+    public Observable<NetworkSecurityGroupInner> beginUpdateTagsAsync(String resourceGroupName, String networkSecurityGroupName) {
+        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, networkSecurityGroupName).map(new Func1<ServiceResponse<NetworkSecurityGroupInner>, NetworkSecurityGroupInner>() {
+            @Override
+            public NetworkSecurityGroupInner call(ServiceResponse<NetworkSecurityGroupInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NetworkSecurityGroupInner object
+     */
+    public Observable<ServiceResponse<NetworkSecurityGroupInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String networkSecurityGroupName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (networkSecurityGroupName == null) {
+            throw new IllegalArgumentException("Parameter networkSecurityGroupName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final Map<String, String> tags = null;
+        TagsObject parameters = new TagsObject();
+        parameters.withTags(null);
+        return service.beginUpdateTags(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkSecurityGroupInner>>>() {
+                @Override
+                public Observable<ServiceResponse<NetworkSecurityGroupInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<NetworkSecurityGroupInner> clientResponse = beginUpdateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the NetworkSecurityGroupInner object if successful.
+     */
+    public NetworkSecurityGroupInner beginUpdateTags(String resourceGroupName, String networkSecurityGroupName, Map<String, String> tags) {
+        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, networkSecurityGroupName, tags).toBlocking().single().body();
+    }
+
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @param tags Resource tags.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<NetworkSecurityGroupInner> beginUpdateTagsAsync(String resourceGroupName, String networkSecurityGroupName, Map<String, String> tags, final ServiceCallback<NetworkSecurityGroupInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, networkSecurityGroupName, tags), serviceCallback);
+    }
+
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NetworkSecurityGroupInner object
+     */
+    public Observable<NetworkSecurityGroupInner> beginUpdateTagsAsync(String resourceGroupName, String networkSecurityGroupName, Map<String, String> tags) {
+        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, networkSecurityGroupName, tags).map(new Func1<ServiceResponse<NetworkSecurityGroupInner>, NetworkSecurityGroupInner>() {
+            @Override
+            public NetworkSecurityGroupInner call(ServiceResponse<NetworkSecurityGroupInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Updates a network security group tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NetworkSecurityGroupInner object
+     */
+    public Observable<ServiceResponse<NetworkSecurityGroupInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String networkSecurityGroupName, Map<String, String> tags) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (networkSecurityGroupName == null) {
+            throw new IllegalArgumentException("Parameter networkSecurityGroupName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(tags);
+        TagsObject parameters = new TagsObject();
+        parameters.withTags(tags);
+        return service.beginUpdateTags(resourceGroupName, networkSecurityGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkSecurityGroupInner>>>() {
+                @Override
+                public Observable<ServiceResponse<NetworkSecurityGroupInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<NetworkSecurityGroupInner> clientResponse = beginUpdateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<NetworkSecurityGroupInner> beginUpdateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<NetworkSecurityGroupInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<NetworkSecurityGroupInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
@@ -670,8 +1015,10 @@ public class NetworkSecurityGroupsInner implements InnerSupportsGet<NetworkSecur
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<NetworkSecurityGroupInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<NetworkSecurityGroupInner>>> call(Response<ResponseBody> response) {
@@ -783,8 +1130,10 @@ public class NetworkSecurityGroupsInner implements InnerSupportsGet<NetworkSecur
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<NetworkSecurityGroupInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<NetworkSecurityGroupInner>>> call(Response<ResponseBody> response) {

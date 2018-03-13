@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for VpnClientProtocol.
  */
-public final class VpnClientProtocol {
+public final class VpnClientProtocol extends ExpandableStringEnum<VpnClientProtocol> {
     /** Static value IkeV2 for VpnClientProtocol. */
-    public static final VpnClientProtocol IKE_V2 = new VpnClientProtocol("IkeV2");
+    public static final VpnClientProtocol IKE_V2 = fromString("IkeV2");
 
     /** Static value SSTP for VpnClientProtocol. */
-    public static final VpnClientProtocol SSTP = new VpnClientProtocol("SSTP");
-
-    private String value;
+    public static final VpnClientProtocol SSTP = fromString("SSTP");
 
     /**
-     * Creates a custom value for VpnClientProtocol.
-     * @param value the custom value
+     * Creates or finds a VpnClientProtocol from its string representation.
+     * @param name a name to look for
+     * @return the corresponding VpnClientProtocol
      */
-    public VpnClientProtocol(String value) {
-        this.value = value;
+    @JsonCreator
+    public static VpnClientProtocol fromString(String name) {
+        return fromString(name, VpnClientProtocol.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof VpnClientProtocol)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        VpnClientProtocol rhs = (VpnClientProtocol) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known VpnClientProtocol values
+     */
+    public static Collection<VpnClientProtocol> values() {
+        return values(VpnClientProtocol.class);
     }
 }

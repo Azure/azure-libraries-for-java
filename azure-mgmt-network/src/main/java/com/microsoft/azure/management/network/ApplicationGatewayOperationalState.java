@@ -8,58 +8,40 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ApplicationGatewayOperationalState.
  */
-public final class ApplicationGatewayOperationalState {
+public final class ApplicationGatewayOperationalState extends ExpandableStringEnum<ApplicationGatewayOperationalState> {
     /** Static value Stopped for ApplicationGatewayOperationalState. */
-    public static final ApplicationGatewayOperationalState STOPPED = new ApplicationGatewayOperationalState("Stopped");
+    public static final ApplicationGatewayOperationalState STOPPED = fromString("Stopped");
 
     /** Static value Starting for ApplicationGatewayOperationalState. */
-    public static final ApplicationGatewayOperationalState STARTING = new ApplicationGatewayOperationalState("Starting");
+    public static final ApplicationGatewayOperationalState STARTING = fromString("Starting");
 
     /** Static value Running for ApplicationGatewayOperationalState. */
-    public static final ApplicationGatewayOperationalState RUNNING = new ApplicationGatewayOperationalState("Running");
+    public static final ApplicationGatewayOperationalState RUNNING = fromString("Running");
 
     /** Static value Stopping for ApplicationGatewayOperationalState. */
-    public static final ApplicationGatewayOperationalState STOPPING = new ApplicationGatewayOperationalState("Stopping");
-
-    private String value;
+    public static final ApplicationGatewayOperationalState STOPPING = fromString("Stopping");
 
     /**
-     * Creates a custom value for ApplicationGatewayOperationalState.
-     * @param value the custom value
+     * Creates or finds a ApplicationGatewayOperationalState from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ApplicationGatewayOperationalState
      */
-    public ApplicationGatewayOperationalState(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ApplicationGatewayOperationalState fromString(String name) {
+        return fromString(name, ApplicationGatewayOperationalState.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ApplicationGatewayOperationalState)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ApplicationGatewayOperationalState rhs = (ApplicationGatewayOperationalState) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ApplicationGatewayOperationalState values
+     */
+    public static Collection<ApplicationGatewayOperationalState> values() {
+        return values(ApplicationGatewayOperationalState.class);
     }
 }

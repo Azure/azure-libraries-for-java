@@ -60,6 +60,20 @@ public class VirtualNetworkInner extends Resource {
     private String provisioningState;
 
     /**
+     * Indicates if DDoS protection is enabled for all the protected resources
+     * in a Virtual Network.
+     */
+    @JsonProperty(value = "properties.enableDdosProtection")
+    private Boolean enableDdosProtection;
+
+    /**
+     * Indicates if Vm protection is enabled for all the subnets in a Virtual
+     * Network.
+     */
+    @JsonProperty(value = "properties.enableVmProtection")
+    private Boolean enableVmProtection;
+
+    /**
      * Gets a unique read-only string that changes whenever the resource is
      * updated.
      */
@@ -183,6 +197,46 @@ public class VirtualNetworkInner extends Resource {
      */
     public VirtualNetworkInner withProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
+        return this;
+    }
+
+    /**
+     * Get the enableDdosProtection value.
+     *
+     * @return the enableDdosProtection value
+     */
+    public Boolean enableDdosProtection() {
+        return this.enableDdosProtection;
+    }
+
+    /**
+     * Set the enableDdosProtection value.
+     *
+     * @param enableDdosProtection the enableDdosProtection value to set
+     * @return the VirtualNetworkInner object itself.
+     */
+    public VirtualNetworkInner withEnableDdosProtection(Boolean enableDdosProtection) {
+        this.enableDdosProtection = enableDdosProtection;
+        return this;
+    }
+
+    /**
+     * Get the enableVmProtection value.
+     *
+     * @return the enableVmProtection value
+     */
+    public Boolean enableVmProtection() {
+        return this.enableVmProtection;
+    }
+
+    /**
+     * Set the enableVmProtection value.
+     *
+     * @param enableVmProtection the enableVmProtection value to set
+     * @return the VirtualNetworkInner object itself.
+     */
+    public VirtualNetworkInner withEnableVmProtection(Boolean enableVmProtection) {
+        this.enableVmProtection = enableVmProtection;
         return this;
     }
 

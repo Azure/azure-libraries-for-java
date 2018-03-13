@@ -8,58 +8,40 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ServiceProviderProvisioningState.
  */
-public final class ServiceProviderProvisioningState {
+public final class ServiceProviderProvisioningState extends ExpandableStringEnum<ServiceProviderProvisioningState> {
     /** Static value NotProvisioned for ServiceProviderProvisioningState. */
-    public static final ServiceProviderProvisioningState NOT_PROVISIONED = new ServiceProviderProvisioningState("NotProvisioned");
+    public static final ServiceProviderProvisioningState NOT_PROVISIONED = fromString("NotProvisioned");
 
     /** Static value Provisioning for ServiceProviderProvisioningState. */
-    public static final ServiceProviderProvisioningState PROVISIONING = new ServiceProviderProvisioningState("Provisioning");
+    public static final ServiceProviderProvisioningState PROVISIONING = fromString("Provisioning");
 
     /** Static value Provisioned for ServiceProviderProvisioningState. */
-    public static final ServiceProviderProvisioningState PROVISIONED = new ServiceProviderProvisioningState("Provisioned");
+    public static final ServiceProviderProvisioningState PROVISIONED = fromString("Provisioned");
 
     /** Static value Deprovisioning for ServiceProviderProvisioningState. */
-    public static final ServiceProviderProvisioningState DEPROVISIONING = new ServiceProviderProvisioningState("Deprovisioning");
-
-    private String value;
+    public static final ServiceProviderProvisioningState DEPROVISIONING = fromString("Deprovisioning");
 
     /**
-     * Creates a custom value for ServiceProviderProvisioningState.
-     * @param value the custom value
+     * Creates or finds a ServiceProviderProvisioningState from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ServiceProviderProvisioningState
      */
-    public ServiceProviderProvisioningState(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ServiceProviderProvisioningState fromString(String name) {
+        return fromString(name, ServiceProviderProvisioningState.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ServiceProviderProvisioningState)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ServiceProviderProvisioningState rhs = (ServiceProviderProvisioningState) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ServiceProviderProvisioningState values
+     */
+    public static Collection<ServiceProviderProvisioningState> values() {
+        return values(ServiceProviderProvisioningState.class);
     }
 }

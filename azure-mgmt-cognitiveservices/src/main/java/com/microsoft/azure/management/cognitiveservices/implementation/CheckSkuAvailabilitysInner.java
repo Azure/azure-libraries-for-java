@@ -66,43 +66,46 @@ public class CheckSkuAvailabilitysInner {
     /**
      * Check available SKUs.
      *
+     * @param location Resource location.
      * @param skus The SKU of the resource.
-     * @param kind The Kind of the resource. Possible values include: 'Academic', 'Bing.Autosuggest', 'Bing.Search', 'Bing.Speech', 'Bing.SpellCheck', 'ComputerVision', 'ContentModerator', 'CustomSpeech', 'Emotion', 'Face', 'LUIS', 'Recommendations', 'SpeakerRecognition', 'Speech', 'SpeechTranslation', 'TextAnalytics', 'TextTranslation', 'WebLM'
+     * @param kind The Kind of the resource. Possible values include: 'Bing.Autosuggest.v7', 'Bing.CustomSearch', 'Bing.Search.v7', 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision', 'ContentModerator', 'CustomSpeech', 'CustomVision.Prediction', 'CustomVision.Training', 'Emotion', 'Face', 'LUIS', 'QnAMaker', 'SpeakerRecognition', 'SpeechTranslation', 'TextAnalytics', 'TextTranslation', 'WebLM'
      * @param type The Type of the resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CheckSkuAvailabilityResultListInner object if successful.
      */
-    public CheckSkuAvailabilityResultListInner list(List<SkuName> skus, Kind kind, String type) {
-        return listWithServiceResponseAsync(skus, kind, type).toBlocking().single().body();
+    public CheckSkuAvailabilityResultListInner list(String location, List<SkuName> skus, Kind kind, String type) {
+        return listWithServiceResponseAsync(location, skus, kind, type).toBlocking().single().body();
     }
 
     /**
      * Check available SKUs.
      *
+     * @param location Resource location.
      * @param skus The SKU of the resource.
-     * @param kind The Kind of the resource. Possible values include: 'Academic', 'Bing.Autosuggest', 'Bing.Search', 'Bing.Speech', 'Bing.SpellCheck', 'ComputerVision', 'ContentModerator', 'CustomSpeech', 'Emotion', 'Face', 'LUIS', 'Recommendations', 'SpeakerRecognition', 'Speech', 'SpeechTranslation', 'TextAnalytics', 'TextTranslation', 'WebLM'
+     * @param kind The Kind of the resource. Possible values include: 'Bing.Autosuggest.v7', 'Bing.CustomSearch', 'Bing.Search.v7', 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision', 'ContentModerator', 'CustomSpeech', 'CustomVision.Prediction', 'CustomVision.Training', 'Emotion', 'Face', 'LUIS', 'QnAMaker', 'SpeakerRecognition', 'SpeechTranslation', 'TextAnalytics', 'TextTranslation', 'WebLM'
      * @param type The Type of the resource.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<CheckSkuAvailabilityResultListInner> listAsync(List<SkuName> skus, Kind kind, String type, final ServiceCallback<CheckSkuAvailabilityResultListInner> serviceCallback) {
-        return ServiceFuture.fromResponse(listWithServiceResponseAsync(skus, kind, type), serviceCallback);
+    public ServiceFuture<CheckSkuAvailabilityResultListInner> listAsync(String location, List<SkuName> skus, Kind kind, String type, final ServiceCallback<CheckSkuAvailabilityResultListInner> serviceCallback) {
+        return ServiceFuture.fromResponse(listWithServiceResponseAsync(location, skus, kind, type), serviceCallback);
     }
 
     /**
      * Check available SKUs.
      *
+     * @param location Resource location.
      * @param skus The SKU of the resource.
-     * @param kind The Kind of the resource. Possible values include: 'Academic', 'Bing.Autosuggest', 'Bing.Search', 'Bing.Speech', 'Bing.SpellCheck', 'ComputerVision', 'ContentModerator', 'CustomSpeech', 'Emotion', 'Face', 'LUIS', 'Recommendations', 'SpeakerRecognition', 'Speech', 'SpeechTranslation', 'TextAnalytics', 'TextTranslation', 'WebLM'
+     * @param kind The Kind of the resource. Possible values include: 'Bing.Autosuggest.v7', 'Bing.CustomSearch', 'Bing.Search.v7', 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision', 'ContentModerator', 'CustomSpeech', 'CustomVision.Prediction', 'CustomVision.Training', 'Emotion', 'Face', 'LUIS', 'QnAMaker', 'SpeakerRecognition', 'SpeechTranslation', 'TextAnalytics', 'TextTranslation', 'WebLM'
      * @param type The Type of the resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CheckSkuAvailabilityResultListInner object
      */
-    public Observable<CheckSkuAvailabilityResultListInner> listAsync(List<SkuName> skus, Kind kind, String type) {
-        return listWithServiceResponseAsync(skus, kind, type).map(new Func1<ServiceResponse<CheckSkuAvailabilityResultListInner>, CheckSkuAvailabilityResultListInner>() {
+    public Observable<CheckSkuAvailabilityResultListInner> listAsync(String location, List<SkuName> skus, Kind kind, String type) {
+        return listWithServiceResponseAsync(location, skus, kind, type).map(new Func1<ServiceResponse<CheckSkuAvailabilityResultListInner>, CheckSkuAvailabilityResultListInner>() {
             @Override
             public CheckSkuAvailabilityResultListInner call(ServiceResponse<CheckSkuAvailabilityResultListInner> response) {
                 return response.body();
@@ -113,18 +116,19 @@ public class CheckSkuAvailabilitysInner {
     /**
      * Check available SKUs.
      *
+     * @param location Resource location.
      * @param skus The SKU of the resource.
-     * @param kind The Kind of the resource. Possible values include: 'Academic', 'Bing.Autosuggest', 'Bing.Search', 'Bing.Speech', 'Bing.SpellCheck', 'ComputerVision', 'ContentModerator', 'CustomSpeech', 'Emotion', 'Face', 'LUIS', 'Recommendations', 'SpeakerRecognition', 'Speech', 'SpeechTranslation', 'TextAnalytics', 'TextTranslation', 'WebLM'
+     * @param kind The Kind of the resource. Possible values include: 'Bing.Autosuggest.v7', 'Bing.CustomSearch', 'Bing.Search.v7', 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision', 'ContentModerator', 'CustomSpeech', 'CustomVision.Prediction', 'CustomVision.Training', 'Emotion', 'Face', 'LUIS', 'QnAMaker', 'SpeakerRecognition', 'SpeechTranslation', 'TextAnalytics', 'TextTranslation', 'WebLM'
      * @param type The Type of the resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CheckSkuAvailabilityResultListInner object
      */
-    public Observable<ServiceResponse<CheckSkuAvailabilityResultListInner>> listWithServiceResponseAsync(List<SkuName> skus, Kind kind, String type) {
+    public Observable<ServiceResponse<CheckSkuAvailabilityResultListInner>> listWithServiceResponseAsync(String location, List<SkuName> skus, Kind kind, String type) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.location() == null) {
-            throw new IllegalArgumentException("Parameter this.client.location() is required and cannot be null.");
+        if (location == null) {
+            throw new IllegalArgumentException("Parameter location is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
@@ -143,7 +147,7 @@ public class CheckSkuAvailabilitysInner {
         parameters.withSkus(skus);
         parameters.withKind(kind);
         parameters.withType(type);
-        return service.list(this.client.subscriptionId(), this.client.location(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+        return service.list(this.client.subscriptionId(), location, this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<CheckSkuAvailabilityResultListInner>>>() {
                 @Override
                 public Observable<ServiceResponse<CheckSkuAvailabilityResultListInner>> call(Response<ResponseBody> response) {

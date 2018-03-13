@@ -16,6 +16,7 @@ import com.microsoft.azure.management.compute.DiskSkuTypes;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.Snapshot;
 import com.microsoft.azure.management.compute.SnapshotSku;
+import com.microsoft.azure.management.compute.SnapshotSkuType;
 import com.microsoft.azure.management.compute.SnapshotStorageAccountTypes;
 import com.microsoft.azure.management.compute.StorageAccountTypes;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
@@ -55,6 +56,16 @@ class SnapshotImpl
             return DiskSkuTypes.fromStorageAccountType(StorageAccountTypes.fromString(this.inner().sku().name().toString()));
         }
     }
+
+    @Override
+    public SnapshotSkuType skuType() {
+        if (this.inner().sku() == null) {
+            return null;
+        } else {
+            return SnapshotSkuType.fromSnapshotSku(this.inner().sku());
+        }
+    }
+
 
     @Override
     public DiskCreateOption creationMethod() {
@@ -284,6 +295,12 @@ class SnapshotImpl
         SnapshotSku snapshotSku = new SnapshotSku();
         snapshotSku.withName(SnapshotStorageAccountTypes.fromString(sku.accountType().toString()));
         this.inner().withSku(snapshotSku);
+        return this;
+    }
+
+    @Override
+    public SnapshotImpl withSku(SnapshotSkuType sku) {
+        this.inner().withSku(new SnapshotSku().withName(sku.accountType()));
         return this;
     }
 

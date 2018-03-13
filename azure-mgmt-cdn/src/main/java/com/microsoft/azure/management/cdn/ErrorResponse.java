@@ -18,13 +18,13 @@ public class ErrorResponse {
     /**
      * Error code.
      */
-    @JsonProperty(value = "code")
+    @JsonProperty(value = "code", access = JsonProperty.Access.WRITE_ONLY)
     private String code;
 
     /**
      * Error message indicating why the operation failed.
      */
-    @JsonProperty(value = "message")
+    @JsonProperty(value = "message", access = JsonProperty.Access.WRITE_ONLY)
     private String message;
 
     /**
@@ -37,34 +37,12 @@ public class ErrorResponse {
     }
 
     /**
-     * Set the code value.
-     *
-     * @param code the code value to set
-     * @return the ErrorResponse object itself.
-     */
-    public ErrorResponse withCode(String code) {
-        this.code = code;
-        return this;
-    }
-
-    /**
      * Get the message value.
      *
      * @return the message value
      */
     public String message() {
         return this.message;
-    }
-
-    /**
-     * Set the message value.
-     *
-     * @param message the message value to set
-     * @return the ErrorResponse object itself.
-     */
-    public ErrorResponse withMessage(String message) {
-        this.message = message;
-        return this;
     }
 
 }

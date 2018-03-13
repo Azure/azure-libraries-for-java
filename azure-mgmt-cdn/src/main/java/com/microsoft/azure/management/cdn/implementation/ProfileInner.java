@@ -12,16 +12,13 @@ import com.microsoft.azure.management.cdn.Sku;
 import com.microsoft.azure.management.cdn.ProfileResourceState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
 
 /**
- * CDN profile represents the top level resource and the entry point into the
- * CDN API. This allows users to set up a logical grouping of endpoints in
- * addition to creating shared configuration settings and selecting pricing
- * tiers and providers.
+ * CDN profile is a logical grouping of endpoints that share the same settings,
+ * such as CDN provider and pricing tier.
  */
 @JsonFlatten
-public class ProfileInner extends Resource {
+public class ProfileInner extends TrackedResourceInner {
     /**
      * The pricing tier (defines a CDN provider, feature list and rate) of the
      * CDN profile.

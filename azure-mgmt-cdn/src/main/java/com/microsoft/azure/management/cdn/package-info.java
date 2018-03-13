@@ -6,6 +6,6 @@
 
 /**
  * This package contains the classes for CdnManagementClient.
- * Use these APIs to manage Azure CDN resources through the Azure Resource Manager. You must make sure that requests made to these resources are secure.
+ * This is a test.
  */
 package com.microsoft.azure.management.cdn;

@@ -59,8 +59,8 @@ public class VaultPatchProperties {
     private Boolean enabledForTemplateDeployment;
 
     /**
-     * Property to specify whether the 'soft delete' functionality is enabled
-     * for this key vault. It does not accept false value.
+     * Property specifying whether recoverable deletion ('soft' delete) is
+     * enabled for this key vault. The property may not be set to false.
      */
     @JsonProperty(value = "enableSoftDelete")
     private Boolean enableSoftDelete;
@@ -71,6 +71,14 @@ public class VaultPatchProperties {
      */
     @JsonProperty(value = "createMode")
     private CreateMode createMode;
+
+    /**
+     * Property specifying whether protection against purge is enabled for this
+     * vault; it is only effective if soft delete is also enabled. Once
+     * activated, the property may no longer be reset to false.
+     */
+    @JsonProperty(value = "enablePurgeProtection")
+    private Boolean enablePurgeProtection;
 
     /**
      * Get the tenantId value.
@@ -229,6 +237,26 @@ public class VaultPatchProperties {
      */
     public VaultPatchProperties withCreateMode(CreateMode createMode) {
         this.createMode = createMode;
+        return this;
+    }
+
+    /**
+     * Get the enablePurgeProtection value.
+     *
+     * @return the enablePurgeProtection value
+     */
+    public Boolean enablePurgeProtection() {
+        return this.enablePurgeProtection;
+    }
+
+    /**
+     * Set the enablePurgeProtection value.
+     *
+     * @param enablePurgeProtection the enablePurgeProtection value to set
+     * @return the VaultPatchProperties object itself.
+     */
+    public VaultPatchProperties withEnablePurgeProtection(Boolean enablePurgeProtection) {
+        this.enablePurgeProtection = enablePurgeProtection;
         return this;
     }
 

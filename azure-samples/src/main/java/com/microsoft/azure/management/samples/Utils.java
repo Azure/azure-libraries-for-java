@@ -1533,11 +1533,11 @@ public final class Utils {
             .append("Name: ").append(serverKey.name())
             .append("\n\tResource group: ").append(serverKey.resourceGroupName())
             .append("\n\tSqlServer Name: ").append(serverKey.sqlServerName())
-            .append("\n\tRegion: ").append(serverKey.region().name())
+            .append("\n\tRegion: ").append(serverKey.region() != null ? serverKey.region().name() : "")
             .append("\n\tServer Key Type: ").append(serverKey.serverKeyType())
             .append("\n\tServer Key URI: ").append(serverKey.uri())
             .append("\n\tServer Key Thumbprint: ").append(serverKey.thumbprint())
-            .append("\n\tServer Key Creation Date: ").append(serverKey.creationDate().toString());
+            .append("\n\tServer Key Creation Date: ").append(serverKey.creationDate() != null? serverKey.creationDate().toString() : "");
 
         System.out.println(builder.toString());
     }

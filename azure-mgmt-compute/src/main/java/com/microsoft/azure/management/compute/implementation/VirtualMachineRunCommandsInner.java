@@ -162,7 +162,7 @@ public class VirtualMachineRunCommandsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         return service.list(location, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>>>() {
                 @Override
@@ -246,7 +246,7 @@ public class VirtualMachineRunCommandsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         return service.get(location, commandId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RunCommandDocumentInner>>>() {
                 @Override

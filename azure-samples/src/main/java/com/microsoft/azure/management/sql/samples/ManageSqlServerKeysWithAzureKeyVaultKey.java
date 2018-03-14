@@ -95,8 +95,14 @@ public class ManageSqlServerKeysWithAzureKeyVaultKey {
             // Create a SQL server key with Azure Key Vault key.
             System.out.println("Creating a SQL server key with Azure Key Vault key");
 
-            SqlServerKey sqlServerKey = sqlServer.serverKeys().define(keyName)
-                .withAzureKeyVaultKey(keyBundle.inner().key().kid())
+            String keyUri = keyBundle.inner().key().kid();
+
+            // Work around for SQL server key name must be formatted as "vault_key_version"
+            String serverKeyName = String.format("%s_%s_%s", vaultName, keyName,
+                keyUri.substring(keyUri.lastIndexOf("/") + 1));
+
+            SqlServerKey sqlServerKey = sqlServer.serverKeys().define(serverKeyName)
+                .withAzureKeyVaultKey(keyUri)
                 .create();
 
             Utils.print(sqlServerKey);
@@ -105,7 +111,7 @@ public class ManageSqlServerKeysWithAzureKeyVaultKey {
             // Validate key exists by getting key
             System.out.println("Validating key exists by getting the key");
 
-            sqlServerKey = sqlServer.serverKeys().get(keyName);
+            sqlServerKey = sqlServer.serverKeys().get(serverKeyName);
 
             Utils.print(sqlServerKey);
 
@@ -115,14 +121,14 @@ public class ManageSqlServerKeysWithAzureKeyVaultKey {
 
             List<SqlServerKey> serverKeys = sqlServer.serverKeys().list();
             for (SqlServerKey item : serverKeys) {
-                Utils.print(sqlServerKey);
+                Utils.print(item);
             }
 
 
             // Delete key
             System.out.println("Deleting the key");
 
-            azure.sqlServers().serverKeys().deleteBySqlServer(rgName, sqlServerName, keyName);
+            azure.sqlServers().serverKeys().deleteBySqlServer(rgName, sqlServerName, serverKeyName);
 
 
             // Delete the SQL Server.

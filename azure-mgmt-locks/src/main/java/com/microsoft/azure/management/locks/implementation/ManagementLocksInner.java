@@ -320,8 +320,8 @@ public class ManagementLocksInner implements InnerSupportsGet<ManagementLockObje
 
     private ServiceResponse<Void> deleteAtResourceGroupLevelDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
                 .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -581,8 +581,8 @@ public class ManagementLocksInner implements InnerSupportsGet<ManagementLockObje
 
     private ServiceResponse<Void> deleteByScopeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
                 .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -909,8 +909,8 @@ public class ManagementLocksInner implements InnerSupportsGet<ManagementLockObje
 
     private ServiceResponse<Void> deleteAtResourceLevelDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
                 .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1115,8 +1115,8 @@ public class ManagementLocksInner implements InnerSupportsGet<ManagementLockObje
 
     private ServiceResponse<ManagementLockObjectInner> createOrUpdateAtSubscriptionLevelDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ManagementLockObjectInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(201, new TypeToken<ManagementLockObjectInner>() { }.getType())
                 .register(200, new TypeToken<ManagementLockObjectInner>() { }.getType())
+                .register(201, new TypeToken<ManagementLockObjectInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1198,8 +1198,8 @@ public class ManagementLocksInner implements InnerSupportsGet<ManagementLockObje
 
     private ServiceResponse<Void> deleteAtSubscriptionLevelDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
                 .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

@@ -12,7 +12,7 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import java.util.UUID;
 import com.microsoft.azure.management.sql.CreateMode;
-import com.microsoft.azure.management.sql.DatabaseEditions;
+import com.microsoft.azure.management.sql.DatabaseEdition;
 import com.microsoft.azure.management.sql.ServiceObjectiveName;
 import java.util.List;
 import com.microsoft.azure.management.sql.RecommendedIndex;
@@ -166,7 +166,7 @@ public class DatabaseUpdateInner extends Resource {
      * 'System2'.
      */
     @JsonProperty(value = "properties.edition")
-    private DatabaseEditions edition;
+    private DatabaseEdition edition;
 
     /**
      * The max size of the database expressed in bytes. If createMode is not
@@ -493,7 +493,7 @@ public class DatabaseUpdateInner extends Resource {
      *
      * @return the edition value
      */
-    public DatabaseEditions edition() {
+    public DatabaseEdition edition() {
         return this.edition;
     }
 
@@ -503,7 +503,7 @@ public class DatabaseUpdateInner extends Resource {
      * @param edition the edition value to set
      * @return the DatabaseUpdateInner object itself.
      */
-    public DatabaseUpdateInner withEdition(DatabaseEditions edition) {
+    public DatabaseUpdateInner withEdition(DatabaseEdition edition) {
         this.edition = edition;
         return this;
     }

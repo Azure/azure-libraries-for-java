@@ -8,7 +8,7 @@
 
 package com.microsoft.azure.management.sql.implementation;
 
-import com.microsoft.azure.management.sql.TransparentDataEncryptionActivityStates;
+import com.microsoft.azure.management.sql.TransparentDataEncryptionActivityStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -28,7 +28,7 @@ public class TransparentDataEncryptionActivityInner extends ProxyResourceInner {
      * 'Decrypting'.
      */
     @JsonProperty(value = "properties.status", access = JsonProperty.Access.WRITE_ONLY)
-    private TransparentDataEncryptionActivityStates status;
+    private TransparentDataEncryptionActivityStatus status;
 
     /**
      * The percent complete of the transparent data encryption scan for a
@@ -51,7 +51,7 @@ public class TransparentDataEncryptionActivityInner extends ProxyResourceInner {
      *
      * @return the status value
      */
-    public TransparentDataEncryptionActivityStates status() {
+    public TransparentDataEncryptionActivityStatus status() {
         return this.status;
     }
 

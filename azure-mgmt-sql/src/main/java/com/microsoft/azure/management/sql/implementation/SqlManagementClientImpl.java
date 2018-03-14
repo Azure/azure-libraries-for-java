@@ -602,19 +602,6 @@ public class SqlManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The DatabaseOperationsInner object to access its operations.
-     */
-    private DatabaseOperationsInner databaseOperations;
-
-    /**
-     * Gets the DatabaseOperationsInner object to access its operations.
-     * @return the DatabaseOperationsInner object.
-     */
-    public DatabaseOperationsInner databaseOperations() {
-        return this.databaseOperations;
-    }
-
-    /**
      * The ServerAutomaticTuningsInner object to access its operations.
      */
     private ServerAutomaticTuningsInner serverAutomaticTunings;
@@ -651,6 +638,32 @@ public class SqlManagementClientImpl extends AzureServiceClient {
      */
     public RestorePointsInner restorePoints() {
         return this.restorePoints;
+    }
+
+    /**
+     * The DatabaseOperationsInner object to access its operations.
+     */
+    private DatabaseOperationsInner databaseOperations;
+
+    /**
+     * Gets the DatabaseOperationsInner object to access its operations.
+     * @return the DatabaseOperationsInner object.
+     */
+    public DatabaseOperationsInner databaseOperations() {
+        return this.databaseOperations;
+    }
+
+    /**
+     * The ElasticPoolOperationsInner object to access its operations.
+     */
+    private ElasticPoolOperationsInner elasticPoolOperations;
+
+    /**
+     * Gets the ElasticPoolOperationsInner object to access its operations.
+     * @return the ElasticPoolOperationsInner object.
+     */
+    public ElasticPoolOperationsInner elasticPoolOperations() {
+        return this.elasticPoolOperations;
     }
 
     /**
@@ -724,10 +737,11 @@ public class SqlManagementClientImpl extends AzureServiceClient {
         this.syncMembers = new SyncMembersInner(restClient().retrofit(), this);
         this.subscriptionUsages = new SubscriptionUsagesInner(restClient().retrofit(), this);
         this.virtualNetworkRules = new VirtualNetworkRulesInner(restClient().retrofit(), this);
-        this.databaseOperations = new DatabaseOperationsInner(restClient().retrofit(), this);
         this.serverAutomaticTunings = new ServerAutomaticTuningsInner(restClient().retrofit(), this);
         this.serverDnsAliases = new ServerDnsAliasesInner(restClient().retrofit(), this);
         this.restorePoints = new RestorePointsInner(restClient().retrofit(), this);
+        this.databaseOperations = new DatabaseOperationsInner(restClient().retrofit(), this);
+        this.elasticPoolOperations = new ElasticPoolOperationsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

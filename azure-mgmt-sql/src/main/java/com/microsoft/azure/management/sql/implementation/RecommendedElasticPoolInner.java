@@ -8,7 +8,7 @@
 
 package com.microsoft.azure.management.sql.implementation;
 
-import com.microsoft.azure.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.management.sql.ElasticPoolEdition;
 import org.joda.time.DateTime;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,7 +25,7 @@ public class RecommendedElasticPoolInner extends ProxyResourceInner {
      * 'Basic', 'Standard', 'Premium'.
      */
     @JsonProperty(value = "properties.databaseEdition", access = JsonProperty.Access.WRITE_ONLY)
-    private ElasticPoolEditions databaseEdition;
+    private ElasticPoolEdition databaseEdition;
 
     /**
      * The DTU for the recommended elastic pool.
@@ -92,7 +92,7 @@ public class RecommendedElasticPoolInner extends ProxyResourceInner {
      *
      * @return the databaseEdition value
      */
-    public ElasticPoolEditions databaseEdition() {
+    public ElasticPoolEdition databaseEdition() {
         return this.databaseEdition;
     }
 

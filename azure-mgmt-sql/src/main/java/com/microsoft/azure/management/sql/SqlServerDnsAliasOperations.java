@@ -118,10 +118,10 @@ public interface SqlServerDnsAliasOperations extends
     @Beta(Beta.SinceVersion.V1_8_0)
     interface SqlServerDnsAliasActionsDefinition extends SqlChildrenActionsDefinition<SqlServerDnsAlias> {
         /**
-         * Begins the definition of a new SQL ServerDNS alias to be added to this server.
+         * Begins the definition of a new SQL Server DNS alias to be added to this server.
          *
          * @param serverDnsAliasName the name of the new DNS alias to be created for the selected SQL server
-         * @return the first stage of the new SQL Virtual Network Rule definition
+         * @return the first stage of the new SQL Server DNS alias definition
          */
         SqlServerDnsAliasOperations.DefinitionStages.WithCreate define(String serverDnsAliasName);
 

@@ -1537,7 +1537,7 @@ public final class Utils {
             .append("\n\tServer Key Type: ").append(serverKey.serverKeyType())
             .append("\n\tServer Key URI: ").append(serverKey.uri())
             .append("\n\tServer Key Thumbprint: ").append(serverKey.thumbprint())
-            .append("\n\tServer Key Creation Date: ").append(serverKey.creationDate() != null? serverKey.creationDate().toString() : "");
+            .append("\n\tServer Key Creation Date: ").append(serverKey.creationDate() != null ? serverKey.creationDate().toString() : "");
 
         System.out.println(builder.toString());
     }

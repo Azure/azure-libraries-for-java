@@ -13,26 +13,43 @@ import com.microsoft.azure.management.compute.MaintenanceRedeployStatus;
 import java.util.List;
 import com.microsoft.azure.management.compute.DiskInstanceView;
 import com.microsoft.azure.management.compute.VirtualMachineExtensionInstanceView;
-import com.microsoft.azure.management.compute.VirtualMachineHealthStatus;
 import com.microsoft.azure.management.compute.BootDiagnosticsInstanceView;
 import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The instance view of a virtual machine scale set VM.
+ * The instance view of a virtual machine.
  */
-public class VirtualMachineScaleSetVMInstanceViewInner {
+public class VirtualMachineInstanceViewInner {
     /**
-     * The Update Domain count.
+     * Specifies the update domain of the virtual machine.
      */
     @JsonProperty(value = "platformUpdateDomain")
     private Integer platformUpdateDomain;
 
     /**
-     * The Fault Domain count.
+     * Specifies the fault domain of the virtual machine.
      */
     @JsonProperty(value = "platformFaultDomain")
     private Integer platformFaultDomain;
+
+    /**
+     * The computer name assigned to the virtual machine.
+     */
+    @JsonProperty(value = "computerName")
+    private String computerName;
+
+    /**
+     * The Operating System running on the virtual machine.
+     */
+    @JsonProperty(value = "osName")
+    private String osName;
+
+    /**
+     * The version of Operating System running on the virtual machine.
+     */
+    @JsonProperty(value = "osVersion")
+    private String osVersion;
 
     /**
      * The Remote desktop certificate thumbprint.
@@ -53,7 +70,7 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     private MaintenanceRedeployStatus maintenanceRedeployStatus;
 
     /**
-     * The disks information.
+     * The virtual machine disk information.
      */
     @JsonProperty(value = "disks")
     private List<DiskInstanceView> disks;
@@ -63,12 +80,6 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
      */
     @JsonProperty(value = "extensions")
     private List<VirtualMachineExtensionInstanceView> extensions;
-
-    /**
-     * The health status for the VM.
-     */
-    @JsonProperty(value = "vmHealth", access = JsonProperty.Access.WRITE_ONLY)
-    private VirtualMachineHealthStatus vmHealth;
 
     /**
      * Boot Diagnostics is a debugging feature which allows you to view Console
@@ -88,13 +99,6 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     private List<InstanceViewStatus> statuses;
 
     /**
-     * The placement group in which the VM is running. If the VM is deallocated
-     * it will not have a placementGroupId.
-     */
-    @JsonProperty(value = "placementGroupId")
-    private String placementGroupId;
-
-    /**
      * Get the platformUpdateDomain value.
      *
      * @return the platformUpdateDomain value
@@ -107,9 +111,9 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
      * Set the platformUpdateDomain value.
      *
      * @param platformUpdateDomain the platformUpdateDomain value to set
-     * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
+     * @return the VirtualMachineInstanceViewInner object itself.
      */
-    public VirtualMachineScaleSetVMInstanceViewInner withPlatformUpdateDomain(Integer platformUpdateDomain) {
+    public VirtualMachineInstanceViewInner withPlatformUpdateDomain(Integer platformUpdateDomain) {
         this.platformUpdateDomain = platformUpdateDomain;
         return this;
     }
@@ -127,10 +131,70 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
      * Set the platformFaultDomain value.
      *
      * @param platformFaultDomain the platformFaultDomain value to set
-     * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
+     * @return the VirtualMachineInstanceViewInner object itself.
      */
-    public VirtualMachineScaleSetVMInstanceViewInner withPlatformFaultDomain(Integer platformFaultDomain) {
+    public VirtualMachineInstanceViewInner withPlatformFaultDomain(Integer platformFaultDomain) {
         this.platformFaultDomain = platformFaultDomain;
+        return this;
+    }
+
+    /**
+     * Get the computerName value.
+     *
+     * @return the computerName value
+     */
+    public String computerName() {
+        return this.computerName;
+    }
+
+    /**
+     * Set the computerName value.
+     *
+     * @param computerName the computerName value to set
+     * @return the VirtualMachineInstanceViewInner object itself.
+     */
+    public VirtualMachineInstanceViewInner withComputerName(String computerName) {
+        this.computerName = computerName;
+        return this;
+    }
+
+    /**
+     * Get the osName value.
+     *
+     * @return the osName value
+     */
+    public String osName() {
+        return this.osName;
+    }
+
+    /**
+     * Set the osName value.
+     *
+     * @param osName the osName value to set
+     * @return the VirtualMachineInstanceViewInner object itself.
+     */
+    public VirtualMachineInstanceViewInner withOsName(String osName) {
+        this.osName = osName;
+        return this;
+    }
+
+    /**
+     * Get the osVersion value.
+     *
+     * @return the osVersion value
+     */
+    public String osVersion() {
+        return this.osVersion;
+    }
+
+    /**
+     * Set the osVersion value.
+     *
+     * @param osVersion the osVersion value to set
+     * @return the VirtualMachineInstanceViewInner object itself.
+     */
+    public VirtualMachineInstanceViewInner withOsVersion(String osVersion) {
+        this.osVersion = osVersion;
         return this;
     }
 
@@ -147,9 +211,9 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
      * Set the rdpThumbPrint value.
      *
      * @param rdpThumbPrint the rdpThumbPrint value to set
-     * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
+     * @return the VirtualMachineInstanceViewInner object itself.
      */
-    public VirtualMachineScaleSetVMInstanceViewInner withRdpThumbPrint(String rdpThumbPrint) {
+    public VirtualMachineInstanceViewInner withRdpThumbPrint(String rdpThumbPrint) {
         this.rdpThumbPrint = rdpThumbPrint;
         return this;
     }
@@ -167,9 +231,9 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
      * Set the vmAgent value.
      *
      * @param vmAgent the vmAgent value to set
-     * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
+     * @return the VirtualMachineInstanceViewInner object itself.
      */
-    public VirtualMachineScaleSetVMInstanceViewInner withVmAgent(VirtualMachineAgentInstanceView vmAgent) {
+    public VirtualMachineInstanceViewInner withVmAgent(VirtualMachineAgentInstanceView vmAgent) {
         this.vmAgent = vmAgent;
         return this;
     }
@@ -187,9 +251,9 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
      * Set the maintenanceRedeployStatus value.
      *
      * @param maintenanceRedeployStatus the maintenanceRedeployStatus value to set
-     * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
+     * @return the VirtualMachineInstanceViewInner object itself.
      */
-    public VirtualMachineScaleSetVMInstanceViewInner withMaintenanceRedeployStatus(MaintenanceRedeployStatus maintenanceRedeployStatus) {
+    public VirtualMachineInstanceViewInner withMaintenanceRedeployStatus(MaintenanceRedeployStatus maintenanceRedeployStatus) {
         this.maintenanceRedeployStatus = maintenanceRedeployStatus;
         return this;
     }
@@ -207,9 +271,9 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
      * Set the disks value.
      *
      * @param disks the disks value to set
-     * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
+     * @return the VirtualMachineInstanceViewInner object itself.
      */
-    public VirtualMachineScaleSetVMInstanceViewInner withDisks(List<DiskInstanceView> disks) {
+    public VirtualMachineInstanceViewInner withDisks(List<DiskInstanceView> disks) {
         this.disks = disks;
         return this;
     }
@@ -227,20 +291,11 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
      * Set the extensions value.
      *
      * @param extensions the extensions value to set
-     * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
+     * @return the VirtualMachineInstanceViewInner object itself.
      */
-    public VirtualMachineScaleSetVMInstanceViewInner withExtensions(List<VirtualMachineExtensionInstanceView> extensions) {
+    public VirtualMachineInstanceViewInner withExtensions(List<VirtualMachineExtensionInstanceView> extensions) {
         this.extensions = extensions;
         return this;
-    }
-
-    /**
-     * Get the vmHealth value.
-     *
-     * @return the vmHealth value
-     */
-    public VirtualMachineHealthStatus vmHealth() {
-        return this.vmHealth;
     }
 
     /**
@@ -256,9 +311,9 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
      * Set the bootDiagnostics value.
      *
      * @param bootDiagnostics the bootDiagnostics value to set
-     * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
+     * @return the VirtualMachineInstanceViewInner object itself.
      */
-    public VirtualMachineScaleSetVMInstanceViewInner withBootDiagnostics(BootDiagnosticsInstanceView bootDiagnostics) {
+    public VirtualMachineInstanceViewInner withBootDiagnostics(BootDiagnosticsInstanceView bootDiagnostics) {
         this.bootDiagnostics = bootDiagnostics;
         return this;
     }
@@ -276,30 +331,10 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
      * Set the statuses value.
      *
      * @param statuses the statuses value to set
-     * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
+     * @return the VirtualMachineInstanceViewInner object itself.
      */
-    public VirtualMachineScaleSetVMInstanceViewInner withStatuses(List<InstanceViewStatus> statuses) {
+    public VirtualMachineInstanceViewInner withStatuses(List<InstanceViewStatus> statuses) {
         this.statuses = statuses;
-        return this;
-    }
-
-    /**
-     * Get the placementGroupId value.
-     *
-     * @return the placementGroupId value
-     */
-    public String placementGroupId() {
-        return this.placementGroupId;
-    }
-
-    /**
-     * Set the placementGroupId value.
-     *
-     * @param placementGroupId the placementGroupId value to set
-     * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
-     */
-    public VirtualMachineScaleSetVMInstanceViewInner withPlacementGroupId(String placementGroupId) {
-        this.placementGroupId = placementGroupId;
         return this;
     }
 

@@ -8,7 +8,6 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
@@ -852,9 +851,9 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the VirtualMachineInstanceView object if successful.
+     * @return the VirtualMachineInstanceViewInner object if successful.
      */
-    public VirtualMachineInstanceView instanceView(String resourceGroupName, String vmName) {
+    public VirtualMachineInstanceViewInner instanceView(String resourceGroupName, String vmName) {
         return instanceViewWithServiceResponseAsync(resourceGroupName, vmName).toBlocking().single().body();
     }
 
@@ -867,7 +866,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<VirtualMachineInstanceView> instanceViewAsync(String resourceGroupName, String vmName, final ServiceCallback<VirtualMachineInstanceView> serviceCallback) {
+    public ServiceFuture<VirtualMachineInstanceViewInner> instanceViewAsync(String resourceGroupName, String vmName, final ServiceCallback<VirtualMachineInstanceViewInner> serviceCallback) {
         return ServiceFuture.fromResponse(instanceViewWithServiceResponseAsync(resourceGroupName, vmName), serviceCallback);
     }
 
@@ -877,12 +876,12 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineInstanceView object
+     * @return the observable to the VirtualMachineInstanceViewInner object
      */
-    public Observable<VirtualMachineInstanceView> instanceViewAsync(String resourceGroupName, String vmName) {
-        return instanceViewWithServiceResponseAsync(resourceGroupName, vmName).map(new Func1<ServiceResponse<VirtualMachineInstanceView>, VirtualMachineInstanceView>() {
+    public Observable<VirtualMachineInstanceViewInner> instanceViewAsync(String resourceGroupName, String vmName) {
+        return instanceViewWithServiceResponseAsync(resourceGroupName, vmName).map(new Func1<ServiceResponse<VirtualMachineInstanceViewInner>, VirtualMachineInstanceViewInner>() {
             @Override
-            public VirtualMachineInstanceView call(ServiceResponse<VirtualMachineInstanceView> response) {
+            public VirtualMachineInstanceViewInner call(ServiceResponse<VirtualMachineInstanceViewInner> response) {
                 return response.body();
             }
         });
@@ -894,9 +893,9 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineInstanceView object
+     * @return the observable to the VirtualMachineInstanceViewInner object
      */
-    public Observable<ServiceResponse<VirtualMachineInstanceView>> instanceViewWithServiceResponseAsync(String resourceGroupName, String vmName) {
+    public Observable<ServiceResponse<VirtualMachineInstanceViewInner>> instanceViewWithServiceResponseAsync(String resourceGroupName, String vmName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -908,11 +907,11 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
         }
         final String apiVersion = "2017-12-01";
         return service.instanceView(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineInstanceView>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineInstanceViewInner>>>() {
                 @Override
-                public Observable<ServiceResponse<VirtualMachineInstanceView>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<VirtualMachineInstanceViewInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<VirtualMachineInstanceView> clientResponse = instanceViewDelegate(response);
+                        ServiceResponse<VirtualMachineInstanceViewInner> clientResponse = instanceViewDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -921,9 +920,9 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
             });
     }
 
-    private ServiceResponse<VirtualMachineInstanceView> instanceViewDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VirtualMachineInstanceView, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<VirtualMachineInstanceView>() { }.getType())
+    private ServiceResponse<VirtualMachineInstanceViewInner> instanceViewDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<VirtualMachineInstanceViewInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<VirtualMachineInstanceViewInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -2449,7 +2448,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         Observable<Response<ResponseBody>> observable = service.runCommand(resourceGroupName, vmName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<RunCommandResultInner>() { }.getType());
     }
@@ -2524,7 +2523,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         return service.beginRunCommand(resourceGroupName, vmName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RunCommandResultInner>>>() {
                 @Override

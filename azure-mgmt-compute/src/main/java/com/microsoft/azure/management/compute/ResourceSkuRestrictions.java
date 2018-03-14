@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ResourceSkuRestrictions {
     /**
-     * The type of restrictions. Possible values include: 'Location'.
+     * The type of restrictions. Possible values include: 'Location', 'Zone'.
      */
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private ResourceSkuRestrictionsType type;
@@ -27,6 +27,12 @@ public class ResourceSkuRestrictions {
      */
     @JsonProperty(value = "values", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> values;
+
+    /**
+     * The information about the restriction where the SKU cannot be used.
+     */
+    @JsonProperty(value = "restrictionInfo", access = JsonProperty.Access.WRITE_ONLY)
+    private ResourceSkuRestrictionInfo restrictionInfo;
 
     /**
      * The reason for restriction. Possible values include: 'QuotaId',
@@ -51,6 +57,15 @@ public class ResourceSkuRestrictions {
      */
     public List<String> values() {
         return this.values;
+    }
+
+    /**
+     * Get the restrictionInfo value.
+     *
+     * @return the restrictionInfo value
+     */
+    public ResourceSkuRestrictionInfo restrictionInfo() {
+        return this.restrictionInfo;
     }
 
     /**

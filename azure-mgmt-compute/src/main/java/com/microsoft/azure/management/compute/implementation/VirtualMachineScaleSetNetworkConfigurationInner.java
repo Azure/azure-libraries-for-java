@@ -59,6 +59,12 @@ public class VirtualMachineScaleSetNetworkConfigurationInner extends SubResource
     private List<VirtualMachineScaleSetIPConfigurationInner> ipConfigurations;
 
     /**
+     * Whether IP forwarding enabled on this NIC.
+     */
+    @JsonProperty(value = "properties.enableIPForwarding")
+    private Boolean enableIPForwarding;
+
+    /**
      * Get the name value.
      *
      * @return the name value
@@ -175,6 +181,26 @@ public class VirtualMachineScaleSetNetworkConfigurationInner extends SubResource
      */
     public VirtualMachineScaleSetNetworkConfigurationInner withIpConfigurations(List<VirtualMachineScaleSetIPConfigurationInner> ipConfigurations) {
         this.ipConfigurations = ipConfigurations;
+        return this;
+    }
+
+    /**
+     * Get the enableIPForwarding value.
+     *
+     * @return the enableIPForwarding value
+     */
+    public Boolean enableIPForwarding() {
+        return this.enableIPForwarding;
+    }
+
+    /**
+     * Set the enableIPForwarding value.
+     *
+     * @param enableIPForwarding the enableIPForwarding value to set
+     * @return the VirtualMachineScaleSetNetworkConfigurationInner object itself.
+     */
+    public VirtualMachineScaleSetNetworkConfigurationInner withEnableIPForwarding(Boolean enableIPForwarding) {
+        this.enableIPForwarding = enableIPForwarding;
         return this;
     }
 

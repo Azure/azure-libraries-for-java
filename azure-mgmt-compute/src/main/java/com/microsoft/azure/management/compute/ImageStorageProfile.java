@@ -34,6 +34,14 @@ public class ImageStorageProfile {
     private List<ImageDataDisk> dataDisks;
 
     /**
+     * Specifies whether an image is zone resilient or not. Default is false.
+     * Zone resilient images can be created only in regions that provide Zone
+     * Redundant Storage (ZRS).
+     */
+    @JsonProperty(value = "zoneResilient")
+    private Boolean zoneResilient;
+
+    /**
      * Get the osDisk value.
      *
      * @return the osDisk value
@@ -70,6 +78,26 @@ public class ImageStorageProfile {
      */
     public ImageStorageProfile withDataDisks(List<ImageDataDisk> dataDisks) {
         this.dataDisks = dataDisks;
+        return this;
+    }
+
+    /**
+     * Get the zoneResilient value.
+     *
+     * @return the zoneResilient value
+     */
+    public Boolean zoneResilient() {
+        return this.zoneResilient;
+    }
+
+    /**
+     * Set the zoneResilient value.
+     *
+     * @param zoneResilient the zoneResilient value to set
+     * @return the ImageStorageProfile object itself.
+     */
+    public ImageStorageProfile withZoneResilient(Boolean zoneResilient) {
+        this.zoneResilient = zoneResilient;
         return this;
     }
 

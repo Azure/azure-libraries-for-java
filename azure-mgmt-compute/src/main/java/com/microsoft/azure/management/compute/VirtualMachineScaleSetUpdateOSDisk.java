@@ -24,6 +24,13 @@ public class VirtualMachineScaleSetUpdateOSDisk {
     private CachingTypes caching;
 
     /**
+     * Specifies whether writeAccelerator should be enabled or disabled on the
+     * disk.
+     */
+    @JsonProperty(value = "writeAcceleratorEnabled")
+    private Boolean writeAcceleratorEnabled;
+
+    /**
      * The Source User Image VirtualHardDisk. This VirtualHardDisk will be
      * copied before using it to attach to the Virtual Machine. If SourceImage
      * is provided, the destination VirtualHardDisk should not exist.
@@ -60,6 +67,26 @@ public class VirtualMachineScaleSetUpdateOSDisk {
      */
     public VirtualMachineScaleSetUpdateOSDisk withCaching(CachingTypes caching) {
         this.caching = caching;
+        return this;
+    }
+
+    /**
+     * Get the writeAcceleratorEnabled value.
+     *
+     * @return the writeAcceleratorEnabled value
+     */
+    public Boolean writeAcceleratorEnabled() {
+        return this.writeAcceleratorEnabled;
+    }
+
+    /**
+     * Set the writeAcceleratorEnabled value.
+     *
+     * @param writeAcceleratorEnabled the writeAcceleratorEnabled value to set
+     * @return the VirtualMachineScaleSetUpdateOSDisk object itself.
+     */
+    public VirtualMachineScaleSetUpdateOSDisk withWriteAcceleratorEnabled(Boolean writeAcceleratorEnabled) {
+        this.writeAcceleratorEnabled = writeAcceleratorEnabled;
         return this;
     }
 

@@ -32,6 +32,13 @@ public class VirtualMachineScaleSetOSDisk {
     private CachingTypes caching;
 
     /**
+     * Specifies whether writeAccelerator should be enabled or disabled on the
+     * disk.
+     */
+    @JsonProperty(value = "writeAcceleratorEnabled")
+    private Boolean writeAcceleratorEnabled;
+
+    /**
      * Specifies how the virtual machines in the scale set should be
      * created.&lt;br&gt;&lt;br&gt; The only allowed value is: **FromImage**
      * \u2013 This value is used when you are using an image to create the
@@ -110,6 +117,26 @@ public class VirtualMachineScaleSetOSDisk {
      */
     public VirtualMachineScaleSetOSDisk withCaching(CachingTypes caching) {
         this.caching = caching;
+        return this;
+    }
+
+    /**
+     * Get the writeAcceleratorEnabled value.
+     *
+     * @return the writeAcceleratorEnabled value
+     */
+    public Boolean writeAcceleratorEnabled() {
+        return this.writeAcceleratorEnabled;
+    }
+
+    /**
+     * Set the writeAcceleratorEnabled value.
+     *
+     * @param writeAcceleratorEnabled the writeAcceleratorEnabled value to set
+     * @return the VirtualMachineScaleSetOSDisk object itself.
+     */
+    public VirtualMachineScaleSetOSDisk withWriteAcceleratorEnabled(Boolean writeAcceleratorEnabled) {
+        this.writeAcceleratorEnabled = writeAcceleratorEnabled;
         return this;
     }
 

@@ -175,7 +175,8 @@ public class SqlServerKeyImpl
 
     @Override
     protected Observable<ServerKeyInner> getInnerAsync() {
-        return null;
+        return this.sqlServerManager.inner().serverKeys()
+            .getAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
     @Override

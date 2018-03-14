@@ -211,6 +211,13 @@ class VirtualMachineCustomImageImpl
     }
 
     @Override
+    public VirtualMachineCustomImageImpl withZoneResilient() {
+        this.ensureStorageProfile()
+                .withZoneResilient(true);
+        return this;
+    }
+
+    @Override
     public Observable<VirtualMachineCustomImage> createResourceAsync() {
         ensureDefaultLuns();
         return this.manager().inner().images().createOrUpdateAsync(resourceGroupName(), name(), this.inner())
@@ -223,16 +230,20 @@ class VirtualMachineCustomImageImpl
     }
 
     private ImageOSDisk ensureOsDiskImage() {
-        if (this.inner().storageProfile() == null) {
-            this.inner().withStorageProfile(new ImageStorageProfile());
-        }
-
+        this.ensureStorageProfile();
         if (this.inner().storageProfile().osDisk() == null) {
             this.inner()
                     .storageProfile()
                     .withOsDisk(new ImageOSDisk());
         }
         return this.inner().storageProfile().osDisk();
+    }
+
+    private ImageStorageProfile ensureStorageProfile() {
+        if (this.inner().storageProfile() == null) {
+            this.inner().withStorageProfile(new ImageStorageProfile());
+        }
+        return this.inner().storageProfile();
     }
 
     private void ensureDefaultLuns() {

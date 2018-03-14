@@ -167,7 +167,7 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
                 .withExistingResourceGroup(resourceGroup)
                 .withDataFromDisk(emptyDisk)
                 .withSizeInGB(200)
-                .withSku(DiskSkuTypes.STANDARD_LRS)
+                .withSku(SnapshotSkuType.STANDARD_LRS)
                 .create();
 
         Assert.assertNotNull(snapshot.id());

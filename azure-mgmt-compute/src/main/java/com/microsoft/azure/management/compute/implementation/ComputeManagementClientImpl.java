@@ -277,6 +277,32 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The LogAnalyticsInner object to access its operations.
+     */
+    private LogAnalyticsInner logAnalytics;
+
+    /**
+     * Gets the LogAnalyticsInner object to access its operations.
+     * @return the LogAnalyticsInner object.
+     */
+    public LogAnalyticsInner logAnalytics() {
+        return this.logAnalytics;
+    }
+
+    /**
+     * The VirtualMachineRunCommandsInner object to access its operations.
+     */
+    private VirtualMachineRunCommandsInner virtualMachineRunCommands;
+
+    /**
+     * Gets the VirtualMachineRunCommandsInner object to access its operations.
+     * @return the VirtualMachineRunCommandsInner object.
+     */
+    public VirtualMachineRunCommandsInner virtualMachineRunCommands() {
+        return this.virtualMachineRunCommands;
+    }
+
+    /**
      * The ResourceSkusInner object to access its operations.
      */
     private ResourceSkusInner resourceSkus;
@@ -313,19 +339,6 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
      */
     public SnapshotsInner snapshots() {
         return this.snapshots;
-    }
-
-    /**
-     * The VirtualMachineRunCommandsInner object to access its operations.
-     */
-    private VirtualMachineRunCommandsInner virtualMachineRunCommands;
-
-    /**
-     * Gets the VirtualMachineRunCommandsInner object to access its operations.
-     * @return the VirtualMachineRunCommandsInner object.
-     */
-    public VirtualMachineRunCommandsInner virtualMachineRunCommands() {
-        return this.virtualMachineRunCommands;
     }
 
     /**
@@ -374,10 +387,11 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
         this.virtualMachineScaleSetExtensions = new VirtualMachineScaleSetExtensionsInner(restClient().retrofit(), this);
         this.virtualMachineScaleSetRollingUpgrades = new VirtualMachineScaleSetRollingUpgradesInner(restClient().retrofit(), this);
         this.virtualMachineScaleSetVMs = new VirtualMachineScaleSetVMsInner(restClient().retrofit(), this);
+        this.logAnalytics = new LogAnalyticsInner(restClient().retrofit(), this);
+        this.virtualMachineRunCommands = new VirtualMachineRunCommandsInner(restClient().retrofit(), this);
         this.resourceSkus = new ResourceSkusInner(restClient().retrofit(), this);
         this.disks = new DisksInner(restClient().retrofit(), this);
         this.snapshots = new SnapshotsInner(restClient().retrofit(), this);
-        this.virtualMachineRunCommands = new VirtualMachineRunCommandsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

@@ -12,32 +12,38 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for ResourceSkuRestrictionsType.
+ * Defines values for IntervalInMins.
  */
-public enum ResourceSkuRestrictionsType {
-    /** Enum value Location. */
-    LOCATION("Location"),
+public enum IntervalInMins {
+    /** Enum value ThreeMins. */
+    THREE_MINS("ThreeMins"),
 
-    /** Enum value Zone. */
-    ZONE("Zone");
+    /** Enum value FiveMins. */
+    FIVE_MINS("FiveMins"),
 
-    /** The actual serialized value for a ResourceSkuRestrictionsType instance. */
+    /** Enum value ThirtyMins. */
+    THIRTY_MINS("ThirtyMins"),
+
+    /** Enum value SixtyMins. */
+    SIXTY_MINS("SixtyMins");
+
+    /** The actual serialized value for a IntervalInMins instance. */
     private String value;
 
-    ResourceSkuRestrictionsType(String value) {
+    IntervalInMins(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a ResourceSkuRestrictionsType instance.
+     * Parses a serialized value to a IntervalInMins instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed ResourceSkuRestrictionsType object, or null if unable to parse.
+     * @return the parsed IntervalInMins object, or null if unable to parse.
      */
     @JsonCreator
-    public static ResourceSkuRestrictionsType fromString(String value) {
-        ResourceSkuRestrictionsType[] items = ResourceSkuRestrictionsType.values();
-        for (ResourceSkuRestrictionsType item : items) {
+    public static IntervalInMins fromString(String value) {
+        IntervalInMins[] items = IntervalInMins.values();
+        for (IntervalInMins item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

@@ -39,6 +39,13 @@ public class VirtualMachineScaleSetDataDisk {
     private CachingTypes caching;
 
     /**
+     * Specifies whether writeAccelerator should be enabled or disabled on the
+     * disk.
+     */
+    @JsonProperty(value = "writeAcceleratorEnabled")
+    private Boolean writeAcceleratorEnabled;
+
+    /**
      * The create option. Possible values include: 'FromImage', 'Empty',
      * 'Attach'.
      */
@@ -116,6 +123,26 @@ public class VirtualMachineScaleSetDataDisk {
      */
     public VirtualMachineScaleSetDataDisk withCaching(CachingTypes caching) {
         this.caching = caching;
+        return this;
+    }
+
+    /**
+     * Get the writeAcceleratorEnabled value.
+     *
+     * @return the writeAcceleratorEnabled value
+     */
+    public Boolean writeAcceleratorEnabled() {
+        return this.writeAcceleratorEnabled;
+    }
+
+    /**
+     * Set the writeAcceleratorEnabled value.
+     *
+     * @param writeAcceleratorEnabled the writeAcceleratorEnabled value to set
+     * @return the VirtualMachineScaleSetDataDisk object itself.
+     */
+    public VirtualMachineScaleSetDataDisk withWriteAcceleratorEnabled(Boolean writeAcceleratorEnabled) {
+        this.writeAcceleratorEnabled = writeAcceleratorEnabled;
         return this;
     }
 

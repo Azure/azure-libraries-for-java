@@ -54,6 +54,13 @@ public class DataDisk {
     private CachingTypes caching;
 
     /**
+     * Specifies whether writeAccelerator should be enabled or disabled on the
+     * disk.
+     */
+    @JsonProperty(value = "writeAcceleratorEnabled")
+    private Boolean writeAcceleratorEnabled;
+
+    /**
      * Specifies how the virtual machine should be created.&lt;br&gt;&lt;br&gt;
      * Possible values are:&lt;br&gt;&lt;br&gt; **Attach** \u2013 This value is
      * used when you are using a specialized disk to create the virtual
@@ -178,6 +185,26 @@ public class DataDisk {
      */
     public DataDisk withCaching(CachingTypes caching) {
         this.caching = caching;
+        return this;
+    }
+
+    /**
+     * Get the writeAcceleratorEnabled value.
+     *
+     * @return the writeAcceleratorEnabled value
+     */
+    public Boolean writeAcceleratorEnabled() {
+        return this.writeAcceleratorEnabled;
+    }
+
+    /**
+     * Set the writeAcceleratorEnabled value.
+     *
+     * @param writeAcceleratorEnabled the writeAcceleratorEnabled value to set
+     * @return the DataDisk object itself.
+     */
+    public DataDisk withWriteAcceleratorEnabled(Boolean writeAcceleratorEnabled) {
+        this.writeAcceleratorEnabled = writeAcceleratorEnabled;
         return this;
     }
 

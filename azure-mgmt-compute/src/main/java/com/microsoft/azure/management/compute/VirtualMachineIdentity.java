@@ -105,4 +105,5 @@ public class VirtualMachineIdentity {
         this.identityIds = identityIds;
         return this;
     }
+
 }

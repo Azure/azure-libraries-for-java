@@ -8,7 +8,7 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.DiskSku;
+import com.microsoft.azure.management.compute.SnapshotSku;
 import org.joda.time.DateTime;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.CreationData;
@@ -32,7 +32,7 @@ public class SnapshotInner extends Resource {
      * The sku property.
      */
     @JsonProperty(value = "sku")
-    private DiskSku sku;
+    private SnapshotSku sku;
 
     /**
      * The time when the disk was created.
@@ -89,7 +89,7 @@ public class SnapshotInner extends Resource {
      *
      * @return the sku value
      */
-    public DiskSku sku() {
+    public SnapshotSku sku() {
         return this.sku;
     }
 
@@ -99,7 +99,7 @@ public class SnapshotInner extends Resource {
      * @param sku the sku value to set
      * @return the SnapshotInner object itself.
      */
-    public SnapshotInner withSku(DiskSku sku) {
+    public SnapshotInner withSku(SnapshotSku sku) {
         this.sku = sku;
         return this;
     }

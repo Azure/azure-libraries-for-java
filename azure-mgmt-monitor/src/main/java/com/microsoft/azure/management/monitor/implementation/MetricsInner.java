@@ -55,7 +55,7 @@ public class MetricsInner {
     interface MetricsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.monitor.Metrics list" })
         @GET("{resourceUri}/providers/microsoft.insights/metrics")
-        Observable<Response<ResponseBody>> list(@Path(value = "resourceUri", encoded = true) String resourceUri, @Query("timespan") String timespan, @Query("interval") Period interval, @Query("metricnames") String metricnames, @Query("aggregation") String aggregation, @Query("top") Double top, @Query("orderby") String orderby, @Query("$filter") String filter, @Query("resultType") ResultType resultType1, @Query("api-version") String apiVersion, @Query("metricnamespace") String metricnamespace, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> list(@Path(value = "resourceUri", encoded = true) String resourceUri, @Query("timespan") String timespan, @Query("interval") Period interval, @Query("metricnames") String metricnames, @Query("aggregation") String aggregation, @Query("top") Integer top, @Query("orderby") String orderby, @Query("$filter") String filter, @Query("resultType") ResultType resultType1, @Query("api-version") String apiVersion, @Query("metricnamespace") String metricnamespace, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
@@ -116,7 +116,7 @@ public class MetricsInner {
         final Period interval = null;
         final String metricnames = null;
         final String aggregation = null;
-        final Double top = null;
+        final Integer top = null;
         final String orderby = null;
         final String filter = null;
         final ResultType resultType = null;
@@ -157,7 +157,7 @@ public class MetricsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ResponseInner object if successful.
      */
-    public ResponseInner list(String resourceUri, String timespan, Period interval, String metricnames, String aggregation, Double top, String orderby, String filter, ResultType resultType, String metricnamespace) {
+    public ResponseInner list(String resourceUri, String timespan, Period interval, String metricnames, String aggregation, Integer top, String orderby, String filter, ResultType resultType, String metricnamespace) {
         return listWithServiceResponseAsync(resourceUri, timespan, interval, metricnames, aggregation, top, orderby, filter, resultType, metricnamespace).toBlocking().single().body();
     }
 
@@ -182,7 +182,7 @@ public class MetricsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ResponseInner> listAsync(String resourceUri, String timespan, Period interval, String metricnames, String aggregation, Double top, String orderby, String filter, ResultType resultType, String metricnamespace, final ServiceCallback<ResponseInner> serviceCallback) {
+    public ServiceFuture<ResponseInner> listAsync(String resourceUri, String timespan, Period interval, String metricnames, String aggregation, Integer top, String orderby, String filter, ResultType resultType, String metricnamespace, final ServiceCallback<ResponseInner> serviceCallback) {
         return ServiceFuture.fromResponse(listWithServiceResponseAsync(resourceUri, timespan, interval, metricnames, aggregation, top, orderby, filter, resultType, metricnamespace), serviceCallback);
     }
 
@@ -206,7 +206,7 @@ public class MetricsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ResponseInner object
      */
-    public Observable<ResponseInner> listAsync(String resourceUri, String timespan, Period interval, String metricnames, String aggregation, Double top, String orderby, String filter, ResultType resultType, String metricnamespace) {
+    public Observable<ResponseInner> listAsync(String resourceUri, String timespan, Period interval, String metricnames, String aggregation, Integer top, String orderby, String filter, ResultType resultType, String metricnamespace) {
         return listWithServiceResponseAsync(resourceUri, timespan, interval, metricnames, aggregation, top, orderby, filter, resultType, metricnamespace).map(new Func1<ServiceResponse<ResponseInner>, ResponseInner>() {
             @Override
             public ResponseInner call(ServiceResponse<ResponseInner> response) {
@@ -235,7 +235,7 @@ public class MetricsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ResponseInner object
      */
-    public Observable<ServiceResponse<ResponseInner>> listWithServiceResponseAsync(String resourceUri, String timespan, Period interval, String metricnames, String aggregation, Double top, String orderby, String filter, ResultType resultType, String metricnamespace) {
+    public Observable<ServiceResponse<ResponseInner>> listWithServiceResponseAsync(String resourceUri, String timespan, Period interval, String metricnames, String aggregation, Integer top, String orderby, String filter, ResultType resultType, String metricnamespace) {
         if (resourceUri == null) {
             throw new IllegalArgumentException("Parameter resourceUri is required and cannot be null.");
         }

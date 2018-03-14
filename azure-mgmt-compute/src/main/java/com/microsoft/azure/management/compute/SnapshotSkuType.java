@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Beta(Beta.SinceVersion.V1_8_0)
 @LangDefinition
-public class SnapshotSkuType {
+public final class SnapshotSkuType {
 
     private static final Map<String, SnapshotSkuType> VALUES_BY_NAME = new HashMap<>();
 
@@ -29,7 +29,7 @@ public class SnapshotSkuType {
     public static final SnapshotSkuType PREMIUM_LRS = new SnapshotSkuType(SnapshotStorageAccountTypes.PREMIUM_LRS);
 
     /** Static value STANDARD_ZRS for SnapshotSkuType. */
-    public static final SnapshotSkuType PREMIUM_ZRS = new SnapshotSkuType(SnapshotStorageAccountTypes.STANDARD_ZRS);
+    public static final SnapshotSkuType STANDARD_ZRS = new SnapshotSkuType(SnapshotStorageAccountTypes.STANDARD_ZRS);
 
     /** The actual serialized value for a SnapshotSkuType instance. */
     private SnapshotStorageAccountTypes value;

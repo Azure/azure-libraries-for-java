@@ -589,16 +589,16 @@ public class SqlManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The LongTermRetentionPoliciesInner object to access its operations.
+     * The BackupLongTermRetentionPoliciesInner object to access its operations.
      */
-    private LongTermRetentionPoliciesInner longTermRetentionPolicies;
+    private BackupLongTermRetentionPoliciesInner backupLongTermRetentionPolicies;
 
     /**
-     * Gets the LongTermRetentionPoliciesInner object to access its operations.
-     * @return the LongTermRetentionPoliciesInner object.
+     * Gets the BackupLongTermRetentionPoliciesInner object to access its operations.
+     * @return the BackupLongTermRetentionPoliciesInner object.
      */
-    public LongTermRetentionPoliciesInner longTermRetentionPolicies() {
-        return this.longTermRetentionPolicies;
+    public BackupLongTermRetentionPoliciesInner backupLongTermRetentionPolicies() {
+        return this.backupLongTermRetentionPolicies;
     }
 
     /**
@@ -736,7 +736,7 @@ public class SqlManagementClientImpl extends AzureServiceClient {
         this.subscriptionUsages = new SubscriptionUsagesInner(restClient().retrofit(), this);
         this.virtualNetworkRules = new VirtualNetworkRulesInner(restClient().retrofit(), this);
         this.longTermRetentionBackups = new LongTermRetentionBackupsInner(restClient().retrofit(), this);
-        this.longTermRetentionPolicies = new LongTermRetentionPoliciesInner(restClient().retrofit(), this);
+        this.backupLongTermRetentionPolicies = new BackupLongTermRetentionPoliciesInner(restClient().retrofit(), this);
         this.serverAutomaticTunings = new ServerAutomaticTuningsInner(restClient().retrofit(), this);
         this.serverDnsAliases = new ServerDnsAliasesInner(restClient().retrofit(), this);
         this.restorePoints = new RestorePointsInner(restClient().retrofit(), this);

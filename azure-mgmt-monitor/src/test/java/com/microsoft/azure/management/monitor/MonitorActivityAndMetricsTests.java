@@ -29,15 +29,22 @@ public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
         List<MetricDefinition> mt = monitorManager.metricDefinitions().listByResource(vm.id());
 
         Assert.assertNotNull(mt);
+        MetricDefinition mDef = mt.get(0);
+        Assert.assertNotNull(mDef.metricAvailabilities());
+        Assert.assertNotNull(mDef.namespace());
+        Assert.assertNotNull(mDef.supportedAggregationTypes());
 
         // Metric
-        MetricCollection metrics = mt.get(0).defineQuery()
+        MetricCollection metrics = mDef.defineQuery()
                 .startingFrom(recordDateTime.minusDays(30))
                 .endsBefore(recordDateTime)
                 .withResultType(ResultType.DATA)
                 .execute();
 
         Assert.assertNotNull(metrics);
+        Assert.assertNotNull(metrics.namespace());
+        Assert.assertNotNull(metrics.resourceRegion());
+        Assert.assertEquals("Microsoft.Compute/virtualMachines", metrics.namespace());
 
         // Activity Logs
         PagedList<EventData> retVal = monitorManager.activityLogs()

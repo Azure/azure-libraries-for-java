@@ -13,7 +13,6 @@ import java.util.List;
 import org.joda.time.Period;
 import com.microsoft.azure.management.monitor.MetricAlertCriteria;
 import com.microsoft.azure.management.monitor.Action;
-import com.microsoft.azure.management.monitor.AlertStatus;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -80,12 +79,6 @@ public class MetricAlertResourcePatchInner {
      */
     @JsonProperty(value = "properties.actions")
     private List<Action> actions;
-
-    /**
-     * the current metric alert status.
-     */
-    @JsonProperty(value = "properties.currentStatus", access = JsonProperty.Access.WRITE_ONLY)
-    private AlertStatus currentStatus;
 
     /**
      * Last time the rule was updated in ISO8601 format.
@@ -271,15 +264,6 @@ public class MetricAlertResourcePatchInner {
     public MetricAlertResourcePatchInner withActions(List<Action> actions) {
         this.actions = actions;
         return this;
-    }
-
-    /**
-     * Get the currentStatus value.
-     *
-     * @return the currentStatus value
-     */
-    public AlertStatus currentStatus() {
-        return this.currentStatus;
     }
 
     /**

@@ -57,6 +57,7 @@ public interface DiagnosticSettings extends
     /**
      * Lists all the diagnostic settings in the currently selected subscription for a specific resource.
      *
+     * @param resourceId that Diagnostic Setting is associated with.
      * @return list of resources
      */
     PagedList<DiagnosticSetting> listByResource(String resourceId);
@@ -64,6 +65,7 @@ public interface DiagnosticSettings extends
     /**
      * Lists all the diagnostic settings in the currently selected subscription for a specific resource.
      *
+     * @param resourceId that Diagnostic Setting is associated with.
      * @return list of resources
      */
     Observable<DiagnosticSetting> listByResourceAsync(String resourceId);

@@ -20,7 +20,6 @@ import org.joda.time.Period;
 
 import java.io.File;
 
-
 /**
  * Azure Event Hub sample for managing event hub models -
  *   - Creates a Event Hub namespace and an Event Hub in it

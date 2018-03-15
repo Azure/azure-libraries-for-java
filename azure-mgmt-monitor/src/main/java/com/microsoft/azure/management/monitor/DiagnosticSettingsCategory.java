@@ -12,12 +12,11 @@ import com.microsoft.azure.management.monitor.implementation.DiagnosticSettingsC
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
 /**
- * The Azure event log entries are of type EventData.
+ * The Azure event log entries are of type DiagnosticSettingsCategory.
  */
 @LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 public interface DiagnosticSettingsCategory
         extends HasInner<DiagnosticSettingsCategoryResourceInner> {
-
     /**
      * Get the diagnostic settings category name value.
      *

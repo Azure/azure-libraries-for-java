@@ -8,11 +8,15 @@
 
 package com.microsoft.azure.management.monitor;
 
+import java.util.Map;
+import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
  * An alert status.
  */
+@JsonFlatten
 public class MetricAlertStatus {
     /**
      * The status name.
@@ -33,10 +37,22 @@ public class MetricAlertStatus {
     private String type;
 
     /**
-     * The alert status properties of the metric alert status.
+     * The dimensions property.
      */
-    @JsonProperty(value = "properties")
-    private MetricAlertStatus properties;
+    @JsonProperty(value = "properties.dimensions")
+    private Map<String, String> dimensions;
+
+    /**
+     * status value.
+     */
+    @JsonProperty(value = "properties.status")
+    private String status;
+
+    /**
+     * UTC time when the status was checked.
+     */
+    @JsonProperty(value = "properties.timestamp")
+    private DateTime timestamp;
 
     /**
      * Get the name value.
@@ -99,22 +115,62 @@ public class MetricAlertStatus {
     }
 
     /**
-     * Get the properties value.
+     * Get the dimensions value.
      *
-     * @return the properties value
+     * @return the dimensions value
      */
-    public MetricAlertStatus properties() {
-        return this.properties;
+    public Map<String, String> dimensions() {
+        return this.dimensions;
     }
 
     /**
-     * Set the properties value.
+     * Set the dimensions value.
      *
-     * @param properties the properties value to set
+     * @param dimensions the dimensions value to set
      * @return the MetricAlertStatus object itself.
      */
-    public MetricAlertStatus withProperties(MetricAlertStatus properties) {
-        this.properties = properties;
+    public MetricAlertStatus withDimensions(Map<String, String> dimensions) {
+        this.dimensions = dimensions;
+        return this;
+    }
+
+    /**
+     * Get the status value.
+     *
+     * @return the status value
+     */
+    public String status() {
+        return this.status;
+    }
+
+    /**
+     * Set the status value.
+     *
+     * @param status the status value to set
+     * @return the MetricAlertStatus object itself.
+     */
+    public MetricAlertStatus withStatus(String status) {
+        this.status = status;
+        return this;
+    }
+
+    /**
+     * Get the timestamp value.
+     *
+     * @return the timestamp value
+     */
+    public DateTime timestamp() {
+        return this.timestamp;
+    }
+
+    /**
+     * Set the timestamp value.
+     *
+     * @param timestamp the timestamp value to set
+     * @return the MetricAlertStatus object itself.
+     */
+    public MetricAlertStatus withTimestamp(DateTime timestamp) {
+        this.timestamp = timestamp;
         return this;
     }
 

@@ -60,6 +60,12 @@ public interface SqlServers extends
     SqlServerDnsAliasOperations dnsAliases();
 
     /**
+     * @return the SQL Failover Group API entry point
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlFailoverGroupOperations failoverGroups();
+
+    /**
      * @return the SQL Server Elastic Pools API entry point
      */
     @Beta(Beta.SinceVersion.V1_7_0)

@@ -19,7 +19,7 @@ import rx.functions.Func1;
 import java.util.Objects;
 
 /**
- * Implementation for SqlFirewallRule.
+ * Implementation for SqlServerDnsAlias.
  */
 @LangDefinition
 public class SqlServerDnsAliasImpl

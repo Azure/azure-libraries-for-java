@@ -38,6 +38,7 @@ class SqlServersImpl
     private SqlElasticPoolOperations elasticPools;
     private SqlDatabaseOperations databases;
     private SqlServerDnsAliasOperationsImpl dnsAliases;
+    private SqlFailoverGroupOperationsImpl failoverGroups;
 
     protected SqlServersImpl(SqlServerManager manager) {
         super(manager.inner().servers(), manager);
@@ -88,6 +89,15 @@ class SqlServersImpl
         }
 
         return this.dnsAliases;
+    }
+
+    @Override
+    public SqlFailoverGroupOperationsImpl failoverGroups() {
+        if (this.failoverGroups == null) {
+            this.failoverGroups = new SqlFailoverGroupOperationsImpl(this.manager());
+        }
+
+        return this.failoverGroups;
     }
 
     @Override

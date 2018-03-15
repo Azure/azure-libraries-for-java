@@ -20,6 +20,7 @@ import com.microsoft.azure.management.sql.ServerMetric;
 import com.microsoft.azure.management.sql.ServiceObjective;
 import com.microsoft.azure.management.sql.SqlDatabaseOperations;
 import com.microsoft.azure.management.sql.SqlElasticPoolOperations;
+import com.microsoft.azure.management.sql.SqlFailoverGroupOperations;
 import com.microsoft.azure.management.sql.SqlFirewallRule;
 import com.microsoft.azure.management.sql.SqlFirewallRuleOperations;
 import com.microsoft.azure.management.sql.SqlRestorableDroppedDatabase;
@@ -66,6 +67,7 @@ public class SqlServerImpl
     private SqlDatabasesAsExternalChildResourcesImpl sqlDatabases;
     private SqlDatabaseOperations.SqlDatabaseActionsDefinition sqlDatabaseOperations;
     private SqlServerDnsAliasOperations.SqlServerDnsAliasActionsDefinition sqlServerDnsAliasOperations;
+    private SqlFailoverGroupOperations.SqlFailoverGroupActionsDefinition sqlFailoverGroupOperations;
 
     protected SqlServerImpl(String name, ServerInner innerObject, SqlServerManager manager) {
         super(name, innerObject, manager);
@@ -442,6 +444,14 @@ public class SqlServerImpl
             this.sqlServerDnsAliasOperations = new SqlServerDnsAliasOperationsImpl(this, this.manager());
         }
         return this.sqlServerDnsAliasOperations;
+    }
+
+    @Override
+    public SqlFailoverGroupOperations.SqlFailoverGroupActionsDefinition failoverGroups() {
+        if (this.sqlFailoverGroupOperations == null) {
+            this.sqlFailoverGroupOperations = new SqlFailoverGroupOperationsImpl(this, this.manager());
+        }
+        return this.sqlFailoverGroupOperations;
     }
 
     @Override

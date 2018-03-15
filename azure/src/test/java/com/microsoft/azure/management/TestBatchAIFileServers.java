@@ -15,7 +15,7 @@ import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 public class TestBatchAIFileServers extends TestTemplate<BatchAIFileServer, BatchAIFileServers> {
     @Override
     public BatchAIFileServer createResource(BatchAIFileServers fileServers) throws Exception {
-        final Region region = Region.US_EAST;
+        final Region region = Region.EUROPE_WEST;
         final String groupName = SdkContext.randomResourceName("rg", 10);
         final String fsName = SdkContext.randomResourceName("fs", 15);
         final String userName = "tirekicker";

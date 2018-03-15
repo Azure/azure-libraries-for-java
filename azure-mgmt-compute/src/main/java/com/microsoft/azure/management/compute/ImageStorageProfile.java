@@ -21,7 +21,7 @@ public class ImageStorageProfile {
      * see [About disks and VHDs for Azure virtual
      * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
      */
-    @JsonProperty(value = "osDisk", required = true)
+    @JsonProperty(value = "osDisk")
     private ImageOSDisk osDisk;
 
     /**

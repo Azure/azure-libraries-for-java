@@ -89,7 +89,7 @@ class DiagnosticSettingsImpl
     @Override
     public PagedList<DiagnosticSetting> listByResource(String resourceId) {
         DiagnosticSettingsResourceCollectionInner result = this.manager().inner().diagnosticSettings().list(resourceId);
-        if(result == null) {
+        if (result == null) {
             return null;
         }
         return wrapList(result.value());
@@ -207,7 +207,7 @@ class DiagnosticSettingsImpl
         if (diagnosticSettingId == null) {
             throw new IllegalArgumentException("Parameter 'resourceId' is required and cannot be null.");
         }
-        int dsIdx = diagnosticSettingId.lastIndexOf(DiagnosticSettingImpl.DiagnosticSettingsUri);
+        int dsIdx = diagnosticSettingId.lastIndexOf(DiagnosticSettingImpl.DIAGNOSTIC_SETTINGS_URI);
         if (dsIdx == -1) {
             throw new IllegalArgumentException("Parameter 'resourceId' does not represent a valid Diagnostic Settings resource Id [" + diagnosticSettingId + "].");
         }
@@ -217,6 +217,6 @@ class DiagnosticSettingsImpl
 
     private String getNameFromSettingsId(String diagnosticSettingId) {
         String resourceId = getResourceIdFromSettingsId(diagnosticSettingId);
-        return diagnosticSettingId.substring(resourceId.length() + DiagnosticSettingImpl.DiagnosticSettingsUri.length());
+        return diagnosticSettingId.substring(resourceId.length() + DiagnosticSettingImpl.DIAGNOSTIC_SETTINGS_URI.length());
     }
 }

@@ -10,9 +10,6 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
 import com.microsoft.azure.management.monitor.implementation.DiagnosticSettingsCategoryResourceInner;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import org.joda.time.DateTime;
-
-import java.util.Map;
 
 /**
  * The Azure event log entries are of type EventData.

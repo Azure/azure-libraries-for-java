@@ -30,11 +30,11 @@ import java.util.TreeMap;
 @LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 class DiagnosticSettingImpl
         extends CreatableUpdatableImpl<DiagnosticSetting, DiagnosticSettingsResourceInner, DiagnosticSettingImpl>
-            implements
-                DiagnosticSetting,
-                DiagnosticSetting.Definition,
-                DiagnosticSetting.Update {
-    public static final String DiagnosticSettingsUri = "/providers/microsoft.insights/diagnosticSettings/";
+        implements
+            DiagnosticSetting,
+            DiagnosticSetting.Definition,
+            DiagnosticSetting.Update {
+    public static final String DIAGNOSTIC_SETTINGS_URI = "/providers/microsoft.insights/diagnosticSettings/";
 
     private String resourceId = null;
     private TreeMap<String,MetricSettings> metricSet;
@@ -49,13 +49,13 @@ class DiagnosticSettingImpl
         this.metricSet = new TreeMap<>();
         this.logSet = new TreeMap<>();
 
-        if(!isInCreateMode()) {
+        if (!isInCreateMode()) {
             resourceId = this.inner().id().substring(0,
-                    this.inner().id().length() - (DiagnosticSettingImpl.DiagnosticSettingsUri + this.inner().name()).length());
-            for(MetricSettings ms : this.inner().metrics()) {
+                    this.inner().id().length() - (DiagnosticSettingImpl.DIAGNOSTIC_SETTINGS_URI + this.inner().name()).length());
+            for (MetricSettings ms : this.inner().metrics()) {
                 metricSet.put(ms.category(), ms);
             }
-            for(LogSettings ls : this.inner().logs()) {
+            for (LogSettings ls : this.inner().logs()) {
                 logSet.put(ls.category(), ls);
             }
         }
@@ -118,7 +118,7 @@ class DiagnosticSettingImpl
         nm.withEnabled(true);
         nm.withRetentionPolicy(new RetentionPolicy());
         nm.retentionPolicy().withDays(retentionDays);
-        if(retentionDays > 0) {
+        if (retentionDays > 0) {
             nm.retentionPolicy().withEnabled(true);
         }
         nm.withTimeGrain(timeGrain);
@@ -133,7 +133,7 @@ class DiagnosticSettingImpl
         nl.withEnabled(true);
         nl.withRetentionPolicy(new RetentionPolicy());
         nl.retentionPolicy().withDays(retentionDays);
-        if(retentionDays > 0) {
+        if (retentionDays > 0) {
             nl.retentionPolicy().withEnabled(true);
         }
         this.logSet.put(category, nl);
@@ -142,10 +142,10 @@ class DiagnosticSettingImpl
 
     @Override
     public DiagnosticSettingImpl withLogsAndMetrics(List<DiagnosticSettingsCategory> categories, Period timeGrain, int retentionDays) {
-        for(DiagnosticSettingsCategory dsc : categories) {
-            if(dsc.type() == CategoryType.METRICS) {
+        for (DiagnosticSettingsCategory dsc : categories) {
+            if (dsc.type() == CategoryType.METRICS) {
                 this.withMetric(dsc.name(), timeGrain, retentionDays);
-            } else if(dsc.type() == CategoryType.LOGS) {
+            } else if (dsc.type() == CategoryType.LOGS) {
                 this.withLog(dsc.name(), retentionDays);
             } else {
                 throw new UnsupportedOperationException(dsc.type().toString() + " is unsupported.");

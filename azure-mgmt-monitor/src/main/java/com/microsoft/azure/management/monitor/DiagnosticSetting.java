@@ -6,33 +6,22 @@
 
 package com.microsoft.azure.management.monitor;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.monitor.implementation.DiagnosticSettingsResourceInner;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
 import org.joda.time.Period;
-import rx.Completable;
-import rx.Observable;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * An immutable client-side representation of an Azure diagnostic settings.

@@ -34,6 +34,18 @@ public final class StoragePermissions extends ExpandableStringEnum<StoragePermis
     /** Static value regeneratekey for StoragePermissions. */
     public static final StoragePermissions REGENERATEKEY = fromString("regeneratekey");
 
+    /** Static value recover for StoragePermissions. */
+    public static final StoragePermissions RECOVER = fromString("recover");
+
+    /** Static value purge for StoragePermissions. */
+    public static final StoragePermissions PURGE = fromString("purge");
+
+    /** Static value backup for StoragePermissions. */
+    public static final StoragePermissions BACKUP = fromString("backup");
+
+    /** Static value restore for StoragePermissions. */
+    public static final StoragePermissions RESTORE = fromString("restore");
+
     /** Static value setsas for StoragePermissions. */
     public static final StoragePermissions SETSAS = fromString("setsas");
 

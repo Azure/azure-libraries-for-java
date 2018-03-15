@@ -64,6 +64,14 @@ public class VirtualMachineScaleSetVMProfile {
     private String licenseType;
 
     /**
+     * Specifies the priority for the virtual machines in the scale set.
+     * &lt;br&gt;&lt;br&gt;Minimum api-version: 2017-10-30-preview. Possible
+     * values include: 'Regular', 'Low'.
+     */
+    @JsonProperty(value = "priority")
+    private VirtualMachinePriorityTypes priority;
+
+    /**
      * Get the osProfile value.
      *
      * @return the osProfile value
@@ -180,6 +188,26 @@ public class VirtualMachineScaleSetVMProfile {
      */
     public VirtualMachineScaleSetVMProfile withLicenseType(String licenseType) {
         this.licenseType = licenseType;
+        return this;
+    }
+
+    /**
+     * Get the priority value.
+     *
+     * @return the priority value
+     */
+    public VirtualMachinePriorityTypes priority() {
+        return this.priority;
+    }
+
+    /**
+     * Set the priority value.
+     *
+     * @param priority the priority value to set
+     * @return the VirtualMachineScaleSetVMProfile object itself.
+     */
+    public VirtualMachineScaleSetVMProfile withPriority(VirtualMachinePriorityTypes priority) {
+        this.priority = priority;
         return this;
     }
 

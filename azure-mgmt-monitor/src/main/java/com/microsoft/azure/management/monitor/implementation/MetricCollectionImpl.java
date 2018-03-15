@@ -24,6 +24,16 @@ class MetricCollectionImpl
     }
 
     @Override
+    public String namespace() {
+        return this.inner().namespace();
+    }
+
+    @Override
+    public String resourceRegion() {
+        return this.inner().resourceregion();
+    }
+
+    @Override
     public Double cost() {
         return this.inner().cost();
     }

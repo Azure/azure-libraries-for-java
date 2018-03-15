@@ -30,43 +30,43 @@ import rx.Observable;
 
 /**
  * An instance of this class provides access to all the operations defined
- * in BackupLongTermRetentionPolicies.
+ * in LongTermRetentionPolicies.
  */
-public class BackupLongTermRetentionPoliciesInner {
+public class LongTermRetentionPoliciesInner {
     /** The Retrofit service to perform REST calls. */
-    private BackupLongTermRetentionPoliciesService service;
+    private LongTermRetentionPoliciesService service;
     /** The service client containing this operation class. */
     private SqlManagementClientImpl client;
 
     /**
-     * Initializes an instance of BackupLongTermRetentionPoliciesInner.
+     * Initializes an instance of LongTermRetentionPoliciesInner.
      *
      * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public BackupLongTermRetentionPoliciesInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(BackupLongTermRetentionPoliciesService.class);
+    public LongTermRetentionPoliciesInner(Retrofit retrofit, SqlManagementClientImpl client) {
+        this.service = retrofit.create(LongTermRetentionPoliciesService.class);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for BackupLongTermRetentionPolicies to be
+     * The interface defining all the services for LongTermRetentionPolicies to be
      * used by Retrofit to perform actually REST calls.
      */
-    interface BackupLongTermRetentionPoliciesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.BackupLongTermRetentionPolicies get" })
+    interface LongTermRetentionPoliciesService {
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.LongTermRetentionPolicies get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies/{policyName}")
         Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("policyName") String policyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.BackupLongTermRetentionPolicies createOrUpdate" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.LongTermRetentionPolicies createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies/{policyName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("policyName") String policyName, @Path("subscriptionId") String subscriptionId, @Body BackupLongTermRetentionPolicyInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("policyName") String policyName, @Path("subscriptionId") String subscriptionId, @Body LongTermRetentionPolicyInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.BackupLongTermRetentionPolicies beginCreateOrUpdate" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.LongTermRetentionPolicies beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies/{policyName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("policyName") String policyName, @Path("subscriptionId") String subscriptionId, @Body BackupLongTermRetentionPolicyInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("policyName") String policyName, @Path("subscriptionId") String subscriptionId, @Body LongTermRetentionPolicyInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.BackupLongTermRetentionPolicies listByDatabase" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.LongTermRetentionPolicies listByDatabase" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies")
         Observable<Response<ResponseBody>> listByDatabase(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
@@ -81,9 +81,9 @@ public class BackupLongTermRetentionPoliciesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the BackupLongTermRetentionPolicyInner object if successful.
+     * @return the LongTermRetentionPolicyInner object if successful.
      */
-    public BackupLongTermRetentionPolicyInner get(String resourceGroupName, String serverName, String databaseName) {
+    public LongTermRetentionPolicyInner get(String resourceGroupName, String serverName, String databaseName) {
         return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().single().body();
     }
 
@@ -97,7 +97,7 @@ public class BackupLongTermRetentionPoliciesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<BackupLongTermRetentionPolicyInner> getAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<BackupLongTermRetentionPolicyInner> serviceCallback) {
+    public ServiceFuture<LongTermRetentionPolicyInner> getAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<LongTermRetentionPolicyInner> serviceCallback) {
         return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
@@ -108,12 +108,12 @@ public class BackupLongTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupLongTermRetentionPolicyInner object
+     * @return the observable to the LongTermRetentionPolicyInner object
      */
-    public Observable<BackupLongTermRetentionPolicyInner> getAsync(String resourceGroupName, String serverName, String databaseName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<BackupLongTermRetentionPolicyInner>, BackupLongTermRetentionPolicyInner>() {
+    public Observable<LongTermRetentionPolicyInner> getAsync(String resourceGroupName, String serverName, String databaseName) {
+        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<LongTermRetentionPolicyInner>, LongTermRetentionPolicyInner>() {
             @Override
-            public BackupLongTermRetentionPolicyInner call(ServiceResponse<BackupLongTermRetentionPolicyInner> response) {
+            public LongTermRetentionPolicyInner call(ServiceResponse<LongTermRetentionPolicyInner> response) {
                 return response.body();
             }
         });
@@ -126,9 +126,9 @@ public class BackupLongTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupLongTermRetentionPolicyInner object
+     * @return the observable to the LongTermRetentionPolicyInner object
      */
-    public Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+    public Observable<ServiceResponse<LongTermRetentionPolicyInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -144,11 +144,11 @@ public class BackupLongTermRetentionPoliciesInner {
         final String policyName = "default";
         final String apiVersion = "2017-03-01-preview";
         return service.get(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LongTermRetentionPolicyInner>>>() {
                 @Override
-                public Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<LongTermRetentionPolicyInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<BackupLongTermRetentionPolicyInner> clientResponse = getDelegate(response);
+                        ServiceResponse<LongTermRetentionPolicyInner> clientResponse = getDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -157,9 +157,9 @@ public class BackupLongTermRetentionPoliciesInner {
             });
     }
 
-    private ServiceResponse<BackupLongTermRetentionPolicyInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<BackupLongTermRetentionPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<BackupLongTermRetentionPolicyInner>() { }.getType())
+    private ServiceResponse<LongTermRetentionPolicyInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<LongTermRetentionPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<LongTermRetentionPolicyInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -174,9 +174,9 @@ public class BackupLongTermRetentionPoliciesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the BackupLongTermRetentionPolicyInner object if successful.
+     * @return the LongTermRetentionPolicyInner object if successful.
      */
-    public BackupLongTermRetentionPolicyInner createOrUpdate(String resourceGroupName, String serverName, String databaseName, BackupLongTermRetentionPolicyInner parameters) {
+    public LongTermRetentionPolicyInner createOrUpdate(String resourceGroupName, String serverName, String databaseName, LongTermRetentionPolicyInner parameters) {
         return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).toBlocking().last().body();
     }
 
@@ -191,7 +191,7 @@ public class BackupLongTermRetentionPoliciesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<BackupLongTermRetentionPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, BackupLongTermRetentionPolicyInner parameters, final ServiceCallback<BackupLongTermRetentionPolicyInner> serviceCallback) {
+    public ServiceFuture<LongTermRetentionPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, LongTermRetentionPolicyInner parameters, final ServiceCallback<LongTermRetentionPolicyInner> serviceCallback) {
         return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters), serviceCallback);
     }
 
@@ -205,10 +205,10 @@ public class BackupLongTermRetentionPoliciesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<BackupLongTermRetentionPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, BackupLongTermRetentionPolicyInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).map(new Func1<ServiceResponse<BackupLongTermRetentionPolicyInner>, BackupLongTermRetentionPolicyInner>() {
+    public Observable<LongTermRetentionPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, LongTermRetentionPolicyInner parameters) {
+        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).map(new Func1<ServiceResponse<LongTermRetentionPolicyInner>, LongTermRetentionPolicyInner>() {
             @Override
-            public BackupLongTermRetentionPolicyInner call(ServiceResponse<BackupLongTermRetentionPolicyInner> response) {
+            public LongTermRetentionPolicyInner call(ServiceResponse<LongTermRetentionPolicyInner> response) {
                 return response.body();
             }
         });
@@ -224,7 +224,7 @@ public class BackupLongTermRetentionPoliciesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, BackupLongTermRetentionPolicyInner parameters) {
+    public Observable<ServiceResponse<LongTermRetentionPolicyInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, LongTermRetentionPolicyInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -244,7 +244,7 @@ public class BackupLongTermRetentionPoliciesInner {
         final String policyName = "default";
         final String apiVersion = "2017-03-01-preview";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<BackupLongTermRetentionPolicyInner>() { }.getType());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<LongTermRetentionPolicyInner>() { }.getType());
     }
 
     /**
@@ -257,9 +257,9 @@ public class BackupLongTermRetentionPoliciesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the BackupLongTermRetentionPolicyInner object if successful.
+     * @return the LongTermRetentionPolicyInner object if successful.
      */
-    public BackupLongTermRetentionPolicyInner beginCreateOrUpdate(String resourceGroupName, String serverName, String databaseName, BackupLongTermRetentionPolicyInner parameters) {
+    public LongTermRetentionPolicyInner beginCreateOrUpdate(String resourceGroupName, String serverName, String databaseName, LongTermRetentionPolicyInner parameters) {
         return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).toBlocking().single().body();
     }
 
@@ -274,7 +274,7 @@ public class BackupLongTermRetentionPoliciesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<BackupLongTermRetentionPolicyInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, BackupLongTermRetentionPolicyInner parameters, final ServiceCallback<BackupLongTermRetentionPolicyInner> serviceCallback) {
+    public ServiceFuture<LongTermRetentionPolicyInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, LongTermRetentionPolicyInner parameters, final ServiceCallback<LongTermRetentionPolicyInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters), serviceCallback);
     }
 
@@ -286,12 +286,12 @@ public class BackupLongTermRetentionPoliciesInner {
      * @param databaseName The name of the database.
      * @param parameters The long term retention policy info.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupLongTermRetentionPolicyInner object
+     * @return the observable to the LongTermRetentionPolicyInner object
      */
-    public Observable<BackupLongTermRetentionPolicyInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, BackupLongTermRetentionPolicyInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).map(new Func1<ServiceResponse<BackupLongTermRetentionPolicyInner>, BackupLongTermRetentionPolicyInner>() {
+    public Observable<LongTermRetentionPolicyInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, LongTermRetentionPolicyInner parameters) {
+        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).map(new Func1<ServiceResponse<LongTermRetentionPolicyInner>, LongTermRetentionPolicyInner>() {
             @Override
-            public BackupLongTermRetentionPolicyInner call(ServiceResponse<BackupLongTermRetentionPolicyInner> response) {
+            public LongTermRetentionPolicyInner call(ServiceResponse<LongTermRetentionPolicyInner> response) {
                 return response.body();
             }
         });
@@ -305,9 +305,9 @@ public class BackupLongTermRetentionPoliciesInner {
      * @param databaseName The name of the database.
      * @param parameters The long term retention policy info.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupLongTermRetentionPolicyInner object
+     * @return the observable to the LongTermRetentionPolicyInner object
      */
-    public Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, BackupLongTermRetentionPolicyInner parameters) {
+    public Observable<ServiceResponse<LongTermRetentionPolicyInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, LongTermRetentionPolicyInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -327,11 +327,11 @@ public class BackupLongTermRetentionPoliciesInner {
         final String policyName = "default";
         final String apiVersion = "2017-03-01-preview";
         return service.beginCreateOrUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LongTermRetentionPolicyInner>>>() {
                 @Override
-                public Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<LongTermRetentionPolicyInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<BackupLongTermRetentionPolicyInner> clientResponse = beginCreateOrUpdateDelegate(response);
+                        ServiceResponse<LongTermRetentionPolicyInner> clientResponse = beginCreateOrUpdateDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -340,9 +340,9 @@ public class BackupLongTermRetentionPoliciesInner {
             });
     }
 
-    private ServiceResponse<BackupLongTermRetentionPolicyInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<BackupLongTermRetentionPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<BackupLongTermRetentionPolicyInner>() { }.getType())
+    private ServiceResponse<LongTermRetentionPolicyInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<LongTermRetentionPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<LongTermRetentionPolicyInner>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
@@ -357,9 +357,9 @@ public class BackupLongTermRetentionPoliciesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the BackupLongTermRetentionPolicyInner object if successful.
+     * @return the LongTermRetentionPolicyInner object if successful.
      */
-    public BackupLongTermRetentionPolicyInner listByDatabase(String resourceGroupName, String serverName, String databaseName) {
+    public LongTermRetentionPolicyInner listByDatabase(String resourceGroupName, String serverName, String databaseName) {
         return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().single().body();
     }
 
@@ -373,7 +373,7 @@ public class BackupLongTermRetentionPoliciesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<BackupLongTermRetentionPolicyInner> listByDatabaseAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<BackupLongTermRetentionPolicyInner> serviceCallback) {
+    public ServiceFuture<LongTermRetentionPolicyInner> listByDatabaseAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<LongTermRetentionPolicyInner> serviceCallback) {
         return ServiceFuture.fromResponse(listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
@@ -384,12 +384,12 @@ public class BackupLongTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupLongTermRetentionPolicyInner object
+     * @return the observable to the LongTermRetentionPolicyInner object
      */
-    public Observable<BackupLongTermRetentionPolicyInner> listByDatabaseAsync(String resourceGroupName, String serverName, String databaseName) {
-        return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<BackupLongTermRetentionPolicyInner>, BackupLongTermRetentionPolicyInner>() {
+    public Observable<LongTermRetentionPolicyInner> listByDatabaseAsync(String resourceGroupName, String serverName, String databaseName) {
+        return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<LongTermRetentionPolicyInner>, LongTermRetentionPolicyInner>() {
             @Override
-            public BackupLongTermRetentionPolicyInner call(ServiceResponse<BackupLongTermRetentionPolicyInner> response) {
+            public LongTermRetentionPolicyInner call(ServiceResponse<LongTermRetentionPolicyInner> response) {
                 return response.body();
             }
         });
@@ -402,9 +402,9 @@ public class BackupLongTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupLongTermRetentionPolicyInner object
+     * @return the observable to the LongTermRetentionPolicyInner object
      */
-    public Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>> listByDatabaseWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+    public Observable<ServiceResponse<LongTermRetentionPolicyInner>> listByDatabaseWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -419,11 +419,11 @@ public class BackupLongTermRetentionPoliciesInner {
         }
         final String apiVersion = "2017-03-01-preview";
         return service.listByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LongTermRetentionPolicyInner>>>() {
                 @Override
-                public Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<LongTermRetentionPolicyInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<BackupLongTermRetentionPolicyInner> clientResponse = listByDatabaseDelegate(response);
+                        ServiceResponse<LongTermRetentionPolicyInner> clientResponse = listByDatabaseDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -432,9 +432,9 @@ public class BackupLongTermRetentionPoliciesInner {
             });
     }
 
-    private ServiceResponse<BackupLongTermRetentionPolicyInner> listByDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<BackupLongTermRetentionPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<BackupLongTermRetentionPolicyInner>() { }.getType())
+    private ServiceResponse<LongTermRetentionPolicyInner> listByDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<LongTermRetentionPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<LongTermRetentionPolicyInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

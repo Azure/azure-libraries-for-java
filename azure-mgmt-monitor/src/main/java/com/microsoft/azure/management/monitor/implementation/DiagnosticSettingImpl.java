@@ -37,8 +37,8 @@ class DiagnosticSettingImpl
     public static final String DIAGNOSTIC_SETTINGS_URI = "/providers/microsoft.insights/diagnosticSettings/";
 
     private String resourceId = null;
-    private TreeMap<String,MetricSettings> metricSet;
-    private TreeMap<String,LogSettings> logSet;
+    private TreeMap<String, MetricSettings> metricSet;
+    private TreeMap<String, LogSettings> logSet;
     private final MonitorManager myManager;
 
     DiagnosticSettingImpl(String name,

@@ -37,8 +37,21 @@ public interface DiagnosticSettings extends
         HasManager<MonitorManager>,
         HasInner<DiagnosticSettingsInner> {
 
+    /**
+     * Lists all the Diagnostic Settings categories for Log and Metric Settings for a specific resource.
+     *
+     * @param resourceId of the requested resource.
+     * @return list of Diagnostic Settings category available for the resource.
+     */
     List<DiagnosticSettingsCategory> listCategoriesByResource(String resourceId);
 
+    /**
+     * Gets the information about Diagnostic Setting category for Log or Metric Setting for a specific resource.
+     *
+     * @param resourceId of the requested resource.
+     * @param name of the Log or Metric category.
+     * @return Diagnostic Setting category available for the resource.
+     */
     DiagnosticSettingsCategory getCategory(String resourceId, String name);
 
     /**
@@ -56,41 +69,46 @@ public interface DiagnosticSettings extends
     Observable<DiagnosticSetting> listByResourceAsync(String resourceId);
 
     /**
-     * Deletes a resource from Azure, identifying it by its resource name.
+     * Deletes a Diagnostic Setting from Azure, identifying it by its resourceId and name.
      *
-     * @param name the name of the resource to delete
+     * @param resourceId that Diagnostic Setting is associated with.
+     * @param name the name of Diagnostic Setting.
      */
     void delete(String resourceId, String name);
 
     /**
-     * Asynchronously delete a resource from Azure, identifying it by its resource name.
+     * Asynchronously delete a Diagnostic Setting from Azure, identifying it by its resourceId and name.
      *
-     * @param name the name of the resource to delete
+     * @param resourceId that Diagnostic Setting is associated with.
+     * @param name the name of Diagnostic Setting.
      * @param callback the callback on success or failure
      * @return a handle to cancel the request
      */
     ServiceFuture<Void> deleteAsync(String resourceId, String name, ServiceCallback<Void> callback);
 
     /**
-     * Asynchronously delete a resource from Azure, identifying it by its resource name.
+     * Asynchronously delete a Diagnostic Setting from Azure, identifying it by its resourceId and name.
      *
-     * @param name the name of the resource to delete
+     * @param resourceId that Diagnostic Setting is associated with.
+     * @param name the name of Diagnostic Setting.
      * @return a representation of the deferred computation of this call
      */
     Completable deleteAsync(String resourceId, String name);
 
     /**
-     * Gets the information about a resource from Azure based on the resource id.
+     * Gets the information about Diagnostic Setting from Azure based on the resource id and setting name.
      *
-     * @param id the id of the resource.
+     * @param resourceId that Diagnostic Setting is associated with.
+     * @param name the name of Diagnostic Setting.
      * @return an immutable representation of the resource
      */
     DiagnosticSetting get(String resourceId, String name);
 
     /**
-     * Gets the information about a resource from Azure based on the resource id.
+     * Gets the information about Diagnostic Setting from Azure based on the resource id and setting name.
      *
-     * @param id the id of the resource.
+     * @param resourceId that Diagnostic Setting is associated with.
+     * @param name the name of Diagnostic Setting.
      * @return an immutable representation of the resource
      */
     Observable<DiagnosticSetting> getAsync(String resourceId, String name);

@@ -36,9 +36,9 @@ public interface DiagnosticSetting extends
         Refreshable<DiagnosticSetting>,
         Updatable<DiagnosticSetting.Update> {
     /**
-     * Get the associated  resource Id value.
+     * Get the associated resource Id value.
      *
-     * @return the associated  resource Id value
+     * @return the associated resource Id value
      */
     @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String resourceId();
@@ -96,6 +96,7 @@ public interface DiagnosticSetting extends
      */
     interface Definition extends
             DefinitionStages.Blank,
+            DefinitionStages.WithDiagnosticLogRecipient,
             DefinitionStages.WithCreate {
     }
 
@@ -107,13 +108,53 @@ public interface DiagnosticSetting extends
          * The first stage of a diagnostic setting definition.
          */
         interface Blank {
+            /**
+             * Sets the resource for which Diagnostic Settings will be created.
+             *
+             * @param resourceId of the resource.
+             * @return the stage of selecting data recipient.
+             */
             WithDiagnosticLogRecipient withResource(String resourceId);
         }
 
+        /**
+         * The stage of the definition which contains minimum required properties to be specified for
+         * Diagnostic Settings creation.
+         */
         interface WithDiagnosticLogRecipient {
+            /**
+             * Sets Log Analytics workspace for data transfer.
+             *
+             * @param workspaceId of Log Analytics that should exist in the same region as resource.
+             * @return the stage of creating Diagnostic Settings.
+             */
             WithCreate withLogAnalytics(String workspaceId);
+
+            /**
+             * Sets Storage Account for data transfer.
+             *
+             * @param storageAccountId of storage account that should exist in the same region as resource.
+             * @return the stage of creating Diagnostic Settings.
+             */
             WithCreate withStorageAccount(String storageAccountId);
+
+            /**
+             * Sets EventHub Namespace Authorization Rule for data transfer.
+             *
+             * @param eventHubAuthorizationRuleId of EventHub namespace authorization rule that should exist in
+             *                                    the same region as resource.
+             * @return the stage of creating Diagnostic Settings.
+             */
             WithCreate withEventHub(String eventHubAuthorizationRuleId);
+
+            /**
+             * Sets EventHub Namespace Authorization Rule for data transfer.
+             *
+             * @param eventHubAuthorizationRuleId of EventHub namespace authorization rule that should exist in
+             *                                    the same region as resource.
+             * @param eventHubName name of the EventHub. If none is specified, the default EventHub will be selected.
+             * @return the stage of creating Diagnostic Settings.
+             */
             WithCreate withEventHub(String eventHubAuthorizationRuleId, String eventHubName);
         }
 
@@ -124,8 +165,33 @@ public interface DiagnosticSetting extends
         interface WithCreate extends
                 WithDiagnosticLogRecipient,
                 Creatable<DiagnosticSetting> {
+            /**
+             * Adds a Metric Setting to the list of Metric Settings for the current Diagnostic Settings.
+             *
+             * @param category name of a Metric category for a resource type this setting is applied to.
+             * @param timeGrain the timegrain of the metric in ISO8601 format.
+             * @param retentionDays the number of days for the retention in days. A value of 0 will retain the events indefinitely.
+             * @return the stage of creating Diagnostic Settings.
+             */
             WithCreate withMetric(String category, Period timeGrain, int retentionDays);
+
+            /**
+             * Adds a Log Setting to the list of Log Settings for the current Diagnostic Settings.
+             *
+             * @param category name of a Log category for a resource type this setting is applied to.
+             * @param retentionDays the number of days for the retention in days. A value of 0 will retain the events indefinitely.
+             * @return the stage of creating Diagnostic Settings.
+             */
             WithCreate withLog(String category, int retentionDays);
+
+            /**
+             * Adds a Log and Metric Settings to the list Log and Metric Settings for the current Diagnostic Settings.
+             *
+             * @param categories a list of diagnostic settings category.
+             * @param timeGrain the timegrain of the metric in ISO8601 format for all Metrics in the {@code categories} list.
+             * @param retentionDays the number of days for the retention in days. A value of 0 will retain the events indefinitely.
+             * @return
+             */
             WithCreate withLogsAndMetrics(List<DiagnosticSettingsCategory> categories, Period timeGrain, int retentionDays);
         }
     }
@@ -135,38 +201,134 @@ public interface DiagnosticSetting extends
      */
     interface UpdateStages {
         /**
-         * The stage of a CDN profile update allowing to modify the endpoints for the profile.
+         * The stage of a Diagnostic Settings update allowing to modify Storage Account settings.
          */
         interface WithStorageAccount {
-
             /**
-             * Removes an endpoint from the profile.
+             * Sets Storage Account for data transfer.
              *
-             * @param name the name of an existing endpoint
-             * @return the next stage of the CDN profile update
+             * @param storageAccountId of storage account that should exist in the same region as resource.
+             * @return the next stage of the Diagnostic Settings update.
              */
             Update withStorageAccount(String storageAccountId);
+
+            /**
+             * Removes the Storage Account from the Diagnostic Settings.
+             *
+             * @return the next stage of the Diagnostic Settings update.
+             */
             Update withoutStorageAccount();
         }
 
+        /**
+         * The stage of a Diagnostic Settings update allowing to modify EventHub settings.
+         */
         interface WithEventHub {
+            /**
+             * Sets EventHub Namespace Authorization Rule for data transfer.
+             *
+             * @param eventHubAuthorizationRuleId of EventHub namespace authorization rule that should exist in
+             *                                    the same region as resource.
+             * @return the next stage of the Diagnostic Settings update.
+             */
             Update withEventHub(String eventHubAuthorizationRuleId);
+
+            /**
+             * Sets EventHub Namespace Authorization Rule for data transfer.
+             *
+             * @param eventHubAuthorizationRuleId of EventHub namespace authorization rule that should exist in
+             *                                    the same region as resource.
+             * @param eventHubName name of the EventHub. If none is specified, the default EventHub will be selected.
+             * @return the next stage of the Diagnostic Settings update.
+             */
             Update withEventHub(String eventHubAuthorizationRuleId, String eventHubName);
+
+            /**
+             * Removes the EventHub from the Diagnostic Settings.
+             *
+             * @return the next stage of the Diagnostic Settings update.
+             */
             Update withoutEventHub();
         }
 
+        /**
+         * The stage of a Diagnostic Settings update allowing to modify Log Analytics settings.
+         */
         interface WithLogAnalytics {
+            /**
+             * Sets Log Analytics workspace for data transfer.
+             *
+             * @param workspaceId of Log Analytics that should exist in the same region as resource.
+             * @return the next stage of the Diagnostic Settings update.
+             */
             Update withLogAnalytics(String workspaceId);
+
+            /**
+             * Removes the Log Analytics from the Diagnostic Settings.
+             *
+             * @return the next stage of the Diagnostic Settings update.
+             */
             Update withoutLogAnalytics();
         }
 
         interface WithMetricAndLogs {
+            /**
+             * Adds a Metric Setting to the list of Metric Settings for the current Diagnostic Settings.
+             *
+             * @param category name of a Metric category for a resource type this setting is applied to.
+             * @param timeGrain the timegrain of the metric in ISO8601 format.
+             * @param retentionDays the number of days for the retention in days. A value of 0 will retain the events indefinitely.
+             * @return the next stage of the Diagnostic Settings update.
+             */
             Update withMetric(String category, Period timeGrain, int retentionDays);
+
+            /**
+             * Adds a Log Setting to the list of Log Settings for the current Diagnostic Settings.
+             *
+             * @param category name of a Log category for a resource type this setting is applied to.
+             * @param retentionDays the number of days for the retention in days. A value of 0 will retain the events indefinitely.
+             * @return the next stage of the Diagnostic Settings update.
+             */
             Update withLog(String category, int retentionDays);
+
+            /**
+             * Adds a Log and Metric Settings to the list Log and Metric Settings for the current Diagnostic Settings.
+             *
+             * @param categories a list of diagnostic settings category.
+             * @param timeGrain the timegrain of the metric in ISO8601 format for all Metrics in the {@code categories} list.
+             * @param retentionDays the number of days for the retention in days. A value of 0 will retain the events indefinitely.
+             * @return the next stage of the Diagnostic Settings update.
+             */
             Update withLogsAndMetrics(List<DiagnosticSettingsCategory> categories, Period timeGrain, int retentionDays);
+
+            /**
+             * Removes the Metric Setting from the Diagnostic Setting.
+             *
+             * @param category name of a Metric category to remove.
+             * @return the next stage of the Diagnostic Settings update.
+             */
             Update withoutMetric(String category);
+
+            /**
+             * Removes the Log Setting from the Diagnostic Setting.
+             *
+             * @param category name of a Log category to remove.
+             * @return the next stage of the Diagnostic Settings update.
+             */
             Update withoutLog(String category);
+
+            /**
+             * Removes all the Log Settings from the Diagnostic Setting.
+             *
+             * @return the next stage of the Diagnostic Settings update.
+             */
             Update withoutLogs();
+
+            /**
+             * Removes all the Metric Settings from the Diagnostic Setting.
+             *
+             * @return the next stage of the Diagnostic Settings update.
+             */
             Update withoutMetrics();
         }
     }

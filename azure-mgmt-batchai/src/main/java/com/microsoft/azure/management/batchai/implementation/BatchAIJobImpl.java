@@ -25,6 +25,7 @@ import com.microsoft.azure.management.batchai.JobPropertiesExecutionInfo;
 import com.microsoft.azure.management.batchai.OutputDirectory;
 import com.microsoft.azure.management.batchai.OutputFile;
 import com.microsoft.azure.management.batchai.ProvisioningState;
+import com.microsoft.azure.management.batchai.PyTorchSettings;
 import com.microsoft.azure.management.batchai.ResourceId;
 import com.microsoft.azure.management.batchai.TensorFlowSettings;
 import com.microsoft.azure.management.batchai.ToolType;
@@ -167,6 +168,11 @@ class BatchAIJobImpl
     }
 
     @Override
+    public ToolTypeSettings.PyTorch.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> definePyTorch() {
+        return new PyTorchImpl(new PyTorchSettings(), this);
+    }
+
+    @Override
     public BatchAIJobImpl withCustomCommandLine(String commandLine) {
         inner().withCustomToolkitSettings(new CustomToolkitSettings().withCommandLine(commandLine));
         return this;
@@ -190,6 +196,10 @@ class BatchAIJobImpl
 
     void attachChainerSettings(ChainerImpl chainer) {
         createParameters.withChainerSettings(chainer.inner());
+    }
+
+    void attachPyTorchSettings(PyTorchImpl pyTorch) {
+        createParameters.withPyTorchSettings(pyTorch.inner());
     }
 
     @Override

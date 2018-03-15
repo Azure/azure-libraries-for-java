@@ -255,6 +255,8 @@ public interface BatchAIJob extends
 
             ToolTypeSettings.Chainer.DefinitionStages.Blank<WithCreate> defineChainer();
 
+            ToolTypeSettings.PyTorch.DefinitionStages.Blank<WithCreate> definePyTorch();
+
             WithCreate withCustomCommandLine(String commandLine);
         }
 

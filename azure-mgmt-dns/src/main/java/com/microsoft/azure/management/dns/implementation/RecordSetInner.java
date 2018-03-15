@@ -19,6 +19,7 @@ import com.microsoft.azure.management.dns.SrvRecord;
 import com.microsoft.azure.management.dns.TxtRecord;
 import com.microsoft.azure.management.dns.CnameRecord;
 import com.microsoft.azure.management.dns.SoaRecord;
+import com.microsoft.azure.management.dns.CaaRecord;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -31,19 +32,19 @@ public class RecordSetInner {
     /**
      * The ID of the record set.
      */
-    @JsonProperty(value = "id")
+    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
     private String id;
 
     /**
      * The name of the record set.
      */
-    @JsonProperty(value = "name")
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
      * The type of the record set.
      */
-    @JsonProperty(value = "type")
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
     /**
@@ -63,6 +64,12 @@ public class RecordSetInner {
      */
     @JsonProperty(value = "properties.TTL")
     private Long tTL;
+
+    /**
+     * Fully qualified domain name of the record set.
+     */
+    @JsonProperty(value = "properties.fqdn", access = JsonProperty.Access.WRITE_ONLY)
+    private String fqdn;
 
     /**
      * The list of A records in the record set.
@@ -119,23 +126,18 @@ public class RecordSetInner {
     private SoaRecord soaRecord;
 
     /**
+     * The list of CAA records in the record set.
+     */
+    @JsonProperty(value = "properties.caaRecords")
+    private List<CaaRecord> caaRecords;
+
+    /**
      * Get the id value.
      *
      * @return the id value
      */
     public String id() {
         return this.id;
-    }
-
-    /**
-     * Set the id value.
-     *
-     * @param id the id value to set
-     * @return the RecordSetInner object itself.
-     */
-    public RecordSetInner withId(String id) {
-        this.id = id;
-        return this;
     }
 
     /**
@@ -148,34 +150,12 @@ public class RecordSetInner {
     }
 
     /**
-     * Set the name value.
-     *
-     * @param name the name value to set
-     * @return the RecordSetInner object itself.
-     */
-    public RecordSetInner withName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    /**
      * Get the type value.
      *
      * @return the type value
      */
     public String type() {
         return this.type;
-    }
-
-    /**
-     * Set the type value.
-     *
-     * @param type the type value to set
-     * @return the RecordSetInner object itself.
-     */
-    public RecordSetInner withType(String type) {
-        this.type = type;
-        return this;
     }
 
     /**
@@ -236,6 +216,15 @@ public class RecordSetInner {
     public RecordSetInner withTTL(Long tTL) {
         this.tTL = tTL;
         return this;
+    }
+
+    /**
+     * Get the fqdn value.
+     *
+     * @return the fqdn value
+     */
+    public String fqdn() {
+        return this.fqdn;
     }
 
     /**
@@ -415,6 +404,26 @@ public class RecordSetInner {
      */
     public RecordSetInner withSoaRecord(SoaRecord soaRecord) {
         this.soaRecord = soaRecord;
+        return this;
+    }
+
+    /**
+     * Get the caaRecords value.
+     *
+     * @return the caaRecords value
+     */
+    public List<CaaRecord> caaRecords() {
+        return this.caaRecords;
+    }
+
+    /**
+     * Set the caaRecords value.
+     *
+     * @param caaRecords the caaRecords value to set
+     * @return the RecordSetInner object itself.
+     */
+    public RecordSetInner withCaaRecords(List<CaaRecord> caaRecords) {
+        this.caaRecords = caaRecords;
         return this;
     }
 

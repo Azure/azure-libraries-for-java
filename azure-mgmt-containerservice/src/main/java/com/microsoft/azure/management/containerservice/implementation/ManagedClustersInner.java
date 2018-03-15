@@ -46,7 +46,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
     /** The Retrofit service to perform REST calls. */
     private ManagedClustersService service;
     /** The service client containing this operation class. */
-    private ContainerServiceManagementClientImpl client;
+    private ContainerServiceClientImpl client;
 
     /**
      * Initializes an instance of ManagedClustersInner.
@@ -54,7 +54,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
      * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ManagedClustersInner(Retrofit retrofit, ContainerServiceManagementClientImpl client) {
+    public ManagedClustersInner(Retrofit retrofit, ContainerServiceClientImpl client) {
         this.service = retrofit.create(ManagedClustersService.class);
         this.client = client;
     }

@@ -46,7 +46,7 @@ public class ContainerServicesInner implements InnerSupportsGet<ContainerService
     /** The Retrofit service to perform REST calls. */
     private ContainerServicesService service;
     /** The service client containing this operation class. */
-    private ContainerServiceManagementClientImpl client;
+    private ContainerServiceClientImpl client;
 
     /**
      * Initializes an instance of ContainerServicesInner.
@@ -54,7 +54,7 @@ public class ContainerServicesInner implements InnerSupportsGet<ContainerService
      * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ContainerServicesInner(Retrofit retrofit, ContainerServiceManagementClientImpl client) {
+    public ContainerServicesInner(Retrofit retrofit, ContainerServiceClientImpl client) {
         this.service = retrofit.create(ContainerServicesService.class);
         this.client = client;
     }

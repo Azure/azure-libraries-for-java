@@ -12,10 +12,11 @@ import com.microsoft.azure.management.resources.fluentcore.collection.InnerSuppo
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.web.DefaultErrorResponseException;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
+import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import java.io.IOException;
@@ -93,17 +94,9 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
         @GET
         Observable<Response<ResponseBody>> listBySiteNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.web.ResourceHealthMetadatas getBySiteNext" })
-        @GET
-        Observable<Response<ResponseBody>> getBySiteNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.web.ResourceHealthMetadatas listBySiteSlotNext" })
         @GET
         Observable<Response<ResponseBody>> listBySiteSlotNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.web.ResourceHealthMetadatas getBySiteSlotNext" })
-        @GET
-        Observable<Response<ResponseBody>> getBySiteSlotNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
@@ -112,7 +105,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      * List all ResourceHealthMetadata for all sites in the subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceHealthMetadataInner&gt; object if successful.
      */
@@ -210,10 +203,10 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceHealthMetadataInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -223,7 +216,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceHealthMetadataInner&gt; object if successful.
      */
@@ -328,10 +321,10 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceHealthMetadataInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -342,7 +335,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceHealthMetadataInner&gt; object if successful.
      */
@@ -454,10 +447,10 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listBySiteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listBySiteDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceHealthMetadataInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -468,18 +461,12 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ResourceHealthMetadataInner object if successful.
      */
-    public ResourceHealthMetadataInner getBySite(final String resourceGroupName, final String name) {
-        ServiceResponse<ResourceHealthMetadataInner> response = getBySiteSinglePageAsync(resourceGroupName, name).toBlocking().single();
-        return new ResourceHealthMetadataInner(response.body()) {
-            @Override
-            public ResourceHealthMetadataInner nextPage(String nextPageLink) {
-                return getBySiteNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
+    public ResourceHealthMetadataInner getBySite(String resourceGroupName, String name) {
+        return getBySiteWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
     }
 
     /**
@@ -492,16 +479,8 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ResourceHealthMetadataInner> getBySiteAsync(final String resourceGroupName, final String name, final ListOperationCallback<Void> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            getBySiteSinglePageAsync(resourceGroupName, name),
-            new Func1<String, Observable<ServiceResponse<ResourceHealthMetadataInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ResourceHealthMetadataInner>> call(String nextPageLink) {
-                    return getBySiteNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
+    public ServiceFuture<ResourceHealthMetadataInner> getBySiteAsync(String resourceGroupName, String name, final ServiceCallback<ResourceHealthMetadataInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getBySiteWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
     }
 
     /**
@@ -513,14 +492,13 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ResourceHealthMetadataInner object
      */
-    public Observable<ResourceHealthMetadataInner> getBySiteAsync(final String resourceGroupName, final String name) {
-        return getBySiteWithServiceResponseAsync(resourceGroupName, name)
-            .map(new Func1<ServiceResponse<ResourceHealthMetadataInner>, ResourceHealthMetadataInner>() {
-                @Override
-                public ResourceHealthMetadataInner call(ServiceResponse<ResourceHealthMetadataInner> response) {
-                    return response.body();
-                }
-            });
+    public Observable<ResourceHealthMetadataInner> getBySiteAsync(String resourceGroupName, String name) {
+        return getBySiteWithServiceResponseAsync(resourceGroupName, name).map(new Func1<ServiceResponse<ResourceHealthMetadataInner>, ResourceHealthMetadataInner>() {
+            @Override
+            public ResourceHealthMetadataInner call(ServiceResponse<ResourceHealthMetadataInner> response) {
+                return response.body();
+            }
+        });
     }
 
     /**
@@ -532,30 +510,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ResourceHealthMetadataInner object
      */
-    public Observable<ServiceResponse<ResourceHealthMetadataInner>> getBySiteWithServiceResponseAsync(final String resourceGroupName, final String name) {
-        return getBySiteSinglePageAsync(resourceGroupName, name)
-            .concatMap(new Func1<ServiceResponse<ResourceHealthMetadataInner>, Observable<ServiceResponse<ResourceHealthMetadataInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ResourceHealthMetadataInner>> call(ServiceResponse<ResourceHealthMetadataInner> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(getBySiteNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     *
-    ServiceResponse<ResourceHealthMetadataInner> * @param resourceGroupName Name of the resource group to which the resource belongs.
-    ServiceResponse<ResourceHealthMetadataInner> * @param name Name of web app
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the ResourceHealthMetadataInner object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<ResourceHealthMetadataInner>> getBySiteSinglePageAsync(final String resourceGroupName, final String name) {
+    public Observable<ServiceResponse<ResourceHealthMetadataInner>> getBySiteWithServiceResponseAsync(String resourceGroupName, String name) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -571,8 +526,8 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
                 @Override
                 public Observable<ServiceResponse<ResourceHealthMetadataInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<ResourceHealthMetadataInner> result = getBySiteDelegate(response);
-                        return Observable.just(new ServiceResponse<ResourceHealthMetadataInner>(result.body(), result.response()));
+                        ServiceResponse<ResourceHealthMetadataInner> clientResponse = getBySiteDelegate(response);
+                        return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -580,10 +535,10 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
             });
     }
 
-    private ServiceResponse<ResourceHealthMetadataInner> getBySiteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ResourceHealthMetadataInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<ResourceHealthMetadataInner> getBySiteDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ResourceHealthMetadataInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<ResourceHealthMetadataInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -595,7 +550,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      * @param name Name of web app.
      * @param slot Name of web app slot. If not specified then will default to production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceHealthMetadataInner&gt; object if successful.
      */
@@ -714,10 +669,10 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listBySiteSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listBySiteSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceHealthMetadataInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -729,18 +684,12 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      * @param name Name of web app
      * @param slot Name of web app slot. If not specified then will default to production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ResourceHealthMetadataInner object if successful.
      */
-    public ResourceHealthMetadataInner getBySiteSlot(final String resourceGroupName, final String name, final String slot) {
-        ServiceResponse<ResourceHealthMetadataInner> response = getBySiteSlotSinglePageAsync(resourceGroupName, name, slot).toBlocking().single();
-        return new ResourceHealthMetadataInner(response.body()) {
-            @Override
-            public ResourceHealthMetadataInner nextPage(String nextPageLink) {
-                return getBySiteSlotNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
+    public ResourceHealthMetadataInner getBySiteSlot(String resourceGroupName, String name, String slot) {
+        return getBySiteSlotWithServiceResponseAsync(resourceGroupName, name, slot).toBlocking().single().body();
     }
 
     /**
@@ -754,16 +703,8 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ResourceHealthMetadataInner> getBySiteSlotAsync(final String resourceGroupName, final String name, final String slot, final ListOperationCallback<Void> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            getBySiteSlotSinglePageAsync(resourceGroupName, name, slot),
-            new Func1<String, Observable<ServiceResponse<ResourceHealthMetadataInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ResourceHealthMetadataInner>> call(String nextPageLink) {
-                    return getBySiteSlotNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
+    public ServiceFuture<ResourceHealthMetadataInner> getBySiteSlotAsync(String resourceGroupName, String name, String slot, final ServiceCallback<ResourceHealthMetadataInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getBySiteSlotWithServiceResponseAsync(resourceGroupName, name, slot), serviceCallback);
     }
 
     /**
@@ -776,14 +717,13 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ResourceHealthMetadataInner object
      */
-    public Observable<ResourceHealthMetadataInner> getBySiteSlotAsync(final String resourceGroupName, final String name, final String slot) {
-        return getBySiteSlotWithServiceResponseAsync(resourceGroupName, name, slot)
-            .map(new Func1<ServiceResponse<ResourceHealthMetadataInner>, ResourceHealthMetadataInner>() {
-                @Override
-                public ResourceHealthMetadataInner call(ServiceResponse<ResourceHealthMetadataInner> response) {
-                    return response.body();
-                }
-            });
+    public Observable<ResourceHealthMetadataInner> getBySiteSlotAsync(String resourceGroupName, String name, String slot) {
+        return getBySiteSlotWithServiceResponseAsync(resourceGroupName, name, slot).map(new Func1<ServiceResponse<ResourceHealthMetadataInner>, ResourceHealthMetadataInner>() {
+            @Override
+            public ResourceHealthMetadataInner call(ServiceResponse<ResourceHealthMetadataInner> response) {
+                return response.body();
+            }
+        });
     }
 
     /**
@@ -796,31 +736,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ResourceHealthMetadataInner object
      */
-    public Observable<ServiceResponse<ResourceHealthMetadataInner>> getBySiteSlotWithServiceResponseAsync(final String resourceGroupName, final String name, final String slot) {
-        return getBySiteSlotSinglePageAsync(resourceGroupName, name, slot)
-            .concatMap(new Func1<ServiceResponse<ResourceHealthMetadataInner>, Observable<ServiceResponse<ResourceHealthMetadataInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ResourceHealthMetadataInner>> call(ServiceResponse<ResourceHealthMetadataInner> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(getBySiteSlotNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     *
-    ServiceResponse<ResourceHealthMetadataInner> * @param resourceGroupName Name of the resource group to which the resource belongs.
-    ServiceResponse<ResourceHealthMetadataInner> * @param name Name of web app
-    ServiceResponse<ResourceHealthMetadataInner> * @param slot Name of web app slot. If not specified then will default to production slot.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the ResourceHealthMetadataInner object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<ResourceHealthMetadataInner>> getBySiteSlotSinglePageAsync(final String resourceGroupName, final String name, final String slot) {
+    public Observable<ServiceResponse<ResourceHealthMetadataInner>> getBySiteSlotWithServiceResponseAsync(String resourceGroupName, String name, String slot) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -839,8 +755,8 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
                 @Override
                 public Observable<ServiceResponse<ResourceHealthMetadataInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<ResourceHealthMetadataInner> result = getBySiteSlotDelegate(response);
-                        return Observable.just(new ServiceResponse<ResourceHealthMetadataInner>(result.body(), result.response()));
+                        ServiceResponse<ResourceHealthMetadataInner> clientResponse = getBySiteSlotDelegate(response);
+                        return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -848,10 +764,10 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
             });
     }
 
-    private ServiceResponse<ResourceHealthMetadataInner> getBySiteSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ResourceHealthMetadataInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<ResourceHealthMetadataInner> getBySiteSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ResourceHealthMetadataInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<ResourceHealthMetadataInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -861,7 +777,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceHealthMetadataInner&gt; object if successful.
      */
@@ -964,10 +880,10 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceHealthMetadataInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -977,7 +893,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceHealthMetadataInner&gt; object if successful.
      */
@@ -1080,10 +996,10 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceHealthMetadataInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1093,7 +1009,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceHealthMetadataInner&gt; object if successful.
      */
@@ -1196,126 +1112,10 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listBySiteNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listBySiteNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceHealthMetadataInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ResourceHealthMetadataInner object if successful.
-     */
-    public ResourceHealthMetadataInner getBySiteNext(final String nextPageLink) {
-        ServiceResponse<ResourceHealthMetadataInner> response = getBySiteNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new ResourceHealthMetadataInner(response.body()) {
-            @Override
-            public ResourceHealthMetadataInner nextPage(String nextPageLink) {
-                return getBySiteNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<ResourceHealthMetadataInner> getBySiteNextAsync(final String nextPageLink, final ServiceFuture<ResourceHealthMetadataInner> serviceFuture, final ListOperationCallback<Void> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            getBySiteNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<ResourceHealthMetadataInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ResourceHealthMetadataInner>> call(String nextPageLink) {
-                    return getBySiteNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ResourceHealthMetadataInner object
-     */
-    public Observable<ResourceHealthMetadataInner> getBySiteNextAsync(final String nextPageLink) {
-        return getBySiteNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<ResourceHealthMetadataInner>, ResourceHealthMetadataInner>() {
-                @Override
-                public ResourceHealthMetadataInner call(ServiceResponse<ResourceHealthMetadataInner> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ResourceHealthMetadataInner object
-     */
-    public Observable<ServiceResponse<ResourceHealthMetadataInner>> getBySiteNextWithServiceResponseAsync(final String nextPageLink) {
-        return getBySiteNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<ResourceHealthMetadataInner>, Observable<ServiceResponse<ResourceHealthMetadataInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ResourceHealthMetadataInner>> call(ServiceResponse<ResourceHealthMetadataInner> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(getBySiteNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     *
-    ServiceResponse<ResourceHealthMetadataInner> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the ResourceHealthMetadataInner object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<ResourceHealthMetadataInner>> getBySiteNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.getBySiteNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ResourceHealthMetadataInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ResourceHealthMetadataInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ResourceHealthMetadataInner> result = getBySiteNextDelegate(response);
-                        return Observable.just(new ServiceResponse<ResourceHealthMetadataInner>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<ResourceHealthMetadataInner> getBySiteNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ResourceHealthMetadataInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ResourceHealthMetadataInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1325,7 +1125,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceHealthMetadataInner&gt; object if successful.
      */
@@ -1428,126 +1228,10 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listBySiteSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceHealthMetadataInner>> listBySiteSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceHealthMetadataInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceHealthMetadataInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ResourceHealthMetadataInner object if successful.
-     */
-    public ResourceHealthMetadataInner getBySiteSlotNext(final String nextPageLink) {
-        ServiceResponse<ResourceHealthMetadataInner> response = getBySiteSlotNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new ResourceHealthMetadataInner(response.body()) {
-            @Override
-            public ResourceHealthMetadataInner nextPage(String nextPageLink) {
-                return getBySiteSlotNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<ResourceHealthMetadataInner> getBySiteSlotNextAsync(final String nextPageLink, final ServiceFuture<ResourceHealthMetadataInner> serviceFuture, final ListOperationCallback<Void> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            getBySiteSlotNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<ResourceHealthMetadataInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ResourceHealthMetadataInner>> call(String nextPageLink) {
-                    return getBySiteSlotNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ResourceHealthMetadataInner object
-     */
-    public Observable<ResourceHealthMetadataInner> getBySiteSlotNextAsync(final String nextPageLink) {
-        return getBySiteSlotNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<ResourceHealthMetadataInner>, ResourceHealthMetadataInner>() {
-                @Override
-                public ResourceHealthMetadataInner call(ServiceResponse<ResourceHealthMetadataInner> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ResourceHealthMetadataInner object
-     */
-    public Observable<ServiceResponse<ResourceHealthMetadataInner>> getBySiteSlotNextWithServiceResponseAsync(final String nextPageLink) {
-        return getBySiteSlotNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<ResourceHealthMetadataInner>, Observable<ServiceResponse<ResourceHealthMetadataInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ResourceHealthMetadataInner>> call(ServiceResponse<ResourceHealthMetadataInner> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(getBySiteSlotNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
-     *
-    ServiceResponse<ResourceHealthMetadataInner> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the ResourceHealthMetadataInner object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<ResourceHealthMetadataInner>> getBySiteSlotNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.getBySiteSlotNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ResourceHealthMetadataInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ResourceHealthMetadataInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ResourceHealthMetadataInner> result = getBySiteSlotNextDelegate(response);
-                        return Observable.just(new ServiceResponse<ResourceHealthMetadataInner>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<ResourceHealthMetadataInner> getBySiteSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ResourceHealthMetadataInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ResourceHealthMetadataInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 

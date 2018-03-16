@@ -205,11 +205,17 @@ class DiagnosticSettingImpl
 
     @Override
     public List<MetricSettings> metrics() {
+        if (this.inner().metrics() == null) {
+            return null;
+        }
         return Collections.unmodifiableList(this.inner().metrics());
     }
 
     @Override
     public List<LogSettings> logs() {
+        if (this.inner().logs() == null) {
+            return null;
+        }
         return Collections.unmodifiableList(this.inner().logs());
     }
 

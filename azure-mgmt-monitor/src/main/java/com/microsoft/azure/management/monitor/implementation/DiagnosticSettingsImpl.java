@@ -82,8 +82,35 @@ class DiagnosticSettingsImpl
     }
 
     @Override
+    public Observable<DiagnosticSettingsCategory> listCategoriesByResourceAsync(String resourceId) {
+        return this.manager().inner().diagnosticSettingsCategorys().listAsync(resourceId)
+                .flatMap(new Func1<DiagnosticSettingsCategoryResourceCollectionInner, Observable<DiagnosticSettingsCategoryResourceInner>>() {
+                    @Override
+                    public Observable<DiagnosticSettingsCategoryResourceInner> call(DiagnosticSettingsCategoryResourceCollectionInner diagnosticSettingsCategoryResourceCollectionInner) {
+                        return Observable.from(diagnosticSettingsCategoryResourceCollectionInner.value());
+                    }
+                }).map(new Func1<DiagnosticSettingsCategoryResourceInner, DiagnosticSettingsCategory>() {
+                    @Override
+                    public DiagnosticSettingsCategory call(DiagnosticSettingsCategoryResourceInner diagnosticSettingsCategoryInner) {
+                        return new DiagnosticSettingsCategoryImpl(diagnosticSettingsCategoryInner);
+                    }
+                });
+    }
+
+    @Override
     public DiagnosticSettingsCategory getCategory(String resourceId, String name) {
         return new DiagnosticSettingsCategoryImpl(this.manager().inner().diagnosticSettingsCategorys().get(resourceId, name));
+    }
+
+    @Override
+    public Observable<DiagnosticSettingsCategory> getCategoryAsync(String resourceId, String name) {
+        return this.manager().inner().diagnosticSettingsCategorys().getAsync(resourceId, name)
+                .map(new Func1<DiagnosticSettingsCategoryResourceInner, DiagnosticSettingsCategory>() {
+                    @Override
+                    public DiagnosticSettingsCategory call(DiagnosticSettingsCategoryResourceInner diagnosticSettingsCategoryResourceInner) {
+                        return new DiagnosticSettingsCategoryImpl(diagnosticSettingsCategoryResourceInner);
+                    }
+                });
     }
 
     @Override

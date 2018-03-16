@@ -46,6 +46,14 @@ public interface DiagnosticSettings extends
     List<DiagnosticSettingsCategory> listCategoriesByResource(String resourceId);
 
     /**
+     * Lists all the Diagnostic Settings categories for Log and Metric Settings for a specific resource.
+     *
+     * @param resourceId of the requested resource.
+     * @return list of Diagnostic Settings category available for the resource.
+     */
+    Observable<DiagnosticSettingsCategory> listCategoriesByResourceAsync(String resourceId);
+
+    /**
      * Gets the information about Diagnostic Setting category for Log or Metric Setting for a specific resource.
      *
      * @param resourceId of the requested resource.
@@ -53,6 +61,15 @@ public interface DiagnosticSettings extends
      * @return Diagnostic Setting category available for the resource.
      */
     DiagnosticSettingsCategory getCategory(String resourceId, String name);
+
+    /**
+     * Gets the information about Diagnostic Setting category for Log or Metric Setting for a specific resource.
+     *
+     * @param resourceId of the requested resource.
+     * @param name of the Log or Metric category.
+     * @return Diagnostic Setting category available for the resource.
+     */
+    Observable<DiagnosticSettingsCategory> getCategoryAsync(String resourceId, String name);
 
     /**
      * Lists all the diagnostic settings in the currently selected subscription for a specific resource.

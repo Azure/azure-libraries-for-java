@@ -8,13 +8,11 @@ package com.microsoft.azure.management.eventhub.samples;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
-import com.microsoft.azure.management.eventhub.EventHubAuthorizationKey;
 import com.microsoft.azure.management.eventhub.EventHubNamespace;
 import com.microsoft.azure.management.eventhub.EventHubNamespaceAuthorizationRule;
+import com.microsoft.azure.management.monitor.DiagnosticSetting;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.management.storage.StorageAccountKey;
 import com.microsoft.rest.LogLevel;
 import org.joda.time.Period;
 
@@ -22,13 +20,10 @@ import java.io.File;
 
 /**
  * Azure Event Hub sample for managing event hub models.
+ *   - Create a DocumentDB instance
  *   - Creates a Event Hub namespace and an Event Hub in it
  *   - Retrieve the root namespace authorization rule
  *   - Enable diagnostics on a existing cosmosDB to stream events to event hub
- *   - Gets the event hub authorization rule connection string
- *   - Create a storage account to persist the lease and checkpoint data for the Event Hub
- *   - Gets the storage account keys and prepare the connection string
- *   - Listen for events from event hub
  */
 public class ManageEventHubEvents {
     /**
@@ -60,6 +55,8 @@ public class ManageEventHubEvents {
                     .withReadReplication(Region.US_CENTRAL)
                     .create();
 
+            System.out.println("Created a DocumentDb instance.");
+            Utils.print(docDb);
             //=============================================================
             // Creates a Event Hub namespace and an Event Hub in it.
             //
@@ -75,6 +72,7 @@ public class ManageEventHubEvents {
 
             System.out.println(String.format("Created event hub namespace %s and event hub %s ", namespace.name(), eventHubName));
             System.out.println();
+            Utils.print(namespace);
 
             //=============================================================
             // Retrieve the root namespace authorization rule.
@@ -94,59 +92,19 @@ public class ManageEventHubEvents {
             System.out.println("Enabling diagnostics events of a cosmosdb to stream to event hub");
 
             // Store Id of created Diagnostic settings only for clean-up
-            diagnosticSettingId = azure.diagnosticSettings()
+            DiagnosticSetting ds  = azure.diagnosticSettings()
                     .define("DiaEventHub")
                         .withResource(docDb.id())
                         .withEventHub(eventHubAuthRule.id(), eventHubName)
                         .withLog("DataPlaneRequests", 0)
                         .withLog("MongoRequests", 0)
                         .withMetric("AllMetrics", Period.minutes(5), 0)
-                    .create()
-                    .id();
-
-            System.out.println("Streaming of diagnostics events to event hub is enabled");
-
-            //=============================================================
-            // Gets the event hub authorization rule connection string
-            //
-
-            System.out.println("Retrieving event hub connection string");
-
-            EventHubAuthorizationKey eventHubAuthorizationKey = eventHubAuthRule.getKeys();
-            String eventHubConnectionString = eventHubAuthorizationKey.primaryConnectionString();
-
-            System.out.println("Retrieving event hub root connection string");
-
-            System.out.println(String.format("Retrieved the event hub connection string: %s", eventHubConnectionString));
-            System.out.println();
-
-            //=============================================================
-            // Create a storage account to persist the lease and checkpoint data for the Event Hub.
-            //
-
-            System.out.println("Creating a storage account to persist the lease and checkpoint data for the Event Hub");
-
-            StorageAccount storageAccount = azure.storageAccounts()
-                    .define(storageAccountName)
-                    .withRegion(region)
-                    .withExistingResourceGroup(rgName)
                     .create();
 
-            System.out.println("Created storage account");
-            System.out.println();
+            Utils.print(ds);
+            diagnosticSettingId = ds.id();
 
-            //=============================================================
-            // Gets the storage account keys and prepare the connection string
-            //
-
-            System.out.println("Retrieving the storage account key and preparing connection string");
-
-            StorageAccountKey storageAccountKey = storageAccount.getKeys().get(0);
-
-            String storageAccountConnectionString = String.format(storageAccountConnectionStringFormat, storageAccount.name(), storageAccountKey.value());
-
-            System.out.println(String.format("Prepared connection string %s", storageAccountConnectionString));
-            System.out.println();
+            System.out.println("Streaming of diagnostics events to event hub is enabled");
 
             //=============================================================
             // Listen for events from event hub using Event Hub dataplane APIs.

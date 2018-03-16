@@ -190,7 +190,7 @@ public interface DiagnosticSetting extends
              * @param categories a list of diagnostic settings category.
              * @param timeGrain the timegrain of the metric in ISO8601 format for all Metrics in the {@code categories} list.
              * @param retentionDays the number of days for the retention in days. A value of 0 will retain the events indefinitely.
-             * @return
+             * @return the stage of creating Diagnostic Settings.
              */
             WithCreate withLogsAndMetrics(List<DiagnosticSettingsCategory> categories, Period timeGrain, int retentionDays);
         }

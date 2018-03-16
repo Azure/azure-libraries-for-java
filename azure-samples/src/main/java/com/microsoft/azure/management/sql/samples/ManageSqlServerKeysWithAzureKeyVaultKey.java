@@ -29,11 +29,11 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Azure SQL sample for managing SQL Server Keys with Azure Key Vault key -
+ * Azure SQL sample for managing SQL secrets (Server Keys) using Azure Key Vault -
  *  - Create a SQL Server with "system assigned" managed service identity.
- *  - Create an Azure Key Vault with access to the SQL Server
- *  - Get, list and delete SQL Server Keys
- *  - Delete Sql Server
+ *  - Create an Azure Key Vault with giving access to the SQL Server
+ *  - Create, get, list and delete SQL Server Keys
+ *  - Delete SQL Server
  */
 
 public class ManageSqlServerKeysWithAzureKeyVaultKey {

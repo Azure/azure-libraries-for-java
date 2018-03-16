@@ -7,22 +7,24 @@ package com.microsoft.azure.management.sql;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.sql.implementation.SubscriptionUsageInner;
+import com.microsoft.azure.management.sql.implementation.DatabaseUsageInner;
+import org.joda.time.DateTime;
 
 /**
- * The result of SQL server usages per current subscription.
+ * The result of SQL server usages per SQL Database.
  */
 @Fluent
 @Beta(Beta.SinceVersion.V1_8_0)
-public interface SqlSubscriptionUsage extends
-    Refreshable<SqlSubscriptionUsage>,
-    HasId,
+public interface SqlDatabaseUsageMetric extends
     HasName,
-    HasInner<SubscriptionUsageInner> {
+    HasInner<DatabaseUsageInner> {
+
+    /**
+     * @return the name of the SQL Database resource
+     */
+    String resourceName();
 
     /**
      * @return a user-readable name of the metric
@@ -45,7 +47,7 @@ public interface SqlSubscriptionUsage extends
     String unit();
 
     /**
-     * @return the resource type
+     * @return the next reset time for the usage metric (ISO8601 format)
      */
-    String type();
+    DateTime nextResetTime();
 }

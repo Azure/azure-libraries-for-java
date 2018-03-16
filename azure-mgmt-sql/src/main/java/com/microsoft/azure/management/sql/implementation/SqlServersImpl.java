@@ -17,7 +17,7 @@ import com.microsoft.azure.management.sql.SqlElasticPoolOperations;
 import com.microsoft.azure.management.sql.SqlFirewallRuleOperations;
 import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.sql.SqlServers;
-import com.microsoft.azure.management.sql.SqlSubscriptionUsage;
+import com.microsoft.azure.management.sql.SqlSubscriptionUsageMetric;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRuleOperations;
 import rx.Observable;
 import rx.functions.Func1;
@@ -161,21 +161,21 @@ class SqlServersImpl
     }
 
     @Override
-    public List<SqlSubscriptionUsage> listUsageByRegion(Region region) {
+    public List<SqlSubscriptionUsageMetric> listUsageByRegion(Region region) {
         Objects.requireNonNull(region);
-        List<SqlSubscriptionUsage> subscriptionUsages = new ArrayList<>();
+        List<SqlSubscriptionUsageMetric> subscriptionUsages = new ArrayList<>();
         List<SubscriptionUsageInner> subscriptionUsageInners = this.manager().inner().subscriptionUsages()
             .listByLocation(region.name());
         if (subscriptionUsageInners != null) {
             for (SubscriptionUsageInner inner : subscriptionUsageInners) {
-                subscriptionUsages.add(new SqlSubscriptionUsageImpl(region.name(), inner, this.manager()));
+                subscriptionUsages.add(new SqlSubscriptionUsageMetricImpl(region.name(), inner, this.manager()));
             }
         }
         return Collections.unmodifiableList(subscriptionUsages);
     }
 
     @Override
-    public Observable<SqlSubscriptionUsage> listUsageByRegionAsync(final Region region) {
+    public Observable<SqlSubscriptionUsageMetric> listUsageByRegionAsync(final Region region) {
         Objects.requireNonNull(region);
         final SqlServers self = this;
         return this.manager().inner().subscriptionUsages()
@@ -186,10 +186,10 @@ class SqlServersImpl
                     return Observable.from(subscriptionUsageInnerPage.items());
                 }
             })
-            .map(new Func1<SubscriptionUsageInner, SqlSubscriptionUsage>() {
+            .map(new Func1<SubscriptionUsageInner, SqlSubscriptionUsageMetric>() {
                 @Override
-                public SqlSubscriptionUsage call(SubscriptionUsageInner subscriptionUsageInner) {
-                    return new SqlSubscriptionUsageImpl(region.name(), subscriptionUsageInner, self.manager());
+                public SqlSubscriptionUsageMetric call(SubscriptionUsageInner subscriptionUsageInner) {
+                    return new SqlSubscriptionUsageMetricImpl(region.name(), subscriptionUsageInner, self.manager());
                 }
             });
     }

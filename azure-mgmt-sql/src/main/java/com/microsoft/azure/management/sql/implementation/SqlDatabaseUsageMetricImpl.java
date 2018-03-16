@@ -7,18 +7,18 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import com.microsoft.azure.management.sql.SqlDatabaseUsage;
+import com.microsoft.azure.management.sql.SqlDatabaseUsageMetric;
 import org.joda.time.DateTime;
 
 /**
  * Implementation for Azure SQL Database usage.
  */
 @LangDefinition
-public class SqlDatabaseUsageImpl
+public class SqlDatabaseUsageMetricImpl
     extends WrapperImpl<DatabaseUsageInner>
-    implements SqlDatabaseUsage {
+    implements SqlDatabaseUsageMetric {
 
-    protected SqlDatabaseUsageImpl(DatabaseUsageInner innerObject) {
+    protected SqlDatabaseUsageMetricImpl(DatabaseUsageInner innerObject) {
         super(innerObject);
     }
 

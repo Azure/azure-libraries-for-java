@@ -324,6 +324,25 @@ public interface SqlDatabase
     SqlDatabaseAutomaticTuning getDatabaseAutomaticTuning();
 
     /**
+     * Lists the SQL database usage metrics.
+     *
+     * @return the SQL database usage metrics
+     */
+    @Method
+    @Beta(Beta.SinceVersion.V1_8_0)
+    List<SqlDatabaseUsageMetric> listUsageMetrics();
+
+    /**
+     * Asynchronously lists the SQL database usage metrics.
+     *
+     * @return a representation of the deferred computation of this call returning the SQL database usage metrics
+     */
+    @Method
+    @Beta(Beta.SinceVersion.V1_8_0)
+    Observable<SqlDatabaseUsageMetric> listUsageMetricsAsync();
+
+
+    /**
      * Renames the database.
      *
      * @param newDatabaseName the new name for the database

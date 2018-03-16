@@ -7,7 +7,7 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import com.microsoft.azure.management.sql.SqlSubscriptionUsage;
+import com.microsoft.azure.management.sql.SqlSubscriptionUsageMetric;
 import rx.Observable;
 
 import java.util.Objects;
@@ -16,14 +16,14 @@ import java.util.Objects;
  * Implementation for Azure SQL subscription usage.
  */
 @LangDefinition
-public class SqlSubscriptionUsageImpl
-    extends RefreshableWrapperImpl<SubscriptionUsageInner, SqlSubscriptionUsage>
-    implements SqlSubscriptionUsage {
+public class SqlSubscriptionUsageMetricImpl
+    extends RefreshableWrapperImpl<SubscriptionUsageInner, SqlSubscriptionUsageMetric>
+    implements SqlSubscriptionUsageMetric {
 
     private final SqlServerManager sqlServerManager;
     private final String location;
 
-    protected SqlSubscriptionUsageImpl(String location, SubscriptionUsageInner innerObject, SqlServerManager sqlServerManager) {
+    protected SqlSubscriptionUsageMetricImpl(String location, SubscriptionUsageInner innerObject, SqlServerManager sqlServerManager) {
         super(innerObject);
         Objects.requireNonNull(sqlServerManager);
         this.sqlServerManager = sqlServerManager;

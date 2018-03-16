@@ -122,7 +122,7 @@ public interface SqlServers extends
      * @return the SQL usage object
      */
     @Beta(Beta.SinceVersion.V1_8_0)
-    List<SqlSubscriptionUsage> listUsageByRegion(Region region);
+    List<SqlSubscriptionUsageMetric> listUsageByRegion(Region region);
 
     /**
      * Lists the Azure SQL server usages for a given Azure region asynchronously.
@@ -131,5 +131,5 @@ public interface SqlServers extends
      * @return a representation of the future computation of this call, returning the server usages object
      */
     @Beta(Beta.SinceVersion.V1_8_0)
-    Observable<SqlSubscriptionUsage> listUsageByRegionAsync(Region region);
+    Observable<SqlSubscriptionUsageMetric> listUsageByRegionAsync(Region region);
 }

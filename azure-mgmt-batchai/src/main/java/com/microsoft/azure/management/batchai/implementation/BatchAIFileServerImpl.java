@@ -62,6 +62,18 @@ class BatchAIFileServerImpl extends GroupableResourceImpl<
         return this;
     }
 
+    @Override
+    public BatchAIFileServer.DefinitionStages.WithCreate withSubnet(String subnetId) {
+        createParameters.withSubnet(new ResourceId().withId(subnetId));
+        return this;
+    }
+
+    @Override
+    public BatchAIFileServer.DefinitionStages.WithCreate withSubnet(String networkId, String subnetName) {
+        createParameters.withSubnet(new ResourceId().withId(networkId + "/subnets/" + subnetName));
+        return this;
+    }
+
     private UserAccountSettings ensureUserAccountSettings() {
         if (ensureSshConfiguration().userAccountSettings() == null) {
             createParameters.sshConfiguration().withUserAccountSettings(new UserAccountSettings());

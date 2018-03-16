@@ -245,16 +245,23 @@ public interface BatchAIJob extends
         }
 
         interface WithToolType {
+            @Method
             ToolTypeSettings.CognitiveToolkit.DefinitionStages.Blank<WithCreate> defineCognitiveToolkit();
 
+            @Method
             ToolTypeSettings.TensorFlow.DefinitionStages.Blank<WithCreate> defineTensorflow();
 
+            @Method
             ToolTypeSettings.Caffe.DefinitionStages.Blank<WithCreate> defineCaffe();
 
+            @Method
             ToolTypeSettings.Caffe2.DefinitionStages.Blank<WithCreate> defineCaffe2();
 
+            @Method
             ToolTypeSettings.Chainer.DefinitionStages.Blank<WithCreate> defineChainer();
 
+            @Method
+            @Beta(Beta.SinceVersion.V1_8_0)
             ToolTypeSettings.PyTorch.DefinitionStages.Blank<WithCreate> definePyTorch();
 
             WithCreate withCustomCommandLine(String commandLine);
@@ -292,7 +299,7 @@ public interface BatchAIJob extends
         }
 
         /**
-         * Allows tro specify the experiment information of the job.
+         * Allows to specify the experiment information of the job.
          */
         interface WithExperimentName {
             /**
@@ -300,6 +307,18 @@ public interface BatchAIJob extends
              * @return the next stage of the definition
              */
             WithCreate withExperimentName(String experimentName);
+        }
+
+        /**
+         * Allows to specify environment variables.
+         */
+        interface WithEnvironmentVariable {
+            /**
+             * @param name name of the variable to set
+             * @param value value of the variable to set
+             * @return the next stage of the definition
+             */
+            WithCreate withEnvironmentVariable(String name, String value);
         }
 
         /**

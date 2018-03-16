@@ -935,7 +935,7 @@ public class AzureTests extends TestBase {
 
     @Test
     public void testBatchAIFileServer() throws Exception {
-        new TestBatchAIFileServers().runTest(azure.batchAIFileServers(), azure.resourceGroups());
+        new TestBatchAIFileServers(azure.networks()).runTest(azure.batchAIFileServers(), azure.resourceGroups());
     }
 
     @Test

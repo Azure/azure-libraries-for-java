@@ -24,6 +24,8 @@ import com.microsoft.azure.management.sql.implementation.ServersInner;
 import com.microsoft.azure.management.sql.implementation.SqlServerManager;
 import rx.Observable;
 
+import java.util.List;
+
 /**
  *  Entry point to SQL Server management API.
  */
@@ -112,4 +114,22 @@ public interface SqlServers extends
      */
     @Beta(Beta.SinceVersion.V1_8_0)
     Observable<RegionCapabilities> getCapabilitiesByRegionAsync(Region region);
+
+    /**
+     * Lists the Azure SQL server usages for a given Azure region.
+     *
+     * @param region the location to get the Azure SQL server usages for
+     * @return the SQL usage object
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    List<SqlSubscriptionUsage> listUsageByRegion(Region region);
+
+    /**
+     * Lists the Azure SQL server usages for a given Azure region asynchronously.
+     *
+     * @param region the location to get the Azure SQL server usages for
+     * @return a representation of the future computation of this call, returning the server usages object
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    Observable<SqlSubscriptionUsage> listUsageByRegionAsync(Region region);
 }

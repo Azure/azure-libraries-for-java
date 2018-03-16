@@ -19,7 +19,7 @@ public class TagDetailsInner {
     /**
      * The tag ID.
      */
-    @JsonProperty(value = "id")
+    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
     private String id;
 
     /**
@@ -48,17 +48,6 @@ public class TagDetailsInner {
      */
     public String id() {
         return this.id;
-    }
-
-    /**
-     * Set the id value.
-     *
-     * @param id the id value to set
-     * @return the TagDetailsInner object itself.
-     */
-    public TagDetailsInner withId(String id) {
-        this.id = id;
-        return this;
     }
 
     /**

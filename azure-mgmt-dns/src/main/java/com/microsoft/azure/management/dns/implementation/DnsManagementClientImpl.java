@@ -189,7 +189,7 @@ public class DnsManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2016-04-01";
+        this.apiVersion = "2018-03-01-preview";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
@@ -205,6 +205,6 @@ public class DnsManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "DnsManagementClient", "2016-04-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "DnsManagementClient", "2018-03-01-preview");
     }
 }

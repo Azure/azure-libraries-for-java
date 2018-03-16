@@ -161,15 +161,6 @@ public interface SqlFailoverGroupOperations extends
              * @return The next stage of the definition.
              */
             SqlFailoverGroupOperations.DefinitionStages.WithPartnerServer withPartnerServerId(String id);
-
-            /**
-             * Sets the SQL Failover Group partner servers.
-             *
-             * @param ids the IDs of the partner SQL servers
-             * @return the next stage of the definition
-             */
-            @Method
-            SqlFailoverGroupOperations.DefinitionStages.WithPartnerServer withPartnerServerIds(String... ids);
         }
 
         /**

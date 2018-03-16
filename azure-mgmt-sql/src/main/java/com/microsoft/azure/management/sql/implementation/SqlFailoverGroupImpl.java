@@ -312,41 +312,8 @@ public class SqlFailoverGroupImpl
 
     @Override
     public SqlFailoverGroupImpl withPartnerServerId(String id) {
-        if (this.inner().partnerServers() == null) {
-            this.inner().withPartnerServers(new ArrayList<PartnerInfo>());
-        }
-        this.inner().partnerServers().add(new PartnerInfo().withId(id));
-        return this;
-    }
-
-    @Override
-    public SqlFailoverGroupImpl withNewPartnerServerId(String id) {
-        return this.withPartnerServerId(id);
-    }
-
-    @Override
-    public SqlFailoverGroupImpl withPartnerServerIds(String... ids) {
         this.inner().withPartnerServers(new ArrayList<PartnerInfo>());
-        for (String id : ids) {
-            this.inner().partnerServers().add(new PartnerInfo().withId(id));
-        }
-        return this;
-    }
-
-    @Override
-    public SqlFailoverGroupImpl withoutPartnerServerId(String id) {
-        if (this.inner().partnerServers() != null) {
-            PartnerInfo partnerInfo = null;
-            for (PartnerInfo item : this.inner().partnerServers()) {
-                if (item.id().equals(id)) {
-                    partnerInfo = item;
-                    break;
-                }
-            }
-            if (partnerInfo != null) {
-                this.inner().partnerServers().remove(partnerInfo);
-            }
-        }
+        this.inner().partnerServers().add(new PartnerInfo().withId(id));
         return this;
     }
 

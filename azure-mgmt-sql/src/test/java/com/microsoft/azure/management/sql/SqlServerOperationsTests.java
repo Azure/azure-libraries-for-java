@@ -13,8 +13,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.management.storage.StorageAccount;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -23,7 +21,6 @@ import rx.Observable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class SqlServerOperationsTests extends SqlServerTest {
     private static final String SQL_DATABASE_NAME = "myTestDatabase2";
@@ -33,6 +30,122 @@ public class SqlServerOperationsTests extends SqlServerTest {
     private static final String START_IPADDRESS = "10.102.1.10";
     private static final String END_IPADDRESS = "10.102.1.12";
 
+    @Test
+    public void canCRUDSqlFailoverGroup() throws Exception {
+        String rgName = RG_NAME;
+        final String sqlPrimaryServerName = SdkContext.randomResourceName("sqlpri", 22);
+        final String sqlSecondaryServerName = SdkContext.randomResourceName("sqlsec", 22);
+        final String sqlOtherServerName = SdkContext.randomResourceName("sql000", 22);
+        final String failoverGroupName = SdkContext.randomResourceName("fg", 22);
+        final String failoverGroupName2 = SdkContext.randomResourceName("fg2", 22);
+        final String dbName = "dbSample";
+        final String administratorLogin = "sqladmin";
+        final String administratorPassword = "N0t@P@ssw0rd!";
+
+        // Create
+        SqlServer sqlPrimaryServer = sqlServerManager.sqlServers().define(sqlPrimaryServerName)
+            .withRegion(Region.US_EAST)
+            .withNewResourceGroup(rgName)
+            .withAdministratorLogin(administratorLogin)
+            .withAdministratorPassword(administratorPassword)
+            .defineDatabase(dbName)
+                .fromSample(SampleName.ADVENTURE_WORKS_LT)
+                .withStandardEdition(SqlDatabaseStandardServiceObjective.S0)
+                .attach()
+            .create();
+
+        SqlServer sqlSecondaryServer = sqlServerManager.sqlServers().define(sqlSecondaryServerName)
+            .withRegion(Region.US_WEST)
+            .withExistingResourceGroup(rgName)
+            .withAdministratorLogin(administratorLogin)
+            .withAdministratorPassword(administratorPassword)
+            .create();
+
+        SqlServer sqlOtherServer = sqlServerManager.sqlServers().define(sqlOtherServerName)
+            .withRegion(Region.US_CENTRAL)
+            .withExistingResourceGroup(rgName)
+            .withAdministratorLogin(administratorLogin)
+            .withAdministratorPassword(administratorPassword)
+            .create();
+
+        SqlFailoverGroup failoverGroup = sqlPrimaryServer.failoverGroups().define(failoverGroupName)
+            .withManualReadWriteEndpointPolicy()
+            .withPartnerServerId(sqlSecondaryServer.id())
+            .withReadOnlyEndpointPolicyDisabled()
+            .create();
+        Assert.assertNotNull(failoverGroup);
+        Assert.assertEquals(failoverGroupName, failoverGroup.name());
+        Assert.assertEquals(rgName, failoverGroup.resourceGroupName());
+        Assert.assertEquals(sqlPrimaryServerName, failoverGroup.sqlServerName());
+        Assert.assertEquals(FailoverGroupReplicationRole.PRIMARY, failoverGroup.replicationRole());
+        Assert.assertEquals(1, failoverGroup.partnerServers().size());
+        Assert.assertEquals(sqlSecondaryServer.id(), failoverGroup.partnerServers().get(0).id());
+        Assert.assertEquals(FailoverGroupReplicationRole.SECONDARY, failoverGroup.partnerServers().get(0).replicationRole());
+        Assert.assertEquals(0, failoverGroup.databases().size());
+        Assert.assertEquals(0, failoverGroup.readWriteEndpointDataLossGracePeriodMinutes());
+        Assert.assertEquals(ReadWriteEndpointFailoverPolicy.MANUAL, failoverGroup.readWriteEndpointPolicy());
+        Assert.assertEquals(ReadOnlyEndpointFailoverPolicy.DISABLED, failoverGroup.readOnlyEndpointPolicy());
+
+        SqlFailoverGroup failoverGroupOnPartner = sqlSecondaryServer.failoverGroups().get(failoverGroup.name());
+        Assert.assertEquals(failoverGroupName, failoverGroupOnPartner.name());
+        Assert.assertEquals(rgName, failoverGroupOnPartner.resourceGroupName());
+        Assert.assertEquals(sqlSecondaryServerName, failoverGroupOnPartner.sqlServerName());
+        Assert.assertEquals(FailoverGroupReplicationRole.SECONDARY, failoverGroupOnPartner.replicationRole());
+        Assert.assertEquals(1, failoverGroupOnPartner.partnerServers().size());
+        Assert.assertEquals(sqlPrimaryServer.id(), failoverGroupOnPartner.partnerServers().get(0).id());
+        Assert.assertEquals(FailoverGroupReplicationRole.PRIMARY, failoverGroupOnPartner.partnerServers().get(0).replicationRole());
+        Assert.assertEquals(0, failoverGroupOnPartner.databases().size());
+        Assert.assertEquals(0, failoverGroupOnPartner.readWriteEndpointDataLossGracePeriodMinutes());
+        Assert.assertEquals(ReadWriteEndpointFailoverPolicy.MANUAL, failoverGroupOnPartner.readWriteEndpointPolicy());
+        Assert.assertEquals(ReadOnlyEndpointFailoverPolicy.DISABLED, failoverGroupOnPartner.readOnlyEndpointPolicy());
+
+        SqlFailoverGroup failoverGroup2 = sqlPrimaryServer.failoverGroups().define(failoverGroupName2)
+            .withAutomaticReadWriteEndpointPolicyAndDataLossGracePeriod(120)
+            .withPartnerServerId(sqlOtherServer.id())
+            .withReadOnlyEndpointPolicyEnabled()
+            .create();
+        Assert.assertNotNull(failoverGroup2);
+        Assert.assertEquals(failoverGroupName2, failoverGroup2.name());
+        Assert.assertEquals(rgName, failoverGroup2.resourceGroupName());
+        Assert.assertEquals(sqlPrimaryServerName, failoverGroup2.sqlServerName());
+        Assert.assertEquals(FailoverGroupReplicationRole.PRIMARY, failoverGroup2.replicationRole());
+        Assert.assertEquals(1, failoverGroup2.partnerServers().size());
+        Assert.assertEquals(sqlOtherServer.id(), failoverGroup2.partnerServers().get(0).id());
+        Assert.assertEquals(FailoverGroupReplicationRole.SECONDARY, failoverGroup2.partnerServers().get(0).replicationRole());
+        Assert.assertEquals(0, failoverGroup2.databases().size());
+        Assert.assertEquals(120, failoverGroup2.readWriteEndpointDataLossGracePeriodMinutes());
+        Assert.assertEquals(ReadWriteEndpointFailoverPolicy.AUTOMATIC, failoverGroup2.readWriteEndpointPolicy());
+        Assert.assertEquals(ReadOnlyEndpointFailoverPolicy.ENABLED, failoverGroup2.readOnlyEndpointPolicy());
+
+        failoverGroup.update()
+            .withAutomaticReadWriteEndpointPolicyAndDataLossGracePeriod(120)
+            .withReadOnlyEndpointPolicyEnabled()
+            .withTag("tag1", "value1")
+            .apply();
+        Assert.assertEquals(120, failoverGroup.readWriteEndpointDataLossGracePeriodMinutes());
+        Assert.assertEquals(ReadWriteEndpointFailoverPolicy.AUTOMATIC, failoverGroup.readWriteEndpointPolicy());
+        Assert.assertEquals(ReadOnlyEndpointFailoverPolicy.ENABLED, failoverGroup.readOnlyEndpointPolicy());
+
+        SqlDatabase db = sqlPrimaryServer.databases().get(dbName);
+        failoverGroup.update()
+            .withManualReadWriteEndpointPolicy()
+            .withReadOnlyEndpointPolicyDisabled()
+            .withNewDatabaseId(db.id())
+            .apply();
+        Assert.assertEquals(1, failoverGroup.databases().size());
+        Assert.assertEquals(db.id(), failoverGroup.databases().get(0));
+        Assert.assertEquals(0, failoverGroup.readWriteEndpointDataLossGracePeriodMinutes());
+        Assert.assertEquals(ReadWriteEndpointFailoverPolicy.MANUAL, failoverGroup.readWriteEndpointPolicy());
+        Assert.assertEquals(ReadOnlyEndpointFailoverPolicy.DISABLED, failoverGroup.readOnlyEndpointPolicy());
+
+        List<SqlFailoverGroup> failoverGroupsList = sqlPrimaryServer.failoverGroups().list();
+        Assert.assertEquals(2, failoverGroupsList.size());
+
+        failoverGroupsList = sqlSecondaryServer.failoverGroups().list();
+        Assert.assertEquals(1, failoverGroupsList.size());
+
+        sqlPrimaryServer.failoverGroups().delete(failoverGroup2.name());
+    }
 
     @Test
     public void canChangeSqlServerAndDatabaseAutomaticTuning() throws Exception {
@@ -53,9 +166,9 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withAdministratorLogin(sqlServerAdminName)
             .withAdministratorPassword(sqlServerAdminPassword)
             .defineDatabase(databaseName)
-            .fromSample(SampleName.ADVENTURE_WORKS_LT)
-            .withBasicEdition()
-            .attach()
+                .fromSample(SampleName.ADVENTURE_WORKS_LT)
+                .withBasicEdition()
+                .attach()
             .create();
         SqlDatabase dbFromSample = sqlServer.databases().get(databaseName);
         Assert.assertNotNull(dbFromSample);
@@ -112,9 +225,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         String sqlServerAdminPassword = "N0t@P@ssw0rd!";
 
         // Create
-        SqlServer sqlServer1 = sqlServerManager
-            .sqlServers()
-            .define(sqlServerName1)
+        SqlServer sqlServer1 = sqlServerManager.sqlServers().define(sqlServerName1)
             .withRegion(Region.US_EAST)
             .withNewResourceGroup(rgName)
             .withAdministratorLogin(sqlServerAdminName)
@@ -138,9 +249,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         Assert.assertEquals(1, sqlServer1.databases().list().size());
 
-        SqlServer sqlServer2 = sqlServerManager
-            .sqlServers()
-            .define(sqlServerName2)
+        SqlServer sqlServer2 = sqlServerManager.sqlServers().define(sqlServerName2)
             .withRegion(Region.US_EAST)
             .withNewResourceGroup(rgName)
             .withAdministratorLogin(sqlServerAdminName)
@@ -237,8 +346,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .withActiveDirectoryAdministrator("DSEng", id)
                 .create();
 
-        SqlDatabase dbFromSample = sqlServer.databases()
-            .define("db-from-sample")
+        SqlDatabase dbFromSample = sqlServer.databases().define("db-from-sample")
             .fromSample(SampleName.ADVENTURE_WORKS_LT)
             .withBasicEdition()
             .withTag("tag1", "value1")
@@ -264,8 +372,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .execute();
         }
 
-        SqlDatabase dbFromImport = sqlServer.databases()
-            .define("db-from-import")
+        SqlDatabase dbFromImport = sqlServer.databases().define("db-from-import")
             .defineElasticPool("ep1")
                 .withBasicPool()
                 .attach()

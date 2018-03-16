@@ -99,7 +99,6 @@ public interface SqlFailoverGroup
     interface Update extends
         SqlFailoverGroup.UpdateStages.WithReadWriteEndpointPolicy,
         SqlFailoverGroup.UpdateStages.WithReadOnlyEndpointPolicy,
-        SqlFailoverGroup.UpdateStages.WithPartnerServer,
         SqlFailoverGroup.UpdateStages.WithDatabase,
         Resource.UpdateWithTags<SqlFailoverGroup.Update>,
         Appliable<SqlFailoverGroup> {
@@ -152,37 +151,6 @@ public interface SqlFailoverGroup
              */
             @Method
             SqlFailoverGroup.Update withReadOnlyEndpointPolicyDisabled();
-        }
-
-        /**
-         * The SQL Failover Group update definition to set the partner servers.
-         */
-        @Beta(Beta.SinceVersion.V1_8_0)
-        interface WithPartnerServer {
-            /**
-             * Sets the SQL Failover Group partner server.
-             *
-             * @param id the ID of the partner SQL server
-             * @return The next stage of the definition.
-             */
-            SqlFailoverGroup.Update withNewPartnerServerId(String id);
-
-            /**
-             * Sets the SQL Failover Group partner servers.
-             *
-             * @param ids the IDs of the partner SQL servers
-             * @return the next stage of the definition
-             */
-            @Method
-            SqlFailoverGroup.Update withPartnerServerIds(String... ids);
-
-            /**
-             * removes the SQL Failover Group partner server.
-             *
-             * @param id the ID of the partner SQL server to be removed
-             * @return The next stage of the definition.
-             */
-            SqlFailoverGroup.Update withoutPartnerServerId(String id);
         }
 
         /**

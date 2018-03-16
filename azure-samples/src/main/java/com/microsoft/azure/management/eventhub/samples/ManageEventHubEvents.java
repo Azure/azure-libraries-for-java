@@ -21,7 +21,7 @@ import org.joda.time.Period;
 import java.io.File;
 
 /**
- * Azure Event Hub sample for managing event hub models -
+ * Azure Event Hub sample for managing event hub models.
  *   - Creates a Event Hub namespace and an Event Hub in it
  *   - Retrieve the root namespace authorization rule
  *   - Enable diagnostics on a existing cosmosDB to stream events to event hub
@@ -112,8 +112,8 @@ public class ManageEventHubEvents {
 
             System.out.println("Retrieving event hub connection string");
 
-            EventHubAuthorizationKey EventHubAuthorizationKey = eventHubAuthRule.getKeys();
-            String eventHubConnectionString = EventHubAuthorizationKey.primaryConnectionString();
+            EventHubAuthorizationKey eventHubAuthorizationKey = eventHubAuthRule.getKeys();
+            String eventHubConnectionString = eventHubAuthorizationKey.primaryConnectionString();
 
             System.out.println("Retrieving event hub root connection string");
 

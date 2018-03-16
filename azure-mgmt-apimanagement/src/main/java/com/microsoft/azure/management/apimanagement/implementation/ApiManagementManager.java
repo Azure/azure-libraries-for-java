@@ -23,7 +23,7 @@ import com.microsoft.rest.RestClient;
 /**
  * Entry point to Azure ApiManagement resource management.
  */
-@Beta(SinceVersion.V1_2_0)
+@Beta(SinceVersion.V1_8_0)
 public final class ApiManagementManager extends Manager<ApiManagementManager, ApiManagementClientImpl> {
     /**
     * Get a Configurable instance that can be used to create ApiManagementManager with optional configuration.

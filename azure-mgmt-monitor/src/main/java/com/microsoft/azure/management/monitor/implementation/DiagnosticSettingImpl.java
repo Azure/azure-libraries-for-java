@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.monitor.implementation;
 
+import com.microsoft.azure.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.monitor.CategoryType;
 import com.microsoft.azure.management.monitor.DiagnosticSetting;
@@ -18,6 +19,7 @@ import com.microsoft.azure.management.monitor.RetentionPolicy;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import org.joda.time.Period;
 import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,8 +39,8 @@ class DiagnosticSettingImpl
     public static final String DIAGNOSTIC_SETTINGS_URI = "/providers/microsoft.insights/diagnosticSettings/";
 
     private String resourceId = null;
-    private TreeMap<String, MetricSettings> metricSet;
-    private TreeMap<String, LogSettings> logSet;
+    private TreeMap<String, MetricSettings> metricSet = new TreeMap<>();
+    private TreeMap<String, LogSettings> logSet = new TreeMap<>();
     private final MonitorManager myManager;
 
     DiagnosticSettingImpl(String name,
@@ -46,19 +48,6 @@ class DiagnosticSettingImpl
                           final MonitorManager monitorManager) {
         super(name, innerModel);
         this.myManager = monitorManager;
-        this.metricSet = new TreeMap<>();
-        this.logSet = new TreeMap<>();
-
-        if (!isInCreateMode()) {
-            resourceId = this.inner().id().substring(0,
-                    this.inner().id().length() - (DiagnosticSettingImpl.DIAGNOSTIC_SETTINGS_URI + this.inner().name()).length());
-            for (MetricSettings ms : this.inner().metrics()) {
-                metricSet.put(ms.category(), ms);
-            }
-            for (LogSettings ls : this.inner().logs()) {
-                logSet.put(ls.category(), ls);
-            }
-        }
     }
 
     @Override
@@ -245,5 +234,22 @@ class DiagnosticSettingImpl
     @Override
     protected Observable<DiagnosticSettingsResourceInner> getInnerAsync() {
         return this.manager().inner().diagnosticSettings().getAsync(this.resourceId, this.name());
+    }
+
+    @Override
+    public void setInner(DiagnosticSettingsResourceInner inner) {
+        super.setInner(inner);
+        this.metricSet.clear();
+        this.logSet.clear();
+        if (!isInCreateMode()) {
+            this.resourceId = inner.id().substring(0,
+                    this.inner().id().length() - (DiagnosticSettingImpl.DIAGNOSTIC_SETTINGS_URI + this.inner().name()).length());
+            for (MetricSettings ms : this.inner().metrics()) {
+                this.metricSet.put(ms.category(), ms);
+            }
+            for (LogSettings ls : this.inner().logs()) {
+                this.logSet.put(ls.category(), ls);
+            }
+        }
     }
 }

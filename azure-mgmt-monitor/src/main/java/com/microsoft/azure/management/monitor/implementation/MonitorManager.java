@@ -103,6 +103,7 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorManagem
     /**
      * @return the Azure Diagnostic Settings API entry point
      */
+    @Beta(SinceVersion.V1_8_0)
     public DiagnosticSettings diagnosticSettings() {
         if (this.diagnosticSettings == null) {
             this.diagnosticSettings = new DiagnosticSettingsImpl(this);

@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.monitor.implementation.DiagnosticSettingsInner;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
@@ -27,6 +28,7 @@ import java.util.List;
 /**
  * Entry point for diagnostic settings management API.
  */
+@Beta(Beta.SinceVersion.V1_8_0)
 @Fluent
 public interface DiagnosticSettings extends
         SupportsCreating<DiagnosticSetting.DefinitionStages.Blank>,

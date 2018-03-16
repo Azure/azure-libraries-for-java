@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.monitor;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
 import com.microsoft.azure.management.monitor.implementation.DiagnosticSettingsResourceInner;
@@ -26,6 +27,7 @@ import java.util.List;
 /**
  * An immutable client-side representation of an Azure diagnostic settings.
  */
+@Beta(Beta.SinceVersion.V1_8_0)
 @Fluent
 public interface DiagnosticSetting extends
         Indexable,

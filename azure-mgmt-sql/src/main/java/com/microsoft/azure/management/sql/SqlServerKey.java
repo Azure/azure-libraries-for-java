@@ -56,11 +56,6 @@ public interface SqlServerKey
     Region region();
 
     /**
-     * @return the subregion of the server key
-     */
-    String subregion();
-
-    /**
      * @return the server key type
      */
     ServerKeyType serverKeyType();
@@ -98,7 +93,6 @@ public interface SqlServerKey
      * The template for a SQL Firewall Rule update operation, containing all the settings that can be modified.
      */
     interface Update extends
-        SqlServerKey.UpdateStages.WithServerKeyType,
         SqlServerKey.UpdateStages.WithThumbprint,
         SqlServerKey.UpdateStages.WithCreationDate,
         Appliable<SqlServerKey> {
@@ -108,28 +102,6 @@ public interface SqlServerKey
      * Grouping of all the SQL Firewall Rule update stages.
      */
     interface UpdateStages {
-        /**
-         * The SQL Server Key definition to set the server key type.
-         */
-        @Beta(Beta.SinceVersion.V1_8_0)
-        interface WithServerKeyType {
-            /**
-             * Sets the server key type as "AzureKeyVault" and the URI to the key.
-             *
-             * @param uri the URI of the server key
-             * @return The next stage of the definition.
-             */
-            SqlServerKey.Update withAzureKeyVaultKey(String uri);
-
-            /**
-             * Sets the server key type as "ServiceManaged".
-             *
-             * @return The next stage of the definition.
-             */
-            @Method
-            SqlServerKey.Update withServiceManagedKey();
-        }
-
         /**
          * The SQL Server Key definition to set the thumbprint.
          */

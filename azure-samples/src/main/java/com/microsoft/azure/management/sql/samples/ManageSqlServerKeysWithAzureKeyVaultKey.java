@@ -101,7 +101,7 @@ public class ManageSqlServerKeysWithAzureKeyVaultKey {
             String serverKeyName = String.format("%s_%s_%s", vaultName, keyName,
                 keyUri.substring(keyUri.lastIndexOf("/") + 1));
 
-            SqlServerKey sqlServerKey = sqlServer.serverKeys().define(serverKeyName)
+            SqlServerKey sqlServerKey = sqlServer.serverKeys().define()
                 .withAzureKeyVaultKey(keyUri)
                 .create();
 

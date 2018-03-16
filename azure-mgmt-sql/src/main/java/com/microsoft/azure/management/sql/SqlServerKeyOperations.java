@@ -8,7 +8,6 @@ package com.microsoft.azure.management.sql;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import org.joda.time.DateTime;
 
@@ -18,8 +17,15 @@ import org.joda.time.DateTime;
 @Fluent
 @Beta(Beta.SinceVersion.V1_8_0)
 public interface SqlServerKeyOperations extends
-    SupportsCreating<SqlServerKeyOperations.DefinitionStages.WithSqlServer>,
     SqlChildrenOperations<SqlServerKey> {
+
+    /**
+     * Begins a definition for a new SQL Server Key resource.
+     *
+     * @return the first stage of the resource definition
+     */
+    @Method
+    SqlServerKeyOperations.DefinitionStages.WithSqlServer define();
 
     /**
      * Container interface for all the definitions that need to be implemented.
@@ -81,14 +87,6 @@ public interface SqlServerKeyOperations extends
              * @return The next stage of the definition.
              */
             SqlServerKeyOperations.DefinitionStages.WithCreate withAzureKeyVaultKey(String uri);
-
-            /**
-             * Sets the server key type as "ServiceManaged".
-             *
-             * @return The next stage of the definition.
-             */
-            @Method
-            SqlServerKeyOperations.DefinitionStages.WithCreate withServiceManagedKey();
         }
 
         /**
@@ -137,9 +135,9 @@ public interface SqlServerKeyOperations extends
         /**
          * Begins the definition of a new SQL Server key to be added to this server.
          *
-         * @param serverKeyName the name of the new server key to be created for the selected SQL server
          * @return the first stage of the new SQL Server key definition
          */
-        SqlServerKeyOperations.DefinitionStages.WithServerKeyType define(String serverKeyName);
+        @Method
+        SqlServerKeyOperations.DefinitionStages.WithServerKeyType define();
     }
 }

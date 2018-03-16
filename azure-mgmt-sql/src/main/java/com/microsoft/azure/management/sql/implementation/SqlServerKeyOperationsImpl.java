@@ -157,8 +157,8 @@ public class SqlServerKeyOperationsImpl
     }
 
     @Override
-    public SqlServerKeyImpl define(String name) {
-        SqlServerKeyImpl result = new SqlServerKeyImpl(name, new ServerKeyInner(), this.sqlServerManager);
+    public SqlServerKeyImpl define() {
+        SqlServerKeyImpl result = new SqlServerKeyImpl("", new ServerKeyInner(), this.sqlServerManager);
         result.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeCreated);
         return (this.sqlServer != null) ? result.withExistingSqlServer(this.sqlServer) : result;
     }

@@ -176,6 +176,19 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The DdosProtectionPlansInner object to access its operations.
+     */
+    private DdosProtectionPlansInner ddosProtectionPlans;
+
+    /**
+     * Gets the DdosProtectionPlansInner object to access its operations.
+     * @return the DdosProtectionPlansInner object.
+     */
+    public DdosProtectionPlansInner ddosProtectionPlans() {
+        return this.ddosProtectionPlans;
+    }
+
+    /**
      * The AvailableEndpointServicesInner object to access its operations.
      */
     private AvailableEndpointServicesInner availableEndpointServices;
@@ -758,6 +771,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         this.generateClientRequestId = true;
         this.applicationGateways = new ApplicationGatewaysInner(restClient().retrofit(), this);
         this.applicationSecurityGroups = new ApplicationSecurityGroupsInner(restClient().retrofit(), this);
+        this.ddosProtectionPlans = new DdosProtectionPlansInner(restClient().retrofit(), this);
         this.availableEndpointServices = new AvailableEndpointServicesInner(restClient().retrofit(), this);
         this.expressRouteCircuitAuthorizations = new ExpressRouteCircuitAuthorizationsInner(restClient().retrofit(), this);
         this.expressRouteCircuitPeerings = new ExpressRouteCircuitPeeringsInner(restClient().retrofit(), this);

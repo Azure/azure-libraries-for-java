@@ -288,6 +288,24 @@ public interface BatchAICluster extends
         }
 
         /**
+         * Defines subnet for the cluster.
+         */
+        interface WithSubnet {
+            /**
+             * @param subnetId identifier of the subnet
+             * @return the next stage of the definition
+             */
+            WithCreate withSubnet(String subnetId);
+
+            /**
+             * @param networkId identifier of the network
+             * @param subnetName subnet name
+             * @return
+             */
+            WithCreate withSubnet(String networkId, String subnetName);
+        }
+
+        /**
          * The stage of the definition which contains all the minimum required inputs for the resource to be created
          * but also allows for any other optional settings to be specified.
          */
@@ -297,6 +315,7 @@ public interface BatchAICluster extends
                 DefinitionStages.WithVMPriority,
                 DefinitionStages.WithSetupTask,
                 DefinitionStages.WithMountVolumes,
+                DefinitionStages.WithSubnet,
                 Resource.DefinitionWithTags<WithCreate> {
         }
     }

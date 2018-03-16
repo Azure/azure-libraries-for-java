@@ -11,6 +11,8 @@ import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIClusters;
 import com.microsoft.azure.management.batchai.VmPriority;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
+import com.microsoft.azure.management.network.Network;
+import com.microsoft.azure.management.network.Networks;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
@@ -31,21 +33,25 @@ public class TestBatchAI {
 
     public static class Basic extends TestTemplate<BatchAICluster, BatchAIClusters> {
         private StorageAccounts storageAccounts;
+        private Networks networks;
 
-        public Basic(StorageAccounts storageAccounts) {
+        public Basic(StorageAccounts storageAccounts, Networks networks) {
             this.storageAccounts = storageAccounts;
+            this.networks = networks;
         }
 
         @Override
         public BatchAICluster createResource(BatchAIClusters clusters) throws Exception {
             final String groupName = SdkContext.randomResourceName("rg", 10);
             final String clusterName = SdkContext.randomResourceName("cluster", 15);
+            final String vnetName = SdkContext.randomResourceName("vnet", 15);
             final String saName = SdkContext.randomResourceName("cluster", 15);
             final String shareName = "myfileshare";
             final String shareMountPath = "azurefileshare";
             final String blobFileSystemPath = "myblobsystem";
             final String containerName = "mycontainer";
             final String userName = "tirekicker";
+            final String subnetName = "MySubnet";
             String storageAccountKey;
             String fileShareUri;
             if (isPlaybackMode()) {
@@ -67,6 +73,13 @@ public class TestBatchAI {
                 container.createIfNotExists();
                 fileShareUri = cloudFileShare.getStorageUri().getPrimaryUri().toString();
             }
+
+            Network network = networks.define(vnetName)
+                .withRegion(region)
+                .withExistingResourceGroup(groupName)
+                .withAddressSpace("192.168.0.0/16")
+                .withSubnet(subnetName, "192.168.200.0/24")
+                .create();
 
             BatchAICluster cluster = clusters.define(clusterName)
                     .withRegion(region)
@@ -92,6 +105,7 @@ public class TestBatchAI {
                         .withRelativeMountPath(blobFileSystemPath)
                         .withAccountKey(storageAccountKey)
                         .attach()
+                    .withSubnet(network.id(), subnetName)
                     .withTag("tag1", "value1")
                     .create();
 //            Assert.assertEquals("steady", cluster.allocationState().toString());
@@ -101,6 +115,7 @@ public class TestBatchAI {
             Assert.assertEquals(shareMountPath, cluster.nodeSetup().mountVolumes().azureFileShares().get(0).relativeMountPath());
             Assert.assertEquals(1, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().size());
             Assert.assertEquals(blobFileSystemPath, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().get(0).relativeMountPath());
+            Assert.assertEquals(network.id() + "/subnets/" + subnetName, cluster.subnet().id());
             return cluster;
         }
 

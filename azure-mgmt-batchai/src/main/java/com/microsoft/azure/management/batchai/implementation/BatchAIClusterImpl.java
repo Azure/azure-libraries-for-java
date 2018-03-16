@@ -327,4 +327,16 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         }
         return createParameters.nodeSetup().mountVolumes();
     }
+
+    @Override
+    public BatchAIClusterImpl withSubnet(String subnetId) {
+        createParameters.withSubnet(new ResourceId().withId(subnetId));
+        return this;
+    }
+
+    @Override
+    public BatchAICluster.DefinitionStages.WithCreate withSubnet(String networkId, String subnetName) {
+        createParameters.withSubnet(new ResourceId().withId(networkId + "/subnets/" + subnetName));
+        return this;
+    }
 }

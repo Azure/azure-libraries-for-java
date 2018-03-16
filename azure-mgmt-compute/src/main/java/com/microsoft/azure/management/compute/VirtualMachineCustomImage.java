@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
@@ -270,11 +271,26 @@ public interface VirtualMachineCustomImage extends
         }
 
         /**
+         * The stage of an image definition allowing to enable zone resiliency.
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithZoneResilient {
+            /**
+             * Specifies that zone resiliency should be enabled for the image.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_8_0)
+            WithCreate withZoneResilient();
+        }
+
+        /**
          * The stage of an image definition containing all the required inputs for
          * the resource to be created, but also allowing
          * for any other optional settings to be specified.
          */
         interface WithCreate extends
+                DefinitionStages.WithZoneResilient,
                 Creatable<VirtualMachineCustomImage>,
                 Resource.DefinitionWithTags<VirtualMachineCustomImage.DefinitionStages.WithCreate> {
         }

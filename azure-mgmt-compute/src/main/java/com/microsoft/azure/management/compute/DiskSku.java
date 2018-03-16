@@ -11,7 +11,7 @@ package com.microsoft.azure.management.compute;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The disks and snapshots sku name. Can be Standard_LRS or Premium_LRS.
+ * The disks sku name. Can be Standard_LRS or Premium_LRS.
  */
 public class DiskSku {
     /**

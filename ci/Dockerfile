@@ -1,15 +1,6 @@
-FROM openjdk:8u121-jdk-alpine
+FROM openjdk:8u121-jdk
 
-LABEL a01.product="javasdk"
-LABEL a01.index.schema="v2"
-
-LABEL a01.env.AZURE_CLIENT_ID="secret:client"
-LABEL a01.env.AZURE_CLIENT_SECRET="secret:key"
-LABEL a01.env.AZURE_TENANT_ID="secret:tenant"
-LABEL a01.env.AZURE_SUBSCRIPTION_ID="secret:subscription"
-LABEL a01.env.AZURE_TEST_MODE="arg-mode"
-
-RUN apk add --no-cache curl tar bash
+# RUN apk add --no-cache curl tar bash
 
 ARG MAVEN_VERSION=3.5.2
 ARG USER_HOME_DIR="/root"

@@ -29,6 +29,24 @@ public class VirtualMachineInstanceView {
     private Integer platformFaultDomain;
 
     /**
+     * The computer name assigned to the virtual machine.
+     */
+    @JsonProperty(value = "computerName")
+    private String computerName;
+
+    /**
+     * The Operating System running on the virtual machine.
+     */
+    @JsonProperty(value = "osName")
+    private String osName;
+
+    /**
+     * The version of Operating System running on the virtual machine.
+     */
+    @JsonProperty(value = "osVersion")
+    private String osVersion;
+
+    /**
      * The Remote desktop certificate thumbprint.
      */
     @JsonProperty(value = "rdpThumbPrint")
@@ -112,6 +130,66 @@ public class VirtualMachineInstanceView {
      */
     public VirtualMachineInstanceView withPlatformFaultDomain(Integer platformFaultDomain) {
         this.platformFaultDomain = platformFaultDomain;
+        return this;
+    }
+
+    /**
+     * Get the computerName value.
+     *
+     * @return the computerName value
+     */
+    public String computerName() {
+        return this.computerName;
+    }
+
+    /**
+     * Set the computerName value.
+     *
+     * @param computerName the computerName value to set
+     * @return the VirtualMachineInstanceView object itself.
+     */
+    public VirtualMachineInstanceView withComputerName(String computerName) {
+        this.computerName = computerName;
+        return this;
+    }
+
+    /**
+     * Get the osName value.
+     *
+     * @return the osName value
+     */
+    public String osName() {
+        return this.osName;
+    }
+
+    /**
+     * Set the osName value.
+     *
+     * @param osName the osName value to set
+     * @return the VirtualMachineInstanceView object itself.
+     */
+    public VirtualMachineInstanceView withOsName(String osName) {
+        this.osName = osName;
+        return this;
+    }
+
+    /**
+     * Get the osVersion value.
+     *
+     * @return the osVersion value
+     */
+    public String osVersion() {
+        return this.osVersion;
+    }
+
+    /**
+     * Set the osVersion value.
+     *
+     * @param osVersion the osVersion value to set
+     * @return the VirtualMachineInstanceView object itself.
+     */
+    public VirtualMachineInstanceView withOsVersion(String osVersion) {
+        this.osVersion = osVersion;
         return this;
     }
 

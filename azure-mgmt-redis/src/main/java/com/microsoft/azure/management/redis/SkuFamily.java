@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.redis;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for SkuFamily.
  */
-public final class SkuFamily {
+public final class SkuFamily extends ExpandableStringEnum<SkuFamily> {
     /** Static value C for SkuFamily. */
-    public static final SkuFamily C = new SkuFamily("C");
+    public static final SkuFamily C = fromString("C");
 
     /** Static value P for SkuFamily. */
-    public static final SkuFamily P = new SkuFamily("P");
-
-    private String value;
+    public static final SkuFamily P = fromString("P");
 
     /**
-     * Creates a custom value for SkuFamily.
-     * @param value the custom value
+     * Creates or finds a SkuFamily from its string representation.
+     * @param name a name to look for
+     * @return the corresponding SkuFamily
      */
-    public SkuFamily(String value) {
-        this.value = value;
+    @JsonCreator
+    public static SkuFamily fromString(String name) {
+        return fromString(name, SkuFamily.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof SkuFamily)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        SkuFamily rhs = (SkuFamily) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known SkuFamily values
+     */
+    public static Collection<SkuFamily> values() {
+        return values(SkuFamily.class);
     }
 }

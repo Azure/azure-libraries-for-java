@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.monitor;
 
 import java.util.Map;
+import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -31,7 +32,7 @@ public class MetricAlertStatusProperties {
      * UTC time when the status was checked.
      */
     @JsonProperty(value = "timestamp")
-    private String timestamp;
+    private DateTime timestamp;
 
     /**
      * Get the dimensions value.
@@ -78,7 +79,7 @@ public class MetricAlertStatusProperties {
      *
      * @return the timestamp value
      */
-    public String timestamp() {
+    public DateTime timestamp() {
         return this.timestamp;
     }
 
@@ -88,7 +89,7 @@ public class MetricAlertStatusProperties {
      * @param timestamp the timestamp value to set
      * @return the MetricAlertStatusProperties object itself.
      */
-    public MetricAlertStatusProperties withTimestamp(String timestamp) {
+    public MetricAlertStatusProperties withTimestamp(DateTime timestamp) {
         this.timestamp = timestamp;
         return this;
     }

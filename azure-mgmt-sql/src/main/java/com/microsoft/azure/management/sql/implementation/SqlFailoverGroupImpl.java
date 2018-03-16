@@ -45,6 +45,7 @@ public class SqlFailoverGroupImpl
     private SqlServerManager sqlServerManager;
     private String resourceGroupName;
     private String sqlServerName;
+    protected String sqlServerLocation;
 
     /**
      * Creates an instance of external child resource in-memory.
@@ -52,7 +53,7 @@ public class SqlFailoverGroupImpl
      * @param name        the name of this external child resource
      * @param parent      reference to the parent of this external child resource
      * @param innerObject reference to the inner object representing this external child resource
-     * @param sqlServerManager reference to the SQL server manager that accesses firewall rule operations
+     * @param sqlServerManager reference to the SQL server manager that accesses failover group operations
      */
     SqlFailoverGroupImpl(String name, SqlServerImpl parent, FailoverGroupInner innerObject, SqlServerManager sqlServerManager) {
         super(name, parent, innerObject);
@@ -62,6 +63,7 @@ public class SqlFailoverGroupImpl
         this.sqlServerManager = sqlServerManager;
         this.resourceGroupName = parent.resourceGroupName();
         this.sqlServerName = parent.name();
+        this.sqlServerLocation = parent.regionName();
     }
 
     /**
@@ -71,14 +73,15 @@ public class SqlFailoverGroupImpl
      * @param sqlServerName     the parent SQL server name
      * @param name              the name of this external child resource
      * @param innerObject       reference to the inner object representing this external child resource
-     * @param sqlServerManager  reference to the SQL server manager that accesses firewall rule operations
+     * @param sqlServerManager  reference to the SQL server manager that accesses failover group operations
      */
-    SqlFailoverGroupImpl(String resourceGroupName, String sqlServerName, String name, FailoverGroupInner innerObject, SqlServerManager sqlServerManager) {
+    SqlFailoverGroupImpl(String resourceGroupName, String sqlServerName, String sqlServerLocation, String name, FailoverGroupInner innerObject, SqlServerManager sqlServerManager) {
         super(name, null, innerObject);
         Objects.requireNonNull(sqlServerManager);
         this.sqlServerManager = sqlServerManager;
         this.resourceGroupName = resourceGroupName;
         this.sqlServerName = sqlServerName;
+        this.sqlServerLocation = sqlServerLocation;
     }
 
     /**
@@ -86,7 +89,7 @@ public class SqlFailoverGroupImpl
      *
      * @param name             the name of this external child resource
      * @param innerObject      reference to the inner object representing this external child resource
-     * @param sqlServerManager reference to the SQL server manager that accesses firewall rule operations
+     * @param sqlServerManager reference to the SQL server manager that accesses failover group operations
      */
     SqlFailoverGroupImpl(String name, FailoverGroupInner innerObject, SqlServerManager sqlServerManager) {
         super(name, null, innerObject);
@@ -97,6 +100,7 @@ public class SqlFailoverGroupImpl
                 ResourceId resourceId = ResourceId.fromString(innerObject.id());
                 this.resourceGroupName = resourceId.resourceGroupName();
                 this.sqlServerName = resourceId.parent().name();
+                this.sqlServerLocation = innerObject.location();
             } catch (NullPointerException e) {
             }
         }
@@ -129,7 +133,7 @@ public class SqlFailoverGroupImpl
 
     @Override
     public int readWriteEndpointDataLossGracePeriodMinutes() {
-        return this.inner().readWriteEndpoint() != null ? this.inner().readWriteEndpoint().failoverWithDataLossGracePeriodMinutes() : 0;
+        return this.inner().readWriteEndpoint() != null  && this.inner().readWriteEndpoint().failoverWithDataLossGracePeriodMinutes() != null ? this.inner().readWriteEndpoint().failoverWithDataLossGracePeriodMinutes() : 0;
     }
 
     @Override
@@ -169,18 +173,10 @@ public class SqlFailoverGroupImpl
     }
 
     @Override
-    public SqlFailoverGroupImpl withExistingSqlServer(String resourceGroupName, String sqlServerName) {
+    public SqlFailoverGroupImpl withExistingSqlServer(String resourceGroupName, String sqlServerName, String sqlServerLocation) {
         this.resourceGroupName = resourceGroupName;
         this.sqlServerName = sqlServerName;
-        return this;
-    }
-
-    @Override
-    public SqlFailoverGroupImpl withExistingSqlServerId(String sqlServerId) {
-        Objects.requireNonNull(sqlServerId);
-        ResourceId resourceId = ResourceId.fromString(sqlServerId);
-        this.resourceGroupName = resourceId.resourceGroupName();
-        this.sqlServerName = resourceId.name();
+        this.sqlServerLocation = sqlServerLocation;
         return this;
     }
 
@@ -189,6 +185,7 @@ public class SqlFailoverGroupImpl
         Objects.requireNonNull(sqlServer);
         this.resourceGroupName = sqlServer.resourceGroupName();
         this.sqlServerName = sqlServer.name();
+        this.sqlServerLocation = sqlServer.regionName();
         return this;
     }
 
@@ -201,6 +198,9 @@ public class SqlFailoverGroupImpl
     @Override
     public Observable<SqlFailoverGroup> createResourceAsync() {
         final SqlFailoverGroupImpl self = this;
+        if (this.inner().location() == null) {
+            this.inner().withLocation(this.sqlServerLocation);
+        }
         return this.sqlServerManager.inner().failoverGroups()
             .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.name(), self.inner())
             .map(new Func1<FailoverGroupInner, SqlFailoverGroup>() {
@@ -273,12 +273,12 @@ public class SqlFailoverGroupImpl
     }
 
     @Override
-    public SqlFailoverGroupImpl withAutomaticReadWriteEndpointPolicy(int gracePeriod) {
+    public SqlFailoverGroupImpl withAutomaticReadWriteEndpointPolicyAndDataLossGracePeriod(int gracePeriodInMinutes) {
         if (this.inner().readWriteEndpoint() == null) {
             this.inner().withReadWriteEndpoint(new FailoverGroupReadWriteEndpoint());
         }
         this.inner().readWriteEndpoint().withFailoverPolicy(ReadWriteEndpointFailoverPolicy.AUTOMATIC);
-        this.inner().readWriteEndpoint().withFailoverWithDataLossGracePeriodMinutes(gracePeriod);
+        this.inner().readWriteEndpoint().withFailoverWithDataLossGracePeriodMinutes(gracePeriodInMinutes);
         return this;
     }
 
@@ -288,16 +288,7 @@ public class SqlFailoverGroupImpl
             this.inner().withReadWriteEndpoint(new FailoverGroupReadWriteEndpoint());
         }
         this.inner().readWriteEndpoint().withFailoverPolicy(ReadWriteEndpointFailoverPolicy.MANUAL);
-        return this;
-    }
-
-    @Override
-    public SqlFailoverGroupImpl withManualReadWriteEndpointPolicy(int gracePeriod) {
-        if (this.inner().readWriteEndpoint() == null) {
-            this.inner().withReadWriteEndpoint(new FailoverGroupReadWriteEndpoint());
-        }
-        this.inner().readWriteEndpoint().withFailoverPolicy(ReadWriteEndpointFailoverPolicy.MANUAL);
-        this.inner().readWriteEndpoint().withFailoverWithDataLossGracePeriodMinutes(gracePeriod);
+        this.inner().readWriteEndpoint().withFailoverWithDataLossGracePeriodMinutes(null);
         return this;
     }
 

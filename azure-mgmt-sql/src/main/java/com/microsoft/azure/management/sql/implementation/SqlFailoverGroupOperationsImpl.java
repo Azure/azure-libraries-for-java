@@ -44,7 +44,7 @@ public class SqlFailoverGroupOperationsImpl
     public SqlFailoverGroup getBySqlServer(String resourceGroupName, String sqlServerName, String name) {
         FailoverGroupInner failoverGroupInner = this.sqlServerManager.inner().failoverGroups()
             .get(resourceGroupName, sqlServerName, name);
-        return failoverGroupInner != null ? new SqlFailoverGroupImpl(resourceGroupName, sqlServerName, name, failoverGroupInner, this.sqlServerManager) : null;
+        return failoverGroupInner != null ? new SqlFailoverGroupImpl(name, failoverGroupInner, this.sqlServerManager) : null;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class SqlFailoverGroupOperationsImpl
             .map(new Func1<FailoverGroupInner, SqlFailoverGroup>() {
                 @Override
                 public SqlFailoverGroup call(FailoverGroupInner failoverGroupInner) {
-                    return new SqlFailoverGroupImpl(resourceGroupName, sqlServerName, name, failoverGroupInner, self.sqlServerManager);
+                    return new SqlFailoverGroupImpl(name, failoverGroupInner, self.sqlServerManager);
                 }
             });
     }
@@ -98,7 +98,7 @@ public class SqlFailoverGroupOperationsImpl
             .listByServer(resourceGroupName, sqlServerName);
         if (failoverGroupInners != null) {
             for (FailoverGroupInner inner : failoverGroupInners) {
-                failoverGroups.add(new SqlFailoverGroupImpl(resourceGroupName, sqlServerName, inner.name(), inner, this.sqlServerManager));
+                failoverGroups.add(new SqlFailoverGroupImpl(inner.name(), inner, this.sqlServerManager));
             }
         }
         return Collections.unmodifiableList(failoverGroups);
@@ -118,7 +118,7 @@ public class SqlFailoverGroupOperationsImpl
             .map(new Func1<FailoverGroupInner, SqlFailoverGroup>() {
                 @Override
                 public SqlFailoverGroup call(FailoverGroupInner failoverGroupInner) {
-                    return new SqlFailoverGroupImpl(resourceGroupName, sqlServerName, failoverGroupInner.name(), failoverGroupInner, self.sqlServerManager);
+                    return new SqlFailoverGroupImpl(failoverGroupInner.name(), failoverGroupInner, self.sqlServerManager);
                 }
             });
     }
@@ -209,7 +209,7 @@ public class SqlFailoverGroupOperationsImpl
     public SqlFailoverGroup failover(String resourceGroupName, String serverName, String failoverGroupName) {
         FailoverGroupInner failoverGroupInner = this.sqlServerManager.inner().failoverGroups()
             .failover(resourceGroupName, serverName, failoverGroupName);
-        return failoverGroupInner != null ? new SqlFailoverGroupImpl(resourceGroupName, serverName, failoverGroupInner.name(), failoverGroupInner, this.sqlServerManager) : null;
+        return failoverGroupInner != null ? new SqlFailoverGroupImpl(failoverGroupInner.name(), failoverGroupInner, this.sqlServerManager) : null;
     }
 
     @Override
@@ -220,7 +220,7 @@ public class SqlFailoverGroupOperationsImpl
             .map(new Func1<FailoverGroupInner, SqlFailoverGroup>() {
                 @Override
                 public SqlFailoverGroup call(FailoverGroupInner failoverGroupInner) {
-                    return new SqlFailoverGroupImpl(resourceGroupName, serverName, failoverGroupInner.name(), failoverGroupInner, self.sqlServerManager);
+                    return new SqlFailoverGroupImpl(failoverGroupInner.name(), failoverGroupInner, self.sqlServerManager);
                 }
             });
     }
@@ -229,7 +229,7 @@ public class SqlFailoverGroupOperationsImpl
     public SqlFailoverGroup forceFailoverAllowDataLoss(String resourceGroupName, String serverName, String failoverGroupName) {
         FailoverGroupInner failoverGroupInner = this.sqlServerManager.inner().failoverGroups()
             .forceFailoverAllowDataLoss(resourceGroupName, serverName, failoverGroupName);
-        return failoverGroupInner != null ? new SqlFailoverGroupImpl(resourceGroupName, serverName, failoverGroupInner.name(), failoverGroupInner, this.sqlServerManager) : null;
+        return failoverGroupInner != null ? new SqlFailoverGroupImpl(failoverGroupInner.name(), failoverGroupInner, this.sqlServerManager) : null;
     }
 
     @Override
@@ -240,7 +240,7 @@ public class SqlFailoverGroupOperationsImpl
             .map(new Func1<FailoverGroupInner, SqlFailoverGroup>() {
                 @Override
                 public SqlFailoverGroup call(FailoverGroupInner failoverGroupInner) {
-                    return new SqlFailoverGroupImpl(resourceGroupName, serverName, failoverGroupInner.name(), failoverGroupInner, self.sqlServerManager);
+                    return new SqlFailoverGroupImpl(failoverGroupInner.name(), failoverGroupInner, self.sqlServerManager);
                 }
             });
     }

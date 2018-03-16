@@ -9,6 +9,7 @@ package com.microsoft.azure.management.samples;
 import com.microsoft.azure.management.sql.samples.ManageSqlDatabase;
 import com.microsoft.azure.management.sql.samples.ManageSqlDatabaseInElasticPool;
 import com.microsoft.azure.management.sql.samples.ManageSqlDatabasesAcrossDifferentDataCenters;
+import com.microsoft.azure.management.sql.samples.ManageSqlFailoverGroups;
 import com.microsoft.azure.management.sql.samples.ManageSqlFirewallRules;
 import com.microsoft.azure.management.sql.samples.ManageSqlImportExportDatabase;
 import com.microsoft.azure.management.sql.samples.ManageSqlServerDnsAliases;
@@ -66,6 +67,11 @@ public class SqlSampleTests extends SamplesTestBase {
     public void testManageSqlWithRecoveredOrRestoredDatabase() {
         // This test can take significant time to run since it depends on the availability of certain resources on the service side.
         Assert.assertTrue(ManageSqlWithRecoveredOrRestoredDatabase.runSample(azure));
+    }
+
+    @Test
+    public void testManageSqlFailoverGroups() {
+        Assert.assertTrue(ManageSqlFailoverGroups.runSample(azure));
     }
 
     @Test

@@ -91,17 +91,10 @@ public interface SqlFailoverGroupOperations extends
              *
              * @param resourceGroupName the name of the resource group the parent SQL server
              * @param sqlServerName     the parent SQL server name
+             * @param location          the parent SQL server location
              * @return the next stage of the definition
              */
-            SqlFailoverGroupOperations.DefinitionStages.WithReadWriteEndpointPolicy withExistingSqlServer(String resourceGroupName, String sqlServerName);
-
-            /**
-             * Sets the parent SQL server for the new Failover Group.
-             *
-             * @param sqlServerId the parent SQL server ID
-             * @return the next stage of the definition
-             */
-            SqlFailoverGroupOperations.DefinitionStages.WithReadWriteEndpointPolicy withExistingSqlServerId(String sqlServerId);
+            SqlFailoverGroupOperations.DefinitionStages.WithReadWriteEndpointPolicy withExistingSqlServer(String resourceGroupName, String sqlServerName, String location);
 
             /**
              * Sets the parent SQL server for the new Failover Group.
@@ -120,10 +113,10 @@ public interface SqlFailoverGroupOperations extends
             /**
              * Sets the SQL Failover Group read-write endpoint failover policy as "Automatic".
              *
-             * @param gracePeriod the grace period before failover with data loss is attempted for the read-write endpoint
+             * @param gracePeriodInMinutes the grace period before failover with data loss is attempted for the read-write endpoint
              * @return the next stage of the definition
              */
-            SqlFailoverGroupOperations.DefinitionStages.WithPartnerServer withAutomaticReadWriteEndpointPolicy(int gracePeriod);
+            SqlFailoverGroupOperations.DefinitionStages.WithPartnerServer withAutomaticReadWriteEndpointPolicyAndDataLossGracePeriod(int gracePeriodInMinutes);
 
             /**
              * Sets the SQL Failover Group read-write endpoint failover policy as "Manual".
@@ -132,14 +125,6 @@ public interface SqlFailoverGroupOperations extends
              */
             @Method
             SqlFailoverGroupOperations.DefinitionStages.WithPartnerServer withManualReadWriteEndpointPolicy();
-
-            /**
-             * Sets the SQL Failover Group read-write endpoint failover policy as "Manual".
-             *
-             * @param gracePeriod the grace period before failover with data loss is attempted for the read-write endpoint
-             * @return the next stage of the definition
-             */
-            SqlFailoverGroupOperations.DefinitionStages.WithPartnerServer withManualReadWriteEndpointPolicy(int gracePeriod);
         }
 
         /**

@@ -118,10 +118,10 @@ public interface SqlFailoverGroup
             /**
              * Sets the SQL Failover Group read-write endpoint failover policy as "Automatic".
              *
-             * @param gracePeriod the grace period before failover with data loss is attempted for the read-write endpoint
+             * @param gracePeriodInMinutes the grace period before failover with data loss is attempted for the read-write endpoint
              * @return the next stage of the definition
              */
-            SqlFailoverGroup.Update withAutomaticReadWriteEndpointPolicy(int gracePeriod);
+            SqlFailoverGroup.Update withAutomaticReadWriteEndpointPolicyAndDataLossGracePeriod(int gracePeriodInMinutes);
 
             /**
              * Sets the SQL Failover Group read-write endpoint failover policy as "Manual".
@@ -130,14 +130,6 @@ public interface SqlFailoverGroup
              */
             @Method
             SqlFailoverGroup.Update withManualReadWriteEndpointPolicy();
-
-            /**
-             * Sets the SQL Failover Group read-write endpoint failover policy as "Manual".
-             *
-             * @param gracePeriod the grace period before failover with data loss is attempted for the read-write endpoint
-             * @return the next stage of the definition
-             */
-            SqlFailoverGroup.Update withManualReadWriteEndpointPolicy(int gracePeriod);
         }
 
         /**

@@ -10,7 +10,7 @@ before_script:
 - sleep 5
 script:
 - |-
-#  ./ci/run_tests.sh
+  ./ci/run_tests.sh
   if [ ${TRAVIS_BRANCH} = "master"];  then
     ./ci/create_image.sh ;
   fi

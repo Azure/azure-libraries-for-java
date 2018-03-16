@@ -8,7 +8,6 @@
 
 package com.microsoft.azure.management.monitor.implementation;
 
-import com.microsoft.azure.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.monitor.CategoryType;
 import com.microsoft.azure.management.monitor.DiagnosticSetting;
@@ -19,7 +18,6 @@ import com.microsoft.azure.management.monitor.RetentionPolicy;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import org.joda.time.Period;
 import rx.Observable;
-import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.Collections;

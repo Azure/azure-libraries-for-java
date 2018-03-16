@@ -233,6 +233,7 @@ public interface MetricDefinition extends
              *
              * @return Metric collection received after query execution.
              */
+            @Method
             MetricCollection execute();
 
             /**
@@ -240,6 +241,7 @@ public interface MetricDefinition extends
              *
              * @return a representation of the deferred computation of Metric collection query call
              */
+            @Method
             Observable<MetricCollection> executeAsync();
         }
     }

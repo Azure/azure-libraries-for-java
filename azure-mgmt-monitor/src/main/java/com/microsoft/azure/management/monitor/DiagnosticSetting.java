@@ -9,6 +9,7 @@ package com.microsoft.azure.management.monitor;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.monitor.implementation.DiagnosticSettingsResourceInner;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
@@ -219,6 +220,7 @@ public interface DiagnosticSetting extends
              *
              * @return the next stage of the Diagnostic Settings update.
              */
+            @Method
             Update withoutStorageAccount();
         }
 
@@ -250,6 +252,7 @@ public interface DiagnosticSetting extends
              *
              * @return the next stage of the Diagnostic Settings update.
              */
+            @Method
             Update withoutEventHub();
         }
 
@@ -270,6 +273,7 @@ public interface DiagnosticSetting extends
              *
              * @return the next stage of the Diagnostic Settings update.
              */
+            @Method
             Update withoutLogAnalytics();
         }
 
@@ -324,6 +328,7 @@ public interface DiagnosticSetting extends
              *
              * @return the next stage of the Diagnostic Settings update.
              */
+            @Method
             Update withoutLogs();
 
             /**
@@ -331,6 +336,7 @@ public interface DiagnosticSetting extends
              *
              * @return the next stage of the Diagnostic Settings update.
              */
+            @Method
             Update withoutMetrics();
         }
     }

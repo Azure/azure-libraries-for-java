@@ -100,13 +100,6 @@ public class LoadBalancerInner extends Resource {
     private String etag;
 
     /**
-     * A list of availability zones denoting the IP allocated for the resource
-     * needs to come from.
-     */
-    @JsonProperty(value = "zones")
-    private List<String> zones;
-
-    /**
      * Get the sku value.
      *
      * @return the sku value
@@ -323,26 +316,6 @@ public class LoadBalancerInner extends Resource {
      */
     public LoadBalancerInner withEtag(String etag) {
         this.etag = etag;
-        return this;
-    }
-
-    /**
-     * Get the zones value.
-     *
-     * @return the zones value
-     */
-    public List<String> zones() {
-        return this.zones;
-    }
-
-    /**
-     * Set the zones value.
-     *
-     * @param zones the zones value to set
-     * @return the LoadBalancerInner object itself.
-     */
-    public LoadBalancerInner withZones(List<String> zones) {
-        this.zones = zones;
         return this;
     }
 

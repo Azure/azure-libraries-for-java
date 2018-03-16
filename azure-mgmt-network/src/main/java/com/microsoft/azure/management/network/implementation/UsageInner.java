@@ -16,6 +16,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class UsageInner {
     /**
+     * Resource identifier.
+     */
+    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
+    private String id;
+
+    /**
      * An enum describing the unit of measurement.
      */
     @JsonProperty(value = "unit", required = true)
@@ -44,6 +50,15 @@ public class UsageInner {
      */
     public UsageInner() {
         unit = "Count";
+    }
+
+    /**
+     * Get the id value.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
     }
 
     /**

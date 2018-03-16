@@ -8,61 +8,43 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for PcStatus.
  */
-public final class PcStatus {
+public final class PcStatus extends ExpandableStringEnum<PcStatus> {
     /** Static value NotStarted for PcStatus. */
-    public static final PcStatus NOT_STARTED = new PcStatus("NotStarted");
+    public static final PcStatus NOT_STARTED = fromString("NotStarted");
 
     /** Static value Running for PcStatus. */
-    public static final PcStatus RUNNING = new PcStatus("Running");
+    public static final PcStatus RUNNING = fromString("Running");
 
     /** Static value Stopped for PcStatus. */
-    public static final PcStatus STOPPED = new PcStatus("Stopped");
+    public static final PcStatus STOPPED = fromString("Stopped");
 
     /** Static value Error for PcStatus. */
-    public static final PcStatus ERROR = new PcStatus("Error");
+    public static final PcStatus ERROR = fromString("Error");
 
     /** Static value Unknown for PcStatus. */
-    public static final PcStatus UNKNOWN = new PcStatus("Unknown");
-
-    private String value;
+    public static final PcStatus UNKNOWN = fromString("Unknown");
 
     /**
-     * Creates a custom value for PcStatus.
-     * @param value the custom value
+     * Creates or finds a PcStatus from its string representation.
+     * @param name a name to look for
+     * @return the corresponding PcStatus
      */
-    public PcStatus(String value) {
-        this.value = value;
+    @JsonCreator
+    public static PcStatus fromString(String name) {
+        return fromString(name, PcStatus.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PcStatus)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        PcStatus rhs = (PcStatus) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known PcStatus values
+     */
+    public static Collection<PcStatus> values() {
+        return values(PcStatus.class);
     }
 }

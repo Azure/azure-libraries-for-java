@@ -13,6 +13,7 @@ import com.microsoft.azure.management.network.IPAllocationMethod;
 import com.microsoft.azure.management.network.IPVersion;
 import com.microsoft.azure.management.network.PublicIPAddressDnsSettings;
 import java.util.List;
+import com.microsoft.azure.management.network.IpTag;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -53,6 +54,12 @@ public class PublicIPAddressInner extends Resource {
      */
     @JsonProperty(value = "properties.dnsSettings")
     private PublicIPAddressDnsSettings dnsSettings;
+
+    /**
+     * The list of tags associated with the public IP address.
+     */
+    @JsonProperty(value = "properties.ipTags")
+    private List<IpTag> ipTags;
 
     /**
      * The IP address associated with the public IP address resource.
@@ -178,6 +185,26 @@ public class PublicIPAddressInner extends Resource {
      */
     public PublicIPAddressInner withDnsSettings(PublicIPAddressDnsSettings dnsSettings) {
         this.dnsSettings = dnsSettings;
+        return this;
+    }
+
+    /**
+     * Get the ipTags value.
+     *
+     * @return the ipTags value
+     */
+    public List<IpTag> ipTags() {
+        return this.ipTags;
+    }
+
+    /**
+     * Set the ipTags value.
+     *
+     * @param ipTags the ipTags value to set
+     * @return the PublicIPAddressInner object itself.
+     */
+    public PublicIPAddressInner withIpTags(List<IpTag> ipTags) {
+        this.ipTags = ipTags;
         return this;
     }
 

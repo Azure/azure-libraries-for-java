@@ -21,16 +21,22 @@ import com.microsoft.rest.serializer.JsonFlatten;
 @JsonFlatten
 public class PacketCaptureResultInner {
     /**
-     * Name of the packet capture session.
+     * Name of the packet capture.
      */
     @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
-     * ID of the packet capture operation.
+     * ID of the packet capture.
      */
     @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
     private String id;
+
+    /**
+     * Packet capture type.
+     */
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
+    private String type;
 
     /**
      * The etag property.
@@ -97,6 +103,15 @@ public class PacketCaptureResultInner {
      */
     public String id() {
         return this.id;
+    }
+
+    /**
+     * Get the type value.
+     *
+     * @return the type value
+     */
+    public String type() {
+        return this.type;
     }
 
     /**

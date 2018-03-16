@@ -46,7 +46,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * The peer ASN.
      */
     @JsonProperty(value = "properties.peerASN")
-    private Integer peerASN;
+    private Long peerASN;
 
     /**
      * The primary address prefix.
@@ -205,7 +205,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      *
      * @return the peerASN value
      */
-    public Integer peerASN() {
+    public Long peerASN() {
         return this.peerASN;
     }
 
@@ -215,7 +215,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param peerASN the peerASN value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withPeerASN(Integer peerASN) {
+    public ExpressRouteCircuitPeeringInner withPeerASN(Long peerASN) {
         this.peerASN = peerASN;
         return this;
     }

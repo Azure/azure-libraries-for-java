@@ -13,7 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Information on the configuration of flow log.
+ * Information on the configuration of flow log and traffic analytics
+ * (optional).
  */
 @JsonFlatten
 public class FlowLogInformationInner {
@@ -40,6 +41,30 @@ public class FlowLogInformationInner {
      */
     @JsonProperty(value = "properties.retentionPolicy")
     private RetentionPolicyParameters retentionPolicy;
+
+    /**
+     * Flag to enable/disable traffic analytics.
+     */
+    @JsonProperty(value = "flowAnalyticsConfiguration.networkWatcherFlowAnalyticsConfiguration.enabled", required = true)
+    private boolean enabled1;
+
+    /**
+     * The resource guid of the attached workspace.
+     */
+    @JsonProperty(value = "flowAnalyticsConfiguration.networkWatcherFlowAnalyticsConfiguration.workspaceId", required = true)
+    private String workspaceId;
+
+    /**
+     * The location of the attached workspace.
+     */
+    @JsonProperty(value = "flowAnalyticsConfiguration.networkWatcherFlowAnalyticsConfiguration.workspaceRegion", required = true)
+    private String workspaceRegion;
+
+    /**
+     * Resource Id of the attached workspace.
+     */
+    @JsonProperty(value = "flowAnalyticsConfiguration.networkWatcherFlowAnalyticsConfiguration.workspaceResourceId", required = true)
+    private String workspaceResourceId;
 
     /**
      * Get the targetResourceId value.
@@ -118,6 +143,86 @@ public class FlowLogInformationInner {
      */
     public FlowLogInformationInner withRetentionPolicy(RetentionPolicyParameters retentionPolicy) {
         this.retentionPolicy = retentionPolicy;
+        return this;
+    }
+
+    /**
+     * Get the enabled1 value.
+     *
+     * @return the enabled1 value
+     */
+    public boolean enabled1() {
+        return this.enabled1;
+    }
+
+    /**
+     * Set the enabled1 value.
+     *
+     * @param enabled1 the enabled1 value to set
+     * @return the FlowLogInformationInner object itself.
+     */
+    public FlowLogInformationInner withEnabled1(boolean enabled1) {
+        this.enabled1 = enabled1;
+        return this;
+    }
+
+    /**
+     * Get the workspaceId value.
+     *
+     * @return the workspaceId value
+     */
+    public String workspaceId() {
+        return this.workspaceId;
+    }
+
+    /**
+     * Set the workspaceId value.
+     *
+     * @param workspaceId the workspaceId value to set
+     * @return the FlowLogInformationInner object itself.
+     */
+    public FlowLogInformationInner withWorkspaceId(String workspaceId) {
+        this.workspaceId = workspaceId;
+        return this;
+    }
+
+    /**
+     * Get the workspaceRegion value.
+     *
+     * @return the workspaceRegion value
+     */
+    public String workspaceRegion() {
+        return this.workspaceRegion;
+    }
+
+    /**
+     * Set the workspaceRegion value.
+     *
+     * @param workspaceRegion the workspaceRegion value to set
+     * @return the FlowLogInformationInner object itself.
+     */
+    public FlowLogInformationInner withWorkspaceRegion(String workspaceRegion) {
+        this.workspaceRegion = workspaceRegion;
+        return this;
+    }
+
+    /**
+     * Get the workspaceResourceId value.
+     *
+     * @return the workspaceResourceId value
+     */
+    public String workspaceResourceId() {
+        return this.workspaceResourceId;
+    }
+
+    /**
+     * Set the workspaceResourceId value.
+     *
+     * @param workspaceResourceId the workspaceResourceId value to set
+     * @return the FlowLogInformationInner object itself.
+     */
+    public FlowLogInformationInner withWorkspaceResourceId(String workspaceResourceId) {
+        this.workspaceResourceId = workspaceResourceId;
         return this;
     }
 

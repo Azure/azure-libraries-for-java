@@ -61,13 +61,13 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * The primary port.
      */
-    @JsonProperty(value = "properties.primaryAzurePort")
+    @JsonProperty(value = "properties.primaryAzurePort", access = JsonProperty.Access.WRITE_ONLY)
     private String primaryAzurePort;
 
     /**
      * The secondary port.
      */
-    @JsonProperty(value = "properties.secondaryAzurePort")
+    @JsonProperty(value = "properties.secondaryAzurePort", access = JsonProperty.Access.WRITE_ONLY)
     private String secondaryAzurePort;
 
     /**
@@ -245,34 +245,12 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     }
 
     /**
-     * Set the primaryAzurePort value.
-     *
-     * @param primaryAzurePort the primaryAzurePort value to set
-     * @return the ExpressRouteCrossConnectionPeeringInner object itself.
-     */
-    public ExpressRouteCrossConnectionPeeringInner withPrimaryAzurePort(String primaryAzurePort) {
-        this.primaryAzurePort = primaryAzurePort;
-        return this;
-    }
-
-    /**
      * Get the secondaryAzurePort value.
      *
      * @return the secondaryAzurePort value
      */
     public String secondaryAzurePort() {
         return this.secondaryAzurePort;
-    }
-
-    /**
-     * Set the secondaryAzurePort value.
-     *
-     * @param secondaryAzurePort the secondaryAzurePort value to set
-     * @return the ExpressRouteCrossConnectionPeeringInner object itself.
-     */
-    public ExpressRouteCrossConnectionPeeringInner withSecondaryAzurePort(String secondaryAzurePort) {
-        this.secondaryAzurePort = secondaryAzurePort;
-        return this;
     }
 
     /**

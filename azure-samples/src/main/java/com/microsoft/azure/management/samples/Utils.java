@@ -151,6 +151,7 @@ import com.microsoft.azure.management.sql.SqlElasticPool;
 import com.microsoft.azure.management.sql.SqlFailoverGroup;
 import com.microsoft.azure.management.sql.SqlFirewallRule;
 import com.microsoft.azure.management.sql.SqlServer;
+import com.microsoft.azure.management.sql.SqlServerKey;
 import com.microsoft.azure.management.sql.SqlSubscriptionUsageMetric;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRule;
 import com.microsoft.azure.management.storage.StorageAccount;
@@ -1612,6 +1613,24 @@ public final class Utils {
         for (String databaseId : failoverGroup.databases()) {
             builder.append("\n\t\tID: ").append(databaseId);
         }
+
+        System.out.println(builder.toString());
+    }
+
+    /**
+     * Prints information for the passed SQL server key.
+     * @param serverKey virtual network rule to be printed.
+     */
+    public static void print(SqlServerKey serverKey) {
+        StringBuilder builder = new StringBuilder().append("SQL server key: ").append(serverKey.id())
+            .append("Name: ").append(serverKey.name())
+            .append("\n\tResource group: ").append(serverKey.resourceGroupName())
+            .append("\n\tSqlServer Name: ").append(serverKey.sqlServerName())
+            .append("\n\tRegion: ").append(serverKey.region() != null ? serverKey.region().name() : "")
+            .append("\n\tServer Key Type: ").append(serverKey.serverKeyType())
+            .append("\n\tServer Key URI: ").append(serverKey.uri())
+            .append("\n\tServer Key Thumbprint: ").append(serverKey.thumbprint())
+            .append("\n\tServer Key Creation Date: ").append(serverKey.creationDate() != null ? serverKey.creationDate().toString() : "");
 
         System.out.println(builder.toString());
     }

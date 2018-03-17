@@ -16,6 +16,7 @@ import com.microsoft.azure.management.sql.SqlDatabaseOperations;
 import com.microsoft.azure.management.sql.SqlElasticPoolOperations;
 import com.microsoft.azure.management.sql.SqlFirewallRuleOperations;
 import com.microsoft.azure.management.sql.SqlServer;
+import com.microsoft.azure.management.sql.SqlServerKeyOperations;
 import com.microsoft.azure.management.sql.SqlServers;
 import com.microsoft.azure.management.sql.SqlSubscriptionUsageMetric;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRuleOperations;
@@ -46,6 +47,7 @@ class SqlServersImpl
     private SqlDatabaseOperations databases;
     private SqlServerDnsAliasOperationsImpl dnsAliases;
     private SqlFailoverGroupOperationsImpl failoverGroups;
+    private SqlServerKeyOperationsImpl serverKeys;
 
     protected SqlServersImpl(SqlServerManager manager) {
         super(manager.inner().servers(), manager);
@@ -105,6 +107,15 @@ class SqlServersImpl
         }
 
         return this.failoverGroups;
+    }
+
+    @Override
+    public SqlServerKeyOperations serverKeys() {
+        if (this.serverKeys == null) {
+            this.serverKeys = new SqlServerKeyOperationsImpl(this.manager());
+        }
+
+        return this.serverKeys;
     }
 
     @Override

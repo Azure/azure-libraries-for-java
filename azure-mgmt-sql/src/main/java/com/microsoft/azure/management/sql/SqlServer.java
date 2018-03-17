@@ -236,6 +236,12 @@ public interface SqlServer extends
     @Beta(Beta.SinceVersion.V1_8_0)
     SqlFailoverGroupOperations.SqlFailoverGroupActionsDefinition failoverGroups();
 
+    /**
+     * @return returns entry point to manage SQL Server Keys for this server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlServerKeyOperations.SqlServerKeyActionsDefinition serverKeys();
+
 
     /**************************************************************
      * Fluent interfaces to provision a SqlServer

@@ -27,6 +27,7 @@ import com.microsoft.azure.management.sql.SqlRestorableDroppedDatabase;
 import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.sql.SqlServerAutomaticTuning;
 import com.microsoft.azure.management.sql.SqlServerDnsAliasOperations;
+import com.microsoft.azure.management.sql.SqlServerKeyOperations;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRule;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRuleOperations;
 import rx.Completable;
@@ -68,6 +69,7 @@ public class SqlServerImpl
     private SqlDatabaseOperations.SqlDatabaseActionsDefinition sqlDatabaseOperations;
     private SqlServerDnsAliasOperations.SqlServerDnsAliasActionsDefinition sqlServerDnsAliasOperations;
     private SqlFailoverGroupOperations.SqlFailoverGroupActionsDefinition sqlFailoverGroupOperations;
+    private SqlServerKeyOperations.SqlServerKeyActionsDefinition sqlServerKeyOperations;
 
     protected SqlServerImpl(String name, ServerInner innerObject, SqlServerManager manager) {
         super(name, innerObject, manager);
@@ -452,6 +454,14 @@ public class SqlServerImpl
             this.sqlFailoverGroupOperations = new SqlFailoverGroupOperationsImpl(this, this.manager());
         }
         return this.sqlFailoverGroupOperations;
+    }
+
+    @Override
+    public SqlServerKeyOperations.SqlServerKeyActionsDefinition serverKeys() {
+        if (this.sqlServerKeyOperations == null) {
+            this.sqlServerKeyOperations = new SqlServerKeyOperationsImpl(this, this.manager());
+        }
+        return this.sqlServerKeyOperations;
     }
 
     @Override

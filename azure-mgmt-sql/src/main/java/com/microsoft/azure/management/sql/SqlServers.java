@@ -60,6 +60,12 @@ public interface SqlServers extends
     SqlServerDnsAliasOperations dnsAliases();
 
     /**
+     * @return the SQL Server Key entry point
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlServerKeyOperations serverKeys();
+
+    /**
      * @return the SQL Server Elastic Pools API entry point
      */
     @Beta(Beta.SinceVersion.V1_7_0)

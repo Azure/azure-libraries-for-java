@@ -16,15 +16,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SshConfiguration {
     /**
-     * List of source IP ranges to allow SSH connection to VM.
+     * List of source IP ranges to allow SSH connection to a node.
      * Default value is '*' can be used to match all source IPs. Maximum number
-     * of publicIPs that can be specified are 400.
+     * of IP ranges that can be specified are 400.
      */
     @JsonProperty(value = "publicIPsToAllow")
     private List<String> publicIPsToAllow;
 
     /**
-     * Settings for user account of VMs.
+     * Settings for user account to be created on a node.
      */
     @JsonProperty(value = "userAccountSettings", required = true)
     private UserAccountSettings userAccountSettings;

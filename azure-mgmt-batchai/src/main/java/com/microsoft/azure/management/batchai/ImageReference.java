@@ -39,6 +39,21 @@ public class ImageReference {
     private String version;
 
     /**
+     * The ARM resource identifier of the virtual machine image. Computes nodes
+     * of the cluster will be created using this custom image. This is of the
+     * form
+     * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}.
+     * The virtual machine image must be in the same region and subscription as
+     * the cluster. For information about the firewall settings for the Batch
+     * node agent to communicate with the Batch service see
+     * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+     * Note, you need to provide publisher, offer and sku of the base OS image
+     * of which the custom image has been derived from.
+     */
+    @JsonProperty(value = "virtualMachineImageId")
+    private String virtualMachineImageId;
+
+    /**
      * Get the publisher value.
      *
      * @return the publisher value
@@ -115,6 +130,26 @@ public class ImageReference {
      */
     public ImageReference withVersion(String version) {
         this.version = version;
+        return this;
+    }
+
+    /**
+     * Get the virtualMachineImageId value.
+     *
+     * @return the virtualMachineImageId value
+     */
+    public String virtualMachineImageId() {
+        return this.virtualMachineImageId;
+    }
+
+    /**
+     * Set the virtualMachineImageId value.
+     *
+     * @param virtualMachineImageId the virtualMachineImageId value to set
+     * @return the ImageReference object itself.
+     */
+    public ImageReference withVirtualMachineImageId(String virtualMachineImageId) {
+        this.virtualMachineImageId = virtualMachineImageId;
         return this;
     }
 

@@ -36,8 +36,9 @@ public class AzureBlobFileSystemReference {
     /**
      * Specifies the relative path on the compute node where the Azure Blob
      * file system will be mounted.
-     * Note that all blob file systems will be mounted under
-     * $AZ_BATCHAI_MOUNT_ROOT location.
+     * Note that all cluster level blob file systems will be mounted under
+     * $AZ_BATCHAI_MOUNT_ROOT location and all job level blob file systems will
+     * be mounted under $AZ_BATCHAI_JOB_MOUNT_ROOT.
      */
     @JsonProperty(value = "relativeMountPath", required = true)
     private String relativeMountPath;

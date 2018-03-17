@@ -41,7 +41,7 @@ public class FileServerCreateParametersInner {
     private String vmSize;
 
     /**
-     * SSH settings for the file server.
+     * SSH configuration for the file server.
      */
     @JsonProperty(value = "properties.sshConfiguration", required = true)
     private SshConfiguration sshConfiguration;

@@ -573,6 +573,7 @@ public interface ContainerGroup extends
              *
              * @param <ParentT> the stage of the parent definition to return to after attaching this definition
              */
+            @Beta(Beta.SinceVersion.V1_8_0)
             interface WithPorts<ParentT> {
                 /**
                  * Specifies the container's TCP ports available to external clients.
@@ -627,7 +628,7 @@ public interface ContainerGroup extends
                 WithPortsOrContainerInstanceAttach<ParentT> withExternalUdpPort(int port);
 
                 /**
-                 * Specifies the container's ports are available to internal clients only (other container instances within the container group).
+                 * Specifies the container's TCP ports are available to internal clients only (other container instances within the container group).
                  * <p>
                  * Containers within a group can reach each other via localhost on the ports that they have exposed,
                  *   even if those ports are not exposed externally on the group's IP address.
@@ -635,10 +636,23 @@ public interface ContainerGroup extends
                  * @param ports array of TCP ports to be exposed internally
                  * @return the next stage of the definition
                  */
-                WithPortsOrContainerInstanceAttach<ParentT> withInternalPorts(int... ports);
+                @Beta(Beta.SinceVersion.V1_8_0)
+                WithPortsOrContainerInstanceAttach<ParentT> withInternalTcpPorts(int... ports);
 
                 /**
-                 * Specifies the container's port is available to internal clients only (other container instances within the container group).
+                 * Specifies the container's Udp ports are available to internal clients only (other container instances within the container group).
+                 * <p>
+                 * Containers within a group can reach each other via localhost on the ports that they have exposed,
+                 *   even if those ports are not exposed externally on the group's IP address.
+                 *
+                 * @param ports array of UDP ports to be exposed internally
+                 * @return the next stage of the definition
+                 */
+                @Beta(Beta.SinceVersion.V1_8_0)
+                WithPortsOrContainerInstanceAttach<ParentT> withInternalUdpPorts(int... ports);
+
+                /**
+                 * Specifies the container's TCP port is available to internal clients only (other container instances within the container group).
                  * <p>
                  * Containers within a group can reach each other via localhost on the ports that they have exposed,
                  *   even if those ports are not exposed externally on the group's IP address.
@@ -646,7 +660,20 @@ public interface ContainerGroup extends
                  * @param port TCP port to be exposed internally
                  * @return the next stage of the definition
                  */
-                WithPortsOrContainerInstanceAttach<ParentT> withInternalPort(int port);
+                @Beta(Beta.SinceVersion.V1_8_0)
+                WithPortsOrContainerInstanceAttach<ParentT> withInternalTcpPort(int port);
+
+                /**
+                 * Specifies the container's UDP port is available to internal clients only (other container instances within the container group).
+                 * <p>
+                 * Containers within a group can reach each other via localhost on the ports that they have exposed,
+                 *   even if those ports are not exposed externally on the group's IP address.
+                 *
+                 * @param port UDP port to be exposed internally
+                 * @return the next stage of the definition
+                 */
+                @Beta(Beta.SinceVersion.V1_8_0)
+                WithPortsOrContainerInstanceAttach<ParentT> withInternalUdpPort(int port);
             }
 
             /**

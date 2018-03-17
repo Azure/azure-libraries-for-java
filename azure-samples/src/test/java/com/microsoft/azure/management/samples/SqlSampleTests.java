@@ -80,7 +80,10 @@ public class SqlSampleTests extends SamplesTestBase {
 
     @Test
     public void testGettingSqlServerMetrics() {
-        Assert.assertTrue(GettingSqlServerMetrics.runSample(azure));
+        // Skip test in "playback" mode due to HTTP calls made outside of the management plane which can not be recorded at this time
+        if (!isPlaybackMode()) {
+            Assert.assertTrue(GettingSqlServerMetrics.runSample(azure));
+        }
     }
 
     @Test

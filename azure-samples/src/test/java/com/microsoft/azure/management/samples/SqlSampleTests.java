@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.samples;
 
+import com.microsoft.azure.management.sql.samples.GettingSqlServerMetrics;
 import com.microsoft.azure.management.sql.samples.ManageSqlDatabase;
 import com.microsoft.azure.management.sql.samples.ManageSqlDatabaseInElasticPool;
 import com.microsoft.azure.management.sql.samples.ManageSqlDatabasesAcrossDifferentDataCenters;
@@ -72,6 +73,11 @@ public class SqlSampleTests extends SamplesTestBase {
     @Test
     public void testManageSqlFailoverGroups() {
         Assert.assertTrue(ManageSqlFailoverGroups.runSample(azure));
+    }
+
+    @Test
+    public void testGettingSqlServerMetrics() {
+        Assert.assertTrue(GettingSqlServerMetrics.runSample(azure));
     }
 
     @Test

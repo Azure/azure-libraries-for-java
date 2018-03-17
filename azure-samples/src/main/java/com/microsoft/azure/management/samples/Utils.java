@@ -144,10 +144,14 @@ import com.microsoft.azure.management.sql.ElasticPoolActivity;
 import com.microsoft.azure.management.sql.ElasticPoolDatabaseActivity;
 import com.microsoft.azure.management.sql.PartnerInfo;
 import com.microsoft.azure.management.sql.SqlDatabase;
+import com.microsoft.azure.management.sql.SqlDatabaseMetric;
+import com.microsoft.azure.management.sql.SqlDatabaseMetricValue;
+import com.microsoft.azure.management.sql.SqlDatabaseUsageMetric;
 import com.microsoft.azure.management.sql.SqlElasticPool;
 import com.microsoft.azure.management.sql.SqlFailoverGroup;
 import com.microsoft.azure.management.sql.SqlFirewallRule;
 import com.microsoft.azure.management.sql.SqlServer;
+import com.microsoft.azure.management.sql.SqlSubscriptionUsageMetric;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRule;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountEncryptionStatus;
@@ -1521,6 +1525,64 @@ public final class Utils {
             .append("\n\tSqlServer Name: ").append(virtualNetworkRule.sqlServerName())
             .append("\n\tSubnet ID: ").append(virtualNetworkRule.subnetId())
             .append("\n\tState: ").append(virtualNetworkRule.state());
+
+        System.out.println(builder.toString());
+    }
+
+    /**
+     * Prints information for the passed SQL subscription usage metric.
+     * @param subscriptionUsageMetric metric to be printed.
+     */
+    public static void print(SqlSubscriptionUsageMetric subscriptionUsageMetric) {
+        StringBuilder builder = new StringBuilder().append("SQL Subscription Usage Metric: ").append(subscriptionUsageMetric.id())
+            .append("Name: ").append(subscriptionUsageMetric.name())
+            .append("\n\tDisplay Name: ").append(subscriptionUsageMetric.displayName())
+            .append("\n\tCurrent Value: ").append(subscriptionUsageMetric.currentValue())
+            .append("\n\tLimit: ").append(subscriptionUsageMetric.limit())
+            .append("\n\tUnit: ").append(subscriptionUsageMetric.unit())
+            .append("\n\tType: ").append(subscriptionUsageMetric.type());
+
+        System.out.println(builder.toString());
+    }
+
+    /**
+     * Prints information for the passed SQL database usage metric.
+     * @param dbUsageMetric metric to be printed.
+     */
+    public static void print(SqlDatabaseUsageMetric dbUsageMetric) {
+        StringBuilder builder = new StringBuilder().append("SQL Database Usage Metric")
+            .append("Name: ").append(dbUsageMetric.name())
+            .append("\n\tResource Name: ").append(dbUsageMetric.resourceName())
+            .append("\n\tDisplay Name: ").append(dbUsageMetric.displayName())
+            .append("\n\tCurrent Value: ").append(dbUsageMetric.currentValue())
+            .append("\n\tLimit: ").append(dbUsageMetric.limit())
+            .append("\n\tUnit: ").append(dbUsageMetric.unit())
+            .append("\n\tNext Reset Time: ").append(dbUsageMetric.nextResetTime());
+
+        System.out.println(builder.toString());
+    }
+
+    /**
+     * Prints information for the passed SQL database metric.
+     * @param dbMetric metric to be printed.
+     */
+    public static void print(SqlDatabaseMetric dbMetric) {
+        StringBuilder builder = new StringBuilder().append("SQL Database Metric")
+            .append("Name: ").append(dbMetric.name())
+            .append("\n\tStart Time: ").append(dbMetric.startTime())
+            .append("\n\tEnd Time: ").append(dbMetric.endTime())
+            .append("\n\tTime Grain: ").append(dbMetric.timeGrain())
+            .append("\n\tUnit: ").append(dbMetric.unit());
+        for (SqlDatabaseMetricValue metricValue : dbMetric.metricValues()) {
+            builder
+                .append("\n\tMetric Value: ")
+                .append("\n\t\tCount: ").append(metricValue.count())
+                .append("\n\t\tAverage: ").append(metricValue.average())
+                .append("\n\t\tMaximum: ").append(metricValue.maximum())
+                .append("\n\t\tMinimum: ").append(metricValue.minimum())
+                .append("\n\t\tTimestamp: ").append(metricValue.timestamp())
+                .append("\n\t\tTotal: ").append(metricValue.total());
+        }
 
         System.out.println(builder.toString());
     }

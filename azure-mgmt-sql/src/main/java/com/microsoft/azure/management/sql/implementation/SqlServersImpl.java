@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.sql.implementation;
 
+import com.microsoft.azure.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
@@ -17,9 +18,15 @@ import com.microsoft.azure.management.sql.SqlFirewallRuleOperations;
 import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.sql.SqlServerKeyOperations;
 import com.microsoft.azure.management.sql.SqlServers;
+import com.microsoft.azure.management.sql.SqlSubscriptionUsageMetric;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRuleOperations;
 import rx.Observable;
 import rx.functions.Func1;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Implementation for SqlServers and its parent interfaces.
@@ -39,6 +46,7 @@ class SqlServersImpl
     private SqlElasticPoolOperations elasticPools;
     private SqlDatabaseOperations databases;
     private SqlServerDnsAliasOperationsImpl dnsAliases;
+    private SqlFailoverGroupOperationsImpl failoverGroups;
     private SqlServerKeyOperationsImpl serverKeys;
 
     protected SqlServersImpl(SqlServerManager manager) {
@@ -90,6 +98,15 @@ class SqlServersImpl
         }
 
         return this.dnsAliases;
+    }
+
+    @Override
+    public SqlFailoverGroupOperationsImpl failoverGroups() {
+        if (this.failoverGroups == null) {
+            this.failoverGroups = new SqlFailoverGroupOperationsImpl(this.manager());
+        }
+
+        return this.failoverGroups;
     }
 
     @Override
@@ -150,6 +167,40 @@ class SqlServersImpl
                 @Override
                 public RegionCapabilities call(LocationCapabilitiesInner capabilitiesInner) {
                     return new RegionCapabilitiesImpl(capabilitiesInner);
+                }
+            });
+    }
+
+    @Override
+    public List<SqlSubscriptionUsageMetric> listUsageByRegion(Region region) {
+        Objects.requireNonNull(region);
+        List<SqlSubscriptionUsageMetric> subscriptionUsages = new ArrayList<>();
+        List<SubscriptionUsageInner> subscriptionUsageInners = this.manager().inner().subscriptionUsages()
+            .listByLocation(region.name());
+        if (subscriptionUsageInners != null) {
+            for (SubscriptionUsageInner inner : subscriptionUsageInners) {
+                subscriptionUsages.add(new SqlSubscriptionUsageMetricImpl(region.name(), inner, this.manager()));
+            }
+        }
+        return Collections.unmodifiableList(subscriptionUsages);
+    }
+
+    @Override
+    public Observable<SqlSubscriptionUsageMetric> listUsageByRegionAsync(final Region region) {
+        Objects.requireNonNull(region);
+        final SqlServers self = this;
+        return this.manager().inner().subscriptionUsages()
+            .listByLocationAsync(region.name())
+            .flatMap(new Func1<Page<SubscriptionUsageInner>, Observable<SubscriptionUsageInner>>() {
+                @Override
+                public Observable<SubscriptionUsageInner> call(Page<SubscriptionUsageInner> subscriptionUsageInnerPage) {
+                    return Observable.from(subscriptionUsageInnerPage.items());
+                }
+            })
+            .map(new Func1<SubscriptionUsageInner, SqlSubscriptionUsageMetric>() {
+                @Override
+                public SqlSubscriptionUsageMetric call(SubscriptionUsageInner subscriptionUsageInner) {
+                    return new SqlSubscriptionUsageMetricImpl(region.name(), subscriptionUsageInner, self.manager());
                 }
             });
     }

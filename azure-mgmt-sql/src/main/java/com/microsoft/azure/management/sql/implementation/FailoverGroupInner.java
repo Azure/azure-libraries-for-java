@@ -8,7 +8,6 @@
 
 package com.microsoft.azure.management.sql.implementation;
 
-import java.util.Map;
 import com.microsoft.azure.management.sql.FailoverGroupReadWriteEndpoint;
 import com.microsoft.azure.management.sql.FailoverGroupReadOnlyEndpoint;
 import com.microsoft.azure.management.sql.FailoverGroupReplicationRole;
@@ -21,19 +20,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * A failover group.
  */
 @JsonFlatten
-public class FailoverGroupInner extends ProxyResourceInner {
-    /**
-     * Resource location.
-     */
-    @JsonProperty(value = "location", access = JsonProperty.Access.WRITE_ONLY)
-    private String location;
-
-    /**
-     * Resource tags.
-     */
-    @JsonProperty(value = "tags")
-    private Map<String, String> tags;
-
+public class FailoverGroupInner extends TrackedResourceInner {
     /**
      * Read-write endpoint of the failover group instance.
      */
@@ -70,35 +57,6 @@ public class FailoverGroupInner extends ProxyResourceInner {
      */
     @JsonProperty(value = "properties.databases")
     private List<String> databases;
-
-    /**
-     * Get the location value.
-     *
-     * @return the location value
-     */
-    public String location() {
-        return this.location;
-    }
-
-    /**
-     * Get the tags value.
-     *
-     * @return the tags value
-     */
-    public Map<String, String> tags() {
-        return this.tags;
-    }
-
-    /**
-     * Set the tags value.
-     *
-     * @param tags the tags value to set
-     * @return the FailoverGroupInner object itself.
-     */
-    public FailoverGroupInner withTags(Map<String, String> tags) {
-        this.tags = tags;
-        return this;
-    }
 
     /**
      * Get the readWriteEndpoint value.

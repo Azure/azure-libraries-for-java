@@ -35,6 +35,7 @@ import com.microsoft.azure.management.sql.SqlDatabasePremiumStorage;
 import com.microsoft.azure.management.sql.SqlDatabaseStandardServiceObjective;
 import com.microsoft.azure.management.sql.SqlDatabaseStandardStorage;
 import com.microsoft.azure.management.sql.SqlDatabaseThreatDetectionPolicy;
+import com.microsoft.azure.management.sql.SqlDatabaseUsageMetric;
 import com.microsoft.azure.management.sql.SqlElasticPool;
 import com.microsoft.azure.management.sql.SqlRestorableDroppedDatabase;
 import com.microsoft.azure.management.sql.SqlServer;
@@ -369,6 +370,37 @@ class SqlDatabaseImpl
         DatabaseAutomaticTuningInner databaseAutomaticTuningInner = this.sqlServerManager.inner().databaseAutomaticTunings()
             .get(this.resourceGroupName, this.sqlServerName, this.name());
         return databaseAutomaticTuningInner != null ? new SqlDatabaseAutomaticTuningImpl(this, databaseAutomaticTuningInner) : null;
+    }
+
+    @Override
+    public List<SqlDatabaseUsageMetric> listUsageMetrics() {
+        List<SqlDatabaseUsageMetric> databaseUsageMetrics = new ArrayList<>();
+        List<DatabaseUsageInner> databaseUsageInners = this.sqlServerManager.inner().databaseUsages()
+            .listByDatabase(this.resourceGroupName, this.sqlServerName, this.name());
+        if (databaseUsageInners != null) {
+            for (DatabaseUsageInner inner : databaseUsageInners) {
+                databaseUsageMetrics.add(new SqlDatabaseUsageMetricImpl(inner));
+            }
+        }
+        return Collections.unmodifiableList(databaseUsageMetrics);
+    }
+
+    @Override
+    public Observable<SqlDatabaseUsageMetric> listUsageMetricsAsync() {
+        return this.sqlServerManager.inner().databaseUsages()
+            .listByDatabaseAsync(this.resourceGroupName, this.sqlServerName, this.name())
+            .flatMap(new Func1<List<DatabaseUsageInner>, Observable<DatabaseUsageInner>>() {
+                @Override
+                public Observable<DatabaseUsageInner> call(List<DatabaseUsageInner> databaseUsageInners) {
+                    return Observable.from(databaseUsageInners);
+                }
+            })
+            .map(new Func1<DatabaseUsageInner, SqlDatabaseUsageMetric>() {
+                @Override
+                public SqlDatabaseUsageMetric call(DatabaseUsageInner databaseUsageInner) {
+                    return new SqlDatabaseUsageMetricImpl(databaseUsageInner);
+                }
+            });
     }
 
     @Override

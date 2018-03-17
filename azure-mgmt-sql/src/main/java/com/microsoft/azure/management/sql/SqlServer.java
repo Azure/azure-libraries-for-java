@@ -231,6 +231,12 @@ public interface SqlServer extends
     SqlServerDnsAliasOperations.SqlServerDnsAliasActionsDefinition dnsAliases();
 
     /**
+     * @return returns entry point to manage SQL Failover Group for this server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlFailoverGroupOperations.SqlFailoverGroupActionsDefinition failoverGroups();
+
+    /**
      * @return returns entry point to manage SQL Server Keys for this server.
      */
     @Beta(Beta.SinceVersion.V1_8_0)

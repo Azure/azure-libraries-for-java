@@ -19,7 +19,7 @@ import rx.functions.Func1;
 import java.util.Objects;
 
 /**
- * Implementation for SqlFirewallRule.
+ * Implementation for SqlServerDnsAlias.
  */
 @LangDefinition
 public class SqlServerDnsAliasImpl
@@ -39,7 +39,7 @@ public class SqlServerDnsAliasImpl
      * @param name        the name of this external child resource
      * @param parent      reference to the parent of this external child resource
      * @param innerObject reference to the inner object representing this external child resource
-     * @param sqlServerManager reference to the SQL server manager that accesses firewall rule operations
+     * @param sqlServerManager reference to the SQL server manager that accesses DNS alias operations
      */
     SqlServerDnsAliasImpl(String name, SqlServerImpl parent, ServerDnsAliasInner innerObject, SqlServerManager sqlServerManager) {
         super(name, parent, innerObject);
@@ -58,7 +58,7 @@ public class SqlServerDnsAliasImpl
      * @param sqlServerName     the parent SQL server name
      * @param name              the name of this external child resource
      * @param innerObject       reference to the inner object representing this external child resource
-     * @param sqlServerManager  reference to the SQL server manager that accesses firewall rule operations
+     * @param sqlServerManager  reference to the SQL server manager that accesses DNS alias operations
      */
     SqlServerDnsAliasImpl(String resourceGroupName, String sqlServerName, String name, ServerDnsAliasInner innerObject, SqlServerManager sqlServerManager) {
         super(name, null, innerObject);
@@ -73,7 +73,7 @@ public class SqlServerDnsAliasImpl
      *
      * @param name             the name of this external child resource
      * @param innerObject      reference to the inner object representing this external child resource
-     * @param sqlServerManager reference to the SQL server manager that accesses firewall rule operations
+     * @param sqlServerManager reference to the SQL server manager that accesses DNS alias operations
      */
     SqlServerDnsAliasImpl(String name, ServerDnsAliasInner innerObject, SqlServerManager sqlServerManager) {
         super(name, null, innerObject);

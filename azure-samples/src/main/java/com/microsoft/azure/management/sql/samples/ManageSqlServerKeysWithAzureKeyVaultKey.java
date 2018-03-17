@@ -95,7 +95,7 @@ public class ManageSqlServerKeysWithAzureKeyVaultKey {
             // Create a SQL server key with Azure Key Vault key.
             System.out.println("Creating a SQL server key with Azure Key Vault key");
 
-            String keyUri = keyBundle.inner().key().kid();
+            String keyUri = keyBundle.jsonWebKey().kid();
 
             // Work around for SQL server key name must be formatted as "vault_key_version"
             String serverKeyName = String.format("%s_%s_%s", vaultName, keyName,

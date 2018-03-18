@@ -11,6 +11,6 @@ before_script:
 script:
 - |-
   ./ci/run_tests.sh || travis_terminate 1 ;
-  if [[ $TRAVIS_PULL_REQUEST == “false” ]] && [[ $TRAVIS_BRANCH == “master” ]] && [[ ${TRAVIS_JDK_VERSION} = "oraclejdk8" ]]; then
+  if [[ $TRAVIS_PULL_REQUEST == "false" ]] && [[ $TRAVIS_BRANCH == "master" ]] && [[ ${TRAVIS_JDK_VERSION} = "oraclejdk8" ]]; then
     ./ci/create_image.sh ;
   fi

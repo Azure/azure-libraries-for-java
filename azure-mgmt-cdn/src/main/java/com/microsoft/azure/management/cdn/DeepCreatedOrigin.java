@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Origin to be added when creating a CDN endpoint.
+ * The main origin of CDN content which is added when creating a CDN endpoint.
  */
 @JsonFlatten
 public class DeepCreatedOrigin {
@@ -23,7 +23,7 @@ public class DeepCreatedOrigin {
     private String name;
 
     /**
-     * The address of the origin. It can be a domain names, IPv4 address, or
+     * The address of the origin. It can be a domain name, IPv4 address, or
      * IPv6 address.
      */
     @JsonProperty(value = "properties.hostName", required = true)

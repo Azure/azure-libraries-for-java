@@ -8,64 +8,46 @@
 
 package com.microsoft.azure.management.cdn;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for EndpointResourceState.
  */
-public final class EndpointResourceState {
+public final class EndpointResourceState extends ExpandableStringEnum<EndpointResourceState> {
     /** Static value Creating for EndpointResourceState. */
-    public static final EndpointResourceState CREATING = new EndpointResourceState("Creating");
+    public static final EndpointResourceState CREATING = fromString("Creating");
 
     /** Static value Deleting for EndpointResourceState. */
-    public static final EndpointResourceState DELETING = new EndpointResourceState("Deleting");
+    public static final EndpointResourceState DELETING = fromString("Deleting");
 
     /** Static value Running for EndpointResourceState. */
-    public static final EndpointResourceState RUNNING = new EndpointResourceState("Running");
+    public static final EndpointResourceState RUNNING = fromString("Running");
 
     /** Static value Starting for EndpointResourceState. */
-    public static final EndpointResourceState STARTING = new EndpointResourceState("Starting");
+    public static final EndpointResourceState STARTING = fromString("Starting");
 
     /** Static value Stopped for EndpointResourceState. */
-    public static final EndpointResourceState STOPPED = new EndpointResourceState("Stopped");
+    public static final EndpointResourceState STOPPED = fromString("Stopped");
 
     /** Static value Stopping for EndpointResourceState. */
-    public static final EndpointResourceState STOPPING = new EndpointResourceState("Stopping");
-
-    private String value;
+    public static final EndpointResourceState STOPPING = fromString("Stopping");
 
     /**
-     * Creates a custom value for EndpointResourceState.
-     * @param value the custom value
+     * Creates or finds a EndpointResourceState from its string representation.
+     * @param name a name to look for
+     * @return the corresponding EndpointResourceState
      */
-    public EndpointResourceState(String value) {
-        this.value = value;
+    @JsonCreator
+    public static EndpointResourceState fromString(String name) {
+        return fromString(name, EndpointResourceState.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof EndpointResourceState)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        EndpointResourceState rhs = (EndpointResourceState) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known EndpointResourceState values
+     */
+    public static Collection<EndpointResourceState> values() {
+        return values(EndpointResourceState.class);
     }
 }

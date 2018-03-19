@@ -15,27 +15,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ResourceUsageInner {
     /**
-     * Resource type of the usages.
+     * Resource type for which the usage is provided.
      */
-    @JsonProperty(value = "resourceType")
+    @JsonProperty(value = "resourceType", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceType;
 
     /**
      * Unit of the usage. e.g. Count.
      */
-    @JsonProperty(value = "unit")
+    @JsonProperty(value = "unit", access = JsonProperty.Access.WRITE_ONLY)
     private String unit;
 
     /**
-     * Actual value of the resource type.
+     * Actual value of usage on the specified resource type.
      */
-    @JsonProperty(value = "currentValue")
+    @JsonProperty(value = "currentValue", access = JsonProperty.Access.WRITE_ONLY)
     private Integer currentValue;
 
     /**
-     * Quota of the resource type.
+     * Quota of the specified resource type.
      */
-    @JsonProperty(value = "limit")
+    @JsonProperty(value = "limit", access = JsonProperty.Access.WRITE_ONLY)
     private Integer limit;
 
     /**
@@ -48,34 +48,12 @@ public class ResourceUsageInner {
     }
 
     /**
-     * Set the resourceType value.
-     *
-     * @param resourceType the resourceType value to set
-     * @return the ResourceUsageInner object itself.
-     */
-    public ResourceUsageInner withResourceType(String resourceType) {
-        this.resourceType = resourceType;
-        return this;
-    }
-
-    /**
      * Get the unit value.
      *
      * @return the unit value
      */
     public String unit() {
         return this.unit;
-    }
-
-    /**
-     * Set the unit value.
-     *
-     * @param unit the unit value to set
-     * @return the ResourceUsageInner object itself.
-     */
-    public ResourceUsageInner withUnit(String unit) {
-        this.unit = unit;
-        return this;
     }
 
     /**
@@ -88,34 +66,12 @@ public class ResourceUsageInner {
     }
 
     /**
-     * Set the currentValue value.
-     *
-     * @param currentValue the currentValue value to set
-     * @return the ResourceUsageInner object itself.
-     */
-    public ResourceUsageInner withCurrentValue(Integer currentValue) {
-        this.currentValue = currentValue;
-        return this;
-    }
-
-    /**
      * Get the limit value.
      *
      * @return the limit value
      */
     public Integer limit() {
         return this.limit;
-    }
-
-    /**
-     * Set the limit value.
-     *
-     * @param limit the limit value to set
-     * @return the ResourceUsageInner object itself.
-     */
-    public ResourceUsageInner withLimit(Integer limit) {
-        this.limit = limit;
-        return this;
     }
 
 }

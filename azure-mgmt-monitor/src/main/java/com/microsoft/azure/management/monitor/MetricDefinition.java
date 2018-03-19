@@ -216,7 +216,7 @@ public interface MetricDefinition extends
              * @param top the maximum number of records to retrieve.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithMetricsQueryExecute selectTop(double top);
+            WithMetricsQueryExecute selectTop(int top);
 
             /**
              * Sets the aggregation to use for sorting results and the direction of the sort.

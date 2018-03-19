@@ -76,6 +76,9 @@ import com.microsoft.azure.management.graphrbac.implementation.PermissionInner;
 import com.microsoft.azure.management.keyvault.AccessPolicy;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.locks.ManagementLock;
+import com.microsoft.azure.management.monitor.DiagnosticSetting;
+import com.microsoft.azure.management.monitor.LogSettings;
+import com.microsoft.azure.management.monitor.MetricSettings;
 import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayBackend;
@@ -2823,6 +2826,48 @@ public final class Utils {
                 .append("\n\tExecution state transition time: ").append(resource.executionStateTransitionTime())
                 .append("\n\tTool type: ").append(resource.toolType())
                 .append("\n\tExperiment name: ").append(resource.experimentName());
+        System.out.println(info.toString());
+    }
+
+    /**
+     * Print Diagnostic Setting.
+     *
+     * @param resource Diagnostic Setting instance
+     */
+    public static void print(DiagnosticSetting resource) {
+        StringBuilder info = new StringBuilder("Diagnostic Setting: ")
+                .append("\n\tId: ").append(resource.id())
+                .append("\n\tAssociated resource Id: ").append(resource.resourceId())
+                .append("\n\tName: ").append(resource.name())
+                .append("\n\tStorage Account Id: ").append(resource.storageAccountId())
+                .append("\n\tEventHub Namespace Autorization Rule Id: ").append(resource.eventHubAuthorizationRuleId())
+                .append("\n\tEventHub name: ").append(resource.eventHubName())
+                .append("\n\tLog Analytics workspace Id: ").append(resource.workspaceId());
+        if (resource.logs() != null && !resource.logs().isEmpty()) {
+            info.append("\n\tLog Settings: ");
+            for (LogSettings ls : resource.logs()) {
+                info.append("\n\t\tCategory: ").append(ls.category());
+                info.append("\n\t\tRetention policy: ");
+                if (ls.retentionPolicy() != null) {
+                    info.append(ls.retentionPolicy().days() + " days");
+                } else {
+                    info.append("NONE");
+                }
+            }
+        }
+        if (resource.metrics() != null && !resource.metrics().isEmpty()) {
+            info.append("\n\tMetric Settings: ");
+            for (MetricSettings ls : resource.metrics()) {
+                info.append("\n\t\tCategory: ").append(ls.category());
+                info.append("\n\t\tTimegrain: ").append(ls.timeGrain());
+                info.append("\n\t\tRetention policy: ");
+                if (ls.retentionPolicy() != null) {
+                    info.append(ls.retentionPolicy().days() + " days");
+                } else {
+                    info.append("NONE");
+                }
+            }
+        }
         System.out.println(info.toString());
     }
 

@@ -8,46 +8,34 @@
 
 package com.microsoft.azure.management.cognitiveservices;
 
+import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ResourceSkuRestrictionsReasonCode.
  */
-public enum ResourceSkuRestrictionsReasonCode {
-    /** Enum value QuotaId. */
-    QUOTA_ID("QuotaId"),
+public final class ResourceSkuRestrictionsReasonCode extends ExpandableStringEnum<ResourceSkuRestrictionsReasonCode> {
+    /** Static value QuotaId for ResourceSkuRestrictionsReasonCode. */
+    public static final ResourceSkuRestrictionsReasonCode QUOTA_ID = fromString("QuotaId");
 
-    /** Enum value NotAvailableForSubscription. */
-    NOT_AVAILABLE_FOR_SUBSCRIPTION("NotAvailableForSubscription");
+    /** Static value NotAvailableForSubscription for ResourceSkuRestrictionsReasonCode. */
+    public static final ResourceSkuRestrictionsReasonCode NOT_AVAILABLE_FOR_SUBSCRIPTION = fromString("NotAvailableForSubscription");
 
-    /** The actual serialized value for a ResourceSkuRestrictionsReasonCode instance. */
-    private String value;
-
-    ResourceSkuRestrictionsReasonCode(String value) {
-        this.value = value;
+    /**
+     * Creates or finds a ResourceSkuRestrictionsReasonCode from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ResourceSkuRestrictionsReasonCode
+     */
+    @JsonCreator
+    public static ResourceSkuRestrictionsReasonCode fromString(String name) {
+        return fromString(name, ResourceSkuRestrictionsReasonCode.class);
     }
 
     /**
-     * Parses a serialized value to a ResourceSkuRestrictionsReasonCode instance.
-     *
-     * @param value the serialized value to parse.
-     * @return the parsed ResourceSkuRestrictionsReasonCode object, or null if unable to parse.
+     * @return known ResourceSkuRestrictionsReasonCode values
      */
-    @JsonCreator
-    public static ResourceSkuRestrictionsReasonCode fromString(String value) {
-        ResourceSkuRestrictionsReasonCode[] items = ResourceSkuRestrictionsReasonCode.values();
-        for (ResourceSkuRestrictionsReasonCode item : items) {
-            if (item.toString().equalsIgnoreCase(value)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    @JsonValue
-    @Override
-    public String toString() {
-        return this.value;
+    public static Collection<ResourceSkuRestrictionsReasonCode> values() {
+        return values(ResourceSkuRestrictionsReasonCode.class);
     }
 }

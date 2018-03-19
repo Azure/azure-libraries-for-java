@@ -31,71 +31,71 @@ import rx.Observable;
 
 /**
  * An instance of this class provides access to all the operations defined
- * in EdgeNodes.
+ * in Operations.
  */
-public class EdgeNodesInner {
+public class OperationsInner {
     /** The Retrofit service to perform REST calls. */
-    private EdgeNodesService service;
+    private OperationsService service;
     /** The service client containing this operation class. */
     private CdnManagementClientImpl client;
 
     /**
-     * Initializes an instance of EdgeNodesInner.
+     * Initializes an instance of OperationsInner.
      *
      * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public EdgeNodesInner(Retrofit retrofit, CdnManagementClientImpl client) {
-        this.service = retrofit.create(EdgeNodesService.class);
+    public OperationsInner(Retrofit retrofit, CdnManagementClientImpl client) {
+        this.service = retrofit.create(OperationsService.class);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for EdgeNodes to be
+     * The interface defining all the services for Operations to be
      * used by Retrofit to perform actually REST calls.
      */
-    interface EdgeNodesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.EdgeNodes list" })
-        @GET("providers/Microsoft.Cdn/edgenodes")
+    interface OperationsService {
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.Operations list" })
+        @GET("providers/Microsoft.Cdn/operations")
         Observable<Response<ResponseBody>> list(@Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.EdgeNodes listNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.Operations listNext" })
         @GET
         Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
     /**
-     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
+     * Lists all of the available CDN REST API operations.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;EdgeNodeInner&gt; object if successful.
+     * @return the PagedList&lt;OperationInner&gt; object if successful.
      */
-    public PagedList<EdgeNodeInner> list() {
-        ServiceResponse<Page<EdgeNodeInner>> response = listSinglePageAsync().toBlocking().single();
-        return new PagedList<EdgeNodeInner>(response.body()) {
+    public PagedList<OperationInner> list() {
+        ServiceResponse<Page<OperationInner>> response = listSinglePageAsync().toBlocking().single();
+        return new PagedList<OperationInner>(response.body()) {
             @Override
-            public Page<EdgeNodeInner> nextPage(String nextPageLink) {
+            public Page<OperationInner> nextPage(String nextPageLink) {
                 return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
 
     /**
-     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
+     * Lists all of the available CDN REST API operations.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<EdgeNodeInner>> listAsync(final ListOperationCallback<EdgeNodeInner> serviceCallback) {
+    public ServiceFuture<List<OperationInner>> listAsync(final ListOperationCallback<OperationInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listSinglePageAsync(),
-            new Func1<String, Observable<ServiceResponse<Page<EdgeNodeInner>>>>() {
+            new Func1<String, Observable<ServiceResponse<Page<OperationInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<EdgeNodeInner>>> call(String nextPageLink) {
+                public Observable<ServiceResponse<Page<OperationInner>>> call(String nextPageLink) {
                     return listNextSinglePageAsync(nextPageLink);
                 }
             },
@@ -103,32 +103,32 @@ public class EdgeNodesInner {
     }
 
     /**
-     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
+     * Lists all of the available CDN REST API operations.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;EdgeNodeInner&gt; object
+     * @return the observable to the PagedList&lt;OperationInner&gt; object
      */
-    public Observable<Page<EdgeNodeInner>> listAsync() {
+    public Observable<Page<OperationInner>> listAsync() {
         return listWithServiceResponseAsync()
-            .map(new Func1<ServiceResponse<Page<EdgeNodeInner>>, Page<EdgeNodeInner>>() {
+            .map(new Func1<ServiceResponse<Page<OperationInner>>, Page<OperationInner>>() {
                 @Override
-                public Page<EdgeNodeInner> call(ServiceResponse<Page<EdgeNodeInner>> response) {
+                public Page<OperationInner> call(ServiceResponse<Page<OperationInner>> response) {
                     return response.body();
                 }
             });
     }
 
     /**
-     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
+     * Lists all of the available CDN REST API operations.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;EdgeNodeInner&gt; object
+     * @return the observable to the PagedList&lt;OperationInner&gt; object
      */
-    public Observable<ServiceResponse<Page<EdgeNodeInner>>> listWithServiceResponseAsync() {
+    public Observable<ServiceResponse<Page<OperationInner>>> listWithServiceResponseAsync() {
         return listSinglePageAsync()
-            .concatMap(new Func1<ServiceResponse<Page<EdgeNodeInner>>, Observable<ServiceResponse<Page<EdgeNodeInner>>>>() {
+            .concatMap(new Func1<ServiceResponse<Page<OperationInner>>, Observable<ServiceResponse<Page<OperationInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<EdgeNodeInner>>> call(ServiceResponse<Page<EdgeNodeInner>> page) {
+                public Observable<ServiceResponse<Page<OperationInner>>> call(ServiceResponse<Page<OperationInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
@@ -139,22 +139,22 @@ public class EdgeNodesInner {
     }
 
     /**
-     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
+     * Lists all of the available CDN REST API operations.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;EdgeNodeInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;OperationInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<EdgeNodeInner>>> listSinglePageAsync() {
+    public Observable<ServiceResponse<Page<OperationInner>>> listSinglePageAsync() {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.list(this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<EdgeNodeInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<OperationInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<EdgeNodeInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<OperationInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<EdgeNodeInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<EdgeNodeInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<OperationInner>> result = listDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<OperationInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -162,34 +162,34 @@ public class EdgeNodesInner {
             });
     }
 
-    private ServiceResponse<PageImpl<EdgeNodeInner>> listDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<EdgeNodeInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<EdgeNodeInner>>() { }.getType())
+    private ServiceResponse<PageImpl<OperationInner>> listDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<OperationInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<OperationInner>>() { }.getType())
                 .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
     /**
-     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
+     * Lists all of the available CDN REST API operations.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;EdgeNodeInner&gt; object if successful.
+     * @return the PagedList&lt;OperationInner&gt; object if successful.
      */
-    public PagedList<EdgeNodeInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<EdgeNodeInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<EdgeNodeInner>(response.body()) {
+    public PagedList<OperationInner> listNext(final String nextPageLink) {
+        ServiceResponse<Page<OperationInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<OperationInner>(response.body()) {
             @Override
-            public Page<EdgeNodeInner> nextPage(String nextPageLink) {
+            public Page<OperationInner> nextPage(String nextPageLink) {
                 return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
 
     /**
-     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
+     * Lists all of the available CDN REST API operations.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -197,12 +197,12 @@ public class EdgeNodesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<EdgeNodeInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<EdgeNodeInner>> serviceFuture, final ListOperationCallback<EdgeNodeInner> serviceCallback) {
+    public ServiceFuture<List<OperationInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<OperationInner>> serviceFuture, final ListOperationCallback<OperationInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<EdgeNodeInner>>>>() {
+            new Func1<String, Observable<ServiceResponse<Page<OperationInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<EdgeNodeInner>>> call(String nextPageLink) {
+                public Observable<ServiceResponse<Page<OperationInner>>> call(String nextPageLink) {
                     return listNextSinglePageAsync(nextPageLink);
                 }
             },
@@ -210,34 +210,34 @@ public class EdgeNodesInner {
     }
 
     /**
-     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
+     * Lists all of the available CDN REST API operations.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;EdgeNodeInner&gt; object
+     * @return the observable to the PagedList&lt;OperationInner&gt; object
      */
-    public Observable<Page<EdgeNodeInner>> listNextAsync(final String nextPageLink) {
+    public Observable<Page<OperationInner>> listNextAsync(final String nextPageLink) {
         return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<EdgeNodeInner>>, Page<EdgeNodeInner>>() {
+            .map(new Func1<ServiceResponse<Page<OperationInner>>, Page<OperationInner>>() {
                 @Override
-                public Page<EdgeNodeInner> call(ServiceResponse<Page<EdgeNodeInner>> response) {
+                public Page<OperationInner> call(ServiceResponse<Page<OperationInner>> response) {
                     return response.body();
                 }
             });
     }
 
     /**
-     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
+     * Lists all of the available CDN REST API operations.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;EdgeNodeInner&gt; object
+     * @return the observable to the PagedList&lt;OperationInner&gt; object
      */
-    public Observable<ServiceResponse<Page<EdgeNodeInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<OperationInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<EdgeNodeInner>>, Observable<ServiceResponse<Page<EdgeNodeInner>>>>() {
+            .concatMap(new Func1<ServiceResponse<Page<OperationInner>>, Observable<ServiceResponse<Page<OperationInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<EdgeNodeInner>>> call(ServiceResponse<Page<EdgeNodeInner>> page) {
+                public Observable<ServiceResponse<Page<OperationInner>>> call(ServiceResponse<Page<OperationInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
@@ -248,24 +248,24 @@ public class EdgeNodesInner {
     }
 
     /**
-     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
+     * Lists all of the available CDN REST API operations.
      *
-    ServiceResponse<PageImpl<EdgeNodeInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<OperationInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;EdgeNodeInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;OperationInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<EdgeNodeInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<OperationInner>>> listNextSinglePageAsync(final String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
         return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<EdgeNodeInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<OperationInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<EdgeNodeInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<OperationInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<EdgeNodeInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<EdgeNodeInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<OperationInner>> result = listNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<OperationInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -273,9 +273,9 @@ public class EdgeNodesInner {
             });
     }
 
-    private ServiceResponse<PageImpl<EdgeNodeInner>> listNextDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<EdgeNodeInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<EdgeNodeInner>>() { }.getType())
+    private ServiceResponse<PageImpl<OperationInner>> listNextDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<OperationInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<OperationInner>>() { }.getType())
                 .registerError(ErrorResponseException.class)
                 .build(response);
     }

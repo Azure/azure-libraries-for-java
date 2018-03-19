@@ -8,61 +8,43 @@
 
 package com.microsoft.azure.management.cdn;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for CustomHttpsProvisioningState.
  */
-public final class CustomHttpsProvisioningState {
+public final class CustomHttpsProvisioningState extends ExpandableStringEnum<CustomHttpsProvisioningState> {
     /** Static value Enabling for CustomHttpsProvisioningState. */
-    public static final CustomHttpsProvisioningState ENABLING = new CustomHttpsProvisioningState("Enabling");
+    public static final CustomHttpsProvisioningState ENABLING = fromString("Enabling");
 
     /** Static value Enabled for CustomHttpsProvisioningState. */
-    public static final CustomHttpsProvisioningState ENABLED = new CustomHttpsProvisioningState("Enabled");
+    public static final CustomHttpsProvisioningState ENABLED = fromString("Enabled");
 
     /** Static value Disabling for CustomHttpsProvisioningState. */
-    public static final CustomHttpsProvisioningState DISABLING = new CustomHttpsProvisioningState("Disabling");
+    public static final CustomHttpsProvisioningState DISABLING = fromString("Disabling");
 
     /** Static value Disabled for CustomHttpsProvisioningState. */
-    public static final CustomHttpsProvisioningState DISABLED = new CustomHttpsProvisioningState("Disabled");
+    public static final CustomHttpsProvisioningState DISABLED = fromString("Disabled");
 
     /** Static value Failed for CustomHttpsProvisioningState. */
-    public static final CustomHttpsProvisioningState FAILED = new CustomHttpsProvisioningState("Failed");
-
-    private String value;
+    public static final CustomHttpsProvisioningState FAILED = fromString("Failed");
 
     /**
-     * Creates a custom value for CustomHttpsProvisioningState.
-     * @param value the custom value
+     * Creates or finds a CustomHttpsProvisioningState from its string representation.
+     * @param name a name to look for
+     * @return the corresponding CustomHttpsProvisioningState
      */
-    public CustomHttpsProvisioningState(String value) {
-        this.value = value;
+    @JsonCreator
+    public static CustomHttpsProvisioningState fromString(String name) {
+        return fromString(name, CustomHttpsProvisioningState.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof CustomHttpsProvisioningState)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        CustomHttpsProvisioningState rhs = (CustomHttpsProvisioningState) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known CustomHttpsProvisioningState values
+     */
+    public static Collection<CustomHttpsProvisioningState> values() {
+        return values(CustomHttpsProvisioningState.class);
     }
 }

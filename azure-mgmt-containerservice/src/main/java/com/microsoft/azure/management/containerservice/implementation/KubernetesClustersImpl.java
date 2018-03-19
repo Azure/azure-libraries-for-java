@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.management.containerservice.implementation;
 
-import com.google.common.io.BaseEncoding;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
@@ -162,7 +161,6 @@ public class KubernetesClustersImpl extends
         if (profileInner == null) {
             return new byte[0];
         } else {
-            // return BaseEncoding.base64().decode(profileInner.kubeConfig());
             return profileInner.kubeConfig();
         }
     }
@@ -177,7 +175,6 @@ public class KubernetesClustersImpl extends
                     if (profileInner == null) {
                         return new byte[0];
                     } else {
-                        // return BaseEncoding.base64().decode(profileInner.kubeConfig());
                         return profileInner.kubeConfig();
                     }
                 }
@@ -190,7 +187,6 @@ public class KubernetesClustersImpl extends
         if (profileInner == null) {
             return new byte[0];
         } else {
-            // return BaseEncoding.base64().decode(profileInner.kubeConfig());
             return profileInner.kubeConfig();
         }
     }
@@ -205,7 +201,6 @@ public class KubernetesClustersImpl extends
                     if (profileInner == null) {
                         return new byte[0];
                     } else {
-                        // return BaseEncoding.base64().decode(profileInner.kubeConfig());
                         return profileInner.kubeConfig();
                     }
                 }

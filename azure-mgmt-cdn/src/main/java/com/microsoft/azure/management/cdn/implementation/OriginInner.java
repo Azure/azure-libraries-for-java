@@ -11,7 +11,6 @@ package com.microsoft.azure.management.cdn.implementation;
 import com.microsoft.azure.management.cdn.OriginResourceState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
 
 /**
  * CDN origin is the source of the content being delivered via CDN. When the
@@ -19,7 +18,7 @@ import com.microsoft.azure.Resource;
  * cached, they attempt to fetch it from one or more of the configured origins.
  */
 @JsonFlatten
-public class OriginInner extends Resource {
+public class OriginInner extends TrackedResourceInner {
     /**
      * The address of the origin. Domain names, IPv4 addresses, and IPv6
      * addresses are supported.

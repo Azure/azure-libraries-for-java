@@ -12,7 +12,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Rules defining user geo access within a CDN endpoint.
+ * Rules defining user's geo access within a CDN endpoint.
  */
 public class GeoFilter {
     /**

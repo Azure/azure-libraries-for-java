@@ -178,6 +178,19 @@ class BatchAIJobImpl
         return this;
     }
 
+    @Override
+    public BatchAIJobImpl withEnvironmentVariable(String name, String value) {
+        ensureEnvironmentVariables().add(new EnvironmentVariable().withName(name).withValue(value));
+        return this;
+    }
+
+    private List<EnvironmentVariable> ensureEnvironmentVariables() {
+        if (createParameters.environmentVariables() == null) {
+            createParameters.withEnvironmentVariables(new ArrayList<EnvironmentVariable>());
+        }
+        return createParameters.environmentVariables();
+    }
+
     void attachCntkSettings(CognitiveToolkitImpl cognitiveToolkit) {
         createParameters.withCntkSettings(cognitiveToolkit.inner());
     }

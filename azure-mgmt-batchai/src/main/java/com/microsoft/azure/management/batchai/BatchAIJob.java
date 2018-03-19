@@ -332,7 +332,8 @@ public interface BatchAIJob extends
                 WithInputDirectory,
                 WithOutputDirectory,
                 WithContainerSettings,
-                WithExperimentName {
+                WithExperimentName,
+                WithEnvironmentVariable {
         }
     }
 }

@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.management;
 
-import com.microsoft.azure.management.containerservice.ContainerServiceStorageProfileTypes;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusters;
@@ -52,7 +51,7 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
         Assert.assertNotNull("Container service not found.", resource.id());
         Assert.assertEquals(Region.US_EAST, resource.region());
         Assert.assertEquals("aksadmin", resource.linuxRootUsername());
-        Assert.assertEquals(KubernetesVersion.KUBERNETES_1_8_1, resource.version());
+        Assert.assertEquals(KubernetesVersion.KUBERNETES_1_8_7, resource.version());
         Assert.assertEquals(1, resource.agentPools().size());
         Assert.assertNotNull(resource.agentPools().get(agentPoolName));
         Assert.assertEquals(1, resource.agentPools().get(agentPoolName).count());

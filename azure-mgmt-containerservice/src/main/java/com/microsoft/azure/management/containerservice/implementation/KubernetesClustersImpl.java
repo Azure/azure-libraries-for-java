@@ -162,7 +162,8 @@ public class KubernetesClustersImpl extends
         if (profileInner == null) {
             return new byte[0];
         } else {
-            return BaseEncoding.base64().decode(profileInner.kubeConfig());
+            // return BaseEncoding.base64().decode(profileInner.kubeConfig());
+            return profileInner.kubeConfig();
         }
     }
 
@@ -176,7 +177,8 @@ public class KubernetesClustersImpl extends
                     if (profileInner == null) {
                         return new byte[0];
                     } else {
-                        return BaseEncoding.base64().decode(profileInner.kubeConfig());
+                        // return BaseEncoding.base64().decode(profileInner.kubeConfig());
+                        return profileInner.kubeConfig();
                     }
                 }
             });
@@ -188,7 +190,8 @@ public class KubernetesClustersImpl extends
         if (profileInner == null) {
             return new byte[0];
         } else {
-            return BaseEncoding.base64().decode(profileInner.kubeConfig());
+            // return BaseEncoding.base64().decode(profileInner.kubeConfig());
+            return profileInner.kubeConfig();
         }
     }
 
@@ -202,7 +205,8 @@ public class KubernetesClustersImpl extends
                     if (profileInner == null) {
                         return new byte[0];
                     } else {
-                        return BaseEncoding.base64().decode(profileInner.kubeConfig());
+                        // return BaseEncoding.base64().decode(profileInner.kubeConfig());
+                        return profileInner.kubeConfig();
                     }
                 }
             });

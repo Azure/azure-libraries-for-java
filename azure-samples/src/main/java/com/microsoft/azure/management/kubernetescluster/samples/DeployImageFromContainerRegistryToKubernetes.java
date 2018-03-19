@@ -97,10 +97,10 @@ public class DeployImageFromContainerRegistryToKubernetes {
             //
             //   If the environment variable was not set then reuse the main service principal set for running this sample.
 
-            if (servicePrincipalClientId.isEmpty() || servicePrincipalSecret.isEmpty()) {
+            if (servicePrincipalClientId == null || servicePrincipalClientId.isEmpty() || servicePrincipalSecret == null || servicePrincipalSecret.isEmpty()) {
                 servicePrincipalClientId = System.getenv("AZURE_CLIENT_ID");
                 servicePrincipalSecret = System.getenv("AZURE_CLIENT_SECRET");
-                if (servicePrincipalClientId.isEmpty() || servicePrincipalSecret.isEmpty()) {
+                if (servicePrincipalClientId == null || servicePrincipalClientId.isEmpty() || servicePrincipalSecret == null || servicePrincipalSecret.isEmpty()) {
                     String envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION_2");
 
                     if (envSecondaryServicePrincipal == null || !envSecondaryServicePrincipal.isEmpty() || !Files.exists(Paths.get(envSecondaryServicePrincipal))) {

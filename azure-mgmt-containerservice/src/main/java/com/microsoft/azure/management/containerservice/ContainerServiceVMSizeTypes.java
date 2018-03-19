@@ -73,6 +73,24 @@ public final class ContainerServiceVMSizeTypes extends ExpandableStringEnum<Cont
     /** Static value Standard_A9 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_A9 = fromString("Standard_A9");
 
+    /** Static value Standard_B1ms for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_B1MS = fromString("Standard_B1ms");
+
+    /** Static value Standard_B1s for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_B1S = fromString("Standard_B1s");
+
+    /** Static value Standard_B2ms for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_B2MS = fromString("Standard_B2ms");
+
+    /** Static value Standard_B2s for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_B2S = fromString("Standard_B2s");
+
+    /** Static value Standard_B4ms for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_B4MS = fromString("Standard_B4ms");
+
+    /** Static value Standard_B8ms for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_B8MS = fromString("Standard_B8ms");
+
     /** Static value Standard_D1 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_D1 = fromString("Standard_D1");
 
@@ -142,6 +160,12 @@ public final class ContainerServiceVMSizeTypes extends ExpandableStringEnum<Cont
     /** Static value Standard_D3 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_D3 = fromString("Standard_D3");
 
+    /** Static value Standard_D32_v3 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_D32_V3 = fromString("Standard_D32_v3");
+
+    /** Static value Standard_D32s_v3 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_D32S_V3 = fromString("Standard_D32s_v3");
+
     /** Static value Standard_D3_v2 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_D3_V2 = fromString("Standard_D3_v2");
 
@@ -168,6 +192,12 @@ public final class ContainerServiceVMSizeTypes extends ExpandableStringEnum<Cont
 
     /** Static value Standard_D5_v2_Promo for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_D5_V2_PROMO = fromString("Standard_D5_v2_Promo");
+
+    /** Static value Standard_D64_v3 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_D64_V3 = fromString("Standard_D64_v3");
+
+    /** Static value Standard_D64s_v3 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_D64S_V3 = fromString("Standard_D64s_v3");
 
     /** Static value Standard_D8_v3 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_D8_V3 = fromString("Standard_D8_v3");
@@ -199,6 +229,12 @@ public final class ContainerServiceVMSizeTypes extends ExpandableStringEnum<Cont
     /** Static value Standard_DS13 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_DS13 = fromString("Standard_DS13");
 
+    /** Static value Standard_DS13-2_v2 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_DS13_2_V2 = fromString("Standard_DS13-2_v2");
+
+    /** Static value Standard_DS13-4_v2 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_DS13_4_V2 = fromString("Standard_DS13-4_v2");
+
     /** Static value Standard_DS13_v2 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_DS13_V2 = fromString("Standard_DS13_v2");
 
@@ -207,6 +243,12 @@ public final class ContainerServiceVMSizeTypes extends ExpandableStringEnum<Cont
 
     /** Static value Standard_DS14 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_DS14 = fromString("Standard_DS14");
+
+    /** Static value Standard_DS14-4_v2 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_DS14_4_V2 = fromString("Standard_DS14-4_v2");
+
+    /** Static value Standard_DS14-8_v2 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_DS14_8_V2 = fromString("Standard_DS14-8_v2");
 
     /** Static value Standard_DS14_v2 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_DS14_V2 = fromString("Standard_DS14_v2");
@@ -265,6 +307,12 @@ public final class ContainerServiceVMSizeTypes extends ExpandableStringEnum<Cont
     /** Static value Standard_E2s_v3 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_E2S_V3 = fromString("Standard_E2s_v3");
 
+    /** Static value Standard_E32-16s_v3 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_E32_16S_V3 = fromString("Standard_E32-16s_v3");
+
+    /** Static value Standard_E32-8s_v3 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_E32_8S_V3 = fromString("Standard_E32-8s_v3");
+
     /** Static value Standard_E32_v3 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_E32_V3 = fromString("Standard_E32_v3");
 
@@ -276,6 +324,12 @@ public final class ContainerServiceVMSizeTypes extends ExpandableStringEnum<Cont
 
     /** Static value Standard_E4s_v3 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_E4S_V3 = fromString("Standard_E4s_v3");
+
+    /** Static value Standard_E64-16s_v3 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_E64_16S_V3 = fromString("Standard_E64-16s_v3");
+
+    /** Static value Standard_E64-32s_v3 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_E64_32S_V3 = fromString("Standard_E64-32s_v3");
 
     /** Static value Standard_E64_v3 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_E64_V3 = fromString("Standard_E64_v3");
@@ -298,6 +352,9 @@ public final class ContainerServiceVMSizeTypes extends ExpandableStringEnum<Cont
     /** Static value Standard_F16s for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_F16S = fromString("Standard_F16s");
 
+    /** Static value Standard_F16s_v2 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_F16S_V2 = fromString("Standard_F16s_v2");
+
     /** Static value Standard_F1s for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_F1S = fromString("Standard_F1s");
 
@@ -307,17 +364,35 @@ public final class ContainerServiceVMSizeTypes extends ExpandableStringEnum<Cont
     /** Static value Standard_F2s for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_F2S = fromString("Standard_F2s");
 
+    /** Static value Standard_F2s_v2 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_F2S_V2 = fromString("Standard_F2s_v2");
+
+    /** Static value Standard_F32s_v2 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_F32S_V2 = fromString("Standard_F32s_v2");
+
     /** Static value Standard_F4 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_F4 = fromString("Standard_F4");
 
     /** Static value Standard_F4s for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_F4S = fromString("Standard_F4s");
 
+    /** Static value Standard_F4s_v2 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_F4S_V2 = fromString("Standard_F4s_v2");
+
+    /** Static value Standard_F64s_v2 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_F64S_V2 = fromString("Standard_F64s_v2");
+
+    /** Static value Standard_F72s_v2 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_F72S_V2 = fromString("Standard_F72s_v2");
+
     /** Static value Standard_F8 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_F8 = fromString("Standard_F8");
 
     /** Static value Standard_F8s for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_F8S = fromString("Standard_F8s");
+
+    /** Static value Standard_F8s_v2 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_F8S_V2 = fromString("Standard_F8s_v2");
 
     /** Static value Standard_G1 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_G1 = fromString("Standard_G1");
@@ -346,8 +421,20 @@ public final class ContainerServiceVMSizeTypes extends ExpandableStringEnum<Cont
     /** Static value Standard_GS4 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_GS4 = fromString("Standard_GS4");
 
+    /** Static value Standard_GS4-4 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_GS4_4 = fromString("Standard_GS4-4");
+
+    /** Static value Standard_GS4-8 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_GS4_8 = fromString("Standard_GS4-8");
+
     /** Static value Standard_GS5 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_GS5 = fromString("Standard_GS5");
+
+    /** Static value Standard_GS5-16 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_GS5_16 = fromString("Standard_GS5-16");
+
+    /** Static value Standard_GS5-8 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_GS5_8 = fromString("Standard_GS5-8");
 
     /** Static value Standard_H16 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_H16 = fromString("Standard_H16");
@@ -379,14 +466,38 @@ public final class ContainerServiceVMSizeTypes extends ExpandableStringEnum<Cont
     /** Static value Standard_L8s for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_L8S = fromString("Standard_L8s");
 
+    /** Static value Standard_M128-32ms for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_M128_32MS = fromString("Standard_M128-32ms");
+
+    /** Static value Standard_M128-64ms for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_M128_64MS = fromString("Standard_M128-64ms");
+
+    /** Static value Standard_M128ms for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_M128MS = fromString("Standard_M128ms");
+
     /** Static value Standard_M128s for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_M128S = fromString("Standard_M128s");
+
+    /** Static value Standard_M64-16ms for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_M64_16MS = fromString("Standard_M64-16ms");
+
+    /** Static value Standard_M64-32ms for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_M64_32MS = fromString("Standard_M64-32ms");
 
     /** Static value Standard_M64ms for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_M64MS = fromString("Standard_M64ms");
 
+    /** Static value Standard_M64s for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_M64S = fromString("Standard_M64s");
+
     /** Static value Standard_NC12 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_NC12 = fromString("Standard_NC12");
+
+    /** Static value Standard_NC12s_v2 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_NC12S_V2 = fromString("Standard_NC12s_v2");
+
+    /** Static value Standard_NC12s_v3 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_NC12S_V3 = fromString("Standard_NC12s_v3");
 
     /** Static value Standard_NC24 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_NC24 = fromString("Standard_NC24");
@@ -394,8 +505,38 @@ public final class ContainerServiceVMSizeTypes extends ExpandableStringEnum<Cont
     /** Static value Standard_NC24r for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_NC24R = fromString("Standard_NC24r");
 
+    /** Static value Standard_NC24rs_v2 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_NC24RS_V2 = fromString("Standard_NC24rs_v2");
+
+    /** Static value Standard_NC24rs_v3 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_NC24RS_V3 = fromString("Standard_NC24rs_v3");
+
+    /** Static value Standard_NC24s_v2 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_NC24S_V2 = fromString("Standard_NC24s_v2");
+
+    /** Static value Standard_NC24s_v3 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_NC24S_V3 = fromString("Standard_NC24s_v3");
+
     /** Static value Standard_NC6 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_NC6 = fromString("Standard_NC6");
+
+    /** Static value Standard_NC6s_v2 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_NC6S_V2 = fromString("Standard_NC6s_v2");
+
+    /** Static value Standard_NC6s_v3 for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_NC6S_V3 = fromString("Standard_NC6s_v3");
+
+    /** Static value Standard_ND12s for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_ND12S = fromString("Standard_ND12s");
+
+    /** Static value Standard_ND24rs for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_ND24RS = fromString("Standard_ND24rs");
+
+    /** Static value Standard_ND24s for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_ND24S = fromString("Standard_ND24s");
+
+    /** Static value Standard_ND6s for ContainerServiceVMSizeTypes. */
+    public static final ContainerServiceVMSizeTypes STANDARD_ND6S = fromString("Standard_ND6s");
 
     /** Static value Standard_NV12 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_NV12 = fromString("Standard_NV12");

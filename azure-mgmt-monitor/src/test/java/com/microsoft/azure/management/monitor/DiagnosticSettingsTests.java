@@ -82,9 +82,9 @@ public class DiagnosticSettingsTests extends MonitorManagementTest {
                 .withLogsAndMetrics(categories, Period.minutes(5), 7)
                 .create();
 
-        Assert.assertEquals(vm.id(), setting.resourceId());
-        Assert.assertEquals(sa.id(), setting.storageAccountId());
-        Assert.assertEquals(evenHubNsRule.id(), setting.eventHubAuthorizationRuleId());
+        Assert.assertTrue(vm.id().equalsIgnoreCase(setting.resourceId()));
+        Assert.assertTrue(sa.id().equalsIgnoreCase(setting.storageAccountId()));
+        Assert.assertTrue(evenHubNsRule.id().equalsIgnoreCase(setting.eventHubAuthorizationRuleId()));
         Assert.assertNull(setting.eventHubName());
         Assert.assertNull(setting.workspaceId());
         Assert.assertTrue(setting.logs().isEmpty());
@@ -95,8 +95,8 @@ public class DiagnosticSettingsTests extends MonitorManagementTest {
                 .withoutLogs()
                 .apply();
 
-        Assert.assertEquals(vm.id(), setting.resourceId());
-        Assert.assertEquals(evenHubNsRule.id(), setting.eventHubAuthorizationRuleId());
+        Assert.assertTrue(vm.id().equalsIgnoreCase(setting.resourceId()));
+        Assert.assertTrue(evenHubNsRule.id().equalsIgnoreCase(setting.eventHubAuthorizationRuleId()));
         Assert.assertNull(setting.storageAccountId());
         Assert.assertNull(setting.eventHubName());
         Assert.assertNull(setting.workspaceId());

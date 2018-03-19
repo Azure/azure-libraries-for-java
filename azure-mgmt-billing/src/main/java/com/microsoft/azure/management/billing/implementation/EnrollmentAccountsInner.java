@@ -137,9 +137,9 @@ public class EnrollmentAccountsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the EnrollmentAccountResultInner object if successful.
+     * @return the EnrollmentAccountInner object if successful.
      */
-    public EnrollmentAccountResultInner get(String name) {
+    public EnrollmentAccountInner get(String name) {
         return getWithServiceResponseAsync(name).toBlocking().single().body();
     }
 
@@ -151,7 +151,7 @@ public class EnrollmentAccountsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<EnrollmentAccountResultInner> getAsync(String name, final ServiceCallback<EnrollmentAccountResultInner> serviceCallback) {
+    public ServiceFuture<EnrollmentAccountInner> getAsync(String name, final ServiceCallback<EnrollmentAccountInner> serviceCallback) {
         return ServiceFuture.fromResponse(getWithServiceResponseAsync(name), serviceCallback);
     }
 
@@ -160,12 +160,12 @@ public class EnrollmentAccountsInner {
      *
      * @param name Enrollment Account name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the EnrollmentAccountResultInner object
+     * @return the observable to the EnrollmentAccountInner object
      */
-    public Observable<EnrollmentAccountResultInner> getAsync(String name) {
-        return getWithServiceResponseAsync(name).map(new Func1<ServiceResponse<EnrollmentAccountResultInner>, EnrollmentAccountResultInner>() {
+    public Observable<EnrollmentAccountInner> getAsync(String name) {
+        return getWithServiceResponseAsync(name).map(new Func1<ServiceResponse<EnrollmentAccountInner>, EnrollmentAccountInner>() {
             @Override
-            public EnrollmentAccountResultInner call(ServiceResponse<EnrollmentAccountResultInner> response) {
+            public EnrollmentAccountInner call(ServiceResponse<EnrollmentAccountInner> response) {
                 return response.body();
             }
         });
@@ -176,9 +176,9 @@ public class EnrollmentAccountsInner {
      *
      * @param name Enrollment Account name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the EnrollmentAccountResultInner object
+     * @return the observable to the EnrollmentAccountInner object
      */
-    public Observable<ServiceResponse<EnrollmentAccountResultInner>> getWithServiceResponseAsync(String name) {
+    public Observable<ServiceResponse<EnrollmentAccountInner>> getWithServiceResponseAsync(String name) {
         if (name == null) {
             throw new IllegalArgumentException("Parameter name is required and cannot be null.");
         }
@@ -186,11 +186,11 @@ public class EnrollmentAccountsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.get(name, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<EnrollmentAccountResultInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<EnrollmentAccountInner>>>() {
                 @Override
-                public Observable<ServiceResponse<EnrollmentAccountResultInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<EnrollmentAccountInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<EnrollmentAccountResultInner> clientResponse = getDelegate(response);
+                        ServiceResponse<EnrollmentAccountInner> clientResponse = getDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -199,9 +199,9 @@ public class EnrollmentAccountsInner {
             });
     }
 
-    private ServiceResponse<EnrollmentAccountResultInner> getDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<EnrollmentAccountResultInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<EnrollmentAccountResultInner>() { }.getType())
+    private ServiceResponse<EnrollmentAccountInner> getDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<EnrollmentAccountInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<EnrollmentAccountInner>() { }.getType())
                 .registerError(ErrorResponseException.class)
                 .build(response);
     }

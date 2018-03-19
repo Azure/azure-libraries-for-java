@@ -19,15 +19,30 @@ public class EnrollmentAccountListResultInner {
      * The list of enrollment accounts.
      */
     @JsonProperty(value = "value", access = JsonProperty.Access.WRITE_ONLY)
-    private List<EnrollmentAccountResultInner> value;
+    private List<EnrollmentAccountInner> value;
+
+    /**
+     * The link (url) to the next page of results.
+     */
+    @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
+    private String nextLink;
 
     /**
      * Get the value value.
      *
      * @return the value value
      */
-    public List<EnrollmentAccountResultInner> value() {
+    public List<EnrollmentAccountInner> value() {
         return this.value;
+    }
+
+    /**
+     * Get the nextLink value.
+     *
+     * @return the nextLink value
+     */
+    public String nextLink() {
+        return this.nextLink;
     }
 
 }

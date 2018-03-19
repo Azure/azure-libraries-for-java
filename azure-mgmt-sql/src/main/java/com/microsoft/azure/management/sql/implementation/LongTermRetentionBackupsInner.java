@@ -482,7 +482,8 @@ public class LongTermRetentionBackupsInner {
         }
         final String apiVersion = "2017-03-01-preview";
         final Boolean onlyLatestPerDatabase = null;
-        return service.listByDatabase(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, this.client.subscriptionId(), onlyLatestPerDatabase, this.client.databaseState(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        final LongTermRetentionDatabaseState databaseState = null;
+        return service.listByDatabase(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, this.client.subscriptionId(), onlyLatestPerDatabase, databaseState, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> call(Response<ResponseBody> response) {
@@ -503,13 +504,14 @@ public class LongTermRetentionBackupsInner {
      * @param longTermRetentionServerName the String value
      * @param longTermRetentionDatabaseName the String value
      * @param onlyLatestPerDatabase Whether or not to only get the latest backup for each database.
+     * @param databaseState Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;LongTermRetentionBackupInner&gt; object if successful.
      */
-    public PagedList<LongTermRetentionBackupInner> listByDatabase(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase) {
-        ServiceResponse<Page<LongTermRetentionBackupInner>> response = listByDatabaseSinglePageAsync(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, onlyLatestPerDatabase).toBlocking().single();
+    public PagedList<LongTermRetentionBackupInner> listByDatabase(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+        ServiceResponse<Page<LongTermRetentionBackupInner>> response = listByDatabaseSinglePageAsync(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, onlyLatestPerDatabase, databaseState).toBlocking().single();
         return new PagedList<LongTermRetentionBackupInner>(response.body()) {
             @Override
             public Page<LongTermRetentionBackupInner> nextPage(String nextPageLink) {
@@ -525,13 +527,14 @@ public class LongTermRetentionBackupsInner {
      * @param longTermRetentionServerName the String value
      * @param longTermRetentionDatabaseName the String value
      * @param onlyLatestPerDatabase Whether or not to only get the latest backup for each database.
+     * @param databaseState Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<LongTermRetentionBackupInner>> listByDatabaseAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final ListOperationCallback<LongTermRetentionBackupInner> serviceCallback) {
+    public ServiceFuture<List<LongTermRetentionBackupInner>> listByDatabaseAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState, final ListOperationCallback<LongTermRetentionBackupInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listByDatabaseSinglePageAsync(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, onlyLatestPerDatabase),
+            listByDatabaseSinglePageAsync(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, onlyLatestPerDatabase, databaseState),
             new Func1<String, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> call(String nextPageLink) {
@@ -548,11 +551,12 @@ public class LongTermRetentionBackupsInner {
      * @param longTermRetentionServerName the String value
      * @param longTermRetentionDatabaseName the String value
      * @param onlyLatestPerDatabase Whether or not to only get the latest backup for each database.
+     * @param databaseState Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;LongTermRetentionBackupInner&gt; object
      */
-    public Observable<Page<LongTermRetentionBackupInner>> listByDatabaseAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase) {
-        return listByDatabaseWithServiceResponseAsync(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, onlyLatestPerDatabase)
+    public Observable<Page<LongTermRetentionBackupInner>> listByDatabaseAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+        return listByDatabaseWithServiceResponseAsync(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, onlyLatestPerDatabase, databaseState)
             .map(new Func1<ServiceResponse<Page<LongTermRetentionBackupInner>>, Page<LongTermRetentionBackupInner>>() {
                 @Override
                 public Page<LongTermRetentionBackupInner> call(ServiceResponse<Page<LongTermRetentionBackupInner>> response) {
@@ -568,11 +572,12 @@ public class LongTermRetentionBackupsInner {
      * @param longTermRetentionServerName the String value
      * @param longTermRetentionDatabaseName the String value
      * @param onlyLatestPerDatabase Whether or not to only get the latest backup for each database.
+     * @param databaseState Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;LongTermRetentionBackupInner&gt; object
      */
-    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByDatabaseWithServiceResponseAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase) {
-        return listByDatabaseSinglePageAsync(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, onlyLatestPerDatabase)
+    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByDatabaseWithServiceResponseAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+        return listByDatabaseSinglePageAsync(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, onlyLatestPerDatabase, databaseState)
             .concatMap(new Func1<ServiceResponse<Page<LongTermRetentionBackupInner>>, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> call(ServiceResponse<Page<LongTermRetentionBackupInner>> page) {
@@ -592,10 +597,11 @@ public class LongTermRetentionBackupsInner {
     ServiceResponse<PageImpl1<LongTermRetentionBackupInner>> * @param longTermRetentionServerName the String value
     ServiceResponse<PageImpl1<LongTermRetentionBackupInner>> * @param longTermRetentionDatabaseName the String value
     ServiceResponse<PageImpl1<LongTermRetentionBackupInner>> * @param onlyLatestPerDatabase Whether or not to only get the latest backup for each database.
+    ServiceResponse<PageImpl1<LongTermRetentionBackupInner>> * @param databaseState Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;LongTermRetentionBackupInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByDatabaseSinglePageAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase) {
+    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByDatabaseSinglePageAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
         if (locationName == null) {
             throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
         }
@@ -609,7 +615,7 @@ public class LongTermRetentionBackupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.listByDatabase(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, this.client.subscriptionId(), onlyLatestPerDatabase, this.client.databaseState(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listByDatabase(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, this.client.subscriptionId(), onlyLatestPerDatabase, databaseState, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> call(Response<ResponseBody> response) {
@@ -723,7 +729,8 @@ public class LongTermRetentionBackupsInner {
         }
         final String apiVersion = "2017-03-01-preview";
         final Boolean onlyLatestPerDatabase = null;
-        return service.listByLocation(locationName, this.client.subscriptionId(), onlyLatestPerDatabase, this.client.databaseState(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        final LongTermRetentionDatabaseState databaseState = null;
+        return service.listByLocation(locationName, this.client.subscriptionId(), onlyLatestPerDatabase, databaseState, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> call(Response<ResponseBody> response) {
@@ -742,13 +749,14 @@ public class LongTermRetentionBackupsInner {
      *
      * @param locationName The location of the database
      * @param onlyLatestPerDatabase Whether or not to only get the latest backup for each database.
+     * @param databaseState Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;LongTermRetentionBackupInner&gt; object if successful.
      */
-    public PagedList<LongTermRetentionBackupInner> listByLocation(final String locationName, final Boolean onlyLatestPerDatabase) {
-        ServiceResponse<Page<LongTermRetentionBackupInner>> response = listByLocationSinglePageAsync(locationName, onlyLatestPerDatabase).toBlocking().single();
+    public PagedList<LongTermRetentionBackupInner> listByLocation(final String locationName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+        ServiceResponse<Page<LongTermRetentionBackupInner>> response = listByLocationSinglePageAsync(locationName, onlyLatestPerDatabase, databaseState).toBlocking().single();
         return new PagedList<LongTermRetentionBackupInner>(response.body()) {
             @Override
             public Page<LongTermRetentionBackupInner> nextPage(String nextPageLink) {
@@ -762,13 +770,14 @@ public class LongTermRetentionBackupsInner {
      *
      * @param locationName The location of the database
      * @param onlyLatestPerDatabase Whether or not to only get the latest backup for each database.
+     * @param databaseState Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<LongTermRetentionBackupInner>> listByLocationAsync(final String locationName, final Boolean onlyLatestPerDatabase, final ListOperationCallback<LongTermRetentionBackupInner> serviceCallback) {
+    public ServiceFuture<List<LongTermRetentionBackupInner>> listByLocationAsync(final String locationName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState, final ListOperationCallback<LongTermRetentionBackupInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listByLocationSinglePageAsync(locationName, onlyLatestPerDatabase),
+            listByLocationSinglePageAsync(locationName, onlyLatestPerDatabase, databaseState),
             new Func1<String, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> call(String nextPageLink) {
@@ -783,11 +792,12 @@ public class LongTermRetentionBackupsInner {
      *
      * @param locationName The location of the database
      * @param onlyLatestPerDatabase Whether or not to only get the latest backup for each database.
+     * @param databaseState Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;LongTermRetentionBackupInner&gt; object
      */
-    public Observable<Page<LongTermRetentionBackupInner>> listByLocationAsync(final String locationName, final Boolean onlyLatestPerDatabase) {
-        return listByLocationWithServiceResponseAsync(locationName, onlyLatestPerDatabase)
+    public Observable<Page<LongTermRetentionBackupInner>> listByLocationAsync(final String locationName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+        return listByLocationWithServiceResponseAsync(locationName, onlyLatestPerDatabase, databaseState)
             .map(new Func1<ServiceResponse<Page<LongTermRetentionBackupInner>>, Page<LongTermRetentionBackupInner>>() {
                 @Override
                 public Page<LongTermRetentionBackupInner> call(ServiceResponse<Page<LongTermRetentionBackupInner>> response) {
@@ -801,11 +811,12 @@ public class LongTermRetentionBackupsInner {
      *
      * @param locationName The location of the database
      * @param onlyLatestPerDatabase Whether or not to only get the latest backup for each database.
+     * @param databaseState Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;LongTermRetentionBackupInner&gt; object
      */
-    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByLocationWithServiceResponseAsync(final String locationName, final Boolean onlyLatestPerDatabase) {
-        return listByLocationSinglePageAsync(locationName, onlyLatestPerDatabase)
+    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByLocationWithServiceResponseAsync(final String locationName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+        return listByLocationSinglePageAsync(locationName, onlyLatestPerDatabase, databaseState)
             .concatMap(new Func1<ServiceResponse<Page<LongTermRetentionBackupInner>>, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> call(ServiceResponse<Page<LongTermRetentionBackupInner>> page) {
@@ -823,10 +834,11 @@ public class LongTermRetentionBackupsInner {
      *
     ServiceResponse<PageImpl1<LongTermRetentionBackupInner>> * @param locationName The location of the database
     ServiceResponse<PageImpl1<LongTermRetentionBackupInner>> * @param onlyLatestPerDatabase Whether or not to only get the latest backup for each database.
+    ServiceResponse<PageImpl1<LongTermRetentionBackupInner>> * @param databaseState Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;LongTermRetentionBackupInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByLocationSinglePageAsync(final String locationName, final Boolean onlyLatestPerDatabase) {
+    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByLocationSinglePageAsync(final String locationName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
         if (locationName == null) {
             throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
         }
@@ -834,7 +846,7 @@ public class LongTermRetentionBackupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.listByLocation(locationName, this.client.subscriptionId(), onlyLatestPerDatabase, this.client.databaseState(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listByLocation(locationName, this.client.subscriptionId(), onlyLatestPerDatabase, databaseState, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> call(Response<ResponseBody> response) {
@@ -956,7 +968,8 @@ public class LongTermRetentionBackupsInner {
         }
         final String apiVersion = "2017-03-01-preview";
         final Boolean onlyLatestPerDatabase = null;
-        return service.listByServer(locationName, longTermRetentionServerName, this.client.subscriptionId(), onlyLatestPerDatabase, this.client.databaseState(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        final LongTermRetentionDatabaseState databaseState = null;
+        return service.listByServer(locationName, longTermRetentionServerName, this.client.subscriptionId(), onlyLatestPerDatabase, databaseState, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> call(Response<ResponseBody> response) {
@@ -976,13 +989,14 @@ public class LongTermRetentionBackupsInner {
      * @param locationName The location of the database
      * @param longTermRetentionServerName the String value
      * @param onlyLatestPerDatabase Whether or not to only get the latest backup for each database.
+     * @param databaseState Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;LongTermRetentionBackupInner&gt; object if successful.
      */
-    public PagedList<LongTermRetentionBackupInner> listByServer(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase) {
-        ServiceResponse<Page<LongTermRetentionBackupInner>> response = listByServerSinglePageAsync(locationName, longTermRetentionServerName, onlyLatestPerDatabase).toBlocking().single();
+    public PagedList<LongTermRetentionBackupInner> listByServer(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+        ServiceResponse<Page<LongTermRetentionBackupInner>> response = listByServerSinglePageAsync(locationName, longTermRetentionServerName, onlyLatestPerDatabase, databaseState).toBlocking().single();
         return new PagedList<LongTermRetentionBackupInner>(response.body()) {
             @Override
             public Page<LongTermRetentionBackupInner> nextPage(String nextPageLink) {
@@ -997,13 +1011,14 @@ public class LongTermRetentionBackupsInner {
      * @param locationName The location of the database
      * @param longTermRetentionServerName the String value
      * @param onlyLatestPerDatabase Whether or not to only get the latest backup for each database.
+     * @param databaseState Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<LongTermRetentionBackupInner>> listByServerAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final ListOperationCallback<LongTermRetentionBackupInner> serviceCallback) {
+    public ServiceFuture<List<LongTermRetentionBackupInner>> listByServerAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState, final ListOperationCallback<LongTermRetentionBackupInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listByServerSinglePageAsync(locationName, longTermRetentionServerName, onlyLatestPerDatabase),
+            listByServerSinglePageAsync(locationName, longTermRetentionServerName, onlyLatestPerDatabase, databaseState),
             new Func1<String, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> call(String nextPageLink) {
@@ -1019,11 +1034,12 @@ public class LongTermRetentionBackupsInner {
      * @param locationName The location of the database
      * @param longTermRetentionServerName the String value
      * @param onlyLatestPerDatabase Whether or not to only get the latest backup for each database.
+     * @param databaseState Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;LongTermRetentionBackupInner&gt; object
      */
-    public Observable<Page<LongTermRetentionBackupInner>> listByServerAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase) {
-        return listByServerWithServiceResponseAsync(locationName, longTermRetentionServerName, onlyLatestPerDatabase)
+    public Observable<Page<LongTermRetentionBackupInner>> listByServerAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+        return listByServerWithServiceResponseAsync(locationName, longTermRetentionServerName, onlyLatestPerDatabase, databaseState)
             .map(new Func1<ServiceResponse<Page<LongTermRetentionBackupInner>>, Page<LongTermRetentionBackupInner>>() {
                 @Override
                 public Page<LongTermRetentionBackupInner> call(ServiceResponse<Page<LongTermRetentionBackupInner>> response) {
@@ -1038,11 +1054,12 @@ public class LongTermRetentionBackupsInner {
      * @param locationName The location of the database
      * @param longTermRetentionServerName the String value
      * @param onlyLatestPerDatabase Whether or not to only get the latest backup for each database.
+     * @param databaseState Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;LongTermRetentionBackupInner&gt; object
      */
-    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByServerWithServiceResponseAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase) {
-        return listByServerSinglePageAsync(locationName, longTermRetentionServerName, onlyLatestPerDatabase)
+    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByServerWithServiceResponseAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+        return listByServerSinglePageAsync(locationName, longTermRetentionServerName, onlyLatestPerDatabase, databaseState)
             .concatMap(new Func1<ServiceResponse<Page<LongTermRetentionBackupInner>>, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> call(ServiceResponse<Page<LongTermRetentionBackupInner>> page) {
@@ -1061,10 +1078,11 @@ public class LongTermRetentionBackupsInner {
     ServiceResponse<PageImpl1<LongTermRetentionBackupInner>> * @param locationName The location of the database
     ServiceResponse<PageImpl1<LongTermRetentionBackupInner>> * @param longTermRetentionServerName the String value
     ServiceResponse<PageImpl1<LongTermRetentionBackupInner>> * @param onlyLatestPerDatabase Whether or not to only get the latest backup for each database.
+    ServiceResponse<PageImpl1<LongTermRetentionBackupInner>> * @param databaseState Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;LongTermRetentionBackupInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByServerSinglePageAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase) {
+    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByServerSinglePageAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
         if (locationName == null) {
             throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
         }
@@ -1075,7 +1093,7 @@ public class LongTermRetentionBackupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.listByServer(locationName, longTermRetentionServerName, this.client.subscriptionId(), onlyLatestPerDatabase, this.client.databaseState(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listByServer(locationName, longTermRetentionServerName, this.client.subscriptionId(), onlyLatestPerDatabase, databaseState, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> call(Response<ResponseBody> response) {

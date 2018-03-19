@@ -51,29 +51,6 @@ public class SqlManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'. */
-    private LongTermRetentionDatabaseState databaseState;
-
-    /**
-     * Gets Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'.
-     *
-     * @return the databaseState value.
-     */
-    public LongTermRetentionDatabaseState databaseState() {
-        return this.databaseState;
-    }
-
-    /**
-     * Sets Whether to query against just live databases, just deleted databases, or all databases. Possible values include: 'All', 'Live', 'Deleted'.
-     *
-     * @param databaseState the databaseState value.
-     * @return the service client itself
-     */
-    public SqlManagementClientImpl withDatabaseState(LongTermRetentionDatabaseState databaseState) {
-        this.databaseState = databaseState;
-        return this;
-    }
-
     /** Gets or sets the preferred language for the response. */
     private String acceptLanguage;
 

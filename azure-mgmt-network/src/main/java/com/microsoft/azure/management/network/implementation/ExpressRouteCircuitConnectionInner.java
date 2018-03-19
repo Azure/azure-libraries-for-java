@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.management.network.implementation;
 
+import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.network.CircuitConnectionStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.SubResource;
 
 /**
  * Express Route Circuit Connection in an ExpressRouteCircuitPeering resource.
@@ -23,14 +23,14 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
      * circuit initiating connection.
      */
     @JsonProperty(value = "properties.expressRouteCircuitPeering")
-    private ExpressRouteCircuitPeeringInner expressRouteCircuitPeering;
+    private SubResource expressRouteCircuitPeering;
 
     /**
      * Reference to Express Route Circuit Private Peering Resource of the
      * peered circuit.
      */
     @JsonProperty(value = "properties.peerExpressRouteCircuitPeering")
-    private ExpressRouteCircuitPeeringInner peerExpressRouteCircuitPeering;
+    private SubResource peerExpressRouteCircuitPeering;
 
     /**
      * /29 IP address space to carve out Customer addresses for tunnels.
@@ -77,7 +77,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
      *
      * @return the expressRouteCircuitPeering value
      */
-    public ExpressRouteCircuitPeeringInner expressRouteCircuitPeering() {
+    public SubResource expressRouteCircuitPeering() {
         return this.expressRouteCircuitPeering;
     }
 
@@ -87,7 +87,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
      * @param expressRouteCircuitPeering the expressRouteCircuitPeering value to set
      * @return the ExpressRouteCircuitConnectionInner object itself.
      */
-    public ExpressRouteCircuitConnectionInner withExpressRouteCircuitPeering(ExpressRouteCircuitPeeringInner expressRouteCircuitPeering) {
+    public ExpressRouteCircuitConnectionInner withExpressRouteCircuitPeering(SubResource expressRouteCircuitPeering) {
         this.expressRouteCircuitPeering = expressRouteCircuitPeering;
         return this;
     }
@@ -97,7 +97,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
      *
      * @return the peerExpressRouteCircuitPeering value
      */
-    public ExpressRouteCircuitPeeringInner peerExpressRouteCircuitPeering() {
+    public SubResource peerExpressRouteCircuitPeering() {
         return this.peerExpressRouteCircuitPeering;
     }
 
@@ -107,7 +107,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
      * @param peerExpressRouteCircuitPeering the peerExpressRouteCircuitPeering value to set
      * @return the ExpressRouteCircuitConnectionInner object itself.
      */
-    public ExpressRouteCircuitConnectionInner withPeerExpressRouteCircuitPeering(ExpressRouteCircuitPeeringInner peerExpressRouteCircuitPeering) {
+    public ExpressRouteCircuitConnectionInner withPeerExpressRouteCircuitPeering(SubResource peerExpressRouteCircuitPeering) {
         this.peerExpressRouteCircuitPeering = peerExpressRouteCircuitPeering;
         return this;
     }

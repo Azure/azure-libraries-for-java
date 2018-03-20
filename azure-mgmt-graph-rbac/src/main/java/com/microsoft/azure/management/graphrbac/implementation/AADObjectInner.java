@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.graphrbac.implementation;
 
+import java.util.Map;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -15,6 +16,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * The properties of an Active Directory object.
  */
 public class AADObjectInner {
+    /**
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
+
     /**
      * The ID of the object.
      */
@@ -125,6 +132,26 @@ public class AADObjectInner {
      */
     @JsonProperty(value = "homepage", access = JsonProperty.Access.WRITE_ONLY)
     private String homepage;
+
+    /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set
+     * @return the AADObjectInner object itself.
+     */
+    public AADObjectInner withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        return this;
+    }
 
     /**
      * Get the objectId value.

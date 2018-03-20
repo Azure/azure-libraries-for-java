@@ -10,23 +10,15 @@ package com.microsoft.azure.management.graphrbac.implementation;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Active Directory service principal information.
  */
-public class ServicePrincipalInner {
-    /**
-     * The object ID.
-     */
-    @JsonProperty(value = "objectId")
-    private String objectId;
-
-    /**
-     * The object type.
-     */
-    @JsonProperty(value = "objectType")
-    private String objectType;
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
+@JsonTypeName("ServicePrincipal")
+public class ServicePrincipalInner extends DirectoryObjectInner {
     /**
      * The display name of the service principal.
      */
@@ -44,46 +36,6 @@ public class ServicePrincipalInner {
      */
     @JsonProperty(value = "servicePrincipalNames")
     private List<String> servicePrincipalNames;
-
-    /**
-     * Get the objectId value.
-     *
-     * @return the objectId value
-     */
-    public String objectId() {
-        return this.objectId;
-    }
-
-    /**
-     * Set the objectId value.
-     *
-     * @param objectId the objectId value to set
-     * @return the ServicePrincipalInner object itself.
-     */
-    public ServicePrincipalInner withObjectId(String objectId) {
-        this.objectId = objectId;
-        return this;
-    }
-
-    /**
-     * Get the objectType value.
-     *
-     * @return the objectType value
-     */
-    public String objectType() {
-        return this.objectType;
-    }
-
-    /**
-     * Set the objectType value.
-     *
-     * @param objectType the objectType value to set
-     * @return the ServicePrincipalInner object itself.
-     */
-    public ServicePrincipalInner withObjectType(String objectType) {
-        this.objectType = objectType;
-        return this;
-    }
 
     /**
      * Get the displayName value.

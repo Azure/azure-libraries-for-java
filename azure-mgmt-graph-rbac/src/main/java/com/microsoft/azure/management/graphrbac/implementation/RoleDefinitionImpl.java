@@ -53,41 +53,26 @@ class RoleDefinitionImpl
 
     @Override
     public String roleName() {
-        if (inner().properties() == null) {
-            return null;
-        }
-        return inner().properties().roleName();
+        return inner().roleName();
     }
 
     @Override
     public String description() {
-        if (inner().properties() == null) {
-            return null;
-        }
-        return inner().properties().description();
+        return inner().description();
     }
 
     @Override
     public String type() {
-        if (inner().properties() == null) {
-            return null;
-        }
-        return inner().properties().type();
+        return inner().type();
     }
 
     @Override
     public Set<PermissionInner> permissions() {
-        if (inner().properties() == null) {
-            return null;
-        }
-        return Collections.unmodifiableSet(Sets.newHashSet(inner().properties().permissions()));
+        return Collections.unmodifiableSet(Sets.newHashSet(inner().permissions()));
     }
 
     @Override
     public Set<String> assignableScopes() {
-        if (inner().properties() == null) {
-            return null;
-        }
-        return Collections.unmodifiableSet(Sets.newHashSet(inner().properties().assignableScopes()));
+        return Collections.unmodifiableSet(Sets.newHashSet(inner().assignableScopes()));
     }
 }

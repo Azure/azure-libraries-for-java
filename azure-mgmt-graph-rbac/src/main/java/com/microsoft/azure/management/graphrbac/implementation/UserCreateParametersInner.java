@@ -10,11 +10,12 @@ package com.microsoft.azure.management.graphrbac.implementation;
 
 import com.microsoft.azure.management.graphrbac.PasswordProfile;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.graphrbac.UserBase;
 
 /**
  * Request parameters for creating a new work or school account user.
  */
-public class UserCreateParametersInner {
+public class UserCreateParametersInner extends UserBase {
     /**
      * Whether the account is enabled.
      */
@@ -47,22 +48,10 @@ public class UserCreateParametersInner {
     private String mailNickname;
 
     /**
-     * This must be specified if you are using a federated domain for the
-     * user's userPrincipalName (UPN) property when creating a new user
-     * account. It is used to associate an on-premises Active Directory user
-     * account with their Azure AD user object.
+     * The primary email address of the user.
      */
-    @JsonProperty(value = "immutableId")
-    private String immutableId;
-
-    /**
-     * A two letter country code (ISO standard 3166). Required for users that
-     * will be assigned licenses due to legal requirement to check for
-     * availability of services in countries. Examples include: "US", "JP", and
-     * "GB".
-     */
-    @JsonProperty(value = "usageLocation")
-    private String usageLocation;
+    @JsonProperty(value = "mail")
+    private String mail;
 
     /**
      * Get the accountEnabled value.
@@ -165,42 +154,22 @@ public class UserCreateParametersInner {
     }
 
     /**
-     * Get the immutableId value.
+     * Get the mail value.
      *
-     * @return the immutableId value
+     * @return the mail value
      */
-    public String immutableId() {
-        return this.immutableId;
+    public String mail() {
+        return this.mail;
     }
 
     /**
-     * Set the immutableId value.
+     * Set the mail value.
      *
-     * @param immutableId the immutableId value to set
+     * @param mail the mail value to set
      * @return the UserCreateParametersInner object itself.
      */
-    public UserCreateParametersInner withImmutableId(String immutableId) {
-        this.immutableId = immutableId;
-        return this;
-    }
-
-    /**
-     * Get the usageLocation value.
-     *
-     * @return the usageLocation value
-     */
-    public String usageLocation() {
-        return this.usageLocation;
-    }
-
-    /**
-     * Set the usageLocation value.
-     *
-     * @param usageLocation the usageLocation value to set
-     * @return the UserCreateParametersInner object itself.
-     */
-    public UserCreateParametersInner withUsageLocation(String usageLocation) {
-        this.usageLocation = usageLocation;
+    public UserCreateParametersInner withMail(String mail) {
+        this.mail = mail;
         return this;
     }
 

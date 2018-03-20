@@ -12,9 +12,9 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Server response for IsMemberOf API call.
+ * Request parameters for adding a owner to an application.
  */
-public class CheckGroupMembershipResultInner {
+public class ApplicationAddOwnerParametersInner {
     /**
      * Unmatched properties from the message are deserialized this collection.
      */
@@ -22,12 +22,14 @@ public class CheckGroupMembershipResultInner {
     private Map<String, Object> additionalProperties;
 
     /**
-     * True if the specified user, group, contact, or service principal has
-     * either direct or transitive membership in the specified group;
-     * otherwise, false.
+     * A owner object URL, such as
+     * "https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd",
+     * where "0b1f9851-1bf0-433f-aec3-cb9272f093dc" is the tenantId and
+     * "f260bbc4-c254-447b-94cf-293b5ec434dd" is the objectId of the owner
+     * (user, application, servicePrincipal, group) to be added.
      */
-    @JsonProperty(value = "value")
-    private Boolean value;
+    @JsonProperty(value = "url", required = true)
+    private String url;
 
     /**
      * Get the additionalProperties value.
@@ -42,30 +44,30 @@ public class CheckGroupMembershipResultInner {
      * Set the additionalProperties value.
      *
      * @param additionalProperties the additionalProperties value to set
-     * @return the CheckGroupMembershipResultInner object itself.
+     * @return the ApplicationAddOwnerParametersInner object itself.
      */
-    public CheckGroupMembershipResultInner withAdditionalProperties(Map<String, Object> additionalProperties) {
+    public ApplicationAddOwnerParametersInner withAdditionalProperties(Map<String, Object> additionalProperties) {
         this.additionalProperties = additionalProperties;
         return this;
     }
 
     /**
-     * Get the value value.
+     * Get the url value.
      *
-     * @return the value value
+     * @return the url value
      */
-    public Boolean value() {
-        return this.value;
+    public String url() {
+        return this.url;
     }
 
     /**
-     * Set the value value.
+     * Set the url value.
      *
-     * @param value the value value to set
-     * @return the CheckGroupMembershipResultInner object itself.
+     * @param url the url value to set
+     * @return the ApplicationAddOwnerParametersInner object itself.
      */
-    public CheckGroupMembershipResultInner withValue(Boolean value) {
-        this.value = value;
+    public ApplicationAddOwnerParametersInner withUrl(String url) {
+        this.url = url;
         return this;
     }
 

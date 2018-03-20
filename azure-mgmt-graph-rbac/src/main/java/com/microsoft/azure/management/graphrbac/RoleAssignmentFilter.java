@@ -21,6 +21,12 @@ public class RoleAssignmentFilter {
     private String principalId;
 
     /**
+     * The Delegation flag for the roleassignment.
+     */
+    @JsonProperty(value = "canDelegate")
+    private Boolean canDelegate;
+
+    /**
      * Get the principalId value.
      *
      * @return the principalId value
@@ -37,6 +43,26 @@ public class RoleAssignmentFilter {
      */
     public RoleAssignmentFilter withPrincipalId(String principalId) {
         this.principalId = principalId;
+        return this;
+    }
+
+    /**
+     * Get the canDelegate value.
+     *
+     * @return the canDelegate value
+     */
+    public Boolean canDelegate() {
+        return this.canDelegate;
+    }
+
+    /**
+     * Set the canDelegate value.
+     *
+     * @param canDelegate the canDelegate value to set
+     * @return the RoleAssignmentFilter object itself.
+     */
+    public RoleAssignmentFilter withCanDelegate(Boolean canDelegate) {
+        this.canDelegate = canDelegate;
         return this;
     }
 

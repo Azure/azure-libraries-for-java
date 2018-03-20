@@ -36,9 +36,9 @@ class DiagnosticSettingImpl
             DiagnosticSetting.Update {
     public static final String DIAGNOSTIC_SETTINGS_URI = "/providers/microsoft.insights/diagnosticSettings/";
 
-    private String resourceId = null;
-    private TreeMap<String, MetricSettings> metricSet = new TreeMap<>();
-    private TreeMap<String, LogSettings> logSet = new TreeMap<>();
+    private String resourceId;
+    private TreeMap<String, MetricSettings> metricSet;
+    private TreeMap<String, LogSettings> logSet;
     private final MonitorManager myManager;
 
     DiagnosticSettingImpl(String name,
@@ -46,6 +46,7 @@ class DiagnosticSettingImpl
                           final MonitorManager monitorManager) {
         super(name, innerModel);
         this.myManager = monitorManager;
+        initializeSets();
     }
 
     @Override
@@ -237,6 +238,7 @@ class DiagnosticSettingImpl
     @Override
     public void setInner(DiagnosticSettingsResourceInner inner) {
         super.setInner(inner);
+        initializeSets();
         this.metricSet.clear();
         this.logSet.clear();
         if (!isInCreateMode()) {
@@ -248,6 +250,15 @@ class DiagnosticSettingImpl
             for (LogSettings ls : this.inner().logs()) {
                 this.logSet.put(ls.category(), ls);
             }
+        }
+    }
+
+    private void initializeSets() {
+        if (this.metricSet == null) {
+            this.metricSet = new TreeMap<>();
+        }
+        if (this.logSet == null) {
+            this.logSet = new TreeMap<>();
         }
     }
 }

@@ -47,7 +47,7 @@ class MetricDefinitionImpl
     private Period interval;
     private String odataFilter;
     private ResultType resultType;
-    private Double top;
+    private Integer top;
     private String orderBy;
 
     MetricDefinitionImpl(final MetricDefinitionInner innerModel, final MonitorManager monitorManager) {
@@ -167,7 +167,7 @@ class MetricDefinitionImpl
     }
 
     @Override
-    public MetricDefinitionImpl selectTop(double top) {
+    public MetricDefinitionImpl selectTop(int top) {
         this.top = top;
         return this;
     }

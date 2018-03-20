@@ -8,7 +8,6 @@
 
 package com.microsoft.azure.management.network.implementation;
 
-import com.microsoft.azure.management.network.ExpressRouteCrossConnectionServiceProviderProperties;
 import com.microsoft.azure.management.network.ExpressRouteCircuitReference;
 import com.microsoft.azure.management.network.ServiceProviderProvisioningState;
 import java.util.List;
@@ -40,15 +39,21 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     private Integer sTag;
 
     /**
-     * The ServiceProviderProperties.
+     * The peering location of the ExpressRoute circuit.
      */
-    @JsonProperty(value = "properties.serviceProviderProperties")
-    private ExpressRouteCrossConnectionServiceProviderProperties serviceProviderProperties;
+    @JsonProperty(value = "properties.peeringLocation", access = JsonProperty.Access.WRITE_ONLY)
+    private String peeringLocation;
+
+    /**
+     * The circuit bandwidth In Mbps.
+     */
+    @JsonProperty(value = "properties.bandwidthInMbps", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer bandwidthInMbps;
 
     /**
      * The ExpressRouteCircuit.
      */
-    @JsonProperty(value = "properties.expressRouteCircuit")
+    @JsonProperty(value = "properties.expressRouteCircuit", access = JsonProperty.Access.WRITE_ONLY)
     private ExpressRouteCircuitReference expressRouteCircuit;
 
     /**
@@ -77,7 +82,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
      * The list of peerings.
      */
     @JsonProperty(value = "properties.peerings")
-    private List<ExpressRouteCircuitPeeringInner> peerings;
+    private List<ExpressRouteCrossConnectionPeeringInner> peerings;
 
     /**
      * Gets a unique read-only string that changes whenever the resource is
@@ -114,23 +119,21 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Get the serviceProviderProperties value.
+     * Get the peeringLocation value.
      *
-     * @return the serviceProviderProperties value
+     * @return the peeringLocation value
      */
-    public ExpressRouteCrossConnectionServiceProviderProperties serviceProviderProperties() {
-        return this.serviceProviderProperties;
+    public String peeringLocation() {
+        return this.peeringLocation;
     }
 
     /**
-     * Set the serviceProviderProperties value.
+     * Get the bandwidthInMbps value.
      *
-     * @param serviceProviderProperties the serviceProviderProperties value to set
-     * @return the ExpressRouteCrossConnectionInner object itself.
+     * @return the bandwidthInMbps value
      */
-    public ExpressRouteCrossConnectionInner withServiceProviderProperties(ExpressRouteCrossConnectionServiceProviderProperties serviceProviderProperties) {
-        this.serviceProviderProperties = serviceProviderProperties;
-        return this;
+    public Integer bandwidthInMbps() {
+        return this.bandwidthInMbps;
     }
 
     /**
@@ -140,17 +143,6 @@ public class ExpressRouteCrossConnectionInner extends Resource {
      */
     public ExpressRouteCircuitReference expressRouteCircuit() {
         return this.expressRouteCircuit;
-    }
-
-    /**
-     * Set the expressRouteCircuit value.
-     *
-     * @param expressRouteCircuit the expressRouteCircuit value to set
-     * @return the ExpressRouteCrossConnectionInner object itself.
-     */
-    public ExpressRouteCrossConnectionInner withExpressRouteCircuit(ExpressRouteCircuitReference expressRouteCircuit) {
-        this.expressRouteCircuit = expressRouteCircuit;
-        return this;
     }
 
     /**
@@ -207,7 +199,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
      *
      * @return the peerings value
      */
-    public List<ExpressRouteCircuitPeeringInner> peerings() {
+    public List<ExpressRouteCrossConnectionPeeringInner> peerings() {
         return this.peerings;
     }
 
@@ -217,7 +209,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
      * @param peerings the peerings value to set
      * @return the ExpressRouteCrossConnectionInner object itself.
      */
-    public ExpressRouteCrossConnectionInner withPeerings(List<ExpressRouteCircuitPeeringInner> peerings) {
+    public ExpressRouteCrossConnectionInner withPeerings(List<ExpressRouteCrossConnectionPeeringInner> peerings) {
         this.peerings = peerings;
         return this;
     }

@@ -317,8 +317,8 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
     /**
      * Gets details about the specified ExpressRouteCrossConnection.
      *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
+     * @param resourceGroupName The name of the resource group (peering location of the circuit).
+     * @param crossConnectionName The name of the ExpressRouteCrossConnection (service key of the circuit).
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -331,8 +331,8 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
     /**
      * Gets details about the specified ExpressRouteCrossConnection.
      *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
+     * @param resourceGroupName The name of the resource group (peering location of the circuit).
+     * @param crossConnectionName The name of the ExpressRouteCrossConnection (service key of the circuit).
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -344,8 +344,8 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
     /**
      * Gets details about the specified ExpressRouteCrossConnection.
      *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
+     * @param resourceGroupName The name of the resource group (peering location of the circuit).
+     * @param crossConnectionName The name of the ExpressRouteCrossConnection (service key of the circuit).
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ExpressRouteCrossConnectionInner object
      */
@@ -361,8 +361,8 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
     /**
      * Gets details about the specified ExpressRouteCrossConnection.
      *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
+     * @param resourceGroupName The name of the resource group (peering location of the circuit).
+     * @param crossConnectionName The name of the ExpressRouteCrossConnection (service key of the circuit).
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ExpressRouteCrossConnectionInner object
      */

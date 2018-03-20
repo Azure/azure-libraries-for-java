@@ -79,11 +79,11 @@ public class ExpressRouteCrossConnectionPeeringsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnectionPeerings createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("peeringName") String peeringName, @Path("subscriptionId") String subscriptionId, @Body ExpressRouteCircuitPeeringInner peeringParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("peeringName") String peeringName, @Path("subscriptionId") String subscriptionId, @Body ExpressRouteCrossConnectionPeeringInner peeringParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnectionPeerings beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("peeringName") String peeringName, @Path("subscriptionId") String subscriptionId, @Body ExpressRouteCircuitPeeringInner peeringParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("peeringName") String peeringName, @Path("subscriptionId") String subscriptionId, @Body ExpressRouteCrossConnectionPeeringInner peeringParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnectionPeerings listNext" })
         @GET
@@ -99,13 +99,13 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ExpressRouteCircuitPeeringInner&gt; object if successful.
+     * @return the PagedList&lt;ExpressRouteCrossConnectionPeeringInner&gt; object if successful.
      */
-    public PagedList<ExpressRouteCircuitPeeringInner> list(final String resourceGroupName, final String crossConnectionName) {
-        ServiceResponse<Page<ExpressRouteCircuitPeeringInner>> response = listSinglePageAsync(resourceGroupName, crossConnectionName).toBlocking().single();
-        return new PagedList<ExpressRouteCircuitPeeringInner>(response.body()) {
+    public PagedList<ExpressRouteCrossConnectionPeeringInner> list(final String resourceGroupName, final String crossConnectionName) {
+        ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>> response = listSinglePageAsync(resourceGroupName, crossConnectionName).toBlocking().single();
+        return new PagedList<ExpressRouteCrossConnectionPeeringInner>(response.body()) {
             @Override
-            public Page<ExpressRouteCircuitPeeringInner> nextPage(String nextPageLink) {
+            public Page<ExpressRouteCrossConnectionPeeringInner> nextPage(String nextPageLink) {
                 return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
@@ -120,12 +120,12 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ExpressRouteCircuitPeeringInner>> listAsync(final String resourceGroupName, final String crossConnectionName, final ListOperationCallback<ExpressRouteCircuitPeeringInner> serviceCallback) {
+    public ServiceFuture<List<ExpressRouteCrossConnectionPeeringInner>> listAsync(final String resourceGroupName, final String crossConnectionName, final ListOperationCallback<ExpressRouteCrossConnectionPeeringInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listSinglePageAsync(resourceGroupName, crossConnectionName),
-            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>>>() {
+            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>> call(String nextPageLink) {
+                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>> call(String nextPageLink) {
                     return listNextSinglePageAsync(nextPageLink);
                 }
             },
@@ -138,13 +138,13 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCircuitPeeringInner&gt; object
+     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionPeeringInner&gt; object
      */
-    public Observable<Page<ExpressRouteCircuitPeeringInner>> listAsync(final String resourceGroupName, final String crossConnectionName) {
+    public Observable<Page<ExpressRouteCrossConnectionPeeringInner>> listAsync(final String resourceGroupName, final String crossConnectionName) {
         return listWithServiceResponseAsync(resourceGroupName, crossConnectionName)
-            .map(new Func1<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>, Page<ExpressRouteCircuitPeeringInner>>() {
+            .map(new Func1<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>, Page<ExpressRouteCrossConnectionPeeringInner>>() {
                 @Override
-                public Page<ExpressRouteCircuitPeeringInner> call(ServiceResponse<Page<ExpressRouteCircuitPeeringInner>> response) {
+                public Page<ExpressRouteCrossConnectionPeeringInner> call(ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>> response) {
                     return response.body();
                 }
             });
@@ -156,13 +156,13 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCircuitPeeringInner&gt; object
+     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionPeeringInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>> listWithServiceResponseAsync(final String resourceGroupName, final String crossConnectionName) {
+    public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>> listWithServiceResponseAsync(final String resourceGroupName, final String crossConnectionName) {
         return listSinglePageAsync(resourceGroupName, crossConnectionName)
-            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>, Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>>>() {
+            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>> call(ServiceResponse<Page<ExpressRouteCircuitPeeringInner>> page) {
+                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>> call(ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
@@ -175,12 +175,12 @@ public class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Gets all peerings in a specified ExpressRouteCrossConnection.
      *
-    ServiceResponse<PageImpl<ExpressRouteCircuitPeeringInner>> * @param resourceGroupName The name of the resource group.
-    ServiceResponse<PageImpl<ExpressRouteCircuitPeeringInner>> * @param crossConnectionName The name of the ExpressRouteCrossConnection.
+    ServiceResponse<PageImpl<ExpressRouteCrossConnectionPeeringInner>> * @param resourceGroupName The name of the resource group.
+    ServiceResponse<PageImpl<ExpressRouteCrossConnectionPeeringInner>> * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ExpressRouteCircuitPeeringInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;ExpressRouteCrossConnectionPeeringInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>> listSinglePageAsync(final String resourceGroupName, final String crossConnectionName) {
+    public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>> listSinglePageAsync(final String resourceGroupName, final String crossConnectionName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -194,12 +194,12 @@ public class ExpressRouteCrossConnectionPeeringsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.list(resourceGroupName, crossConnectionName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ExpressRouteCircuitPeeringInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<ExpressRouteCrossConnectionPeeringInner>> result = listDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -207,9 +207,9 @@ public class ExpressRouteCrossConnectionPeeringsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<ExpressRouteCircuitPeeringInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteCircuitPeeringInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ExpressRouteCircuitPeeringInner>>() { }.getType())
+    private ServiceResponse<PageImpl<ExpressRouteCrossConnectionPeeringInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteCrossConnectionPeeringInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ExpressRouteCrossConnectionPeeringInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -392,9 +392,9 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ExpressRouteCircuitPeeringInner object if successful.
+     * @return the ExpressRouteCrossConnectionPeeringInner object if successful.
      */
-    public ExpressRouteCircuitPeeringInner get(String resourceGroupName, String crossConnectionName, String peeringName) {
+    public ExpressRouteCrossConnectionPeeringInner get(String resourceGroupName, String crossConnectionName, String peeringName) {
         return getWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName).toBlocking().single().body();
     }
 
@@ -408,7 +408,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ExpressRouteCircuitPeeringInner> getAsync(String resourceGroupName, String crossConnectionName, String peeringName, final ServiceCallback<ExpressRouteCircuitPeeringInner> serviceCallback) {
+    public ServiceFuture<ExpressRouteCrossConnectionPeeringInner> getAsync(String resourceGroupName, String crossConnectionName, String peeringName, final ServiceCallback<ExpressRouteCrossConnectionPeeringInner> serviceCallback) {
         return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName), serviceCallback);
     }
 
@@ -419,12 +419,12 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitPeeringInner object
+     * @return the observable to the ExpressRouteCrossConnectionPeeringInner object
      */
-    public Observable<ExpressRouteCircuitPeeringInner> getAsync(String resourceGroupName, String crossConnectionName, String peeringName) {
-        return getWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName).map(new Func1<ServiceResponse<ExpressRouteCircuitPeeringInner>, ExpressRouteCircuitPeeringInner>() {
+    public Observable<ExpressRouteCrossConnectionPeeringInner> getAsync(String resourceGroupName, String crossConnectionName, String peeringName) {
+        return getWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionPeeringInner>, ExpressRouteCrossConnectionPeeringInner>() {
             @Override
-            public ExpressRouteCircuitPeeringInner call(ServiceResponse<ExpressRouteCircuitPeeringInner> response) {
+            public ExpressRouteCrossConnectionPeeringInner call(ServiceResponse<ExpressRouteCrossConnectionPeeringInner> response) {
                 return response.body();
             }
         });
@@ -437,9 +437,9 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitPeeringInner object
+     * @return the observable to the ExpressRouteCrossConnectionPeeringInner object
      */
-    public Observable<ServiceResponse<ExpressRouteCircuitPeeringInner>> getWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, String peeringName) {
+    public Observable<ServiceResponse<ExpressRouteCrossConnectionPeeringInner>> getWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, String peeringName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -456,11 +456,11 @@ public class ExpressRouteCrossConnectionPeeringsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.get(resourceGroupName, crossConnectionName, peeringName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitPeeringInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCrossConnectionPeeringInner>>>() {
                 @Override
-                public Observable<ServiceResponse<ExpressRouteCircuitPeeringInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<ExpressRouteCrossConnectionPeeringInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<ExpressRouteCircuitPeeringInner> clientResponse = getDelegate(response);
+                        ServiceResponse<ExpressRouteCrossConnectionPeeringInner> clientResponse = getDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -469,9 +469,9 @@ public class ExpressRouteCrossConnectionPeeringsInner {
             });
     }
 
-    private ServiceResponse<ExpressRouteCircuitPeeringInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCircuitPeeringInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCircuitPeeringInner>() { }.getType())
+    private ServiceResponse<ExpressRouteCrossConnectionPeeringInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ExpressRouteCrossConnectionPeeringInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ExpressRouteCrossConnectionPeeringInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -486,9 +486,9 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ExpressRouteCircuitPeeringInner object if successful.
+     * @return the ExpressRouteCrossConnectionPeeringInner object if successful.
      */
-    public ExpressRouteCircuitPeeringInner createOrUpdate(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCircuitPeeringInner peeringParameters) {
+    public ExpressRouteCrossConnectionPeeringInner createOrUpdate(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCrossConnectionPeeringInner peeringParameters) {
         return createOrUpdateWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, peeringParameters).toBlocking().last().body();
     }
 
@@ -503,7 +503,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ExpressRouteCircuitPeeringInner> createOrUpdateAsync(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCircuitPeeringInner peeringParameters, final ServiceCallback<ExpressRouteCircuitPeeringInner> serviceCallback) {
+    public ServiceFuture<ExpressRouteCrossConnectionPeeringInner> createOrUpdateAsync(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCrossConnectionPeeringInner peeringParameters, final ServiceCallback<ExpressRouteCrossConnectionPeeringInner> serviceCallback) {
         return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, peeringParameters), serviceCallback);
     }
 
@@ -517,10 +517,10 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ExpressRouteCircuitPeeringInner> createOrUpdateAsync(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCircuitPeeringInner peeringParameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, peeringParameters).map(new Func1<ServiceResponse<ExpressRouteCircuitPeeringInner>, ExpressRouteCircuitPeeringInner>() {
+    public Observable<ExpressRouteCrossConnectionPeeringInner> createOrUpdateAsync(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCrossConnectionPeeringInner peeringParameters) {
+        return createOrUpdateWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, peeringParameters).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionPeeringInner>, ExpressRouteCrossConnectionPeeringInner>() {
             @Override
-            public ExpressRouteCircuitPeeringInner call(ServiceResponse<ExpressRouteCircuitPeeringInner> response) {
+            public ExpressRouteCrossConnectionPeeringInner call(ServiceResponse<ExpressRouteCrossConnectionPeeringInner> response) {
                 return response.body();
             }
         });
@@ -536,7 +536,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<ExpressRouteCircuitPeeringInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCircuitPeeringInner peeringParameters) {
+    public Observable<ServiceResponse<ExpressRouteCrossConnectionPeeringInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCrossConnectionPeeringInner peeringParameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -557,7 +557,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
         }
         Validator.validate(peeringParameters);
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, crossConnectionName, peeringName, this.client.subscriptionId(), peeringParameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ExpressRouteCircuitPeeringInner>() { }.getType());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ExpressRouteCrossConnectionPeeringInner>() { }.getType());
     }
 
     /**
@@ -570,9 +570,9 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ExpressRouteCircuitPeeringInner object if successful.
+     * @return the ExpressRouteCrossConnectionPeeringInner object if successful.
      */
-    public ExpressRouteCircuitPeeringInner beginCreateOrUpdate(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCircuitPeeringInner peeringParameters) {
+    public ExpressRouteCrossConnectionPeeringInner beginCreateOrUpdate(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCrossConnectionPeeringInner peeringParameters) {
         return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, peeringParameters).toBlocking().single().body();
     }
 
@@ -587,7 +587,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ExpressRouteCircuitPeeringInner> beginCreateOrUpdateAsync(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCircuitPeeringInner peeringParameters, final ServiceCallback<ExpressRouteCircuitPeeringInner> serviceCallback) {
+    public ServiceFuture<ExpressRouteCrossConnectionPeeringInner> beginCreateOrUpdateAsync(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCrossConnectionPeeringInner peeringParameters, final ServiceCallback<ExpressRouteCrossConnectionPeeringInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, peeringParameters), serviceCallback);
     }
 
@@ -599,12 +599,12 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @param peeringName The name of the peering.
      * @param peeringParameters Parameters supplied to the create or update ExpressRouteCrossConnection peering operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitPeeringInner object
+     * @return the observable to the ExpressRouteCrossConnectionPeeringInner object
      */
-    public Observable<ExpressRouteCircuitPeeringInner> beginCreateOrUpdateAsync(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCircuitPeeringInner peeringParameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, peeringParameters).map(new Func1<ServiceResponse<ExpressRouteCircuitPeeringInner>, ExpressRouteCircuitPeeringInner>() {
+    public Observable<ExpressRouteCrossConnectionPeeringInner> beginCreateOrUpdateAsync(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCrossConnectionPeeringInner peeringParameters) {
+        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, peeringParameters).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionPeeringInner>, ExpressRouteCrossConnectionPeeringInner>() {
             @Override
-            public ExpressRouteCircuitPeeringInner call(ServiceResponse<ExpressRouteCircuitPeeringInner> response) {
+            public ExpressRouteCrossConnectionPeeringInner call(ServiceResponse<ExpressRouteCrossConnectionPeeringInner> response) {
                 return response.body();
             }
         });
@@ -618,9 +618,9 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @param peeringName The name of the peering.
      * @param peeringParameters Parameters supplied to the create or update ExpressRouteCrossConnection peering operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitPeeringInner object
+     * @return the observable to the ExpressRouteCrossConnectionPeeringInner object
      */
-    public Observable<ServiceResponse<ExpressRouteCircuitPeeringInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCircuitPeeringInner peeringParameters) {
+    public Observable<ServiceResponse<ExpressRouteCrossConnectionPeeringInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, String peeringName, ExpressRouteCrossConnectionPeeringInner peeringParameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -641,11 +641,11 @@ public class ExpressRouteCrossConnectionPeeringsInner {
         }
         Validator.validate(peeringParameters);
         return service.beginCreateOrUpdate(resourceGroupName, crossConnectionName, peeringName, this.client.subscriptionId(), peeringParameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitPeeringInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCrossConnectionPeeringInner>>>() {
                 @Override
-                public Observable<ServiceResponse<ExpressRouteCircuitPeeringInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<ExpressRouteCrossConnectionPeeringInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<ExpressRouteCircuitPeeringInner> clientResponse = beginCreateOrUpdateDelegate(response);
+                        ServiceResponse<ExpressRouteCrossConnectionPeeringInner> clientResponse = beginCreateOrUpdateDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -654,10 +654,10 @@ public class ExpressRouteCrossConnectionPeeringsInner {
             });
     }
 
-    private ServiceResponse<ExpressRouteCircuitPeeringInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCircuitPeeringInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCircuitPeeringInner>() { }.getType())
-                .register(201, new TypeToken<ExpressRouteCircuitPeeringInner>() { }.getType())
+    private ServiceResponse<ExpressRouteCrossConnectionPeeringInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ExpressRouteCrossConnectionPeeringInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ExpressRouteCrossConnectionPeeringInner>() { }.getType())
+                .register(201, new TypeToken<ExpressRouteCrossConnectionPeeringInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -669,13 +669,13 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ExpressRouteCircuitPeeringInner&gt; object if successful.
+     * @return the PagedList&lt;ExpressRouteCrossConnectionPeeringInner&gt; object if successful.
      */
-    public PagedList<ExpressRouteCircuitPeeringInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<ExpressRouteCircuitPeeringInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ExpressRouteCircuitPeeringInner>(response.body()) {
+    public PagedList<ExpressRouteCrossConnectionPeeringInner> listNext(final String nextPageLink) {
+        ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<ExpressRouteCrossConnectionPeeringInner>(response.body()) {
             @Override
-            public Page<ExpressRouteCircuitPeeringInner> nextPage(String nextPageLink) {
+            public Page<ExpressRouteCrossConnectionPeeringInner> nextPage(String nextPageLink) {
                 return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
@@ -690,12 +690,12 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ExpressRouteCircuitPeeringInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<ExpressRouteCircuitPeeringInner>> serviceFuture, final ListOperationCallback<ExpressRouteCircuitPeeringInner> serviceCallback) {
+    public ServiceFuture<List<ExpressRouteCrossConnectionPeeringInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<ExpressRouteCrossConnectionPeeringInner>> serviceFuture, final ListOperationCallback<ExpressRouteCrossConnectionPeeringInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>>>() {
+            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>> call(String nextPageLink) {
+                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>> call(String nextPageLink) {
                     return listNextSinglePageAsync(nextPageLink);
                 }
             },
@@ -707,13 +707,13 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCircuitPeeringInner&gt; object
+     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionPeeringInner&gt; object
      */
-    public Observable<Page<ExpressRouteCircuitPeeringInner>> listNextAsync(final String nextPageLink) {
+    public Observable<Page<ExpressRouteCrossConnectionPeeringInner>> listNextAsync(final String nextPageLink) {
         return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>, Page<ExpressRouteCircuitPeeringInner>>() {
+            .map(new Func1<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>, Page<ExpressRouteCrossConnectionPeeringInner>>() {
                 @Override
-                public Page<ExpressRouteCircuitPeeringInner> call(ServiceResponse<Page<ExpressRouteCircuitPeeringInner>> response) {
+                public Page<ExpressRouteCrossConnectionPeeringInner> call(ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>> response) {
                     return response.body();
                 }
             });
@@ -724,13 +724,13 @@ public class ExpressRouteCrossConnectionPeeringsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCircuitPeeringInner&gt; object
+     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionPeeringInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>, Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>>>() {
+            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>> call(ServiceResponse<Page<ExpressRouteCircuitPeeringInner>> page) {
+                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>> call(ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
@@ -743,22 +743,22 @@ public class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Gets all peerings in a specified ExpressRouteCrossConnection.
      *
-    ServiceResponse<PageImpl<ExpressRouteCircuitPeeringInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ExpressRouteCrossConnectionPeeringInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ExpressRouteCircuitPeeringInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;ExpressRouteCrossConnectionPeeringInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>> listNextSinglePageAsync(final String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
         return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ExpressRouteCircuitPeeringInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ExpressRouteCircuitPeeringInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<ExpressRouteCrossConnectionPeeringInner>> result = listNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -766,9 +766,9 @@ public class ExpressRouteCrossConnectionPeeringsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<ExpressRouteCircuitPeeringInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteCircuitPeeringInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ExpressRouteCircuitPeeringInner>>() { }.getType())
+    private ServiceResponse<PageImpl<ExpressRouteCrossConnectionPeeringInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteCrossConnectionPeeringInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ExpressRouteCrossConnectionPeeringInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

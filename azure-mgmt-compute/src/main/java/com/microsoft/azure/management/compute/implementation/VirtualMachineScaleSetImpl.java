@@ -26,6 +26,7 @@ import com.microsoft.azure.management.compute.StorageAccountTypes;
 import com.microsoft.azure.management.compute.UpgradeMode;
 import com.microsoft.azure.management.compute.UpgradePolicy;
 import com.microsoft.azure.management.compute.VirtualHardDisk;
+import com.microsoft.azure.management.compute.VirtualMachinePriorityTypes;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetExtension;
@@ -398,6 +399,15 @@ public class VirtualMachineScaleSetImpl
     @Override
     public Map<String, VirtualMachineScaleSetExtension> extensions() {
         return Collections.unmodifiableMap(this.extensions);
+    }
+
+    @Override
+    public VirtualMachinePriorityTypes virtualMachinePriority() {
+        if (this.inner().virtualMachineProfile() != null) {
+            return this.inner().virtualMachineProfile().priority();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -2146,6 +2156,12 @@ public class VirtualMachineScaleSetImpl
     @Override
     public VirtualMachineScaleSetImpl withoutBootDiagnostics() {
         this.bootDiagnosticsHandler.withoutBootDiagnostics();
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withVirtualMachinePriority(VirtualMachinePriorityTypes priority) {
+        this.inner().virtualMachineProfile().withPriority(priority);
         return this;
     }
 

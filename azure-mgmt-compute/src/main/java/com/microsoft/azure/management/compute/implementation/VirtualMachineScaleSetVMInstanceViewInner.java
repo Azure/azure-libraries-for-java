@@ -9,7 +9,6 @@
 package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.management.compute.VirtualMachineAgentInstanceView;
-import com.microsoft.azure.management.compute.MaintenanceRedeployStatus;
 import java.util.List;
 import com.microsoft.azure.management.compute.DiskInstanceView;
 import com.microsoft.azure.management.compute.VirtualMachineExtensionInstanceView;
@@ -45,12 +44,6 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
      */
     @JsonProperty(value = "vmAgent")
     private VirtualMachineAgentInstanceView vmAgent;
-
-    /**
-     * The Maintenance Operation status on the virtual machine.
-     */
-    @JsonProperty(value = "maintenanceRedeployStatus")
-    private MaintenanceRedeployStatus maintenanceRedeployStatus;
 
     /**
      * The disks information.
@@ -171,26 +164,6 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
      */
     public VirtualMachineScaleSetVMInstanceViewInner withVmAgent(VirtualMachineAgentInstanceView vmAgent) {
         this.vmAgent = vmAgent;
-        return this;
-    }
-
-    /**
-     * Get the maintenanceRedeployStatus value.
-     *
-     * @return the maintenanceRedeployStatus value
-     */
-    public MaintenanceRedeployStatus maintenanceRedeployStatus() {
-        return this.maintenanceRedeployStatus;
-    }
-
-    /**
-     * Set the maintenanceRedeployStatus value.
-     *
-     * @param maintenanceRedeployStatus the maintenanceRedeployStatus value to set
-     * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
-     */
-    public VirtualMachineScaleSetVMInstanceViewInner withMaintenanceRedeployStatus(MaintenanceRedeployStatus maintenanceRedeployStatus) {
-        this.maintenanceRedeployStatus = maintenanceRedeployStatus;
         return this;
     }
 

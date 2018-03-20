@@ -8,34 +8,46 @@
 
 package com.microsoft.azure.management.compute;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Defines values for AccessLevel.
  */
-public final class AccessLevel extends ExpandableStringEnum<AccessLevel> {
-    /** Static value None for AccessLevel. */
-    public static final AccessLevel NONE = fromString("None");
+public enum AccessLevel {
+    /** Enum value None. */
+    NONE("None"),
 
-    /** Static value Read for AccessLevel. */
-    public static final AccessLevel READ = fromString("Read");
+    /** Enum value Read. */
+    READ("Read");
 
-    /**
-     * Creates or finds a AccessLevel from its string representation.
-     * @param name a name to look for
-     * @return the corresponding AccessLevel
-     */
-    @JsonCreator
-    public static AccessLevel fromString(String name) {
-        return fromString(name, AccessLevel.class);
+    /** The actual serialized value for a AccessLevel instance. */
+    private String value;
+
+    AccessLevel(String value) {
+        this.value = value;
     }
 
     /**
-     * @return known AccessLevel values
+     * Parses a serialized value to a AccessLevel instance.
+     *
+     * @param value the serialized value to parse.
+     * @return the parsed AccessLevel object, or null if unable to parse.
      */
-    public static Collection<AccessLevel> values() {
-        return values(AccessLevel.class);
+    @JsonCreator
+    public static AccessLevel fromString(String value) {
+        AccessLevel[] items = AccessLevel.values();
+        for (AccessLevel item : items) {
+            if (item.toString().equalsIgnoreCase(value)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    @JsonValue
+    @Override
+    public String toString() {
+        return this.value;
     }
 }

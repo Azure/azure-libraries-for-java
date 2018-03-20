@@ -31,6 +31,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.HTTP;
+import retrofit2.http.PATCH;
 import retrofit2.http.Path;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -81,6 +82,14 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachines beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}")
         Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("vmName") String vmName, @Path("subscriptionId") String subscriptionId, @Body VirtualMachineInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachines update" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}")
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("vmName") String vmName, @Path("subscriptionId") String subscriptionId, @Body VirtualMachineUpdateInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachines beginUpdate" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}")
+        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("vmName") String vmName, @Path("subscriptionId") String subscriptionId, @Body VirtualMachineUpdateInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachines delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}", method = "DELETE", hasBody = true)
@@ -517,6 +526,174 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
     }
 
     private ServiceResponse<VirtualMachineInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<VirtualMachineInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<VirtualMachineInner>() { }.getType())
+                .register(201, new TypeToken<VirtualMachineInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * The operation to update a virtual machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine.
+     * @param parameters Parameters supplied to the Update Virtual Machine operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the VirtualMachineInner object if successful.
+     */
+    public VirtualMachineInner update(String resourceGroupName, String vmName, VirtualMachineUpdateInner parameters) {
+        return updateWithServiceResponseAsync(resourceGroupName, vmName, parameters).toBlocking().last().body();
+    }
+
+    /**
+     * The operation to update a virtual machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine.
+     * @param parameters Parameters supplied to the Update Virtual Machine operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<VirtualMachineInner> updateAsync(String resourceGroupName, String vmName, VirtualMachineUpdateInner parameters, final ServiceCallback<VirtualMachineInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, vmName, parameters), serviceCallback);
+    }
+
+    /**
+     * The operation to update a virtual machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine.
+     * @param parameters Parameters supplied to the Update Virtual Machine operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<VirtualMachineInner> updateAsync(String resourceGroupName, String vmName, VirtualMachineUpdateInner parameters) {
+        return updateWithServiceResponseAsync(resourceGroupName, vmName, parameters).map(new Func1<ServiceResponse<VirtualMachineInner>, VirtualMachineInner>() {
+            @Override
+            public VirtualMachineInner call(ServiceResponse<VirtualMachineInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * The operation to update a virtual machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine.
+     * @param parameters Parameters supplied to the Update Virtual Machine operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<VirtualMachineInner>> updateWithServiceResponseAsync(String resourceGroupName, String vmName, VirtualMachineUpdateInner parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmName == null) {
+            throw new IllegalArgumentException("Parameter vmName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2017-12-01";
+        Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, vmName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualMachineInner>() { }.getType());
+    }
+
+    /**
+     * The operation to update a virtual machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine.
+     * @param parameters Parameters supplied to the Update Virtual Machine operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the VirtualMachineInner object if successful.
+     */
+    public VirtualMachineInner beginUpdate(String resourceGroupName, String vmName, VirtualMachineUpdateInner parameters) {
+        return beginUpdateWithServiceResponseAsync(resourceGroupName, vmName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * The operation to update a virtual machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine.
+     * @param parameters Parameters supplied to the Update Virtual Machine operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<VirtualMachineInner> beginUpdateAsync(String resourceGroupName, String vmName, VirtualMachineUpdateInner parameters, final ServiceCallback<VirtualMachineInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, vmName, parameters), serviceCallback);
+    }
+
+    /**
+     * The operation to update a virtual machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine.
+     * @param parameters Parameters supplied to the Update Virtual Machine operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the VirtualMachineInner object
+     */
+    public Observable<VirtualMachineInner> beginUpdateAsync(String resourceGroupName, String vmName, VirtualMachineUpdateInner parameters) {
+        return beginUpdateWithServiceResponseAsync(resourceGroupName, vmName, parameters).map(new Func1<ServiceResponse<VirtualMachineInner>, VirtualMachineInner>() {
+            @Override
+            public VirtualMachineInner call(ServiceResponse<VirtualMachineInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * The operation to update a virtual machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine.
+     * @param parameters Parameters supplied to the Update Virtual Machine operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the VirtualMachineInner object
+     */
+    public Observable<ServiceResponse<VirtualMachineInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String vmName, VirtualMachineUpdateInner parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmName == null) {
+            throw new IllegalArgumentException("Parameter vmName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2017-12-01";
+        return service.beginUpdate(resourceGroupName, vmName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineInner>>>() {
+                @Override
+                public Observable<ServiceResponse<VirtualMachineInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<VirtualMachineInner> clientResponse = beginUpdateDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<VirtualMachineInner> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VirtualMachineInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<VirtualMachineInner>() { }.getType())
                 .register(201, new TypeToken<VirtualMachineInner>() { }.getType())

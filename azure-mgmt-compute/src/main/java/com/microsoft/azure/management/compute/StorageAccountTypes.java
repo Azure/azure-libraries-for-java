@@ -8,34 +8,46 @@
 
 package com.microsoft.azure.management.compute;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Defines values for StorageAccountTypes.
  */
-public final class StorageAccountTypes extends ExpandableStringEnum<StorageAccountTypes> {
-    /** Static value Standard_LRS for StorageAccountTypes. */
-    public static final StorageAccountTypes STANDARD_LRS = fromString("Standard_LRS");
+public enum StorageAccountTypes {
+    /** Enum value Standard_LRS. */
+    STANDARD_LRS("Standard_LRS"),
 
-    /** Static value Premium_LRS for StorageAccountTypes. */
-    public static final StorageAccountTypes PREMIUM_LRS = fromString("Premium_LRS");
+    /** Enum value Premium_LRS. */
+    PREMIUM_LRS("Premium_LRS");
 
-    /**
-     * Creates or finds a StorageAccountTypes from its string representation.
-     * @param name a name to look for
-     * @return the corresponding StorageAccountTypes
-     */
-    @JsonCreator
-    public static StorageAccountTypes fromString(String name) {
-        return fromString(name, StorageAccountTypes.class);
+    /** The actual serialized value for a StorageAccountTypes instance. */
+    private String value;
+
+    StorageAccountTypes(String value) {
+        this.value = value;
     }
 
     /**
-     * @return known StorageAccountTypes values
+     * Parses a serialized value to a StorageAccountTypes instance.
+     *
+     * @param value the serialized value to parse.
+     * @return the parsed StorageAccountTypes object, or null if unable to parse.
      */
-    public static Collection<StorageAccountTypes> values() {
-        return values(StorageAccountTypes.class);
+    @JsonCreator
+    public static StorageAccountTypes fromString(String value) {
+        StorageAccountTypes[] items = StorageAccountTypes.values();
+        for (StorageAccountTypes item : items) {
+            if (item.toString().equalsIgnoreCase(value)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    @JsonValue
+    @Override
+    public String toString() {
+        return this.value;
     }
 }

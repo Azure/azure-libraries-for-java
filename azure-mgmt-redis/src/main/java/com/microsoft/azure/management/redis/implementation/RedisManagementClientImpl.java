@@ -133,6 +133,19 @@ public class RedisManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The OperationsInner object to access its operations.
+     */
+    private OperationsInner operations;
+
+    /**
+     * Gets the OperationsInner object to access its operations.
+     * @return the OperationsInner object.
+     */
+    public OperationsInner operations() {
+        return this.operations;
+    }
+
+    /**
      * The RedisInner object to access its operations.
      */
     private RedisInner redis;
@@ -146,6 +159,19 @@ public class RedisManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The FirewallRulesInner object to access its operations.
+     */
+    private FirewallRulesInner firewallRules;
+
+    /**
+     * Gets the FirewallRulesInner object to access its operations.
+     * @return the FirewallRulesInner object.
+     */
+    public FirewallRulesInner firewallRules() {
+        return this.firewallRules;
+    }
+
+    /**
      * The PatchSchedulesInner object to access its operations.
      */
     private PatchSchedulesInner patchSchedules;
@@ -156,6 +182,19 @@ public class RedisManagementClientImpl extends AzureServiceClient {
      */
     public PatchSchedulesInner patchSchedules() {
         return this.patchSchedules;
+    }
+
+    /**
+     * The LinkedServersInner object to access its operations.
+     */
+    private LinkedServersInner linkedServers;
+
+    /**
+     * Gets the LinkedServersInner object to access its operations.
+     * @return the LinkedServersInner object.
+     */
+    public LinkedServersInner linkedServers() {
+        return this.linkedServers;
     }
 
     /**
@@ -189,12 +228,15 @@ public class RedisManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2016-04-01";
+        this.apiVersion = "2018-03-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
+        this.operations = new OperationsInner(restClient().retrofit(), this);
         this.redis = new RedisInner(restClient().retrofit(), this);
+        this.firewallRules = new FirewallRulesInner(restClient().retrofit(), this);
         this.patchSchedules = new PatchSchedulesInner(restClient().retrofit(), this);
+        this.linkedServers = new LinkedServersInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 
@@ -205,6 +247,6 @@ public class RedisManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "RedisManagementClient", "2016-04-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "RedisManagementClient", "2018-03-01");
     }
 }

@@ -16,7 +16,6 @@ import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
 import java.io.IOException;
-import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -56,25 +55,25 @@ public class BackupLongTermRetentionPoliciesInner {
      */
     interface BackupLongTermRetentionPoliciesService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.BackupLongTermRetentionPolicies get" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies/{backupLongTermRetentionPolicyName}")
-        Observable<Response<ResponseBody>> get(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("backupLongTermRetentionPolicyName") String backupLongTermRetentionPolicyName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies/{policyName}")
+        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("policyName") String policyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.BackupLongTermRetentionPolicies createOrUpdate" })
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies/{backupLongTermRetentionPolicyName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("backupLongTermRetentionPolicyName") String backupLongTermRetentionPolicyName, @Query("api-version") String apiVersion, @Body BackupLongTermRetentionPolicyInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies/{policyName}")
+        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("policyName") String policyName, @Path("subscriptionId") String subscriptionId, @Body BackupLongTermRetentionPolicyInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.BackupLongTermRetentionPolicies beginCreateOrUpdate" })
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies/{backupLongTermRetentionPolicyName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("backupLongTermRetentionPolicyName") String backupLongTermRetentionPolicyName, @Query("api-version") String apiVersion, @Body BackupLongTermRetentionPolicyInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies/{policyName}")
+        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("policyName") String policyName, @Path("subscriptionId") String subscriptionId, @Body BackupLongTermRetentionPolicyInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.BackupLongTermRetentionPolicies listByDatabase" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies")
-        Observable<Response<ResponseBody>> listByDatabase(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listByDatabase(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
     /**
-     * Returns a database backup long term retention policy.
+     * Gets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -89,7 +88,7 @@ public class BackupLongTermRetentionPoliciesInner {
     }
 
     /**
-     * Returns a database backup long term retention policy.
+     * Gets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -103,7 +102,7 @@ public class BackupLongTermRetentionPoliciesInner {
     }
 
     /**
-     * Returns a database backup long term retention policy.
+     * Gets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -121,7 +120,7 @@ public class BackupLongTermRetentionPoliciesInner {
     }
 
     /**
-     * Returns a database backup long term retention policy.
+     * Gets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -130,9 +129,6 @@ public class BackupLongTermRetentionPoliciesInner {
      * @return the observable to the BackupLongTermRetentionPolicyInner object
      */
     public Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -142,9 +138,12 @@ public class BackupLongTermRetentionPoliciesInner {
         if (databaseName == null) {
             throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
         }
-        final String backupLongTermRetentionPolicyName = "Default";
-        final String apiVersion = "2014-04-01";
-        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, backupLongTermRetentionPolicyName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String policyName = "default";
+        final String apiVersion = "2017-03-01-preview";
+        return service.get(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>>>() {
                 @Override
                 public Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>> call(Response<ResponseBody> response) {
@@ -166,12 +165,12 @@ public class BackupLongTermRetentionPoliciesInner {
     }
 
     /**
-     * Creates or updates a database backup long term retention policy.
+     * Sets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param databaseName The name of the database
-     * @param parameters The required parameters to update a backup long term retention policy
+     * @param databaseName The name of the database.
+     * @param parameters The long term retention policy info.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -182,12 +181,12 @@ public class BackupLongTermRetentionPoliciesInner {
     }
 
     /**
-     * Creates or updates a database backup long term retention policy.
+     * Sets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param databaseName The name of the database
-     * @param parameters The required parameters to update a backup long term retention policy
+     * @param databaseName The name of the database.
+     * @param parameters The long term retention policy info.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -197,12 +196,12 @@ public class BackupLongTermRetentionPoliciesInner {
     }
 
     /**
-     * Creates or updates a database backup long term retention policy.
+     * Sets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param databaseName The name of the database
-     * @param parameters The required parameters to update a backup long term retention policy
+     * @param databaseName The name of the database.
+     * @param parameters The long term retention policy info.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -216,19 +215,16 @@ public class BackupLongTermRetentionPoliciesInner {
     }
 
     /**
-     * Creates or updates a database backup long term retention policy.
+     * Sets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param databaseName The name of the database
-     * @param parameters The required parameters to update a backup long term retention policy
+     * @param databaseName The name of the database.
+     * @param parameters The long term retention policy info.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
     public Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, BackupLongTermRetentionPolicyInner parameters) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -238,23 +234,26 @@ public class BackupLongTermRetentionPoliciesInner {
         if (databaseName == null) {
             throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
         }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
         if (parameters == null) {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String backupLongTermRetentionPolicyName = "Default";
-        final String apiVersion = "2014-04-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, backupLongTermRetentionPolicyName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent());
+        final String policyName = "default";
+        final String apiVersion = "2017-03-01-preview";
+        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<BackupLongTermRetentionPolicyInner>() { }.getType());
     }
 
     /**
-     * Creates or updates a database backup long term retention policy.
+     * Sets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param databaseName The name of the database
-     * @param parameters The required parameters to update a backup long term retention policy
+     * @param databaseName The name of the database.
+     * @param parameters The long term retention policy info.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -265,12 +264,12 @@ public class BackupLongTermRetentionPoliciesInner {
     }
 
     /**
-     * Creates or updates a database backup long term retention policy.
+     * Sets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param databaseName The name of the database
-     * @param parameters The required parameters to update a backup long term retention policy
+     * @param databaseName The name of the database.
+     * @param parameters The long term retention policy info.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -280,12 +279,12 @@ public class BackupLongTermRetentionPoliciesInner {
     }
 
     /**
-     * Creates or updates a database backup long term retention policy.
+     * Sets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param databaseName The name of the database
-     * @param parameters The required parameters to update a backup long term retention policy
+     * @param databaseName The name of the database.
+     * @param parameters The long term retention policy info.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the BackupLongTermRetentionPolicyInner object
      */
@@ -299,19 +298,16 @@ public class BackupLongTermRetentionPoliciesInner {
     }
 
     /**
-     * Creates or updates a database backup long term retention policy.
+     * Sets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param databaseName The name of the database
-     * @param parameters The required parameters to update a backup long term retention policy
+     * @param databaseName The name of the database.
+     * @param parameters The long term retention policy info.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the BackupLongTermRetentionPolicyInner object
      */
     public Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, BackupLongTermRetentionPolicyInner parameters) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -321,13 +317,16 @@ public class BackupLongTermRetentionPoliciesInner {
         if (databaseName == null) {
             throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
         }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
         if (parameters == null) {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String backupLongTermRetentionPolicyName = "Default";
-        final String apiVersion = "2014-04-01";
-        return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, backupLongTermRetentionPolicyName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent())
+        final String policyName = "default";
+        final String apiVersion = "2017-03-01-preview";
+        return service.beginCreateOrUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>>>() {
                 @Override
                 public Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>> call(Response<ResponseBody> response) {
@@ -344,14 +343,13 @@ public class BackupLongTermRetentionPoliciesInner {
     private ServiceResponse<BackupLongTermRetentionPolicyInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<BackupLongTermRetentionPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<BackupLongTermRetentionPolicyInner>() { }.getType())
-                .register(201, new TypeToken<BackupLongTermRetentionPolicyInner>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
 
     /**
-     * Returns a database backup long term retention policy.
+     * Gets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -359,14 +357,14 @@ public class BackupLongTermRetentionPoliciesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the List&lt;BackupLongTermRetentionPolicyInner&gt; object if successful.
+     * @return the BackupLongTermRetentionPolicyInner object if successful.
      */
-    public List<BackupLongTermRetentionPolicyInner> listByDatabase(String resourceGroupName, String serverName, String databaseName) {
+    public BackupLongTermRetentionPolicyInner listByDatabase(String resourceGroupName, String serverName, String databaseName) {
         return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().single().body();
     }
 
     /**
-     * Returns a database backup long term retention policy.
+     * Gets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -375,41 +373,38 @@ public class BackupLongTermRetentionPoliciesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<BackupLongTermRetentionPolicyInner>> listByDatabaseAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<List<BackupLongTermRetentionPolicyInner>> serviceCallback) {
+    public ServiceFuture<BackupLongTermRetentionPolicyInner> listByDatabaseAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<BackupLongTermRetentionPolicyInner> serviceCallback) {
         return ServiceFuture.fromResponse(listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
     /**
-     * Returns a database backup long term retention policy.
+     * Gets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;BackupLongTermRetentionPolicyInner&gt; object
+     * @return the observable to the BackupLongTermRetentionPolicyInner object
      */
-    public Observable<List<BackupLongTermRetentionPolicyInner>> listByDatabaseAsync(String resourceGroupName, String serverName, String databaseName) {
-        return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<List<BackupLongTermRetentionPolicyInner>>, List<BackupLongTermRetentionPolicyInner>>() {
+    public Observable<BackupLongTermRetentionPolicyInner> listByDatabaseAsync(String resourceGroupName, String serverName, String databaseName) {
+        return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<BackupLongTermRetentionPolicyInner>, BackupLongTermRetentionPolicyInner>() {
             @Override
-            public List<BackupLongTermRetentionPolicyInner> call(ServiceResponse<List<BackupLongTermRetentionPolicyInner>> response) {
+            public BackupLongTermRetentionPolicyInner call(ServiceResponse<BackupLongTermRetentionPolicyInner> response) {
                 return response.body();
             }
         });
     }
 
     /**
-     * Returns a database backup long term retention policy.
+     * Gets a database's long term retention policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;BackupLongTermRetentionPolicyInner&gt; object
+     * @return the observable to the BackupLongTermRetentionPolicyInner object
      */
-    public Observable<ServiceResponse<List<BackupLongTermRetentionPolicyInner>>> listByDatabaseWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
+    public Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>> listByDatabaseWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -419,14 +414,16 @@ public class BackupLongTermRetentionPoliciesInner {
         if (databaseName == null) {
             throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
         }
-        final String apiVersion = "2014-04-01";
-        return service.listByDatabase(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<BackupLongTermRetentionPolicyInner>>>>() {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2017-03-01-preview";
+        return service.listByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>>>() {
                 @Override
-                public Observable<ServiceResponse<List<BackupLongTermRetentionPolicyInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<BackupLongTermRetentionPolicyInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<BackupLongTermRetentionPolicyInner>> result = listByDatabaseDelegate(response);
-                        ServiceResponse<List<BackupLongTermRetentionPolicyInner>> clientResponse = new ServiceResponse<List<BackupLongTermRetentionPolicyInner>>(result.body().items(), result.response());
+                        ServiceResponse<BackupLongTermRetentionPolicyInner> clientResponse = listByDatabaseDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -435,9 +432,9 @@ public class BackupLongTermRetentionPoliciesInner {
             });
     }
 
-    private ServiceResponse<PageImpl<BackupLongTermRetentionPolicyInner>> listByDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<BackupLongTermRetentionPolicyInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<BackupLongTermRetentionPolicyInner>>() { }.getType())
+    private ServiceResponse<BackupLongTermRetentionPolicyInner> listByDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<BackupLongTermRetentionPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<BackupLongTermRetentionPolicyInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

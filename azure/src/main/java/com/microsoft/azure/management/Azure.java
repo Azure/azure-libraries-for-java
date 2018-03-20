@@ -60,6 +60,7 @@ import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
 import com.microsoft.azure.management.locks.ManagementLocks;
 import com.microsoft.azure.management.locks.implementation.AuthorizationManager;
 import com.microsoft.azure.management.monitor.ActivityLogs;
+import com.microsoft.azure.management.monitor.DiagnosticSettings;
 import com.microsoft.azure.management.monitor.MetricDefinitions;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.msi.Identities;
@@ -842,6 +843,14 @@ public final class Azure {
     @Beta(SinceVersion.V1_6_0)
     public MetricDefinitions metricDefinitions() {
         return this.monitorManager.metricDefinitions();
+    }
+
+    /**
+     * @return entry point to listing diagnostic settings in Azure
+     */
+    @Beta(SinceVersion.V1_8_0)
+    public DiagnosticSettings diagnosticSettings() {
+        return this.monitorManager.diagnosticSettings();
     }
 
     /**

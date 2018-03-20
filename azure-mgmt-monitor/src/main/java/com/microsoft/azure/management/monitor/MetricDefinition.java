@@ -216,7 +216,7 @@ public interface MetricDefinition extends
              * @param top the maximum number of records to retrieve.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithMetricsQueryExecute selectTop(double top);
+            WithMetricsQueryExecute selectTop(int top);
 
             /**
              * Sets the aggregation to use for sorting results and the direction of the sort.
@@ -233,6 +233,7 @@ public interface MetricDefinition extends
              *
              * @return Metric collection received after query execution.
              */
+            @Method
             MetricCollection execute();
 
             /**
@@ -240,6 +241,7 @@ public interface MetricDefinition extends
              *
              * @return a representation of the deferred computation of Metric collection query call
              */
+            @Method
             Observable<MetricCollection> executeAsync();
         }
     }

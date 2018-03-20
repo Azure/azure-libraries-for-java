@@ -121,6 +121,32 @@ public class SqlManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The BackupLongTermRetentionPoliciesInner object to access its operations.
+     */
+    private BackupLongTermRetentionPoliciesInner backupLongTermRetentionPolicies;
+
+    /**
+     * Gets the BackupLongTermRetentionPoliciesInner object to access its operations.
+     * @return the BackupLongTermRetentionPoliciesInner object.
+     */
+    public BackupLongTermRetentionPoliciesInner backupLongTermRetentionPolicies() {
+        return this.backupLongTermRetentionPolicies;
+    }
+
+    /**
+     * The BackupLongTermRetentionVaultsInner object to access its operations.
+     */
+    private BackupLongTermRetentionVaultsInner backupLongTermRetentionVaults;
+
+    /**
+     * Gets the BackupLongTermRetentionVaultsInner object to access its operations.
+     * @return the BackupLongTermRetentionVaultsInner object.
+     */
+    public BackupLongTermRetentionVaultsInner backupLongTermRetentionVaults() {
+        return this.backupLongTermRetentionVaults;
+    }
+
+    /**
      * The RecoverableDatabasesInner object to access its operations.
      */
     private RecoverableDatabasesInner recoverableDatabases;
@@ -576,29 +602,16 @@ public class SqlManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The LongTermRetentionBackupsInner object to access its operations.
+     * The DatabaseOperationsInner object to access its operations.
      */
-    private LongTermRetentionBackupsInner longTermRetentionBackups;
+    private DatabaseOperationsInner databaseOperations;
 
     /**
-     * Gets the LongTermRetentionBackupsInner object to access its operations.
-     * @return the LongTermRetentionBackupsInner object.
+     * Gets the DatabaseOperationsInner object to access its operations.
+     * @return the DatabaseOperationsInner object.
      */
-    public LongTermRetentionBackupsInner longTermRetentionBackups() {
-        return this.longTermRetentionBackups;
-    }
-
-    /**
-     * The BackupLongTermRetentionPoliciesInner object to access its operations.
-     */
-    private BackupLongTermRetentionPoliciesInner backupLongTermRetentionPolicies;
-
-    /**
-     * Gets the BackupLongTermRetentionPoliciesInner object to access its operations.
-     * @return the BackupLongTermRetentionPoliciesInner object.
-     */
-    public BackupLongTermRetentionPoliciesInner backupLongTermRetentionPolicies() {
-        return this.backupLongTermRetentionPolicies;
+    public DatabaseOperationsInner databaseOperations() {
+        return this.databaseOperations;
     }
 
     /**
@@ -641,32 +654,6 @@ public class SqlManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The DatabaseOperationsInner object to access its operations.
-     */
-    private DatabaseOperationsInner databaseOperations;
-
-    /**
-     * Gets the DatabaseOperationsInner object to access its operations.
-     * @return the DatabaseOperationsInner object.
-     */
-    public DatabaseOperationsInner databaseOperations() {
-        return this.databaseOperations;
-    }
-
-    /**
-     * The ElasticPoolOperationsInner object to access its operations.
-     */
-    private ElasticPoolOperationsInner elasticPoolOperations;
-
-    /**
-     * Gets the ElasticPoolOperationsInner object to access its operations.
-     * @return the ElasticPoolOperationsInner object.
-     */
-    public ElasticPoolOperationsInner elasticPoolOperations() {
-        return this.elasticPoolOperations;
-    }
-
-    /**
      * Initializes an instance of SqlManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -700,6 +687,8 @@ public class SqlManagementClientImpl extends AzureServiceClient {
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
+        this.backupLongTermRetentionPolicies = new BackupLongTermRetentionPoliciesInner(restClient().retrofit(), this);
+        this.backupLongTermRetentionVaults = new BackupLongTermRetentionVaultsInner(restClient().retrofit(), this);
         this.recoverableDatabases = new RecoverableDatabasesInner(restClient().retrofit(), this);
         this.restorableDroppedDatabases = new RestorableDroppedDatabasesInner(restClient().retrofit(), this);
         this.capabilities = new CapabilitiesInner(restClient().retrofit(), this);
@@ -735,13 +724,10 @@ public class SqlManagementClientImpl extends AzureServiceClient {
         this.syncMembers = new SyncMembersInner(restClient().retrofit(), this);
         this.subscriptionUsages = new SubscriptionUsagesInner(restClient().retrofit(), this);
         this.virtualNetworkRules = new VirtualNetworkRulesInner(restClient().retrofit(), this);
-        this.longTermRetentionBackups = new LongTermRetentionBackupsInner(restClient().retrofit(), this);
-        this.backupLongTermRetentionPolicies = new BackupLongTermRetentionPoliciesInner(restClient().retrofit(), this);
+        this.databaseOperations = new DatabaseOperationsInner(restClient().retrofit(), this);
         this.serverAutomaticTunings = new ServerAutomaticTuningsInner(restClient().retrofit(), this);
         this.serverDnsAliases = new ServerDnsAliasesInner(restClient().retrofit(), this);
         this.restorePoints = new RestorePointsInner(restClient().retrofit(), this);
-        this.databaseOperations = new DatabaseOperationsInner(restClient().retrofit(), this);
-        this.elasticPoolOperations = new ElasticPoolOperationsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

@@ -11,7 +11,7 @@ package com.microsoft.azure.management.cosmosdb;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Connection string for the DocumentDB account.
+ * Connection string for the Cosmos DB account.
  */
 public class DatabaseAccountConnectionString {
     /**

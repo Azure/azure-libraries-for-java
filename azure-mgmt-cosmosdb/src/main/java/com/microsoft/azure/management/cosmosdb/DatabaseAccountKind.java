@@ -8,55 +8,37 @@
 
 package com.microsoft.azure.management.cosmosdb;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for DatabaseAccountKind.
  */
-public final class DatabaseAccountKind {
+public final class DatabaseAccountKind extends ExpandableStringEnum<DatabaseAccountKind> {
     /** Static value GlobalDocumentDB for DatabaseAccountKind. */
-    public static final DatabaseAccountKind GLOBAL_DOCUMENT_DB = new DatabaseAccountKind("GlobalDocumentDB");
+    public static final DatabaseAccountKind GLOBAL_DOCUMENT_DB = fromString("GlobalDocumentDB");
 
     /** Static value MongoDB for DatabaseAccountKind. */
-    public static final DatabaseAccountKind MONGO_DB = new DatabaseAccountKind("MongoDB");
+    public static final DatabaseAccountKind MONGO_DB = fromString("MongoDB");
 
     /** Static value Parse for DatabaseAccountKind. */
-    public static final DatabaseAccountKind PARSE = new DatabaseAccountKind("Parse");
-
-    private String value;
+    public static final DatabaseAccountKind PARSE = fromString("Parse");
 
     /**
-     * Creates a custom value for DatabaseAccountKind.
-     * @param value the custom value
+     * Creates or finds a DatabaseAccountKind from its string representation.
+     * @param name a name to look for
+     * @return the corresponding DatabaseAccountKind
      */
-    public DatabaseAccountKind(String value) {
-        this.value = value;
+    @JsonCreator
+    public static DatabaseAccountKind fromString(String name) {
+        return fromString(name, DatabaseAccountKind.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof DatabaseAccountKind)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        DatabaseAccountKind rhs = (DatabaseAccountKind) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known DatabaseAccountKind values
+     */
+    public static Collection<DatabaseAccountKind> values() {
+        return values(DatabaseAccountKind.class);
     }
 }

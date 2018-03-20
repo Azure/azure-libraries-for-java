@@ -25,7 +25,10 @@ public enum DefaultConsistencyLevel {
     BOUNDED_STALENESS("BoundedStaleness"),
 
     /** Enum value Strong. */
-    STRONG("Strong");
+    STRONG("Strong"),
+
+    /** Enum value ConsistentPrefix. */
+    CONSISTENT_PREFIX("ConsistentPrefix");
 
     /** The actual serialized value for a DefaultConsistencyLevel instance. */
     private String value;

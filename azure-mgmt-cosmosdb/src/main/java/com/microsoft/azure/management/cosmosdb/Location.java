@@ -11,7 +11,7 @@ package com.microsoft.azure.management.cosmosdb;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * A region in which the Azure DocumentDB database account is deployed.
+ * A region in which the Azure Cosmos DB database account is deployed.
  */
 public class Location {
     /**

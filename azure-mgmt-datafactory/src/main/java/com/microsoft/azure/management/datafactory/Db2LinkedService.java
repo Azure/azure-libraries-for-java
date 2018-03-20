@@ -36,13 +36,6 @@ public class Db2LinkedService extends LinkedServiceInner {
     private Object database;
 
     /**
-     * Schema name for connection. Type: string (or Expression with resultType
-     * string).
-     */
-    @JsonProperty(value = "typeProperties.schema")
-    private Object schema;
-
-    /**
      * AuthenticationType to be used for connection. Possible values include:
      * 'Basic'.
      */
@@ -107,26 +100,6 @@ public class Db2LinkedService extends LinkedServiceInner {
      */
     public Db2LinkedService withDatabase(Object database) {
         this.database = database;
-        return this;
-    }
-
-    /**
-     * Get the schema value.
-     *
-     * @return the schema value
-     */
-    public Object schema() {
-        return this.schema;
-    }
-
-    /**
-     * Set the schema value.
-     *
-     * @param schema the schema value to set
-     * @return the Db2LinkedService object itself.
-     */
-    public Db2LinkedService withSchema(Object schema) {
-        this.schema = schema;
         return this;
     }
 

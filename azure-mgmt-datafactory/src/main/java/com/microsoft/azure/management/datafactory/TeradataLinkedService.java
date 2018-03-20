@@ -29,13 +29,6 @@ public class TeradataLinkedService extends LinkedServiceInner {
     private Object server;
 
     /**
-     * Schema name for connection. Type: string (or Expression with resultType
-     * string).
-     */
-    @JsonProperty(value = "typeProperties.schema")
-    private Object schema;
-
-    /**
      * AuthenticationType to be used for connection. Possible values include:
      * 'Basic', 'Windows'.
      */
@@ -80,26 +73,6 @@ public class TeradataLinkedService extends LinkedServiceInner {
      */
     public TeradataLinkedService withServer(Object server) {
         this.server = server;
-        return this;
-    }
-
-    /**
-     * Get the schema value.
-     *
-     * @return the schema value
-     */
-    public Object schema() {
-        return this.schema;
-    }
-
-    /**
-     * Set the schema value.
-     *
-     * @param schema the schema value to set
-     * @return the TeradataLinkedService object itself.
-     */
-    public TeradataLinkedService withSchema(Object schema) {
-        this.schema = schema;
         return this;
     }
 

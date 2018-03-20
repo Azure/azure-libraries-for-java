@@ -8,46 +8,55 @@
 
 package com.microsoft.azure.management.compute;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Defines values for DiskCreateOption.
  */
-public final class DiskCreateOption extends ExpandableStringEnum<DiskCreateOption> {
-    /** Static value Empty for DiskCreateOption. */
-    public static final DiskCreateOption EMPTY = fromString("Empty");
+public enum DiskCreateOption {
+    /** Enum value Empty. */
+    EMPTY("Empty"),
 
-    /** Static value Attach for DiskCreateOption. */
-    public static final DiskCreateOption ATTACH = fromString("Attach");
+    /** Enum value Attach. */
+    ATTACH("Attach"),
 
-    /** Static value FromImage for DiskCreateOption. */
-    public static final DiskCreateOption FROM_IMAGE = fromString("FromImage");
+    /** Enum value FromImage. */
+    FROM_IMAGE("FromImage"),
 
-    /** Static value Import for DiskCreateOption. */
-    public static final DiskCreateOption IMPORT = fromString("Import");
+    /** Enum value Import. */
+    IMPORT("Import"),
 
-    /** Static value Copy for DiskCreateOption. */
-    public static final DiskCreateOption COPY = fromString("Copy");
+    /** Enum value Copy. */
+    COPY("Copy");
 
-    /** Static value Restore for DiskCreateOption. */
-    public static final DiskCreateOption RESTORE = fromString("Restore");
+    /** The actual serialized value for a DiskCreateOption instance. */
+    private String value;
 
-    /**
-     * Creates or finds a DiskCreateOption from its string representation.
-     * @param name a name to look for
-     * @return the corresponding DiskCreateOption
-     */
-    @JsonCreator
-    public static DiskCreateOption fromString(String name) {
-        return fromString(name, DiskCreateOption.class);
+    DiskCreateOption(String value) {
+        this.value = value;
     }
 
     /**
-     * @return known DiskCreateOption values
+     * Parses a serialized value to a DiskCreateOption instance.
+     *
+     * @param value the serialized value to parse.
+     * @return the parsed DiskCreateOption object, or null if unable to parse.
      */
-    public static Collection<DiskCreateOption> values() {
-        return values(DiskCreateOption.class);
+    @JsonCreator
+    public static DiskCreateOption fromString(String value) {
+        DiskCreateOption[] items = DiskCreateOption.values();
+        for (DiskCreateOption item : items) {
+            if (item.toString().equalsIgnoreCase(value)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    @JsonValue
+    @Override
+    public String toString() {
+        return this.value;
     }
 }

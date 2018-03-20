@@ -81,7 +81,6 @@ class SqlDatabaseImpl
         SqlDatabaseOperations.SqlDatabaseOperationsDefinition {
 
     private SqlElasticPoolsAsExternalChildResourcesImpl sqlElasticPools;
-    private TaskGroup.HasTaskGroup parentSqlElasticPool;
 
     protected SqlServerManager sqlServerManager;
     protected String resourceGroupName;
@@ -109,7 +108,6 @@ class SqlDatabaseImpl
         this.sqlServerLocation = parent.regionName();
 
         this.sqlElasticPools = null;
-        this.parentSqlElasticPool = null;
         this.isPatchUpdate = false;
         this.importRequestInner = null;
     }
@@ -133,7 +131,6 @@ class SqlDatabaseImpl
         this.sqlServerLocation = sqlServerLocation;
 
         this.sqlElasticPools = new SqlElasticPoolsAsExternalChildResourcesImpl(this.sqlServerManager, "SqlElasticPool");
-        this.parentSqlElasticPool = null;
         this.isPatchUpdate = false;
         this.importRequestInner = null;
     }
@@ -153,7 +150,6 @@ class SqlDatabaseImpl
         this.sqlServerManager = sqlServerManager;
 
         this.sqlElasticPools = new SqlElasticPoolsAsExternalChildResourcesImpl(this.sqlServerManager, "SqlElasticPool");
-        this.parentSqlElasticPool = null;
         this.isPatchUpdate = false;
         this.importRequestInner = null;
     }
@@ -587,9 +583,6 @@ class SqlDatabaseImpl
 
     @Override
     public void beforeGroupCreateOrUpdate() {
-        if (parentSqlElasticPool != null) {
-            this.addParentDependency(parentSqlElasticPool);
-        }
         if (this.importRequestInner != null && this.elasticPoolName() != null) {
             final SqlDatabaseImpl self = this;
             final String epName = this.elasticPoolName();

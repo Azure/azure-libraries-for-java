@@ -192,7 +192,7 @@ class CdnEndpointImpl extends ExternalChildResourceImpl<CdnEndpoint,
     @Override
     public Observable<CdnEndpoint> refreshAsync() {
         final CdnEndpointImpl self = this;
-        return refreshAsync().flatMap(new Func1<CdnEndpoint, Observable<CdnEndpoint>>() {
+        return super.refreshAsync().flatMap(new Func1<CdnEndpoint, Observable<CdnEndpoint>>() {
             @Override
             public Observable<CdnEndpoint> call(CdnEndpoint cdnEndpoint) {
                 self.customDomainList.clear();
@@ -200,13 +200,14 @@ class CdnEndpointImpl extends ExternalChildResourceImpl<CdnEndpoint,
                 return self.parent().manager().inner().customDomains().listByEndpointAsync(
                         self.parent().resourceGroupName(),
                         self.parent().name(),
-                        self.name()).flatMap(new Func1<Page<CustomDomainInner>, Observable<CdnEndpoint>>() {
-                    @Override
-                    public Observable<CdnEndpoint> call(Page<CustomDomainInner> customDomainInnerPage) {
-                        self.customDomainList.addAll(customDomainInnerPage.items());
-                        return Observable.just((CdnEndpoint) self);
-                    }
-                });
+                        self.name())
+                    .flatMap(new Func1<Page<CustomDomainInner>, Observable<CdnEndpoint>>() {
+                        @Override
+                        public Observable<CdnEndpoint> call(Page<CustomDomainInner> customDomainInnerPage) {
+                            self.customDomainList.addAll(customDomainInnerPage.items());
+                            return Observable.just((CdnEndpoint) self);
+                        }
+                    });
             }
         });
     }

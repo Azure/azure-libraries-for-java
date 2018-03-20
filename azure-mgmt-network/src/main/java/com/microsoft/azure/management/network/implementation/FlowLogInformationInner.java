@@ -9,7 +9,7 @@
 package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.network.RetentionPolicyParameters;
-import com.microsoft.azure.management.network.TrafficAnalyticsConfigurationProperties;
+import com.microsoft.azure.management.network.TrafficAnalyticsProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -44,10 +44,10 @@ public class FlowLogInformationInner {
     private RetentionPolicyParameters retentionPolicy;
 
     /**
-     * The networkWatcherFlowAnalyticsConfiguration property.
+     * The flowAnalyticsConfiguration property.
      */
-    @JsonProperty(value = "flowAnalyticsConfiguration.networkWatcherFlowAnalyticsConfiguration", required = true)
-    private TrafficAnalyticsConfigurationProperties networkWatcherFlowAnalyticsConfiguration;
+    @JsonProperty(value = "flowAnalyticsConfiguration")
+    private TrafficAnalyticsProperties flowAnalyticsConfiguration;
 
     /**
      * Get the targetResourceId value.
@@ -130,22 +130,22 @@ public class FlowLogInformationInner {
     }
 
     /**
-     * Get the networkWatcherFlowAnalyticsConfiguration value.
+     * Get the flowAnalyticsConfiguration value.
      *
-     * @return the networkWatcherFlowAnalyticsConfiguration value
+     * @return the flowAnalyticsConfiguration value
      */
-    public TrafficAnalyticsConfigurationProperties networkWatcherFlowAnalyticsConfiguration() {
-        return this.networkWatcherFlowAnalyticsConfiguration;
+    public TrafficAnalyticsProperties flowAnalyticsConfiguration() {
+        return this.flowAnalyticsConfiguration;
     }
 
     /**
-     * Set the networkWatcherFlowAnalyticsConfiguration value.
+     * Set the flowAnalyticsConfiguration value.
      *
-     * @param networkWatcherFlowAnalyticsConfiguration the networkWatcherFlowAnalyticsConfiguration value to set
+     * @param flowAnalyticsConfiguration the flowAnalyticsConfiguration value to set
      * @return the FlowLogInformationInner object itself.
      */
-    public FlowLogInformationInner withNetworkWatcherFlowAnalyticsConfiguration(TrafficAnalyticsConfigurationProperties networkWatcherFlowAnalyticsConfiguration) {
-        this.networkWatcherFlowAnalyticsConfiguration = networkWatcherFlowAnalyticsConfiguration;
+    public FlowLogInformationInner withFlowAnalyticsConfiguration(TrafficAnalyticsProperties flowAnalyticsConfiguration) {
+        this.flowAnalyticsConfiguration = flowAnalyticsConfiguration;
         return this;
     }
 

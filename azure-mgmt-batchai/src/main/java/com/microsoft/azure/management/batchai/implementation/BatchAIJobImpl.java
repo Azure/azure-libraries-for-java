@@ -16,12 +16,14 @@ import com.microsoft.azure.management.batchai.ChainerSettings;
 import com.microsoft.azure.management.batchai.ContainerSettings;
 import com.microsoft.azure.management.batchai.CustomToolkitSettings;
 import com.microsoft.azure.management.batchai.EnvironmentVariable;
+import com.microsoft.azure.management.batchai.EnvironmentVariableWithSecretValue;
 import com.microsoft.azure.management.batchai.ExecutionState;
 import com.microsoft.azure.management.batchai.ImageSourceRegistry;
 import com.microsoft.azure.management.batchai.InputDirectory;
 import com.microsoft.azure.management.batchai.JobPreparation;
 import com.microsoft.azure.management.batchai.JobPropertiesConstraints;
 import com.microsoft.azure.management.batchai.JobPropertiesExecutionInfo;
+import com.microsoft.azure.management.batchai.KeyVaultSecretReference;
 import com.microsoft.azure.management.batchai.OutputDirectory;
 import com.microsoft.azure.management.batchai.OutputFile;
 import com.microsoft.azure.management.batchai.ProvisioningState;
@@ -183,6 +185,28 @@ class BatchAIJobImpl
         ensureEnvironmentVariables().add(new EnvironmentVariable().withName(name).withValue(value));
         return this;
     }
+
+    @Override
+    public BatchAIJobImpl withEnvironmentVariableSecretValue(String name, String value) {
+        ensureEnvironmentVariablesWithSecrets().add(new EnvironmentVariableWithSecretValue().withName(name).withValue(value));
+        return this;
+    }
+
+    @Override
+    public BatchAIJobImpl withEnvironmentVariableSecretValue(String name, String keyVaultId, String secretUrl) {
+        KeyVaultSecretReference secretReference = new KeyVaultSecretReference()
+                .withSourceVault(new ResourceId().withId(keyVaultId)).withSecretUrl(secretUrl);
+        ensureEnvironmentVariablesWithSecrets().add(new EnvironmentVariableWithSecretValue().withName(name).withValueSecretReference(secretReference));
+        return this;
+    }
+
+    private List<EnvironmentVariableWithSecretValue> ensureEnvironmentVariablesWithSecrets() {
+        if (inner().secrets() == null) {
+            inner().withSecrets(new ArrayList<EnvironmentVariableWithSecretValue>());
+        }
+        return inner().secrets();
+    }
+
 
     private List<EnvironmentVariable> ensureEnvironmentVariables() {
         if (createParameters.environmentVariables() == null) {

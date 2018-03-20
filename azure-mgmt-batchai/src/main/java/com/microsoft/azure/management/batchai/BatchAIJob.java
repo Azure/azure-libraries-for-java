@@ -322,6 +322,30 @@ public interface BatchAIJob extends
         }
 
         /**
+         * The stage of the Batch AI job definition allowing to specify environment variables with secrets.
+         */
+        interface WithEnvironmentVariableSecretValue {
+            /**
+             * Sets the value of the environment variable. This value will never be reported
+             * back by Batch AI.
+             * @param name name of the variable to set
+             * @param value value of the variable to set
+             * @return the next stage of the definition
+             */
+            WithCreate withEnvironmentVariableSecretValue(String name, String value);
+
+            /**
+             * Specifies KeyVault Store and Secret which contains the value for the
+             * environment variable.
+             * @param name name of the variable to set
+             * @param keyVaultId fully qualified resource Id for the Key Vault
+             * @param secretUrl the URL referencing a secret in a Key Vault
+             * @return the next stage of the definition
+             */
+            WithCreate withEnvironmentVariableSecretValue(String name, String keyVaultId, String secretUrl);
+        }
+
+        /**
          * The stage of a virtual network gateway connection definition with sufficient inputs to create a new connection in the cloud,
          * but exposing additional optional settings to specify.
          */
@@ -333,7 +357,8 @@ public interface BatchAIJob extends
                 WithOutputDirectory,
                 WithContainerSettings,
                 WithExperimentName,
-                WithEnvironmentVariable {
+                WithEnvironmentVariable,
+                WithEnvironmentVariableSecretValue {
         }
     }
 }

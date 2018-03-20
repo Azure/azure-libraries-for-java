@@ -71,13 +71,13 @@ class NodeSetupTaskImpl
     }
 
     @Override
-    public NodeSetupTaskImpl withEnvironmentVariableWithSecretValue(String name, String value) {
+    public NodeSetupTaskImpl withEnvironmentVariableSecretValue(String name, String value) {
         ensureEnvironmentVariablesWithSecrets().add(new EnvironmentVariableWithSecretValue().withName(name).withValue(value));
         return this;
     }
 
     @Override
-    public NodeSetupTaskImpl withEnvironmentVariableWithSecretValue(String name, String keyVaultId, String secretUrl) {
+    public NodeSetupTaskImpl withEnvironmentVariableSecretValue(String name, String keyVaultId, String secretUrl) {
         KeyVaultSecretReference secretReference = new KeyVaultSecretReference()
                 .withSourceVault(new ResourceId().withId(keyVaultId)).withSecretUrl(secretUrl);
         ensureEnvironmentVariablesWithSecrets().add(new EnvironmentVariableWithSecretValue().withName(name).withValueSecretReference(secretReference));

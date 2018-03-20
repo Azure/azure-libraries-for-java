@@ -121,6 +121,19 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The OperationsInner object to access its operations.
+     */
+    private OperationsInner operations;
+
+    /**
+     * Gets the OperationsInner object to access its operations.
+     * @return the OperationsInner object.
+     */
+    public OperationsInner operations() {
+        return this.operations;
+    }
+
+    /**
      * The AvailabilitySetsInner object to access its operations.
      */
     private AvailabilitySetsInner availabilitySets;
@@ -388,6 +401,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
+        this.operations = new OperationsInner(restClient().retrofit(), this);
         this.availabilitySets = new AvailabilitySetsInner(restClient().retrofit(), this);
         this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesInner(restClient().retrofit(), this);
         this.virtualMachineExtensions = new VirtualMachineExtensionsInner(restClient().retrofit(), this);

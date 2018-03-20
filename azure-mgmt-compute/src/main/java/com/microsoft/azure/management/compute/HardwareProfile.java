@@ -21,13 +21,14 @@ public class HardwareProfile {
      * &lt;br&gt;&lt;br&gt; The available VM sizes depend on region and
      * availability set. For a list of available sizes use these APIs:
      * &lt;br&gt;&lt;br&gt; [List all available virtual machine sizes in an
-     * availability set](virtualmachines-list-sizes-availability-set.md)
+     * availability
+     * set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes)
      * &lt;br&gt;&lt;br&gt; [List all available virtual machine sizes in a
-     * region](virtualmachines-list-sizes-region.md) &lt;br&gt;&lt;br&gt; [List
-     * all available virtual machine sizes for
-     * resizing](virtualmachines-list-sizes-for-resizing.md). Possible values
-     * include: 'Basic_A0', 'Basic_A1', 'Basic_A2', 'Basic_A3', 'Basic_A4',
-     * 'Standard_A0', 'Standard_A1', 'Standard_A2', 'Standard_A3',
+     * region](https://docs.microsoft.com/rest/api/compute/virtualmachinesizes/list)
+     * &lt;br&gt;&lt;br&gt; [List all available virtual machine sizes for
+     * resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes).
+     * Possible values include: 'Basic_A0', 'Basic_A1', 'Basic_A2', 'Basic_A3',
+     * 'Basic_A4', 'Standard_A0', 'Standard_A1', 'Standard_A2', 'Standard_A3',
      * 'Standard_A4', 'Standard_A5', 'Standard_A6', 'Standard_A7',
      * 'Standard_A8', 'Standard_A9', 'Standard_A10', 'Standard_A11',
      * 'Standard_A1_v2', 'Standard_A2_v2', 'Standard_A4_v2', 'Standard_A8_v2',

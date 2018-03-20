@@ -26,7 +26,7 @@ public class DataDisks {
      * patchable.
      * Possible values include: 'none', 'readonly', 'readwrite'.
      */
-    @JsonProperty(value = "cachingType", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "cachingType")
     private CachingType cachingType;
 
     /**
@@ -71,6 +71,17 @@ public class DataDisks {
      */
     public CachingType cachingType() {
         return this.cachingType;
+    }
+
+    /**
+     * Set the cachingType value.
+     *
+     * @param cachingType the cachingType value to set
+     * @return the DataDisks object itself.
+     */
+    public DataDisks withCachingType(CachingType cachingType) {
+        this.cachingType = cachingType;
+        return this;
     }
 
     /**

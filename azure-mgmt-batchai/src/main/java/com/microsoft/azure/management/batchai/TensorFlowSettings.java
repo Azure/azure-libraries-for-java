@@ -29,7 +29,7 @@ public class TensorFlowSettings {
     /**
      * Specifies the command line arguments for the master task.
      */
-    @JsonProperty(value = "masterCommandLineArgs", required = true)
+    @JsonProperty(value = "masterCommandLineArgs")
     private String masterCommandLineArgs;
 
     /**

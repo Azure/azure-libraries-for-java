@@ -16,8 +16,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class OutputDirectory {
     /**
      * The name for the output directory.
-     * It will be available for the job as an environment variable under
-     * AZ_BATCHAI_OUTPUT_id.
+     * The path of the output directory will be available as a value of an
+     * environment variable with AZ_BATCHAI_OUTPUT_&lt;id&gt; name, where
+     * &lt;id&gt; is the value of id attribute.
      */
     @JsonProperty(value = "id", required = true)
     private String id;
@@ -25,14 +26,19 @@ public class OutputDirectory {
     /**
      * The prefix path where the output directory will be created.
      * NOTE: This is an absolute path to prefix. E.g.
-     * $AZ_BATCHAI_MOUNT_ROOT/MyNFS/MyLogs.
+     * $AZ_BATCHAI_MOUNT_ROOT/MyNFS/MyLogs. You can find the full path to the
+     * output directory by combining pathPrefix, jobOutputDirectoryPathSegment
+     * (reported by get job) and pathSuffix.
      */
     @JsonProperty(value = "pathPrefix", required = true)
     private String pathPrefix;
 
     /**
      * The suffix path where the output directory will be created.
-     * The suffix path where the output directory will be created.
+     * The suffix path where the output directory will be created. E.g. models.
+     * You can find the full path to the output directory by combining
+     * pathPrefix, jobOutputDirectoryPathSegment (reported by get job) and
+     * pathSuffix.
      */
     @JsonProperty(value = "pathSuffix")
     private String pathSuffix;

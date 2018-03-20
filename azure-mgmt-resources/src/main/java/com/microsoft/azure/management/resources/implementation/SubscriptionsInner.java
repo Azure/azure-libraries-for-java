@@ -79,36 +79,39 @@ public class SubscriptionsInner {
      * Gets all available geo-locations.
      * This operation provides all the locations that are available for resource providers; however, each resource provider may support a subset of this list.
      *
+     * @param subscriptionId The ID of the target subscription.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the List&lt;LocationInner&gt; object if successful.
      */
-    public List<LocationInner> listLocations() {
-        return listLocationsWithServiceResponseAsync().toBlocking().single().body();
+    public List<LocationInner> listLocations(String subscriptionId) {
+        return listLocationsWithServiceResponseAsync(subscriptionId).toBlocking().single().body();
     }
 
     /**
      * Gets all available geo-locations.
      * This operation provides all the locations that are available for resource providers; however, each resource provider may support a subset of this list.
      *
+     * @param subscriptionId The ID of the target subscription.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<LocationInner>> listLocationsAsync(final ServiceCallback<List<LocationInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listLocationsWithServiceResponseAsync(), serviceCallback);
+    public ServiceFuture<List<LocationInner>> listLocationsAsync(String subscriptionId, final ServiceCallback<List<LocationInner>> serviceCallback) {
+        return ServiceFuture.fromResponse(listLocationsWithServiceResponseAsync(subscriptionId), serviceCallback);
     }
 
     /**
      * Gets all available geo-locations.
      * This operation provides all the locations that are available for resource providers; however, each resource provider may support a subset of this list.
      *
+     * @param subscriptionId The ID of the target subscription.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the List&lt;LocationInner&gt; object
      */
-    public Observable<List<LocationInner>> listLocationsAsync() {
-        return listLocationsWithServiceResponseAsync().map(new Func1<ServiceResponse<List<LocationInner>>, List<LocationInner>>() {
+    public Observable<List<LocationInner>> listLocationsAsync(String subscriptionId) {
+        return listLocationsWithServiceResponseAsync(subscriptionId).map(new Func1<ServiceResponse<List<LocationInner>>, List<LocationInner>>() {
             @Override
             public List<LocationInner> call(ServiceResponse<List<LocationInner>> response) {
                 return response.body();
@@ -120,17 +123,18 @@ public class SubscriptionsInner {
      * Gets all available geo-locations.
      * This operation provides all the locations that are available for resource providers; however, each resource provider may support a subset of this list.
      *
+     * @param subscriptionId The ID of the target subscription.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the List&lt;LocationInner&gt; object
      */
-    public Observable<ServiceResponse<List<LocationInner>>> listLocationsWithServiceResponseAsync() {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+    public Observable<ServiceResponse<List<LocationInner>>> listLocationsWithServiceResponseAsync(String subscriptionId) {
+        if (subscriptionId == null) {
+            throw new IllegalArgumentException("Parameter subscriptionId is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listLocations(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.listLocations(subscriptionId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<LocationInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<LocationInner>>> call(Response<ResponseBody> response) {
@@ -155,34 +159,37 @@ public class SubscriptionsInner {
     /**
      * Gets details about a specified subscription.
      *
+     * @param subscriptionId The ID of the target subscription.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the SubscriptionInner object if successful.
      */
-    public SubscriptionInner get() {
-        return getWithServiceResponseAsync().toBlocking().single().body();
+    public SubscriptionInner get(String subscriptionId) {
+        return getWithServiceResponseAsync(subscriptionId).toBlocking().single().body();
     }
 
     /**
      * Gets details about a specified subscription.
      *
+     * @param subscriptionId The ID of the target subscription.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<SubscriptionInner> getAsync(final ServiceCallback<SubscriptionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(), serviceCallback);
+    public ServiceFuture<SubscriptionInner> getAsync(String subscriptionId, final ServiceCallback<SubscriptionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getWithServiceResponseAsync(subscriptionId), serviceCallback);
     }
 
     /**
      * Gets details about a specified subscription.
      *
+     * @param subscriptionId The ID of the target subscription.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the SubscriptionInner object
      */
-    public Observable<SubscriptionInner> getAsync() {
-        return getWithServiceResponseAsync().map(new Func1<ServiceResponse<SubscriptionInner>, SubscriptionInner>() {
+    public Observable<SubscriptionInner> getAsync(String subscriptionId) {
+        return getWithServiceResponseAsync(subscriptionId).map(new Func1<ServiceResponse<SubscriptionInner>, SubscriptionInner>() {
             @Override
             public SubscriptionInner call(ServiceResponse<SubscriptionInner> response) {
                 return response.body();
@@ -193,17 +200,18 @@ public class SubscriptionsInner {
     /**
      * Gets details about a specified subscription.
      *
+     * @param subscriptionId The ID of the target subscription.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the SubscriptionInner object
      */
-    public Observable<ServiceResponse<SubscriptionInner>> getWithServiceResponseAsync() {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+    public Observable<ServiceResponse<SubscriptionInner>> getWithServiceResponseAsync(String subscriptionId) {
+        if (subscriptionId == null) {
+            throw new IllegalArgumentException("Parameter subscriptionId is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.get(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.get(subscriptionId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SubscriptionInner>>>() {
                 @Override
                 public Observable<ServiceResponse<SubscriptionInner>> call(Response<ResponseBody> response) {

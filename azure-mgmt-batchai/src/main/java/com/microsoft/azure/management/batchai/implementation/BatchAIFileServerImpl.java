@@ -7,6 +7,7 @@ package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.BatchAIFileServer;
+import com.microsoft.azure.management.batchai.CachingType;
 import com.microsoft.azure.management.batchai.DataDisks;
 import com.microsoft.azure.management.batchai.FileServerProvisioningState;
 import com.microsoft.azure.management.batchai.MountSettings;
@@ -105,6 +106,15 @@ class BatchAIFileServerImpl extends GroupableResourceImpl<
         ensureDataDisks().withDiskSizeInGB(diskSizeInGB)
                 .withDiskCount(diskCount)
                 .withStorageAccountType(storageAccountType);
+        return this;
+    }
+
+    @Override
+    public BatchAIFileServer.DefinitionStages.WithVMSize withDataDisks(int diskSizeInGB, int diskCount, StorageAccountType storageAccountType, CachingType cachingType) {
+        ensureDataDisks().withDiskSizeInGB(diskSizeInGB)
+                .withDiskCount(diskCount)
+                .withStorageAccountType(storageAccountType)
+                .withCachingType(cachingType);
         return this;
     }
 

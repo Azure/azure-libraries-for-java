@@ -10,6 +10,7 @@ import com.microsoft.azure.management.batchai.AllocationState;
 import com.microsoft.azure.management.batchai.AutoScaleSettings;
 import com.microsoft.azure.management.batchai.AzureBlobFileSystem;
 import com.microsoft.azure.management.batchai.AzureBlobFileSystemReference;
+import com.microsoft.azure.management.batchai.AzureFileShare;
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIError;
@@ -30,6 +31,7 @@ import com.microsoft.azure.management.batchai.UnmanagedFileSystemReference;
 import com.microsoft.azure.management.batchai.UserAccountSettings;
 import com.microsoft.azure.management.batchai.VirtualMachineConfiguration;
 import com.microsoft.azure.management.batchai.VmPriority;
+import com.microsoft.azure.management.batchai.model.HasMountVolumes;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;
@@ -50,7 +52,8 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         implements
         BatchAICluster,
         BatchAICluster.Definition,
-        BatchAICluster.Update {
+        BatchAICluster.Update,
+        HasMountVolumes {
     private ClusterCreateParametersInner createParameters = new ClusterCreateParametersInner();
     private ClusterUpdateParametersInner updateParameters = new ClusterUpdateParametersInner();
 
@@ -272,19 +275,19 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
     }
 
     @Override
-    public AzureFileShareImpl defineAzureFileShare() {
-        return new AzureFileShareImpl(new AzureFileShareReference(), this);
+    public AzureFileShare.DefinitionStages.Blank<BatchAICluster.DefinitionStages.WithCreate> defineAzureFileShare() {
+        return new AzureFileShareImpl<BatchAICluster.DefinitionStages.WithCreate>(new AzureFileShareReference(), this);
     }
 
 
     @Override
-    public AzureBlobFileSystemImpl defineAzureBlobFileSystem() {
-        return new AzureBlobFileSystemImpl(new AzureBlobFileSystemReference(), this);
+    public  AzureBlobFileSystem.DefinitionStages.Blank<BatchAICluster.DefinitionStages.WithCreate> defineAzureBlobFileSystem() {
+        return new AzureBlobFileSystemImpl<BatchAICluster.DefinitionStages.WithCreate>(new AzureBlobFileSystemReference(), this);
     }
 
     @Override
-    public FileServerImpl defineFileServer() {
-        return new FileServerImpl(new FileServerReference(), this);
+    public FileServer.DefinitionStages.Blank<BatchAICluster.DefinitionStages.WithCreate> defineFileServer() {
+        return new FileServerImpl<BatchAICluster.DefinitionStages.WithCreate>(new FileServerReference(), this);
     }
 
     @Override
@@ -297,7 +300,8 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         return this;
     }
 
-    void attachAzureFileShare(AzureFileShareImpl azureFileShare) {
+    @Override
+    public void attachAzureFileShare(AzureFileShare azureFileShare) {
         MountVolumes mountVolumes = ensureMountVolumes();
         if (mountVolumes.azureFileShares() == null) {
             mountVolumes.withAzureFileShares(new ArrayList<AzureFileShareReference>());
@@ -305,7 +309,8 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         mountVolumes.azureFileShares().add(azureFileShare.inner());
     }
 
-    void attachAzureBlobFileSystem(AzureBlobFileSystem azureBlobFileSystem) {
+    @Override
+    public void attachAzureBlobFileSystem(AzureBlobFileSystem azureBlobFileSystem) {
         MountVolumes mountVolumes = ensureMountVolumes();
         if (mountVolumes.azureBlobFileSystems() == null) {
             mountVolumes.withAzureBlobFileSystems(new ArrayList<AzureBlobFileSystemReference>());
@@ -313,7 +318,8 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         mountVolumes.azureBlobFileSystems().add(azureBlobFileSystem.inner());
     }
 
-    void attachFileServer(FileServer fileServer) {
+    @Override
+    public void attachFileServer(FileServer fileServer) {
         MountVolumes mountVolumes = ensureMountVolumes();
         if (mountVolumes.fileServers() == null) {
             mountVolumes.withFileServers(new ArrayList<FileServerReference>());

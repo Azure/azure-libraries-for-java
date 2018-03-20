@@ -9,56 +9,51 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.AzureFileShare;
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.AzureStorageCredentialsInfo;
-import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.KeyVaultSecretReference;
+import com.microsoft.azure.management.batchai.model.HasMountVolumes;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 /**
  * Represents Azure file share reference.
  */
 @LangDefinition
-class AzureFileShareImpl extends IndexableWrapperImpl<AzureFileShareReference>
+class AzureFileShareImpl<ParentT> extends IndexableWrapperImpl<AzureFileShareReference>
         implements
         AzureFileShare,
-        AzureFileShare.Definition<BatchAICluster.DefinitionStages.WithCreate> {
-    private BatchAIClusterImpl parent;
+        AzureFileShare.Definition<ParentT> {
+    private HasMountVolumes parent;
 
-    AzureFileShareImpl(AzureFileShareReference inner, BatchAIClusterImpl parent) {
+    AzureFileShareImpl(AzureFileShareReference inner, HasMountVolumes parent) {
         super(inner);
         this.parent = parent;
     }
 
     @Override
-    public Definition<BatchAICluster.DefinitionStages.WithCreate> withStorageAccountName(String storageAccountName) {
+    public Definition<ParentT> withStorageAccountName(String storageAccountName) {
         inner().withAccountName(storageAccountName);
         return this;
     }
 
     @Override
-    public Definition<BatchAICluster.DefinitionStages.WithCreate> withAzureFileUrl(String azureFileUrl) {
+    public Definition<ParentT> withAzureFileUrl(String azureFileUrl) {
         inner().withAzureFileUrl(azureFileUrl);
         return this;
     }
 
     @Override
-    public Definition<BatchAICluster.DefinitionStages.WithCreate> withRelativeMountPath(String mountPath) {
+    public Definition<ParentT> withRelativeMountPath(String mountPath) {
         inner().withRelativeMountPath(mountPath);
         return this;
     }
 
     @Override
-    public BatchAICluster parent() {
-        return parent;
-    }
-
-    @Override
-    public BatchAICluster.DefinitionStages.WithCreate attach() {
+    public ParentT attach() {
         this.parent.attachAzureFileShare(this);
-        return parent;
+        return (ParentT) parent;
     }
 
     @Override
-    public DefinitionStages.WithAttach<BatchAICluster.DefinitionStages.WithCreate> withAccountKey(String accountKey) {
+    public DefinitionStages.WithAttach<ParentT> withAccountKey(String accountKey) {
         ensureCredentials().withAccountKey(accountKey);
         return this;
     }
@@ -71,19 +66,19 @@ class AzureFileShareImpl extends IndexableWrapperImpl<AzureFileShareReference>
     }
 
     @Override
-    public DefinitionStages.WithAttach<BatchAICluster.DefinitionStages.WithCreate> withKeyVaultSecretReference(KeyVaultSecretReference keyVaultSecretReference) {
+    public DefinitionStages.WithAttach<ParentT> withKeyVaultSecretReference(KeyVaultSecretReference keyVaultSecretReference) {
         ensureCredentials().withAccountKeySecretReference(keyVaultSecretReference);
         return this;
     }
 
     @Override
-    public DefinitionStages.WithAttach<BatchAICluster.DefinitionStages.WithCreate> withFileMode(String fileMode) {
+    public DefinitionStages.WithAttach<ParentT> withFileMode(String fileMode) {
         inner().withFileMode(fileMode);
         return this;
     }
 
     @Override
-    public DefinitionStages.WithAttach<BatchAICluster.DefinitionStages.WithCreate> withDirectoryMode(String directoryMode) {
+    public DefinitionStages.WithAttach<ParentT> withDirectoryMode(String directoryMode) {
         inner().withDirectoryMode(directoryMode);
         return this;
     }

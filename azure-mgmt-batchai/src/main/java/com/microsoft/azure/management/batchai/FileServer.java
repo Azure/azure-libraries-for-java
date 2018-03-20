@@ -18,7 +18,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 @Fluent
 @Beta(Beta.SinceVersion.V1_6_0)
 public interface FileServer extends Indexable,
-        HasParent<BatchAICluster>,
         HasInner<FileServerReference> {
 
     /**

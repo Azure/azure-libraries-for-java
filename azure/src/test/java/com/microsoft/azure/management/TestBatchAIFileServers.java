@@ -7,6 +7,7 @@ package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.batchai.BatchAIFileServer;
 import com.microsoft.azure.management.batchai.BatchAIFileServers;
+import com.microsoft.azure.management.batchai.CachingType;
 import com.microsoft.azure.management.batchai.StorageAccountType;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.network.Network;
@@ -41,7 +42,7 @@ public class TestBatchAIFileServers extends TestTemplate<BatchAIFileServer, Batc
         BatchAIFileServer fileServer = fileServers.define(fsName)
                 .withRegion(region)
                 .withNewResourceGroup(groupName)
-                .withDataDisks(10, 2, StorageAccountType.STANDARD_LRS)
+                .withDataDisks(10, 2, StorageAccountType.STANDARD_LRS, CachingType.READWRITE)
                 .withVMSize(VirtualMachineSizeTypes.STANDARD_D1_V2.toString())
                 .withUserName(userName)
                 .withPassword("MyPassword!")
@@ -49,6 +50,7 @@ public class TestBatchAIFileServers extends TestTemplate<BatchAIFileServer, Batc
                 .create();
 
         Assert.assertEquals(network.id() + "/subnets/" + subnetName, fileServer.subnet().id());
+        Assert.assertEquals(CachingType.READWRITE, fileServer.dataDisks().cachingType());
         return fileServer;
     }
 

@@ -11,6 +11,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.batchai.implementation.ClusterInner;
+import com.microsoft.azure.management.batchai.model.HasMountVolumes;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -254,40 +255,6 @@ public interface BatchAICluster extends
         }
 
         /**
-         * Defines the volumes to mount on the cluster.
-         */
-        interface WithMountVolumes {
-            /**
-             * Begins the definition of Azure file share reference to be mounted on each cluster node.
-             * @return the first stage of file share reference definition
-             */
-            @Method
-            AzureFileShare.DefinitionStages.Blank<WithCreate> defineAzureFileShare();
-
-            /**
-             * Begins the definition of Azure blob file system reference to be mounted on each cluster node.
-             * @return the first stage of Azure blob file system reference definition
-             */
-            @Method
-            AzureBlobFileSystem.DefinitionStages.Blank<WithCreate> defineAzureBlobFileSystem();
-
-            /**
-             * Begins the definition of Azure file server reference.
-             * @return the first stage of file server reference definition
-             */
-            @Method
-            FileServer.DefinitionStages.Blank<WithCreate> defineFileServer();
-
-            /**
-             * Specifies the details of the file system to mount on the compute cluster nodes.
-             * @param mountCommand command used to mount the unmanaged file system
-             * @param relativeMountPath the relative path on the compute cluster node where the file system will be mounted.
-             * @return the next stage of Batch AI cluster definition
-             */
-            WithCreate withUnmanagedFileSystem(String mountCommand, String relativeMountPath);
-        }
-
-        /**
          * Defines subnet for the cluster.
          */
         interface WithSubnet {
@@ -314,7 +281,7 @@ public interface BatchAICluster extends
                 DefinitionStages.WithUserCredentials,
                 DefinitionStages.WithVMPriority,
                 DefinitionStages.WithSetupTask,
-                DefinitionStages.WithMountVolumes,
+                HasMountVolumes.DefinitionStages.WithMountVolumes<WithCreate>,
                 DefinitionStages.WithSubnet,
                 Resource.DefinitionWithTags<WithCreate> {
         }

@@ -96,10 +96,18 @@ public interface BatchAIFileServer extends
         interface WithGroup extends GroupableResource.DefinitionStages.WithGroup<WithDataDisks> {
         }
 
+        /**
+         * This stage of a Batch AI file server definition allows to specify data disks parameters.
+         */
         interface WithDataDisks {
             WithVMSize withDataDisks(int diskSizeInGB, int diskCount, StorageAccountType storageAccountType);
+
+            WithVMSize withDataDisks(int diskSizeInGB, int diskCount, StorageAccountType storageAccountType, CachingType cachingType);
         }
 
+        /**
+         * This stage of a Batch AI file server definition allows to specify virtual machine size.
+         */
         interface WithVMSize {
             /**
              * @param vmSize virtual machine size
@@ -108,13 +116,31 @@ public interface BatchAIFileServer extends
             WithUserName withVMSize(String vmSize);
         }
 
+        /**
+         * This stage of a Batch AI file server definition allows to specify administrator account name.
+         */
         interface WithUserName {
+            /**
+             * @param userName the name of the administrator account
+             * @return the next stage of the definition
+             */
             WithUserCredentials withUserName(String userName);
         }
 
+        /**
+         * This stage of a Batch AI file server definition allows to specify user credentials.
+         */
         interface WithUserCredentials {
+            /**
+             * @param password admin user Password (linux only)
+             * @return the next stage of the definition
+             */
             WithCreate withPassword(String password);
 
+            /**
+             * @param sshPublicKey SSH public keys used to authenticate with linux based VMs
+             * @return the next stage of the definition
+             */
             WithCreate withSshPublicKey(String sshPublicKey);
         }
 
@@ -131,7 +157,7 @@ public interface BatchAIFileServer extends
             /**
              * @param networkId identifier of the network
              * @param subnetName subnet name
-             * @return
+             * @return the next stage of the definition
              */
             WithCreate withSubnet(String networkId, String subnetName);
         }

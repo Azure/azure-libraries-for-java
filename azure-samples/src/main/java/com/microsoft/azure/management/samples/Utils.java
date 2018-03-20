@@ -1375,9 +1375,11 @@ public final class Utils {
         String jdkPath = System.getProperty("java.home");
         if (jdkPath != null && !jdkPath.isEmpty()) {
             jdkPath = jdkPath.concat("\\bin");
-        }
-        if (new File(jdkPath).isDirectory()) {
-            command = String.format("%s%s%s", jdkPath, File.separator, command);
+            if (new File(jdkPath).isDirectory()) {
+                command = String.format("%s%s%s", jdkPath, File.separator, command);
+            }
+        } else {
+            return;
         }
 
         // Create Pfx file

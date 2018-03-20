@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Azure/azure-libraries-for-java.svg?style=flat-square&label=build)](https://travis-ci.org/Azure/azure-libraries-for-java)
+[![Build Status](https://travis-ci.org/Azure/azure-libraries-for-java.svg?style=flat-square&label=build&branch=master)](https://travis-ci.org/Azure/azure-libraries-for-java)
 
 # Azure Management Libraries for Java
 

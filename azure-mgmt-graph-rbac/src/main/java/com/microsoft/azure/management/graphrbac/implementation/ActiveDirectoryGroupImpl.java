@@ -158,7 +158,7 @@ class ActiveDirectoryGroupImpl
                             .flatMap(new Func1<String, Observable<?>>() {
                                 @Override
                                 public Observable<?> call(String s) {
-                                    return manager().inner().groups().addMemberAsync(id(), s);
+                                    return manager().inner().groups().addMemberAsync(id(), new GroupAddMemberParametersInner().withUrl(s));
                                 }
                             }).last().doOnCompleted(new Action0() {
                                 @Override

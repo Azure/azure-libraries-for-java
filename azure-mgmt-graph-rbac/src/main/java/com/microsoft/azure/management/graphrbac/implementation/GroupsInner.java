@@ -13,8 +13,6 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.graphrbac.GraphErrorException;
-import com.microsoft.azure.management.graphrbac.GroupAddMemberParameters;
-import com.microsoft.azure.management.graphrbac.GroupGetMemberGroupsParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -69,15 +67,11 @@ public class GroupsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Groups removeMember" })
         @HTTP(path = "{tenantID}/groups/{groupObjectId}/$links/members/{memberObjectId}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> removeMember(@Path(value = "groupObjectId", encoded = true) String groupObjectId, @Path(value = "memberObjectId", encoded = true) String memberObjectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> removeMember(@Path("groupObjectId") String groupObjectId, @Path("memberObjectId") String memberObjectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Groups addMember" })
         @POST("{tenantID}/groups/{groupObjectId}/$links/members")
-        Observable<Response<ResponseBody>> addMember(@Path(value = "groupObjectId", encoded = true) String groupObjectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body GroupAddMemberParameters parameters, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Groups delete" })
-        @HTTP(path = "{tenantID}/groups/{groupObjectId}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path(value = "groupObjectId", encoded = true) String groupObjectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> addMember(@Path("groupObjectId") String groupObjectId, @Path("tenantID") String tenantID, @Body GroupAddMemberParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Groups create" })
         @POST("{tenantID}/groups")
@@ -89,15 +83,19 @@ public class GroupsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Groups getGroupMembers" })
         @GET("{tenantID}/groups/{objectId}/members")
-        Observable<Response<ResponseBody>> getGroupMembers(@Path(value = "objectId", encoded = true) String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> getGroupMembers(@Path("objectId") String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Groups get" })
         @GET("{tenantID}/groups/{objectId}")
-        Observable<Response<ResponseBody>> get(@Path(value = "objectId", encoded = true) String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> get(@Path("objectId") String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Groups delete" })
+        @HTTP(path = "{tenantID}/groups/{objectId}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> delete(@Path("objectId") String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Groups getMemberGroups" })
         @POST("{tenantID}/groups/{objectId}/getMemberGroups")
-        Observable<Response<ResponseBody>> getMemberGroups(@Path(value = "objectId", encoded = true) String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body GroupGetMemberGroupsParameters parameters, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> getMemberGroups(@Path("objectId") String objectId, @Path("tenantID") String tenantID, @Body GroupGetMemberGroupsParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Groups listNext" })
         @GET
@@ -278,38 +276,38 @@ public class GroupsInner {
      * Add a member to a group.
      *
      * @param groupObjectId The object ID of the group to which to add the member.
-     * @param url A member object URL, such as "https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd", where "0b1f9851-1bf0-433f-aec3-cb9272f093dc" is the tenantId and "f260bbc4-c254-447b-94cf-293b5ec434dd" is the objectId of the member (user, application, servicePrincipal, group) to be added.
+     * @param parameters The URL of the member object, such as https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws GraphErrorException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void addMember(String groupObjectId, String url) {
-        addMemberWithServiceResponseAsync(groupObjectId, url).toBlocking().single().body();
+    public void addMember(String groupObjectId, GroupAddMemberParametersInner parameters) {
+        addMemberWithServiceResponseAsync(groupObjectId, parameters).toBlocking().single().body();
     }
 
     /**
      * Add a member to a group.
      *
      * @param groupObjectId The object ID of the group to which to add the member.
-     * @param url A member object URL, such as "https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd", where "0b1f9851-1bf0-433f-aec3-cb9272f093dc" is the tenantId and "f260bbc4-c254-447b-94cf-293b5ec434dd" is the objectId of the member (user, application, servicePrincipal, group) to be added.
+     * @param parameters The URL of the member object, such as https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> addMemberAsync(String groupObjectId, String url, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(addMemberWithServiceResponseAsync(groupObjectId, url), serviceCallback);
+    public ServiceFuture<Void> addMemberAsync(String groupObjectId, GroupAddMemberParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(addMemberWithServiceResponseAsync(groupObjectId, parameters), serviceCallback);
     }
 
     /**
      * Add a member to a group.
      *
      * @param groupObjectId The object ID of the group to which to add the member.
-     * @param url A member object URL, such as "https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd", where "0b1f9851-1bf0-433f-aec3-cb9272f093dc" is the tenantId and "f260bbc4-c254-447b-94cf-293b5ec434dd" is the objectId of the member (user, application, servicePrincipal, group) to be added.
+     * @param parameters The URL of the member object, such as https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> addMemberAsync(String groupObjectId, String url) {
-        return addMemberWithServiceResponseAsync(groupObjectId, url).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> addMemberAsync(String groupObjectId, GroupAddMemberParametersInner parameters) {
+        return addMemberWithServiceResponseAsync(groupObjectId, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -321,26 +319,25 @@ public class GroupsInner {
      * Add a member to a group.
      *
      * @param groupObjectId The object ID of the group to which to add the member.
-     * @param url A member object URL, such as "https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd", where "0b1f9851-1bf0-433f-aec3-cb9272f093dc" is the tenantId and "f260bbc4-c254-447b-94cf-293b5ec434dd" is the objectId of the member (user, application, servicePrincipal, group) to be added.
+     * @param parameters The URL of the member object, such as https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> addMemberWithServiceResponseAsync(String groupObjectId, String url) {
+    public Observable<ServiceResponse<Void>> addMemberWithServiceResponseAsync(String groupObjectId, GroupAddMemberParametersInner parameters) {
         if (groupObjectId == null) {
             throw new IllegalArgumentException("Parameter groupObjectId is required and cannot be null.");
         }
         if (this.client.tenantID() == null) {
             throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
         }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        if (url == null) {
-            throw new IllegalArgumentException("Parameter url is required and cannot be null.");
-        }
-        GroupAddMemberParameters parameters = new GroupAddMemberParameters();
-        parameters.withUrl(url);
-        return service.addMember(groupObjectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+        Validator.validate(parameters);
+        return service.addMember(groupObjectId, this.client.tenantID(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -355,84 +352,6 @@ public class GroupsInner {
     }
 
     private ServiceResponse<Void> addMemberDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, GraphErrorException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(GraphErrorException.class)
-                .build(response);
-    }
-
-    /**
-     * Delete a group from the directory.
-     *
-     * @param groupObjectId The object ID of the group to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws GraphErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void delete(String groupObjectId) {
-        deleteWithServiceResponseAsync(groupObjectId).toBlocking().single().body();
-    }
-
-    /**
-     * Delete a group from the directory.
-     *
-     * @param groupObjectId The object ID of the group to delete.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> deleteAsync(String groupObjectId, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(groupObjectId), serviceCallback);
-    }
-
-    /**
-     * Delete a group from the directory.
-     *
-     * @param groupObjectId The object ID of the group to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<Void> deleteAsync(String groupObjectId) {
-        return deleteWithServiceResponseAsync(groupObjectId).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Delete a group from the directory.
-     *
-     * @param groupObjectId The object ID of the group to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String groupObjectId) {
-        if (groupObjectId == null) {
-            throw new IllegalArgumentException("Parameter groupObjectId is required and cannot be null.");
-        }
-        if (this.client.tenantID() == null) {
-            throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.delete(groupObjectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = deleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, GraphErrorException>newInstance(this.client.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(GraphErrorException.class)
@@ -927,42 +846,120 @@ public class GroupsInner {
     }
 
     /**
+     * Delete a group from the directory.
+     *
+     * @param objectId The object ID of the group to delete.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws GraphErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void delete(String objectId) {
+        deleteWithServiceResponseAsync(objectId).toBlocking().single().body();
+    }
+
+    /**
+     * Delete a group from the directory.
+     *
+     * @param objectId The object ID of the group to delete.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> deleteAsync(String objectId, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(objectId), serviceCallback);
+    }
+
+    /**
+     * Delete a group from the directory.
+     *
+     * @param objectId The object ID of the group to delete.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> deleteAsync(String objectId) {
+        return deleteWithServiceResponseAsync(objectId).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Delete a group from the directory.
+     *
+     * @param objectId The object ID of the group to delete.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String objectId) {
+        if (objectId == null) {
+            throw new IllegalArgumentException("Parameter objectId is required and cannot be null.");
+        }
+        if (this.client.tenantID() == null) {
+            throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.delete(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = deleteDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, GraphErrorException>newInstance(this.client.serializerAdapter())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(GraphErrorException.class)
+                .build(response);
+    }
+
+    /**
      * Gets a collection of object IDs of groups of which the specified group is a member.
      *
      * @param objectId The object ID of the group for which to get group membership.
-     * @param securityEnabledOnly If true, only membership in security-enabled groups should be checked. Otherwise, membership in all groups should be checked.
+     * @param parameters Group filtering parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws GraphErrorException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the List&lt;String&gt; object if successful.
      */
-    public List<String> getMemberGroups(String objectId, boolean securityEnabledOnly) {
-        return getMemberGroupsWithServiceResponseAsync(objectId, securityEnabledOnly).toBlocking().single().body();
+    public List<String> getMemberGroups(String objectId, GroupGetMemberGroupsParametersInner parameters) {
+        return getMemberGroupsWithServiceResponseAsync(objectId, parameters).toBlocking().single().body();
     }
 
     /**
      * Gets a collection of object IDs of groups of which the specified group is a member.
      *
      * @param objectId The object ID of the group for which to get group membership.
-     * @param securityEnabledOnly If true, only membership in security-enabled groups should be checked. Otherwise, membership in all groups should be checked.
+     * @param parameters Group filtering parameters.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<String>> getMemberGroupsAsync(String objectId, boolean securityEnabledOnly, final ServiceCallback<List<String>> serviceCallback) {
-        return ServiceFuture.fromResponse(getMemberGroupsWithServiceResponseAsync(objectId, securityEnabledOnly), serviceCallback);
+    public ServiceFuture<List<String>> getMemberGroupsAsync(String objectId, GroupGetMemberGroupsParametersInner parameters, final ServiceCallback<List<String>> serviceCallback) {
+        return ServiceFuture.fromResponse(getMemberGroupsWithServiceResponseAsync(objectId, parameters), serviceCallback);
     }
 
     /**
      * Gets a collection of object IDs of groups of which the specified group is a member.
      *
      * @param objectId The object ID of the group for which to get group membership.
-     * @param securityEnabledOnly If true, only membership in security-enabled groups should be checked. Otherwise, membership in all groups should be checked.
+     * @param parameters Group filtering parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the List&lt;String&gt; object
      */
-    public Observable<List<String>> getMemberGroupsAsync(String objectId, boolean securityEnabledOnly) {
-        return getMemberGroupsWithServiceResponseAsync(objectId, securityEnabledOnly).map(new Func1<ServiceResponse<List<String>>, List<String>>() {
+    public Observable<List<String>> getMemberGroupsAsync(String objectId, GroupGetMemberGroupsParametersInner parameters) {
+        return getMemberGroupsWithServiceResponseAsync(objectId, parameters).map(new Func1<ServiceResponse<List<String>>, List<String>>() {
             @Override
             public List<String> call(ServiceResponse<List<String>> response) {
                 return response.body();
@@ -974,23 +971,25 @@ public class GroupsInner {
      * Gets a collection of object IDs of groups of which the specified group is a member.
      *
      * @param objectId The object ID of the group for which to get group membership.
-     * @param securityEnabledOnly If true, only membership in security-enabled groups should be checked. Otherwise, membership in all groups should be checked.
+     * @param parameters Group filtering parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the List&lt;String&gt; object
      */
-    public Observable<ServiceResponse<List<String>>> getMemberGroupsWithServiceResponseAsync(String objectId, boolean securityEnabledOnly) {
+    public Observable<ServiceResponse<List<String>>> getMemberGroupsWithServiceResponseAsync(String objectId, GroupGetMemberGroupsParametersInner parameters) {
         if (objectId == null) {
             throw new IllegalArgumentException("Parameter objectId is required and cannot be null.");
         }
         if (this.client.tenantID() == null) {
             throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
         }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        GroupGetMemberGroupsParameters parameters = new GroupGetMemberGroupsParameters();
-        parameters.withSecurityEnabledOnly(securityEnabledOnly);
-        return service.getMemberGroups(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+        Validator.validate(parameters);
+        return service.getMemberGroups(objectId, this.client.tenantID(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<String>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<String>>> call(Response<ResponseBody> response) {

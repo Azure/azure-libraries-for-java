@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.graphrbac.implementation;
 
+import java.util.Map;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -15,6 +16,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Request parameters for the GetObjectsByObjectIds API.
  */
 public class GetObjectsParametersInner {
+    /**
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
+
     /**
      * The requested object IDs.
      */
@@ -32,6 +39,26 @@ public class GetObjectsParametersInner {
      */
     @JsonProperty(value = "includeDirectoryObjectReferences", required = true)
     private boolean includeDirectoryObjectReferences;
+
+    /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set
+     * @return the GetObjectsParametersInner object itself.
+     */
+    public GetObjectsParametersInner withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        return this;
+    }
 
     /**
      * Get the objectIds value.

@@ -74,13 +74,13 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
         @PUT("{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}")
         Observable<Response<ResponseBody>> createOrUpdate(@Path(value = "scope", encoded = true) String scope, @Path("roleDefinitionId") String roleDefinitionId, @Body RoleDefinitionInner roleDefinition, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.RoleDefinitions getById" })
-        @GET("{roleDefinitionId}")
-        Observable<Response<ResponseBody>> getById(@Path(value = "roleDefinitionId", encoded = true) String roleDefinitionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.RoleDefinitions list" })
         @GET("{scope}/providers/Microsoft.Authorization/roleDefinitions")
         Observable<Response<ResponseBody>> list(@Path(value = "scope", encoded = true) String scope, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.RoleDefinitions getById" })
+        @GET("{roleId}")
+        Observable<Response<ResponseBody>> getById(@Path(value = "roleId", encoded = true) String roleId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.RoleDefinitions listNext" })
         @GET
@@ -147,10 +147,8 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
         if (roleDefinitionId == null) {
             throw new IllegalArgumentException("Parameter roleDefinitionId is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.delete(scope, roleDefinitionId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2018-01-01-preview";
+        return service.delete(scope, roleDefinitionId, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleDefinitionInner>>>() {
                 @Override
                 public Observable<ServiceResponse<RoleDefinitionInner>> call(Response<ResponseBody> response) {
@@ -230,10 +228,8 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
         if (roleDefinitionId == null) {
             throw new IllegalArgumentException("Parameter roleDefinitionId is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.get(scope, roleDefinitionId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2018-01-01-preview";
+        return service.get(scope, roleDefinitionId, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleDefinitionInner>>>() {
                 @Override
                 public Observable<ServiceResponse<RoleDefinitionInner>> call(Response<ResponseBody> response) {
@@ -320,11 +316,9 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
         if (roleDefinition == null) {
             throw new IllegalArgumentException("Parameter roleDefinition is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         Validator.validate(roleDefinition);
-        return service.createOrUpdate(scope, roleDefinitionId, roleDefinition, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2018-01-01-preview";
+        return service.createOrUpdate(scope, roleDefinitionId, roleDefinition, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleDefinitionInner>>>() {
                 @Override
                 public Observable<ServiceResponse<RoleDefinitionInner>> call(Response<ResponseBody> response) {
@@ -341,82 +335,6 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
     private ServiceResponse<RoleDefinitionInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<RoleDefinitionInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(201, new TypeToken<RoleDefinitionInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets a role definition by ID.
-     *
-     * @param roleDefinitionId The fully qualified role definition ID to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the RoleDefinitionInner object if successful.
-     */
-    public RoleDefinitionInner getById(String roleDefinitionId) {
-        return getByIdWithServiceResponseAsync(roleDefinitionId).toBlocking().single().body();
-    }
-
-    /**
-     * Gets a role definition by ID.
-     *
-     * @param roleDefinitionId The fully qualified role definition ID to get.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<RoleDefinitionInner> getByIdAsync(String roleDefinitionId, final ServiceCallback<RoleDefinitionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByIdWithServiceResponseAsync(roleDefinitionId), serviceCallback);
-    }
-
-    /**
-     * Gets a role definition by ID.
-     *
-     * @param roleDefinitionId The fully qualified role definition ID to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleDefinitionInner object
-     */
-    public Observable<RoleDefinitionInner> getByIdAsync(String roleDefinitionId) {
-        return getByIdWithServiceResponseAsync(roleDefinitionId).map(new Func1<ServiceResponse<RoleDefinitionInner>, RoleDefinitionInner>() {
-            @Override
-            public RoleDefinitionInner call(ServiceResponse<RoleDefinitionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a role definition by ID.
-     *
-     * @param roleDefinitionId The fully qualified role definition ID to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleDefinitionInner object
-     */
-    public Observable<ServiceResponse<RoleDefinitionInner>> getByIdWithServiceResponseAsync(String roleDefinitionId) {
-        if (roleDefinitionId == null) {
-            throw new IllegalArgumentException("Parameter roleDefinitionId is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.getById(roleDefinitionId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleDefinitionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RoleDefinitionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RoleDefinitionInner> clientResponse = getByIdDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<RoleDefinitionInner> getByIdDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RoleDefinitionInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RoleDefinitionInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -509,11 +427,9 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
         if (scope == null) {
             throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
+        final String apiVersion = "2018-01-01-preview";
         final String filter = null;
-        return service.list(scope, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.list(scope, filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<RoleDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -620,10 +536,8 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
         if (scope == null) {
             throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.list(scope, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2018-01-01-preview";
+        return service.list(scope, filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<RoleDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -640,6 +554,80 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
     private ServiceResponse<PageImpl<RoleDefinitionInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<RoleDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<RoleDefinitionInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets a role definition by ID.
+     *
+     * @param roleId The fully qualified role definition ID. Use the format, /subscriptions/{guid}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for subscription level role definitions, or /providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for tenant level role definitions.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the RoleDefinitionInner object if successful.
+     */
+    public RoleDefinitionInner getById(String roleId) {
+        return getByIdWithServiceResponseAsync(roleId).toBlocking().single().body();
+    }
+
+    /**
+     * Gets a role definition by ID.
+     *
+     * @param roleId The fully qualified role definition ID. Use the format, /subscriptions/{guid}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for subscription level role definitions, or /providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for tenant level role definitions.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<RoleDefinitionInner> getByIdAsync(String roleId, final ServiceCallback<RoleDefinitionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getByIdWithServiceResponseAsync(roleId), serviceCallback);
+    }
+
+    /**
+     * Gets a role definition by ID.
+     *
+     * @param roleId The fully qualified role definition ID. Use the format, /subscriptions/{guid}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for subscription level role definitions, or /providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for tenant level role definitions.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the RoleDefinitionInner object
+     */
+    public Observable<RoleDefinitionInner> getByIdAsync(String roleId) {
+        return getByIdWithServiceResponseAsync(roleId).map(new Func1<ServiceResponse<RoleDefinitionInner>, RoleDefinitionInner>() {
+            @Override
+            public RoleDefinitionInner call(ServiceResponse<RoleDefinitionInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets a role definition by ID.
+     *
+     * @param roleId The fully qualified role definition ID. Use the format, /subscriptions/{guid}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for subscription level role definitions, or /providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for tenant level role definitions.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the RoleDefinitionInner object
+     */
+    public Observable<ServiceResponse<RoleDefinitionInner>> getByIdWithServiceResponseAsync(String roleId) {
+        if (roleId == null) {
+            throw new IllegalArgumentException("Parameter roleId is required and cannot be null.");
+        }
+        final String apiVersion = "2018-01-01-preview";
+        return service.getById(roleId, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleDefinitionInner>>>() {
+                @Override
+                public Observable<ServiceResponse<RoleDefinitionInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<RoleDefinitionInner> clientResponse = getByIdDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<RoleDefinitionInner> getByIdDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<RoleDefinitionInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<RoleDefinitionInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

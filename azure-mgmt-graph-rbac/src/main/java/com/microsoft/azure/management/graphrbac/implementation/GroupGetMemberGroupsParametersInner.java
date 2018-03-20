@@ -12,9 +12,9 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Server response for IsMemberOf API call.
+ * Request parameters for GetMemberGroups API call.
  */
-public class CheckGroupMembershipResultInner {
+public class GroupGetMemberGroupsParametersInner {
     /**
      * Unmatched properties from the message are deserialized this collection.
      */
@@ -22,12 +22,11 @@ public class CheckGroupMembershipResultInner {
     private Map<String, Object> additionalProperties;
 
     /**
-     * True if the specified user, group, contact, or service principal has
-     * either direct or transitive membership in the specified group;
-     * otherwise, false.
+     * If true, only membership in security-enabled groups should be checked.
+     * Otherwise, membership in all groups should be checked.
      */
-    @JsonProperty(value = "value")
-    private Boolean value;
+    @JsonProperty(value = "securityEnabledOnly", required = true)
+    private boolean securityEnabledOnly;
 
     /**
      * Get the additionalProperties value.
@@ -42,30 +41,30 @@ public class CheckGroupMembershipResultInner {
      * Set the additionalProperties value.
      *
      * @param additionalProperties the additionalProperties value to set
-     * @return the CheckGroupMembershipResultInner object itself.
+     * @return the GroupGetMemberGroupsParametersInner object itself.
      */
-    public CheckGroupMembershipResultInner withAdditionalProperties(Map<String, Object> additionalProperties) {
+    public GroupGetMemberGroupsParametersInner withAdditionalProperties(Map<String, Object> additionalProperties) {
         this.additionalProperties = additionalProperties;
         return this;
     }
 
     /**
-     * Get the value value.
+     * Get the securityEnabledOnly value.
      *
-     * @return the value value
+     * @return the securityEnabledOnly value
      */
-    public Boolean value() {
-        return this.value;
+    public boolean securityEnabledOnly() {
+        return this.securityEnabledOnly;
     }
 
     /**
-     * Set the value value.
+     * Set the securityEnabledOnly value.
      *
-     * @param value the value value to set
-     * @return the CheckGroupMembershipResultInner object itself.
+     * @param securityEnabledOnly the securityEnabledOnly value to set
+     * @return the GroupGetMemberGroupsParametersInner object itself.
      */
-    public CheckGroupMembershipResultInner withValue(Boolean value) {
-        this.value = value;
+    public GroupGetMemberGroupsParametersInner withSecurityEnabledOnly(boolean securityEnabledOnly) {
+        this.securityEnabledOnly = securityEnabledOnly;
         return this;
     }
 

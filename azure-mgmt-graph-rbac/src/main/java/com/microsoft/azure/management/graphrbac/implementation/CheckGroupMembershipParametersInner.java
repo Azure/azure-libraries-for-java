@@ -8,12 +8,19 @@
 
 package com.microsoft.azure.management.graphrbac.implementation;
 
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Request parameters for IsMemberOf API call.
  */
 public class CheckGroupMembershipParametersInner {
+    /**
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
+
     /**
      * The object ID of the group to check.
      */
@@ -26,6 +33,26 @@ public class CheckGroupMembershipParametersInner {
      */
     @JsonProperty(value = "memberId", required = true)
     private String memberId;
+
+    /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set
+     * @return the CheckGroupMembershipParametersInner object itself.
+     */
+    public CheckGroupMembershipParametersInner withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        return this;
+    }
 
     /**
      * Get the groupId value.

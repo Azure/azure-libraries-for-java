@@ -8,58 +8,40 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for VirtualNetworkGatewayConnectionType.
  */
-public final class VirtualNetworkGatewayConnectionType {
+public final class VirtualNetworkGatewayConnectionType extends ExpandableStringEnum<VirtualNetworkGatewayConnectionType> {
     /** Static value IPsec for VirtualNetworkGatewayConnectionType. */
-    public static final VirtualNetworkGatewayConnectionType IPSEC = new VirtualNetworkGatewayConnectionType("IPsec");
+    public static final VirtualNetworkGatewayConnectionType IPSEC = fromString("IPsec");
 
     /** Static value Vnet2Vnet for VirtualNetworkGatewayConnectionType. */
-    public static final VirtualNetworkGatewayConnectionType VNET2VNET = new VirtualNetworkGatewayConnectionType("Vnet2Vnet");
+    public static final VirtualNetworkGatewayConnectionType VNET2VNET = fromString("Vnet2Vnet");
 
     /** Static value ExpressRoute for VirtualNetworkGatewayConnectionType. */
-    public static final VirtualNetworkGatewayConnectionType EXPRESS_ROUTE = new VirtualNetworkGatewayConnectionType("ExpressRoute");
+    public static final VirtualNetworkGatewayConnectionType EXPRESS_ROUTE = fromString("ExpressRoute");
 
     /** Static value VPNClient for VirtualNetworkGatewayConnectionType. */
-    public static final VirtualNetworkGatewayConnectionType VPNCLIENT = new VirtualNetworkGatewayConnectionType("VPNClient");
-
-    private String value;
+    public static final VirtualNetworkGatewayConnectionType VPNCLIENT = fromString("VPNClient");
 
     /**
-     * Creates a custom value for VirtualNetworkGatewayConnectionType.
-     * @param value the custom value
+     * Creates or finds a VirtualNetworkGatewayConnectionType from its string representation.
+     * @param name a name to look for
+     * @return the corresponding VirtualNetworkGatewayConnectionType
      */
-    public VirtualNetworkGatewayConnectionType(String value) {
-        this.value = value;
+    @JsonCreator
+    public static VirtualNetworkGatewayConnectionType fromString(String name) {
+        return fromString(name, VirtualNetworkGatewayConnectionType.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof VirtualNetworkGatewayConnectionType)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        VirtualNetworkGatewayConnectionType rhs = (VirtualNetworkGatewayConnectionType) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known VirtualNetworkGatewayConnectionType values
+     */
+    public static Collection<VirtualNetworkGatewayConnectionType> values() {
+        return values(VirtualNetworkGatewayConnectionType.class);
     }
 }

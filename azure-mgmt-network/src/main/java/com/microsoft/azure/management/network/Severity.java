@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for Severity.
  */
-public final class Severity {
+public final class Severity extends ExpandableStringEnum<Severity> {
     /** Static value Error for Severity. */
-    public static final Severity ERROR = new Severity("Error");
+    public static final Severity ERROR = fromString("Error");
 
     /** Static value Warning for Severity. */
-    public static final Severity WARNING = new Severity("Warning");
-
-    private String value;
+    public static final Severity WARNING = fromString("Warning");
 
     /**
-     * Creates a custom value for Severity.
-     * @param value the custom value
+     * Creates or finds a Severity from its string representation.
+     * @param name a name to look for
+     * @return the corresponding Severity
      */
-    public Severity(String value) {
-        this.value = value;
+    @JsonCreator
+    public static Severity fromString(String name) {
+        return fromString(name, Severity.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Severity)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        Severity rhs = (Severity) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known Severity values
+     */
+    public static Collection<Severity> values() {
+        return values(Severity.class);
     }
 }

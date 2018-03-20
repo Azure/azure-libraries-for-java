@@ -8,61 +8,43 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ApplicationGatewaySkuName.
  */
-public final class ApplicationGatewaySkuName {
+public final class ApplicationGatewaySkuName extends ExpandableStringEnum<ApplicationGatewaySkuName> {
     /** Static value Standard_Small for ApplicationGatewaySkuName. */
-    public static final ApplicationGatewaySkuName STANDARD_SMALL = new ApplicationGatewaySkuName("Standard_Small");
+    public static final ApplicationGatewaySkuName STANDARD_SMALL = fromString("Standard_Small");
 
     /** Static value Standard_Medium for ApplicationGatewaySkuName. */
-    public static final ApplicationGatewaySkuName STANDARD_MEDIUM = new ApplicationGatewaySkuName("Standard_Medium");
+    public static final ApplicationGatewaySkuName STANDARD_MEDIUM = fromString("Standard_Medium");
 
     /** Static value Standard_Large for ApplicationGatewaySkuName. */
-    public static final ApplicationGatewaySkuName STANDARD_LARGE = new ApplicationGatewaySkuName("Standard_Large");
+    public static final ApplicationGatewaySkuName STANDARD_LARGE = fromString("Standard_Large");
 
     /** Static value WAF_Medium for ApplicationGatewaySkuName. */
-    public static final ApplicationGatewaySkuName WAF_MEDIUM = new ApplicationGatewaySkuName("WAF_Medium");
+    public static final ApplicationGatewaySkuName WAF_MEDIUM = fromString("WAF_Medium");
 
     /** Static value WAF_Large for ApplicationGatewaySkuName. */
-    public static final ApplicationGatewaySkuName WAF_LARGE = new ApplicationGatewaySkuName("WAF_Large");
-
-    private String value;
+    public static final ApplicationGatewaySkuName WAF_LARGE = fromString("WAF_Large");
 
     /**
-     * Creates a custom value for ApplicationGatewaySkuName.
-     * @param value the custom value
+     * Creates or finds a ApplicationGatewaySkuName from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ApplicationGatewaySkuName
      */
-    public ApplicationGatewaySkuName(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ApplicationGatewaySkuName fromString(String name) {
+        return fromString(name, ApplicationGatewaySkuName.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ApplicationGatewaySkuName)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ApplicationGatewaySkuName rhs = (ApplicationGatewaySkuName) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ApplicationGatewaySkuName values
+     */
+    public static Collection<ApplicationGatewaySkuName> values() {
+        return values(ApplicationGatewaySkuName.class);
     }
 }

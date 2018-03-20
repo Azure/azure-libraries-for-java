@@ -37,13 +37,13 @@ public class MetricCriteria {
      * the criteria operator.
      */
     @JsonProperty(value = "operator", required = true)
-    private String operator;
+    private Object operator;
 
     /**
-     * the criteria time aggregation value.
+     * the criteria time aggregation types.
      */
     @JsonProperty(value = "timeAggregation", required = true)
-    private String timeAggregation;
+    private Object timeAggregation;
 
     /**
      * the criteria threshold value that activates the alert.
@@ -122,7 +122,7 @@ public class MetricCriteria {
      *
      * @return the operator value
      */
-    public String operator() {
+    public Object operator() {
         return this.operator;
     }
 
@@ -132,7 +132,7 @@ public class MetricCriteria {
      * @param operator the operator value to set
      * @return the MetricCriteria object itself.
      */
-    public MetricCriteria withOperator(String operator) {
+    public MetricCriteria withOperator(Object operator) {
         this.operator = operator;
         return this;
     }
@@ -142,7 +142,7 @@ public class MetricCriteria {
      *
      * @return the timeAggregation value
      */
-    public String timeAggregation() {
+    public Object timeAggregation() {
         return this.timeAggregation;
     }
 
@@ -152,7 +152,7 @@ public class MetricCriteria {
      * @param timeAggregation the timeAggregation value to set
      * @return the MetricCriteria object itself.
      */
-    public MetricCriteria withTimeAggregation(String timeAggregation) {
+    public MetricCriteria withTimeAggregation(Object timeAggregation) {
         this.timeAggregation = timeAggregation;
         return this;
     }

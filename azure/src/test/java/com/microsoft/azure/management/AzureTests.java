@@ -981,7 +981,7 @@ public class AzureTests extends TestBase {
 
     @Test
     public void testKubernetesCluster() throws Exception {
-        if (!isPlaybackMode()) {
+        if (isPlaybackMode()) {
             new TestKubernetesCluster()
                 .runTest(azure.kubernetesClusters(), azure.resourceGroups());
         }

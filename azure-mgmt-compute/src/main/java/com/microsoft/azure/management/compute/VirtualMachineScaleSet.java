@@ -286,6 +286,12 @@ public interface VirtualMachineScaleSet extends
     Map<String, VirtualMachineScaleSetExtension> extensions();
 
     /**
+     * @return the priority of virtual machines in the scale set.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    VirtualMachinePriorityTypes virtualMachinePriority();
+
+    /**
      * Gets a network interface associated with a virtual machine scale set instance.
      *
      * @param instanceId the virtual machine scale set vm instance ID
@@ -1490,6 +1496,21 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of the virtual machine scale set definition allowing to specify priority for vms in the scale-set.
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithVMPriority {
+            /**
+             * Specifies the priority of the virtual machines in the scale set.
+             *
+             * @param priority the priority
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_8_0)
+            WithCreate withVirtualMachinePriority(VirtualMachinePriorityTypes priority);
+        }
+
+        /**
          * The stage of a virtual machine scale set definition containing all the required inputs for the resource
          * to be created, but also allowing for any other optional settings
          * to be specified.
@@ -1507,6 +1528,7 @@ public interface VirtualMachineScaleSet extends
                 DefinitionStages.WithSystemAssignedManagedServiceIdentity,
                 DefinitionStages.WithUserAssignedManagedServiceIdentity,
                 DefinitionStages.WithBootDiagnostics,
+                DefinitionStages.WithVMPriority,
                 Resource.DefinitionWithTags<VirtualMachineScaleSet.DefinitionStages.WithCreate> {
         }
     }

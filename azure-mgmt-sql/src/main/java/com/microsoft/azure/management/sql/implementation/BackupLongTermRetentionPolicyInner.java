@@ -8,115 +8,80 @@
 
 package com.microsoft.azure.management.sql.implementation;
 
+import com.microsoft.azure.management.sql.BackupLongTermRetentionPolicyState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * A long term retention policy.
+ * A backup long term retention policy.
  */
 @JsonFlatten
 public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
     /**
-     * The weekly retention policy for an LTR backup in an ISO 8601 format.
+     * The geo-location where the resource lives.
      */
-    @JsonProperty(value = "properties.weeklyRetention")
-    private String weeklyRetention;
+    @JsonProperty(value = "location", access = JsonProperty.Access.WRITE_ONLY)
+    private String location;
 
     /**
-     * The montly retention policy for an LTR backup in an ISO 8601 format.
+     * The status of the backup long term retention policy. Possible values
+     * include: 'Disabled', 'Enabled'.
      */
-    @JsonProperty(value = "properties.monthlyRetention")
-    private String monthlyRetention;
+    @JsonProperty(value = "properties.state", required = true)
+    private BackupLongTermRetentionPolicyState state;
 
     /**
-     * The yearly retention policy for an LTR backup in an ISO 8601 format.
+     * The azure recovery services backup protection policy resource id.
      */
-    @JsonProperty(value = "properties.yearlyRetention")
-    private String yearlyRetention;
+    @JsonProperty(value = "properties.recoveryServicesBackupPolicyResourceId", required = true)
+    private String recoveryServicesBackupPolicyResourceId;
 
     /**
-     * The week of year to take the yearly backup in an ISO 8601 format.
-     */
-    @JsonProperty(value = "properties.weekOfYear")
-    private Integer weekOfYear;
-
-    /**
-     * Get the weeklyRetention value.
+     * Get the location value.
      *
-     * @return the weeklyRetention value
+     * @return the location value
      */
-    public String weeklyRetention() {
-        return this.weeklyRetention;
+    public String location() {
+        return this.location;
     }
 
     /**
-     * Set the weeklyRetention value.
+     * Get the state value.
      *
-     * @param weeklyRetention the weeklyRetention value to set
+     * @return the state value
+     */
+    public BackupLongTermRetentionPolicyState state() {
+        return this.state;
+    }
+
+    /**
+     * Set the state value.
+     *
+     * @param state the state value to set
      * @return the BackupLongTermRetentionPolicyInner object itself.
      */
-    public BackupLongTermRetentionPolicyInner withWeeklyRetention(String weeklyRetention) {
-        this.weeklyRetention = weeklyRetention;
+    public BackupLongTermRetentionPolicyInner withState(BackupLongTermRetentionPolicyState state) {
+        this.state = state;
         return this;
     }
 
     /**
-     * Get the monthlyRetention value.
+     * Get the recoveryServicesBackupPolicyResourceId value.
      *
-     * @return the monthlyRetention value
+     * @return the recoveryServicesBackupPolicyResourceId value
      */
-    public String monthlyRetention() {
-        return this.monthlyRetention;
+    public String recoveryServicesBackupPolicyResourceId() {
+        return this.recoveryServicesBackupPolicyResourceId;
     }
 
     /**
-     * Set the monthlyRetention value.
+     * Set the recoveryServicesBackupPolicyResourceId value.
      *
-     * @param monthlyRetention the monthlyRetention value to set
+     * @param recoveryServicesBackupPolicyResourceId the recoveryServicesBackupPolicyResourceId value to set
      * @return the BackupLongTermRetentionPolicyInner object itself.
      */
-    public BackupLongTermRetentionPolicyInner withMonthlyRetention(String monthlyRetention) {
-        this.monthlyRetention = monthlyRetention;
-        return this;
-    }
-
-    /**
-     * Get the yearlyRetention value.
-     *
-     * @return the yearlyRetention value
-     */
-    public String yearlyRetention() {
-        return this.yearlyRetention;
-    }
-
-    /**
-     * Set the yearlyRetention value.
-     *
-     * @param yearlyRetention the yearlyRetention value to set
-     * @return the BackupLongTermRetentionPolicyInner object itself.
-     */
-    public BackupLongTermRetentionPolicyInner withYearlyRetention(String yearlyRetention) {
-        this.yearlyRetention = yearlyRetention;
-        return this;
-    }
-
-    /**
-     * Get the weekOfYear value.
-     *
-     * @return the weekOfYear value
-     */
-    public Integer weekOfYear() {
-        return this.weekOfYear;
-    }
-
-    /**
-     * Set the weekOfYear value.
-     *
-     * @param weekOfYear the weekOfYear value to set
-     * @return the BackupLongTermRetentionPolicyInner object itself.
-     */
-    public BackupLongTermRetentionPolicyInner withWeekOfYear(Integer weekOfYear) {
-        this.weekOfYear = weekOfYear;
+    public BackupLongTermRetentionPolicyInner withRecoveryServicesBackupPolicyResourceId(String recoveryServicesBackupPolicyResourceId) {
+        this.recoveryServicesBackupPolicyResourceId = recoveryServicesBackupPolicyResourceId;
         return this;
     }
 

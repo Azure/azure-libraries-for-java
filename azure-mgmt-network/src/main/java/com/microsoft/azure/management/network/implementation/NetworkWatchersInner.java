@@ -17,7 +17,7 @@ import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.network.FlowLogStatusParameters;
 import com.microsoft.azure.management.network.QueryTroubleshootingParameters;
 import com.microsoft.azure.management.network.SecurityGroupViewParameters;
-import com.microsoft.azure.management.network.TopologyParameters;
+import com.microsoft.azure.management.network.TagsObject;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -26,12 +26,14 @@ import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.HTTP;
+import retrofit2.http.PATCH;
 import retrofit2.http.Path;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -82,6 +84,10 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.NetworkWatchers updateTags" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}")
+        Observable<Response<ResponseBody>> updateTags(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.NetworkWatchers listByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers")
         Observable<Response<ResponseBody>> listByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -92,7 +98,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.NetworkWatchers getTopology" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/topology")
-        Observable<Response<ResponseBody>> getTopology(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TopologyParameters parameters, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> getTopology(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("subscriptionId") String subscriptionId, @Body TopologyParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.NetworkWatchers verifyIPFlow" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify")
@@ -157,6 +163,22 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.NetworkWatchers beginCheckConnectivity" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck")
         Observable<Response<ResponseBody>> beginCheckConnectivity(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("subscriptionId") String subscriptionId, @Body ConnectivityParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.NetworkWatchers getAzureReachabilityReport" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/azureReachabilityReport")
+        Observable<Response<ResponseBody>> getAzureReachabilityReport(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("subscriptionId") String subscriptionId, @Body AzureReachabilityReportParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.NetworkWatchers beginGetAzureReachabilityReport" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/azureReachabilityReport")
+        Observable<Response<ResponseBody>> beginGetAzureReachabilityReport(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("subscriptionId") String subscriptionId, @Body AzureReachabilityReportParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.NetworkWatchers listAvailableProviders" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/availableProvidersList")
+        Observable<Response<ResponseBody>> listAvailableProviders(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("subscriptionId") String subscriptionId, @Body AvailableProvidersListParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.NetworkWatchers beginListAvailableProviders" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/availableProvidersList")
+        Observable<Response<ResponseBody>> beginListAvailableProviders(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("subscriptionId") String subscriptionId, @Body AvailableProvidersListParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
@@ -230,7 +252,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         return service.createOrUpdate(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkWatcherInner>>>() {
                 @Override
@@ -315,7 +337,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         return service.getByResourceGroup(resourceGroupName, networkWatcherName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkWatcherInner>>>() {
                 @Override
@@ -398,7 +420,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, networkWatcherName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -464,7 +486,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         return service.beginDelete(resourceGroupName, networkWatcherName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -483,6 +505,177 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Updates a network watcher tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the NetworkWatcherInner object if successful.
+     */
+    public NetworkWatcherInner updateTags(String resourceGroupName, String networkWatcherName) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, networkWatcherName).toBlocking().single().body();
+    }
+
+    /**
+     * Updates a network watcher tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<NetworkWatcherInner> updateTagsAsync(String resourceGroupName, String networkWatcherName, final ServiceCallback<NetworkWatcherInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, networkWatcherName), serviceCallback);
+    }
+
+    /**
+     * Updates a network watcher tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NetworkWatcherInner object
+     */
+    public Observable<NetworkWatcherInner> updateTagsAsync(String resourceGroupName, String networkWatcherName) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, networkWatcherName).map(new Func1<ServiceResponse<NetworkWatcherInner>, NetworkWatcherInner>() {
+            @Override
+            public NetworkWatcherInner call(ServiceResponse<NetworkWatcherInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Updates a network watcher tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NetworkWatcherInner object
+     */
+    public Observable<ServiceResponse<NetworkWatcherInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String networkWatcherName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (networkWatcherName == null) {
+            throw new IllegalArgumentException("Parameter networkWatcherName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-01-01";
+        final Map<String, String> tags = null;
+        TagsObject parameters = new TagsObject();
+        parameters.withTags(null);
+        return service.updateTags(resourceGroupName, networkWatcherName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkWatcherInner>>>() {
+                @Override
+                public Observable<ServiceResponse<NetworkWatcherInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<NetworkWatcherInner> clientResponse = updateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Updates a network watcher tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the NetworkWatcherInner object if successful.
+     */
+    public NetworkWatcherInner updateTags(String resourceGroupName, String networkWatcherName, Map<String, String> tags) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, networkWatcherName, tags).toBlocking().single().body();
+    }
+
+    /**
+     * Updates a network watcher tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @param tags Resource tags.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<NetworkWatcherInner> updateTagsAsync(String resourceGroupName, String networkWatcherName, Map<String, String> tags, final ServiceCallback<NetworkWatcherInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, networkWatcherName, tags), serviceCallback);
+    }
+
+    /**
+     * Updates a network watcher tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NetworkWatcherInner object
+     */
+    public Observable<NetworkWatcherInner> updateTagsAsync(String resourceGroupName, String networkWatcherName, Map<String, String> tags) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, networkWatcherName, tags).map(new Func1<ServiceResponse<NetworkWatcherInner>, NetworkWatcherInner>() {
+            @Override
+            public NetworkWatcherInner call(ServiceResponse<NetworkWatcherInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Updates a network watcher tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NetworkWatcherInner object
+     */
+    public Observable<ServiceResponse<NetworkWatcherInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, Map<String, String> tags) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (networkWatcherName == null) {
+            throw new IllegalArgumentException("Parameter networkWatcherName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        Validator.validate(tags);
+        final String apiVersion = "2018-01-01";
+        TagsObject parameters = new TagsObject();
+        parameters.withTags(tags);
+        return service.updateTags(resourceGroupName, networkWatcherName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkWatcherInner>>>() {
+                @Override
+                public Observable<ServiceResponse<NetworkWatcherInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<NetworkWatcherInner> clientResponse = updateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<NetworkWatcherInner> updateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<NetworkWatcherInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<NetworkWatcherInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -546,7 +739,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<NetworkWatcherInner>>>>() {
                 @Override
@@ -621,7 +814,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<NetworkWatcherInner>>>>() {
                 @Override
@@ -649,14 +842,14 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
      *
      * @param resourceGroupName The name of the resource group.
      * @param networkWatcherName The name of the network watcher.
-     * @param targetResourceGroupName The name of the target resource group to perform topology on.
+     * @param parameters Parameters that define the representation of topology.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the TopologyInner object if successful.
      */
-    public TopologyInner getTopology(String resourceGroupName, String networkWatcherName, String targetResourceGroupName) {
-        return getTopologyWithServiceResponseAsync(resourceGroupName, networkWatcherName, targetResourceGroupName).toBlocking().single().body();
+    public TopologyInner getTopology(String resourceGroupName, String networkWatcherName, TopologyParametersInner parameters) {
+        return getTopologyWithServiceResponseAsync(resourceGroupName, networkWatcherName, parameters).toBlocking().single().body();
     }
 
     /**
@@ -664,13 +857,13 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
      *
      * @param resourceGroupName The name of the resource group.
      * @param networkWatcherName The name of the network watcher.
-     * @param targetResourceGroupName The name of the target resource group to perform topology on.
+     * @param parameters Parameters that define the representation of topology.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<TopologyInner> getTopologyAsync(String resourceGroupName, String networkWatcherName, String targetResourceGroupName, final ServiceCallback<TopologyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getTopologyWithServiceResponseAsync(resourceGroupName, networkWatcherName, targetResourceGroupName), serviceCallback);
+    public ServiceFuture<TopologyInner> getTopologyAsync(String resourceGroupName, String networkWatcherName, TopologyParametersInner parameters, final ServiceCallback<TopologyInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getTopologyWithServiceResponseAsync(resourceGroupName, networkWatcherName, parameters), serviceCallback);
     }
 
     /**
@@ -678,12 +871,12 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
      *
      * @param resourceGroupName The name of the resource group.
      * @param networkWatcherName The name of the network watcher.
-     * @param targetResourceGroupName The name of the target resource group to perform topology on.
+     * @param parameters Parameters that define the representation of topology.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the TopologyInner object
      */
-    public Observable<TopologyInner> getTopologyAsync(String resourceGroupName, String networkWatcherName, String targetResourceGroupName) {
-        return getTopologyWithServiceResponseAsync(resourceGroupName, networkWatcherName, targetResourceGroupName).map(new Func1<ServiceResponse<TopologyInner>, TopologyInner>() {
+    public Observable<TopologyInner> getTopologyAsync(String resourceGroupName, String networkWatcherName, TopologyParametersInner parameters) {
+        return getTopologyWithServiceResponseAsync(resourceGroupName, networkWatcherName, parameters).map(new Func1<ServiceResponse<TopologyInner>, TopologyInner>() {
             @Override
             public TopologyInner call(ServiceResponse<TopologyInner> response) {
                 return response.body();
@@ -696,11 +889,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
      *
      * @param resourceGroupName The name of the resource group.
      * @param networkWatcherName The name of the network watcher.
-     * @param targetResourceGroupName The name of the target resource group to perform topology on.
+     * @param parameters Parameters that define the representation of topology.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the TopologyInner object
      */
-    public Observable<ServiceResponse<TopologyInner>> getTopologyWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, String targetResourceGroupName) {
+    public Observable<ServiceResponse<TopologyInner>> getTopologyWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, TopologyParametersInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -710,13 +903,12 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (targetResourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter targetResourceGroupName is required and cannot be null.");
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
-        TopologyParameters parameters = new TopologyParameters();
-        parameters.withTargetResourceGroupName(targetResourceGroupName);
-        return service.getTopology(resourceGroupName, networkWatcherName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+        Validator.validate(parameters);
+        final String apiVersion = "2018-01-01";
+        return service.getTopology(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<TopologyInner>>>() {
                 @Override
                 public Observable<ServiceResponse<TopologyInner>> call(Response<ResponseBody> response) {
@@ -807,7 +999,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         Observable<Response<ResponseBody>> observable = service.verifyIPFlow(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<VerificationIPFlowResultInner>() { }.getType());
     }
@@ -882,7 +1074,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         return service.beginVerifyIPFlow(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VerificationIPFlowResultInner>>>() {
                 @Override
@@ -975,7 +1167,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         Observable<Response<ResponseBody>> observable = service.getNextHop(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<NextHopResultInner>() { }.getType());
     }
@@ -1050,7 +1242,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         return service.beginGetNextHop(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NextHopResultInner>>>() {
                 @Override
@@ -1142,7 +1334,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         if (targetResourceId == null) {
             throw new IllegalArgumentException("Parameter targetResourceId is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         SecurityGroupViewParameters parameters = new SecurityGroupViewParameters();
         parameters.withTargetResourceId(targetResourceId);
         Observable<Response<ResponseBody>> observable = service.getVMSecurityRules(resourceGroupName, networkWatcherName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
@@ -1218,7 +1410,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         if (targetResourceId == null) {
             throw new IllegalArgumentException("Parameter targetResourceId is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         SecurityGroupViewParameters parameters = new SecurityGroupViewParameters();
         parameters.withTargetResourceId(targetResourceId);
         return service.beginGetVMSecurityRules(resourceGroupName, networkWatcherName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -1313,7 +1505,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         Observable<Response<ResponseBody>> observable = service.getTroubleshooting(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<TroubleshootingResultInner>() { }.getType());
     }
@@ -1388,7 +1580,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         return service.beginGetTroubleshooting(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<TroubleshootingResultInner>>>() {
                 @Override
@@ -1480,7 +1672,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         if (targetResourceId == null) {
             throw new IllegalArgumentException("Parameter targetResourceId is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         QueryTroubleshootingParameters parameters = new QueryTroubleshootingParameters();
         parameters.withTargetResourceId(targetResourceId);
         Observable<Response<ResponseBody>> observable = service.getTroubleshootingResult(resourceGroupName, networkWatcherName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
@@ -1556,7 +1748,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         if (targetResourceId == null) {
             throw new IllegalArgumentException("Parameter targetResourceId is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         QueryTroubleshootingParameters parameters = new QueryTroubleshootingParameters();
         parameters.withTargetResourceId(targetResourceId);
         return service.beginGetTroubleshootingResult(resourceGroupName, networkWatcherName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -1582,7 +1774,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1597,7 +1789,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1611,7 +1803,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1629,7 +1821,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1651,13 +1843,13 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         Observable<Response<ResponseBody>> observable = service.setFlowLogConfiguration(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<FlowLogInformationInner>() { }.getType());
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1672,7 +1864,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1686,7 +1878,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1704,7 +1896,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1726,7 +1918,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         return service.beginSetFlowLogConfiguration(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FlowLogInformationInner>>>() {
                 @Override
@@ -1750,11 +1942,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logging and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -1765,11 +1957,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logging and traffic analytics (optional) status.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -1779,11 +1971,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logging and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -1797,11 +1989,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logging and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -1818,7 +2010,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         if (targetResourceId == null) {
             throw new IllegalArgumentException("Parameter targetResourceId is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         FlowLogStatusParameters parameters = new FlowLogStatusParameters();
         parameters.withTargetResourceId(targetResourceId);
         Observable<Response<ResponseBody>> observable = service.getFlowLogStatus(resourceGroupName, networkWatcherName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
@@ -1826,11 +2018,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logging and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -1841,11 +2033,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logging and traffic analytics (optional) status.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -1855,11 +2047,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logging and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FlowLogInformationInner object
      */
@@ -1873,11 +2065,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logging and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FlowLogInformationInner object
      */
@@ -1894,7 +2086,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         if (targetResourceId == null) {
             throw new IllegalArgumentException("Parameter targetResourceId is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         FlowLogStatusParameters parameters = new FlowLogStatusParameters();
         parameters.withTargetResourceId(targetResourceId);
         return service.beginGetFlowLogStatus(resourceGroupName, networkWatcherName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -1989,7 +2181,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         Observable<Response<ResponseBody>> observable = service.checkConnectivity(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ConnectivityInformationInner>() { }.getType());
     }
@@ -2064,7 +2256,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-01-01";
         return service.beginCheckConnectivity(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ConnectivityInformationInner>>>() {
                 @Override
@@ -2083,6 +2275,342 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
         return this.client.restClient().responseBuilderFactory().<ConnectivityInformationInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<ConnectivityInformationInner>() { }.getType())
                 .register(202, new TypeToken<ConnectivityInformationInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets the relative latency score for internet service providers from a specified location to Azure regions.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that determine Azure reachability report configuration.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the AzureReachabilityReportInner object if successful.
+     */
+    public AzureReachabilityReportInner getAzureReachabilityReport(String resourceGroupName, String networkWatcherName, AzureReachabilityReportParametersInner parameters) {
+        return getAzureReachabilityReportWithServiceResponseAsync(resourceGroupName, networkWatcherName, parameters).toBlocking().last().body();
+    }
+
+    /**
+     * Gets the relative latency score for internet service providers from a specified location to Azure regions.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that determine Azure reachability report configuration.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<AzureReachabilityReportInner> getAzureReachabilityReportAsync(String resourceGroupName, String networkWatcherName, AzureReachabilityReportParametersInner parameters, final ServiceCallback<AzureReachabilityReportInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getAzureReachabilityReportWithServiceResponseAsync(resourceGroupName, networkWatcherName, parameters), serviceCallback);
+    }
+
+    /**
+     * Gets the relative latency score for internet service providers from a specified location to Azure regions.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that determine Azure reachability report configuration.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<AzureReachabilityReportInner> getAzureReachabilityReportAsync(String resourceGroupName, String networkWatcherName, AzureReachabilityReportParametersInner parameters) {
+        return getAzureReachabilityReportWithServiceResponseAsync(resourceGroupName, networkWatcherName, parameters).map(new Func1<ServiceResponse<AzureReachabilityReportInner>, AzureReachabilityReportInner>() {
+            @Override
+            public AzureReachabilityReportInner call(ServiceResponse<AzureReachabilityReportInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets the relative latency score for internet service providers from a specified location to Azure regions.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that determine Azure reachability report configuration.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<AzureReachabilityReportInner>> getAzureReachabilityReportWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, AzureReachabilityReportParametersInner parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (networkWatcherName == null) {
+            throw new IllegalArgumentException("Parameter networkWatcherName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2018-01-01";
+        Observable<Response<ResponseBody>> observable = service.getAzureReachabilityReport(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<AzureReachabilityReportInner>() { }.getType());
+    }
+
+    /**
+     * Gets the relative latency score for internet service providers from a specified location to Azure regions.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that determine Azure reachability report configuration.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the AzureReachabilityReportInner object if successful.
+     */
+    public AzureReachabilityReportInner beginGetAzureReachabilityReport(String resourceGroupName, String networkWatcherName, AzureReachabilityReportParametersInner parameters) {
+        return beginGetAzureReachabilityReportWithServiceResponseAsync(resourceGroupName, networkWatcherName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Gets the relative latency score for internet service providers from a specified location to Azure regions.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that determine Azure reachability report configuration.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<AzureReachabilityReportInner> beginGetAzureReachabilityReportAsync(String resourceGroupName, String networkWatcherName, AzureReachabilityReportParametersInner parameters, final ServiceCallback<AzureReachabilityReportInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginGetAzureReachabilityReportWithServiceResponseAsync(resourceGroupName, networkWatcherName, parameters), serviceCallback);
+    }
+
+    /**
+     * Gets the relative latency score for internet service providers from a specified location to Azure regions.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that determine Azure reachability report configuration.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the AzureReachabilityReportInner object
+     */
+    public Observable<AzureReachabilityReportInner> beginGetAzureReachabilityReportAsync(String resourceGroupName, String networkWatcherName, AzureReachabilityReportParametersInner parameters) {
+        return beginGetAzureReachabilityReportWithServiceResponseAsync(resourceGroupName, networkWatcherName, parameters).map(new Func1<ServiceResponse<AzureReachabilityReportInner>, AzureReachabilityReportInner>() {
+            @Override
+            public AzureReachabilityReportInner call(ServiceResponse<AzureReachabilityReportInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets the relative latency score for internet service providers from a specified location to Azure regions.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that determine Azure reachability report configuration.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the AzureReachabilityReportInner object
+     */
+    public Observable<ServiceResponse<AzureReachabilityReportInner>> beginGetAzureReachabilityReportWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, AzureReachabilityReportParametersInner parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (networkWatcherName == null) {
+            throw new IllegalArgumentException("Parameter networkWatcherName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2018-01-01";
+        return service.beginGetAzureReachabilityReport(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AzureReachabilityReportInner>>>() {
+                @Override
+                public Observable<ServiceResponse<AzureReachabilityReportInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<AzureReachabilityReportInner> clientResponse = beginGetAzureReachabilityReportDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<AzureReachabilityReportInner> beginGetAzureReachabilityReportDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AzureReachabilityReportInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<AzureReachabilityReportInner>() { }.getType())
+                .register(202, new TypeToken<AzureReachabilityReportInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists all available internet service providers for a specified Azure region.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that scope the list of available providers.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the AvailableProvidersListInner object if successful.
+     */
+    public AvailableProvidersListInner listAvailableProviders(String resourceGroupName, String networkWatcherName, AvailableProvidersListParametersInner parameters) {
+        return listAvailableProvidersWithServiceResponseAsync(resourceGroupName, networkWatcherName, parameters).toBlocking().last().body();
+    }
+
+    /**
+     * Lists all available internet service providers for a specified Azure region.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that scope the list of available providers.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<AvailableProvidersListInner> listAvailableProvidersAsync(String resourceGroupName, String networkWatcherName, AvailableProvidersListParametersInner parameters, final ServiceCallback<AvailableProvidersListInner> serviceCallback) {
+        return ServiceFuture.fromResponse(listAvailableProvidersWithServiceResponseAsync(resourceGroupName, networkWatcherName, parameters), serviceCallback);
+    }
+
+    /**
+     * Lists all available internet service providers for a specified Azure region.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that scope the list of available providers.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<AvailableProvidersListInner> listAvailableProvidersAsync(String resourceGroupName, String networkWatcherName, AvailableProvidersListParametersInner parameters) {
+        return listAvailableProvidersWithServiceResponseAsync(resourceGroupName, networkWatcherName, parameters).map(new Func1<ServiceResponse<AvailableProvidersListInner>, AvailableProvidersListInner>() {
+            @Override
+            public AvailableProvidersListInner call(ServiceResponse<AvailableProvidersListInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Lists all available internet service providers for a specified Azure region.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that scope the list of available providers.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<AvailableProvidersListInner>> listAvailableProvidersWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, AvailableProvidersListParametersInner parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (networkWatcherName == null) {
+            throw new IllegalArgumentException("Parameter networkWatcherName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2018-01-01";
+        Observable<Response<ResponseBody>> observable = service.listAvailableProviders(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<AvailableProvidersListInner>() { }.getType());
+    }
+
+    /**
+     * Lists all available internet service providers for a specified Azure region.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that scope the list of available providers.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the AvailableProvidersListInner object if successful.
+     */
+    public AvailableProvidersListInner beginListAvailableProviders(String resourceGroupName, String networkWatcherName, AvailableProvidersListParametersInner parameters) {
+        return beginListAvailableProvidersWithServiceResponseAsync(resourceGroupName, networkWatcherName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Lists all available internet service providers for a specified Azure region.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that scope the list of available providers.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<AvailableProvidersListInner> beginListAvailableProvidersAsync(String resourceGroupName, String networkWatcherName, AvailableProvidersListParametersInner parameters, final ServiceCallback<AvailableProvidersListInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginListAvailableProvidersWithServiceResponseAsync(resourceGroupName, networkWatcherName, parameters), serviceCallback);
+    }
+
+    /**
+     * Lists all available internet service providers for a specified Azure region.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that scope the list of available providers.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the AvailableProvidersListInner object
+     */
+    public Observable<AvailableProvidersListInner> beginListAvailableProvidersAsync(String resourceGroupName, String networkWatcherName, AvailableProvidersListParametersInner parameters) {
+        return beginListAvailableProvidersWithServiceResponseAsync(resourceGroupName, networkWatcherName, parameters).map(new Func1<ServiceResponse<AvailableProvidersListInner>, AvailableProvidersListInner>() {
+            @Override
+            public AvailableProvidersListInner call(ServiceResponse<AvailableProvidersListInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Lists all available internet service providers for a specified Azure region.
+     *
+     * @param resourceGroupName The name of the network watcher resource group.
+     * @param networkWatcherName The name of the network watcher resource.
+     * @param parameters Parameters that scope the list of available providers.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the AvailableProvidersListInner object
+     */
+    public Observable<ServiceResponse<AvailableProvidersListInner>> beginListAvailableProvidersWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, AvailableProvidersListParametersInner parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (networkWatcherName == null) {
+            throw new IllegalArgumentException("Parameter networkWatcherName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2018-01-01";
+        return service.beginListAvailableProviders(resourceGroupName, networkWatcherName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AvailableProvidersListInner>>>() {
+                @Override
+                public Observable<ServiceResponse<AvailableProvidersListInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<AvailableProvidersListInner> clientResponse = beginListAvailableProvidersDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<AvailableProvidersListInner> beginListAvailableProvidersDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AvailableProvidersListInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<AvailableProvidersListInner>() { }.getType())
+                .register(202, new TypeToken<AvailableProvidersListInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

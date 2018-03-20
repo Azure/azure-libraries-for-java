@@ -9,11 +9,13 @@
 package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.network.RetentionPolicyParameters;
+import com.microsoft.azure.management.network.TrafficAnalyticsConfigurationProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Information on the configuration of flow log.
+ * Information on the configuration of flow log and traffic analytics
+ * (optional).
  */
 @JsonFlatten
 public class FlowLogInformationInner {
@@ -40,6 +42,12 @@ public class FlowLogInformationInner {
      */
     @JsonProperty(value = "properties.retentionPolicy")
     private RetentionPolicyParameters retentionPolicy;
+
+    /**
+     * The networkWatcherFlowAnalyticsConfiguration property.
+     */
+    @JsonProperty(value = "flowAnalyticsConfiguration.networkWatcherFlowAnalyticsConfiguration", required = true)
+    private TrafficAnalyticsConfigurationProperties networkWatcherFlowAnalyticsConfiguration;
 
     /**
      * Get the targetResourceId value.
@@ -118,6 +126,26 @@ public class FlowLogInformationInner {
      */
     public FlowLogInformationInner withRetentionPolicy(RetentionPolicyParameters retentionPolicy) {
         this.retentionPolicy = retentionPolicy;
+        return this;
+    }
+
+    /**
+     * Get the networkWatcherFlowAnalyticsConfiguration value.
+     *
+     * @return the networkWatcherFlowAnalyticsConfiguration value
+     */
+    public TrafficAnalyticsConfigurationProperties networkWatcherFlowAnalyticsConfiguration() {
+        return this.networkWatcherFlowAnalyticsConfiguration;
+    }
+
+    /**
+     * Set the networkWatcherFlowAnalyticsConfiguration value.
+     *
+     * @param networkWatcherFlowAnalyticsConfiguration the networkWatcherFlowAnalyticsConfiguration value to set
+     * @return the FlowLogInformationInner object itself.
+     */
+    public FlowLogInformationInner withNetworkWatcherFlowAnalyticsConfiguration(TrafficAnalyticsConfigurationProperties networkWatcherFlowAnalyticsConfiguration) {
+        this.networkWatcherFlowAnalyticsConfiguration = networkWatcherFlowAnalyticsConfiguration;
         return this;
     }
 

@@ -20,6 +20,24 @@ import com.microsoft.rest.serializer.JsonFlatten;
 @JsonFlatten
 public class PacketCaptureInner {
     /**
+     * Name of the packet capture.
+     */
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
+    private String name;
+
+    /**
+     * ID of the packet capture.
+     */
+    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
+    private String id;
+
+    /**
+     * Packet capture type.
+     */
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
+    private String type;
+
+    /**
      * The ID of the targeted resource, only VM is currently supported.
      */
     @JsonProperty(value = "properties.target", required = true)
@@ -54,6 +72,33 @@ public class PacketCaptureInner {
      */
     @JsonProperty(value = "properties.filters")
     private List<PacketCaptureFilter> filters;
+
+    /**
+     * Get the name value.
+     *
+     * @return the name value
+     */
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Get the id value.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Get the type value.
+     *
+     * @return the type value
+     */
+    public String type() {
+        return this.type;
+    }
 
     /**
      * Get the target value.

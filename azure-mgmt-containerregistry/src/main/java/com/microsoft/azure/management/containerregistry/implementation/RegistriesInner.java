@@ -69,6 +69,14 @@ public class RegistriesInner implements InnerSupportsGet<RegistryInner>, InnerSu
      * used by Retrofit to perform actually REST calls.
      */
     interface RegistriesService {
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerregistry.Registries copyImageFrom" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/copyImageFrom")
+        Observable<Response<ResponseBody>> copyImageFrom(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("registryName") String registryName, @Query("api-version") String apiVersion, @Body ImageCopyFromModelInner imageCopyParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerregistry.Registries beginCopyImageFrom" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/copyImageFrom")
+        Observable<Response<ResponseBody>> beginCopyImageFrom(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("registryName") String registryName, @Query("api-version") String apiVersion, @Body ImageCopyFromModelInner imageCopyParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerregistry.Registries checkNameAvailability" })
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/checkNameAvailability")
         Observable<Response<ResponseBody>> checkNameAvailability(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body RegistryNameCheckRequest registryNameCheckRequest, @Header("User-Agent") String userAgent);
@@ -129,6 +137,176 @@ public class RegistriesInner implements InnerSupportsGet<RegistryInner>, InnerSu
         @GET
         Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+    }
+
+    /**
+     * Copies an image to this registry from the specified registry.
+     *
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param imageCopyParameters The parameters specifying the image to copy and the source registry.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void copyImageFrom(String resourceGroupName, String registryName, ImageCopyFromModelInner imageCopyParameters) {
+        copyImageFromWithServiceResponseAsync(resourceGroupName, registryName, imageCopyParameters).toBlocking().last().body();
+    }
+
+    /**
+     * Copies an image to this registry from the specified registry.
+     *
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param imageCopyParameters The parameters specifying the image to copy and the source registry.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> copyImageFromAsync(String resourceGroupName, String registryName, ImageCopyFromModelInner imageCopyParameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(copyImageFromWithServiceResponseAsync(resourceGroupName, registryName, imageCopyParameters), serviceCallback);
+    }
+
+    /**
+     * Copies an image to this registry from the specified registry.
+     *
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param imageCopyParameters The parameters specifying the image to copy and the source registry.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<Void> copyImageFromAsync(String resourceGroupName, String registryName, ImageCopyFromModelInner imageCopyParameters) {
+        return copyImageFromWithServiceResponseAsync(resourceGroupName, registryName, imageCopyParameters).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Copies an image to this registry from the specified registry.
+     *
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param imageCopyParameters The parameters specifying the image to copy and the source registry.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<Void>> copyImageFromWithServiceResponseAsync(String resourceGroupName, String registryName, ImageCopyFromModelInner imageCopyParameters) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (registryName == null) {
+            throw new IllegalArgumentException("Parameter registryName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        if (imageCopyParameters == null) {
+            throw new IllegalArgumentException("Parameter imageCopyParameters is required and cannot be null.");
+        }
+        Validator.validate(imageCopyParameters);
+        Observable<Response<ResponseBody>> observable = service.copyImageFrom(this.client.subscriptionId(), resourceGroupName, registryName, this.client.apiVersion(), imageCopyParameters, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+    }
+
+    /**
+     * Copies an image to this registry from the specified registry.
+     *
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param imageCopyParameters The parameters specifying the image to copy and the source registry.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void beginCopyImageFrom(String resourceGroupName, String registryName, ImageCopyFromModelInner imageCopyParameters) {
+        beginCopyImageFromWithServiceResponseAsync(resourceGroupName, registryName, imageCopyParameters).toBlocking().single().body();
+    }
+
+    /**
+     * Copies an image to this registry from the specified registry.
+     *
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param imageCopyParameters The parameters specifying the image to copy and the source registry.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> beginCopyImageFromAsync(String resourceGroupName, String registryName, ImageCopyFromModelInner imageCopyParameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginCopyImageFromWithServiceResponseAsync(resourceGroupName, registryName, imageCopyParameters), serviceCallback);
+    }
+
+    /**
+     * Copies an image to this registry from the specified registry.
+     *
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param imageCopyParameters The parameters specifying the image to copy and the source registry.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> beginCopyImageFromAsync(String resourceGroupName, String registryName, ImageCopyFromModelInner imageCopyParameters) {
+        return beginCopyImageFromWithServiceResponseAsync(resourceGroupName, registryName, imageCopyParameters).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Copies an image to this registry from the specified registry.
+     *
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param imageCopyParameters The parameters specifying the image to copy and the source registry.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> beginCopyImageFromWithServiceResponseAsync(String resourceGroupName, String registryName, ImageCopyFromModelInner imageCopyParameters) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (registryName == null) {
+            throw new IllegalArgumentException("Parameter registryName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        if (imageCopyParameters == null) {
+            throw new IllegalArgumentException("Parameter imageCopyParameters is required and cannot be null.");
+        }
+        Validator.validate(imageCopyParameters);
+        return service.beginCopyImageFrom(this.client.subscriptionId(), resourceGroupName, registryName, this.client.apiVersion(), imageCopyParameters, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = beginCopyImageFromDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> beginCopyImageFromDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**

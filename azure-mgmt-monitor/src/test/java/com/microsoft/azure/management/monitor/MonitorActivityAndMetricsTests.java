@@ -75,5 +75,30 @@ public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
             Assert.assertNull(event.httpRequest());
             Assert.assertNull(event.level());
         }
+
+        // List Event Categories
+        List<LocalizableString> eventCategories = monitorManager.activityLogs().listEventCategories();
+        Assert.assertNotNull(eventCategories);
+        Assert.assertFalse(eventCategories.isEmpty());
+
+        // List Activity logs at tenant level is not allowed for the current tenant 
+        try {
+            monitorManager.activityLogs()
+                    .defineQuery()
+                    .startingFrom(recordDateTime.minusDays(30))
+                    .endsBefore(recordDateTime)
+                    .withResponseProperties(
+                            EventDataPropertyName.RESOURCEID,
+                            EventDataPropertyName.EVENTTIMESTAMP,
+                            EventDataPropertyName.OPERATIONNAME,
+                            EventDataPropertyName.EVENTNAME)
+                    .filterByResource(vm.id())
+                    .filterByTenant()
+                    .execute();
+        } catch (ErrorResponseException er) {
+            // should throw "The client '...' with object id '...' does not have authorization to perform action
+            // 'microsoft.insights/eventtypes/values/read' over scope '/providers/microsoft.insights/eventtypes/management'.
+            Assert.assertEquals(403, er.response().raw().code());
+        }
     }
 }

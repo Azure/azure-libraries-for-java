@@ -65,6 +65,28 @@ public interface BatchAIJob extends
     Observable<OutputFile> listFilesAsync(String outputDirectoryId);
 
     /**
+     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * @param outputDirectoryId Id of the job output directory. This is the OutputDirectory--&gt;id parameter that is given by the user during Create Job.
+     * @param directory the path to the directory
+     * @param linkExpiryMinutes the number of minutes after which the download link will expire
+     * @param maxResults the maximum number of items to return in the response. A maximum of 1000 files can be returned
+     * @return list of files inside the given output directory
+     */
+    @Method
+    PagedList<OutputFile> listFiles(String outputDirectoryId, String directory, Integer linkExpiryMinutes, Integer maxResults);
+
+    /**
+     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * @param outputDirectoryId Id of the job output directory. This is the OutputDirectory--&gt;id parameter that is given by the user during Create Job.
+     * @param directory the path to the directory
+     * @param linkExpiryMinutes the number of minutes after which the download link will expire
+     * @param maxResults the maximum number of items to return in the response. A maximum of 1000 files can be returned
+     * @return an observable that emits output file information
+     */
+    @Method
+    Observable<OutputFile> listFilesAsync(String outputDirectoryId, String directory, Integer linkExpiryMinutes, Integer maxResults);
+
+    /**
      * @return the experiment information of the job.
      */
     String experimentName();

@@ -173,7 +173,6 @@ public class TestBatchAI {
                     .withOutputDirectory("MODEL", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/model")
                     .defineOutputDirectory("OUTPUT")
                         .withPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/output")
-                        .withOutputType("summary")
                         .withCreateNew(true)
                         .withPathSuffix("suffix")
                         .attach()
@@ -187,7 +186,7 @@ public class TestBatchAI {
                 }
             }
             Assert.assertNotNull(outputDirectory);
-            Assert.assertEquals("summary", outputDirectory.type().toString().toLowerCase());
+            Assert.assertEquals("suffix", outputDirectory.pathSuffix().toLowerCase());
             return cluster;
         }
 

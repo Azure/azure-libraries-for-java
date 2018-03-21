@@ -368,6 +368,37 @@ class BatchAIJobImpl
     }
 
     @Override
+    public PagedList<OutputFile> listFiles(String outputDirectoryId, String directory, Integer linkExpiryMinutes, Integer maxResults) {
+        PagedListConverter<FileInner, OutputFile> converter = new PagedListConverter<FileInner, OutputFile>() {
+            @Override
+            public Observable<OutputFile> typeConvertAsync(FileInner fileInner) {
+                return Observable.just((OutputFile) new OutputFileImpl(fileInner));
+            }
+        };
+        return converter.convert(this.manager().inner().jobs().listOutputFiles(resourceGroupName(), name(),
+                new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId)
+                        .withDirectory(directory)
+                        .withLinkexpiryinminutes(linkExpiryMinutes)
+                        .withMaxResults(maxResults)));
+
+    }
+
+    @Override
+    public Observable<OutputFile> listFilesAsync(String outputDirectoryId, String directory, Integer linkExpiryMinutes, Integer maxResults) {
+        return convertPageToInnerAsync(this.manager().inner().jobs().listOutputFilesAsync(resourceGroupName(), name(),
+                new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId)
+                        .withDirectory(directory)
+                        .withLinkexpiryinminutes(linkExpiryMinutes)
+                        .withMaxResults(maxResults)))
+                .map(new Func1<FileInner, OutputFile>() {
+                    @Override
+                    public OutputFile call(FileInner fileInner) {
+                        return new OutputFileImpl(fileInner);
+                    }
+                });
+    }
+
+    @Override
     public String experimentName() {
         return inner().experimentName();
     }

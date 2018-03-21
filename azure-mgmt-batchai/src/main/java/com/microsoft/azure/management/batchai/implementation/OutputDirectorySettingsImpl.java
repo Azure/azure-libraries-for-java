@@ -35,12 +35,6 @@ class OutputDirectorySettingsImpl extends IndexableWrapperImpl<OutputDirectory>
     }
 
     @Override
-    public OutputDirectorySettings.DefinitionStages.WithAttach<BatchAIJob.DefinitionStages.WithCreate> withOutputType(String outputType) {
-        inner().withType(OutputType.fromString(outputType));
-        return this;
-    }
-
-    @Override
     public OutputDirectorySettings.DefinitionStages.WithAttach<BatchAIJob.DefinitionStages.WithCreate> withCreateNew(boolean createNew) {
         inner().withCreateNew(createNew);
         return this;

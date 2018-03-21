@@ -45,7 +45,6 @@ public interface OutputDirectorySettings extends Indexable,
         interface WithAttach<ParentT> extends
                 Attachable.InDefinition<ParentT>,
                 WithPathSuffix<ParentT>,
-                WithOutputType<ParentT>,
                 WithCreateNew<ParentT> {
         }
 
@@ -85,19 +84,6 @@ public interface OutputDirectorySettings extends Indexable,
              * @return the next stage of the definition
              */
             WithAttach<ParentT> withPathSuffix(String pathSuffix);
-        }
-
-        interface WithOutputType<ParentT> {
-            /**
-             * An enumeration, which specifies the type of job output directory.
-             * Default value is Custom. The possible values are Model, Logs, Summary,
-             * and Custom. Users can use multiple enums for a single directory. Eg.
-             * outPutType='Model,Logs, Summary'. Possible values include: 'model',
-             * 'logs', 'summary', 'custom'.
-             * @param type
-             * @return
-             */
-            WithAttach<ParentT> withOutputType(String type);
         }
 
         interface WithCreateNew<ParentT> {

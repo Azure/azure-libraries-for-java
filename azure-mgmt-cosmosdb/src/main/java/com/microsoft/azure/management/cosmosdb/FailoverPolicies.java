@@ -19,7 +19,7 @@ public class FailoverPolicies {
     /**
      * List of failover policies.
      */
-    @JsonProperty(value = "failoverPolicies")
+    @JsonProperty(value = "failoverPolicies", required = true)
     private List<FailoverPolicyInner> failoverPolicies;
 
     /**

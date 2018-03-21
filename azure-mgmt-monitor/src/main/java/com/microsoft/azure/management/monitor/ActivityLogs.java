@@ -41,7 +41,7 @@ public interface ActivityLogs extends
      * @return list of available event categories supported in the Activity Logs Service.
      */
     @Method
-    Observable<LocalizableString> listEventCategoriesAsync(String resourceId);
+    Observable<LocalizableString> listEventCategoriesAsync();
 
     /**
      * Begins a definition for a new Activity log query.

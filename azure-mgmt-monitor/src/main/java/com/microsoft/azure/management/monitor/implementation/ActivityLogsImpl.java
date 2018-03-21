@@ -70,7 +70,7 @@ class ActivityLogsImpl
     }
 
     @Override
-    public Observable<LocalizableString> listEventCategoriesAsync(String resourceId) {
+    public Observable<LocalizableString> listEventCategoriesAsync() {
         return this.manager().inner().eventCategories().listAsync()
                 .flatMap(new Func1<List<LocalizableStringInner>, Observable<LocalizableString>>() {
                     @Override

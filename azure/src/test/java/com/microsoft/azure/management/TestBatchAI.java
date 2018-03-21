@@ -9,6 +9,8 @@ package com.microsoft.azure.management;
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIClusters;
+import com.microsoft.azure.management.batchai.BatchAIJob;
+import com.microsoft.azure.management.batchai.OutputDirectory;
 import com.microsoft.azure.management.batchai.VmPriority;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.network.Network;
@@ -154,7 +156,7 @@ public class TestBatchAI {
                     .create();
             Assert.assertEquals("steady", cluster.allocationState().toString());
             Assert.assertEquals(userName, cluster.adminUserName());
-            cluster.jobs().define("myJob")
+            BatchAIJob job = cluster.jobs().define("myJob")
                     .withRegion(region)
                     .withNodeCount(1)
                     .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
@@ -164,8 +166,23 @@ public class TestBatchAI {
                         .attach()
                     .withInputDirectory("SAMPLE", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/mnistcntksample")
                     .withOutputDirectory("MODEL", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/model")
+                    .defineOutputDirectory("OUTPUT")
+                        .withPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/output")
+                        .withOutputType("summary")
+                        .withCreateNew(true)
+                        .withPathSuffix("suffix")
+                        .attach()
                     .withContainerImage("microsoft/cntk:2.1-gpu-python3.5-cuda8.0-cudnn6.0")
                     .create();
+            Assert.assertEquals(2,job.outputDirectories().size());
+            OutputDirectory outputDirectory = null;
+            for (OutputDirectory directory : job.outputDirectories()) {
+                if ("OUTPUT".equalsIgnoreCase(directory.id())) {
+                    outputDirectory = directory;
+                }
+            }
+            Assert.assertNotNull(outputDirectory);
+            Assert.assertEquals("summary", outputDirectory.type().toString().toLowerCase());
             return cluster;
         }
 

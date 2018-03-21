@@ -302,6 +302,14 @@ public interface BatchAIJob extends
 
         interface WithOutputDirectory {
             WithCreate withOutputDirectory(String id, String pathPrefix);
+
+            /**
+             * @param id The name for the output directory
+             * @return the nest stage of the definition for output directory settings
+             */
+            @Method
+            @Beta(Beta.SinceVersion.V1_8_0)
+            OutputDirectorySettings.DefinitionStages.Blank<WithCreate> defineOutputDirectory(String id);
         }
 
         /**

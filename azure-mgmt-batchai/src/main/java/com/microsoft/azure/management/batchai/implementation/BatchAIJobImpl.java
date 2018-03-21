@@ -32,6 +32,7 @@ import com.microsoft.azure.management.batchai.JobPropertiesExecutionInfo;
 import com.microsoft.azure.management.batchai.KeyVaultSecretReference;
 import com.microsoft.azure.management.batchai.MountVolumes;
 import com.microsoft.azure.management.batchai.OutputDirectory;
+import com.microsoft.azure.management.batchai.OutputDirectorySettings;
 import com.microsoft.azure.management.batchai.OutputFile;
 import com.microsoft.azure.management.batchai.ProvisioningState;
 import com.microsoft.azure.management.batchai.PyTorchSettings;
@@ -130,6 +131,11 @@ class BatchAIJobImpl
         }
         createParameters.outputDirectories().add(new OutputDirectory().withId(id).withPathPrefix(pathPrefix));
         return this;
+    }
+
+    @Override
+    public OutputDirectorySettings.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineOutputDirectory(String id) {
+        return new OutputDirectorySettingsImpl(new OutputDirectory().withId(id), this);
     }
 
     @Override
@@ -307,6 +313,13 @@ class BatchAIJobImpl
 
     void attachPyTorchSettings(PyTorchImpl pyTorch) {
         createParameters.withPyTorchSettings(pyTorch.inner());
+    }
+
+    void attachOutputDirectory(OutputDirectorySettingsImpl outputDirectorySettings) {
+        if (createParameters.outputDirectories() == null) {
+            createParameters.withOutputDirectories(new ArrayList<OutputDirectory>());
+        }
+        createParameters.outputDirectories().add(outputDirectorySettings.inner());
     }
 
     @Override

@@ -9,7 +9,6 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.BatchAIJob;
 import com.microsoft.azure.management.batchai.OutputDirectory;
 import com.microsoft.azure.management.batchai.OutputDirectorySettings;
-import com.microsoft.azure.management.batchai.OutputType;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 @LangDefinition

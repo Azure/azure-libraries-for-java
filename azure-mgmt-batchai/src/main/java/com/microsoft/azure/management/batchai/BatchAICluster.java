@@ -305,7 +305,7 @@ public interface BatchAICluster extends
 
 
         /**
-         * Specifies virtual machine image
+         * Specifies virtual machine image.
          */
         @Beta(Beta.SinceVersion.V1_8_0)
         interface WithVirtualMachineImage {

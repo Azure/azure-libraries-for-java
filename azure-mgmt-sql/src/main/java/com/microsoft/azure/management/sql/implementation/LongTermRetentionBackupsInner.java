@@ -13,7 +13,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.management.sql.LongTermRetentionDatabaseState;
+import com.microsoft.azure.management.sql.DatabaseState;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -73,15 +73,15 @@ public class LongTermRetentionBackupsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.LongTermRetentionBackups listByDatabase" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups")
-        Observable<Response<ResponseBody>> listByDatabase(@Path("locationName") String locationName, @Path("longTermRetentionServerName") String longTermRetentionServerName, @Path("longTermRetentionDatabaseName") String longTermRetentionDatabaseName, @Path("subscriptionId") String subscriptionId, @Query("onlyLatestPerDatabase") Boolean onlyLatestPerDatabase, @Query("databaseState") LongTermRetentionDatabaseState databaseState, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listByDatabase(@Path("locationName") String locationName, @Path("longTermRetentionServerName") String longTermRetentionServerName, @Path("longTermRetentionDatabaseName") String longTermRetentionDatabaseName, @Path("subscriptionId") String subscriptionId, @Query("onlyLatestPerDatabase") Boolean onlyLatestPerDatabase, @Query("databaseState") DatabaseState databaseState, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.LongTermRetentionBackups listByLocation" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionBackups")
-        Observable<Response<ResponseBody>> listByLocation(@Path("locationName") String locationName, @Path("subscriptionId") String subscriptionId, @Query("onlyLatestPerDatabase") Boolean onlyLatestPerDatabase, @Query("databaseState") LongTermRetentionDatabaseState databaseState, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listByLocation(@Path("locationName") String locationName, @Path("subscriptionId") String subscriptionId, @Query("onlyLatestPerDatabase") Boolean onlyLatestPerDatabase, @Query("databaseState") DatabaseState databaseState, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.LongTermRetentionBackups listByServer" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionBackups")
-        Observable<Response<ResponseBody>> listByServer(@Path("locationName") String locationName, @Path("longTermRetentionServerName") String longTermRetentionServerName, @Path("subscriptionId") String subscriptionId, @Query("onlyLatestPerDatabase") Boolean onlyLatestPerDatabase, @Query("databaseState") LongTermRetentionDatabaseState databaseState, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listByServer(@Path("locationName") String locationName, @Path("longTermRetentionServerName") String longTermRetentionServerName, @Path("subscriptionId") String subscriptionId, @Query("onlyLatestPerDatabase") Boolean onlyLatestPerDatabase, @Query("databaseState") DatabaseState databaseState, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.LongTermRetentionBackups listByDatabaseNext" })
         @GET
@@ -482,7 +482,7 @@ public class LongTermRetentionBackupsInner {
         }
         final String apiVersion = "2017-03-01-preview";
         final Boolean onlyLatestPerDatabase = null;
-        final LongTermRetentionDatabaseState databaseState = null;
+        final DatabaseState databaseState = null;
         return service.listByDatabase(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, this.client.subscriptionId(), onlyLatestPerDatabase, databaseState, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
@@ -510,7 +510,7 @@ public class LongTermRetentionBackupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;LongTermRetentionBackupInner&gt; object if successful.
      */
-    public PagedList<LongTermRetentionBackupInner> listByDatabase(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+    public PagedList<LongTermRetentionBackupInner> listByDatabase(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final DatabaseState databaseState) {
         ServiceResponse<Page<LongTermRetentionBackupInner>> response = listByDatabaseSinglePageAsync(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, onlyLatestPerDatabase, databaseState).toBlocking().single();
         return new PagedList<LongTermRetentionBackupInner>(response.body()) {
             @Override
@@ -532,7 +532,7 @@ public class LongTermRetentionBackupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<LongTermRetentionBackupInner>> listByDatabaseAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState, final ListOperationCallback<LongTermRetentionBackupInner> serviceCallback) {
+    public ServiceFuture<List<LongTermRetentionBackupInner>> listByDatabaseAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final DatabaseState databaseState, final ListOperationCallback<LongTermRetentionBackupInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listByDatabaseSinglePageAsync(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, onlyLatestPerDatabase, databaseState),
             new Func1<String, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
@@ -555,7 +555,7 @@ public class LongTermRetentionBackupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;LongTermRetentionBackupInner&gt; object
      */
-    public Observable<Page<LongTermRetentionBackupInner>> listByDatabaseAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+    public Observable<Page<LongTermRetentionBackupInner>> listByDatabaseAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final DatabaseState databaseState) {
         return listByDatabaseWithServiceResponseAsync(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, onlyLatestPerDatabase, databaseState)
             .map(new Func1<ServiceResponse<Page<LongTermRetentionBackupInner>>, Page<LongTermRetentionBackupInner>>() {
                 @Override
@@ -576,7 +576,7 @@ public class LongTermRetentionBackupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;LongTermRetentionBackupInner&gt; object
      */
-    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByDatabaseWithServiceResponseAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByDatabaseWithServiceResponseAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final DatabaseState databaseState) {
         return listByDatabaseSinglePageAsync(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, onlyLatestPerDatabase, databaseState)
             .concatMap(new Func1<ServiceResponse<Page<LongTermRetentionBackupInner>>, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
@@ -601,7 +601,7 @@ public class LongTermRetentionBackupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;LongTermRetentionBackupInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByDatabaseSinglePageAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByDatabaseSinglePageAsync(final String locationName, final String longTermRetentionServerName, final String longTermRetentionDatabaseName, final Boolean onlyLatestPerDatabase, final DatabaseState databaseState) {
         if (locationName == null) {
             throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
         }
@@ -729,7 +729,7 @@ public class LongTermRetentionBackupsInner {
         }
         final String apiVersion = "2017-03-01-preview";
         final Boolean onlyLatestPerDatabase = null;
-        final LongTermRetentionDatabaseState databaseState = null;
+        final DatabaseState databaseState = null;
         return service.listByLocation(locationName, this.client.subscriptionId(), onlyLatestPerDatabase, databaseState, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
@@ -755,7 +755,7 @@ public class LongTermRetentionBackupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;LongTermRetentionBackupInner&gt; object if successful.
      */
-    public PagedList<LongTermRetentionBackupInner> listByLocation(final String locationName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+    public PagedList<LongTermRetentionBackupInner> listByLocation(final String locationName, final Boolean onlyLatestPerDatabase, final DatabaseState databaseState) {
         ServiceResponse<Page<LongTermRetentionBackupInner>> response = listByLocationSinglePageAsync(locationName, onlyLatestPerDatabase, databaseState).toBlocking().single();
         return new PagedList<LongTermRetentionBackupInner>(response.body()) {
             @Override
@@ -775,7 +775,7 @@ public class LongTermRetentionBackupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<LongTermRetentionBackupInner>> listByLocationAsync(final String locationName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState, final ListOperationCallback<LongTermRetentionBackupInner> serviceCallback) {
+    public ServiceFuture<List<LongTermRetentionBackupInner>> listByLocationAsync(final String locationName, final Boolean onlyLatestPerDatabase, final DatabaseState databaseState, final ListOperationCallback<LongTermRetentionBackupInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listByLocationSinglePageAsync(locationName, onlyLatestPerDatabase, databaseState),
             new Func1<String, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
@@ -796,7 +796,7 @@ public class LongTermRetentionBackupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;LongTermRetentionBackupInner&gt; object
      */
-    public Observable<Page<LongTermRetentionBackupInner>> listByLocationAsync(final String locationName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+    public Observable<Page<LongTermRetentionBackupInner>> listByLocationAsync(final String locationName, final Boolean onlyLatestPerDatabase, final DatabaseState databaseState) {
         return listByLocationWithServiceResponseAsync(locationName, onlyLatestPerDatabase, databaseState)
             .map(new Func1<ServiceResponse<Page<LongTermRetentionBackupInner>>, Page<LongTermRetentionBackupInner>>() {
                 @Override
@@ -815,7 +815,7 @@ public class LongTermRetentionBackupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;LongTermRetentionBackupInner&gt; object
      */
-    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByLocationWithServiceResponseAsync(final String locationName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByLocationWithServiceResponseAsync(final String locationName, final Boolean onlyLatestPerDatabase, final DatabaseState databaseState) {
         return listByLocationSinglePageAsync(locationName, onlyLatestPerDatabase, databaseState)
             .concatMap(new Func1<ServiceResponse<Page<LongTermRetentionBackupInner>>, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
@@ -838,7 +838,7 @@ public class LongTermRetentionBackupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;LongTermRetentionBackupInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByLocationSinglePageAsync(final String locationName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByLocationSinglePageAsync(final String locationName, final Boolean onlyLatestPerDatabase, final DatabaseState databaseState) {
         if (locationName == null) {
             throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
         }
@@ -968,7 +968,7 @@ public class LongTermRetentionBackupsInner {
         }
         final String apiVersion = "2017-03-01-preview";
         final Boolean onlyLatestPerDatabase = null;
-        final LongTermRetentionDatabaseState databaseState = null;
+        final DatabaseState databaseState = null;
         return service.listByServer(locationName, longTermRetentionServerName, this.client.subscriptionId(), onlyLatestPerDatabase, databaseState, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
@@ -995,7 +995,7 @@ public class LongTermRetentionBackupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;LongTermRetentionBackupInner&gt; object if successful.
      */
-    public PagedList<LongTermRetentionBackupInner> listByServer(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+    public PagedList<LongTermRetentionBackupInner> listByServer(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final DatabaseState databaseState) {
         ServiceResponse<Page<LongTermRetentionBackupInner>> response = listByServerSinglePageAsync(locationName, longTermRetentionServerName, onlyLatestPerDatabase, databaseState).toBlocking().single();
         return new PagedList<LongTermRetentionBackupInner>(response.body()) {
             @Override
@@ -1016,7 +1016,7 @@ public class LongTermRetentionBackupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<LongTermRetentionBackupInner>> listByServerAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState, final ListOperationCallback<LongTermRetentionBackupInner> serviceCallback) {
+    public ServiceFuture<List<LongTermRetentionBackupInner>> listByServerAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final DatabaseState databaseState, final ListOperationCallback<LongTermRetentionBackupInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listByServerSinglePageAsync(locationName, longTermRetentionServerName, onlyLatestPerDatabase, databaseState),
             new Func1<String, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
@@ -1038,7 +1038,7 @@ public class LongTermRetentionBackupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;LongTermRetentionBackupInner&gt; object
      */
-    public Observable<Page<LongTermRetentionBackupInner>> listByServerAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+    public Observable<Page<LongTermRetentionBackupInner>> listByServerAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final DatabaseState databaseState) {
         return listByServerWithServiceResponseAsync(locationName, longTermRetentionServerName, onlyLatestPerDatabase, databaseState)
             .map(new Func1<ServiceResponse<Page<LongTermRetentionBackupInner>>, Page<LongTermRetentionBackupInner>>() {
                 @Override
@@ -1058,7 +1058,7 @@ public class LongTermRetentionBackupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;LongTermRetentionBackupInner&gt; object
      */
-    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByServerWithServiceResponseAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByServerWithServiceResponseAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final DatabaseState databaseState) {
         return listByServerSinglePageAsync(locationName, longTermRetentionServerName, onlyLatestPerDatabase, databaseState)
             .concatMap(new Func1<ServiceResponse<Page<LongTermRetentionBackupInner>>, Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>>>() {
                 @Override
@@ -1082,7 +1082,7 @@ public class LongTermRetentionBackupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;LongTermRetentionBackupInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByServerSinglePageAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final LongTermRetentionDatabaseState databaseState) {
+    public Observable<ServiceResponse<Page<LongTermRetentionBackupInner>>> listByServerSinglePageAsync(final String locationName, final String longTermRetentionServerName, final Boolean onlyLatestPerDatabase, final DatabaseState databaseState) {
         if (locationName == null) {
             throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
         }

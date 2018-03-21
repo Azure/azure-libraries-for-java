@@ -298,9 +298,50 @@ public interface BatchAICluster extends
             /**
              * @param networkId identifier of the network
              * @param subnetName subnet name
-             * @return
+             * @return the next stage of the definition
              */
             WithCreate withSubnet(String networkId, String subnetName);
+        }
+
+
+        /**
+         * Specifies virtual machine image
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithVirtualMachineImage {
+            /**
+             * @param publisher publisher of the image
+             * @param offer offer of the image
+             * @param sku sku of the image
+             * @param version version of the image
+             * @return the next stage of the definition
+             */
+            WithCreate withVirtualMachineImage(String publisher, String offer, String sku, String version);
+
+            /**
+             * @param publisher publisher of the image
+             * @param offer offer of the image
+             * @param sku sku of the image
+             * @return the next stage of the definition
+             */
+            WithCreate withVirtualMachineImage(String publisher, String offer, String sku);
+
+            /**
+             * Computes nodes of the cluster will be created using this custom image. This is of the form
+             * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}.
+             * The virtual machine image must be in the same region and subscription as
+             * the cluster. For information about the firewall settings for the Batch
+             * node agent to communicate with the Batch service see
+             * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+             * Note, you need to provide publisher, offer and sku of the base OS image
+             * of which the custom image has been derived from.
+             * @param virtualMachineImageId the ARM resource identifier of the virtual machine image
+             * @param publisher publisher of the image
+             * @param offer offer of the image
+             * @param sku sku of the image
+             * @return the next stage of the definition
+             */
+            WithCreate withVirtualMachineImageId(String virtualMachineImageId, String publisher, String offer, String sku);
         }
 
         /**
@@ -314,6 +355,7 @@ public interface BatchAICluster extends
                 DefinitionStages.WithSetupTask,
                 HasMountVolumes.DefinitionStages.WithMountVolumes<WithCreate>,
                 WithAppInsightsResourceId,
+                WithVirtualMachineImage,
                 DefinitionStages.WithSubnet,
                 Resource.DefinitionWithTags<WithCreate> {
         }

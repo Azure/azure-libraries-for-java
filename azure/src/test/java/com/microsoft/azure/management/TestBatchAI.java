@@ -107,6 +107,7 @@ public class TestBatchAI {
                         .withRelativeMountPath(blobFileSystemPath)
                         .withAccountKey(storageAccountKey)
                         .attach()
+                    .withVirtualMachineImage("microsoft-ads", "linux-data-science-vm-ubuntu", "linuxdsvmubuntu")
                     .withSubnet(network.id(), subnetName)
                     .withAppInsightsComponentId("appinsightsId")
                     .withInstrumentationKey("appInsightsKey")
@@ -121,6 +122,7 @@ public class TestBatchAI {
             Assert.assertEquals(blobFileSystemPath, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().get(0).relativeMountPath());
             Assert.assertEquals(network.id() + "/subnets/" + subnetName, cluster.subnet().id());
             Assert.assertEquals("appinsightsId", cluster.nodeSetup().performanceCountersSettings().appInsightsReference().component().id());
+            Assert.assertEquals("linux-data-science-vm-ubuntu", cluster.virtualMachineConfiguration().imageReference().offer());
             return cluster;
         }
 

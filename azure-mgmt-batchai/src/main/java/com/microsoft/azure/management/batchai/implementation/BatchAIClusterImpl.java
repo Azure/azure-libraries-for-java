@@ -19,6 +19,7 @@ import com.microsoft.azure.management.batchai.FileServer;
 import com.microsoft.azure.management.batchai.BatchAIJobs;
 import com.microsoft.azure.management.batchai.DeallocationOption;
 import com.microsoft.azure.management.batchai.FileServerReference;
+import com.microsoft.azure.management.batchai.ImageReference;
 import com.microsoft.azure.management.batchai.KeyVaultSecretReference;
 import com.microsoft.azure.management.batchai.ManualScaleSettings;
 import com.microsoft.azure.management.batchai.MountVolumes;
@@ -370,5 +371,34 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         createParameters.nodeSetup().performanceCountersSettings().appInsightsReference()
                 .withInstrumentationKeySecretReference(new KeyVaultSecretReference().withSourceVault(new ResourceId().withId(keyVaultId)).withSecretUrl(secretUrl));
         return this;
+    }
+
+    @Override
+    public BatchAIClusterImpl withVirtualMachineImage(String publisher, String offer, String sku, String version) {
+        withVirtualMachineImage(publisher, offer, sku).createParameters.virtualMachineConfiguration().imageReference().withVersion(version);
+        return this;
+    }
+
+    @Override
+    public BatchAIClusterImpl withVirtualMachineImage(String publisher, String offer, String sku) {
+        ensureVirtualMachineConfiguration().withImageReference(
+                new ImageReference()
+                        .withPublisher(publisher)
+                        .withOffer(offer)
+                        .withSku(sku));
+        return this;
+    }
+
+    @Override
+    public BatchAIClusterImpl withVirtualMachineImageId(String virtualMachineImageId, String publisher, String offer, String sku) {
+        withVirtualMachineImage(publisher, offer, sku).createParameters.virtualMachineConfiguration().imageReference().withVirtualMachineImageId(virtualMachineImageId);
+        return this;
+    }
+
+    private VirtualMachineConfiguration ensureVirtualMachineConfiguration() {
+        if (createParameters.virtualMachineConfiguration() == null) {
+            createParameters.withVirtualMachineConfiguration(new VirtualMachineConfiguration());
+        }
+        return createParameters.virtualMachineConfiguration();
     }
 }

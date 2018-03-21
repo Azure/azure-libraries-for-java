@@ -131,6 +131,7 @@ public interface BatchAICluster extends
             DefinitionStages.WithUserName,
             DefinitionStages.WithUserCredentials,
             DefinitionStages.WithScaleSettings,
+            DefinitionStages.WithAppInsightsKey,
             DefinitionStages.WithCreate {
     }
 
@@ -255,8 +256,38 @@ public interface BatchAICluster extends
         }
 
         /**
+         * Specifies Azure Application Insights information for performance counters reporting.
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithAppInsightsResourceId {
+            /**
+             * @param resoureId Azure Application Insights component resource id
+             * @return the next stage of the definition
+             */
+            WithAppInsightsKey withAppInsightsComponentId(String resoureId);
+        }
+
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithAppInsightsKey {
+            /**
+             * @param instrumentationKey value of the Azure Application Insights instrumentation key
+             * @return the next stage of the definition
+             */
+            WithCreate withInstrumentationKey(String instrumentationKey);
+
+            /**
+             * Specifies KeyVault Store and Secret which contains the value for the instrumentation key.
+             * @param keyVaultId fully qualified resource Id for the Key Vault
+             * @param secretUrl the URL referencing a secret in a Key Vault
+             * @return the next stage of the definition
+             */
+            WithCreate withInstrumentationKeySecretReference(String keyVaultId, String secretUrl);
+        }
+
+        /**
          * Defines subnet for the cluster.
          */
+        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithSubnet {
             /**
              * @param subnetId identifier of the subnet
@@ -282,6 +313,7 @@ public interface BatchAICluster extends
                 DefinitionStages.WithVMPriority,
                 DefinitionStages.WithSetupTask,
                 HasMountVolumes.DefinitionStages.WithMountVolumes<WithCreate>,
+                WithAppInsightsResourceId,
                 DefinitionStages.WithSubnet,
                 Resource.DefinitionWithTags<WithCreate> {
         }

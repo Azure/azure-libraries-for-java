@@ -11,15 +11,30 @@ import com.microsoft.azure.management.batchai.AzureBlobFileSystem;
 import com.microsoft.azure.management.batchai.AzureFileShare;
 import com.microsoft.azure.management.batchai.FileServer;
 
+/**
+ * An interface representing a model's ability to attach mount volumes.
+ */
 @Fluent
 public interface HasMountVolumes {
 
+    /**
+     * @param azureFileShare Azure fileshare to be attached
+     */
     void attachAzureFileShare(AzureFileShare azureFileShare);
 
+    /**
+     * @param azureBlobFileSystem Azure blob filesystem to be attached
+     */
     void attachAzureBlobFileSystem(AzureBlobFileSystem azureBlobFileSystem);
 
+    /**
+     * @param fileServer file server to be attached
+     */
     void attachFileServer(FileServer fileServer);
 
+    /**
+     * Grouping of definition stages involving specifying mount volume to mount.
+     */
     interface DefinitionStages {
         /**
          * Defines the volumes to mount on the cluster.

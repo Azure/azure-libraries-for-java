@@ -7,6 +7,7 @@ package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.AllocationState;
+import com.microsoft.azure.management.batchai.AppInsightsReference;
 import com.microsoft.azure.management.batchai.AutoScaleSettings;
 import com.microsoft.azure.management.batchai.AzureBlobFileSystem;
 import com.microsoft.azure.management.batchai.AzureBlobFileSystemReference;
@@ -18,11 +19,13 @@ import com.microsoft.azure.management.batchai.FileServer;
 import com.microsoft.azure.management.batchai.BatchAIJobs;
 import com.microsoft.azure.management.batchai.DeallocationOption;
 import com.microsoft.azure.management.batchai.FileServerReference;
+import com.microsoft.azure.management.batchai.KeyVaultSecretReference;
 import com.microsoft.azure.management.batchai.ManualScaleSettings;
 import com.microsoft.azure.management.batchai.MountVolumes;
 import com.microsoft.azure.management.batchai.NodeSetup;
 import com.microsoft.azure.management.batchai.NodeSetupTask;
 import com.microsoft.azure.management.batchai.NodeStateCounts;
+import com.microsoft.azure.management.batchai.PerformanceCountersSettings;
 import com.microsoft.azure.management.batchai.ProvisioningState;
 import com.microsoft.azure.management.batchai.ResourceId;
 import com.microsoft.azure.management.batchai.ScaleSettings;
@@ -281,7 +284,7 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
 
 
     @Override
-    public  AzureBlobFileSystem.DefinitionStages.Blank<BatchAICluster.DefinitionStages.WithCreate> defineAzureBlobFileSystem() {
+    public AzureBlobFileSystem.DefinitionStages.Blank<BatchAICluster.DefinitionStages.WithCreate> defineAzureBlobFileSystem() {
         return new AzureBlobFileSystemImpl<BatchAICluster.DefinitionStages.WithCreate>(new AzureBlobFileSystemReference(), this);
     }
 
@@ -341,8 +344,31 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
     }
 
     @Override
-    public BatchAICluster.DefinitionStages.WithCreate withSubnet(String networkId, String subnetName) {
+    public BatchAIClusterImpl withSubnet(String networkId, String subnetName) {
         createParameters.withSubnet(new ResourceId().withId(networkId + "/subnets/" + subnetName));
+        return this;
+    }
+
+    @Override
+    public BatchAIClusterImpl withAppInsightsComponentId(String resoureId) {
+        if (ensureNodeSetup().performanceCountersSettings() == null) {
+            createParameters.nodeSetup().withPerformanceCountersSettings(new PerformanceCountersSettings());
+        }
+        createParameters.nodeSetup().performanceCountersSettings().withAppInsightsReference(new AppInsightsReference()
+                .withComponent(new ResourceId().withId(resoureId)));
+        return this;
+    }
+
+    @Override
+    public BatchAIClusterImpl withInstrumentationKey(String instrumentationKey) {
+        createParameters.nodeSetup().performanceCountersSettings().appInsightsReference().withInstrumentationKey(instrumentationKey);
+        return this;
+    }
+
+    @Override
+    public BatchAIClusterImpl withInstrumentationKeySecretReference(String keyVaultId, String secretUrl) {
+        createParameters.nodeSetup().performanceCountersSettings().appInsightsReference()
+                .withInstrumentationKeySecretReference(new KeyVaultSecretReference().withSourceVault(new ResourceId().withId(keyVaultId)).withSecretUrl(secretUrl));
         return this;
     }
 }

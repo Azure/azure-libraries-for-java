@@ -108,6 +108,8 @@ public class TestBatchAI {
                         .withAccountKey(storageAccountKey)
                         .attach()
                     .withSubnet(network.id(), subnetName)
+                    .withAppInsightsComponentId("appinsightsId")
+                    .withInstrumentationKey("appInsightsKey")
                     .withTag("tag1", "value1")
                     .create();
 //            Assert.assertEquals("steady", cluster.allocationState().toString());
@@ -118,6 +120,7 @@ public class TestBatchAI {
             Assert.assertEquals(1, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().size());
             Assert.assertEquals(blobFileSystemPath, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().get(0).relativeMountPath());
             Assert.assertEquals(network.id() + "/subnets/" + subnetName, cluster.subnet().id());
+            Assert.assertEquals("appinsightsId", cluster.nodeSetup().performanceCountersSettings().appInsightsReference().component().id());
             return cluster;
         }
 

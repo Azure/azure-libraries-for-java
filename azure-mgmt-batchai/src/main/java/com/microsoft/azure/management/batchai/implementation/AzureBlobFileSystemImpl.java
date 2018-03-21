@@ -9,7 +9,6 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.AzureBlobFileSystem;
 import com.microsoft.azure.management.batchai.AzureBlobFileSystemReference;
 import com.microsoft.azure.management.batchai.AzureStorageCredentialsInfo;
-import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.KeyVaultSecretReference;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;

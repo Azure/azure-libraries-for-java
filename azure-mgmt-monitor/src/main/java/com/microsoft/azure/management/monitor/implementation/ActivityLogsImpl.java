@@ -90,6 +90,7 @@ class ActivityLogsImpl
     public ActivityLogsQueryDefinitionStages.WithEventDataStartTimeFilter defineQuery() {
         this.responsePropertySelector.clear();
         this.filterString = "";
+        this.filterForTenant = false;
         return this;
     }
 
@@ -149,7 +150,7 @@ class ActivityLogsImpl
     }
 
     @Override
-    public ActivityLogsImpl filterByTenant() {
+    public ActivityLogsImpl filterAtTenantLevel() {
         this.filterForTenant = true;
         return this;
     }

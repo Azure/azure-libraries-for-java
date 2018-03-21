@@ -179,7 +179,7 @@ public interface ActivityLogs extends
              * @return the stage of Activity log filtering by Tenant level and query execution.
              */
             @Method
-            WithActivityLogsQueryExecute filterByTenant();
+            WithActivityLogsQueryExecute filterAtTenantLevel();
         }
     }
 }

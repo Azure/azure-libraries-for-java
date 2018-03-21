@@ -8,11 +8,6 @@ package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.monitor.EventDataPropertyName;
-import com.microsoft.azure.management.monitor.EventData;
-import com.microsoft.azure.management.monitor.MetricCollection;
-import com.microsoft.azure.management.monitor.MetricDefinition;
-import com.microsoft.azure.management.monitor.ResultType;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -93,7 +88,7 @@ public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
                             EventDataPropertyName.OPERATIONNAME,
                             EventDataPropertyName.EVENTNAME)
                     .filterByResource(vm.id())
-                    .filterByTenant()
+                    .filterAtTenantLevel()
                     .execute();
         } catch (ErrorResponseException er) {
             // should throw "The client '...' with object id '...' does not have authorization to perform action

@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.datafactory;
 
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -40,7 +41,7 @@ public class ExecuteSSISPackageActivity extends ExecutionActivity {
     private String loggingLevel;
 
     /**
-     * The environment path to execution the SSIS package.
+     * The environment path to execute the SSIS package.
      */
     @JsonProperty(value = "typeProperties.environmentPath")
     private String environmentPath;
@@ -50,6 +51,36 @@ public class ExecuteSSISPackageActivity extends ExecutionActivity {
      */
     @JsonProperty(value = "typeProperties.connectVia", required = true)
     private IntegrationRuntimeReference connectVia;
+
+    /**
+     * The project level parameters to execute the SSIS package.
+     */
+    @JsonProperty(value = "typeProperties.projectParameters")
+    private Map<String, SSISExecutionParameter> projectParameters;
+
+    /**
+     * The package level parameters to execute the SSIS package.
+     */
+    @JsonProperty(value = "typeProperties.packageParameters")
+    private Map<String, SSISExecutionParameter> packageParameters;
+
+    /**
+     * The project level connection managers to execute the SSIS package.
+     */
+    @JsonProperty(value = "typeProperties.projectConnectionManagers")
+    private Map<String, Map<String, SSISExecutionParameter>> projectConnectionManagers;
+
+    /**
+     * The package level connection managers to execute the SSIS package.
+     */
+    @JsonProperty(value = "typeProperties.packageConnectionManagers")
+    private Map<String, Map<String, SSISExecutionParameter>> packageConnectionManagers;
+
+    /**
+     * The property overrides to execute the SSIS package.
+     */
+    @JsonProperty(value = "typeProperties.propertyOverrides")
+    private Map<String, SSISPropertyOverride> propertyOverrides;
 
     /**
      * Get the packageLocation value.
@@ -148,6 +179,106 @@ public class ExecuteSSISPackageActivity extends ExecutionActivity {
      */
     public ExecuteSSISPackageActivity withConnectVia(IntegrationRuntimeReference connectVia) {
         this.connectVia = connectVia;
+        return this;
+    }
+
+    /**
+     * Get the projectParameters value.
+     *
+     * @return the projectParameters value
+     */
+    public Map<String, SSISExecutionParameter> projectParameters() {
+        return this.projectParameters;
+    }
+
+    /**
+     * Set the projectParameters value.
+     *
+     * @param projectParameters the projectParameters value to set
+     * @return the ExecuteSSISPackageActivity object itself.
+     */
+    public ExecuteSSISPackageActivity withProjectParameters(Map<String, SSISExecutionParameter> projectParameters) {
+        this.projectParameters = projectParameters;
+        return this;
+    }
+
+    /**
+     * Get the packageParameters value.
+     *
+     * @return the packageParameters value
+     */
+    public Map<String, SSISExecutionParameter> packageParameters() {
+        return this.packageParameters;
+    }
+
+    /**
+     * Set the packageParameters value.
+     *
+     * @param packageParameters the packageParameters value to set
+     * @return the ExecuteSSISPackageActivity object itself.
+     */
+    public ExecuteSSISPackageActivity withPackageParameters(Map<String, SSISExecutionParameter> packageParameters) {
+        this.packageParameters = packageParameters;
+        return this;
+    }
+
+    /**
+     * Get the projectConnectionManagers value.
+     *
+     * @return the projectConnectionManagers value
+     */
+    public Map<String, Map<String, SSISExecutionParameter>> projectConnectionManagers() {
+        return this.projectConnectionManagers;
+    }
+
+    /**
+     * Set the projectConnectionManagers value.
+     *
+     * @param projectConnectionManagers the projectConnectionManagers value to set
+     * @return the ExecuteSSISPackageActivity object itself.
+     */
+    public ExecuteSSISPackageActivity withProjectConnectionManagers(Map<String, Map<String, SSISExecutionParameter>> projectConnectionManagers) {
+        this.projectConnectionManagers = projectConnectionManagers;
+        return this;
+    }
+
+    /**
+     * Get the packageConnectionManagers value.
+     *
+     * @return the packageConnectionManagers value
+     */
+    public Map<String, Map<String, SSISExecutionParameter>> packageConnectionManagers() {
+        return this.packageConnectionManagers;
+    }
+
+    /**
+     * Set the packageConnectionManagers value.
+     *
+     * @param packageConnectionManagers the packageConnectionManagers value to set
+     * @return the ExecuteSSISPackageActivity object itself.
+     */
+    public ExecuteSSISPackageActivity withPackageConnectionManagers(Map<String, Map<String, SSISExecutionParameter>> packageConnectionManagers) {
+        this.packageConnectionManagers = packageConnectionManagers;
+        return this;
+    }
+
+    /**
+     * Get the propertyOverrides value.
+     *
+     * @return the propertyOverrides value
+     */
+    public Map<String, SSISPropertyOverride> propertyOverrides() {
+        return this.propertyOverrides;
+    }
+
+    /**
+     * Set the propertyOverrides value.
+     *
+     * @param propertyOverrides the propertyOverrides value to set
+     * @return the ExecuteSSISPackageActivity object itself.
+     */
+    public ExecuteSSISPackageActivity withPropertyOverrides(Map<String, SSISPropertyOverride> propertyOverrides) {
+        this.propertyOverrides = propertyOverrides;
         return this;
     }
 

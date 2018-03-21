@@ -13,7 +13,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 
 /**
- * Specifies the settings for Caffe2 job.
+ * Specifies the settings for output directory.
  */
 @Fluent
 @Beta(Beta.SinceVersion.V1_8_0)
@@ -22,7 +22,7 @@ public interface OutputDirectorySettings extends Indexable,
         HasInner<OutputDirectory> {
 
     /**
-     * Definition of Caffe2 settings.
+     * Definition of output directory settings.
      *
      * @param <ParentT> the stage of the parent definition to return to after attaching this definition
      */
@@ -32,7 +32,7 @@ public interface OutputDirectorySettings extends Indexable,
     }
 
     /**
-     * Definition stages for Caffe2 settings.
+     * Definition stages for OutputDirectory settings.
      */
     interface DefinitionStages {
 

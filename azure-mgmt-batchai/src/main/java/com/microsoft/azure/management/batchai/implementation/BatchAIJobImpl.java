@@ -17,6 +17,7 @@ import com.microsoft.azure.management.batchai.CNTKsettings;
 import com.microsoft.azure.management.batchai.Caffe2Settings;
 import com.microsoft.azure.management.batchai.CaffeSettings;
 import com.microsoft.azure.management.batchai.ChainerSettings;
+import com.microsoft.azure.management.batchai.ContainerImageSettings;
 import com.microsoft.azure.management.batchai.ContainerSettings;
 import com.microsoft.azure.management.batchai.CustomToolkitSettings;
 import com.microsoft.azure.management.batchai.EnvironmentVariable;
@@ -145,6 +146,11 @@ class BatchAIJobImpl
         }
         createParameters.containerSettings().imageSourceRegistry().withImage(image);
         return this;
+    }
+
+    @Override
+    public ContainerImageSettings.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineContainerSettings(String image) {
+        return new ContainerImageSettingsImpl(new ImageSourceRegistry().withImage(image), this);
     }
 
     private ContainerSettings ensureContainerSettings() {
@@ -320,6 +326,10 @@ class BatchAIJobImpl
             createParameters.withOutputDirectories(new ArrayList<OutputDirectory>());
         }
         createParameters.outputDirectories().add(outputDirectorySettings.inner());
+    }
+
+    void attachImageSourceRegistry(ContainerImageSettingsImpl containerImageSettings) {
+        ensureContainerSettings().withImageSourceRegistry(containerImageSettings.inner());
     }
 
     @Override

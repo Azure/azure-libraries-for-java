@@ -333,6 +333,8 @@ public interface BatchAIJob extends
              * @return the next stage of the definition
              */
             WithCreate withContainerImage(String image);
+
+            ContainerImageSettings.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineContainerSettings(String image);
         }
 
         /**

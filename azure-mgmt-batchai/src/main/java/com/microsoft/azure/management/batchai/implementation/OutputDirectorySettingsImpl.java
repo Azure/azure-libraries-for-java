@@ -14,8 +14,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
 
 @LangDefinition
 class OutputDirectorySettingsImpl extends IndexableWrapperImpl<OutputDirectory>
-        implements
-        com.microsoft.azure.management.batchai.OutputDirectorySettings.Definition<BatchAIJob.DefinitionStages.WithCreate> {
+        implements OutputDirectorySettings.Definition<BatchAIJob.DefinitionStages.WithCreate> {
     private BatchAIJobImpl parent;
 
     protected OutputDirectorySettingsImpl(OutputDirectory inner, BatchAIJobImpl parent) {

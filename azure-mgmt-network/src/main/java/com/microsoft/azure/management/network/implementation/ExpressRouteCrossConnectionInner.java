@@ -68,7 +68,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Additional read only notes set by the connectivity provider.
      */
-    @JsonProperty(value = "properties.serviceProviderNotes")
+    @JsonProperty(value = "properties.serviceProviderNotes", access = JsonProperty.Access.WRITE_ONLY)
     private String serviceProviderNotes;
 
     /**
@@ -172,17 +172,6 @@ public class ExpressRouteCrossConnectionInner extends Resource {
      */
     public String serviceProviderNotes() {
         return this.serviceProviderNotes;
-    }
-
-    /**
-     * Set the serviceProviderNotes value.
-     *
-     * @param serviceProviderNotes the serviceProviderNotes value to set
-     * @return the ExpressRouteCrossConnectionInner object itself.
-     */
-    public ExpressRouteCrossConnectionInner withServiceProviderNotes(String serviceProviderNotes) {
-        this.serviceProviderNotes = serviceProviderNotes;
-        return this;
     }
 
     /**

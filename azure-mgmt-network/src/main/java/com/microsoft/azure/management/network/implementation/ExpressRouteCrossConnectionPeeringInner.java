@@ -104,7 +104,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Gets whether the provider or the customer last modified the peering.
      */
-    @JsonProperty(value = "properties.lastModifiedBy")
+    @JsonProperty(value = "properties.lastModifiedBy", access = JsonProperty.Access.WRITE_ONLY)
     private String lastModifiedBy;
 
     /**
@@ -338,17 +338,6 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
      */
     public String lastModifiedBy() {
         return this.lastModifiedBy;
-    }
-
-    /**
-     * Set the lastModifiedBy value.
-     *
-     * @param lastModifiedBy the lastModifiedBy value to set
-     * @return the ExpressRouteCrossConnectionPeeringInner object itself.
-     */
-    public ExpressRouteCrossConnectionPeeringInner withLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-        return this;
     }
 
     /**

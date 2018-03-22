@@ -1812,7 +1812,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1827,7 +1827,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1841,7 +1841,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1859,7 +1859,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1889,7 +1889,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1904,7 +1904,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1918,7 +1918,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1936,7 +1936,7 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Configures flow log on a specified resource.
+     * Configures flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
@@ -1984,11 +1984,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logg and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -1999,11 +1999,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logg and traffic analytics (optional) status.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -2013,11 +2013,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logg and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -2031,11 +2031,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logg and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -2062,11 +2062,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logg and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -2077,11 +2077,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logg and traffic analytics (optional) status.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -2091,11 +2091,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logg and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FlowLogInformationInner object
      */
@@ -2109,11 +2109,11 @@ public class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInne
     }
 
     /**
-     * Queries status of flow log on a specified resource.
+     * Queries status of flow log and traffic analytics (optional) on a specified resource.
      *
      * @param resourceGroupName The name of the network watcher resource group.
      * @param networkWatcherName The name of the network watcher resource.
-     * @param targetResourceId The target resource where getting the flow logging status.
+     * @param targetResourceId The target resource where getting the flow logg and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FlowLogInformationInner object
      */

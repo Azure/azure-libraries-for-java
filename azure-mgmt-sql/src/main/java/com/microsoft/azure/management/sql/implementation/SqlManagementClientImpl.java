@@ -277,6 +277,19 @@ public class SqlManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The RecommendedElasticPoolsInner object to access its operations.
+     */
+    private RecommendedElasticPoolsInner recommendedElasticPools;
+
+    /**
+     * Gets the RecommendedElasticPoolsInner object to access its operations.
+     * @return the RecommendedElasticPoolsInner object.
+     */
+    public RecommendedElasticPoolsInner recommendedElasticPools() {
+        return this.recommendedElasticPools;
+    }
+
+    /**
      * The ReplicationLinksInner object to access its operations.
      */
     private ReplicationLinksInner replicationLinks;
@@ -352,19 +365,6 @@ public class SqlManagementClientImpl extends AzureServiceClient {
      */
     public ElasticPoolDatabaseActivitiesInner elasticPoolDatabaseActivities() {
         return this.elasticPoolDatabaseActivities;
-    }
-
-    /**
-     * The RecommendedElasticPoolsInner object to access its operations.
-     */
-    private RecommendedElasticPoolsInner recommendedElasticPools;
-
-    /**
-     * Gets the RecommendedElasticPoolsInner object to access its operations.
-     * @return the RecommendedElasticPoolsInner object.
-     */
-    public RecommendedElasticPoolsInner recommendedElasticPools() {
-        return this.recommendedElasticPools;
     }
 
     /**
@@ -712,13 +712,13 @@ public class SqlManagementClientImpl extends AzureServiceClient {
         this.elasticPools = new ElasticPoolsInner(restClient().retrofit(), this);
         this.firewallRules = new FirewallRulesInner(restClient().retrofit(), this);
         this.geoBackupPolicies = new GeoBackupPoliciesInner(restClient().retrofit(), this);
+        this.recommendedElasticPools = new RecommendedElasticPoolsInner(restClient().retrofit(), this);
         this.replicationLinks = new ReplicationLinksInner(restClient().retrofit(), this);
         this.serverAzureADAdministrators = new ServerAzureADAdministratorsInner(restClient().retrofit(), this);
         this.serverCommunicationLinks = new ServerCommunicationLinksInner(restClient().retrofit(), this);
         this.serviceObjectives = new ServiceObjectivesInner(restClient().retrofit(), this);
         this.elasticPoolActivities = new ElasticPoolActivitiesInner(restClient().retrofit(), this);
         this.elasticPoolDatabaseActivities = new ElasticPoolDatabaseActivitiesInner(restClient().retrofit(), this);
-        this.recommendedElasticPools = new RecommendedElasticPoolsInner(restClient().retrofit(), this);
         this.serviceTierAdvisors = new ServiceTierAdvisorsInner(restClient().retrofit(), this);
         this.transparentDataEncryptions = new TransparentDataEncryptionsInner(restClient().retrofit(), this);
         this.transparentDataEncryptionActivities = new TransparentDataEncryptionActivitiesInner(restClient().retrofit(), this);

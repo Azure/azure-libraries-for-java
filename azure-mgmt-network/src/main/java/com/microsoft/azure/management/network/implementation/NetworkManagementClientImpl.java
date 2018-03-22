@@ -280,19 +280,6 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The ExpressRouteCrossConnectionsTagsInner object to access its operations.
-     */
-    private ExpressRouteCrossConnectionsTagsInner expressRouteCrossConnectionsTags;
-
-    /**
-     * Gets the ExpressRouteCrossConnectionsTagsInner object to access its operations.
-     * @return the ExpressRouteCrossConnectionsTagsInner object.
-     */
-    public ExpressRouteCrossConnectionsTagsInner expressRouteCrossConnectionsTags() {
-        return this.expressRouteCrossConnectionsTags;
-    }
-
-    /**
      * The ExpressRouteCrossConnectionPeeringsInner object to access its operations.
      */
     private ExpressRouteCrossConnectionPeeringsInner expressRouteCrossConnectionPeerings;
@@ -303,45 +290,6 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
      */
     public ExpressRouteCrossConnectionPeeringsInner expressRouteCrossConnectionPeerings() {
         return this.expressRouteCrossConnectionPeerings;
-    }
-
-    /**
-     * The ExpressRouteCircuitsArpTablesInner object to access its operations.
-     */
-    private ExpressRouteCircuitsArpTablesInner expressRouteCircuitsArpTables;
-
-    /**
-     * Gets the ExpressRouteCircuitsArpTablesInner object to access its operations.
-     * @return the ExpressRouteCircuitsArpTablesInner object.
-     */
-    public ExpressRouteCircuitsArpTablesInner expressRouteCircuitsArpTables() {
-        return this.expressRouteCircuitsArpTables;
-    }
-
-    /**
-     * The ExpressRouteCircuitsRouteTableSummarysInner object to access its operations.
-     */
-    private ExpressRouteCircuitsRouteTableSummarysInner expressRouteCircuitsRouteTableSummarys;
-
-    /**
-     * Gets the ExpressRouteCircuitsRouteTableSummarysInner object to access its operations.
-     * @return the ExpressRouteCircuitsRouteTableSummarysInner object.
-     */
-    public ExpressRouteCircuitsRouteTableSummarysInner expressRouteCircuitsRouteTableSummarys() {
-        return this.expressRouteCircuitsRouteTableSummarys;
-    }
-
-    /**
-     * The ExpressRouteCircuitsRoutesTablesInner object to access its operations.
-     */
-    private ExpressRouteCircuitsRoutesTablesInner expressRouteCircuitsRoutesTables;
-
-    /**
-     * Gets the ExpressRouteCircuitsRoutesTablesInner object to access its operations.
-     * @return the ExpressRouteCircuitsRoutesTablesInner object.
-     */
-    public ExpressRouteCircuitsRoutesTablesInner expressRouteCircuitsRoutesTables() {
-        return this.expressRouteCircuitsRoutesTables;
     }
 
     /**
@@ -779,11 +727,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         this.expressRouteCircuits = new ExpressRouteCircuitsInner(restClient().retrofit(), this);
         this.expressRouteServiceProviders = new ExpressRouteServiceProvidersInner(restClient().retrofit(), this);
         this.expressRouteCrossConnections = new ExpressRouteCrossConnectionsInner(restClient().retrofit(), this);
-        this.expressRouteCrossConnectionsTags = new ExpressRouteCrossConnectionsTagsInner(restClient().retrofit(), this);
         this.expressRouteCrossConnectionPeerings = new ExpressRouteCrossConnectionPeeringsInner(restClient().retrofit(), this);
-        this.expressRouteCircuitsArpTables = new ExpressRouteCircuitsArpTablesInner(restClient().retrofit(), this);
-        this.expressRouteCircuitsRouteTableSummarys = new ExpressRouteCircuitsRouteTableSummarysInner(restClient().retrofit(), this);
-        this.expressRouteCircuitsRoutesTables = new ExpressRouteCircuitsRoutesTablesInner(restClient().retrofit(), this);
         this.loadBalancers = new LoadBalancersInner(restClient().retrofit(), this);
         this.loadBalancerBackendAddressPools = new LoadBalancerBackendAddressPoolsInner(restClient().retrofit(), this);
         this.loadBalancerFrontendIPConfigurations = new LoadBalancerFrontendIPConfigurationsInner(restClient().retrofit(), this);

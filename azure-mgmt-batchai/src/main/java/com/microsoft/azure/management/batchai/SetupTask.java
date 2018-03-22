@@ -23,24 +23,45 @@ public class SetupTask {
     private String commandLine;
 
     /**
-     * Collection of environment settings.
+     * Collection of environment variables to be set for setup task.
      */
     @JsonProperty(value = "environmentVariables")
-    private List<EnvironmentSetting> environmentVariables;
+    private List<EnvironmentVariable> environmentVariables;
 
     /**
-     * Specifies whether to run the setup task in elevated mode. The default
+     * Collection of environment variables with secret values to be set for
+     * setup task.
+     * Server will never report values of these variables back.
+     */
+    @JsonProperty(value = "secrets")
+    private List<EnvironmentVariableWithSecretValue> secrets;
+
+    /**
+     * Specifies whether to run the setup task under root account. The default
      * value is false.
+     * Note. Non-elevated tasks are run under an account added into sudoer list
+     * and can perform sudo when required.
      */
     @JsonProperty(value = "runElevated")
     private Boolean runElevated;
 
     /**
-     * The path where the Batch AI service will upload the stdout and stderror
-     * of setup task.
+     * The prefix of a path where the Batch AI service will upload the stdout
+     * and stderr of the setup task.
      */
     @JsonProperty(value = "stdOutErrPathPrefix", required = true)
     private String stdOutErrPathPrefix;
+
+    /**
+     * A path segment appended by Batch AI to stdOutErrPathPrefix to form a
+     * path where stdout and stderr of the setup task will be uploaded.
+     * Batch AI creates the setup task output directories under an unique path
+     * to avoid conflicts between different clusters. You can concatinate
+     * stdOutErrPathPrefix and stdOutErrPathSuffix to get the full path to the
+     * output directory.
+     */
+    @JsonProperty(value = "stdOutErrPathSuffix", access = JsonProperty.Access.WRITE_ONLY)
+    private String stdOutErrPathSuffix;
 
     /**
      * Get the commandLine value.
@@ -67,7 +88,7 @@ public class SetupTask {
      *
      * @return the environmentVariables value
      */
-    public List<EnvironmentSetting> environmentVariables() {
+    public List<EnvironmentVariable> environmentVariables() {
         return this.environmentVariables;
     }
 
@@ -77,8 +98,28 @@ public class SetupTask {
      * @param environmentVariables the environmentVariables value to set
      * @return the SetupTask object itself.
      */
-    public SetupTask withEnvironmentVariables(List<EnvironmentSetting> environmentVariables) {
+    public SetupTask withEnvironmentVariables(List<EnvironmentVariable> environmentVariables) {
         this.environmentVariables = environmentVariables;
+        return this;
+    }
+
+    /**
+     * Get the secrets value.
+     *
+     * @return the secrets value
+     */
+    public List<EnvironmentVariableWithSecretValue> secrets() {
+        return this.secrets;
+    }
+
+    /**
+     * Set the secrets value.
+     *
+     * @param secrets the secrets value to set
+     * @return the SetupTask object itself.
+     */
+    public SetupTask withSecrets(List<EnvironmentVariableWithSecretValue> secrets) {
+        this.secrets = secrets;
         return this;
     }
 
@@ -120,6 +161,15 @@ public class SetupTask {
     public SetupTask withStdOutErrPathPrefix(String stdOutErrPathPrefix) {
         this.stdOutErrPathPrefix = stdOutErrPathPrefix;
         return this;
+    }
+
+    /**
+     * Get the stdOutErrPathSuffix value.
+     *
+     * @return the stdOutErrPathSuffix value
+     */
+    public String stdOutErrPathSuffix() {
+        return this.stdOutErrPathSuffix;
     }
 
 }

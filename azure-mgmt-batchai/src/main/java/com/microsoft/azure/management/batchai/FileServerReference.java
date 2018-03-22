@@ -32,8 +32,9 @@ public class FileServerReference {
     /**
      * Specifies the relative path on the compute node where the File Server
      * will be mounted.
-     * Note that all file shares will be mounted under $AZ_BATCHAI_MOUNT_ROOT
-     * location.
+     * Note that all cluster level file servers will be mounted under
+     * $AZ_BATCHAI_MOUNT_ROOT location and job level file servers will be
+     * mouted under $AZ_BATCHAI_JOB_MOUNT_ROOT.
      */
     @JsonProperty(value = "relativeMountPath", required = true)
     private String relativeMountPath;

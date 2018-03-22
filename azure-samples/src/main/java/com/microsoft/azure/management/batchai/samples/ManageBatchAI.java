@@ -44,7 +44,7 @@ public final class ManageBatchAI {
      */
     public static boolean runSample(Azure azure) {
         final String sampleDataPath = System.getenv("SAMPLE_DATA_PATH");
-        final Region region = Region.US_WEST2;
+        final Region region = Region.EUROPE_WEST;
         final String rgName = SdkContext.randomResourceName("rg", 20);
         final String saName = SdkContext.randomResourceName("sa", 20);
         final String shareName = SdkContext.randomResourceName("fs", 20);

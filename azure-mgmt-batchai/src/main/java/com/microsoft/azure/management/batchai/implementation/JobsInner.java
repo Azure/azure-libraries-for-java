@@ -107,7 +107,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs listOutputFiles" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/jobs/{jobName}/listOutputFiles")
-        Observable<Response<ResponseBody>> listOutputFiles(@Path("resourceGroupName") String resourceGroupName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Query("outputdirectoryid") String outputdirectoryid, @Query("linkexpiryinminutes") Integer linkexpiryinminutes, @Query("maxresults") Integer maxResults, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listOutputFiles(@Path("resourceGroupName") String resourceGroupName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Query("outputdirectoryid") String outputdirectoryid, @Query("directory") String directory, @Query("linkexpiryinminutes") Integer linkexpiryinminutes, @Query("maxresults") Integer maxResults, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs listRemoteLoginInformationNext" })
         @GET
@@ -1292,7 +1292,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
@@ -1313,7 +1313,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
@@ -1335,7 +1335,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
@@ -1354,7 +1354,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
@@ -1377,7 +1377,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
      *
     ServiceResponse<PageImpl<FileInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<FileInner>> * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
@@ -1403,9 +1403,10 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
         }
         Validator.validate(jobsListOutputFilesOptions);
         String outputdirectoryid = jobsListOutputFilesOptions.outputdirectoryid();
+        String directory = jobsListOutputFilesOptions.directory();
         Integer linkexpiryinminutes = jobsListOutputFilesOptions.linkexpiryinminutes();
         Integer maxResults = jobsListOutputFilesOptions.maxResults();
-        return service.listOutputFiles(resourceGroupName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), outputdirectoryid, linkexpiryinminutes, maxResults, this.client.userAgent())
+        return service.listOutputFiles(resourceGroupName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), outputdirectoryid, directory, linkexpiryinminutes, maxResults, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<FileInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<FileInner>>> call(Response<ResponseBody> response) {
@@ -1760,7 +1761,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1779,7 +1780,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -1800,7 +1801,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1817,7 +1818,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1838,7 +1839,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
      *
     ServiceResponse<PageImpl<FileInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

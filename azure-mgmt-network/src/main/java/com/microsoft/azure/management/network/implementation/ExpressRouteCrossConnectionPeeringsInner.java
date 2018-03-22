@@ -384,7 +384,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
     }
 
     /**
-     * Gets the specified peering for the ExpressrouteCrossConnection.
+     * Gets the specified peering for the ExpressRouteCrossConnection.
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
@@ -399,7 +399,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
     }
 
     /**
-     * Gets the specified peering for the ExpressrouteCrossConnection.
+     * Gets the specified peering for the ExpressRouteCrossConnection.
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
@@ -413,7 +413,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
     }
 
     /**
-     * Gets the specified peering for the ExpressrouteCrossConnection.
+     * Gets the specified peering for the ExpressRouteCrossConnection.
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
@@ -431,7 +431,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
     }
 
     /**
-     * Gets the specified peering for the ExpressrouteCrossConnection.
+     * Gets the specified peering for the ExpressRouteCrossConnection.
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
@@ -477,7 +477,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
     }
 
     /**
-     * Creates or updates a peering in the specified ExpressrouteCrossConnection.
+     * Creates or updates a peering in the specified ExpressRouteCrossConnection.
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
@@ -493,7 +493,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
     }
 
     /**
-     * Creates or updates a peering in the specified ExpressrouteCrossConnection.
+     * Creates or updates a peering in the specified ExpressRouteCrossConnection.
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
@@ -508,7 +508,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
     }
 
     /**
-     * Creates or updates a peering in the specified ExpressrouteCrossConnection.
+     * Creates or updates a peering in the specified ExpressRouteCrossConnection.
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
@@ -527,7 +527,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
     }
 
     /**
-     * Creates or updates a peering in the specified ExpressrouteCrossConnection.
+     * Creates or updates a peering in the specified ExpressRouteCrossConnection.
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
@@ -561,7 +561,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
     }
 
     /**
-     * Creates or updates a peering in the specified ExpressrouteCrossConnection.
+     * Creates or updates a peering in the specified ExpressRouteCrossConnection.
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
@@ -577,7 +577,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
     }
 
     /**
-     * Creates or updates a peering in the specified ExpressrouteCrossConnection.
+     * Creates or updates a peering in the specified ExpressRouteCrossConnection.
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
@@ -592,7 +592,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
     }
 
     /**
-     * Creates or updates a peering in the specified ExpressrouteCrossConnection.
+     * Creates or updates a peering in the specified ExpressRouteCrossConnection.
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
@@ -611,7 +611,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
     }
 
     /**
-     * Creates or updates a peering in the specified ExpressrouteCrossConnection.
+     * Creates or updates a peering in the specified ExpressRouteCrossConnection.
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.

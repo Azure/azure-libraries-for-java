@@ -8,11 +8,6 @@ package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.monitor.EventDataPropertyName;
-import com.microsoft.azure.management.monitor.EventData;
-import com.microsoft.azure.management.monitor.MetricCollection;
-import com.microsoft.azure.management.monitor.MetricDefinition;
-import com.microsoft.azure.management.monitor.ResultType;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -74,6 +69,31 @@ public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
             Assert.assertNull(event.eventDataId());
             Assert.assertNull(event.httpRequest());
             Assert.assertNull(event.level());
+        }
+
+        // List Event Categories
+        List<LocalizableString> eventCategories = monitorManager.activityLogs().listEventCategories();
+        Assert.assertNotNull(eventCategories);
+        Assert.assertFalse(eventCategories.isEmpty());
+
+        // List Activity logs at tenant level is not allowed for the current tenant 
+        try {
+            monitorManager.activityLogs()
+                    .defineQuery()
+                    .startingFrom(recordDateTime.minusDays(30))
+                    .endsBefore(recordDateTime)
+                    .withResponseProperties(
+                            EventDataPropertyName.RESOURCEID,
+                            EventDataPropertyName.EVENTTIMESTAMP,
+                            EventDataPropertyName.OPERATIONNAME,
+                            EventDataPropertyName.EVENTNAME)
+                    .filterByResource(vm.id())
+                    .filterAtTenantLevel()
+                    .execute();
+        } catch (ErrorResponseException er) {
+            // should throw "The client '...' with object id '...' does not have authorization to perform action
+            // 'microsoft.insights/eventtypes/values/read' over scope '/providers/microsoft.insights/eventtypes/management'.
+            Assert.assertEquals(403, er.response().raw().code());
         }
     }
 }

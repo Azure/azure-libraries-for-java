@@ -8,58 +8,40 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ExpressRouteCircuitPeeringAdvertisedPublicPrefixState.
  */
-public final class ExpressRouteCircuitPeeringAdvertisedPublicPrefixState {
+public final class ExpressRouteCircuitPeeringAdvertisedPublicPrefixState extends ExpandableStringEnum<ExpressRouteCircuitPeeringAdvertisedPublicPrefixState> {
     /** Static value NotConfigured for ExpressRouteCircuitPeeringAdvertisedPublicPrefixState. */
-    public static final ExpressRouteCircuitPeeringAdvertisedPublicPrefixState NOT_CONFIGURED = new ExpressRouteCircuitPeeringAdvertisedPublicPrefixState("NotConfigured");
+    public static final ExpressRouteCircuitPeeringAdvertisedPublicPrefixState NOT_CONFIGURED = fromString("NotConfigured");
 
     /** Static value Configuring for ExpressRouteCircuitPeeringAdvertisedPublicPrefixState. */
-    public static final ExpressRouteCircuitPeeringAdvertisedPublicPrefixState CONFIGURING = new ExpressRouteCircuitPeeringAdvertisedPublicPrefixState("Configuring");
+    public static final ExpressRouteCircuitPeeringAdvertisedPublicPrefixState CONFIGURING = fromString("Configuring");
 
     /** Static value Configured for ExpressRouteCircuitPeeringAdvertisedPublicPrefixState. */
-    public static final ExpressRouteCircuitPeeringAdvertisedPublicPrefixState CONFIGURED = new ExpressRouteCircuitPeeringAdvertisedPublicPrefixState("Configured");
+    public static final ExpressRouteCircuitPeeringAdvertisedPublicPrefixState CONFIGURED = fromString("Configured");
 
     /** Static value ValidationNeeded for ExpressRouteCircuitPeeringAdvertisedPublicPrefixState. */
-    public static final ExpressRouteCircuitPeeringAdvertisedPublicPrefixState VALIDATION_NEEDED = new ExpressRouteCircuitPeeringAdvertisedPublicPrefixState("ValidationNeeded");
-
-    private String value;
+    public static final ExpressRouteCircuitPeeringAdvertisedPublicPrefixState VALIDATION_NEEDED = fromString("ValidationNeeded");
 
     /**
-     * Creates a custom value for ExpressRouteCircuitPeeringAdvertisedPublicPrefixState.
-     * @param value the custom value
+     * Creates or finds a ExpressRouteCircuitPeeringAdvertisedPublicPrefixState from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ExpressRouteCircuitPeeringAdvertisedPublicPrefixState
      */
-    public ExpressRouteCircuitPeeringAdvertisedPublicPrefixState(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ExpressRouteCircuitPeeringAdvertisedPublicPrefixState fromString(String name) {
+        return fromString(name, ExpressRouteCircuitPeeringAdvertisedPublicPrefixState.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ExpressRouteCircuitPeeringAdvertisedPublicPrefixState)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ExpressRouteCircuitPeeringAdvertisedPublicPrefixState rhs = (ExpressRouteCircuitPeeringAdvertisedPublicPrefixState) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ExpressRouteCircuitPeeringAdvertisedPublicPrefixState values
+     */
+    public static Collection<ExpressRouteCircuitPeeringAdvertisedPublicPrefixState> values() {
+        return values(ExpressRouteCircuitPeeringAdvertisedPublicPrefixState.class);
     }
 }

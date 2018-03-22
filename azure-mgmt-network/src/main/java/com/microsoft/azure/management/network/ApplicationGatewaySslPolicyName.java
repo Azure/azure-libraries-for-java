@@ -8,55 +8,37 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ApplicationGatewaySslPolicyName.
  */
-public final class ApplicationGatewaySslPolicyName {
+public final class ApplicationGatewaySslPolicyName extends ExpandableStringEnum<ApplicationGatewaySslPolicyName> {
     /** Static value AppGwSslPolicy20150501 for ApplicationGatewaySslPolicyName. */
-    public static final ApplicationGatewaySslPolicyName APP_GW_SSL_POLICY20150501 = new ApplicationGatewaySslPolicyName("AppGwSslPolicy20150501");
+    public static final ApplicationGatewaySslPolicyName APP_GW_SSL_POLICY20150501 = fromString("AppGwSslPolicy20150501");
 
     /** Static value AppGwSslPolicy20170401 for ApplicationGatewaySslPolicyName. */
-    public static final ApplicationGatewaySslPolicyName APP_GW_SSL_POLICY20170401 = new ApplicationGatewaySslPolicyName("AppGwSslPolicy20170401");
+    public static final ApplicationGatewaySslPolicyName APP_GW_SSL_POLICY20170401 = fromString("AppGwSslPolicy20170401");
 
     /** Static value AppGwSslPolicy20170401S for ApplicationGatewaySslPolicyName. */
-    public static final ApplicationGatewaySslPolicyName APP_GW_SSL_POLICY20170401S = new ApplicationGatewaySslPolicyName("AppGwSslPolicy20170401S");
-
-    private String value;
+    public static final ApplicationGatewaySslPolicyName APP_GW_SSL_POLICY20170401S = fromString("AppGwSslPolicy20170401S");
 
     /**
-     * Creates a custom value for ApplicationGatewaySslPolicyName.
-     * @param value the custom value
+     * Creates or finds a ApplicationGatewaySslPolicyName from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ApplicationGatewaySslPolicyName
      */
-    public ApplicationGatewaySslPolicyName(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ApplicationGatewaySslPolicyName fromString(String name) {
+        return fromString(name, ApplicationGatewaySslPolicyName.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ApplicationGatewaySslPolicyName)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ApplicationGatewaySslPolicyName rhs = (ApplicationGatewaySslPolicyName) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ApplicationGatewaySslPolicyName values
+     */
+    public static Collection<ApplicationGatewaySslPolicyName> values() {
+        return values(ApplicationGatewaySslPolicyName.class);
     }
 }

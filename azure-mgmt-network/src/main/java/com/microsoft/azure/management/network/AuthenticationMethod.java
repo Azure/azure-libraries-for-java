@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for AuthenticationMethod.
  */
-public final class AuthenticationMethod {
+public final class AuthenticationMethod extends ExpandableStringEnum<AuthenticationMethod> {
     /** Static value EAPTLS for AuthenticationMethod. */
-    public static final AuthenticationMethod EAPTLS = new AuthenticationMethod("EAPTLS");
+    public static final AuthenticationMethod EAPTLS = fromString("EAPTLS");
 
     /** Static value EAPMSCHAPv2 for AuthenticationMethod. */
-    public static final AuthenticationMethod EAPMSCHAPV2 = new AuthenticationMethod("EAPMSCHAPv2");
-
-    private String value;
+    public static final AuthenticationMethod EAPMSCHAPV2 = fromString("EAPMSCHAPv2");
 
     /**
-     * Creates a custom value for AuthenticationMethod.
-     * @param value the custom value
+     * Creates or finds a AuthenticationMethod from its string representation.
+     * @param name a name to look for
+     * @return the corresponding AuthenticationMethod
      */
-    public AuthenticationMethod(String value) {
-        this.value = value;
+    @JsonCreator
+    public static AuthenticationMethod fromString(String name) {
+        return fromString(name, AuthenticationMethod.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof AuthenticationMethod)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        AuthenticationMethod rhs = (AuthenticationMethod) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known AuthenticationMethod values
+     */
+    public static Collection<AuthenticationMethod> values() {
+        return values(AuthenticationMethod.class);
     }
 }

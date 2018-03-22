@@ -8,55 +8,37 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for NetworkOperationStatus.
  */
-public final class NetworkOperationStatus {
+public final class NetworkOperationStatus extends ExpandableStringEnum<NetworkOperationStatus> {
     /** Static value InProgress for NetworkOperationStatus. */
-    public static final NetworkOperationStatus IN_PROGRESS = new NetworkOperationStatus("InProgress");
+    public static final NetworkOperationStatus IN_PROGRESS = fromString("InProgress");
 
     /** Static value Succeeded for NetworkOperationStatus. */
-    public static final NetworkOperationStatus SUCCEEDED = new NetworkOperationStatus("Succeeded");
+    public static final NetworkOperationStatus SUCCEEDED = fromString("Succeeded");
 
     /** Static value Failed for NetworkOperationStatus. */
-    public static final NetworkOperationStatus FAILED = new NetworkOperationStatus("Failed");
-
-    private String value;
+    public static final NetworkOperationStatus FAILED = fromString("Failed");
 
     /**
-     * Creates a custom value for NetworkOperationStatus.
-     * @param value the custom value
+     * Creates or finds a NetworkOperationStatus from its string representation.
+     * @param name a name to look for
+     * @return the corresponding NetworkOperationStatus
      */
-    public NetworkOperationStatus(String value) {
-        this.value = value;
+    @JsonCreator
+    public static NetworkOperationStatus fromString(String name) {
+        return fromString(name, NetworkOperationStatus.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof NetworkOperationStatus)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        NetworkOperationStatus rhs = (NetworkOperationStatus) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known NetworkOperationStatus values
+     */
+    public static Collection<NetworkOperationStatus> values() {
+        return values(NetworkOperationStatus.class);
     }
 }

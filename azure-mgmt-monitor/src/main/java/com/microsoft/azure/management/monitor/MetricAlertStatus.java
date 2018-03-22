@@ -27,7 +27,7 @@ public class MetricAlertStatus {
     private String id;
 
     /**
-     * Possible values include: 'microsoft.insights/metricalerts/status'.
+     * The extended resource type name.
      */
     @JsonProperty(value = "type")
     private String type;

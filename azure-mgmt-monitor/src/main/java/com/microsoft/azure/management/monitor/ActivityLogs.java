@@ -91,6 +91,7 @@ public interface ActivityLogs extends
              *
              * @return the stage of Activity log filtering by type and query execution.
              */
+            @Method
             WithActivityLogsSelectFilter withAllPropertiesInResponse();
         }
 
@@ -142,6 +143,7 @@ public interface ActivityLogs extends
              *
              * @return Activity Log events received after query execution.
              */
+            @Method
             PagedList<EventData> execute();
 
             /**
@@ -149,6 +151,7 @@ public interface ActivityLogs extends
              *
              * @return a representation of the deferred computation of Activity Log query call.
              */
+            @Method
             Observable<EventData> executeAsync();
         }
     }

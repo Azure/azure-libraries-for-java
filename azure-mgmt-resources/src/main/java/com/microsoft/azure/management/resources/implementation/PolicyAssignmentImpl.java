@@ -23,8 +23,8 @@ final class PolicyAssignmentImpl extends
         PolicyAssignment.Definition {
     private final PolicyAssignmentsInner innerCollection;
 
-    PolicyAssignmentImpl(PolicyAssignmentInner innerModel, PolicyAssignmentsInner innerCollection) {
-        super(innerModel.name(), innerModel);
+    PolicyAssignmentImpl(String name, PolicyAssignmentInner innerModel, PolicyAssignmentsInner innerCollection) {
+        super(name, innerModel);
         this.innerCollection = innerCollection;
     }
 

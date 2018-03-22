@@ -15,19 +15,19 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * Data Lake Analytics firewall rule information.
  */
 @JsonFlatten
-public class FirewallRule extends OptionalSubResource {
+public class FirewallRule extends SubResource {
     /**
-     * the start IP address for the firewall rule. This can be either ipv4 or
+     * The start IP address for the firewall rule. This can be either ipv4 or
      * ipv6. Start and End should be in the same protocol.
      */
-    @JsonProperty(value = "properties.startIpAddress", required = true)
+    @JsonProperty(value = "properties.startIpAddress", access = JsonProperty.Access.WRITE_ONLY)
     private String startIpAddress;
 
     /**
-     * the end IP address for the firewall rule. This can be either ipv4 or
+     * The end IP address for the firewall rule. This can be either ipv4 or
      * ipv6. Start and End should be in the same protocol.
      */
-    @JsonProperty(value = "properties.endIpAddress", required = true)
+    @JsonProperty(value = "properties.endIpAddress", access = JsonProperty.Access.WRITE_ONLY)
     private String endIpAddress;
 
     /**
@@ -40,34 +40,12 @@ public class FirewallRule extends OptionalSubResource {
     }
 
     /**
-     * Set the startIpAddress value.
-     *
-     * @param startIpAddress the startIpAddress value to set
-     * @return the FirewallRule object itself.
-     */
-    public FirewallRule withStartIpAddress(String startIpAddress) {
-        this.startIpAddress = startIpAddress;
-        return this;
-    }
-
-    /**
      * Get the endIpAddress value.
      *
      * @return the endIpAddress value
      */
     public String endIpAddress() {
         return this.endIpAddress;
-    }
-
-    /**
-     * Set the endIpAddress value.
-     *
-     * @param endIpAddress the endIpAddress value to set
-     * @return the FirewallRule object itself.
-     */
-    public FirewallRule withEndIpAddress(String endIpAddress) {
-        this.endIpAddress = endIpAddress;
-        return this;
     }
 
 }

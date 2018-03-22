@@ -103,6 +103,12 @@ public interface DataLakeAnalyticsJobManagementClient {
     DataLakeAnalyticsJobManagementClient withGenerateClientRequestId(boolean generateClientRequestId);
 
     /**
+     * Gets the Jobs object to access its operations.
+     * @return the Jobs object.
+     */
+    Jobs jobs();
+
+    /**
      * Gets the Pipelines object to access its operations.
      * @return the Pipelines object.
      */
@@ -113,11 +119,5 @@ public interface DataLakeAnalyticsJobManagementClient {
      * @return the Recurrences object.
      */
     Recurrences recurrences();
-
-    /**
-     * Gets the Jobs object to access its operations.
-     * @return the Jobs object.
-     */
-    Jobs jobs();
 
 }

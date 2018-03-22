@@ -8,9 +8,10 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import java.util.UUID;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
+import java.util.UUID;
 
 /**
  * A Data Lake Analytics job data path item.

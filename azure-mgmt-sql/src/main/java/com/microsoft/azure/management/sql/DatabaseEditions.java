@@ -8,70 +8,61 @@
 
 package com.microsoft.azure.management.sql;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
- * Defines values for DatabaseEditions.
+ * Defines values for DatabaseEdition.
  */
-public final class DatabaseEditions {
-    /** Static value Web for DatabaseEditions. */
-    public static final DatabaseEditions WEB = new DatabaseEditions("Web");
+public final class DatabaseEditions extends ExpandableStringEnum<DatabaseEditions> {
+    /** Static value Web for DatabaseEdition. */
+    public static final DatabaseEditions WEB = fromString("Web");
 
-    /** Static value Business for DatabaseEditions. */
-    public static final DatabaseEditions BUSINESS = new DatabaseEditions("Business");
+    /** Static value Business for DatabaseEdition. */
+    public static final DatabaseEditions BUSINESS = fromString("Business");
 
-    /** Static value Basic for DatabaseEditions. */
-    public static final DatabaseEditions BASIC = new DatabaseEditions("Basic");
+    /** Static value Basic for DatabaseEdition. */
+    public static final DatabaseEditions BASIC = fromString("Basic");
 
-    /** Static value Standard for DatabaseEditions. */
-    public static final DatabaseEditions STANDARD = new DatabaseEditions("Standard");
+    /** Static value Standard for DatabaseEdition. */
+    public static final DatabaseEditions STANDARD = fromString("Standard");
 
-    /** Static value Premium for DatabaseEditions. */
-    public static final DatabaseEditions PREMIUM = new DatabaseEditions("Premium");
+    /** Static value Premium for DatabaseEdition. */
+    public static final DatabaseEditions PREMIUM = fromString("Premium");
 
-    /** Static value Free for DatabaseEditions. */
-    public static final DatabaseEditions FREE = new DatabaseEditions("Free");
+    /** Static value PremiumRS for DatabaseEdition. */
+    public static final DatabaseEditions PREMIUM_RS = fromString("PremiumRS");
 
-    /** Static value Stretch for DatabaseEditions. */
-    public static final DatabaseEditions STRETCH = new DatabaseEditions("Stretch");
+    /** Static value Free for DatabaseEdition. */
+    public static final DatabaseEditions FREE = fromString("Free");
 
-    /** Static value DataWarehouse for DatabaseEditions. */
-    public static final DatabaseEditions DATA_WAREHOUSE = new DatabaseEditions("DataWarehouse");
+    /** Static value Stretch for DatabaseEdition. */
+    public static final DatabaseEditions STRETCH = fromString("Stretch");
 
-    private String value;
+    /** Static value DataWarehouse for DatabaseEdition. */
+    public static final DatabaseEditions DATA_WAREHOUSE = fromString("DataWarehouse");
+
+    /** Static value System for DatabaseEdition. */
+    public static final DatabaseEditions SYSTEM = fromString("System");
+
+    /** Static value System2 for DatabaseEdition. */
+    public static final DatabaseEditions SYSTEM2 = fromString("System2");
 
     /**
-     * Creates a custom value for DatabaseEditions.
-     * @param value the custom value
+     * Creates or finds a DatabaseEdition from its string representation.
+     * @param name a name to look for
+     * @return the corresponding DatabaseEdition
      */
-    public DatabaseEditions(String value) {
-        this.value = value;
+    @JsonCreator
+    public static DatabaseEditions fromString(String name) {
+        return fromString(name, DatabaseEditions.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof DatabaseEditions)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        DatabaseEditions rhs = (DatabaseEditions) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known DatabaseEdition values
+     */
+    public static Collection<DatabaseEditions> values() {
+        return values(DatabaseEditions.class);
     }
 }

@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.eventhub.implementation;
 
+import com.microsoft.azure.Resource;
 import com.microsoft.azure.management.eventhub.Sku;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,7 +18,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * Single Namespace item in List or Get Operation.
  */
 @JsonFlatten
-public class EHNamespaceInner extends TrackedResourceInner {
+public class EHNamespaceInner extends Resource {
     /**
      * Properties of sku resource.
      */

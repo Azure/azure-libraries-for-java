@@ -8,7 +8,7 @@ package com.microsoft.azure.management.datalake.analytics;
 
 import com.microsoft.azure.management.datalake.analytics.models.Acl;
 import com.microsoft.azure.management.datalake.analytics.models.AclCreateOrUpdateParameters;
-import com.microsoft.azure.management.datalake.analytics.models.AclList;
+import com.microsoft.azure.management.datalake.analytics.models.AclDeleteParameters;
 import com.microsoft.azure.management.datalake.analytics.models.AclType;
 import com.microsoft.azure.management.datalake.analytics.models.DataLakeAnalyticsCatalogCredentialCreateParameters;
 import com.microsoft.azure.management.datalake.analytics.models.PermissionType;
@@ -195,7 +195,11 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
             principalId = mockedId;
         }
 
-        List<USqlDatabase> dbListResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().listDatabases(jobAndCatalogAdlaName);
+        List<USqlDatabase> dbListResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listDatabases(
+                        jobAndCatalogAdlaName
+                );
+
         Assert.assertTrue(dbListResponse.size() >= 1);
 
         // Look for the DB we created
@@ -212,19 +216,21 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
         Assert.assertTrue(foundCatalogElement);
 
         // Get the specific Database as well
-        USqlDatabase dbGetResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().getDatabase(
-                jobAndCatalogAdlaName,
-                dbName
-        );
+        USqlDatabase dbGetResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().getDatabase(
+                        jobAndCatalogAdlaName,
+                        dbName
+                );
 
         Assert.assertEquals(dbName, dbGetResponse.name());
 
         // Get the table list
-        List<USqlTable> tableListResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().listTables(
-                jobAndCatalogAdlaName,
-                dbName,
-                "dbo"
-        );
+        List<USqlTable> tableListResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listTables(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        "dbo"
+                );
 
         Assert.assertTrue(tableListResponse.size() >= 1);
 
@@ -242,21 +248,23 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
         Assert.assertTrue(foundCatalogElement);
 
         // Get the specific table as well
-        USqlTable tableGetResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().getTable(
-                jobAndCatalogAdlaName,
-                dbName,
-                "dbo",
-                tableName
-        );
+        USqlTable tableGetResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().getTable(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        "dbo",
+                        tableName
+                );
 
         Assert.assertEquals(tableName, tableGetResponse.name());
 
         // Get the TVF list
-        List<USqlTableValuedFunction> tvfListResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().listTableValuedFunctions(
-                jobAndCatalogAdlaName,
-                dbName,
-                "dbo"
-        );
+        List<USqlTableValuedFunction> tvfListResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listTableValuedFunctions(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        "dbo"
+                );
 
         Assert.assertTrue(tvfListResponse.size() >= 1);
 
@@ -274,21 +282,23 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
         Assert.assertTrue(foundCatalogElement);
 
         // Get the specific TVF as well
-        USqlTableValuedFunction tvfGetResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().getTableValuedFunction(
-                jobAndCatalogAdlaName,
-                dbName,
-                "dbo",
-                tvfName
-        );
+        USqlTableValuedFunction tvfGetResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().getTableValuedFunction(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        "dbo",
+                        tvfName
+                );
 
         Assert.assertEquals(tvfName, tvfGetResponse.name());
 
         // Get the View list
-        List<USqlView> viewListResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().listViews(
-                jobAndCatalogAdlaName,
-                dbName,
-                "dbo"
-        );
+        List<USqlView> viewListResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listViews(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        "dbo"
+                );
 
         Assert.assertTrue(viewListResponse.size() >= 1);
 
@@ -306,21 +316,23 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
         Assert.assertTrue(foundCatalogElement);
 
         // Get the specific view as well
-        USqlView viewGetResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().getView(
-                jobAndCatalogAdlaName,
-                dbName,
-                "dbo",
-                viewName
-        );
+        USqlView viewGetResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().getView(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        "dbo",
+                        viewName
+                );
 
         Assert.assertEquals(viewName, viewGetResponse.name());
 
         // Get the Procedure list
-        List<USqlProcedure> procListResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().listProcedures(
-                jobAndCatalogAdlaName,
-                dbName,
-                "dbo"
-        );
+        List<USqlProcedure> procListResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listProcedures(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        "dbo"
+                );
 
         Assert.assertTrue(procListResponse.size() >= 1);
 
@@ -338,38 +350,41 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
         Assert.assertTrue(foundCatalogElement);
 
         // Get the specific procedure as well
-        USqlProcedure procGetResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().getProcedure(
-                jobAndCatalogAdlaName,
-                dbName,
-                "dbo",
-                procName
-        );
+        USqlProcedure procGetResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().getProcedure(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        "dbo",
+                        procName
+                );
 
         Assert.assertEquals(procName, procGetResponse.name());
 
         // Get all the types
-        List<USqlType> typeGetResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().listTypes(
-                jobAndCatalogAdlaName,
-                dbName,
-                "dbo"
-        );
+        List<USqlType> typeGetResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listTypes(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        "dbo"
+                );
 
 
         Assert.assertNotNull(typeGetResponse);
         Assert.assertTrue(typeGetResponse.size() > 0);
 
         // Get all the types that are not complex
-        typeGetResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().listTypes(
-                jobAndCatalogAdlaName,
-                dbName,
-                "dbo",
-                "isComplexType eq false",
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+        typeGetResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listTypes(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        "dbo",
+                        "isComplexType eq false",
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                );
 
         Assert.assertNotNull(typeGetResponse);
         Assert.assertTrue(typeGetResponse.size() > 0);
@@ -392,16 +407,26 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
                 .withPrincipalId(principalId)
                 .withPermission(PermissionType.USE);
 
+        AclDeleteParameters revokeAclParams = new AclDeleteParameters()
+                .withAceType(AclType.USER)
+                .withPrincipalId(principalId);
+
         // Get the initial number of ACLs by db
-        AclList aclByDbListResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().listAclsByDatabase(
-                jobAndCatalogAdlaName,
-                dbName
-        );
-        int aclByDbCount = aclByDbListResponse.value().size();
+        List<Acl> aclByDbListResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listAclsByDatabase(
+                        jobAndCatalogAdlaName,
+                        dbName
+                );
+
+        int aclByDbCount = aclByDbListResponse.size();
 
         // Get the initial number of ACLs by catalog
-        AclList aclListResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().listAcls(jobAndCatalogAdlaName);
-        int aclCount = aclListResponse.value().size();
+        List<Acl> aclListResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listAcls(
+                        jobAndCatalogAdlaName
+                );
+
+        int aclCount = aclListResponse.size();
 
         // Grant ACL to the db
         dataLakeAnalyticsCatalogManagementClient.catalogs().grantAclToDatabase(
@@ -409,12 +434,15 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
                 dbName,
                 grantAclParams
         );
-        aclByDbListResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().listAclsByDatabase(
-                jobAndCatalogAdlaName,
-                dbName
-        );
-        int listResponseCount = aclByDbListResponse.value().size();
-        Acl acl = aclByDbListResponse.value().get(listResponseCount - 1);
+
+        aclByDbListResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listAclsByDatabase(
+                        jobAndCatalogAdlaName,
+                        dbName
+                );
+
+        int listResponseCount = aclByDbListResponse.size();
+        Acl acl = aclByDbListResponse.get(listResponseCount - 1);
 
         // Confirm the ACL's information
         Assert.assertEquals(aclByDbCount + 1, listResponseCount);
@@ -426,24 +454,30 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
         dataLakeAnalyticsCatalogManagementClient.catalogs().revokeAclFromDatabase(
                 jobAndCatalogAdlaName,
                 dbName,
-                AclType.USER,
-                principalId
-        );
-        aclByDbListResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().listAclsByDatabase(
-                jobAndCatalogAdlaName,
-                dbName
+                revokeAclParams
         );
 
-        Assert.assertEquals(aclByDbCount, aclByDbListResponse.value().size());
+        aclByDbListResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listAclsByDatabase(
+                        jobAndCatalogAdlaName,
+                        dbName
+                );
+
+        Assert.assertEquals(aclByDbCount, aclByDbListResponse.size());
 
         // Grant ACL to the catalog
         dataLakeAnalyticsCatalogManagementClient.catalogs().grantAcl(
                 jobAndCatalogAdlaName,
                 grantAclParams
         );
-        aclListResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().listAcls(jobAndCatalogAdlaName);
-        listResponseCount = aclListResponse.value().size();
-        acl = aclListResponse.value().get(listResponseCount - 1);
+
+        aclListResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listAcls(
+                        jobAndCatalogAdlaName
+                );
+
+        listResponseCount = aclListResponse.size();
+        acl = aclListResponse.get(listResponseCount - 1);
 
         // Confirm the ACL's information
         Assert.assertEquals(aclCount + 1, listResponseCount);
@@ -454,12 +488,15 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
         // Revoke ACL from the catalog
         dataLakeAnalyticsCatalogManagementClient.catalogs().revokeAcl(
                 jobAndCatalogAdlaName,
-                AclType.USER,
-                principalId
+                revokeAclParams
         );
-        aclListResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().listAcls(jobAndCatalogAdlaName);
 
-        Assert.assertEquals(aclCount, aclListResponse.value().size());
+        aclListResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listAcls(
+                        jobAndCatalogAdlaName
+                );
+
+        Assert.assertEquals(aclCount, aclListResponse.size());
     }
 
     @Test
@@ -487,10 +524,10 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
                     .withUserId(userId2);
 
             dataLakeAnalyticsCatalogManagementClient.catalogs().createCredential(
-                jobAndCatalogAdlaName,
-                dbName,
-                credentialName,
-                createParams
+                    jobAndCatalogAdlaName,
+                    dbName,
+                    credentialName,
+                    createParams
             );
 
             // Should never make it here
@@ -515,20 +552,22 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
         );
 
         // Get the credential and ensure that the response is valid
-        USqlCredential credGetResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().getCredential(
-                jobAndCatalogAdlaName,
-                dbName,
-                credentialName
-        );
+        USqlCredential credGetResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().getCredential(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        credentialName
+                );
 
         Assert.assertNotNull(credGetResponse);
         Assert.assertEquals(credentialName, credGetResponse.name());
 
         // Get the credential list
-        List<USqlCredential> credListResponse = dataLakeAnalyticsCatalogManagementClient.catalogs().listCredentials(
-                jobAndCatalogAdlaName,
-                dbName
-        );
+        List<USqlCredential> credListResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listCredentials(
+                        jobAndCatalogAdlaName,
+                        dbName
+                );
 
         Assert.assertTrue(credListResponse.size() >= 1);
 
@@ -555,11 +594,12 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
         );
 
         // Try to get the credential, which should return a null response
-        credGetResponse =  dataLakeAnalyticsCatalogManagementClient.catalogs().getCredential(
-                jobAndCatalogAdlaName,
-                dbName,
-                credentialName
-        );
+        credGetResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().getCredential(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        credentialName
+                );
 
         Assert.assertNull(credGetResponse);
 
@@ -585,11 +625,12 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
         );
 
         // Try to get the credential, which should return a null response
-        credGetResponse =  dataLakeAnalyticsCatalogManagementClient.catalogs().getCredential(
-                jobAndCatalogAdlaName,
-                dbName,
-                credentialName
-        );
+        credGetResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().getCredential(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        credentialName
+                );
 
         Assert.assertNull(credGetResponse);
     }

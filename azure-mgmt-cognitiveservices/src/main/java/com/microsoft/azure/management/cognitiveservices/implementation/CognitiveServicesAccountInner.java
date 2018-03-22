@@ -28,7 +28,7 @@ public class CognitiveServicesAccountInner {
     /**
      * The id of the created account.
      */
-    @JsonProperty(value = "id")
+    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
     private String id;
 
     /**
@@ -46,13 +46,13 @@ public class CognitiveServicesAccountInner {
     /**
      * The name of the created account.
      */
-    @JsonProperty(value = "name")
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
      * Gets the status of the cognitive services account at the time the
      * operation was called. Possible values include: 'Creating',
-     * 'ResolvingDNS', 'Succeeded', 'Failed'.
+     * 'ResolvingDNS', 'Moving', 'Deleting', 'Succeeded', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
@@ -88,7 +88,7 @@ public class CognitiveServicesAccountInner {
     /**
      * Resource type.
      */
-    @JsonProperty(value = "type")
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
     /**
@@ -118,17 +118,6 @@ public class CognitiveServicesAccountInner {
      */
     public String id() {
         return this.id;
-    }
-
-    /**
-     * Set the id value.
-     *
-     * @param id the id value to set
-     * @return the CognitiveServicesAccountInner object itself.
-     */
-    public CognitiveServicesAccountInner withId(String id) {
-        this.id = id;
-        return this;
     }
 
     /**
@@ -178,17 +167,6 @@ public class CognitiveServicesAccountInner {
      */
     public String name() {
         return this.name;
-    }
-
-    /**
-     * Set the name value.
-     *
-     * @param name the name value to set
-     * @return the CognitiveServicesAccountInner object itself.
-     */
-    public CognitiveServicesAccountInner withName(String name) {
-        this.name = name;
-        return this;
     }
 
     /**
@@ -287,17 +265,6 @@ public class CognitiveServicesAccountInner {
      */
     public String type() {
         return this.type;
-    }
-
-    /**
-     * Set the type value.
-     *
-     * @param type the type value to set
-     * @return the CognitiveServicesAccountInner object itself.
-     */
-    public CognitiveServicesAccountInner withType(String type) {
-        this.type = type;
-        return this;
     }
 
 }

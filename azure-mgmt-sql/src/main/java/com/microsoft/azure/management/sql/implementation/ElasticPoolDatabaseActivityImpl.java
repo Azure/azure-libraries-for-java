@@ -14,7 +14,7 @@ import com.microsoft.azure.management.sql.ElasticPoolDatabaseActivity;
 import org.joda.time.DateTime;
 
 /**
- * Implementation for Elastic Pool DatabaseActivity interface.
+ * Implementation for Elastic Pool Database Activity interface.
  */
 @LangDefinition
 class ElasticPoolDatabaseActivityImpl
@@ -74,7 +74,7 @@ class ElasticPoolDatabaseActivityImpl
 
     @Override
     public String operationId() {
-        return this.inner().operationId();
+        return this.inner().operationId().toString();
     }
 
     @Override
@@ -115,5 +115,10 @@ class ElasticPoolDatabaseActivityImpl
     @Override
     public String state() {
         return this.inner().state();
+    }
+
+    @Override
+    public String location() {
+        return this.inner().location();
     }
 }

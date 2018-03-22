@@ -8,34 +8,35 @@
 
 package com.microsoft.azure.management.datalake.analytics.implementation;
 
-import retrofit2.Retrofit;
-import com.microsoft.azure.management.datalake.analytics.Recurrences;
 import com.google.common.base.Joiner;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.management.datalake.analytics.models.JobRecurrenceInformation;
-import com.microsoft.azure.management.datalake.analytics.models.PageImpl;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.datalake.analytics.Recurrences;
+import com.microsoft.azure.management.datalake.analytics.models.JobRecurrenceInformation;
+import com.microsoft.azure.management.datalake.analytics.models.PageImpl;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
 import okhttp3.ResponseBody;
 import org.joda.time.DateTime;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
 import rx.Observable;
+import rx.functions.Func1;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -63,15 +64,15 @@ public class RecurrencesImpl implements Recurrences {
      * used by Retrofit to perform actually REST calls.
      */
     interface RecurrencesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Recurrences list" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Recurrences list" })
         @GET("recurrences")
         Observable<Response<ResponseBody>> list(@Query("startDateTime") DateTime startDateTime, @Query("endDateTime") DateTime endDateTime, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Recurrences get" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Recurrences get" })
         @GET("recurrences/{recurrenceIdentity}")
         Observable<Response<ResponseBody>> get(@Path("recurrenceIdentity") UUID recurrenceIdentity, @Query("startDateTime") DateTime startDateTime, @Query("endDateTime") DateTime endDateTime, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Recurrences listNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Recurrences listNext" })
         @GET
         Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 

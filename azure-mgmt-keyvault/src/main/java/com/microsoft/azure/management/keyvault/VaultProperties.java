@@ -40,7 +40,7 @@ public class VaultProperties {
     /**
      * The URI of the vault for performing operations on keys and secrets.
      */
-    @JsonProperty(value = "vaultUri", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "vaultUri")
     private String vaultUri;
 
     /**
@@ -65,8 +65,11 @@ public class VaultProperties {
     private Boolean enabledForTemplateDeployment;
 
     /**
-     * Property to specify whether the 'soft delete' functionality is enabled
-     * for this key vault. It does not accept false value.
+     * Property specifying whether recoverable deletion is enabled for this key
+     * vault. Setting this property to true activates the soft delete feature,
+     * whereby vaults or vault entities can be recovered after deletion.
+     * Enabling this functionality is irreversible - that is, the property does
+     * not accept false as its value.
      */
     @JsonProperty(value = "enableSoftDelete")
     private Boolean enableSoftDelete;
@@ -77,6 +80,17 @@ public class VaultProperties {
      */
     @JsonProperty(value = "createMode")
     private CreateMode createMode;
+
+    /**
+     * Property specifying whether protection against purge is enabled for this
+     * vault. Setting this property to true activates protection against purge
+     * for this vault and its content - only the Key Vault service may initiate
+     * a hard, irrecoverable deletion. The setting is effective only if soft
+     * delete is also enabled. Enabling this functionality is irreversible -
+     * that is, the property does not accept false as its value.
+     */
+    @JsonProperty(value = "enablePurgeProtection")
+    private Boolean enablePurgeProtection;
 
     /**
      * Get the tenantId value.
@@ -145,6 +159,17 @@ public class VaultProperties {
      */
     public String vaultUri() {
         return this.vaultUri;
+    }
+
+    /**
+     * Set the vaultUri value.
+     *
+     * @param vaultUri the vaultUri value to set
+     * @return the VaultProperties object itself.
+     */
+    public VaultProperties withVaultUri(String vaultUri) {
+        this.vaultUri = vaultUri;
+        return this;
     }
 
     /**
@@ -244,6 +269,26 @@ public class VaultProperties {
      */
     public VaultProperties withCreateMode(CreateMode createMode) {
         this.createMode = createMode;
+        return this;
+    }
+
+    /**
+     * Get the enablePurgeProtection value.
+     *
+     * @return the enablePurgeProtection value
+     */
+    public Boolean enablePurgeProtection() {
+        return this.enablePurgeProtection;
+    }
+
+    /**
+     * Set the enablePurgeProtection value.
+     *
+     * @param enablePurgeProtection the enablePurgeProtection value to set
+     * @return the VaultProperties object itself.
+     */
+    public VaultProperties withEnablePurgeProtection(Boolean enablePurgeProtection) {
+        this.enablePurgeProtection = enablePurgeProtection;
         return this;
     }
 

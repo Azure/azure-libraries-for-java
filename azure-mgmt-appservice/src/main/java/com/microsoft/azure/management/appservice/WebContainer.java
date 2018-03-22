@@ -6,9 +6,9 @@
 
 package com.microsoft.azure.management.appservice;
 
-import java.util.Collection;
-
 import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
+
+import java.util.Collection;
 
 /**
  * Defines values for Java web container.
@@ -29,11 +29,20 @@ public final class WebContainer extends ExpandableStringEnum<WebContainer> {
     /** Static value tomcat 8.0.23 for WebContainer. */
     public static final WebContainer TOMCAT_8_0_23 = WebContainer.fromString("tomcat 8.0.23");
 
-    /** Static value tomcat 8.0 newest for WebContainer. */
+    /** Static value tomcat 8.5 newest for WebContainer. */
     public static final WebContainer TOMCAT_8_5_NEWEST = WebContainer.fromString("tomcat 8.5");
 
-    /** Static value tomcat 8.0.23 for WebContainer. */
+    /** Static value tomcat 8.5.6 for WebContainer. */
     public static final WebContainer TOMCAT_8_5_6 = WebContainer.fromString("tomcat 8.5.6");
+
+    /** Static value tomcat 8.5.20 for WebContainer. */
+    public static final WebContainer TOMCAT_8_5_20 = WebContainer.fromString("tomcat 8.5.20");
+
+    /** Static value tomcat 9.0 newest for WebContainer. */
+    public static final WebContainer TOMCAT_9_0_NEWEST = WebContainer.fromString("tomcat 9.0");
+
+    /** Static value tomcat 9_0_0 for WebContainer. */
+    public static final WebContainer TOMCAT_9_0_0 = WebContainer.fromString("tomcat 9.0.0");
 
     /** Static value jetty 9.1 for WebContainer. */
     public static final WebContainer JETTY_9_1_NEWEST = WebContainer.fromString("jetty 9.1");

@@ -2449,7 +2449,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         Observable<Response<ResponseBody>> observable = service.runCommand(resourceGroupName, vmName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<RunCommandResultInner>() { }.getType());
     }
@@ -2524,7 +2524,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-03-30";
+        final String apiVersion = "2017-12-01";
         return service.beginRunCommand(resourceGroupName, vmName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RunCommandResultInner>>>() {
                 @Override

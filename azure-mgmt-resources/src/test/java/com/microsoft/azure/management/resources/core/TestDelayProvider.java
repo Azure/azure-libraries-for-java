@@ -10,20 +10,20 @@ import com.microsoft.azure.management.resources.fluentcore.utils.DelayProvider;
 import rx.Observable;
 
 public class TestDelayProvider extends DelayProvider {
-    private boolean isRecordMode;
-    public TestDelayProvider(boolean isRecordMode) {
-        this.isRecordMode = isRecordMode;
+    private boolean isLiveMode;
+    public TestDelayProvider(boolean isLiveMode) {
+        this.isLiveMode = isLiveMode;
     }
     @Override
     public void sleep(int milliseconds) {
-        if (isRecordMode) {
+        if (isLiveMode) {
             super.sleep(milliseconds);
         }
     }
 
     @Override
     public <T> Observable<T> delayedEmitAsync(T event, int milliseconds) {
-        if (isRecordMode) {
+        if (isLiveMode) {
             return super.delayedEmitAsync(event, milliseconds);
         } else {
             return Observable.just(event);

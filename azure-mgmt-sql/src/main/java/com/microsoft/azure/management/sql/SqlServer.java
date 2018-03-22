@@ -6,24 +6,27 @@
 
 package com.microsoft.azure.management.sql;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.sql.implementation.ServerInner;
 import com.microsoft.azure.management.sql.implementation.SqlServerManager;
-import rx.Completable;
+import rx.Observable;
 
 import java.util.List;
 import java.util.Map;
-
 
 /**
  * An immutable client-side representation of an Azure SQL Server.
  */
 @Fluent
+@Beta(Beta.SinceVersion.V1_7_0)
 public interface SqlServer extends
         GroupableResource<SqlServerManager, ServerInner>,
         Refreshable<SqlServer>,
@@ -35,38 +38,74 @@ public interface SqlServer extends
     String fullyQualifiedDomainName();
 
     /**
-     * @return the version of the SQL Server
-     */
-    ServerVersion version();
-
-    /**
      * @return the administrator login user name for the SQL Server
      */
     String administratorLogin();
 
     /**
-     * @return returns entry point to manage FirewallRules in SqlServer.
+     * @return the SQL Server version
      */
-    FirewallRules firewallRules();
+    String version();
 
     /**
-     * @return returns entry point to manage ElasticPools in SqlServer.
+     * @return the SQL Server "kind"
      */
-    ElasticPools elasticPools();
+    @Beta(Beta.SinceVersion.V1_7_0)
+    String kind();
 
     /**
-     * @return entry point to manage Databases in SqlServer.
+     * @return the state of the server.
      */
-    Databases databases();
+    @Beta(Beta.SinceVersion.V1_7_0)
+    String state();
+
+    /**
+     * @return true if Managed Service Identity is enabled for the SQL server
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    boolean isManagedServiceIdentityEnabled();
+
+    /**
+     * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID assigned
+     * to the SQL server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    String systemAssignedManagedServiceIdentityTenantId();
+
+    /**
+     * @return the System Assigned (Local) Managed Service Identity specific Active Directory service principal ID
+     * assigned to the SQL server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    String systemAssignedManagedServiceIdentityPrincipalId();
+
+    /**
+     * @return the type of Managed Service Identity used for the SQL server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    IdentityType managedServiceIdentityType();
+
+
+    // Actions
 
     /**
      * @return returns the list of usages (ServerMetric) of Azure SQL Server
      */
+    @Method
+    @Deprecated
     List<ServerMetric> listUsages();
+
+    /**
+     * @return returns the list of usage metrics for an Azure SQL Server
+     */
+    @Method
+    @Beta(Beta.SinceVersion.V1_7_0)
+    List<ServerMetric> listUsageMetrics();
 
     /**
      * @return the list of information on all service objectives
      */
+    @Method
     List<ServiceObjective> listServiceObjectives();
 
     /**
@@ -74,6 +113,7 @@ public interface SqlServer extends
      * @param serviceObjectiveName name of the service objective to be fetched
      * @return information of the service objective
      */
+    @Beta(Beta.SinceVersion.V1_7_0)
     ServiceObjective getServiceObjective(String serviceObjectiveName);
 
     /**
@@ -81,136 +121,127 @@ public interface SqlServer extends
      *
      * @return list of recommended elastic pools for the server
      */
+    @Method
     Map<String, RecommendedElasticPool> listRecommendedElasticPools();
 
     /**
-     * Entry point to firewall rules from the SQL Server.
+     * @return the list of all restorable dropped databases
      */
-    interface FirewallRules {
-        /**
-         * Gets a particular firewall rule.
-         *
-         * @param firewallRuleName name of the firewall rule to get
-         * @return Returns the SqlFirewall rule with in the SQL Server
-         */
-        SqlFirewallRule get(String firewallRuleName);
-
-        /**
-         * Creates a new firewall rule in SQL Server.
-         *
-         * @param firewallRuleName name of the firewall rule to be created
-         * @return Returns a stage to specify arguments of the firewall rule
-         */
-        SqlFirewallRule.DefinitionStages.Blank define(String firewallRuleName);
-
-        /**
-         * Returns all the firewall rules for the server.
-         *
-         * @return list of firewall rules for the server.
-         */
-        List<SqlFirewallRule> list();
-
-        /**
-         * Delete specified firewall rule in the server.
-         *
-         * @param firewallRuleName name of the firewall rule to delete
-         */
-        void delete(String firewallRuleName);
-
-        /**
-         * Delete specified firewall rule in the server.
-         *
-         * @param firewallRuleName name of the firewall rule to delete
-         * @return observable for the delete operation
-         */
-        Completable deleteAsync(String firewallRuleName);
-    }
+    @Method
+    List<SqlRestorableDroppedDatabase> listRestorableDroppedDatabases();
 
     /**
-     * Entry point to elastic pools from the SQL Server.
+     * @return the list of all restorable dropped databases
      */
-    interface ElasticPools {
-        /**
-         * Gets a particular elastic pool.
-         *
-         * @param elasticPoolName name of the elastic pool to get
-         * @return Returns the elastic pool with in the SQL Server
-         */
-        SqlElasticPool get(String elasticPoolName);
-
-        /**
-         * Creates a new elastic pool in SQL Server.
-         *
-         * @param elasticPoolName name of the elastic pool to be created
-         * @return Returns a stage to specify arguments of the elastic pool
-         */
-        SqlElasticPool.DefinitionStages.Blank define(String elasticPoolName);
-
-        /**
-         * Returns all the elastic pools for the server.
-         *
-         * @return list of elastic pools for the server.
-         */
-        List<SqlElasticPool> list();
-
-        /**
-         * Delete specified elastic pool in the server.
-         *
-         * @param elasticPoolName name of the elastic pool to delete
-         */
-        void delete(String elasticPoolName);
-
-        /**
-         * Delete specified elastic pool in the server.
-         *
-         * @param elasticPoolName name of the elastic pool to delete
-         * @return observable for the delete operation
-         */
-        Completable deleteAsync(String elasticPoolName);
-    }
+    @Method
+    @Beta(Beta.SinceVersion.V1_7_0)
+    Observable<SqlRestorableDroppedDatabase> listRestorableDroppedDatabasesAsync();
 
     /**
-     * Entry point to databases from the SQL Server.
+     * Sets the Azure services default access to this server to true.
+     * <p>
+     * A firewall rule named "AllowAllWindowsAzureIps" with the start IP "0.0.0.0" will be added
+     *   to the SQL server if one does not exist.
+     *
+     * @return the SQL Firewall rule
      */
-    interface Databases {
-        /**
-         * Gets a particular sql database.
-         *
-         * @param databaseName name of the sql database to get
-         * @return Returns the database with in the SQL Server
-         */
-        SqlDatabase get(String databaseName);
+    @Beta(Beta.SinceVersion.V1_7_0)
+    @Method
+    SqlFirewallRule enableAccessFromAzureServices();
 
-        /**
-         * Creates a new database in SQL Server.
-         *
-         * @param databaseName name of the database to be created
-         * @return Returns a stage to specify arguments of the database
-         */
-        SqlDatabase.DefinitionStages.Blank define(String databaseName);
+    /**
+     * Sets the Azure services default access to this server to false.
+     * <p>
+     * The firewall rule named "AllowAllWindowsAzureIps" will be removed from the SQL server.
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    @Method
+    void removeAccessFromAzureServices();
 
-        /**
-         * Returns all the databases for the server.
-         *
-         * @return list of databases for the server.
-         */
-        List<SqlDatabase> list();
+    /**
+     * Sets an Active Directory administrator to this server.
+     * <p>
+     * Azure Active Directory authentication allows you to centrally manage identity and access
+     *   to your Azure SQL Database V12.
+     *
+     * @param userLogin the user or group login; it can be the name or the email address
+     * @param id the user or group unique ID
+     * @return a representation of a SQL Server Active Directory administrator object
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    @Method
+    SqlActiveDirectoryAdministrator setActiveDirectoryAdministrator(String userLogin, String id);
 
-        /**
-         * Delete specified database in the server.
-         *
-         * @param databaseName name of the database to delete
-         */
-        void delete(String databaseName);
+    /**
+     * Gets the Active Directory administrator for this server.
+     *
+     * @return a representation of a SQL Server Active Directory administrator object (null if one is not set)
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    @Method
+    SqlActiveDirectoryAdministrator getActiveDirectoryAdministrator();
 
-        /**
-         * Delete specified database in the server.
-         *
-         * @param databaseName name of the database to delete
-         * @return observable for the delete operation
-         */
-        Completable deleteAsync(String databaseName);
-    }
+    /**
+     * Removes the Active Directory administrator from this server.
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    @Method
+    void removeActiveDirectoryAdministrator();
+
+    /**
+     * Gets a SQL server automatic tuning state and options.
+     *
+     * @return the SQL server automatic tuning state and options
+     */
+    @Method
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlServerAutomaticTuning getServerAutomaticTuning();
+
+
+    // Collections
+
+    /**
+     * @return returns entry point to manage SQL Firewall rules for this server.
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    SqlFirewallRuleOperations.SqlFirewallRuleActionsDefinition firewallRules();
+
+    /**
+     * @return returns entry point to manage SQL Virtual Network Rule for this server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlVirtualNetworkRuleOperations.SqlVirtualNetworkRuleActionsDefinition virtualNetworkRules();
+
+    /**
+     * @return returns entry point to manage the SQL Elastic Pools for this server.
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    SqlElasticPoolOperations.SqlElasticPoolActionsDefinition elasticPools();
+
+    /**
+     * @return entry point to manage Databases for this SQL server.
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    SqlDatabaseOperations.SqlDatabaseActionsDefinition databases();
+
+    /**
+     * @return returns entry point to manage SQL Server DNS aliases for this server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlServerDnsAliasOperations.SqlServerDnsAliasActionsDefinition dnsAliases();
+
+    /**
+     * @return returns entry point to manage SQL Failover Group for this server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlFailoverGroupOperations.SqlFailoverGroupActionsDefinition failoverGroups();
+
+    /**
+     * @return returns entry point to manage SQL Server Keys for this server.
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlServerKeyOperations.SqlServerKeyActionsDefinition serverKeys();
+
 
     /**************************************************************
      * Fluent interfaces to provision a SqlServer
@@ -273,9 +304,51 @@ public interface SqlServer extends
         }
 
         /**
+         * A SQL Server definition setting the Active Directory administrator.
+         */
+        @Beta(Beta.SinceVersion.V1_7_0)
+        interface WithActiveDirectoryAdministrator {
+            /**
+             * Sets the SQL Active Directory administrator.
+             * <p>
+             * Azure Active Directory authentication allows you to centrally manage identity and access
+             *   to your Azure SQL Database V12.
+             *
+             * @param userLogin the user or group login; it can be the name or the email address
+             * @param id the user or group unique ID
+             * @return Next stage of the SQL Server definition
+             */
+            WithCreate withActiveDirectoryAdministrator(String userLogin, String id);
+        }
+
+        /**
+         * A SQL Server definition setting the managed service identity.
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithSystemAssignedManagedServiceIdentity {
+            /**
+             * Sets a system assigned (local) Managed Service Identity (MSI) for the SQL server resource.
+             *
+             * @return Next stage of the SQL Server definition
+             */
+            @Beta(Beta.SinceVersion.V1_8_0)
+            @Method
+            WithCreate withSystemAssignedManagedServiceIdentity();
+        }
+
+        /**
          * A SQL Server definition for specifying elastic pool.
          */
         interface WithElasticPool {
+            /**
+             * Begins the definition of a new SQL Elastic Pool to be added to this server.
+             *
+             * @param elasticPoolName the name of the new SQL Elastic Pool
+             * @return the first stage of the new SQL Elastic Pool definition
+             */
+            @Beta(Beta.SinceVersion.V1_7_0)
+            SqlElasticPool.DefinitionStages.Blank<WithCreate> defineElasticPool(String elasticPoolName);
+
             /**
              * Creates new elastic pool in the SQL Server.
              * @param elasticPoolName name of the elastic pool to be created
@@ -283,6 +356,7 @@ public interface SqlServer extends
              * @param databaseNames names of the database to be included in the elastic pool
              * @return Next stage of the SQL Server definition
              */
+            @Deprecated
             WithCreate withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition, String... databaseNames);
 
             /**
@@ -291,6 +365,7 @@ public interface SqlServer extends
              * @param elasticPoolEdition edition of the elastic pool
              * @return Next stage of the SQL Server definition
              */
+            @Deprecated
             WithCreate withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition);
         }
 
@@ -299,23 +374,54 @@ public interface SqlServer extends
          */
         interface WithDatabase {
             /**
+             * Begins the definition of a new SQL Database to be added to this server.
+             *
+             * @param databaseName the name of the new SQL Database
+             * @return the first stage of the new SQL Database definition
+             */
+            @Beta(Beta.SinceVersion.V1_7_0)
+            SqlDatabase.DefinitionStages.Blank<WithCreate> defineDatabase(String databaseName);
+
+            /**
              * Creates new database in the SQL Server.
              * @param databaseName name of the database to be created
              * @return Next stage of the SQL Server definition
              */
+            @Deprecated
             WithCreate withNewDatabase(String databaseName);
         }
 
         /**
-         * A SQL Server definition for specifying the firewall rule.
+         * The stage of the SQL Server definition allowing to specify the SQL Firewall rules.
          */
         interface WithFirewallRule {
+            /**
+             * Sets the Azure services default access to this server to false.
+             * <p>
+             * The default is to allow Azure services default access to this server via a special
+             *   firewall rule named "AllowAllWindowsAzureIps" with the start IP "0.0.0.0".
+             *
+             * @return Next stage of the SQL Server definition
+             */
+            @Beta(Beta.SinceVersion.V1_7_0)
+            WithCreate withoutAccessFromAzureServices();
+
+            /**
+             * Begins the definition of a new SQL Firewall rule to be added to this server.
+             *
+             * @param firewallRuleName the name of the new SQL Firewall rule
+             * @return the first stage of the new SQL Firewall rule definition
+             */
+            @Beta(Beta.SinceVersion.V1_7_0)
+            SqlFirewallRule.DefinitionStages.Blank<WithCreate> defineFirewallRule(String firewallRuleName);
+
             /**
              * Creates new firewall rule in the SQL Server.
              *
              * @param ipAddress ipAddress for the firewall rule
              * @return Next stage of the SQL Server definition
              */
+            @Deprecated
             WithCreate withNewFirewallRule(String ipAddress);
 
             /**
@@ -325,6 +431,7 @@ public interface SqlServer extends
              * @param endIPAddress end IP address for the firewall rule
              * @return Next stage of the SQL Server definition
              */
+            @Deprecated
             WithCreate withNewFirewallRule(String startIPAddress, String endIPAddress);
 
             /**
@@ -335,31 +442,55 @@ public interface SqlServer extends
              * @param firewallRuleName name for the firewall rule
              * @return Next stage of the SQL Server definition
              */
+            @Deprecated
             WithCreate withNewFirewallRule(String startIPAddress, String endIPAddress, String firewallRuleName);
         }
+
+        /**
+         * The stage of the SQL Server definition allowing to specify the SQL Virtual Network Rules.
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithVirtualNetworkRule {
+            /**
+             * Begins the definition of a new SQL Virtual Network Rule to be added to this server.
+             *
+             * @param virtualNetworkRuleName the name of the new SQL Virtual Network Rule
+             * @return the first stage of the new SQL Virtual Network Rule definition
+             */
+            @Beta(Beta.SinceVersion.V1_8_0)
+            SqlVirtualNetworkRule.DefinitionStages.Blank<WithCreate> defineVirtualNetworkRule(String virtualNetworkRuleName);
+        }
+
         /**
          * A SQL Server definition with sufficient inputs to create a new
          * SQL Server in the cloud, but exposing additional optional inputs to
          * specify.
          */
+        @Beta(Beta.SinceVersion.V1_7_0)
         interface WithCreate extends
             Creatable<SqlServer>,
-            DefinitionWithTags<WithCreate>,
+            WithActiveDirectoryAdministrator,
+            WithSystemAssignedManagedServiceIdentity,
             WithElasticPool,
             WithDatabase,
-            WithFirewallRule {
+            WithFirewallRule,
+            WithVirtualNetworkRule,
+            DefinitionWithTags<WithCreate> {
         }
     }
 
     /**
      * The template for a SQLServer update operation, containing all the settings that can be modified.
      */
+    @Beta(Beta.SinceVersion.V1_7_0)
     interface Update extends
             Appliable<SqlServer>,
             UpdateStages.WithAdministratorPassword,
             UpdateStages.WithElasticPool,
             UpdateStages.WithDatabase,
-            UpdateStages.WithFirewallRule {
+            UpdateStages.WithFirewallRule,
+            UpdateStages.WithSystemAssignedManagedServiceIdentity,
+            Resource.UpdateWithTags<Update> {
     }
 
     /**
@@ -367,7 +498,7 @@ public interface SqlServer extends
      */
     interface UpdateStages {
         /**
-         * A SQL Server definition setting admin user password.
+         * A SQL Server update stage setting admin user password.
          */
         interface WithAdministratorPassword {
             /**
@@ -380,6 +511,22 @@ public interface SqlServer extends
         }
 
         /**
+         * A SQL Server definition setting the managed service identity.
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithSystemAssignedManagedServiceIdentity {
+            /**
+             * Sets a system assigned (local) Managed Service Identity (MSI) for the SQL server resource.
+             *
+             * @return Next stage of the SQL Server definition
+             */
+            @Beta(Beta.SinceVersion.V1_8_0)
+            @Method
+            Update withSystemAssignedManagedServiceIdentity();
+        }
+
+
+        /**
          * A SQL Server definition for specifying elastic pool.
          */
         interface WithElasticPool {
@@ -390,6 +537,8 @@ public interface SqlServer extends
              * @param databaseNames names of the database to be included in the elastic pool
              * @return Next stage of the SQL Server update
              */
+            @Beta(Beta.SinceVersion.V1_7_0)
+            @Deprecated
             Update withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition, String... databaseNames);
 
             /**
@@ -398,6 +547,8 @@ public interface SqlServer extends
              * @param elasticPoolEdition edition of the elastic pool
              * @return Next stage of the SQL Server update
              */
+            @Beta(Beta.SinceVersion.V1_7_0)
+            @Deprecated
             Update withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition);
 
             /**
@@ -405,6 +556,7 @@ public interface SqlServer extends
              * @param elasticPoolName name of the elastic pool to be removed
              * @return Next stage of the SQL Server update
              */
+            @Deprecated
             Update withoutElasticPool(String elasticPoolName);
         }
 
@@ -417,6 +569,7 @@ public interface SqlServer extends
              * @param databaseName name of the database to be created
              * @return Next stage of the SQL Server update
              */
+            @Deprecated
             Update withNewDatabase(String databaseName);
 
             /**
@@ -424,12 +577,12 @@ public interface SqlServer extends
              * @param databaseName name of the database to be removed
              * @return Next stage of the SQL Server update
              */
+            @Deprecated
             Update withoutDatabase(String databaseName);
         }
 
-
         /**
-         * A SQL Server definition for specifying the firewall rule.
+         * The stage of the SQL Server update definition allowing to specify the SQL Firewall rules.
          */
         interface WithFirewallRule {
             /**
@@ -438,6 +591,7 @@ public interface SqlServer extends
              * @param ipAddress IP address for the firewall rule
              * @return Next stage of the SQL Server update
              */
+            @Deprecated
             Update withNewFirewallRule(String ipAddress);
 
             /**
@@ -447,6 +601,7 @@ public interface SqlServer extends
              * @param endIPAddress IP address for the firewall rule
              * @return Next stage of the SQL Server update
              */
+            @Deprecated
             Update withNewFirewallRule(String startIPAddress, String endIPAddress);
 
             /**
@@ -457,6 +612,7 @@ public interface SqlServer extends
              * @param firewallRuleName name for the firewall rule
              * @return Next stage of the SQL Server update
              */
+            @Deprecated
             Update withNewFirewallRule(String startIPAddress, String endIPAddress, String firewallRuleName);
 
             /**
@@ -465,6 +621,7 @@ public interface SqlServer extends
              * @param firewallRuleName name of the firewall rule to be removed
              * @return Next stage of the SQL Server update
              */
+            @Deprecated
             Update withoutFirewallRule(String firewallRuleName);
         }
     }

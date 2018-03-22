@@ -10,12 +10,12 @@
     <parent>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-parent</artifactId>
-        <version>1.6.1-SNAPSHOT</version>
+        <version>1.7.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>azure-mgmt-batchai</artifactId>
     <packaging>jar</packaging>
-    <version>1.6.1-SNAPSHOT</version>
+    <version>1.7.1-SNAPSHOT</version>
     <name>Microsoft Azure SDK for BatchAI Management</name>
     <description>This package contains Microsoft BatchAI Management SDK.</description>
     <url>https://github.com/Azure/azure-sdk-for-java</url>
@@ -49,7 +49,7 @@
         <dependency>
             <groupId>com.microsoft.azure</groupId>
             <artifactId>azure-mgmt-resources</artifactId>
-            <version>1.6.1-SNAPSHOT</version>
+            <version>1.7.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.jcraft</groupId>
@@ -66,7 +66,7 @@
         <dependency>
             <groupId>com.microsoft.azure</groupId>
             <artifactId>azure-mgmt-resources</artifactId>
-            <version>1.6.1-SNAPSHOT</version>
+            <version>1.7.1-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
@@ -122,7 +122,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.8</version>
+                <version>3.0.0</version>
                 <configuration>
                     <excludePackageNames>*.implementation.*;*.utils.*;com.microsoft.schemas._2003._10.serialization;*.blob.core.search</excludePackageNames>
                     <bottom>

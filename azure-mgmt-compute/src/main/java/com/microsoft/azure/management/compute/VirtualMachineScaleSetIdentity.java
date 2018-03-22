@@ -105,4 +105,5 @@ public class VirtualMachineScaleSetIdentity {
         this.identityIds = identityIds;
         return this;
     }
+
 }

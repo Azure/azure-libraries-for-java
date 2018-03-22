@@ -13,6 +13,7 @@ import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.monitor.ActivityLogs;
+import com.microsoft.azure.management.monitor.DiagnosticSettings;
 import com.microsoft.azure.management.monitor.MetricDefinitions;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
@@ -29,6 +30,7 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorManagem
     // Collections
     private ActivityLogs activityLogs;
     private MetricDefinitions metricDefinitions;
+    private DiagnosticSettings diagnosticSettings;
 
     /**
     * Get a Configurable instance that can be used to create MonitorManager with optional configuration.
@@ -96,6 +98,17 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorManagem
             this.metricDefinitions = new MetricDefinitionsImpl(this);
         }
         return this.metricDefinitions;
+    }
+
+    /**
+     * @return the Azure Diagnostic Settings API entry point
+     */
+    @Beta(SinceVersion.V1_8_0)
+    public DiagnosticSettings diagnosticSettings() {
+        if (this.diagnosticSettings == null) {
+            this.diagnosticSettings = new DiagnosticSettingsImpl(this);
+        }
+        return this.diagnosticSettings;
     }
 
     /**

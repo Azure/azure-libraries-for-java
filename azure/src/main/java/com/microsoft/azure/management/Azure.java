@@ -44,6 +44,10 @@ import com.microsoft.azure.management.dns.DnsZones;
 import com.microsoft.azure.management.dns.implementation.DnsZoneManager;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccounts;
 import com.microsoft.azure.management.cosmosdb.implementation.CosmosDBManager;
+import com.microsoft.azure.management.eventhub.EventHubDisasterRecoveryPairings;
+import com.microsoft.azure.management.eventhub.EventHubNamespaces;
+import com.microsoft.azure.management.eventhub.EventHubs;
+import com.microsoft.azure.management.eventhub.implementation.EventHubManager;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryGroups;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryUsers;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryApplications;
@@ -56,6 +60,7 @@ import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
 import com.microsoft.azure.management.locks.ManagementLocks;
 import com.microsoft.azure.management.locks.implementation.AuthorizationManager;
 import com.microsoft.azure.management.monitor.ActivityLogs;
+import com.microsoft.azure.management.monitor.DiagnosticSettings;
 import com.microsoft.azure.management.monitor.MetricDefinitions;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.msi.Identities;
@@ -134,6 +139,7 @@ public final class Azure {
     private final AuthorizationManager authorizationManager;
     private final MSIManager msiManager;
     private final MonitorManager monitorManager;
+    private final EventHubManager eventHubManager;
     private final String subscriptionId;
     private final Authenticated authenticated;
 
@@ -402,7 +408,7 @@ public final class Azure {
         this.cdnManager = CdnManager.authenticate(restClient, subscriptionId);
         this.dnsZoneManager = DnsZoneManager.authenticate(restClient, subscriptionId);
         this.appServiceManager = AppServiceManager.authenticate(restClient, tenantId, subscriptionId);
-        this.sqlServerManager = SqlServerManager.authenticate(restClient, subscriptionId);
+        this.sqlServerManager = SqlServerManager.authenticate(restClient, tenantId, subscriptionId);
         this.serviceBusManager = ServiceBusManager.authenticate(restClient, subscriptionId);
         this.containerInstanceManager = ContainerInstanceManager.authenticate(restClient, subscriptionId);
         this.containerRegistryManager = ContainerRegistryManager.authenticate(restClient, subscriptionId);
@@ -412,6 +418,7 @@ public final class Azure {
         this.authorizationManager = AuthorizationManager.authenticate(restClient, subscriptionId);
         this.msiManager = MSIManager.authenticate(restClient, subscriptionId);
         this.monitorManager = MonitorManager.authenticate(restClient, subscriptionId);
+        this.eventHubManager = EventHubManager.authenticate(restClient, subscriptionId);
         this.subscriptionId = subscriptionId;
         this.authenticated = authenticated;
     }
@@ -836,5 +843,37 @@ public final class Azure {
     @Beta(SinceVersion.V1_6_0)
     public MetricDefinitions metricDefinitions() {
         return this.monitorManager.metricDefinitions();
+    }
+
+    /**
+     * @return entry point to listing diagnostic settings in Azure
+     */
+    @Beta(SinceVersion.V1_8_0)
+    public DiagnosticSettings diagnosticSettings() {
+        return this.monitorManager.diagnosticSettings();
+    }
+
+    /**
+     * @return entry point to managing event hub namespaces.
+     */
+    @Beta(SinceVersion.V1_7_0)
+    public EventHubNamespaces eventHubNamespaces() {
+        return this.eventHubManager.namespaces();
+    }
+
+    /**
+     * @return entry point to managing event hubs.
+     */
+    @Beta(SinceVersion.V1_7_0)
+    public EventHubs eventHubs() {
+        return this.eventHubManager.eventHubs();
+    }
+
+    /**
+     * @return entry point to managing event hub namespace geo disaster recovery.
+     */
+    @Beta(SinceVersion.V1_7_0)
+    public EventHubDisasterRecoveryPairings eventHubDisasterRecoveryPairings() {
+        return this.eventHubManager.eventHubDisasterRecoveryPairings();
     }
 }

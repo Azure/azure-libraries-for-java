@@ -8,55 +8,37 @@
 
 package com.microsoft.azure.management.sql;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
- * Defines values for ElasticPoolEditions.
+ * Defines values for ElasticPoolEdition.
  */
-public final class ElasticPoolEditions {
-    /** Static value Basic for ElasticPoolEditions. */
-    public static final ElasticPoolEditions BASIC = new ElasticPoolEditions("Basic");
+public final class ElasticPoolEditions extends ExpandableStringEnum<ElasticPoolEditions> {
+    /** Static value Basic for ElasticPoolEdition. */
+    public static final ElasticPoolEditions BASIC = fromString("Basic");
 
-    /** Static value Standard for ElasticPoolEditions. */
-    public static final ElasticPoolEditions STANDARD = new ElasticPoolEditions("Standard");
+    /** Static value Standard for ElasticPoolEdition. */
+    public static final ElasticPoolEditions STANDARD = fromString("Standard");
 
-    /** Static value Premium for ElasticPoolEditions. */
-    public static final ElasticPoolEditions PREMIUM = new ElasticPoolEditions("Premium");
-
-    private String value;
+    /** Static value Premium for ElasticPoolEdition. */
+    public static final ElasticPoolEditions PREMIUM = fromString("Premium");
 
     /**
-     * Creates a custom value for ElasticPoolEditions.
-     * @param value the custom value
+     * Creates or finds a ElasticPoolEdition from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ElasticPoolEdition
      */
-    public ElasticPoolEditions(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ElasticPoolEditions fromString(String name) {
+        return fromString(name, ElasticPoolEditions.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ElasticPoolEditions)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ElasticPoolEditions rhs = (ElasticPoolEditions) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ElasticPoolEdition values
+     */
+    public static Collection<ElasticPoolEditions> values() {
+        return values(ElasticPoolEditions.class);
     }
 }

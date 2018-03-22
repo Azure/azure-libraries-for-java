@@ -8,8 +8,9 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.UUID;
 
 /**
  * Job relationship information properties including pipeline information,

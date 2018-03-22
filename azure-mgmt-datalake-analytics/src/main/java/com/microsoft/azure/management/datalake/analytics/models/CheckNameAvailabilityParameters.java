@@ -15,13 +15,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CheckNameAvailabilityParameters {
     /**
-     * the Data Lake Analytics name to check availability for.
+     * The Data Lake Analytics name to check availability for.
      */
     @JsonProperty(value = "name", required = true)
     private String name;
 
     /**
-     * the Resource type. Note: This should not be set by the user, as the
+     * The resource type. Note: This should not be set by the user, as the
      * constant value is Microsoft.DataLakeAnalytics/accounts.
      */
     @JsonProperty(value = "type", required = true)

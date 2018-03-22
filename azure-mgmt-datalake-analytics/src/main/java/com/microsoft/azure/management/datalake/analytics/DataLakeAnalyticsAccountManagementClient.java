@@ -103,6 +103,24 @@ public interface DataLakeAnalyticsAccountManagementClient {
     DataLakeAnalyticsAccountManagementClient withGenerateClientRequestId(boolean generateClientRequestId);
 
     /**
+     * Gets the Accounts object to access its operations.
+     * @return the Accounts object.
+     */
+    Accounts accounts();
+
+    /**
+     * Gets the DataLakeStoreAccounts object to access its operations.
+     * @return the DataLakeStoreAccounts object.
+     */
+    DataLakeStoreAccounts dataLakeStoreAccounts();
+
+    /**
+     * Gets the StorageAccounts object to access its operations.
+     * @return the StorageAccounts object.
+     */
+    StorageAccounts storageAccounts();
+
+    /**
      * Gets the ComputePolicies object to access its operations.
      * @return the ComputePolicies object.
      */
@@ -115,33 +133,15 @@ public interface DataLakeAnalyticsAccountManagementClient {
     FirewallRules firewallRules();
 
     /**
-     * Gets the StorageAccounts object to access its operations.
-     * @return the StorageAccounts object.
+     * Gets the Operations object to access its operations.
+     * @return the Operations object.
      */
-    StorageAccounts storageAccounts();
-
-    /**
-     * Gets the DataLakeStoreAccounts object to access its operations.
-     * @return the DataLakeStoreAccounts object.
-     */
-    DataLakeStoreAccounts dataLakeStoreAccounts();
-
-    /**
-     * Gets the Accounts object to access its operations.
-     * @return the Accounts object.
-     */
-    Accounts accounts();
+    Operations operations();
 
     /**
      * Gets the Locations object to access its operations.
      * @return the Locations object.
      */
     Locations locations();
-
-    /**
-     * Gets the Operations object to access its operations.
-     * @return the Operations object.
-     */
-    Operations operations();
 
 }

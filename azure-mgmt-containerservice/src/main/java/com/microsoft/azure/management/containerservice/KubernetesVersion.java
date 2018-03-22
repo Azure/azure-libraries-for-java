@@ -63,6 +63,9 @@ public final class KubernetesVersion extends ExpandableStringEnum<KubernetesVers
     /** Static value Kubernetes version 1.8.6. */
     public static final KubernetesVersion KUBERNETES_1_8_6 = fromString("1.8.6");
 
+    /** Static value Kubernetes version 1.8.7. */
+    public static final KubernetesVersion KUBERNETES_1_8_7 = fromString("1.8.7");
+
     /**
      * Creates or finds a Kubernetes version from its string representation.
      * @param name a name to look for

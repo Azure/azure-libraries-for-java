@@ -8,8 +8,9 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Map;
 
 /**
  * The parameters that can be used to update existing Data Lake Analytics job

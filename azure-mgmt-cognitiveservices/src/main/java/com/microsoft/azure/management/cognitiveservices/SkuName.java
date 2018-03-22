@@ -8,79 +8,61 @@
 
 package com.microsoft.azure.management.cognitiveservices;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for SkuName.
  */
-public final class SkuName {
+public final class SkuName extends ExpandableStringEnum<SkuName> {
     /** Static value F0 for SkuName. */
-    public static final SkuName F0 = new SkuName("F0");
+    public static final SkuName F0 = fromString("F0");
 
     /** Static value P0 for SkuName. */
-    public static final SkuName P0 = new SkuName("P0");
+    public static final SkuName P0 = fromString("P0");
 
     /** Static value P1 for SkuName. */
-    public static final SkuName P1 = new SkuName("P1");
+    public static final SkuName P1 = fromString("P1");
 
     /** Static value P2 for SkuName. */
-    public static final SkuName P2 = new SkuName("P2");
+    public static final SkuName P2 = fromString("P2");
 
     /** Static value S0 for SkuName. */
-    public static final SkuName S0 = new SkuName("S0");
+    public static final SkuName S0 = fromString("S0");
 
     /** Static value S1 for SkuName. */
-    public static final SkuName S1 = new SkuName("S1");
+    public static final SkuName S1 = fromString("S1");
 
     /** Static value S2 for SkuName. */
-    public static final SkuName S2 = new SkuName("S2");
+    public static final SkuName S2 = fromString("S2");
 
     /** Static value S3 for SkuName. */
-    public static final SkuName S3 = new SkuName("S3");
+    public static final SkuName S3 = fromString("S3");
 
     /** Static value S4 for SkuName. */
-    public static final SkuName S4 = new SkuName("S4");
+    public static final SkuName S4 = fromString("S4");
 
     /** Static value S5 for SkuName. */
-    public static final SkuName S5 = new SkuName("S5");
+    public static final SkuName S5 = fromString("S5");
 
     /** Static value S6 for SkuName. */
-    public static final SkuName S6 = new SkuName("S6");
-
-    private String value;
+    public static final SkuName S6 = fromString("S6");
 
     /**
-     * Creates a custom value for SkuName.
-     * @param value the custom value
+     * Creates or finds a SkuName from its string representation.
+     * @param name a name to look for
+     * @return the corresponding SkuName
      */
-    public SkuName(String value) {
-        this.value = value;
+    @JsonCreator
+    public static SkuName fromString(String name) {
+        return fromString(name, SkuName.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof SkuName)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        SkuName rhs = (SkuName) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known SkuName values
+     */
+    public static Collection<SkuName> values() {
+        return values(SkuName.class);
     }
 }

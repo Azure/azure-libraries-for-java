@@ -11,13 +11,12 @@ package com.microsoft.azure.management.eventhub.implementation;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
 
 /**
  * Single item in List or Get Consumer group operation.
  */
 @JsonFlatten
-public class ConsumerGroupInner extends Resource {
+public class ConsumerGroupInner extends NestedResourceInner {
     /**
      * Exact time the message was created.
      */

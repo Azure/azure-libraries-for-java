@@ -6,9 +6,9 @@
 
 package com.microsoft.azure.management.appservice;
 
-import java.util.Collection;
-
 import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
+
+import java.util.Collection;
 
 /**
  * Defines values for Java versions.
@@ -46,6 +46,9 @@ public final class JavaVersion extends ExpandableStringEnum<JavaVersion> {
 
     /** Static value Zulu 1.8.0_102 for JavaVersion. */
     public static final JavaVersion JAVA_ZULU_1_8_0_102 = fromString("1.8.0_102");
+
+    /** Static value Zulu 1.8.0_102 for JavaVersion. */
+    public static final JavaVersion JAVA_ZULU_1_8_0_144 = fromString("1.8.0_144");
 
     /**
      * Finds or creates a Java version value based on the provided name.

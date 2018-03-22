@@ -12,16 +12,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for RestorePointTypes.
+ * Defines values for RestorePointType.
  */
 public enum RestorePointTypes {
-    /** Enum value DISCRETE. */
-    DISCRETE("DISCRETE"),
-
     /** Enum value CONTINUOUS. */
-    CONTINUOUS("CONTINUOUS");
+    CONTINUOUS("CONTINUOUS"),
 
-    /** The actual serialized value for a RestorePointTypes instance. */
+    /** Enum value DISCRETE. */
+    DISCRETE("DISCRETE");
+
+    /** The actual serialized value for a RestorePointType instance. */
     private String value;
 
     RestorePointTypes(String value) {
@@ -29,10 +29,10 @@ public enum RestorePointTypes {
     }
 
     /**
-     * Parses a serialized value to a RestorePointTypes instance.
+     * Parses a serialized value to a RestorePointType instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed RestorePointTypes object, or null if unable to parse.
+     * @return the parsed RestorePointType object, or null if unable to parse.
      */
     @JsonCreator
     public static RestorePointTypes fromString(String value) {

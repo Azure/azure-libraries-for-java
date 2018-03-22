@@ -8,9 +8,10 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import org.joda.time.DateTime;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.joda.time.DateTime;
+
+import java.util.List;
 
 /**
  * A Data Lake Analytics catalog U-SQL table statistics item.

@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Azure Storage sample for managing SQL Database -
+ * Azure SQL sample for managing SQL Database -
  *  - Create a SQL Server along with 2 firewalls.
  *  - Add another firewall in the SQL Server
  *  - List all firewalls.

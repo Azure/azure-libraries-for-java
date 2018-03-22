@@ -30,11 +30,13 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Azure App Service basic sample for managing web apps.
- *  - Create 5 web apps under the same new app service plan:
+ *  - Create 6 web apps under the same new app service plan:
  *    - Deploy to 1 using FTP
  *    - Deploy to 2 using local Git repository
  *    - Deploy to 3 using a publicly available Git repository
  *    - Deploy to 4 using a GitHub repository with continuous integration
+ *    - Deploy to 5 using Web deploy
+ *    - Deploy to 6 using WAR deploy
  */
 public final class ManageWebAppSourceControl {
 
@@ -53,11 +55,13 @@ public final class ManageWebAppSourceControl {
         final String app3Name       = SdkContext.randomResourceName("webapp3-", 20);
         final String app4Name       = SdkContext.randomResourceName("webapp4-", 20);
         final String app5Name       = SdkContext.randomResourceName("webapp5-", 20);
+        final String app6Name       = SdkContext.randomResourceName("webapp5-", 20);
         final String app1Url        = app1Name + suffix;
         final String app2Url        = app2Name + suffix;
         final String app3Url        = app3Name + suffix;
         final String app4Url        = app4Name + suffix;
         final String app5Url        = app5Name + suffix;
+        final String app6Url        = app6Name + suffix;
         final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
 
         try {
@@ -193,7 +197,7 @@ public final class ManageWebAppSourceControl {
             //============================================================
             // Create a 5th web app with the existing app service plan
 
-            System.out.println("Creating web app " + app1Name + " in resource group " + rgName + "...");
+            System.out.println("Creating web app " + app5Name + " in resource group " + rgName + "...");
 
             WebApp app5 = azure.webApps().define(app5Name)
                     .withExistingWindowsPlan(plan)
@@ -208,14 +212,14 @@ public final class ManageWebAppSourceControl {
             //============================================================
             // Deploy to the 5th web app through web deploy
 
-            System.out.println("Deploying helloworld.war to " + app1Name + " through web deploy...");
+            System.out.println("Deploying helloworld.war to " + app5Name + " through web deploy...");
 
             app5.deploy()
                     .withPackageUri("https://github.com/Azure/azure-sdk-for-java/raw/master/azure-samples/src/main/resources/helloworld.zip")
                     .withExistingDeploymentsDeleted(true)
                     .execute();
 
-            System.out.println("Deploying coffeeshop.war to " + app1Name + " through web deploy...");
+            System.out.println("Deploying coffeeshop.war to " + app5Name + " through web deploy...");
 
             app5.deploy()
                     .withPackageUri("https://github.com/Azure/azure-sdk-for-java/raw/master/azure-samples/src/main/resources/coffeeshop.zip")
@@ -233,6 +237,47 @@ public final class ManageWebAppSourceControl {
             System.out.println(curl("http://" + app5Url + "/helloworld"));
             System.out.println("CURLing " + app5Url + "/coffeeshop...");
             System.out.println(curl("http://" + app5Url + "/coffeeshop"));
+
+            //============================================================
+            // Create a 6th web app with the existing app service plan
+
+            System.out.println("Creating web app " + app6Name + " in resource group " + rgName + "...");
+
+            WebApp app6 = azure.webApps().define(app6Name)
+                    .withExistingWindowsPlan(plan)
+                    .withExistingResourceGroup(rgName)
+                    .withJavaVersion(JavaVersion.JAVA_8_NEWEST)
+                    .withWebContainer(WebContainer.TOMCAT_8_0_NEWEST)
+                    .create();
+
+            System.out.println("Created web app " + app6.name());
+            Utils.print(app6);
+
+            //============================================================
+            // Deploy to the 6th web app through WAR deploy
+
+            System.out.println("Deploying helloworld.war to " + app6Name + " through WAR deploy...");
+
+            app6.update().withAppSetting("SCM_TARGET_PATH", "webapps/helloworld").apply();
+            app6.warDeploy(new File(ManageWebAppSourceControl.class.getResource("/helloworld.war").getPath()));
+
+            System.out.println("Deploying coffeeshop.war to " + app6Name + " through WAR deploy...");
+
+            app6.update().withAppSetting("SCM_TARGET_PATH", "webapps/coffeeshop").apply();
+            app6.restart();
+            app6.warDeploy(new File(ManageWebAppSourceControl.class.getResource("/coffeeshop.war").getPath()));
+
+            System.out.println("Deployments to web app " + app6.name() + " completed");
+            Utils.print(app6);
+
+            // warm up
+            System.out.println("Warming up " + app6Url + "/helloworld...");
+            curl("http://" + app6Url + "/helloworld");
+            SdkContext.sleep(5000);
+            System.out.println("CURLing " + app6Url + "/helloworld...");
+            System.out.println(curl("http://" + app6Url + "/helloworld"));
+            System.out.println("CURLing " + app6Url + "/coffeeshop...");
+            System.out.println(curl("http://" + app6Url + "/coffeeshop"));
 
             return true;
         } catch (Exception e) {

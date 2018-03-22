@@ -12,12 +12,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Additional Data Lake Store parameters.
+ * The parameters used to add a new Data Lake Store account.
  */
 @JsonFlatten
 public class AddDataLakeStoreParameters {
     /**
-     * the optional suffix for the Data Lake Store account.
+     * The optional suffix for the Data Lake Store account.
      */
     @JsonProperty(value = "properties.suffix")
     private String suffix;

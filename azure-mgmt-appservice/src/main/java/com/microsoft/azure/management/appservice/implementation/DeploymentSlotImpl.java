@@ -9,6 +9,9 @@ package com.microsoft.azure.management.appservice.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.DeploymentSlot;
 import com.microsoft.azure.management.appservice.WebApp;
+import rx.Completable;
+
+import java.io.File;
 
 /**
  * The implementation for DeploymentSlot.
@@ -26,8 +29,11 @@ class DeploymentSlotImpl
             DeploymentSlot.Definition,
             DeploymentSlot.Update {
 
+    private KuduClient kuduClient;
+
     DeploymentSlotImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, WebAppImpl parent) {
         super(name, innerObject, configObject, parent);
+        kuduClient = new KuduClient(this);
     }
 
     @Override
@@ -40,5 +46,15 @@ class DeploymentSlotImpl
         this.siteConfig = ((WebAppBaseImpl) webApp).siteConfig;
         configurationSource = webApp;
         return this;
+    }
+
+    @Override
+    public Completable warDeployAsync(File warFile) {
+        return kuduClient.warDeployAsync(warFile);
+    }
+
+    @Override
+    public void warDeploy(File warFile) {
+        warDeployAsync(warFile).await();
     }
 }

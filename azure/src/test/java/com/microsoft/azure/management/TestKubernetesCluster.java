@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.management;
 
-import com.microsoft.azure.management.containerservice.ContainerServiceStorageProfileTypes;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusters;
@@ -27,7 +26,7 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
     public KubernetesCluster createResource(KubernetesClusters kubernetesClusters) throws Exception {
         final String sshKeyData =  this.getSshKey();
 
-        Set<String> kubernetesVersions = kubernetesClusters.listKubernetesVersions(Region.UK_WEST);
+        Set<String> kubernetesVersions = kubernetesClusters.listKubernetesVersions(Region.US_EAST);
         Assert.assertTrue(kubernetesVersions.contains("1.8.1"));
 
         final String newName = "aks" + this.testId;
@@ -35,7 +34,7 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
         final String agentPoolName = "ap" + newName;
 
         KubernetesCluster resource = kubernetesClusters.define(newName)
-            .withRegion(Region.UK_WEST)
+            .withRegion(Region.US_EAST)
             .withNewResourceGroup()
             .withLatestVersion()
             .withRootUsername("aksadmin")
@@ -50,9 +49,9 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
             .withTag("tag1", "value1")
             .create();
         Assert.assertNotNull("Container service not found.", resource.id());
-        Assert.assertEquals(Region.UK_WEST, resource.region());
+        Assert.assertEquals(Region.US_EAST, resource.region());
         Assert.assertEquals("aksadmin", resource.linuxRootUsername());
-        Assert.assertEquals(KubernetesVersion.KUBERNETES_1_8_1, resource.version());
+        Assert.assertEquals(KubernetesVersion.KUBERNETES_1_8_7, resource.version());
         Assert.assertEquals(1, resource.agentPools().size());
         Assert.assertNotNull(resource.agentPools().get(agentPoolName));
         Assert.assertEquals(1, resource.agentPools().get(agentPoolName).count());

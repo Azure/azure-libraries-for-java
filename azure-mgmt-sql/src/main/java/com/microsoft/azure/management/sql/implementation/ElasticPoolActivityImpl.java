@@ -69,7 +69,7 @@ class ElasticPoolActivityImpl
 
     @Override
     public String operationId() {
-        return this.inner().operationId();
+        return this.inner().operationId().toString();
     }
 
     @Override
@@ -120,5 +120,30 @@ class ElasticPoolActivityImpl
     @Override
     public String state() {
         return this.inner().state();
+    }
+
+    @Override
+    public String location() {
+        return this.inner().location();
+    }
+
+    @Override
+    public int requestedStorageLimitInMB() {
+        return this.inner().requestedStorageLimitInMB();
+    }
+
+    @Override
+    public int requestedDatabaseDtuGuarantee() {
+        return this.inner().requestedDatabaseDtuGuarantee();
+    }
+
+    @Override
+    public int requestedDatabaseDtuCap() {
+        return this.inner().requestedDatabaseDtuCap();
+    }
+
+    @Override
+    public int requestedDtuGuarantee() {
+        return this.inner().requestedDtuGuarantee();
     }
 }

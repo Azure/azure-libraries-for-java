@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Azure Storage sample for managing SQL Database -
+ * Azure SQL sample for managing SQL Database -
  *  - Create 3 SQL Servers in different region.
  *  - Create a master database in master SQL Server.
  *  - Create 2 more SQL Servers in different azure regions

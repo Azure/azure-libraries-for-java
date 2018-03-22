@@ -41,6 +41,8 @@ public final class Region {
     public static final Region EUROPE_WEST = new Region("westeurope", "West Europe");
     public static final Region UK_SOUTH = new Region("uksouth", "UK South");
     public static final Region UK_WEST = new Region("ukwest", "UK West");
+    public static final Region FRANCE_CENTRAL = new Region("francecentral", "France Central");
+    public static final Region FRANCE_SOUTH = new Region("francesouth", "France South");
     /**************************************************
      * Azure Cloud - Asia
      **************************************************/

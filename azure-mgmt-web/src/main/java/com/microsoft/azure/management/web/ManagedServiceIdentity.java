@@ -15,10 +15,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ManagedServiceIdentity {
     /**
-     * Type of managed service identity.
+     * Type of managed service identity. Possible values include:
+     * 'SystemAssigned'.
      */
     @JsonProperty(value = "type")
-    private Object type;
+    private ManagedServiceIdentityType type;
 
     /**
      * Tenant of managed service identity.
@@ -37,7 +38,7 @@ public class ManagedServiceIdentity {
      *
      * @return the type value
      */
-    public Object type() {
+    public ManagedServiceIdentityType type() {
         return this.type;
     }
 
@@ -47,7 +48,7 @@ public class ManagedServiceIdentity {
      * @param type the type value to set
      * @return the ManagedServiceIdentity object itself.
      */
-    public ManagedServiceIdentity withType(Object type) {
+    public ManagedServiceIdentity withType(ManagedServiceIdentityType type) {
         this.type = type;
         return this;
     }

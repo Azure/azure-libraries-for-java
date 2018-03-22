@@ -68,7 +68,7 @@ public class MetricAlertResourcePatchInner {
     private Period windowSize;
 
     /**
-     * definies the specific alert criteria information.
+     * defines the specific alert criteria information.
      */
     @JsonProperty(value = "properties.criteria", required = true)
     private MetricAlertCriteria criteria;

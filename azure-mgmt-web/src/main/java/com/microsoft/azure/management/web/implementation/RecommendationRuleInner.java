@@ -13,27 +13,30 @@ import com.microsoft.azure.management.web.NotificationLevel;
 import com.microsoft.azure.management.web.Channels;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.management.web.ProxyOnlyResource;
 
 /**
  * Represents a recommendation rule that the recommendation engine can perform.
  */
-public class RecommendationRuleInner {
+@JsonFlatten
+public class RecommendationRuleInner extends ProxyOnlyResource {
     /**
      * Unique name of the rule.
      */
-    @JsonProperty(value = "name")
-    private String name;
+    @JsonProperty(value = "properties.name")
+    private String recommendationRuleName;
 
     /**
      * UI friendly name of the rule.
      */
-    @JsonProperty(value = "displayName")
+    @JsonProperty(value = "properties.displayName")
     private String displayName;
 
     /**
      * Localized name of the rule (Good for UI).
      */
-    @JsonProperty(value = "message")
+    @JsonProperty(value = "properties.message")
     private String message;
 
     /**
@@ -41,83 +44,83 @@ public class RecommendationRuleInner {
      * rule, if exists.
      * If such an object doesn't exist, it is set to null.
      */
-    @JsonProperty(value = "recommendationId")
+    @JsonProperty(value = "properties.recommendationId")
     private UUID recommendationId;
 
     /**
      * Localized detailed description of the rule.
      */
-    @JsonProperty(value = "description")
+    @JsonProperty(value = "properties.description")
     private String description;
 
     /**
      * Name of action that is recommended by this rule in string.
      */
-    @JsonProperty(value = "actionName")
+    @JsonProperty(value = "properties.actionName")
     private String actionName;
 
     /**
      * Level of impact indicating how critical this rule is. Possible values
      * include: 'Critical', 'Warning', 'Information', 'NonUrgentSuggestion'.
      */
-    @JsonProperty(value = "level")
+    @JsonProperty(value = "properties.level")
     private NotificationLevel level;
 
     /**
      * List of available channels that this rule applies. Possible values
      * include: 'Notification', 'Api', 'Email', 'Webhook', 'All'.
      */
-    @JsonProperty(value = "channels")
+    @JsonProperty(value = "properties.channels")
     private Channels channels;
 
     /**
      * An array of category tags that the rule contains.
      */
-    @JsonProperty(value = "tags")
+    @JsonProperty(value = "properties.tags")
     private List<String> tags;
 
     /**
      * True if this is associated with a dynamically added rule.
      */
-    @JsonProperty(value = "isDynamic")
+    @JsonProperty(value = "properties.isDynamic")
     private Boolean isDynamic;
 
     /**
      * Extension name of the portal if exists. Applicable to dynamic rule only.
      */
-    @JsonProperty(value = "extensionName")
+    @JsonProperty(value = "properties.extensionName")
     private String extensionName;
 
     /**
      * Deep link to a blade on the portal. Applicable to dynamic rule only.
      */
-    @JsonProperty(value = "bladeName")
+    @JsonProperty(value = "properties.bladeName")
     private String bladeName;
 
     /**
      * Forward link to an external document associated with the rule.
      * Applicable to dynamic rule only.
      */
-    @JsonProperty(value = "forwardLink")
+    @JsonProperty(value = "properties.forwardLink")
     private String forwardLink;
 
     /**
-     * Get the name value.
+     * Get the recommendationRuleName value.
      *
-     * @return the name value
+     * @return the recommendationRuleName value
      */
-    public String name() {
-        return this.name;
+    public String recommendationRuleName() {
+        return this.recommendationRuleName;
     }
 
     /**
-     * Set the name value.
+     * Set the recommendationRuleName value.
      *
-     * @param name the name value to set
+     * @param recommendationRuleName the recommendationRuleName value to set
      * @return the RecommendationRuleInner object itself.
      */
-    public RecommendationRuleInner withName(String name) {
-        this.name = name;
+    public RecommendationRuleInner withRecommendationRuleName(String recommendationRuleName) {
+        this.recommendationRuleName = recommendationRuleName;
         return this;
     }
 

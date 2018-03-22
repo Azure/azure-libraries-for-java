@@ -48,11 +48,17 @@ public interface ContainerImageSettings extends Indexable,
         interface WithAttach<ParentT> extends
                 Attachable.InDefinition<ParentT> {
             /**
+             * Specifies url for container registry.
              * @param serverUrl URL for image repository
              * @return the next stage of the definition
              */
             WithAttach<ParentT> withRegistryUrl(String serverUrl);
 
+            /**
+             * Specifies username to login to container registry.
+             * @param username user name to login
+             * @return the next stage of the definition
+             */
             WithRegistryCredentials<ParentT> withRegistryUsername(String username);
         }
 
@@ -64,7 +70,16 @@ public interface ContainerImageSettings extends Indexable,
         interface Blank<ParentT> extends WithAttach<ParentT> {
         }
 
+        /**
+         * Specifies container registry credentials.
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
         interface WithRegistryCredentials<ParentT> {
+            /**
+             * Specifies password for container registry.
+             * @param password password to login
+             * @return the next stage of the definition
+             */
             WithAttach<ParentT> withRegistryPassword(String password);
 
             /**

@@ -310,6 +310,7 @@ public interface BatchAICluster extends
         @Beta(Beta.SinceVersion.V1_8_0)
         interface WithVirtualMachineImage {
             /**
+             * Specifies virtual machine image.
              * @param publisher publisher of the image
              * @param offer offer of the image
              * @param sku sku of the image
@@ -319,6 +320,7 @@ public interface BatchAICluster extends
             WithCreate withVirtualMachineImage(String publisher, String offer, String sku, String version);
 
             /**
+             * Specifies virtual machine image.
              * @param publisher publisher of the image
              * @param offer offer of the image
              * @param sku sku of the image
@@ -354,8 +356,8 @@ public interface BatchAICluster extends
                 DefinitionStages.WithVMPriority,
                 DefinitionStages.WithSetupTask,
                 HasMountVolumes.DefinitionStages.WithMountVolumes<WithCreate>,
-                WithAppInsightsResourceId,
-                WithVirtualMachineImage,
+                DefinitionStages.WithAppInsightsResourceId,
+                DefinitionStages.WithVirtualMachineImage,
                 DefinitionStages.WithSubnet,
                 Resource.DefinitionWithTags<WithCreate> {
         }

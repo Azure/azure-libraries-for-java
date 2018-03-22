@@ -22,25 +22,25 @@ class OutputDirectorySettingsImpl extends IndexableWrapperImpl<OutputDirectory>
     }
 
     @Override
-    public OutputDirectorySettings.DefinitionStages.WithAttach<BatchAIJob.DefinitionStages.WithCreate> withPathPrefix(String pathPrefix) {
+    public OutputDirectorySettingsImpl withPathPrefix(String pathPrefix) {
         inner().withPathPrefix(pathPrefix);
         return this;
     }
 
     @Override
-    public OutputDirectorySettings.DefinitionStages.WithAttach<BatchAIJob.DefinitionStages.WithCreate> withPathSuffix(String pathSuffix) {
+    public OutputDirectorySettingsImpl withPathSuffix(String pathSuffix) {
         inner().withPathSuffix(pathSuffix);
         return this;
     }
 
     @Override
-    public OutputDirectorySettings.DefinitionStages.WithAttach<BatchAIJob.DefinitionStages.WithCreate> withCreateNew(boolean createNew) {
+    public OutputDirectorySettingsImpl withCreateNew(boolean createNew) {
         inner().withCreateNew(createNew);
         return this;
     }
 
     @Override
-    public BatchAIJob.DefinitionStages.WithCreate attach() {
+    public BatchAIJobImpl attach() {
         this.parent.attachOutputDirectory(this);
         return parent;
     }

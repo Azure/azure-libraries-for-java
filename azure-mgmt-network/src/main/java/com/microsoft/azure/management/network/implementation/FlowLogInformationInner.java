@@ -9,11 +9,13 @@
 package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.network.RetentionPolicyParameters;
+import com.microsoft.azure.management.network.TrafficAnalyticsProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Information on the configuration of flow log.
+ * Information on the configuration of flow log and traffic analytics
+ * (optional).
  */
 @JsonFlatten
 public class FlowLogInformationInner {
@@ -40,6 +42,12 @@ public class FlowLogInformationInner {
      */
     @JsonProperty(value = "properties.retentionPolicy")
     private RetentionPolicyParameters retentionPolicy;
+
+    /**
+     * The flowAnalyticsConfiguration property.
+     */
+    @JsonProperty(value = "flowAnalyticsConfiguration")
+    private TrafficAnalyticsProperties flowAnalyticsConfiguration;
 
     /**
      * Get the targetResourceId value.
@@ -118,6 +126,26 @@ public class FlowLogInformationInner {
      */
     public FlowLogInformationInner withRetentionPolicy(RetentionPolicyParameters retentionPolicy) {
         this.retentionPolicy = retentionPolicy;
+        return this;
+    }
+
+    /**
+     * Get the flowAnalyticsConfiguration value.
+     *
+     * @return the flowAnalyticsConfiguration value
+     */
+    public TrafficAnalyticsProperties flowAnalyticsConfiguration() {
+        return this.flowAnalyticsConfiguration;
+    }
+
+    /**
+     * Set the flowAnalyticsConfiguration value.
+     *
+     * @param flowAnalyticsConfiguration the flowAnalyticsConfiguration value to set
+     * @return the FlowLogInformationInner object itself.
+     */
+    public FlowLogInformationInner withFlowAnalyticsConfiguration(TrafficAnalyticsProperties flowAnalyticsConfiguration) {
+        this.flowAnalyticsConfiguration = flowAnalyticsConfiguration;
         return this;
     }
 

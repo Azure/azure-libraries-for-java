@@ -101,7 +101,8 @@ public class SqlServerAutomaticTuningImpl
 
     @Override
     protected Observable<ServerAutomaticTuningInner> getInnerAsync() {
-        return null;
+        return this.sqlServerManager.inner().serverAutomaticTunings()
+            .getAsync(this.resourceGroupName, this.sqlServerName);
     }
 
     @Override

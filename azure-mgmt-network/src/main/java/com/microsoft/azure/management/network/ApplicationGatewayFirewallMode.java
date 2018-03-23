@@ -8,34 +8,52 @@
 
 package com.microsoft.azure.management.network;
 
-import java.util.Collection;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Defines values for ApplicationGatewayFirewallMode.
  */
-public final class ApplicationGatewayFirewallMode extends ExpandableStringEnum<ApplicationGatewayFirewallMode> {
+public final class ApplicationGatewayFirewallMode {
     /** Static value Detection for ApplicationGatewayFirewallMode. */
-    public static final ApplicationGatewayFirewallMode DETECTION = fromString("Detection");
+    public static final ApplicationGatewayFirewallMode DETECTION = new ApplicationGatewayFirewallMode("Detection");
 
     /** Static value Prevention for ApplicationGatewayFirewallMode. */
-    public static final ApplicationGatewayFirewallMode PREVENTION = fromString("Prevention");
+    public static final ApplicationGatewayFirewallMode PREVENTION = new ApplicationGatewayFirewallMode("Prevention");
+
+    private String value;
 
     /**
-     * Creates or finds a ApplicationGatewayFirewallMode from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ApplicationGatewayFirewallMode
+     * Creates a custom value for ApplicationGatewayFirewallMode.
+     * @param value the custom value
      */
-    @JsonCreator
-    public static ApplicationGatewayFirewallMode fromString(String name) {
-        return fromString(name, ApplicationGatewayFirewallMode.class);
+    public ApplicationGatewayFirewallMode(String value) {
+        this.value = value;
     }
 
-    /**
-     * @return known ApplicationGatewayFirewallMode values
-     */
-    public static Collection<ApplicationGatewayFirewallMode> values() {
-        return values(ApplicationGatewayFirewallMode.class);
+    @JsonValue
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof ApplicationGatewayFirewallMode)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        ApplicationGatewayFirewallMode rhs = (ApplicationGatewayFirewallMode) obj;
+        if (value == null) {
+            return rhs.value == null;
+        } else {
+            return value.equals(rhs.value);
+        }
     }
 }

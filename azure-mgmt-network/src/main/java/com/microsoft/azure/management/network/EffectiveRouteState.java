@@ -8,34 +8,52 @@
 
 package com.microsoft.azure.management.network;
 
-import java.util.Collection;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Defines values for EffectiveRouteState.
  */
-public final class EffectiveRouteState extends ExpandableStringEnum<EffectiveRouteState> {
+public final class EffectiveRouteState {
     /** Static value Active for EffectiveRouteState. */
-    public static final EffectiveRouteState ACTIVE = fromString("Active");
+    public static final EffectiveRouteState ACTIVE = new EffectiveRouteState("Active");
 
     /** Static value Invalid for EffectiveRouteState. */
-    public static final EffectiveRouteState INVALID = fromString("Invalid");
+    public static final EffectiveRouteState INVALID = new EffectiveRouteState("Invalid");
+
+    private String value;
 
     /**
-     * Creates or finds a EffectiveRouteState from its string representation.
-     * @param name a name to look for
-     * @return the corresponding EffectiveRouteState
+     * Creates a custom value for EffectiveRouteState.
+     * @param value the custom value
      */
-    @JsonCreator
-    public static EffectiveRouteState fromString(String name) {
-        return fromString(name, EffectiveRouteState.class);
+    public EffectiveRouteState(String value) {
+        this.value = value;
     }
 
-    /**
-     * @return known EffectiveRouteState values
-     */
-    public static Collection<EffectiveRouteState> values() {
-        return values(EffectiveRouteState.class);
+    @JsonValue
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof EffectiveRouteState)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        EffectiveRouteState rhs = (EffectiveRouteState) obj;
+        if (value == null) {
+            return rhs.value == null;
+        } else {
+            return value.equals(rhs.value);
+        }
     }
 }

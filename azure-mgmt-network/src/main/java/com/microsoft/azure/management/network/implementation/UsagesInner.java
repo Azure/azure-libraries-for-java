@@ -67,7 +67,7 @@ public class UsagesInner {
     }
 
     /**
-     * List network usages for a subscription.
+     * Lists compute usages for a subscription.
      *
      * @param location The location where resource usage is queried.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -86,7 +86,7 @@ public class UsagesInner {
     }
 
     /**
-     * List network usages for a subscription.
+     * Lists compute usages for a subscription.
      *
      * @param location The location where resource usage is queried.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -106,7 +106,7 @@ public class UsagesInner {
     }
 
     /**
-     * List network usages for a subscription.
+     * Lists compute usages for a subscription.
      *
      * @param location The location where resource usage is queried.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -123,7 +123,7 @@ public class UsagesInner {
     }
 
     /**
-     * List network usages for a subscription.
+     * Lists compute usages for a subscription.
      *
      * @param location The location where resource usage is queried.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -144,7 +144,7 @@ public class UsagesInner {
     }
 
     /**
-     * List network usages for a subscription.
+     * Lists compute usages for a subscription.
      *
     ServiceResponse<PageImpl<UsageInner>> * @param location The location where resource usage is queried.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -157,10 +157,8 @@ public class UsagesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.list(location, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2017-08-01";
+        return service.list(location, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<UsageInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<UsageInner>>> call(Response<ResponseBody> response) {
@@ -182,7 +180,7 @@ public class UsagesInner {
     }
 
     /**
-     * List network usages for a subscription.
+     * Lists compute usages for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -201,7 +199,7 @@ public class UsagesInner {
     }
 
     /**
-     * List network usages for a subscription.
+     * Lists compute usages for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -222,7 +220,7 @@ public class UsagesInner {
     }
 
     /**
-     * List network usages for a subscription.
+     * Lists compute usages for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -239,7 +237,7 @@ public class UsagesInner {
     }
 
     /**
-     * List network usages for a subscription.
+     * Lists compute usages for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -260,7 +258,7 @@ public class UsagesInner {
     }
 
     /**
-     * List network usages for a subscription.
+     * Lists compute usages for a subscription.
      *
     ServiceResponse<PageImpl<UsageInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

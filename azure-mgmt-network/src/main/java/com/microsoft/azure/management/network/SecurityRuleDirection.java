@@ -8,34 +8,52 @@
 
 package com.microsoft.azure.management.network;
 
-import java.util.Collection;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Defines values for SecurityRuleDirection.
  */
-public final class SecurityRuleDirection extends ExpandableStringEnum<SecurityRuleDirection> {
+public final class SecurityRuleDirection {
     /** Static value Inbound for SecurityRuleDirection. */
-    public static final SecurityRuleDirection INBOUND = fromString("Inbound");
+    public static final SecurityRuleDirection INBOUND = new SecurityRuleDirection("Inbound");
 
     /** Static value Outbound for SecurityRuleDirection. */
-    public static final SecurityRuleDirection OUTBOUND = fromString("Outbound");
+    public static final SecurityRuleDirection OUTBOUND = new SecurityRuleDirection("Outbound");
+
+    private String value;
 
     /**
-     * Creates or finds a SecurityRuleDirection from its string representation.
-     * @param name a name to look for
-     * @return the corresponding SecurityRuleDirection
+     * Creates a custom value for SecurityRuleDirection.
+     * @param value the custom value
      */
-    @JsonCreator
-    public static SecurityRuleDirection fromString(String name) {
-        return fromString(name, SecurityRuleDirection.class);
+    public SecurityRuleDirection(String value) {
+        this.value = value;
     }
 
-    /**
-     * @return known SecurityRuleDirection values
-     */
-    public static Collection<SecurityRuleDirection> values() {
-        return values(SecurityRuleDirection.class);
+    @JsonValue
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof SecurityRuleDirection)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        SecurityRuleDirection rhs = (SecurityRuleDirection) obj;
+        if (value == null) {
+            return rhs.value == null;
+        } else {
+            return value.equals(rhs.value);
+        }
     }
 }

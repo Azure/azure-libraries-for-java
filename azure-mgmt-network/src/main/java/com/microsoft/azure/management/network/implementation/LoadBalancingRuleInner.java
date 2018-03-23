@@ -40,7 +40,8 @@ public class LoadBalancingRuleInner extends SubResource {
     private SubResource probe;
 
     /**
-     * Possible values include: 'Udp', 'Tcp', 'All'.
+     * The transport protocol for the external endpoint. Possible values are
+     * 'Udp' or 'Tcp'. Possible values include: 'Udp', 'Tcp'.
      */
     @JsonProperty(value = "properties.protocol", required = true)
     private TransportProtocol protocol;
@@ -54,16 +55,16 @@ public class LoadBalancingRuleInner extends SubResource {
     private LoadDistribution loadDistribution;
 
     /**
-     * The port for the external endpoint. Port numbers for each rule must be
-     * unique within the Load Balancer. Acceptable values are between 0 and
-     * 65534. Note that value 0 enables "Any Port".
+     * The port for the external endpoint. Port numbers for each Rule must be
+     * unique within the Load Balancer. Acceptable values are between 1 and
+     * 65534.
      */
     @JsonProperty(value = "properties.frontendPort", required = true)
     private int frontendPort;
 
     /**
      * The port used for internal connections on the endpoint. Acceptable
-     * values are between 0 and 65535. Note that value 0 enables "Any Port".
+     * values are between 1 and 65535.
      */
     @JsonProperty(value = "properties.backendPort")
     private Integer backendPort;

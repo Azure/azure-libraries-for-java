@@ -8,40 +8,58 @@
 
 package com.microsoft.azure.management.network;
 
-import java.util.Collection;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Defines values for ProvisioningState.
  */
-public final class ProvisioningState extends ExpandableStringEnum<ProvisioningState> {
+public final class ProvisioningState {
     /** Static value Succeeded for ProvisioningState. */
-    public static final ProvisioningState SUCCEEDED = fromString("Succeeded");
+    public static final ProvisioningState SUCCEEDED = new ProvisioningState("Succeeded");
 
     /** Static value Updating for ProvisioningState. */
-    public static final ProvisioningState UPDATING = fromString("Updating");
+    public static final ProvisioningState UPDATING = new ProvisioningState("Updating");
 
     /** Static value Deleting for ProvisioningState. */
-    public static final ProvisioningState DELETING = fromString("Deleting");
+    public static final ProvisioningState DELETING = new ProvisioningState("Deleting");
 
     /** Static value Failed for ProvisioningState. */
-    public static final ProvisioningState FAILED = fromString("Failed");
+    public static final ProvisioningState FAILED = new ProvisioningState("Failed");
+
+    private String value;
 
     /**
-     * Creates or finds a ProvisioningState from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ProvisioningState
+     * Creates a custom value for ProvisioningState.
+     * @param value the custom value
      */
-    @JsonCreator
-    public static ProvisioningState fromString(String name) {
-        return fromString(name, ProvisioningState.class);
+    public ProvisioningState(String value) {
+        this.value = value;
     }
 
-    /**
-     * @return known ProvisioningState values
-     */
-    public static Collection<ProvisioningState> values() {
-        return values(ProvisioningState.class);
+    @JsonValue
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof ProvisioningState)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        ProvisioningState rhs = (ProvisioningState) obj;
+        if (value == null) {
+            return rhs.value == null;
+        } else {
+            return value.equals(rhs.value);
+        }
     }
 }

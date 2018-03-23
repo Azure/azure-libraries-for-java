@@ -120,12 +120,6 @@ public class ApplicationGatewayInner extends Resource {
     private ApplicationGatewayWebApplicationFirewallConfiguration webApplicationFirewallConfiguration;
 
     /**
-     * Whether HTTP2 is enabled on the application gateway resource.
-     */
-    @JsonProperty(value = "properties.enableHttp2")
-    private Boolean enableHttp2;
-
-    /**
      * Resource GUID property of the application gateway resource.
      */
     @JsonProperty(value = "properties.resourceGuid")
@@ -143,6 +137,12 @@ public class ApplicationGatewayInner extends Resource {
      */
     @JsonProperty(value = "etag")
     private String etag;
+
+    /**
+     * A list of availability zones denoting where the resource needs to come from..
+     */
+    @JsonProperty(value = "zones")
+    private List<String> zones;
 
     /**
      * Get the sku value.
@@ -454,26 +454,6 @@ public class ApplicationGatewayInner extends Resource {
     }
 
     /**
-     * Get the enableHttp2 value.
-     *
-     * @return the enableHttp2 value
-     */
-    public Boolean enableHttp2() {
-        return this.enableHttp2;
-    }
-
-    /**
-     * Set the enableHttp2 value.
-     *
-     * @param enableHttp2 the enableHttp2 value to set
-     * @return the ApplicationGatewayInner object itself.
-     */
-    public ApplicationGatewayInner withEnableHttp2(Boolean enableHttp2) {
-        this.enableHttp2 = enableHttp2;
-        return this;
-    }
-
-    /**
      * Get the resourceGuid value.
      *
      * @return the resourceGuid value
@@ -533,4 +513,23 @@ public class ApplicationGatewayInner extends Resource {
         return this;
     }
 
+    /**
+     * Get the zones value.
+     *
+     * @return the zones value
+     */
+    public List<String> zones() {
+        return this.zones;
+    }
+
+    /**
+     * Set the zones value.
+     *
+     * @param zones the zones value to set
+     * @return the ApplicationGatewayInner object itself.
+     */
+    public ApplicationGatewayInner withZones(List<String> zones) {
+        this.zones = zones;
+        return this;
+    }
 }

@@ -8,49 +8,67 @@
 
 package com.microsoft.azure.management.network;
 
-import java.util.Collection;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Defines values for VirtualNetworkGatewaySkuTier.
  */
-public final class VirtualNetworkGatewaySkuTier extends ExpandableStringEnum<VirtualNetworkGatewaySkuTier> {
+public final class VirtualNetworkGatewaySkuTier {
     /** Static value Basic for VirtualNetworkGatewaySkuTier. */
-    public static final VirtualNetworkGatewaySkuTier BASIC = fromString("Basic");
+    public static final VirtualNetworkGatewaySkuTier BASIC = new VirtualNetworkGatewaySkuTier("Basic");
 
     /** Static value HighPerformance for VirtualNetworkGatewaySkuTier. */
-    public static final VirtualNetworkGatewaySkuTier HIGH_PERFORMANCE = fromString("HighPerformance");
+    public static final VirtualNetworkGatewaySkuTier HIGH_PERFORMANCE = new VirtualNetworkGatewaySkuTier("HighPerformance");
 
     /** Static value Standard for VirtualNetworkGatewaySkuTier. */
-    public static final VirtualNetworkGatewaySkuTier STANDARD = fromString("Standard");
+    public static final VirtualNetworkGatewaySkuTier STANDARD = new VirtualNetworkGatewaySkuTier("Standard");
 
     /** Static value UltraPerformance for VirtualNetworkGatewaySkuTier. */
-    public static final VirtualNetworkGatewaySkuTier ULTRA_PERFORMANCE = fromString("UltraPerformance");
+    public static final VirtualNetworkGatewaySkuTier ULTRA_PERFORMANCE = new VirtualNetworkGatewaySkuTier("UltraPerformance");
 
     /** Static value VpnGw1 for VirtualNetworkGatewaySkuTier. */
-    public static final VirtualNetworkGatewaySkuTier VPN_GW1 = fromString("VpnGw1");
+    public static final VirtualNetworkGatewaySkuTier VPN_GW1 = new VirtualNetworkGatewaySkuTier("VpnGw1");
 
     /** Static value VpnGw2 for VirtualNetworkGatewaySkuTier. */
-    public static final VirtualNetworkGatewaySkuTier VPN_GW2 = fromString("VpnGw2");
+    public static final VirtualNetworkGatewaySkuTier VPN_GW2 = new VirtualNetworkGatewaySkuTier("VpnGw2");
 
     /** Static value VpnGw3 for VirtualNetworkGatewaySkuTier. */
-    public static final VirtualNetworkGatewaySkuTier VPN_GW3 = fromString("VpnGw3");
+    public static final VirtualNetworkGatewaySkuTier VPN_GW3 = new VirtualNetworkGatewaySkuTier("VpnGw3");
+
+    private String value;
 
     /**
-     * Creates or finds a VirtualNetworkGatewaySkuTier from its string representation.
-     * @param name a name to look for
-     * @return the corresponding VirtualNetworkGatewaySkuTier
+     * Creates a custom value for VirtualNetworkGatewaySkuTier.
+     * @param value the custom value
      */
-    @JsonCreator
-    public static VirtualNetworkGatewaySkuTier fromString(String name) {
-        return fromString(name, VirtualNetworkGatewaySkuTier.class);
+    public VirtualNetworkGatewaySkuTier(String value) {
+        this.value = value;
     }
 
-    /**
-     * @return known VirtualNetworkGatewaySkuTier values
-     */
-    public static Collection<VirtualNetworkGatewaySkuTier> values() {
-        return values(VirtualNetworkGatewaySkuTier.class);
+    @JsonValue
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof VirtualNetworkGatewaySkuTier)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        VirtualNetworkGatewaySkuTier rhs = (VirtualNetworkGatewaySkuTier) obj;
+        if (value == null) {
+            return rhs.value == null;
+        } else {
+            return value.equals(rhs.value);
+        }
     }
 }

@@ -586,6 +586,7 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/eventhub-java-manage-event-hub">Manage event hub and associated resources</a></li>
 <li><a href="https://github.com/Azure-Samples/eventhub-java-manage-event-hub-geo-disaster-recovery">Manage event hub geo-disaster recovery</a></li>
+<li><a href="https://github.com/Azure-Samples/eventhub-java-manage-event-hub-events">Route Cosmos DB metric data to event hub using Monitor diagnostic settings configuration</a></li>
 </ul></td>
   </tr>
   

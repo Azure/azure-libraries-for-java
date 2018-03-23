@@ -8,43 +8,61 @@
 
 package com.microsoft.azure.management.network;
 
-import java.util.Collection;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Defines values for PcError.
  */
-public final class PcError extends ExpandableStringEnum<PcError> {
+public final class PcError {
     /** Static value InternalError for PcError. */
-    public static final PcError INTERNAL_ERROR = fromString("InternalError");
+    public static final PcError INTERNAL_ERROR = new PcError("InternalError");
 
     /** Static value AgentStopped for PcError. */
-    public static final PcError AGENT_STOPPED = fromString("AgentStopped");
+    public static final PcError AGENT_STOPPED = new PcError("AgentStopped");
 
     /** Static value CaptureFailed for PcError. */
-    public static final PcError CAPTURE_FAILED = fromString("CaptureFailed");
+    public static final PcError CAPTURE_FAILED = new PcError("CaptureFailed");
 
     /** Static value LocalFileFailed for PcError. */
-    public static final PcError LOCAL_FILE_FAILED = fromString("LocalFileFailed");
+    public static final PcError LOCAL_FILE_FAILED = new PcError("LocalFileFailed");
 
     /** Static value StorageFailed for PcError. */
-    public static final PcError STORAGE_FAILED = fromString("StorageFailed");
+    public static final PcError STORAGE_FAILED = new PcError("StorageFailed");
+
+    private String value;
 
     /**
-     * Creates or finds a PcError from its string representation.
-     * @param name a name to look for
-     * @return the corresponding PcError
+     * Creates a custom value for PcError.
+     * @param value the custom value
      */
-    @JsonCreator
-    public static PcError fromString(String name) {
-        return fromString(name, PcError.class);
+    public PcError(String value) {
+        this.value = value;
     }
 
-    /**
-     * @return known PcError values
-     */
-    public static Collection<PcError> values() {
-        return values(PcError.class);
+    @JsonValue
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof PcError)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        PcError rhs = (PcError) obj;
+        if (value == null) {
+            return rhs.value == null;
+        } else {
+            return value.equals(rhs.value);
+        }
     }
 }

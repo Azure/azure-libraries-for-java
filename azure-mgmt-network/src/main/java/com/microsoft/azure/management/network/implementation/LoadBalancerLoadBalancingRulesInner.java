@@ -170,10 +170,8 @@ public class LoadBalancerLoadBalancingRulesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.list(resourceGroupName, loadBalancerName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2017-08-01";
+        return service.list(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LoadBalancingRuleInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<LoadBalancingRuleInner>>> call(Response<ResponseBody> response) {
@@ -263,10 +261,8 @@ public class LoadBalancerLoadBalancingRulesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.get(resourceGroupName, loadBalancerName, loadBalancingRuleName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2017-08-01";
+        return service.get(resourceGroupName, loadBalancerName, loadBalancingRuleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LoadBalancingRuleInner>>>() {
                 @Override
                 public Observable<ServiceResponse<LoadBalancingRuleInner>> call(Response<ResponseBody> response) {

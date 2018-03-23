@@ -8,34 +8,52 @@
 
 package com.microsoft.azure.management.network;
 
-import java.util.Collection;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Defines values for AssociationType.
  */
-public final class AssociationType extends ExpandableStringEnum<AssociationType> {
+public final class AssociationType {
     /** Static value Associated for AssociationType. */
-    public static final AssociationType ASSOCIATED = fromString("Associated");
+    public static final AssociationType ASSOCIATED = new AssociationType("Associated");
 
     /** Static value Contains for AssociationType. */
-    public static final AssociationType CONTAINS = fromString("Contains");
+    public static final AssociationType CONTAINS = new AssociationType("Contains");
+
+    private String value;
 
     /**
-     * Creates or finds a AssociationType from its string representation.
-     * @param name a name to look for
-     * @return the corresponding AssociationType
+     * Creates a custom value for AssociationType.
+     * @param value the custom value
      */
-    @JsonCreator
-    public static AssociationType fromString(String name) {
-        return fromString(name, AssociationType.class);
+    public AssociationType(String value) {
+        this.value = value;
     }
 
-    /**
-     * @return known AssociationType values
-     */
-    public static Collection<AssociationType> values() {
-        return values(AssociationType.class);
+    @JsonValue
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof AssociationType)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        AssociationType rhs = (AssociationType) obj;
+        if (value == null) {
+            return rhs.value == null;
+        } else {
+            return value.equals(rhs.value);
+        }
     }
 }

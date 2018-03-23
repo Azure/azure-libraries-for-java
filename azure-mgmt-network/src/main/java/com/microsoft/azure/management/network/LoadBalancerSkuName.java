@@ -8,34 +8,52 @@
 
 package com.microsoft.azure.management.network;
 
-import java.util.Collection;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Defines values for LoadBalancerSkuName.
  */
-public final class LoadBalancerSkuName extends ExpandableStringEnum<LoadBalancerSkuName> {
+public final class LoadBalancerSkuName {
     /** Static value Basic for LoadBalancerSkuName. */
-    public static final LoadBalancerSkuName BASIC = fromString("Basic");
+    public static final LoadBalancerSkuName BASIC = new LoadBalancerSkuName("Basic");
 
     /** Static value Standard for LoadBalancerSkuName. */
-    public static final LoadBalancerSkuName STANDARD = fromString("Standard");
+    public static final LoadBalancerSkuName STANDARD = new LoadBalancerSkuName("Standard");
+
+    private String value;
 
     /**
-     * Creates or finds a LoadBalancerSkuName from its string representation.
-     * @param name a name to look for
-     * @return the corresponding LoadBalancerSkuName
+     * Creates a custom value for LoadBalancerSkuName.
+     * @param value the custom value
      */
-    @JsonCreator
-    public static LoadBalancerSkuName fromString(String name) {
-        return fromString(name, LoadBalancerSkuName.class);
+    public LoadBalancerSkuName(String value) {
+        this.value = value;
     }
 
-    /**
-     * @return known LoadBalancerSkuName values
-     */
-    public static Collection<LoadBalancerSkuName> values() {
-        return values(LoadBalancerSkuName.class);
+    @JsonValue
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof LoadBalancerSkuName)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        LoadBalancerSkuName rhs = (LoadBalancerSkuName) obj;
+        if (value == null) {
+            return rhs.value == null;
+        } else {
+            return value.equals(rhs.value);
+        }
     }
 }

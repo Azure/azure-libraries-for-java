@@ -60,13 +60,13 @@ public class FrontendIPConfigurationInner extends SubResource {
      * The reference of the subnet resource.
      */
     @JsonProperty(value = "properties.subnet")
-    private SubnetInner subnet;
+    private SubResource subnet;
 
     /**
      * The reference of the Public IP resource.
      */
     @JsonProperty(value = "properties.publicIPAddress")
-    private PublicIPAddressInner publicIPAddress;
+    private SubResource publicIPAddress;
 
     /**
      * Gets the provisioning state of the public IP resource. Possible values
@@ -74,6 +74,13 @@ public class FrontendIPConfigurationInner extends SubResource {
      */
     @JsonProperty(value = "properties.provisioningState")
     private String provisioningState;
+
+    /**
+     * A list of availability zones denoting the IP allocated for the resource
+     * needs to come from.
+     */
+    @JsonProperty(value = "zones")
+    private List<String> zones;
 
     /**
      * The name of the resource that is unique within a resource group. This
@@ -87,13 +94,6 @@ public class FrontendIPConfigurationInner extends SubResource {
      */
     @JsonProperty(value = "etag")
     private String etag;
-
-    /**
-     * A list of availability zones denoting the IP allocated for the resource
-     * needs to come from.
-     */
-    @JsonProperty(value = "zones")
-    private List<String> zones;
 
     /**
      * Get the inboundNatRules value.
@@ -176,7 +176,7 @@ public class FrontendIPConfigurationInner extends SubResource {
      *
      * @return the subnet value
      */
-    public SubnetInner subnet() {
+    public SubResource subnet() {
         return this.subnet;
     }
 
@@ -186,7 +186,7 @@ public class FrontendIPConfigurationInner extends SubResource {
      * @param subnet the subnet value to set
      * @return the FrontendIPConfigurationInner object itself.
      */
-    public FrontendIPConfigurationInner withSubnet(SubnetInner subnet) {
+    public FrontendIPConfigurationInner withSubnet(SubResource subnet) {
         this.subnet = subnet;
         return this;
     }
@@ -196,7 +196,7 @@ public class FrontendIPConfigurationInner extends SubResource {
      *
      * @return the publicIPAddress value
      */
-    public PublicIPAddressInner publicIPAddress() {
+    public SubResource publicIPAddress() {
         return this.publicIPAddress;
     }
 
@@ -206,7 +206,7 @@ public class FrontendIPConfigurationInner extends SubResource {
      * @param publicIPAddress the publicIPAddress value to set
      * @return the FrontendIPConfigurationInner object itself.
      */
-    public FrontendIPConfigurationInner withPublicIPAddress(PublicIPAddressInner publicIPAddress) {
+    public FrontendIPConfigurationInner withPublicIPAddress(SubResource publicIPAddress) {
         this.publicIPAddress = publicIPAddress;
         return this;
     }
@@ -228,6 +228,26 @@ public class FrontendIPConfigurationInner extends SubResource {
      */
     public FrontendIPConfigurationInner withProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
+        return this;
+    }
+
+    /**
+     * Get the zones value.
+     *
+     * @return the zones value
+     */
+    public List<String> zones() {
+        return this.zones;
+    }
+
+    /**
+     * Set the zones value.
+     *
+     * @param zones the zones value to set
+     * @return the FrontendIPConfigurationInner object itself.
+     */
+    public FrontendIPConfigurationInner withZones(List<String> zones) {
+        this.zones = zones;
         return this;
     }
 
@@ -268,26 +288,6 @@ public class FrontendIPConfigurationInner extends SubResource {
      */
     public FrontendIPConfigurationInner withEtag(String etag) {
         this.etag = etag;
-        return this;
-    }
-
-    /**
-     * Get the zones value.
-     *
-     * @return the zones value
-     */
-    public List<String> zones() {
-        return this.zones;
-    }
-
-    /**
-     * Set the zones value.
-     *
-     * @param zones the zones value to set
-     * @return the FrontendIPConfigurationInner object itself.
-     */
-    public FrontendIPConfigurationInner withZones(List<String> zones) {
-        this.zones = zones;
         return this;
     }
 

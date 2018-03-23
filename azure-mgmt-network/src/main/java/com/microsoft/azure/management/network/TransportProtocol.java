@@ -8,37 +8,52 @@
 
 package com.microsoft.azure.management.network;
 
-import java.util.Collection;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Defines values for TransportProtocol.
  */
-public final class TransportProtocol extends ExpandableStringEnum<TransportProtocol> {
+public final class TransportProtocol {
     /** Static value Udp for TransportProtocol. */
-    public static final TransportProtocol UDP = fromString("Udp");
+    public static final TransportProtocol UDP = new TransportProtocol("Udp");
 
     /** Static value Tcp for TransportProtocol. */
-    public static final TransportProtocol TCP = fromString("Tcp");
+    public static final TransportProtocol TCP = new TransportProtocol("Tcp");
 
-    /** Static value All for TransportProtocol. */
-    public static final TransportProtocol ALL = fromString("All");
+    private String value;
 
     /**
-     * Creates or finds a TransportProtocol from its string representation.
-     * @param name a name to look for
-     * @return the corresponding TransportProtocol
+     * Creates a custom value for TransportProtocol.
+     * @param value the custom value
      */
-    @JsonCreator
-    public static TransportProtocol fromString(String name) {
-        return fromString(name, TransportProtocol.class);
+    public TransportProtocol(String value) {
+        this.value = value;
     }
 
-    /**
-     * @return known TransportProtocol values
-     */
-    public static Collection<TransportProtocol> values() {
-        return values(TransportProtocol.class);
+    @JsonValue
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof TransportProtocol)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        TransportProtocol rhs = (TransportProtocol) obj;
+        if (value == null) {
+            return rhs.value == null;
+        } else {
+            return value.equals(rhs.value);
+        }
     }
 }

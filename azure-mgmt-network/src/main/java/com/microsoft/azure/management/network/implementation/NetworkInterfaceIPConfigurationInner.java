@@ -77,13 +77,7 @@ public class NetworkInterfaceIPConfigurationInner extends SubResource {
      * Public IP address bound to the IP configuration.
      */
     @JsonProperty(value = "properties.publicIPAddress")
-    private PublicIPAddressInner publicIPAddress;
-
-    /**
-     * Application security groups in which the IP configuration is included.
-     */
-    @JsonProperty(value = "properties.applicationSecurityGroups")
-    private List<ApplicationSecurityGroupInner> applicationSecurityGroups;
+    private SubResource publicIPAddress;
 
     /**
      * The provisioning state of the network interface IP configuration.
@@ -270,7 +264,7 @@ public class NetworkInterfaceIPConfigurationInner extends SubResource {
      *
      * @return the publicIPAddress value
      */
-    public PublicIPAddressInner publicIPAddress() {
+    public SubResource publicIPAddress() {
         return this.publicIPAddress;
     }
 
@@ -280,28 +274,8 @@ public class NetworkInterfaceIPConfigurationInner extends SubResource {
      * @param publicIPAddress the publicIPAddress value to set
      * @return the NetworkInterfaceIPConfigurationInner object itself.
      */
-    public NetworkInterfaceIPConfigurationInner withPublicIPAddress(PublicIPAddressInner publicIPAddress) {
+    public NetworkInterfaceIPConfigurationInner withPublicIPAddress(SubResource publicIPAddress) {
         this.publicIPAddress = publicIPAddress;
-        return this;
-    }
-
-    /**
-     * Get the applicationSecurityGroups value.
-     *
-     * @return the applicationSecurityGroups value
-     */
-    public List<ApplicationSecurityGroupInner> applicationSecurityGroups() {
-        return this.applicationSecurityGroups;
-    }
-
-    /**
-     * Set the applicationSecurityGroups value.
-     *
-     * @param applicationSecurityGroups the applicationSecurityGroups value to set
-     * @return the NetworkInterfaceIPConfigurationInner object itself.
-     */
-    public NetworkInterfaceIPConfigurationInner withApplicationSecurityGroups(List<ApplicationSecurityGroupInner> applicationSecurityGroups) {
-        this.applicationSecurityGroups = applicationSecurityGroups;
         return this;
     }
 

@@ -8,34 +8,52 @@
 
 package com.microsoft.azure.management.network;
 
-import java.util.Collection;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Defines values for VirtualNetworkGatewayType.
  */
-public final class VirtualNetworkGatewayType extends ExpandableStringEnum<VirtualNetworkGatewayType> {
+public final class VirtualNetworkGatewayType {
     /** Static value Vpn for VirtualNetworkGatewayType. */
-    public static final VirtualNetworkGatewayType VPN = fromString("Vpn");
+    public static final VirtualNetworkGatewayType VPN = new VirtualNetworkGatewayType("Vpn");
 
     /** Static value ExpressRoute for VirtualNetworkGatewayType. */
-    public static final VirtualNetworkGatewayType EXPRESS_ROUTE = fromString("ExpressRoute");
+    public static final VirtualNetworkGatewayType EXPRESS_ROUTE = new VirtualNetworkGatewayType("ExpressRoute");
+
+    private String value;
 
     /**
-     * Creates or finds a VirtualNetworkGatewayType from its string representation.
-     * @param name a name to look for
-     * @return the corresponding VirtualNetworkGatewayType
+     * Creates a custom value for VirtualNetworkGatewayType.
+     * @param value the custom value
      */
-    @JsonCreator
-    public static VirtualNetworkGatewayType fromString(String name) {
-        return fromString(name, VirtualNetworkGatewayType.class);
+    public VirtualNetworkGatewayType(String value) {
+        this.value = value;
     }
 
-    /**
-     * @return known VirtualNetworkGatewayType values
-     */
-    public static Collection<VirtualNetworkGatewayType> values() {
-        return values(VirtualNetworkGatewayType.class);
+    @JsonValue
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof VirtualNetworkGatewayType)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        VirtualNetworkGatewayType rhs = (VirtualNetworkGatewayType) obj;
+        if (value == null) {
+            return rhs.value == null;
+        } else {
+            return value.equals(rhs.value);
+        }
     }
 }

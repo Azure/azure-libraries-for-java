@@ -68,18 +68,6 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Client API version. */
-    private String apiVersion;
-
-    /**
-     * Gets Client API version.
-     *
-     * @return the apiVersion value.
-     */
-    public String apiVersion() {
-        return this.apiVersion;
-    }
-
     /** Gets or sets the preferred language for the response. */
     private String acceptLanguage;
 
@@ -163,45 +151,6 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The ApplicationSecurityGroupsInner object to access its operations.
-     */
-    private ApplicationSecurityGroupsInner applicationSecurityGroups;
-
-    /**
-     * Gets the ApplicationSecurityGroupsInner object to access its operations.
-     * @return the ApplicationSecurityGroupsInner object.
-     */
-    public ApplicationSecurityGroupsInner applicationSecurityGroups() {
-        return this.applicationSecurityGroups;
-    }
-
-    /**
-     * The DdosProtectionPlansInner object to access its operations.
-     */
-    private DdosProtectionPlansInner ddosProtectionPlans;
-
-    /**
-     * Gets the DdosProtectionPlansInner object to access its operations.
-     * @return the DdosProtectionPlansInner object.
-     */
-    public DdosProtectionPlansInner ddosProtectionPlans() {
-        return this.ddosProtectionPlans;
-    }
-
-    /**
-     * The AvailableEndpointServicesInner object to access its operations.
-     */
-    private AvailableEndpointServicesInner availableEndpointServices;
-
-    /**
-     * Gets the AvailableEndpointServicesInner object to access its operations.
-     * @return the AvailableEndpointServicesInner object.
-     */
-    public AvailableEndpointServicesInner availableEndpointServices() {
-        return this.availableEndpointServices;
-    }
-
-    /**
      * The ExpressRouteCircuitAuthorizationsInner object to access its operations.
      */
     private ExpressRouteCircuitAuthorizationsInner expressRouteCircuitAuthorizations;
@@ -228,19 +177,6 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The ExpressRouteCircuitConnectionsInner object to access its operations.
-     */
-    private ExpressRouteCircuitConnectionsInner expressRouteCircuitConnections;
-
-    /**
-     * Gets the ExpressRouteCircuitConnectionsInner object to access its operations.
-     * @return the ExpressRouteCircuitConnectionsInner object.
-     */
-    public ExpressRouteCircuitConnectionsInner expressRouteCircuitConnections() {
-        return this.expressRouteCircuitConnections;
-    }
-
-    /**
      * The ExpressRouteCircuitsInner object to access its operations.
      */
     private ExpressRouteCircuitsInner expressRouteCircuits;
@@ -264,32 +200,6 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
      */
     public ExpressRouteServiceProvidersInner expressRouteServiceProviders() {
         return this.expressRouteServiceProviders;
-    }
-
-    /**
-     * The ExpressRouteCrossConnectionsInner object to access its operations.
-     */
-    private ExpressRouteCrossConnectionsInner expressRouteCrossConnections;
-
-    /**
-     * Gets the ExpressRouteCrossConnectionsInner object to access its operations.
-     * @return the ExpressRouteCrossConnectionsInner object.
-     */
-    public ExpressRouteCrossConnectionsInner expressRouteCrossConnections() {
-        return this.expressRouteCrossConnections;
-    }
-
-    /**
-     * The ExpressRouteCrossConnectionPeeringsInner object to access its operations.
-     */
-    private ExpressRouteCrossConnectionPeeringsInner expressRouteCrossConnectionPeerings;
-
-    /**
-     * Gets the ExpressRouteCrossConnectionPeeringsInner object to access its operations.
-     * @return the ExpressRouteCrossConnectionPeeringsInner object.
-     */
-    public ExpressRouteCrossConnectionPeeringsInner expressRouteCrossConnectionPeerings() {
-        return this.expressRouteCrossConnectionPeerings;
     }
 
     /**
@@ -485,32 +395,6 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
      */
     public PacketCapturesInner packetCaptures() {
         return this.packetCaptures;
-    }
-
-    /**
-     * The ConnectionMonitorsInner object to access its operations.
-     */
-    private ConnectionMonitorsInner connectionMonitors;
-
-    /**
-     * Gets the ConnectionMonitorsInner object to access its operations.
-     * @return the ConnectionMonitorsInner object.
-     */
-    public ConnectionMonitorsInner connectionMonitors() {
-        return this.connectionMonitors;
-    }
-
-    /**
-     * The OperationsInner object to access its operations.
-     */
-    private OperationsInner operations;
-
-    /**
-     * Gets the OperationsInner object to access its operations.
-     * @return the OperationsInner object.
-     */
-    public OperationsInner operations() {
-        return this.operations;
     }
 
     /**
@@ -713,21 +597,14 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2018-02-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
         this.applicationGateways = new ApplicationGatewaysInner(restClient().retrofit(), this);
-        this.applicationSecurityGroups = new ApplicationSecurityGroupsInner(restClient().retrofit(), this);
-        this.ddosProtectionPlans = new DdosProtectionPlansInner(restClient().retrofit(), this);
-        this.availableEndpointServices = new AvailableEndpointServicesInner(restClient().retrofit(), this);
         this.expressRouteCircuitAuthorizations = new ExpressRouteCircuitAuthorizationsInner(restClient().retrofit(), this);
         this.expressRouteCircuitPeerings = new ExpressRouteCircuitPeeringsInner(restClient().retrofit(), this);
-        this.expressRouteCircuitConnections = new ExpressRouteCircuitConnectionsInner(restClient().retrofit(), this);
         this.expressRouteCircuits = new ExpressRouteCircuitsInner(restClient().retrofit(), this);
         this.expressRouteServiceProviders = new ExpressRouteServiceProvidersInner(restClient().retrofit(), this);
-        this.expressRouteCrossConnections = new ExpressRouteCrossConnectionsInner(restClient().retrofit(), this);
-        this.expressRouteCrossConnectionPeerings = new ExpressRouteCrossConnectionPeeringsInner(restClient().retrofit(), this);
         this.loadBalancers = new LoadBalancersInner(restClient().retrofit(), this);
         this.loadBalancerBackendAddressPools = new LoadBalancerBackendAddressPoolsInner(restClient().retrofit(), this);
         this.loadBalancerFrontendIPConfigurations = new LoadBalancerFrontendIPConfigurationsInner(restClient().retrofit(), this);
@@ -743,8 +620,6 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         this.defaultSecurityRules = new DefaultSecurityRulesInner(restClient().retrofit(), this);
         this.networkWatchers = new NetworkWatchersInner(restClient().retrofit(), this);
         this.packetCaptures = new PacketCapturesInner(restClient().retrofit(), this);
-        this.connectionMonitors = new ConnectionMonitorsInner(restClient().retrofit(), this);
-        this.operations = new OperationsInner(restClient().retrofit(), this);
         this.publicIPAddresses = new PublicIPAddressesInner(restClient().retrofit(), this);
         this.routeFilters = new RouteFiltersInner(restClient().retrofit(), this);
         this.routeFilterRules = new RouteFilterRulesInner(restClient().retrofit(), this);
@@ -769,7 +644,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "NetworkManagementClient", "2018-02-01");
+        return String.format("%s (%s)", super.userAgent(), "NetworkManagementClient");
     }
 
     private void initializeService() {
@@ -788,7 +663,78 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Checks whether a domain name in the cloudapp.azure.com zone is available for use.
+     * Checks whether a domain name in the cloudapp.net zone is available for use.
+     *
+     * @param location The location of the domain name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DnsNameAvailabilityResultInner object if successful.
+     */
+    public DnsNameAvailabilityResultInner checkDnsNameAvailability(String location) {
+        return checkDnsNameAvailabilityWithServiceResponseAsync(location).toBlocking().single().body();
+    }
+
+    /**
+     * Checks whether a domain name in the cloudapp.net zone is available for use.
+     *
+     * @param location The location of the domain name.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DnsNameAvailabilityResultInner> checkDnsNameAvailabilityAsync(String location, final ServiceCallback<DnsNameAvailabilityResultInner> serviceCallback) {
+        return ServiceFuture.fromResponse(checkDnsNameAvailabilityWithServiceResponseAsync(location), serviceCallback);
+    }
+
+    /**
+     * Checks whether a domain name in the cloudapp.net zone is available for use.
+     *
+     * @param location The location of the domain name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DnsNameAvailabilityResultInner object
+     */
+    public Observable<DnsNameAvailabilityResultInner> checkDnsNameAvailabilityAsync(String location) {
+        return checkDnsNameAvailabilityWithServiceResponseAsync(location).map(new Func1<ServiceResponse<DnsNameAvailabilityResultInner>, DnsNameAvailabilityResultInner>() {
+            @Override
+            public DnsNameAvailabilityResultInner call(ServiceResponse<DnsNameAvailabilityResultInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Checks whether a domain name in the cloudapp.net zone is available for use.
+     *
+     * @param location The location of the domain name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DnsNameAvailabilityResultInner object
+     */
+    public Observable<ServiceResponse<DnsNameAvailabilityResultInner>> checkDnsNameAvailabilityWithServiceResponseAsync(String location) {
+        if (location == null) {
+            throw new IllegalArgumentException("Parameter location is required and cannot be null.");
+        }
+        if (this.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2017-08-01";
+        final String domainNameLabel = null;
+        return service.checkDnsNameAvailability(location, this.subscriptionId(), domainNameLabel, apiVersion, this.acceptLanguage(), this.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DnsNameAvailabilityResultInner>>>() {
+                @Override
+                public Observable<ServiceResponse<DnsNameAvailabilityResultInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<DnsNameAvailabilityResultInner> clientResponse = checkDnsNameAvailabilityDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Checks whether a domain name in the cloudapp.net zone is available for use.
      *
      * @param location The location of the domain name.
      * @param domainNameLabel The domain name to be verified. It must conform to the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$.
@@ -802,7 +748,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Checks whether a domain name in the cloudapp.azure.com zone is available for use.
+     * Checks whether a domain name in the cloudapp.net zone is available for use.
      *
      * @param location The location of the domain name.
      * @param domainNameLabel The domain name to be verified. It must conform to the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$.
@@ -815,7 +761,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Checks whether a domain name in the cloudapp.azure.com zone is available for use.
+     * Checks whether a domain name in the cloudapp.net zone is available for use.
      *
      * @param location The location of the domain name.
      * @param domainNameLabel The domain name to be verified. It must conform to the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$.
@@ -832,7 +778,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Checks whether a domain name in the cloudapp.azure.com zone is available for use.
+     * Checks whether a domain name in the cloudapp.net zone is available for use.
      *
      * @param location The location of the domain name.
      * @param domainNameLabel The domain name to be verified. It must conform to the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$.
@@ -846,13 +792,8 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         if (this.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.subscriptionId() is required and cannot be null.");
         }
-        if (domainNameLabel == null) {
-            throw new IllegalArgumentException("Parameter domainNameLabel is required and cannot be null.");
-        }
-        if (this.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.apiVersion() is required and cannot be null.");
-        }
-        return service.checkDnsNameAvailability(location, this.subscriptionId(), domainNameLabel, this.apiVersion(), this.acceptLanguage(), this.userAgent())
+        final String apiVersion = "2017-08-01";
+        return service.checkDnsNameAvailability(location, this.subscriptionId(), domainNameLabel, apiVersion, this.acceptLanguage(), this.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DnsNameAvailabilityResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DnsNameAvailabilityResultInner>> call(Response<ResponseBody> response) {

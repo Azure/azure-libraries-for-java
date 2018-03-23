@@ -8,55 +8,37 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ApplicationGatewaySslProtocol.
  */
-public final class ApplicationGatewaySslProtocol {
+public final class ApplicationGatewaySslProtocol extends ExpandableStringEnum<ApplicationGatewaySslProtocol> {
     /** Static value TLSv1_0 for ApplicationGatewaySslProtocol. */
-    public static final ApplicationGatewaySslProtocol TLSV1_0 = new ApplicationGatewaySslProtocol("TLSv1_0");
+    public static final ApplicationGatewaySslProtocol TLSV1_0 = fromString("TLSv1_0");
 
     /** Static value TLSv1_1 for ApplicationGatewaySslProtocol. */
-    public static final ApplicationGatewaySslProtocol TLSV1_1 = new ApplicationGatewaySslProtocol("TLSv1_1");
+    public static final ApplicationGatewaySslProtocol TLSV1_1 = fromString("TLSv1_1");
 
     /** Static value TLSv1_2 for ApplicationGatewaySslProtocol. */
-    public static final ApplicationGatewaySslProtocol TLSV1_2 = new ApplicationGatewaySslProtocol("TLSv1_2");
-
-    private String value;
+    public static final ApplicationGatewaySslProtocol TLSV1_2 = fromString("TLSv1_2");
 
     /**
-     * Creates a custom value for ApplicationGatewaySslProtocol.
-     * @param value the custom value
+     * Creates or finds a ApplicationGatewaySslProtocol from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ApplicationGatewaySslProtocol
      */
-    public ApplicationGatewaySslProtocol(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ApplicationGatewaySslProtocol fromString(String name) {
+        return fromString(name, ApplicationGatewaySslProtocol.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ApplicationGatewaySslProtocol)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ApplicationGatewaySslProtocol rhs = (ApplicationGatewaySslProtocol) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ApplicationGatewaySslProtocol values
+     */
+    public static Collection<ApplicationGatewaySslProtocol> values() {
+        return values(ApplicationGatewaySslProtocol.class);
     }
 }

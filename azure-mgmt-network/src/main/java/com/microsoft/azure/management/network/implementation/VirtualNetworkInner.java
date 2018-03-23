@@ -11,6 +11,7 @@ package com.microsoft.azure.management.network.implementation;
 import com.microsoft.azure.management.network.AddressSpace;
 import com.microsoft.azure.management.network.DhcpOptions;
 import java.util.List;
+import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -58,6 +59,27 @@ public class VirtualNetworkInner extends Resource {
      */
     @JsonProperty(value = "properties.provisioningState")
     private String provisioningState;
+
+    /**
+     * Indicates if DDoS protection is enabled for all the protected resources
+     * in the virtual network. It requires a DDoS protection plan associated
+     * with the resource.
+     */
+    @JsonProperty(value = "properties.enableDdosProtection")
+    private Boolean enableDdosProtection;
+
+    /**
+     * Indicates if VM protection is enabled for all the subnets in the virtual
+     * network.
+     */
+    @JsonProperty(value = "properties.enableVmProtection")
+    private Boolean enableVmProtection;
+
+    /**
+     * The DDoS protection plan associated with the virtual network.
+     */
+    @JsonProperty(value = "properties.ddosProtectionPlan")
+    private SubResource ddosProtectionPlan;
 
     /**
      * Gets a unique read-only string that changes whenever the resource is
@@ -183,6 +205,66 @@ public class VirtualNetworkInner extends Resource {
      */
     public VirtualNetworkInner withProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
+        return this;
+    }
+
+    /**
+     * Get the enableDdosProtection value.
+     *
+     * @return the enableDdosProtection value
+     */
+    public Boolean enableDdosProtection() {
+        return this.enableDdosProtection;
+    }
+
+    /**
+     * Set the enableDdosProtection value.
+     *
+     * @param enableDdosProtection the enableDdosProtection value to set
+     * @return the VirtualNetworkInner object itself.
+     */
+    public VirtualNetworkInner withEnableDdosProtection(Boolean enableDdosProtection) {
+        this.enableDdosProtection = enableDdosProtection;
+        return this;
+    }
+
+    /**
+     * Get the enableVmProtection value.
+     *
+     * @return the enableVmProtection value
+     */
+    public Boolean enableVmProtection() {
+        return this.enableVmProtection;
+    }
+
+    /**
+     * Set the enableVmProtection value.
+     *
+     * @param enableVmProtection the enableVmProtection value to set
+     * @return the VirtualNetworkInner object itself.
+     */
+    public VirtualNetworkInner withEnableVmProtection(Boolean enableVmProtection) {
+        this.enableVmProtection = enableVmProtection;
+        return this;
+    }
+
+    /**
+     * Get the ddosProtectionPlan value.
+     *
+     * @return the ddosProtectionPlan value
+     */
+    public SubResource ddosProtectionPlan() {
+        return this.ddosProtectionPlan;
+    }
+
+    /**
+     * Set the ddosProtectionPlan value.
+     *
+     * @param ddosProtectionPlan the ddosProtectionPlan value to set
+     * @return the VirtualNetworkInner object itself.
+     */
+    public VirtualNetworkInner withDdosProtectionPlan(SubResource ddosProtectionPlan) {
+        this.ddosProtectionPlan = ddosProtectionPlan;
         return this;
     }
 

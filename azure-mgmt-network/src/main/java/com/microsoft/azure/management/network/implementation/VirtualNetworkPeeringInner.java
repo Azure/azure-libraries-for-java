@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.network.AddressSpace;
 import com.microsoft.azure.management.network.VirtualNetworkPeeringState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -50,10 +51,19 @@ public class VirtualNetworkPeeringInner extends SubResource {
     private Boolean useRemoteGateways;
 
     /**
-     * The reference of the remote virtual network.
+     * The reference of the remote virtual network. The remote virtual network
+     * can be in the same or different region (preview). See here to register
+     * for the preview and learn more
+     * (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
      */
     @JsonProperty(value = "properties.remoteVirtualNetwork")
     private SubResource remoteVirtualNetwork;
+
+    /**
+     * The reference of the remote virtual network address space.
+     */
+    @JsonProperty(value = "properties.remoteAddressSpace")
+    private AddressSpace remoteAddressSpace;
 
     /**
      * The status of the virtual network peering. Possible values are
@@ -179,6 +189,26 @@ public class VirtualNetworkPeeringInner extends SubResource {
      */
     public VirtualNetworkPeeringInner withRemoteVirtualNetwork(SubResource remoteVirtualNetwork) {
         this.remoteVirtualNetwork = remoteVirtualNetwork;
+        return this;
+    }
+
+    /**
+     * Get the remoteAddressSpace value.
+     *
+     * @return the remoteAddressSpace value
+     */
+    public AddressSpace remoteAddressSpace() {
+        return this.remoteAddressSpace;
+    }
+
+    /**
+     * Set the remoteAddressSpace value.
+     *
+     * @param remoteAddressSpace the remoteAddressSpace value to set
+     * @return the VirtualNetworkPeeringInner object itself.
+     */
+    public VirtualNetworkPeeringInner withRemoteAddressSpace(AddressSpace remoteAddressSpace) {
+        this.remoteAddressSpace = remoteAddressSpace;
         return this;
     }
 

@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for Access.
  */
-public final class Access {
+public final class Access extends ExpandableStringEnum<Access> {
     /** Static value Allow for Access. */
-    public static final Access ALLOW = new Access("Allow");
+    public static final Access ALLOW = fromString("Allow");
 
     /** Static value Deny for Access. */
-    public static final Access DENY = new Access("Deny");
-
-    private String value;
+    public static final Access DENY = fromString("Deny");
 
     /**
-     * Creates a custom value for Access.
-     * @param value the custom value
+     * Creates or finds a Access from its string representation.
+     * @param name a name to look for
+     * @return the corresponding Access
      */
-    public Access(String value) {
-        this.value = value;
+    @JsonCreator
+    public static Access fromString(String name) {
+        return fromString(name, Access.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Access)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        Access rhs = (Access) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known Access values
+     */
+    public static Collection<Access> values() {
+        return values(Access.class);
     }
 }

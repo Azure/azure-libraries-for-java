@@ -61,7 +61,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
     <td>More services</td>
     <td>Resource Manager<br>Key Vault<br>Redis<br>CDN<br>Batch<br>Service bus</td>
     <td valign="top">Web apps<br>Function Apps<br>Graph RBAC<br>Cosmos DB<br>Monitor<br>Batch AI<br>Search<br>Event Hub</td>
-    <td valign="top">Data Lake</td>
+    <td valign="top">Data Lake<br>More Monitor features</td>
   </tr>
   <tr>
     <td>Fundamentals</td>

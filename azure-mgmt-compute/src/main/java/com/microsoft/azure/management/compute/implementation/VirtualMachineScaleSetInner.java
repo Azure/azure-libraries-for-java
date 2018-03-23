@@ -80,6 +80,19 @@ public class VirtualMachineScaleSetInner extends Resource {
     private Boolean singlePlacementGroup;
 
     /**
+     * Whether to force stictly even Virtual Machine distribution cross x-zones
+     * in case there is zone outage.
+     */
+    @JsonProperty(value = "properties.zoneBalance")
+    private Boolean zoneBalance;
+
+    /**
+     * Fault Domain count for each placement group.
+     */
+    @JsonProperty(value = "properties.platformFaultDomainCount")
+    private Integer platformFaultDomainCount;
+
+    /**
      * The identity of the virtual machine scale set, if configured.
      */
     @JsonProperty(value = "identity")
@@ -226,6 +239,46 @@ public class VirtualMachineScaleSetInner extends Resource {
      */
     public VirtualMachineScaleSetInner withSinglePlacementGroup(Boolean singlePlacementGroup) {
         this.singlePlacementGroup = singlePlacementGroup;
+        return this;
+    }
+
+    /**
+     * Get the zoneBalance value.
+     *
+     * @return the zoneBalance value
+     */
+    public Boolean zoneBalance() {
+        return this.zoneBalance;
+    }
+
+    /**
+     * Set the zoneBalance value.
+     *
+     * @param zoneBalance the zoneBalance value to set
+     * @return the VirtualMachineScaleSetInner object itself.
+     */
+    public VirtualMachineScaleSetInner withZoneBalance(Boolean zoneBalance) {
+        this.zoneBalance = zoneBalance;
+        return this;
+    }
+
+    /**
+     * Get the platformFaultDomainCount value.
+     *
+     * @return the platformFaultDomainCount value
+     */
+    public Integer platformFaultDomainCount() {
+        return this.platformFaultDomainCount;
+    }
+
+    /**
+     * Set the platformFaultDomainCount value.
+     *
+     * @param platformFaultDomainCount the platformFaultDomainCount value to set
+     * @return the VirtualMachineScaleSetInner object itself.
+     */
+    public VirtualMachineScaleSetInner withPlatformFaultDomainCount(Integer platformFaultDomainCount) {
+        this.platformFaultDomainCount = platformFaultDomainCount;
         return this;
     }
 

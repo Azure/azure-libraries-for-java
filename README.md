@@ -47,7 +47,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
   </tr>
   <tr>
     <td>SQL Database</td>
-    <td>Databases<br>Firewalls<br>Elastic pools<br>Import, export, recover and restore dbs<br>Failover groups and replication links<br>DNS aliasing and metrics</td>
+    <td>Databases<br>Firewalls and virtual network<br>Elastic pools<br>Import, export, recover and restore dbs<br>Failover groups and replication links<br>DNS aliasing and metrics</td>
     <td></td>
     <td valign="top">More features</td>
   </tr>
@@ -61,7 +61,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
     <td>More services</td>
     <td>Resource Manager<br>Key Vault<br>Redis<br>CDN<br>Batch<br>Service bus</td>
     <td valign="top">Web apps<br>Function Apps<br>Graph RBAC<br>Cosmos DB<br>Monitor<br>Batch AI<br>Search<br>Event Hub</td>
-    <td valign="top">Data Lake<br>More Monitor features</td>
+    <td valign="top">Data Lake<br>More Monitor features<br>Logic Apps<br>Event Grid</td>
   </tr>
   <tr>
     <td>Fundamentals</td>

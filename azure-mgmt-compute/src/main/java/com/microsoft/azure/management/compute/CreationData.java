@@ -16,7 +16,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CreationData {
     /**
      * This enumerates the possible sources of a disk's creation. Possible
-     * values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy'.
+     * values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy',
+     * 'Restore'.
      */
     @JsonProperty(value = "createOption", required = true)
     private DiskCreateOption createOption;

@@ -21,7 +21,7 @@ public class ImageStorageProfile {
      * see [About disks and VHDs for Azure virtual
      * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
      */
-    @JsonProperty(value = "osDisk", required = true)
+    @JsonProperty(value = "osDisk")
     private ImageOSDisk osDisk;
 
     /**
@@ -32,6 +32,14 @@ public class ImageStorageProfile {
      */
     @JsonProperty(value = "dataDisks")
     private List<ImageDataDisk> dataDisks;
+
+    /**
+     * Specifies whether an image is zone resilient or not. Default is false.
+     * Zone resilient images can be created only in regions that provide Zone
+     * Redundant Storage (ZRS).
+     */
+    @JsonProperty(value = "zoneResilient")
+    private Boolean zoneResilient;
 
     /**
      * Get the osDisk value.
@@ -70,6 +78,26 @@ public class ImageStorageProfile {
      */
     public ImageStorageProfile withDataDisks(List<ImageDataDisk> dataDisks) {
         this.dataDisks = dataDisks;
+        return this;
+    }
+
+    /**
+     * Get the zoneResilient value.
+     *
+     * @return the zoneResilient value
+     */
+    public Boolean zoneResilient() {
+        return this.zoneResilient;
+    }
+
+    /**
+     * Set the zoneResilient value.
+     *
+     * @param zoneResilient the zoneResilient value to set
+     * @return the ImageStorageProfile object itself.
+     */
+    public ImageStorageProfile withZoneResilient(Boolean zoneResilient) {
+        this.zoneResilient = zoneResilient;
         return this;
     }
 

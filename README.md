@@ -550,6 +550,7 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
     <td>Monitor</td>
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/monitor-java-query-metrics-activitylogs">Get metrics and activity logs for a resource</a></li>
+<li><a href="https://github.com/Azure-Samples/eventhub-java-manage-event-hub-events">Stream Azure Service Logs and Metrics for consumption through Event Hub</a></li>
 </ul></td>
   </tr>
 
@@ -586,6 +587,7 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/eventhub-java-manage-event-hub">Manage event hub and associated resources</a></li>
 <li><a href="https://github.com/Azure-Samples/eventhub-java-manage-event-hub-geo-disaster-recovery">Manage event hub geo-disaster recovery</a></li>
+<li><a href="https://github.com/Azure-Samples/eventhub-java-manage-event-hub-events">Stream Azure Service Logs and Metrics for consumption through Event Hub</a></li>
 </ul></td>
   </tr>
   

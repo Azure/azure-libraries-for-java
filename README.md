@@ -47,7 +47,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
   </tr>
   <tr>
     <td>SQL Database</td>
-    <td>Databases<br>Firewalls<br>Elastic pools<br>import, export, recover and restore dbs</td>
+    <td>Databases<br>Firewalls<br>Elastic pools<br>Import, export, recover and restore dbs</td>
     <td></td>
     <td valign="top">More features</td>
   </tr>

@@ -79,7 +79,7 @@ public class SqlDatabaseAutomaticTuningImpl
     }
 
     @Override
-    public SqlDatabaseAutomaticTuningImpl withAutomaticTuningOptions(String tuningOptionName, AutomaticTuningOptionModeDesired desiredState) {
+    public SqlDatabaseAutomaticTuningImpl withAutomaticTuningOption(String tuningOptionName, AutomaticTuningOptionModeDesired desiredState) {
         if (this.automaticTuningOptionsMap == null) {
             this.automaticTuningOptionsMap = new HashMap<String, AutomaticTuningOptions>();
         }
@@ -92,7 +92,7 @@ public class SqlDatabaseAutomaticTuningImpl
     public SqlDatabaseAutomaticTuningImpl withAutomaticTuningOptions(Map<String, AutomaticTuningOptionModeDesired> tuningOptions) {
         if (tuningOptions != null) {
             for (Map.Entry<String, AutomaticTuningOptionModeDesired> option : tuningOptions.entrySet()) {
-                this.withAutomaticTuningOptions(option.getKey(), option.getValue());
+                this.withAutomaticTuningOption(option.getKey(), option.getValue());
             }
         }
         return this;

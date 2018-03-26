@@ -17,7 +17,7 @@ import java.util.List;
 public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
     @Test
     public void canListEventsAndMetrics() throws Exception {
-        DateTime recordDateTime = DateTime.parse("2018-01-24T00:07:40.350Z");
+        DateTime recordDateTime = DateTime.parse("2018-03-26T00:07:40.350Z");
         VirtualMachine vm = computeManager.virtualMachines().list().get(0);
 
         // Metric Definition

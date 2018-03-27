@@ -24,7 +24,7 @@ import com.microsoft.rest.RestClient;
  * Entry point to Azure compute resource management.
  */
 @Beta(SinceVersion.V1_2_0)
-public final class CosmosDBManager extends Manager<CosmosDBManager, DocumentDBImpl> {
+public final class CosmosDBManager extends Manager<CosmosDBManager, CosmosDBImpl> {
     private CosmosDBAccountsImpl databaseAccounts;
     /**
      * Get a Configurable instance that can be used to create ComputeManager with optional configuration.
@@ -92,7 +92,7 @@ public final class CosmosDBManager extends Manager<CosmosDBManager, DocumentDBIm
         super(
                 restClient,
                 subscriptionId,
-                new DocumentDBImpl(restClient).withSubscriptionId(subscriptionId));
+                new CosmosDBImpl(restClient).withSubscriptionId(subscriptionId));
     }
 
     /**

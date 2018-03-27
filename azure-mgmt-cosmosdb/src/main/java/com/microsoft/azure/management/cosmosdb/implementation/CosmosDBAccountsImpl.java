@@ -10,6 +10,8 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccounts;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListConnectionStringsResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListKeysResult;
 import com.microsoft.azure.management.cosmosdb.Location;
 import com.microsoft.azure.management.cosmosdb.KeyKind;
 import com.microsoft.azure.management.resources.ResourceGroup;
@@ -137,7 +139,14 @@ class CosmosDBAccountsImpl
 
     @Override
     public Observable<DatabaseAccountListKeysResult> listKeysAsync(String groupName, String accountName) {
-        return this.manager().inner().databaseAccounts().listKeysAsync(groupName, accountName);
+        return this.manager().inner().databaseAccounts()
+            .listKeysAsync(groupName, accountName)
+            .map(new Func1<DatabaseAccountListKeysResultInner, DatabaseAccountListKeysResult>() {
+                @Override
+                public DatabaseAccountListKeysResult call(DatabaseAccountListKeysResultInner databaseAccountListKeysResultInner) {
+                    return new DatabaseAccountListKeysResultImpl(databaseAccountListKeysResultInner);
+                }
+            });
     }
 
     @Override
@@ -147,7 +156,14 @@ class CosmosDBAccountsImpl
 
     @Override
     public Observable<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync(String groupName, String accountName) {
-        return this.manager().inner().databaseAccounts().listConnectionStringsAsync(groupName, accountName);
+        return this.manager().inner().databaseAccounts()
+            .listConnectionStringsAsync(groupName, accountName)
+            .map(new Func1<DatabaseAccountListConnectionStringsResultInner, DatabaseAccountListConnectionStringsResult>() {
+                @Override
+                public DatabaseAccountListConnectionStringsResult call(DatabaseAccountListConnectionStringsResultInner databaseAccountListConnectionStringsResultInner) {
+                    return new DatabaseAccountListConnectionStringsResultImpl(databaseAccountListConnectionStringsResultInner);
+                }
+            });
     }
 
     @Override

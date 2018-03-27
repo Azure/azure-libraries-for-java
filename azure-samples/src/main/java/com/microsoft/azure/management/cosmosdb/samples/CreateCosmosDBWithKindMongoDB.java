@@ -10,7 +10,7 @@ import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
-import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountListConnectionStringsResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListConnectionStringsResult;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.Utils;

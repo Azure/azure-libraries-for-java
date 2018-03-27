@@ -18,11 +18,11 @@ import java.util.List;
  *
  * @param <T> type of Azure resource
  */
-public class PageImpl<T> implements Page<T> {
+public class PageImpl1<T> implements Page<T> {
     /**
      * The link to the next page.
      */
-    @JsonProperty("")
+    @JsonProperty("nextLink")
     private String nextPageLink;
 
     /**
@@ -57,7 +57,7 @@ public class PageImpl<T> implements Page<T> {
      * @param nextPageLink the link to the next page.
      * @return this Page object itself.
      */
-    public PageImpl<T> setNextPageLink(String nextPageLink) {
+    public PageImpl1<T> setNextPageLink(String nextPageLink) {
         this.nextPageLink = nextPageLink;
         return this;
     }
@@ -68,7 +68,7 @@ public class PageImpl<T> implements Page<T> {
      * @param items the list of items in {@link List}.
      * @return this Page object itself.
      */
-    public PageImpl<T> setItems(List<T> items) {
+    public PageImpl1<T> setItems(List<T> items) {
         this.items = items;
         return this;
     }

@@ -7,8 +7,6 @@ package com.microsoft.azure.management.cosmosdb;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountListConnectionStringsResult;
-import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountListKeysResult;
 import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountsInner;
 import com.microsoft.azure.management.cosmosdb.implementation.CosmosDBManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;

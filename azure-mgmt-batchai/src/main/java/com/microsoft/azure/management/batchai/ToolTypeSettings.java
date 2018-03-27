@@ -358,6 +358,70 @@ public interface ToolTypeSettings {
     }
 
     /**
+     * Client-side representation for PyTorch toolkit settings.
+     */
+    @Fluent
+    @Beta(Beta.SinceVersion.V1_8_0)
+    interface PyTorch extends Indexable,
+            HasParent<BatchAIJob>,
+            HasInner<PyTorchSettings> {
+
+        /**
+         * Definition of PyTorch toolkit settings.
+         *
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        interface Definition<ParentT> extends
+                DefinitionStages.Blank<ParentT>,
+                DefinitionStages.WithAttach<ParentT> {
+        }
+
+        /**
+         * Definition stages for PyTorch toolkit settings.
+         */
+        interface DefinitionStages {
+
+            /**
+             * The final stage of the PyTorch Toolkit settings definition.
+             * At this stage, any remaining optional settings can be specified, or the PyTorch Toolkit settings definition
+             * can be attached to the parent Batch AI job definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithAttach<ParentT> extends
+                    Attachable.InDefinition<ParentT>,
+                    ToolTypeSettings.DefinitionStages.WithPythonInterpreter<WithAttach<ParentT>>,
+                    ToolTypeSettings.DefinitionStages.WithProcessCount<WithAttach<ParentT>>,
+                    ToolTypeSettings.DefinitionStages.WithCommandLineArgs<WithAttach<ParentT>> {
+
+                /**
+                 * @param communicationBackend Type of the communication backend for distributed jobs.
+                 * Valid values are 'TCP', 'Gloo' or 'MPI'. Not required for non-distributed jobs.
+                 * This property is optional for single machine training.
+                 * @return the next stage of the definition
+                 */
+                WithAttach<ParentT> withCommunicationBackend(String communicationBackend);
+            }
+
+            /**
+             * The first stage of the PyTorch settings definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface Blank<ParentT> extends WithPython<ParentT> {
+            }
+
+            /**
+             * Specifies python script file path to execute the job.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithPython<ParentT> {
+                WithAttach<ParentT> withPythonScriptFile(String pythonScriptFilePath);
+            }
+
+
+        }
+    }
+
+    /**
      * Common definition stages.
      */
     interface DefinitionStages {

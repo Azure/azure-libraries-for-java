@@ -57,6 +57,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
 
     @Test
     public void canCreateVirtualMachineScaleSetWithEMSI() throws Exception {
+        RG_NAME = generateRandomResourceName("java-ems-c-rg", 15);
         String identityName1 = generateRandomResourceName("msi-id", 15);
         String identityName2 = generateRandomResourceName("msi-id", 15);
         String networkName = generateRandomResourceName("nw", 10);

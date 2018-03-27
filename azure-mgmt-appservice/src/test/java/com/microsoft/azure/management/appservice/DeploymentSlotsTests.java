@@ -50,6 +50,10 @@ public class DeploymentSlotsTests extends AppServiceTest {
         // Create a deployment slot with empty config
         DeploymentSlot slot1 = webApp.deploymentSlots().define(SLOT_NAME_1)
                 .withBrandNewConfiguration()
+                .withAppSetting("slotkey", "slotvalue")
+                .withStickyAppSetting("slotkeySticky", "slotvalueSticky")
+                .withConnectionString("slotConnectionName", "slotConnectionValue", ConnectionStringType.CUSTOM)
+                .withStickyConnectionString("slotConnectionNameSticky", "slotConnectionValueSticky", ConnectionStringType.CUSTOM)
                 .withPythonVersion(PythonVersion.PYTHON_27)
                 .create();
         Assert.assertNotNull(slot1);
@@ -58,9 +62,18 @@ public class DeploymentSlotsTests extends AppServiceTest {
         Map<String, AppSetting> appSettingMap = slot1.getAppSettings();
         Assert.assertFalse(appSettingMap.containsKey("appkey"));
         Assert.assertFalse(appSettingMap.containsKey("stickykey"));
+        Assert.assertEquals("slotvalue", appSettingMap.get("slotkey").value());
+        Assert.assertFalse(appSettingMap.get("slotkey").sticky());
+        Assert.assertEquals("slotvalueSticky", appSettingMap.get("slotkeySticky").value());
+        Assert.assertTrue(appSettingMap.get("slotkeySticky").sticky());
+
         Map<String, ConnectionString> connectionStringMap = slot1.getConnectionStrings();
         Assert.assertFalse(connectionStringMap.containsKey("connectionName"));
         Assert.assertFalse(connectionStringMap.containsKey("stickyName"));
+        Assert.assertEquals("slotConnectionValue", connectionStringMap.get("slotConnectionName").value());
+        Assert.assertFalse(connectionStringMap.get("slotConnectionName").sticky());
+        Assert.assertEquals("slotConnectionValueSticky", connectionStringMap.get("slotConnectionNameSticky").value());
+        Assert.assertTrue(connectionStringMap.get("slotConnectionNameSticky").sticky());
 
         // Create a deployment slot with web app's config
         DeploymentSlot slot2 = webApp.deploymentSlots().define(SLOT_NAME_2)

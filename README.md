@@ -2,7 +2,7 @@
 
 # Azure Management Libraries for Java
 
-This README is based on the released stable version (1.7.0). If you are looking for other releases, see [More Information](#more-information).
+This README is based on the released stable version (1.8.0). If you are looking for other releases, see [More Information](#more-information).
 
 The Azure Management Libraries for Java is a higher-level, object-oriented API for *managing* Azure resources, that is optimized for ease of use, succinctness and consistency.
 
@@ -24,7 +24,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
 * [More information](#more-information)
 
 ## Feature Availability and Road Map
-:triangular_flag_on_post: *as of Version 1.7.0*
+:triangular_flag_on_post: *as of Version 1.8.0*
 
 <table>
   <tr>
@@ -47,7 +47,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
   </tr>
   <tr>
     <td>SQL Database</td>
-    <td>Databases<br>Firewalls<br>Elastic pools<br>import, export, recover and restore dbs</td>
+    <td>Databases<br>Firewalls and virtual network<br>Elastic pools<br>Import, export, recover and restore dbs<br>Failover groups and replication links<br>DNS aliasing and metrics</td>
     <td></td>
     <td valign="top">More features</td>
   </tr>
@@ -61,7 +61,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
     <td>More services</td>
     <td>Resource Manager<br>Key Vault<br>Redis<br>CDN<br>Batch<br>Service bus</td>
     <td valign="top">Web apps<br>Function Apps<br>Graph RBAC<br>Cosmos DB<br>Monitor<br>Batch AI<br>Search<br>Event Hub</td>
-    <td valign="top">Data Lake</td>
+    <td valign="top">Data Lake<br>More Monitor features<br>Logic Apps<br>Event Grid</td>
   </tr>
   <tr>
     <td>Fundamentals</td>
@@ -456,6 +456,11 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 <li><a href="https://github.com/Azure-Samples/sql-database-java-manage-sql-databases-across-regions">Manage SQL databases across regions</a></li>
 <li><a href="https://github.com/Azure-Samples/sql-database-java-manage-import-export-db">Import and export SQL databases</a></li>
 <li><a href="https://github.com/Azure-Samples/sql-database-java-manage-recover-restore-db">Restore and recover SQL databases</a></li>
+<li><a href="https://github.com/Azure-Samples/sql-database-java-get-sql-metrics">Get SQL Database metrics</a></li>
+<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-failover-groups">Manage SQL Database Failover Groups</a></li>
+<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-sql-server-dns-aliases">Manage SQL Server DNL aliases</a></li>
+<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-sql-secrets-in-key-vault">Manage SQL secrets (Server Keys) in Azure Key Vault</a></li>
+<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-virtual-network-rules">Manage SQL Virtual Network Rules</a></li>
 </ul></td>
   </tr>
 
@@ -550,6 +555,7 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
     <td>Monitor</td>
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/monitor-java-query-metrics-activitylogs">Get metrics and activity logs for a resource</a></li>
+<li><a href="https://github.com/Azure-Samples/eventhub-java-manage-event-hub-events">Stream Azure Service Logs and Metrics for consumption through Event Hub</a></li>
 </ul></td>
   </tr>
 
@@ -586,6 +592,7 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/eventhub-java-manage-event-hub">Manage event hub and associated resources</a></li>
 <li><a href="https://github.com/Azure-Samples/eventhub-java-manage-event-hub-geo-disaster-recovery">Manage event hub geo-disaster recovery</a></li>
+<li><a href="https://github.com/Azure-Samples/eventhub-java-manage-event-hub-events">Stream Azure Service Logs and Metrics for consumption through Event Hub</a></li>
 </ul></td>
   </tr>
   
@@ -602,7 +609,7 @@ If you are using released builds from 1.6.0, add the following to your POM file:
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure</artifactId>
-    <version>1.7.0</version>
+    <version>1.8.0</version>
 </dependency>
 ```
 
@@ -629,7 +636,7 @@ If you are using snapshots builds for this repo, add the following repository an
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure</artifactId>
-    <version>1.7.1-SNAPSHOT</version>
+    <version>1.8.1-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.microsoft.azure</groupId>
@@ -656,7 +663,7 @@ If you are using snapshots builds for this repo, add the following repository an
 
 ## Upgrading from older versions
 
-If you are migrating your code from 1.6.x to 1.7.0, you can use these release notes for [preparing your code for 1.7.0 from 1.6.x](./notes/prepare-for-1.7.0.md).
+If you are migrating your code from 1.7.x to 1.8.0, you can use these release notes for [preparing your code for 1.8.0 from 1.7.x](./notes/prepare-for-1.8.0.md).
 
 In general, Azure Libraries for Java follow [semantic versioning](http://semver.org/), so user code should continue working in a compatible fashion between minor versions of the same major version release train, with the following caveats:
 
@@ -682,7 +689,7 @@ If you would like to become an active contributor to this project please follow 
 5. Create new Pull Request
 
 ## More Information
-* [Javadoc](http://azure.github.io/azure-sdk-for-java)
+* [Javadoc](http://azure.github.io/azure-libraries-for-java)
 * [http://azure.com/java](http://azure.com/java)
 * If you don't have a Microsoft Azure subscription you can get a FREE trial account [here](http://go.microsoft.com/fwlink/?LinkId=330212)
 
@@ -690,6 +697,7 @@ If you would like to become an active contributor to this project please follow 
 
 | Version           | SHA1                                                                                      | Remarks                                               |
 |-------------------|-------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| 1.8.0       | [1.8.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.8.0)               | Tagged release for 1.8.0 version of Azure management libraries |
 | 1.7.0       | [1.7.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.7.0)               | Tagged release for 1.7.0 version of Azure management libraries |
 | 1.6.0       | [1.6.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.6.0)               | Tagged release for 1.6.0 version of Azure management libraries |
 | 1.5.1       | [1.5.1](https://github.com/Azure/azure-libraries-for-java/tree/v1.5.1)               | Tagged release for 1.5.1 version of Azure management libraries |

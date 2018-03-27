@@ -181,9 +181,9 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         serverAutomaticTuning.update()
             .withAutomaticTuningMode(AutomaticTuningServerMode.AUTO)
-            .withAutomaticTuningOptions("createIndex", AutomaticTuningOptionModeDesired.OFF)
-            .withAutomaticTuningOptions("dropIndex", AutomaticTuningOptionModeDesired.ON)
-            .withAutomaticTuningOptions("forceLastGoodPlan", AutomaticTuningOptionModeDesired.DEFAULT)
+            .withAutomaticTuningOption("createIndex", AutomaticTuningOptionModeDesired.OFF)
+            .withAutomaticTuningOption("dropIndex", AutomaticTuningOptionModeDesired.ON)
+            .withAutomaticTuningOption("forceLastGoodPlan", AutomaticTuningOptionModeDesired.DEFAULT)
             .apply();
         Assert.assertEquals(AutomaticTuningServerMode.AUTO, serverAutomaticTuning.desiredState());
         Assert.assertEquals(AutomaticTuningServerMode.AUTO, serverAutomaticTuning.actualState());
@@ -199,9 +199,9 @@ public class SqlServerOperationsTests extends SqlServerTest {
         // The following results in "InternalServerError" at the moment
         databaseAutomaticTuning.update()
             .withAutomaticTuningMode(AutomaticTuningMode.AUTO)
-            .withAutomaticTuningOptions("createIndex", AutomaticTuningOptionModeDesired.OFF)
-            .withAutomaticTuningOptions("dropIndex", AutomaticTuningOptionModeDesired.ON)
-            .withAutomaticTuningOptions("forceLastGoodPlan", AutomaticTuningOptionModeDesired.DEFAULT)
+            .withAutomaticTuningOption("createIndex", AutomaticTuningOptionModeDesired.OFF)
+            .withAutomaticTuningOption("dropIndex", AutomaticTuningOptionModeDesired.ON)
+            .withAutomaticTuningOption("forceLastGoodPlan", AutomaticTuningOptionModeDesired.DEFAULT)
             .apply();
         Assert.assertEquals(AutomaticTuningMode.AUTO, databaseAutomaticTuning.desiredState());
         Assert.assertEquals(AutomaticTuningMode.AUTO, databaseAutomaticTuning.actualState());

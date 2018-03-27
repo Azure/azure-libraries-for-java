@@ -279,7 +279,7 @@ class CdnEndpointImpl extends ExternalChildResourceImpl<CdnEndpoint,
 
     @Override
     public String optimizationType() {
-        return this.inner().optimizationType();
+        return this.inner().optimizationType().toString();
     }
 
     @Override

@@ -15,21 +15,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ValidateCustomDomainOutputInner {
     /**
-     * Indicates whether the custom domain is validated or not.
+     * Indicates whether the custom domain is valid or not.
      */
-    @JsonProperty(value = "customDomainValidated")
+    @JsonProperty(value = "customDomainValidated", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean customDomainValidated;
 
     /**
      * The reason why the custom domain is not valid.
      */
-    @JsonProperty(value = "reason")
+    @JsonProperty(value = "reason", access = JsonProperty.Access.WRITE_ONLY)
     private String reason;
 
     /**
      * Error message describing why the custom domain is not valid.
      */
-    @JsonProperty(value = "message")
+    @JsonProperty(value = "message", access = JsonProperty.Access.WRITE_ONLY)
     private String message;
 
     /**
@@ -42,17 +42,6 @@ public class ValidateCustomDomainOutputInner {
     }
 
     /**
-     * Set the customDomainValidated value.
-     *
-     * @param customDomainValidated the customDomainValidated value to set
-     * @return the ValidateCustomDomainOutputInner object itself.
-     */
-    public ValidateCustomDomainOutputInner withCustomDomainValidated(Boolean customDomainValidated) {
-        this.customDomainValidated = customDomainValidated;
-        return this;
-    }
-
-    /**
      * Get the reason value.
      *
      * @return the reason value
@@ -62,34 +51,12 @@ public class ValidateCustomDomainOutputInner {
     }
 
     /**
-     * Set the reason value.
-     *
-     * @param reason the reason value to set
-     * @return the ValidateCustomDomainOutputInner object itself.
-     */
-    public ValidateCustomDomainOutputInner withReason(String reason) {
-        this.reason = reason;
-        return this;
-    }
-
-    /**
      * Get the message value.
      *
      * @return the message value
      */
     public String message() {
         return this.message;
-    }
-
-    /**
-     * Set the message value.
-     *
-     * @param message the message value to set
-     * @return the ValidateCustomDomainOutputInner object itself.
-     */
-    public ValidateCustomDomainOutputInner withMessage(String message) {
-        this.message = message;
-        return this;
     }
 
 }

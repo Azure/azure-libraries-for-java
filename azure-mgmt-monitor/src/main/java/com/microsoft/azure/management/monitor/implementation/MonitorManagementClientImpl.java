@@ -316,6 +316,32 @@ public class MonitorManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The MetricAlertsInner object to access its operations.
+     */
+    private MetricAlertsInner metricAlerts;
+
+    /**
+     * Gets the MetricAlertsInner object to access its operations.
+     * @return the MetricAlertsInner object.
+     */
+    public MetricAlertsInner metricAlerts() {
+        return this.metricAlerts;
+    }
+
+    /**
+     * The MetricAlertsStatusInner object to access its operations.
+     */
+    private MetricAlertsStatusInner metricAlertsStatus;
+
+    /**
+     * Gets the MetricAlertsStatusInner object to access its operations.
+     * @return the MetricAlertsStatusInner object.
+     */
+    public MetricAlertsStatusInner metricAlertsStatus() {
+        return this.metricAlertsStatus;
+    }
+
+    /**
      * Initializes an instance of MonitorManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -364,6 +390,8 @@ public class MonitorManagementClientImpl extends AzureServiceClient {
         this.metricDefinitions = new MetricDefinitionsInner(restClient().retrofit(), this);
         this.metrics = new MetricsInner(restClient().retrofit(), this);
         this.metricBaselines = new MetricBaselinesInner(restClient().retrofit(), this);
+        this.metricAlerts = new MetricAlertsInner(restClient().retrofit(), this);
+        this.metricAlertsStatus = new MetricAlertsStatusInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

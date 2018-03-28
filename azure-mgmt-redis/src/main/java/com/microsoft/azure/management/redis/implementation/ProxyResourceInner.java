@@ -10,10 +10,6 @@ package com.microsoft.azure.management.redis.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * The resource model definition for a ARM proxy resource. It will have
- * everything other than required location and tags.
- */
 public class ProxyResourceInner {
     @JsonProperty(
             access = JsonProperty.Access.WRITE_ONLY

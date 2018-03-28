@@ -9,9 +9,6 @@
 package com.microsoft.azure.management.cdn.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
-
-import java.util.Map;
 
 /**
  * The resource model definition for a ARM proxy resource. It will have

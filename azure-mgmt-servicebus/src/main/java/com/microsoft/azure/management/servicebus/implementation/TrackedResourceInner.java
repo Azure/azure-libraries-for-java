@@ -8,8 +8,6 @@
 
 package com.microsoft.azure.management.servicebus.implementation;
 
-import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.Resource;
 
 /**

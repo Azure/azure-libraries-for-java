@@ -61,25 +61,6 @@ public class EdgeNode {
     }
 
     /**
-     * Edge node location string.
-     *
-     * @return the resource location string
-     */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
-    public String location() {
-        return this.inner.location();
-    }
-
-    /**
-     * Edge node tags.
-     *
-     * @return the tags of edge node
-     */
-    public Map<String, String> getTags() {
-        return this.inner.getTags();
-    }
-
-    /**
      * Get the ipAddressGroups value.
      *
      * @return the ipAddressGroups value

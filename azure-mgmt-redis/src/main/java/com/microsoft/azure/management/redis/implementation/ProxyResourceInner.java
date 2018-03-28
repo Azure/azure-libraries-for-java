@@ -8,11 +8,41 @@
 
 package com.microsoft.azure.management.redis.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.Resource;
+
+import java.util.Map;
 
 /**
  * The resource model definition for a ARM proxy resource. It will have
  * everything other than required location and tags.
  */
-public class ProxyResourceInner extends Resource {
+public class ProxyResourceInner {
+    @JsonProperty(
+            access = JsonProperty.Access.WRITE_ONLY
+    )
+    private String id;
+    @JsonProperty(
+            access = JsonProperty.Access.WRITE_ONLY
+    )
+    private String name;
+    @JsonProperty(
+            access = JsonProperty.Access.WRITE_ONLY
+    )
+    private String type;
+
+    public ProxyResourceInner() {
+    }
+
+    public String id() {
+        return this.id;
+    }
+
+    public String name() {
+        return this.name;
+    }
+
+    public String type() {
+        return this.type;
+    }
 }

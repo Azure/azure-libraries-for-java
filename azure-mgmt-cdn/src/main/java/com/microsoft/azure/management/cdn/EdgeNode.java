@@ -11,7 +11,6 @@ import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
 import com.microsoft.azure.management.cdn.implementation.EdgeNodeInner;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Provides information about edge node of CDN service.

@@ -60,6 +60,14 @@ public interface CosmosDBAccounts extends
     DatabaseAccountListKeysResult listKeys(String groupName, String accountName);
 
     /**
+     * Lists the read-only access keys for the specified Azure CosmosDB database account.
+     * @param groupName the group name
+     * @param accountName the account name
+     * @return a list of keys
+     */
+    DatabaseAccountListReadOnlyKeysResult listReadOnlyKeys(String groupName, String accountName);
+
+    /**
      * Lists the connection strings for the specified Azure CosmosDB database account.
      * @param groupName the group name
      * @param accountName the account name
@@ -93,6 +101,14 @@ public interface CosmosDBAccounts extends
      * @return a list of keys
      */
     Observable<DatabaseAccountListKeysResult> listKeysAsync(String groupName, String accountName);
+
+    /**
+     * Lists the read-only access keys for the specified Azure CosmosDB database account.
+     * @param groupName the group name
+     * @param accountName the account name
+     * @return a list of keys
+     */
+    Observable<DatabaseAccountListReadOnlyKeysResult> listReadOnlyKeysAsync(String groupName, String accountName);
 
     /**
      * Lists the connection strings for the specified Azure CosmosDB database account.

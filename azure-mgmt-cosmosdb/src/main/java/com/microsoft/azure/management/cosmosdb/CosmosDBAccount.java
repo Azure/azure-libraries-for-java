@@ -82,6 +82,16 @@ public interface CosmosDBAccount extends
     Observable<DatabaseAccountListKeysResult> listKeysAsync();
 
     /**
+     * @return the read-only access keys for the specified Azure CosmosDB database account
+     */
+    DatabaseAccountListReadOnlyKeysResult listReadOnlyKeys();
+
+    /**
+     * @return the read-only access keys for the specified Azure CosmosDB database account
+     */
+    Observable<DatabaseAccountListReadOnlyKeysResult> listReadOnlyKeysAsync();
+
+    /**
      * @return the connection strings for the specified Azure CosmosDB database account
      */
     DatabaseAccountListConnectionStringsResult listConnectionStrings();

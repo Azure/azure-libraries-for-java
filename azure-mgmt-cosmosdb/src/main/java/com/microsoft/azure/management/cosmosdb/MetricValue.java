@@ -19,7 +19,7 @@ public class MetricValue {
      * The number of values for the metric.
      */
     @JsonProperty(value = "_count", access = JsonProperty.Access.WRITE_ONLY)
-    private Double _count;
+    private Double count;
 
     /**
      * The average value of the metric.
@@ -52,12 +52,12 @@ public class MetricValue {
     private Double total;
 
     /**
-     * Get the _count value.
+     * Get the count value.
      *
-     * @return the _count value
+     * @return the count value
      */
-    public Double _count() {
-        return this._count;
+    public Double count() {
+        return this.count;
     }
 
     /**

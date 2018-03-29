@@ -814,8 +814,8 @@ public class CustomDomainsInner {
 
     private ServiceResponse<CustomDomainInner> disableCustomHttpsDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<CustomDomainInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(202, new TypeToken<CustomDomainInner>() { }.getType())
                 .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<CustomDomainInner>() { }.getType())
                 .registerError(ErrorResponseException.class)
                 .build(response);
     }
@@ -915,8 +915,8 @@ public class CustomDomainsInner {
 
     private ServiceResponse<CustomDomainInner> enableCustomHttpsDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<CustomDomainInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(202, new TypeToken<CustomDomainInner>() { }.getType())
                 .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<CustomDomainInner>() { }.getType())
                 .registerError(ErrorResponseException.class)
                 .build(response);
     }

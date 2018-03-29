@@ -96,27 +96,94 @@ public interface BatchAIFileServer extends
         interface WithGroup extends GroupableResource.DefinitionStages.WithGroup<WithDataDisks> {
         }
 
+        /**
+         * This stage of a Batch AI file server definition allows to specify data disks parameters.
+         */
         interface WithDataDisks {
+            /**
+             * Specifies settings for the data disks which would be created for the file server.
+             * @param diskSizeInGB initial disk size in GB for blank data disks
+             * @param diskCount number of data disks to be attached to the VM. RAID level 0 will be applied in the case of multiple disks.
+             * @param storageAccountType type of storage account to be used on the disk
+             * @return the next stage of the definition
+             */
             WithVMSize withDataDisks(int diskSizeInGB, int diskCount, StorageAccountType storageAccountType);
+
+            /**
+             * Specifies settings for the data disks which would be created for the file server.
+             * @param diskSizeInGB initial disk size in GB for blank data disks.
+             * @param diskCount number of data disks to be attached to the VM. RAID level 0 will be applied in the case of multiple disks.
+             * @param storageAccountType type of storage account to be used on the disk
+             * @param cachingType caching type
+             * @return the next stage of the definition
+             */
+            WithVMSize withDataDisks(int diskSizeInGB, int diskCount, StorageAccountType storageAccountType, CachingType cachingType);
         }
 
+        /**
+         * This stage of a Batch AI file server definition allows to specify virtual machine size.
+         */
         interface WithVMSize {
             /**
+             * Specifies size of the virtual machine of the File Server.
              * @param vmSize virtual machine size
              * @return next stage of the definition
              */
             WithUserName withVMSize(String vmSize);
         }
 
+        /**
+         * This stage of a Batch AI file server definition allows to specify administrator account name.
+         */
         interface WithUserName {
+            /**
+             * Specifies admin user name.
+             * @param userName the name of the administrator account
+             * @return the next stage of the definition
+             */
             WithUserCredentials withUserName(String userName);
         }
 
+        /**
+         * This stage of a Batch AI file server definition allows to specify user credentials.
+         */
         interface WithUserCredentials {
+            /**
+             * Specifies admin user password.
+             * @param password admin user Password (linux only)
+             * @return the next stage of the definition
+             */
             WithCreate withPassword(String password);
 
+            /**
+             * Specifies public key for authentication.
+             * @param sshPublicKey SSH public keys used to authenticate with linux based VMs
+             * @return the next stage of the definition
+             */
             WithCreate withSshPublicKey(String sshPublicKey);
         }
+
+        /**
+         * Defines subnet for the file server.
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithSubnet {
+            /**
+             * Specifies subnet id.
+             * @param subnetId identifier of the subnet
+             * @return the next stage of the definition
+             */
+            WithCreate withSubnet(String subnetId);
+
+            /**
+             * Specifies network id and subnet name within this network.
+             * @param networkId identifier of the network
+             * @param subnetName subnet name
+             * @return the next stage of the definition
+             */
+            WithCreate withSubnet(String networkId, String subnetName);
+        }
+
 
         /**
          * The stage of the definition which contains all the minimum required inputs for the resource to be created
@@ -125,7 +192,8 @@ public interface BatchAIFileServer extends
         interface WithCreate extends
                 Creatable<BatchAIFileServer>,
                 Resource.DefinitionWithTags<WithCreate>,
-                DefinitionStages.WithUserCredentials {
+                DefinitionStages.WithUserCredentials,
+                DefinitionStages.WithSubnet {
         }
     }
 }

@@ -10,15 +10,16 @@ package com.microsoft.azure.management.cdn.implementation;
 
 import com.microsoft.azure.management.cdn.CustomDomainResourceState;
 import com.microsoft.azure.management.cdn.CustomHttpsProvisioningState;
+import com.microsoft.azure.management.cdn.CustomHttpsProvisioningSubstate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
 
 /**
- * Customer provided domain for branding purposes, e.g. www.consoto.com.
+ * Friendly domain name mapping to the endpoint hostname that the customer
+ * provides for branding purposes, e.g. www.consoto.com.
  */
 @JsonFlatten
-public class CustomDomainInner extends Resource {
+public class CustomDomainInner extends ProxyResourceInner {
     /**
      * The host name of the custom domain. Must be a domain name.
      */
@@ -33,11 +34,26 @@ public class CustomDomainInner extends Resource {
     private CustomDomainResourceState resourceState;
 
     /**
-     * Provisioning state of Custom Https of the custom domain. Possible values
-     * include: 'Enabling', 'Enabled', 'Disabling', 'Disabled', 'Failed'.
+     * Provisioning status of Custom Https of the custom domain. Possible
+     * values include: 'Enabling', 'Enabled', 'Disabling', 'Disabled',
+     * 'Failed'.
      */
     @JsonProperty(value = "properties.customHttpsProvisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private CustomHttpsProvisioningState customHttpsProvisioningState;
+
+    /**
+     * Provisioning substate shows the progress of custom HTTPS
+     * enabling/disabling process step by step. Possible values include:
+     * 'SubmittingDomainControlValidationRequest',
+     * 'PendingDomainControlValidationREquestApproval',
+     * 'DomainControlValidationRequestApproved',
+     * 'DomainControlValidationRequestRejected',
+     * 'DomainControlValidationRequestTimedOut', 'IssuingCertificate',
+     * 'DeployingCertificate', 'CertificateDeployed', 'DeletingCertificate',
+     * 'CertificateDeleted'.
+     */
+    @JsonProperty(value = "properties.customHttpsProvisioningSubstate", access = JsonProperty.Access.WRITE_ONLY)
+    private CustomHttpsProvisioningSubstate customHttpsProvisioningSubstate;
 
     /**
      * Special validation or data may be required when delivering CDN to some
@@ -89,6 +105,15 @@ public class CustomDomainInner extends Resource {
      */
     public CustomHttpsProvisioningState customHttpsProvisioningState() {
         return this.customHttpsProvisioningState;
+    }
+
+    /**
+     * Get the customHttpsProvisioningSubstate value.
+     *
+     * @return the customHttpsProvisioningSubstate value
+     */
+    public CustomHttpsProvisioningSubstate customHttpsProvisioningSubstate() {
+        return this.customHttpsProvisioningSubstate;
     }
 
     /**

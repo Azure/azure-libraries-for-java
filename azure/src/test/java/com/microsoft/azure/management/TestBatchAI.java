@@ -9,8 +9,12 @@ package com.microsoft.azure.management;
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIClusters;
+import com.microsoft.azure.management.batchai.BatchAIJob;
+import com.microsoft.azure.management.batchai.OutputDirectory;
 import com.microsoft.azure.management.batchai.VmPriority;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
+import com.microsoft.azure.management.network.Network;
+import com.microsoft.azure.management.network.Networks;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
@@ -27,25 +31,29 @@ import static com.microsoft.azure.management.resources.core.TestBase.isPlaybackM
  * Test of Batch AI management.
  */
 public class TestBatchAI {
-    private static final Region region = Region.US_EAST;
+    private static final Region region = Region.EUROPE_WEST;
 
     public static class Basic extends TestTemplate<BatchAICluster, BatchAIClusters> {
         private StorageAccounts storageAccounts;
+        private Networks networks;
 
-        public Basic(StorageAccounts storageAccounts) {
+        public Basic(StorageAccounts storageAccounts, Networks networks) {
             this.storageAccounts = storageAccounts;
+            this.networks = networks;
         }
 
         @Override
         public BatchAICluster createResource(BatchAIClusters clusters) throws Exception {
             final String groupName = SdkContext.randomResourceName("rg", 10);
             final String clusterName = SdkContext.randomResourceName("cluster", 15);
+            final String vnetName = SdkContext.randomResourceName("vnet", 15);
             final String saName = SdkContext.randomResourceName("cluster", 15);
             final String shareName = "myfileshare";
             final String shareMountPath = "azurefileshare";
             final String blobFileSystemPath = "myblobsystem";
             final String containerName = "mycontainer";
             final String userName = "tirekicker";
+            final String subnetName = "MySubnet";
             String storageAccountKey;
             String fileShareUri;
             if (isPlaybackMode()) {
@@ -67,6 +75,13 @@ public class TestBatchAI {
                 container.createIfNotExists();
                 fileShareUri = cloudFileShare.getStorageUri().getPrimaryUri().toString();
             }
+
+            Network network = networks.define(vnetName)
+                .withRegion(region)
+                .withExistingResourceGroup(groupName)
+                .withAddressSpace("192.168.0.0/16")
+                .withSubnet(subnetName, "192.168.200.0/24")
+                .create();
 
             BatchAICluster cluster = clusters.define(clusterName)
                     .withRegion(region)
@@ -92,15 +107,22 @@ public class TestBatchAI {
                         .withRelativeMountPath(blobFileSystemPath)
                         .withAccountKey(storageAccountKey)
                         .attach()
+                    .withVirtualMachineImage("microsoft-ads", "linux-data-science-vm-ubuntu", "linuxdsvmubuntu")
+                    .withSubnet(network.id(), subnetName)
+                    .withAppInsightsComponentId("appinsightsId")
+                    .withInstrumentationKey("appInsightsKey")
                     .withTag("tag1", "value1")
                     .create();
-            Assert.assertEquals("steady", cluster.allocationState().toString());
+//            Assert.assertEquals("steady", cluster.allocationState().toString());
             Assert.assertEquals(userName, cluster.adminUserName());
             Assert.assertEquals(VmPriority.LOWPRIORITY, cluster.vmPriority());
             Assert.assertEquals(1, cluster.nodeSetup().mountVolumes().azureFileShares().size());
             Assert.assertEquals(shareMountPath, cluster.nodeSetup().mountVolumes().azureFileShares().get(0).relativeMountPath());
             Assert.assertEquals(1, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().size());
             Assert.assertEquals(blobFileSystemPath, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().get(0).relativeMountPath());
+            Assert.assertEquals(network.id() + "/subnets/" + subnetName, cluster.subnet().id());
+            Assert.assertEquals("appinsightsId", cluster.nodeSetup().performanceCountersSettings().appInsightsReference().component().id());
+            Assert.assertEquals("linux-data-science-vm-ubuntu", cluster.virtualMachineConfiguration().imageReference().offer());
             return cluster;
         }
 
@@ -139,7 +161,7 @@ public class TestBatchAI {
                     .create();
             Assert.assertEquals("steady", cluster.allocationState().toString());
             Assert.assertEquals(userName, cluster.adminUserName());
-            cluster.jobs().define("myJob")
+            BatchAIJob job = cluster.jobs().define("myJob")
                     .withRegion(region)
                     .withNodeCount(1)
                     .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
@@ -149,8 +171,22 @@ public class TestBatchAI {
                         .attach()
                     .withInputDirectory("SAMPLE", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/mnistcntksample")
                     .withOutputDirectory("MODEL", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/model")
+                    .defineOutputDirectory("OUTPUT")
+                        .withPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/output")
+                        .withCreateNew(true)
+                        .withPathSuffix("suffix")
+                        .attach()
                     .withContainerImage("microsoft/cntk:2.1-gpu-python3.5-cuda8.0-cudnn6.0")
                     .create();
+            Assert.assertEquals(2,job.outputDirectories().size());
+            OutputDirectory outputDirectory = null;
+            for (OutputDirectory directory : job.outputDirectories()) {
+                if ("OUTPUT".equalsIgnoreCase(directory.id())) {
+                    outputDirectory = directory;
+                }
+            }
+            Assert.assertNotNull(outputDirectory);
+            Assert.assertEquals("suffix", outputDirectory.pathSuffix().toLowerCase());
             return cluster;
         }
 

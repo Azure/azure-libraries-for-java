@@ -9,16 +9,19 @@
 package com.microsoft.azure.management.redis.implementation;
 
 import java.util.Map;
+import com.microsoft.azure.management.redis.TlsVersion;
 import com.microsoft.azure.management.redis.Sku;
+import com.microsoft.azure.management.redis.ProvisioningState;
+import java.util.List;
+import com.microsoft.azure.management.redis.RedisLinkedServer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
 
 /**
  * A single Redis item in List or Get Operation.
  */
 @JsonFlatten
-public class RedisResourceInner extends Resource {
+public class RedisResourceInner extends TrackedResourceInner {
     /**
      * All Redis Settings. Few possible keys:
      * rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
@@ -34,7 +37,7 @@ public class RedisResourceInner extends Resource {
     private Boolean enableNonSslPort;
 
     /**
-     * tenantSettings.
+     * A dictionary of tenant settings.
      */
     @JsonProperty(value = "properties.tenantSettings")
     private Map<String, String> tenantSettings;
@@ -44,6 +47,20 @@ public class RedisResourceInner extends Resource {
      */
     @JsonProperty(value = "properties.shardCount")
     private Integer shardCount;
+
+    /**
+     * Optional: requires clients to use a specified TLS version (or higher) to
+     * connect (e,g, '1.0', '1.1', '1.2'). Possible values include: '1.0',
+     * '1.1', '1.2'.
+     */
+    @JsonProperty(value = "properties.minimumTlsVersion")
+    private TlsVersion minimumTlsVersion;
+
+    /**
+     * The SKU of the Redis cache to deploy.
+     */
+    @JsonProperty(value = "properties.sku", required = true)
+    private Sku sku;
 
     /**
      * The full resource ID of a subnet in a virtual network to deploy the
@@ -61,22 +78,19 @@ public class RedisResourceInner extends Resource {
     private String staticIP;
 
     /**
-     * The SKU of the Redis cache to deploy.
-     */
-    @JsonProperty(value = "properties.sku")
-    private Sku sku;
-
-    /**
      * Redis version.
      */
     @JsonProperty(value = "properties.redisVersion", access = JsonProperty.Access.WRITE_ONLY)
     private String redisVersion;
 
     /**
-     * Redis instance provisioning status.
+     * Redis instance provisioning status. Possible values include: 'Creating',
+     * 'Deleting', 'Disabled', 'Failed', 'Linking', 'Provisioning',
+     * 'RecoveringScaleFailure', 'Scaling', 'Succeeded', 'Unlinking',
+     * 'Unprovisioning', 'Updating'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * Redis host name.
@@ -102,6 +116,19 @@ public class RedisResourceInner extends Resource {
      */
     @JsonProperty(value = "properties.accessKeys", access = JsonProperty.Access.WRITE_ONLY)
     private RedisAccessKeysInner accessKeys;
+
+    /**
+     * List of the linked servers associated with the cache.
+     */
+    @JsonProperty(value = "properties.linkedServers", access = JsonProperty.Access.WRITE_ONLY)
+    private List<RedisLinkedServer> linkedServers;
+
+    /**
+     * A list of availability zones denoting where the resource needs to come
+     * from.
+     */
+    @JsonProperty(value = "zones")
+    private List<String> zones;
 
     /**
      * Get the redisConfiguration value.
@@ -184,6 +211,46 @@ public class RedisResourceInner extends Resource {
     }
 
     /**
+     * Get the minimumTlsVersion value.
+     *
+     * @return the minimumTlsVersion value
+     */
+    public TlsVersion minimumTlsVersion() {
+        return this.minimumTlsVersion;
+    }
+
+    /**
+     * Set the minimumTlsVersion value.
+     *
+     * @param minimumTlsVersion the minimumTlsVersion value to set
+     * @return the RedisResourceInner object itself.
+     */
+    public RedisResourceInner withMinimumTlsVersion(TlsVersion minimumTlsVersion) {
+        this.minimumTlsVersion = minimumTlsVersion;
+        return this;
+    }
+
+    /**
+     * Get the sku value.
+     *
+     * @return the sku value
+     */
+    public Sku sku() {
+        return this.sku;
+    }
+
+    /**
+     * Set the sku value.
+     *
+     * @param sku the sku value to set
+     * @return the RedisResourceInner object itself.
+     */
+    public RedisResourceInner withSku(Sku sku) {
+        this.sku = sku;
+        return this;
+    }
+
+    /**
      * Get the subnetId value.
      *
      * @return the subnetId value
@@ -224,26 +291,6 @@ public class RedisResourceInner extends Resource {
     }
 
     /**
-     * Get the sku value.
-     *
-     * @return the sku value
-     */
-    public Sku sku() {
-        return this.sku;
-    }
-
-    /**
-     * Set the sku value.
-     *
-     * @param sku the sku value to set
-     * @return the RedisResourceInner object itself.
-     */
-    public RedisResourceInner withSku(Sku sku) {
-        this.sku = sku;
-        return this;
-    }
-
-    /**
      * Get the redisVersion value.
      *
      * @return the redisVersion value
@@ -257,7 +304,7 @@ public class RedisResourceInner extends Resource {
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -295,6 +342,35 @@ public class RedisResourceInner extends Resource {
      */
     public RedisAccessKeysInner accessKeys() {
         return this.accessKeys;
+    }
+
+    /**
+     * Get the linkedServers value.
+     *
+     * @return the linkedServers value
+     */
+    public List<RedisLinkedServer> linkedServers() {
+        return this.linkedServers;
+    }
+
+    /**
+     * Get the zones value.
+     *
+     * @return the zones value
+     */
+    public List<String> zones() {
+        return this.zones;
+    }
+
+    /**
+     * Set the zones value.
+     *
+     * @param zones the zones value to set
+     * @return the RedisResourceInner object itself.
+     */
+    public RedisResourceInner withZones(List<String> zones) {
+        this.zones = zones;
+        return this;
     }
 
 }

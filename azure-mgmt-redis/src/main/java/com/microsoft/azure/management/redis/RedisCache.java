@@ -434,24 +434,6 @@ public interface RedisCache extends
             UpdateStages.WithSku,
             UpdateStages.WithNonSslPort,
             UpdateStages.WithRedisConfiguration {
-
-        /**
-         * Assigns the specified subnet to this instance of Redis Cache.
-         *
-         * @param networkResource instance of Network object.
-         * @param subnetName the name of the subnet.
-         * @return the next stage of Redis Cache update.
-         */
-        Update withSubnet(HasId networkResource, String subnetName);
-
-        /**
-         * Sets Redis Cache static IP. Required when deploying a Redis Cache inside an existing Azure Virtual Network.
-         *
-         * @param staticIP the staticIP value to set.
-         * @return the next stage of Redis Cache update.
-         */
-        Update withStaticIP(String staticIP);
-
         /**
          * The number of shards to be created on a Premium Cluster Cache.
          *

@@ -9,47 +9,42 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.AzureBlobFileSystem;
 import com.microsoft.azure.management.batchai.AzureBlobFileSystemReference;
 import com.microsoft.azure.management.batchai.AzureStorageCredentialsInfo;
-import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.KeyVaultSecretReference;
+import com.microsoft.azure.management.batchai.model.HasMountVolumes;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 /**
  * Represents Azure blob file system reference.
  */
 @LangDefinition
-class AzureBlobFileSystemImpl extends IndexableWrapperImpl<AzureBlobFileSystemReference>
+class AzureBlobFileSystemImpl<ParentT> extends IndexableWrapperImpl<AzureBlobFileSystemReference>
         implements
         AzureBlobFileSystem,
-        AzureBlobFileSystem.Definition<BatchAICluster.DefinitionStages.WithCreate> {
-    private BatchAIClusterImpl parent;
+        AzureBlobFileSystem.Definition<ParentT> {
+    private HasMountVolumes parent;
 
-    AzureBlobFileSystemImpl(AzureBlobFileSystemReference inner, BatchAIClusterImpl parent) {
+    AzureBlobFileSystemImpl(AzureBlobFileSystemReference inner, HasMountVolumes parent) {
         super(inner);
         this.parent = parent;
     }
 
     @Override
-    public Definition<BatchAICluster.DefinitionStages.WithCreate> withStorageAccountName(String storageAccountName) {
+    public Definition<ParentT> withStorageAccountName(String storageAccountName) {
         inner().withAccountName(storageAccountName);
         return this;
     }
 
 
     @Override
-    public Definition<BatchAICluster.DefinitionStages.WithCreate> withRelativeMountPath(String mountPath) {
+    public Definition<ParentT> withRelativeMountPath(String mountPath) {
         inner().withRelativeMountPath(mountPath);
         return this;
     }
 
     @Override
-    public BatchAICluster parent() {
-        return parent;
-    }
-
-    @Override
-    public BatchAICluster.DefinitionStages.WithCreate attach() {
+    public ParentT attach() {
         this.parent.attachAzureBlobFileSystem(this);
-        return parent;
+        return (ParentT) parent;
     }
 
     @Override

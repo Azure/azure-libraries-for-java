@@ -85,7 +85,7 @@ public interface SqlServerAutomaticTuning extends
              *
              * @return Next stage of the update.
              */
-            Update withAutomaticTuningOptions(String tuningOptionName, AutomaticTuningOptionModeDesired desiredState);
+            Update withAutomaticTuningOption(String tuningOptionName, AutomaticTuningOptionModeDesired desiredState);
 
             /**
              * Sets the various SQL server automatic tuning options desired state.

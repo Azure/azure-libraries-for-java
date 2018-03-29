@@ -13,25 +13,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Properties of the file.
+ * Properties of the file or directory.
  */
 @JsonFlatten
 public class FileInner {
     /**
-     * file name.
+     * Name of the file.
      */
     @JsonProperty(value = "name", required = true)
     private String name;
 
     /**
-     * file downloand url, example:
-     * https://mystg.blob.core.windows.net/mycontainer/myModel_1.dnn.
-     * This will be returned only if the model has been archived. During job
-     * run, this won't be returned and customers can use SSH tunneling to
-     * download. Users can use Get Remote Login Information API to get the IP
-     * address and port information of all the compute nodes running the job.
+     * Indicates if the file is a directory.
      */
-    @JsonProperty(value = "downloadUrl", required = true)
+    @JsonProperty(value = "isDirectory", required = true)
+    private boolean isDirectory;
+
+    /**
+     * Will contain an URL to download the corresponding file. The downloadUrl
+     * is not returned for directories.
+     */
+    @JsonProperty(value = "downloadUrl")
     private String downloadUrl;
 
     /**
@@ -65,6 +67,26 @@ public class FileInner {
      */
     public FileInner withName(String name) {
         this.name = name;
+        return this;
+    }
+
+    /**
+     * Get the isDirectory value.
+     *
+     * @return the isDirectory value
+     */
+    public boolean isDirectory() {
+        return this.isDirectory;
+    }
+
+    /**
+     * Set the isDirectory value.
+     *
+     * @param isDirectory the isDirectory value to set
+     * @return the FileInner object itself.
+     */
+    public FileInner withIsDirectory(boolean isDirectory) {
+        this.isDirectory = isDirectory;
         return this;
     }
 

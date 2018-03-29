@@ -15,7 +15,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * The access keys for the given database account.
  */
 @JsonFlatten
-public class DatabaseAccountListKeysResult {
+public class DatabaseAccountListKeysResultInner {
     /**
      * Base 64 encoded value of the primary read-write key.
      */

@@ -9,16 +9,17 @@
 package com.microsoft.azure.management.redis.implementation;
 
 import java.util.Map;
+import com.microsoft.azure.management.redis.TlsVersion;
 import com.microsoft.azure.management.redis.Sku;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
 
 /**
  * Parameters supplied to the Create Redis operation.
  */
 @JsonFlatten
-public class RedisCreateParametersInner extends Resource {
+public class RedisCreateParametersInner {
     /**
      * All Redis Settings. Few possible keys:
      * rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
@@ -34,7 +35,7 @@ public class RedisCreateParametersInner extends Resource {
     private Boolean enableNonSslPort;
 
     /**
-     * tenantSettings.
+     * A dictionary of tenant settings.
      */
     @JsonProperty(value = "properties.tenantSettings")
     private Map<String, String> tenantSettings;
@@ -44,6 +45,20 @@ public class RedisCreateParametersInner extends Resource {
      */
     @JsonProperty(value = "properties.shardCount")
     private Integer shardCount;
+
+    /**
+     * Optional: requires clients to use a specified TLS version (or higher) to
+     * connect (e,g, '1.0', '1.1', '1.2'). Possible values include: '1.0',
+     * '1.1', '1.2'.
+     */
+    @JsonProperty(value = "properties.minimumTlsVersion")
+    private TlsVersion minimumTlsVersion;
+
+    /**
+     * The SKU of the Redis cache to deploy.
+     */
+    @JsonProperty(value = "properties.sku", required = true)
+    private Sku sku;
 
     /**
      * The full resource ID of a subnet in a virtual network to deploy the
@@ -61,10 +76,23 @@ public class RedisCreateParametersInner extends Resource {
     private String staticIP;
 
     /**
-     * The SKU of the Redis cache to deploy.
+     * A list of availability zones denoting where the resource needs to come
+     * from.
      */
-    @JsonProperty(value = "properties.sku", required = true)
-    private Sku sku;
+    @JsonProperty(value = "zones")
+    private List<String> zones;
+
+    /**
+     * The geo-location where the resource lives.
+     */
+    @JsonProperty(value = "location", required = true)
+    private String location;
+
+    /**
+     * Resource tags.
+     */
+    @JsonProperty(value = "tags")
+    private Map<String, String> tags;
 
     /**
      * Get the redisConfiguration value.
@@ -147,6 +175,46 @@ public class RedisCreateParametersInner extends Resource {
     }
 
     /**
+     * Get the minimumTlsVersion value.
+     *
+     * @return the minimumTlsVersion value
+     */
+    public TlsVersion minimumTlsVersion() {
+        return this.minimumTlsVersion;
+    }
+
+    /**
+     * Set the minimumTlsVersion value.
+     *
+     * @param minimumTlsVersion the minimumTlsVersion value to set
+     * @return the RedisCreateParametersInner object itself.
+     */
+    public RedisCreateParametersInner withMinimumTlsVersion(TlsVersion minimumTlsVersion) {
+        this.minimumTlsVersion = minimumTlsVersion;
+        return this;
+    }
+
+    /**
+     * Get the sku value.
+     *
+     * @return the sku value
+     */
+    public Sku sku() {
+        return this.sku;
+    }
+
+    /**
+     * Set the sku value.
+     *
+     * @param sku the sku value to set
+     * @return the RedisCreateParametersInner object itself.
+     */
+    public RedisCreateParametersInner withSku(Sku sku) {
+        this.sku = sku;
+        return this;
+    }
+
+    /**
      * Get the subnetId value.
      *
      * @return the subnetId value
@@ -187,22 +255,62 @@ public class RedisCreateParametersInner extends Resource {
     }
 
     /**
-     * Get the sku value.
+     * Get the zones value.
      *
-     * @return the sku value
+     * @return the zones value
      */
-    public Sku sku() {
-        return this.sku;
+    public List<String> zones() {
+        return this.zones;
     }
 
     /**
-     * Set the sku value.
+     * Set the zones value.
      *
-     * @param sku the sku value to set
+     * @param zones the zones value to set
      * @return the RedisCreateParametersInner object itself.
      */
-    public RedisCreateParametersInner withSku(Sku sku) {
-        this.sku = sku;
+    public RedisCreateParametersInner withZones(List<String> zones) {
+        this.zones = zones;
+        return this;
+    }
+
+    /**
+     * Get the location value.
+     *
+     * @return the location value
+     */
+    public String location() {
+        return this.location;
+    }
+
+    /**
+     * Set the location value.
+     *
+     * @param location the location value to set
+     * @return the RedisCreateParametersInner object itself.
+     */
+    public RedisCreateParametersInner withLocation(String location) {
+        this.location = location;
+        return this;
+    }
+
+    /**
+     * Get the tags value.
+     *
+     * @return the tags value
+     */
+    public Map<String, String> tags() {
+        return this.tags;
+    }
+
+    /**
+     * Set the tags value.
+     *
+     * @param tags the tags value to set
+     * @return the RedisCreateParametersInner object itself.
+     */
+    public RedisCreateParametersInner withTags(Map<String, String> tags) {
+        this.tags = tags;
         return this;
     }
 

@@ -11,13 +11,13 @@ package com.microsoft.azure.management.cosmosdb;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The consistency policy for the DocumentDB database account.
+ * The consistency policy for the Cosmos DB database account.
  */
 public class ConsistencyPolicy {
     /**
-     * The default consistency level and configuration settings of the
-     * DocumentDB account. Possible values include: 'Eventual', 'Session',
-     * 'BoundedStaleness', 'Strong'.
+     * The default consistency level and configuration settings of the Cosmos
+     * DB account. Possible values include: 'Eventual', 'Session',
+     * 'BoundedStaleness', 'Strong', 'ConsistentPrefix'.
      */
     @JsonProperty(value = "defaultConsistencyLevel", required = true)
     private DefaultConsistencyLevel defaultConsistencyLevel;
@@ -34,8 +34,8 @@ public class ConsistencyPolicy {
     /**
      * When used with the Bounded Staleness consistency level, this value
      * represents the time amount of staleness (in seconds) tolerated. Accepted
-     * range for this value is 1 - 100. Required when defaultConsistencyPolicy
-     * is set to 'BoundedStaleness'.
+     * range for this value is 5 - 86400. Required when
+     * defaultConsistencyPolicy is set to 'BoundedStaleness'.
      */
     @JsonProperty(value = "maxIntervalInSeconds")
     private Integer maxIntervalInSeconds;

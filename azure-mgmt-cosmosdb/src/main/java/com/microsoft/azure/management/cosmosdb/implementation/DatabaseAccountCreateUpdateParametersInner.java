@@ -12,12 +12,13 @@ import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
 import com.microsoft.azure.management.cosmosdb.ConsistencyPolicy;
 import java.util.List;
 import com.microsoft.azure.management.cosmosdb.Location;
+import com.microsoft.azure.management.cosmosdb.Capability;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
 
 /**
- * Parameters to create and update DocumentDB database accounts.
+ * Parameters to create and update Cosmos DB database accounts.
  */
 @JsonFlatten
 public class DatabaseAccountCreateUpdateParametersInner extends Resource {
@@ -30,14 +31,14 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     private DatabaseAccountKind kind;
 
     /**
-     * The consistency policy for the DocumentDB account.
+     * The consistency policy for the Cosmos DB account.
      */
     @JsonProperty(value = "properties.consistencyPolicy")
     private ConsistencyPolicy consistencyPolicy;
 
     /**
      * An array that contains the georeplication locations enabled for the
-     * DocumentDB account.
+     * Cosmos DB account.
      */
     @JsonProperty(value = "properties.locations", required = true)
     private List<Location> locations;
@@ -49,14 +50,28 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     private String databaseAccountOfferType;
 
     /**
-     * DocumentDB Firewall Support: This value specifies the set of IP
-     * addresses or IP address ranges in CIDR form to be included as the
-     * allowed list of client IPs for a given database account. IP
-     * addresses/ranges must be comma separated and must not contain any
-     * spaces.
+     * Cosmos DB Firewall Support: This value specifies the set of IP addresses
+     * or IP address ranges in CIDR form to be included as the allowed list of
+     * client IPs for a given database account. IP addresses/ranges must be
+     * comma separated and must not contain any spaces.
      */
     @JsonProperty(value = "properties.ipRangeFilter")
     private String ipRangeFilter;
+
+    /**
+     * Enables automatic failover of the write region in the rare event that
+     * the region is unavailable due to an outage. Automatic failover will
+     * result in a new write region for the account and is chosen based on the
+     * failover priorities configured for the account.
+     */
+    @JsonProperty(value = "properties.enableAutomaticFailover")
+    private Boolean enableAutomaticFailover;
+
+    /**
+     * List of Cosmos DB capabilities for the account.
+     */
+    @JsonProperty(value = "properties.capabilities")
+    private List<Capability> capabilities;
 
     /**
      * Creates an instance of DatabaseAccountCreateUpdateParametersInner class.
@@ -162,6 +177,46 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
      */
     public DatabaseAccountCreateUpdateParametersInner withIpRangeFilter(String ipRangeFilter) {
         this.ipRangeFilter = ipRangeFilter;
+        return this;
+    }
+
+    /**
+     * Get the enableAutomaticFailover value.
+     *
+     * @return the enableAutomaticFailover value
+     */
+    public Boolean enableAutomaticFailover() {
+        return this.enableAutomaticFailover;
+    }
+
+    /**
+     * Set the enableAutomaticFailover value.
+     *
+     * @param enableAutomaticFailover the enableAutomaticFailover value to set
+     * @return the DatabaseAccountCreateUpdateParametersInner object itself.
+     */
+    public DatabaseAccountCreateUpdateParametersInner withEnableAutomaticFailover(Boolean enableAutomaticFailover) {
+        this.enableAutomaticFailover = enableAutomaticFailover;
+        return this;
+    }
+
+    /**
+     * Get the capabilities value.
+     *
+     * @return the capabilities value
+     */
+    public List<Capability> capabilities() {
+        return this.capabilities;
+    }
+
+    /**
+     * Set the capabilities value.
+     *
+     * @param capabilities the capabilities value to set
+     * @return the DatabaseAccountCreateUpdateParametersInner object itself.
+     */
+    public DatabaseAccountCreateUpdateParametersInner withCapabilities(List<Capability> capabilities) {
+        this.capabilities = capabilities;
         return this;
     }
 

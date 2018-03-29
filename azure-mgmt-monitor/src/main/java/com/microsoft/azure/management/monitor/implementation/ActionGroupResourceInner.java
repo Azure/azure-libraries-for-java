@@ -15,6 +15,9 @@ import com.microsoft.azure.management.monitor.WebhookReceiver;
 import com.microsoft.azure.management.monitor.ItsmReceiver;
 import com.microsoft.azure.management.monitor.AzureAppPushReceiver;
 import com.microsoft.azure.management.monitor.AutomationRunbookReceiver;
+import com.microsoft.azure.management.monitor.VoiceReceiver;
+import com.microsoft.azure.management.monitor.LogicAppReceiver;
+import com.microsoft.azure.management.monitor.AzureFunctionReceiver;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -73,6 +76,24 @@ public class ActionGroupResourceInner extends Resource {
      */
     @JsonProperty(value = "properties.automationRunbookReceivers")
     private List<AutomationRunbookReceiver> automationRunbookReceivers;
+
+    /**
+     * The list of voice receivers that are part of this action group.
+     */
+    @JsonProperty(value = "properties.voiceReceivers")
+    private List<VoiceReceiver> voiceReceivers;
+
+    /**
+     * The list of logic app receivers that are part of this action group.
+     */
+    @JsonProperty(value = "properties.logicAppReceivers")
+    private List<LogicAppReceiver> logicAppReceivers;
+
+    /**
+     * The list of azure function receivers that are part of this action group.
+     */
+    @JsonProperty(value = "properties.azureFunctionReceivers")
+    private List<AzureFunctionReceiver> azureFunctionReceivers;
 
     /**
      * Get the groupShortName value.
@@ -231,6 +252,66 @@ public class ActionGroupResourceInner extends Resource {
      */
     public ActionGroupResourceInner withAutomationRunbookReceivers(List<AutomationRunbookReceiver> automationRunbookReceivers) {
         this.automationRunbookReceivers = automationRunbookReceivers;
+        return this;
+    }
+
+    /**
+     * Get the voiceReceivers value.
+     *
+     * @return the voiceReceivers value
+     */
+    public List<VoiceReceiver> voiceReceivers() {
+        return this.voiceReceivers;
+    }
+
+    /**
+     * Set the voiceReceivers value.
+     *
+     * @param voiceReceivers the voiceReceivers value to set
+     * @return the ActionGroupResourceInner object itself.
+     */
+    public ActionGroupResourceInner withVoiceReceivers(List<VoiceReceiver> voiceReceivers) {
+        this.voiceReceivers = voiceReceivers;
+        return this;
+    }
+
+    /**
+     * Get the logicAppReceivers value.
+     *
+     * @return the logicAppReceivers value
+     */
+    public List<LogicAppReceiver> logicAppReceivers() {
+        return this.logicAppReceivers;
+    }
+
+    /**
+     * Set the logicAppReceivers value.
+     *
+     * @param logicAppReceivers the logicAppReceivers value to set
+     * @return the ActionGroupResourceInner object itself.
+     */
+    public ActionGroupResourceInner withLogicAppReceivers(List<LogicAppReceiver> logicAppReceivers) {
+        this.logicAppReceivers = logicAppReceivers;
+        return this;
+    }
+
+    /**
+     * Get the azureFunctionReceivers value.
+     *
+     * @return the azureFunctionReceivers value
+     */
+    public List<AzureFunctionReceiver> azureFunctionReceivers() {
+        return this.azureFunctionReceivers;
+    }
+
+    /**
+     * Set the azureFunctionReceivers value.
+     *
+     * @param azureFunctionReceivers the azureFunctionReceivers value to set
+     * @return the ActionGroupResourceInner object itself.
+     */
+    public ActionGroupResourceInner withAzureFunctionReceivers(List<AzureFunctionReceiver> azureFunctionReceivers) {
+        this.azureFunctionReceivers = azureFunctionReceivers;
         return this;
     }
 

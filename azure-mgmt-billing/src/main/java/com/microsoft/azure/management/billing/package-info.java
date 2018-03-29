@@ -6,6 +6,6 @@
 
 /**
  * This package contains the classes for BillingManagementClient.
- * Billing client provides access to billing resources for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
+ * Billing client provides access to billing resources for Azure subscriptions.
  */
 package com.microsoft.azure.management.billing;

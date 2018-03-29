@@ -72,7 +72,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Lists the available billing periods for a subscription in reverse chronological order.
+     * Lists the available billing periods for a subscription in reverse chronological order. This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws ErrorResponseException thrown if the request is rejected by server
@@ -90,7 +90,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Lists the available billing periods for a subscription in reverse chronological order.
+     * Lists the available billing periods for a subscription in reverse chronological order. This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -109,7 +109,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Lists the available billing periods for a subscription in reverse chronological order.
+     * Lists the available billing periods for a subscription in reverse chronological order. This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;BillingPeriodInner&gt; object
@@ -125,7 +125,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Lists the available billing periods for a subscription in reverse chronological order.
+     * Lists the available billing periods for a subscription in reverse chronological order. This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;BillingPeriodInner&gt; object
@@ -145,7 +145,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Lists the available billing periods for a subscription in reverse chronological order.
+     * Lists the available billing periods for a subscription in reverse chronological order. This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;BillingPeriodInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -175,7 +175,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Lists the available billing periods for a subscription in reverse chronological order.
+     * Lists the available billing periods for a subscription in reverse chronological order. This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @param filter May be used to filter billing periods by billingPeriodEndDate. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
      * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
@@ -196,7 +196,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Lists the available billing periods for a subscription in reverse chronological order.
+     * Lists the available billing periods for a subscription in reverse chronological order. This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @param filter May be used to filter billing periods by billingPeriodEndDate. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
      * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
@@ -218,7 +218,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Lists the available billing periods for a subscription in reverse chronological order.
+     * Lists the available billing periods for a subscription in reverse chronological order. This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @param filter May be used to filter billing periods by billingPeriodEndDate. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
      * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
@@ -237,7 +237,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Lists the available billing periods for a subscription in reverse chronological order.
+     * Lists the available billing periods for a subscription in reverse chronological order. This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @param filter May be used to filter billing periods by billingPeriodEndDate. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
      * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
@@ -260,7 +260,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Lists the available billing periods for a subscription in reverse chronological order.
+     * Lists the available billing periods for a subscription in reverse chronological order. This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
     ServiceResponse<PageImpl<BillingPeriodInner>> * @param filter May be used to filter billing periods by billingPeriodEndDate. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
     ServiceResponse<PageImpl<BillingPeriodInner>> * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
@@ -297,7 +297,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Gets a named billing period.
+     * Gets a named billing period.  This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @param billingPeriodName The name of a BillingPeriod resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -310,7 +310,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Gets a named billing period.
+     * Gets a named billing period.  This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @param billingPeriodName The name of a BillingPeriod resource.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -322,7 +322,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Gets a named billing period.
+     * Gets a named billing period.  This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @param billingPeriodName The name of a BillingPeriod resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -338,7 +338,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Gets a named billing period.
+     * Gets a named billing period.  This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @param billingPeriodName The name of a BillingPeriod resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -376,7 +376,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Lists the available billing periods for a subscription in reverse chronological order.
+     * Lists the available billing periods for a subscription in reverse chronological order. This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -395,7 +395,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Lists the available billing periods for a subscription in reverse chronological order.
+     * Lists the available billing periods for a subscription in reverse chronological order. This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -416,7 +416,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Lists the available billing periods for a subscription in reverse chronological order.
+     * Lists the available billing periods for a subscription in reverse chronological order. This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -433,7 +433,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Lists the available billing periods for a subscription in reverse chronological order.
+     * Lists the available billing periods for a subscription in reverse chronological order. This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -454,7 +454,7 @@ public class BillingPeriodsInner {
     }
 
     /**
-     * Lists the available billing periods for a subscription in reverse chronological order.
+     * Lists the available billing periods for a subscription in reverse chronological order. This is only supported for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API.
      *
     ServiceResponse<PageImpl<BillingPeriodInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

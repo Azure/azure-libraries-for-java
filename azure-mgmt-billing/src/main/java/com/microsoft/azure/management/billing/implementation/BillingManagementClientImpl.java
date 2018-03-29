@@ -28,11 +28,11 @@ public class BillingManagementClientImpl extends AzureServiceClient {
         return this.azureClient;
     }
 
-    /** Version of the API to be used with the client request. The current version is 2017-04-24-preview. */
+    /** Version of the API to be used with the client request. The current version is 2018-03-01-preview. */
     private String apiVersion;
 
     /**
-     * Gets Version of the API to be used with the client request. The current version is 2017-04-24-preview.
+     * Gets Version of the API to be used with the client request. The current version is 2018-03-01-preview.
      *
      * @return the apiVersion value.
      */
@@ -133,6 +133,19 @@ public class BillingManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The EnrollmentAccountsInner object to access its operations.
+     */
+    private EnrollmentAccountsInner enrollmentAccounts;
+
+    /**
+     * Gets the EnrollmentAccountsInner object to access its operations.
+     * @return the EnrollmentAccountsInner object.
+     */
+    public EnrollmentAccountsInner enrollmentAccounts() {
+        return this.enrollmentAccounts;
+    }
+
+    /**
      * The BillingPeriodsInner object to access its operations.
      */
     private BillingPeriodsInner billingPeriods;
@@ -202,10 +215,11 @@ public class BillingManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2017-04-24-preview";
+        this.apiVersion = "2018-03-01-preview";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
+        this.enrollmentAccounts = new EnrollmentAccountsInner(restClient().retrofit(), this);
         this.billingPeriods = new BillingPeriodsInner(restClient().retrofit(), this);
         this.invoices = new InvoicesInner(restClient().retrofit(), this);
         this.operations = new OperationsInner(restClient().retrofit(), this);
@@ -219,6 +233,6 @@ public class BillingManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "BillingManagementClient", "2017-04-24-preview");
+        return String.format("%s (%s, %s)", super.userAgent(), "BillingManagementClient", "2018-03-01-preview");
     }
 }

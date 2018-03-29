@@ -11,13 +11,13 @@ package com.microsoft.azure.management.cdn.implementation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * SSO URI required to login to the supplemental portal.
+ * The URI required to login to the supplemental portal from the Azure portal.
  */
 public class SsoUriInner {
     /**
      * The URI used to login to the supplemental portal.
      */
-    @JsonProperty(value = "ssoUriValue")
+    @JsonProperty(value = "ssoUriValue", access = JsonProperty.Access.WRITE_ONLY)
     private String ssoUriValue;
 
     /**
@@ -27,17 +27,6 @@ public class SsoUriInner {
      */
     public String ssoUriValue() {
         return this.ssoUriValue;
-    }
-
-    /**
-     * Set the ssoUriValue value.
-     *
-     * @param ssoUriValue the ssoUriValue value to set
-     * @return the SsoUriInner object itself.
-     */
-    public SsoUriInner withSsoUriValue(String ssoUriValue) {
-        this.ssoUriValue = ssoUriValue;
-        return this;
     }
 
 }

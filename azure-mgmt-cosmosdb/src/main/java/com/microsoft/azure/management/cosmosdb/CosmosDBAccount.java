@@ -8,8 +8,6 @@ package com.microsoft.azure.management.cosmosdb;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountListConnectionStringsResult;
-import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountListKeysResult;
 import com.microsoft.azure.management.cosmosdb.implementation.CosmosDBManager;
 import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
@@ -82,6 +80,16 @@ public interface CosmosDBAccount extends
      * @return the access keys for the specified Azure CosmosDB database account
      */
     Observable<DatabaseAccountListKeysResult> listKeysAsync();
+
+    /**
+     * @return the read-only access keys for the specified Azure CosmosDB database account
+     */
+    DatabaseAccountListReadOnlyKeysResult listReadOnlyKeys();
+
+    /**
+     * @return the read-only access keys for the specified Azure CosmosDB database account
+     */
+    Observable<DatabaseAccountListReadOnlyKeysResult> listReadOnlyKeysAsync();
 
     /**
      * @return the connection strings for the specified Azure CosmosDB database account

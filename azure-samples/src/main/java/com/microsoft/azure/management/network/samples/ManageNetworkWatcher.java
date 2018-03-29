@@ -214,7 +214,7 @@ public final class ManageNetworkWatcher {
             //============================================================
             // Retrieve network topology for a resource group
             System.out.println("Getting topology...");
-            Topology topology = nw.getTopology(rgName);
+            Topology topology = nw.topology().withTargetResourceGroup(rgName).execute();
             Utils.print(topology);
 
             //============================================================

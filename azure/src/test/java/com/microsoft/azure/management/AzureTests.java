@@ -684,7 +684,7 @@ public class AzureTests extends TestBase {
         VirtualMachine[] virtualMachines = tnw.ensureNetwork(azure.networkWatchers().manager().networks(),
                 azure.virtualMachines(), azure.networkInterfaces());
 
-        Topology topology = nw.getTopology(virtualMachines[0].resourceGroupName());
+        Topology topology = nw.topology().withTargetResourceGroup(virtualMachines[0].resourceGroupName()).execute();
         Assert.assertEquals(11, topology.resources().size());
         Assert.assertTrue(topology.resources().containsKey(virtualMachines[0].getPrimaryNetworkInterface().networkSecurityGroupId()));
         Assert.assertEquals(4, topology.resources().get(virtualMachines[0].primaryNetworkInterfaceId()).associations().size());
@@ -757,7 +757,7 @@ public class AzureTests extends TestBase {
         Assert.assertEquals("Reachable", connectivityCheck.connectionStatus().toString());
 
         azure.virtualMachines().deleteById(virtualMachines[1].id());
-        topology.refresh();
+        topology.execute();
         Assert.assertEquals(10, topology.resources().size());
 
         azure.resourceGroups().deleteByName(nw.resourceGroupName());

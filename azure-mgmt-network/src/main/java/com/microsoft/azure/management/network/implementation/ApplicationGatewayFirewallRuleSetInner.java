@@ -44,6 +44,12 @@ public class ApplicationGatewayFirewallRuleSetInner extends Resource {
     private List<ApplicationGatewayFirewallRuleGroup> ruleGroups;
 
     /**
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
+    /**
      * Get the provisioningState value.
      *
      * @return the provisioningState value
@@ -120,6 +126,26 @@ public class ApplicationGatewayFirewallRuleSetInner extends Resource {
      */
     public ApplicationGatewayFirewallRuleSetInner withRuleGroups(List<ApplicationGatewayFirewallRuleGroup> ruleGroups) {
         this.ruleGroups = ruleGroups;
+        return this;
+    }
+
+    /**
+     * Get the id value.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id value.
+     *
+     * @param id the id value to set
+     * @return the ApplicationGatewayFirewallRuleSetInner object itself.
+     */
+    public ApplicationGatewayFirewallRuleSetInner withId(String id) {
+        this.id = id;
         return this;
     }
 

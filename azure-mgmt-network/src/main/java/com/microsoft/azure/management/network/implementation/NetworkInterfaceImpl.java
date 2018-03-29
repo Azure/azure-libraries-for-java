@@ -490,7 +490,7 @@ class NetworkInterfaceImpl
 
         // Associate an NSG if needed
         if (networkSecurityGroup != null) {
-            this.inner().withNetworkSecurityGroup(new SubResource().withId(networkSecurityGroup.id()));
+            this.inner().withNetworkSecurityGroup(new NetworkSecurityGroupInner().withId(networkSecurityGroup.id()));
         }
 
         NicIPConfigurationImpl.ensureConfigurations(this.nicIPConfigurations.values());

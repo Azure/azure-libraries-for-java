@@ -57,6 +57,12 @@ public class LocalNetworkGatewayInner extends Resource {
     private String etag;
 
     /**
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
+    /**
      * Get the localNetworkAddressSpace value.
      *
      * @return the localNetworkAddressSpace value
@@ -162,6 +168,26 @@ public class LocalNetworkGatewayInner extends Resource {
      */
     public LocalNetworkGatewayInner withEtag(String etag) {
         this.etag = etag;
+        return this;
+    }
+
+    /**
+     * Get the id value.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id value.
+     *
+     * @param id the id value to set
+     * @return the LocalNetworkGatewayInner object itself.
+     */
+    public LocalNetworkGatewayInner withId(String id) {
+        this.id = id;
         return this;
     }
 

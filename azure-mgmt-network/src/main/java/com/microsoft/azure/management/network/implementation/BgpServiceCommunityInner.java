@@ -32,6 +32,12 @@ public class BgpServiceCommunityInner extends Resource {
     private List<BGPCommunity> bgpCommunities;
 
     /**
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
+    /**
      * Get the serviceName value.
      *
      * @return the serviceName value
@@ -68,6 +74,26 @@ public class BgpServiceCommunityInner extends Resource {
      */
     public BgpServiceCommunityInner withBgpCommunities(List<BGPCommunity> bgpCommunities) {
         this.bgpCommunities = bgpCommunities;
+        return this;
+    }
+
+    /**
+     * Get the id value.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id value.
+     *
+     * @param id the id value to set
+     * @return the BgpServiceCommunityInner object itself.
+     */
+    public BgpServiceCommunityInner withId(String id) {
+        this.id = id;
         return this;
     }
 

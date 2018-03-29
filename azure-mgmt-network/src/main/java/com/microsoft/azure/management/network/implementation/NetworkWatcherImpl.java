@@ -9,7 +9,6 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.FlowLogSettings;
 import com.microsoft.azure.management.network.NetworkWatcher;
 import com.microsoft.azure.management.network.SecurityGroupView;
-import com.microsoft.azure.management.network.Topology;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Observable;
 import rx.functions.Func1;
@@ -45,22 +44,8 @@ class NetworkWatcherImpl
     // Verbs
 
     @Override
-    public TopologyImpl getTopology(String targetResourceGroup) {
-        TopologyInner topologyInner = this.manager().inner().networkWatchers()
-                .getTopology(this.resourceGroupName(), this.name(), targetResourceGroup);
-        return new TopologyImpl(this, topologyInner, targetResourceGroup);
-    }
-
-    @Override
-    public Observable<Topology> getTopologyAsync(final String targetResourceGroup) {
-        return this.manager().inner().networkWatchers()
-                .getTopologyAsync(this.resourceGroupName(), this.name(), targetResourceGroup)
-                .map(new Func1<TopologyInner, Topology>() {
-                    @Override
-                    public Topology call(TopologyInner inner) {
-                        return new TopologyImpl(NetworkWatcherImpl.this, inner, targetResourceGroup);
-                    }
-                });
+    public TopologyImpl topology() {
+        return new TopologyImpl(this);
     }
 
     @Override

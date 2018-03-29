@@ -32,6 +32,12 @@ public class NetworkWatcherInner extends Resource {
     private ProvisioningState provisioningState;
 
     /**
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
+    /**
      * Get the etag value.
      *
      * @return the etag value
@@ -58,6 +64,26 @@ public class NetworkWatcherInner extends Resource {
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get the id value.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id value.
+     *
+     * @param id the id value to set
+     * @return the NetworkWatcherInner object itself.
+     */
+    public NetworkWatcherInner withId(String id) {
+        this.id = id;
+        return this;
     }
 
 }

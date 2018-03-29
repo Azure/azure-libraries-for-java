@@ -8,73 +8,55 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for IpsecEncryption.
  */
-public final class IpsecEncryption {
+public final class IpsecEncryption extends ExpandableStringEnum<IpsecEncryption> {
     /** Static value None for IpsecEncryption. */
-    public static final IpsecEncryption NONE = new IpsecEncryption("None");
+    public static final IpsecEncryption NONE = fromString("None");
 
     /** Static value DES for IpsecEncryption. */
-    public static final IpsecEncryption DES = new IpsecEncryption("DES");
+    public static final IpsecEncryption DES = fromString("DES");
 
     /** Static value DES3 for IpsecEncryption. */
-    public static final IpsecEncryption DES3 = new IpsecEncryption("DES3");
+    public static final IpsecEncryption DES3 = fromString("DES3");
 
     /** Static value AES128 for IpsecEncryption. */
-    public static final IpsecEncryption AES128 = new IpsecEncryption("AES128");
+    public static final IpsecEncryption AES128 = fromString("AES128");
 
     /** Static value AES192 for IpsecEncryption. */
-    public static final IpsecEncryption AES192 = new IpsecEncryption("AES192");
+    public static final IpsecEncryption AES192 = fromString("AES192");
 
     /** Static value AES256 for IpsecEncryption. */
-    public static final IpsecEncryption AES256 = new IpsecEncryption("AES256");
+    public static final IpsecEncryption AES256 = fromString("AES256");
 
     /** Static value GCMAES128 for IpsecEncryption. */
-    public static final IpsecEncryption GCMAES128 = new IpsecEncryption("GCMAES128");
+    public static final IpsecEncryption GCMAES128 = fromString("GCMAES128");
 
     /** Static value GCMAES192 for IpsecEncryption. */
-    public static final IpsecEncryption GCMAES192 = new IpsecEncryption("GCMAES192");
+    public static final IpsecEncryption GCMAES192 = fromString("GCMAES192");
 
     /** Static value GCMAES256 for IpsecEncryption. */
-    public static final IpsecEncryption GCMAES256 = new IpsecEncryption("GCMAES256");
-
-    private String value;
+    public static final IpsecEncryption GCMAES256 = fromString("GCMAES256");
 
     /**
-     * Creates a custom value for IpsecEncryption.
-     * @param value the custom value
+     * Creates or finds a IpsecEncryption from its string representation.
+     * @param name a name to look for
+     * @return the corresponding IpsecEncryption
      */
-    public IpsecEncryption(String value) {
-        this.value = value;
+    @JsonCreator
+    public static IpsecEncryption fromString(String name) {
+        return fromString(name, IpsecEncryption.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof IpsecEncryption)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        IpsecEncryption rhs = (IpsecEncryption) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known IpsecEncryption values
+     */
+    public static Collection<IpsecEncryption> values() {
+        return values(IpsecEncryption.class);
     }
 }

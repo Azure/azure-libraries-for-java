@@ -2470,7 +2470,10 @@ public final class Utils {
      */
     public static void print(Topology resource) {
         StringBuilder sb = new StringBuilder().append("Topology: ").append(resource.id())
-                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tTopology parameters: ")
+                .append("\n\t\tResource group: ").append(resource.topologyParameters().targetResourceGroupName())
+                .append("\n\t\tVirtual network: ").append(resource.topologyParameters().targetVirtualNetwork() == null ? "" : resource.topologyParameters().targetVirtualNetwork().id())
+                .append("\n\t\tSubnet id: ").append(resource.topologyParameters().targetSubnet() == null ? "" : resource.topologyParameters().targetSubnet().id())
                 .append("\n\tCreated time: ").append(resource.createdTime())
                 .append("\n\tLast modified time: ").append(resource.lastModifiedTime());
         for (TopologyResource tr : resource.resources().values()) {

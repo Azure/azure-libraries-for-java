@@ -64,7 +64,7 @@ class RedisCacheImpl
 
     @Override
     public String provisioningState() {
-        return this.inner().provisioningState();
+        return this.inner().provisioningState().toString();
     }
 
     @Override
@@ -283,7 +283,7 @@ class RedisCacheImpl
             if (isInCreateMode()) {
                 createParameters.withSubnetId(subnetId);
             } else {
-                updateParameters.withSubnetId(subnetId);
+                throw new UnsupportedOperationException("Subnet cannot be modified during update operation.");
             }
         }
         return this;
@@ -294,7 +294,7 @@ class RedisCacheImpl
         if (isInCreateMode()) {
             createParameters.withStaticIP(staticIP);
         } else {
-            updateParameters.withStaticIP(staticIP);
+            throw new UnsupportedOperationException("Static IP cannot be modified during update operation.");
         }
         return this;
     }

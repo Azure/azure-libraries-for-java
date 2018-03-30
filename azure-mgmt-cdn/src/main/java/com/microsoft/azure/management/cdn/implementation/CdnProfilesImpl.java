@@ -94,7 +94,7 @@ class CdnProfilesImpl
             public Observable<Operation> typeConvertAsync(OperationInner inner) {
                 return Observable.just((Operation) new Operation(inner));
             }
-        }).convert(this.manager().inner().listOperations());
+        }).convert(this.manager().inner().operations().list());
     }
 
     @Override
@@ -104,7 +104,7 @@ class CdnProfilesImpl
             public Observable<ResourceUsage> typeConvertAsync(ResourceUsageInner inner) {
                 return Observable.just((ResourceUsage) new ResourceUsage(inner));
             }
-        }).convert(this.manager().inner().listResourceUsage());
+        }).convert(this.manager().inner().resourceUsages().list());
     }
 
     @Override

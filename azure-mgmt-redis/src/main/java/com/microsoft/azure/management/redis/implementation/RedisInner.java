@@ -68,6 +68,14 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * used by Retrofit to perform actually REST calls.
      */
     interface RedisService {
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis checkNameAvailability" })
+        @POST("subscriptions/{subscriptionId}/providers/Microsoft.Cache/CheckNameAvailability")
+        Observable<Response<ResponseBody>> checkNameAvailability(@Path("subscriptionId") String subscriptionId, @Body CheckNameAvailabilityParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis listUpgradeNotifications" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/listUpgradeNotifications")
+        Observable<Response<ResponseBody>> listUpgradeNotifications(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Query("history") double history, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis create" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}")
         Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body RedisCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -93,11 +101,11 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
         Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis listByResourceGroup" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/")
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis")
         Observable<Response<ResponseBody>> listByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis list" })
-        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Cache/Redis/")
+        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Cache/Redis")
         Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis listKeys" })
@@ -136,6 +144,175 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
         @GET
         Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+    }
+
+    /**
+     * Checks that the redis cache name is valid and is not already in use.
+     *
+     * @param parameters Parameters supplied to the CheckNameAvailability Redis operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void checkNameAvailability(CheckNameAvailabilityParametersInner parameters) {
+        checkNameAvailabilityWithServiceResponseAsync(parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Checks that the redis cache name is valid and is not already in use.
+     *
+     * @param parameters Parameters supplied to the CheckNameAvailability Redis operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> checkNameAvailabilityAsync(CheckNameAvailabilityParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(checkNameAvailabilityWithServiceResponseAsync(parameters), serviceCallback);
+    }
+
+    /**
+     * Checks that the redis cache name is valid and is not already in use.
+     *
+     * @param parameters Parameters supplied to the CheckNameAvailability Redis operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> checkNameAvailabilityAsync(CheckNameAvailabilityParametersInner parameters) {
+        return checkNameAvailabilityWithServiceResponseAsync(parameters).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Checks that the redis cache name is valid and is not already in use.
+     *
+     * @param parameters Parameters supplied to the CheckNameAvailability Redis operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> checkNameAvailabilityWithServiceResponseAsync(CheckNameAvailabilityParametersInner parameters) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        return service.checkNameAvailability(this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = checkNameAvailabilityDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> checkNameAvailabilityDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets any upgrade notifications for a Redis cache.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the Redis cache.
+     * @param history how many minutes in past to look for upgrade notifications
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the NotificationListResponseInner object if successful.
+     */
+    public NotificationListResponseInner listUpgradeNotifications(String resourceGroupName, String name, double history) {
+        return listUpgradeNotificationsWithServiceResponseAsync(resourceGroupName, name, history).toBlocking().single().body();
+    }
+
+    /**
+     * Gets any upgrade notifications for a Redis cache.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the Redis cache.
+     * @param history how many minutes in past to look for upgrade notifications
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<NotificationListResponseInner> listUpgradeNotificationsAsync(String resourceGroupName, String name, double history, final ServiceCallback<NotificationListResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(listUpgradeNotificationsWithServiceResponseAsync(resourceGroupName, name, history), serviceCallback);
+    }
+
+    /**
+     * Gets any upgrade notifications for a Redis cache.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the Redis cache.
+     * @param history how many minutes in past to look for upgrade notifications
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NotificationListResponseInner object
+     */
+    public Observable<NotificationListResponseInner> listUpgradeNotificationsAsync(String resourceGroupName, String name, double history) {
+        return listUpgradeNotificationsWithServiceResponseAsync(resourceGroupName, name, history).map(new Func1<ServiceResponse<NotificationListResponseInner>, NotificationListResponseInner>() {
+            @Override
+            public NotificationListResponseInner call(ServiceResponse<NotificationListResponseInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets any upgrade notifications for a Redis cache.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the Redis cache.
+     * @param history how many minutes in past to look for upgrade notifications
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NotificationListResponseInner object
+     */
+    public Observable<ServiceResponse<NotificationListResponseInner>> listUpgradeNotificationsWithServiceResponseAsync(String resourceGroupName, String name, double history) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listUpgradeNotifications(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), history, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NotificationListResponseInner>>>() {
+                @Override
+                public Observable<ServiceResponse<NotificationListResponseInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<NotificationListResponseInner> clientResponse = listUpgradeNotificationsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<NotificationListResponseInner> listUpgradeNotificationsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<NotificationListResponseInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<NotificationListResponseInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -304,8 +481,8 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
 
     private ServiceResponse<RedisResourceInner> beginCreateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<RedisResourceInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(201, new TypeToken<RedisResourceInner>() { }.getType())
                 .register(200, new TypeToken<RedisResourceInner>() { }.getType())
+                .register(201, new TypeToken<RedisResourceInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -553,6 +730,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
     private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
@@ -1305,8 +1483,8 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
 
     private ServiceResponse<Void> beginImportDataDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(202, new TypeToken<Void>() { }.getType())
                 .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
@@ -1476,8 +1654,8 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
 
     private ServiceResponse<Void> beginExportDataDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(202, new TypeToken<Void>() { }.getType())
                 .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);

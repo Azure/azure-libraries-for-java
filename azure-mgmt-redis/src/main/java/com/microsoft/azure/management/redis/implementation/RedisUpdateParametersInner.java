@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.redis.implementation;
 
 import java.util.Map;
+import com.microsoft.azure.management.redis.TlsVersion;
 import com.microsoft.azure.management.redis.Sku;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -33,7 +34,7 @@ public class RedisUpdateParametersInner {
     private Boolean enableNonSslPort;
 
     /**
-     * tenantSettings.
+     * A dictionary of tenant settings.
      */
     @JsonProperty(value = "properties.tenantSettings")
     private Map<String, String> tenantSettings;
@@ -45,19 +46,12 @@ public class RedisUpdateParametersInner {
     private Integer shardCount;
 
     /**
-     * The full resource ID of a subnet in a virtual network to deploy the
-     * Redis cache in. Example format:
-     * /subscriptions/{subid}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.
+     * Optional: requires clients to use a specified TLS version (or higher) to
+     * connect (e,g, '1.0', '1.1', '1.2'). Possible values include: '1.0',
+     * '1.1', '1.2'.
      */
-    @JsonProperty(value = "properties.subnetId")
-    private String subnetId;
-
-    /**
-     * Static IP address. Required when deploying a Redis cache inside an
-     * existing Azure Virtual Network.
-     */
-    @JsonProperty(value = "properties.staticIP")
-    private String staticIP;
+    @JsonProperty(value = "properties.minimumTlsVersion")
+    private TlsVersion minimumTlsVersion;
 
     /**
      * The SKU of the Redis cache to deploy.
@@ -68,7 +62,7 @@ public class RedisUpdateParametersInner {
     /**
      * Resource tags.
      */
-    @JsonProperty(value = "properties.tags")
+    @JsonProperty(value = "tags")
     private Map<String, String> tags;
 
     /**
@@ -152,42 +146,22 @@ public class RedisUpdateParametersInner {
     }
 
     /**
-     * Get the subnetId value.
+     * Get the minimumTlsVersion value.
      *
-     * @return the subnetId value
+     * @return the minimumTlsVersion value
      */
-    public String subnetId() {
-        return this.subnetId;
+    public TlsVersion minimumTlsVersion() {
+        return this.minimumTlsVersion;
     }
 
     /**
-     * Set the subnetId value.
+     * Set the minimumTlsVersion value.
      *
-     * @param subnetId the subnetId value to set
+     * @param minimumTlsVersion the minimumTlsVersion value to set
      * @return the RedisUpdateParametersInner object itself.
      */
-    public RedisUpdateParametersInner withSubnetId(String subnetId) {
-        this.subnetId = subnetId;
-        return this;
-    }
-
-    /**
-     * Get the staticIP value.
-     *
-     * @return the staticIP value
-     */
-    public String staticIP() {
-        return this.staticIP;
-    }
-
-    /**
-     * Set the staticIP value.
-     *
-     * @param staticIP the staticIP value to set
-     * @return the RedisUpdateParametersInner object itself.
-     */
-    public RedisUpdateParametersInner withStaticIP(String staticIP) {
-        this.staticIP = staticIP;
+    public RedisUpdateParametersInner withMinimumTlsVersion(TlsVersion minimumTlsVersion) {
+        this.minimumTlsVersion = minimumTlsVersion;
         return this;
     }
 

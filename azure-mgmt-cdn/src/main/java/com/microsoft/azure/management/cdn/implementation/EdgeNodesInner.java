@@ -66,7 +66,7 @@ public class EdgeNodesInner {
     }
 
     /**
-     * Lists all the edge nodes of a CDN service.
+     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws ErrorResponseException thrown if the request is rejected by server
@@ -84,7 +84,7 @@ public class EdgeNodesInner {
     }
 
     /**
-     * Lists all the edge nodes of a CDN service.
+     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -103,7 +103,7 @@ public class EdgeNodesInner {
     }
 
     /**
-     * Lists all the edge nodes of a CDN service.
+     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;EdgeNodeInner&gt; object
@@ -119,7 +119,7 @@ public class EdgeNodesInner {
     }
 
     /**
-     * Lists all the edge nodes of a CDN service.
+     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;EdgeNodeInner&gt; object
@@ -139,7 +139,7 @@ public class EdgeNodesInner {
     }
 
     /**
-     * Lists all the edge nodes of a CDN service.
+     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;EdgeNodeInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -170,7 +170,7 @@ public class EdgeNodesInner {
     }
 
     /**
-     * Lists all the edge nodes of a CDN service.
+     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -189,7 +189,7 @@ public class EdgeNodesInner {
     }
 
     /**
-     * Lists all the edge nodes of a CDN service.
+     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -210,7 +210,7 @@ public class EdgeNodesInner {
     }
 
     /**
-     * Lists all the edge nodes of a CDN service.
+     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -227,7 +227,7 @@ public class EdgeNodesInner {
     }
 
     /**
-     * Lists all the edge nodes of a CDN service.
+     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -248,7 +248,7 @@ public class EdgeNodesInner {
     }
 
     /**
-     * Lists all the edge nodes of a CDN service.
+     * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
      *
     ServiceResponse<PageImpl<EdgeNodeInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

@@ -11,12 +11,14 @@ package com.microsoft.azure.management.cdn.implementation;
 import java.util.Map;
 import java.util.List;
 import com.microsoft.azure.management.cdn.QueryStringCachingBehavior;
+import com.microsoft.azure.management.cdn.OptimizationType;
 import com.microsoft.azure.management.cdn.GeoFilter;
+import com.microsoft.azure.management.cdn.EndpointPropertiesUpdateParametersDeliveryPolicy;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Properties required to create a new endpoint.
+ * Properties required to create or update an endpoint.
  */
 @JsonFlatten
 public class EndpointUpdateParametersInner {
@@ -27,14 +29,17 @@ public class EndpointUpdateParametersInner {
     private Map<String, String> tags;
 
     /**
-     * The host header CDN sends along with content requests to origin. The
-     * default value is the host name of the origin.
+     * The host header value sent to the origin with each request. If you leave
+     * this blank, the request hostname determines this value. Azure CDN
+     * origins, such as Web Apps, Blob Storage, and Cloud Services require this
+     * host header value to match the origin hostname by default.
      */
     @JsonProperty(value = "properties.originHostHeader")
     private String originHostHeader;
 
     /**
-     * The path used when CDN sends request to origin.
+     * A directory path on the origin that CDN can use to retreive content
+     * from, e.g. contoso.cloudapp.net/originpath.
      */
     @JsonProperty(value = "properties.originPath")
     private String originPath;
@@ -71,27 +76,47 @@ public class EndpointUpdateParametersInner {
     private Boolean isHttpsAllowed;
 
     /**
-     * Defines the query string caching behavior. Possible values include:
-     * 'IgnoreQueryString', 'BypassCaching', 'UseQueryString', 'NotSet'.
+     * Defines how CDN caches requests that include query strings. You can
+     * ignore any query strings when caching, bypass caching to prevent
+     * requests that contain query strings from being cached, or cache every
+     * request with a unique URL. Possible values include: 'IgnoreQueryString',
+     * 'BypassCaching', 'UseQueryString', 'NotSet'.
      */
     @JsonProperty(value = "properties.queryStringCachingBehavior")
     private QueryStringCachingBehavior queryStringCachingBehavior;
 
     /**
-     * Customer can specify what scenario they want this CDN endpoint to
-     * optimize, e.g. Download, Media services. With this information we can
-     * apply scenario driven optimization.
+     * Specifies what scenario the customer wants this CDN endpoint to optimize
+     * for, e.g. Download, Media services. With this information, CDN can apply
+     * scenario driven optimization. Possible values include:
+     * 'GeneralWebDelivery', 'GeneralMediaStreaming',
+     * 'VideoOnDemandMediaStreaming', 'LargeFileDownload',
+     * 'DynamicSiteAcceleration'.
      */
     @JsonProperty(value = "properties.optimizationType")
-    private String optimizationType;
+    private OptimizationType optimizationType;
 
     /**
-     * List of rules defining user geo access within a CDN endpoint. Each geo
-     * filter defines an acess rule to a specified path or content, e.g. block
-     * APAC for path /pictures/.
+     * Path to a file hosted on the origin which helps accelerate delivery of
+     * the dynamic content and calculate the most optimal routes for the CDN.
+     * This is relative to the origin path.
+     */
+    @JsonProperty(value = "properties.probePath")
+    private String probePath;
+
+    /**
+     * List of rules defining the user's geo access within a CDN endpoint. Each
+     * geo filter defines an acess rule to a specified path or content, e.g.
+     * block APAC for path /pictures/.
      */
     @JsonProperty(value = "properties.geoFilters")
     private List<GeoFilter> geoFilters;
+
+    /**
+     * A policy that specifies the delivery rules to be used for an endpoint.
+     */
+    @JsonProperty(value = "properties.deliveryPolicy")
+    private EndpointPropertiesUpdateParametersDeliveryPolicy deliveryPolicy;
 
     /**
      * Get the tags value.
@@ -258,7 +283,7 @@ public class EndpointUpdateParametersInner {
      *
      * @return the optimizationType value
      */
-    public String optimizationType() {
+    public OptimizationType optimizationType() {
         return this.optimizationType;
     }
 
@@ -268,8 +293,28 @@ public class EndpointUpdateParametersInner {
      * @param optimizationType the optimizationType value to set
      * @return the EndpointUpdateParametersInner object itself.
      */
-    public EndpointUpdateParametersInner withOptimizationType(String optimizationType) {
+    public EndpointUpdateParametersInner withOptimizationType(OptimizationType optimizationType) {
         this.optimizationType = optimizationType;
+        return this;
+    }
+
+    /**
+     * Get the probePath value.
+     *
+     * @return the probePath value
+     */
+    public String probePath() {
+        return this.probePath;
+    }
+
+    /**
+     * Set the probePath value.
+     *
+     * @param probePath the probePath value to set
+     * @return the EndpointUpdateParametersInner object itself.
+     */
+    public EndpointUpdateParametersInner withProbePath(String probePath) {
+        this.probePath = probePath;
         return this;
     }
 
@@ -290,6 +335,26 @@ public class EndpointUpdateParametersInner {
      */
     public EndpointUpdateParametersInner withGeoFilters(List<GeoFilter> geoFilters) {
         this.geoFilters = geoFilters;
+        return this;
+    }
+
+    /**
+     * Get the deliveryPolicy value.
+     *
+     * @return the deliveryPolicy value
+     */
+    public EndpointPropertiesUpdateParametersDeliveryPolicy deliveryPolicy() {
+        return this.deliveryPolicy;
+    }
+
+    /**
+     * Set the deliveryPolicy value.
+     *
+     * @param deliveryPolicy the deliveryPolicy value to set
+     * @return the EndpointUpdateParametersInner object itself.
+     */
+    public EndpointUpdateParametersInner withDeliveryPolicy(EndpointPropertiesUpdateParametersDeliveryPolicy deliveryPolicy) {
+        this.deliveryPolicy = deliveryPolicy;
         return this;
     }
 

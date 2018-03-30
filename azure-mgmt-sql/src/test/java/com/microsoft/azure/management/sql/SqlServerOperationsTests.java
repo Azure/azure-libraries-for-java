@@ -31,6 +31,53 @@ public class SqlServerOperationsTests extends SqlServerTest {
     private static final String END_IPADDRESS = "10.102.1.12";
 
     @Test
+    public void canCopySqlDatabase() throws Exception {
+        String rgName = RG_NAME;
+        final String sqlPrimaryServerName = SdkContext.randomResourceName("sqlpri", 22);
+        final String sqlSecondaryServerName = SdkContext.randomResourceName("sqlsec", 22);
+        final String epName = "epSample";
+        final String dbName = "dbSample";
+        final String administratorLogin = "sqladmin";
+        final String administratorPassword = "N0t@P@ssw0rd!";
+
+        // Create
+        SqlServer sqlPrimaryServer = sqlServerManager.sqlServers().define(sqlPrimaryServerName)
+            .withRegion(Region.US_WEST2)
+            .withNewResourceGroup(rgName)
+            .withAdministratorLogin(administratorLogin)
+            .withAdministratorPassword(administratorPassword)
+            .defineElasticPool(epName)
+                .withBasicPool()
+                .attach()
+            .defineDatabase(dbName)
+                .withExistingElasticPool(epName)
+                .fromSample(SampleName.ADVENTURE_WORKS_LT)
+                .attach()
+            .create();
+
+        SqlServer sqlSecondaryServer = sqlServerManager.sqlServers().define(sqlSecondaryServerName)
+            .withRegion(Region.US_WEST)
+            .withExistingResourceGroup(rgName)
+            .withAdministratorLogin(administratorLogin)
+            .withAdministratorPassword(administratorPassword)
+            .defineElasticPool(epName)
+                .withBasicPool()
+                .attach()
+            .create();
+
+        SqlDatabase dbSample = sqlPrimaryServer.databases().get(dbName);
+
+        SqlDatabase dbCopy = sqlSecondaryServer.databases()
+            .define("dbCopy")
+            .withSourceDatabase(dbSample)
+            .withMode(CreateMode.COPY)
+            .create();
+
+        Assert.assertNotNull(dbCopy);
+
+    }
+
+    @Test
     public void canCRUDSqlFailoverGroup() throws Exception {
         String rgName = RG_NAME;
         final String sqlPrimaryServerName = SdkContext.randomResourceName("sqlpri", 22);

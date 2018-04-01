@@ -18,11 +18,9 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
-import com.microsoft.azure.management.keyvault.VaultProperties;
-import com.microsoft.azure.management.keyvault.VaultPatchProperties;
 import com.microsoft.azure.management.keyvault.implementation.VaultInner;
 
-public interface Vault extends HasInner<VaultInner>, Resource, HasResourceGroup, Refreshable<Vault>, Updatable<Vault.Update>, HasManager<KeyVaultManager> {
+public interface Vault extends GroupableResource<KeyVaultManager, VaultInner>, HasInner<VaultInner>, Resource, HasResourceGroup, Refreshable<Vault>, Updatable<Vault.Update>, HasManager<KeyVaultManager> {
     /**
      * @return the properties value.
      */

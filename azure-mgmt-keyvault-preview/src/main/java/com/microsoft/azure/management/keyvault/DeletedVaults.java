@@ -11,6 +11,7 @@ package com.microsoft.azure.management.keyvault;
 import com.microsoft.azure.management.keyvault.implementation.VaultsInner;
 import rx.Completable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import rx.Observable;
 
 public interface DeletedVaults extends HasInner<VaultsInner> {
 

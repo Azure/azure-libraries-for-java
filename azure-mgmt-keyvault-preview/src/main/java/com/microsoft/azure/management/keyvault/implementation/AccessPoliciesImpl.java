@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.keyvault.implementation;
 
+import com.microsoft.azure.management.keyvault.AccessPolicyUpdateKind;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.microsoft.azure.management.keyvault.AccessPolicies;
 import com.microsoft.azure.management.keyvault.VaultAccessPolicyParameters;

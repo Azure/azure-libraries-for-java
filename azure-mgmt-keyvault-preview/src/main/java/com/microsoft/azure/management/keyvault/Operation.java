@@ -10,8 +10,6 @@ package com.microsoft.azure.management.keyvault;
 
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.keyvault.implementation.OperationInner;
-import com.microsoft.azure.management.keyvault.OperationDisplay;
-import com.microsoft.azure.management.keyvault.ServiceSpecification;
 
 public interface Operation extends HasInner<OperationInner> {
     /**

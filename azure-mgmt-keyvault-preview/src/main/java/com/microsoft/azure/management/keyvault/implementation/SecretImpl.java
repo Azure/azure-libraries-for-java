@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.keyvault.implementation;
 
 import com.microsoft.azure.management.keyvault.Secret;
+import com.microsoft.azure.management.keyvault.SecretPatchProperties;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -89,7 +90,7 @@ class SecretImpl extends CreatableUpdatableImpl<Secret, SecretInner, SecretImpl>
 
     @Override
     public Map<String, String> tags() {
-        return this.inner().tags();
+        return this.inner().getTags();
     }
 
     @Override

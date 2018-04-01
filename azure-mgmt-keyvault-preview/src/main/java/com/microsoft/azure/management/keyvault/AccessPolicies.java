@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.keyvault;
 
+import com.microsoft.azure.management.keyvault.implementation.VaultAccessPolicyPropertiesInner;
 import com.microsoft.azure.management.keyvault.implementation.VaultsInner;
 import rx.Observable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;

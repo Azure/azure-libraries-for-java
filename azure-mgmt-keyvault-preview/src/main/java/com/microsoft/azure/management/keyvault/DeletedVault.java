@@ -14,7 +14,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
-import com.microsoft.azure.management.keyvault.DeletedVaultProperties;
 
 public interface DeletedVault extends HasInner<DeletedVaultInner>, Indexable, Refreshable<DeletedVault>, HasManager<KeyVaultManager> {
     /**

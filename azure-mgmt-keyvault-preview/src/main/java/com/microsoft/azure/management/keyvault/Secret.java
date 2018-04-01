@@ -17,9 +17,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
-import com.microsoft.azure.management.keyvault.implementation.SecretPatchParametersInner;
-import com.microsoft.azure.management.keyvault.implementation.SecretCreateOrUpdateParametersInner;
-import com.microsoft.azure.management.keyvault.SecretProperties;
 import java.util.Map;
 
 public interface Secret extends HasInner<SecretInner>, Indexable, Refreshable<Secret>, Updatable<Secret.Update>, HasManager<KeyVaultManager> {

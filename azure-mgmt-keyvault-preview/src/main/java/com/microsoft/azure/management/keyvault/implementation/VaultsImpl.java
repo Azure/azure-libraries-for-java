@@ -183,13 +183,40 @@ public class VaultsImpl extends GroupableResourcesImpl<Vault, VaultImpl, VaultIn
     public Observable<DeletedVault> listDeletedAsync() {
         VaultsInner client = this.inner();
         return client.listDeletedAsync()
+        .flatMap(new Func1<Page<DeletedVaultInner>, Observable<Page<DeletedVaultInner>>>() {
+            @Override
+            public Observable<Page<DeletedVaultInner>> call(Page<DeletedVaultInner> page) {
+                return ListNextDeletedInnerPageAsync(page.nextPageLink());
+            }
+        })
+        .flatMapIterable(new Func1<Page<DeletedVaultInner>, Iterable<DeletedVaultInner>>() {
+            @Override
+            public Iterable<DeletedVaultInner> call(Page<DeletedVaultInner> page) {
+                return page.items();
+            }
+        })
         .map(new Func1<DeletedVaultInner, DeletedVault>() {
             @Override
             public DeletedVault call(DeletedVaultInner inner) {
-                return new DeletedVaultImpl(inner);
+                return new DeletedVaultImpl(inner, manager());
             }
         });
     }
+
+    private Observable<Page<DeletedVaultInner>> ListNextDeletedInnerPageAsync(String nextLink) {
+        if (nextLink == null) {
+            Observable.empty();
+        }
+        VaultsInner client = this.inner();
+        return client.listDeletedNextAsync(nextLink)
+                .flatMap(new Func1<Page<DeletedVaultInner>, Observable<Page<DeletedVaultInner>>>() {
+                    @Override
+                    public Observable<Page<DeletedVaultInner>> call(Page<DeletedVaultInner> page) {
+                        return Observable.just(page).concatWith(ListNextDeletedInnerPageAsync(page.nextPageLink()));
+                    }
+                });
+    }
+
     @Override
     public Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name) {
         VaultsInner client = this.inner();

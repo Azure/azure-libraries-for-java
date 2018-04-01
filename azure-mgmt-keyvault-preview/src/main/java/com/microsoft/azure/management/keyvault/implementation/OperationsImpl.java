@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.keyvault.implementation;
 
+import com.microsoft.azure.Page;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.microsoft.azure.management.keyvault.Operations;
 import com.microsoft.azure.management.keyvault.Operation;
@@ -30,12 +31,37 @@ public class OperationsImpl extends WrapperImpl<OperationsInner> implements Oper
     public Observable<Operation> listAsync() {
         OperationsInner client = this.inner();
         return client.listAsync()
-        .map(new Func1<OperationInner, Operation>() {
-            @Override
-            public Operation call(OperationInner inner) {
-                return new OperationImpl(inner);
-            }
-        });
+                .flatMap(new Func1<Page<OperationInner>, Observable<Page<OperationInner>>>() {
+                    @Override
+                    public Observable<Page<OperationInner>> call(Page<OperationInner> page) {
+                        return ListNextInnerPageAsync(page.nextPageLink());
+                    }
+                })
+                .flatMapIterable(new Func1<Page<OperationInner>, Iterable<OperationInner>>() {
+                    @Override
+                    public Iterable<OperationInner> call(Page<OperationInner> page) {
+                        return page.items();
+                    }
+                })
+                .map(new Func1<OperationInner, Operation>() {
+                    @Override
+                    public Operation call(OperationInner inner) {
+                        return new OperationImpl(inner);
+                    }
+                });
     }
 
+    private Observable<Page<OperationInner>> ListNextInnerPageAsync(String nextLink) {
+        if (nextLink == null) {
+            Observable.empty();
+        }
+        OperationsInner client = this.inner();
+        return client.listNextAsync(nextLink)
+                .flatMap(new Func1<Page<OperationInner>, Observable<Page<OperationInner>>>() {
+                    @Override
+                    public Observable<Page<OperationInner>> call(Page<OperationInner> page) {
+                        return Observable.just(page).concatWith(ListNextInnerPageAsync(page.nextPageLink()));
+                    }
+                });
+    }
 }

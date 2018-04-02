@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.keyvault.implementation;
 
+import com.microsoft.azure.Page;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.microsoft.azure.management.keyvault.DeletedVaults;
 import com.microsoft.azure.management.keyvault.DeletedVault;
@@ -25,6 +26,43 @@ class DeletedVaultsImpl extends WrapperImpl<VaultsInner> implements DeletedVault
 
     public KeyVaultManager manager() {
         return this.manager;
+    }
+
+    private Observable<Page<DeletedVaultInner>> listDeletedNextInnerPageAsync(String nextLink) {
+        if (nextLink == null) {
+            Observable.empty();
+        }
+        VaultsInner client = this.inner();
+        return client.listDeletedNextAsync(nextLink)
+                .flatMap(new Func1<Page<DeletedVaultInner>, Observable<Page<DeletedVaultInner>>>() {
+                    @Override
+                    public Observable<Page<DeletedVaultInner>> call(Page<DeletedVaultInner> page) {
+                        return Observable.just(page).concatWith(listDeletedNextInnerPageAsync(page.nextPageLink()));
+                    }
+                });
+    }
+    @Override
+    public Observable<DeletedVault> listDeletedAsync() {
+        VaultsInner client = this.inner();
+        return client.listDeletedAsync()
+                .flatMap(new Func1<Page<DeletedVaultInner>, Observable<Page<DeletedVaultInner>>>() {
+                    @Override
+                    public Observable<Page<DeletedVaultInner>> call(Page<DeletedVaultInner> page) {
+                        return listDeletedNextInnerPageAsync(page.nextPageLink());
+                    }
+                })
+                .flatMapIterable(new Func1<Page<DeletedVaultInner>, Iterable<DeletedVaultInner>>() {
+                    @Override
+                    public Iterable<DeletedVaultInner> call(Page<DeletedVaultInner> page) {
+                        return page.items();
+                    }
+                })
+                .map(new Func1<DeletedVaultInner, DeletedVault>() {
+                    @Override
+                    public DeletedVault call(DeletedVaultInner inner) {
+                        return new DeletedVaultImpl(inner);
+                    }
+                });
     }
 
     @Override

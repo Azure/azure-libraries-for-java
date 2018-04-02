@@ -18,6 +18,14 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  */
 public interface DeletedVaults extends HasInner<VaultsInner> {
     /**
+     * Gets information about the deleted vaults in a subscription.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    Observable<DeletedVault> listDeletedAsync();
+
+    /**
     * Gets the deleted Azure key vault.
     *
     * @param vaultName The name of the vault.

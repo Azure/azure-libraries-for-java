@@ -32,13 +32,6 @@ public interface Vaults extends SupportsCreating<Vault.DefinitionStages.Blank>, 
      * @return Entry point to manage Vault Secrets.
      */
     Secrets secrets();
-    /**
-    * Gets information about the deleted vaults in a subscription.
-    *
-    * @throws IllegalArgumentException thrown if parameters fail the validation
-    * @return the observable for the request
-    */
-    Observable<DeletedVault> listDeletedAsync();
 
     /**
     * Checks that the vault name is valid and is not already in use.

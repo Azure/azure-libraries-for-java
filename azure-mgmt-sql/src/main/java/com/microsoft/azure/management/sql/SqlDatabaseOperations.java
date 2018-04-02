@@ -402,7 +402,7 @@ public interface SqlDatabaseOperations extends
              * @param createMode create mode for the database, should not be default in this flow
              * @return The next stage of the definition.
              */
-            SqlDatabaseOperations.DefinitionStages.WithCreateFinal withMode(CreateMode createMode);
+            SqlDatabaseOperations.DefinitionStages.WithCreateAllOptions withMode(CreateMode createMode);
         }
 
         /**
@@ -453,7 +453,6 @@ public interface SqlDatabaseOperations extends
              * @param edition edition to be set for database
              * @return The next stage of the definition
              */
-            @Deprecated
             SqlDatabaseOperations.DefinitionStages.WithCreateAllOptions withEdition(DatabaseEditions edition);
         }
 
@@ -570,7 +569,6 @@ public interface SqlDatabaseOperations extends
              * @param serviceLevelObjective service level objected for the SQL Database
              * @return The next stage of the definition.
              */
-            @Deprecated
             SqlDatabaseOperations.DefinitionStages.WithCreateAllOptions withServiceObjective(ServiceObjectiveName serviceLevelObjective);
         }
 

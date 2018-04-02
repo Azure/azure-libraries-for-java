@@ -47,7 +47,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withAdministratorLogin(administratorLogin)
             .withAdministratorPassword(administratorPassword)
             .defineElasticPool(epName)
-                .withBasicPool()
+                .withPremiumPool()
                 .attach()
             .defineDatabase(dbName)
                 .withExistingElasticPool(epName)
@@ -60,9 +60,6 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withExistingResourceGroup(rgName)
             .withAdministratorLogin(administratorLogin)
             .withAdministratorPassword(administratorPassword)
-            .defineElasticPool(epName)
-                .withBasicPool()
-                .attach()
             .create();
 
         SqlDatabase dbSample = sqlPrimaryServer.databases().get(dbName);
@@ -71,6 +68,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .define("dbCopy")
             .withSourceDatabase(dbSample)
             .withMode(CreateMode.COPY)
+            .withServiceObjective(ServiceObjectiveName.P1)
             .create();
 
         Assert.assertNotNull(dbCopy);

@@ -592,7 +592,7 @@ public class VaultsInner implements InnerSupportsGet<VaultInner>, InnerSupportsD
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VaultAccessPolicyParametersInner object if successful.
      */
-    public VaultAccessPolicyParametersInner updateAccessPolicy(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyPropertiesInner properties) {
+    public VaultAccessPolicyParametersInner updateAccessPolicy(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyProperties properties) {
         return updateAccessPolicyWithServiceResponseAsync(resourceGroupName, vaultName, operationKind, properties).toBlocking().single().body();
     }
 
@@ -607,7 +607,7 @@ public class VaultsInner implements InnerSupportsGet<VaultInner>, InnerSupportsD
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<VaultAccessPolicyParametersInner> updateAccessPolicyAsync(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyPropertiesInner properties, final ServiceCallback<VaultAccessPolicyParametersInner> serviceCallback) {
+    public ServiceFuture<VaultAccessPolicyParametersInner> updateAccessPolicyAsync(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyProperties properties, final ServiceCallback<VaultAccessPolicyParametersInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateAccessPolicyWithServiceResponseAsync(resourceGroupName, vaultName, operationKind, properties), serviceCallback);
     }
 
@@ -621,7 +621,7 @@ public class VaultsInner implements InnerSupportsGet<VaultInner>, InnerSupportsD
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the VaultAccessPolicyParametersInner object
      */
-    public Observable<VaultAccessPolicyParametersInner> updateAccessPolicyAsync(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyPropertiesInner properties) {
+    public Observable<VaultAccessPolicyParametersInner> updateAccessPolicyAsync(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyProperties properties) {
         return updateAccessPolicyWithServiceResponseAsync(resourceGroupName, vaultName, operationKind, properties).map(new Func1<ServiceResponse<VaultAccessPolicyParametersInner>, VaultAccessPolicyParametersInner>() {
             @Override
             public VaultAccessPolicyParametersInner call(ServiceResponse<VaultAccessPolicyParametersInner> response) {
@@ -640,7 +640,7 @@ public class VaultsInner implements InnerSupportsGet<VaultInner>, InnerSupportsD
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the VaultAccessPolicyParametersInner object
      */
-    public Observable<ServiceResponse<VaultAccessPolicyParametersInner>> updateAccessPolicyWithServiceResponseAsync(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyPropertiesInner properties) {
+    public Observable<ServiceResponse<VaultAccessPolicyParametersInner>> updateAccessPolicyWithServiceResponseAsync(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyProperties properties) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }

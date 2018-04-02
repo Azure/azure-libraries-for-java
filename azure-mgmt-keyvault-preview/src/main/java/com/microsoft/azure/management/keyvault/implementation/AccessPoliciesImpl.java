@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.keyvault.implementation;
 
+import com.microsoft.azure.management.keyvault.AccessPolicyUpdateKind;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.microsoft.azure.management.keyvault.AccessPolicies;
 import com.microsoft.azure.management.keyvault.VaultAccessPolicyParameters;
@@ -27,7 +28,7 @@ class AccessPoliciesImpl extends WrapperImpl<VaultsInner> implements AccessPolic
     }
 
     @Override
-    public Observable<VaultAccessPolicyParameters> updateAccessPolicyAsync(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyPropertiesInner properties) {
+    public Observable<VaultAccessPolicyParameters> updateAccessPolicyAsync(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyProperties properties) {
         VaultsInner client = this.inner();
         return client.updateAccessPolicyAsync(resourceGroupName, vaultName, operationKind, properties)
         .map(new Func1<VaultAccessPolicyParametersInner, VaultAccessPolicyParameters>() {

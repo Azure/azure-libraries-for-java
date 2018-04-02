@@ -10,7 +10,7 @@ package com.microsoft.azure.management.keyvault;
 
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.keyvault.implementation.VaultAccessPolicyParametersInner;
-import com.microsoft.azure.management.keyvault.implementation.VaultAccessPolicyPropertiesInner;
+import com.microsoft.azure.management.keyvault.implementation.VaultAccessPolicyProperties;
 
 /**
  * Type representing VaultAccessPolicyParameters.
@@ -34,7 +34,7 @@ public interface VaultAccessPolicyParameters extends HasInner<VaultAccessPolicyP
     /**
      * @return the properties value.
      */
-    VaultAccessPolicyPropertiesInner properties();
+    VaultAccessPolicyProperties properties();
 
     /**
      * @return the type value.

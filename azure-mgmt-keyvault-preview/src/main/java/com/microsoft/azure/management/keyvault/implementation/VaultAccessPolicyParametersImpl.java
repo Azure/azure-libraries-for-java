@@ -33,7 +33,7 @@ class VaultAccessPolicyParametersImpl extends WrapperImpl<VaultAccessPolicyParam
     }
 
     @Override
-    public VaultAccessPolicyPropertiesInner properties() {
+    public VaultAccessPolicyProperties properties() {
         return this.inner().properties();
     }
 

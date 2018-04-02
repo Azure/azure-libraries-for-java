@@ -42,7 +42,7 @@ public class VaultAccessPolicyParametersInner {
      * Properties of the access policy.
      */
     @JsonProperty(value = "properties", required = true)
-    private VaultAccessPolicyPropertiesInner properties;
+    private VaultAccessPolicyProperties properties;
 
     /**
      * Get the id value.
@@ -85,7 +85,7 @@ public class VaultAccessPolicyParametersInner {
      *
      * @return the properties value
      */
-    public VaultAccessPolicyPropertiesInner properties() {
+    public VaultAccessPolicyProperties properties() {
         return this.properties;
     }
 
@@ -95,7 +95,7 @@ public class VaultAccessPolicyParametersInner {
      * @param properties the properties value to set
      * @return the VaultAccessPolicyParametersInner object itself.
      */
-    public VaultAccessPolicyParametersInner withProperties(VaultAccessPolicyPropertiesInner properties) {
+    public VaultAccessPolicyParametersInner withProperties(VaultAccessPolicyProperties properties) {
         this.properties = properties;
         return this;
     }

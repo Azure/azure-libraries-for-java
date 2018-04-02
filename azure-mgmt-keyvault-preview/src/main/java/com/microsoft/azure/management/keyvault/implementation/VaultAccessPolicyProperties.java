@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Properties of the vault access policy.
  */
-public class VaultAccessPolicyPropertiesInner {
+public class VaultAccessPolicyProperties {
     /**
      * An array of 0 to 16 identities that have access to the key vault. All
      * identities in the array must use the same tenant ID as the key vault's
@@ -37,9 +37,9 @@ public class VaultAccessPolicyPropertiesInner {
      * Set the accessPolicies value.
      *
      * @param accessPolicies the accessPolicies value to set
-     * @return the VaultAccessPolicyPropertiesInner object itself.
+     * @return the VaultAccessPolicyProperties object itself.
      */
-    public VaultAccessPolicyPropertiesInner withAccessPolicies(List<AccessPolicyEntry> accessPolicies) {
+    public VaultAccessPolicyProperties withAccessPolicies(List<AccessPolicyEntry> accessPolicies) {
         this.accessPolicies = accessPolicies;
         return this;
     }

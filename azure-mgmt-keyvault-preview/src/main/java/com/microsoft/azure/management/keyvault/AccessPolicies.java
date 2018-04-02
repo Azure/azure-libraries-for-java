@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.keyvault;
 
+import com.microsoft.azure.management.keyvault.implementation.VaultAccessPolicyProperties;
 import com.microsoft.azure.management.keyvault.implementation.VaultsInner;
 import rx.Observable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
@@ -26,6 +27,6 @@ public interface AccessPolicies extends HasInner<VaultsInner> {
     * @throws IllegalArgumentException thrown if parameters fail the validation
     * @return the observable for the request
     */
-    Observable<VaultAccessPolicyParameters> updateAccessPolicyAsync(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyPropertiesInner properties);
+    Observable<VaultAccessPolicyParameters> updateAccessPolicyAsync(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyProperties properties);
 
 }

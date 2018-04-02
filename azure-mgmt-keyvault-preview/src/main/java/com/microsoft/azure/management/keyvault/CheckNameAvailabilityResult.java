@@ -10,7 +10,6 @@ package com.microsoft.azure.management.keyvault;
 
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.keyvault.implementation.CheckNameAvailabilityResultInner;
-import com.microsoft.azure.management.keyvault.Reason;
 
 /**
  * Type representing CheckNameAvailabilityResult.

@@ -9,9 +9,12 @@
 package com.microsoft.azure.management.keyvault.implementation;
 
 import com.microsoft.azure.management.keyvault.Secret;
+import com.microsoft.azure.management.keyvault.SecretPatchProperties;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import rx.Observable;
 import com.microsoft.azure.management.keyvault.SecretProperties;
+import rx.functions.Func1;
+
 import java.util.Map;
 
 class SecretImpl extends CreatableUpdatableImpl<Secret, SecretInner, SecretImpl> implements Secret, Secret.Definition, Secret.Update {
@@ -53,12 +56,28 @@ class SecretImpl extends CreatableUpdatableImpl<Secret, SecretInner, SecretImpl>
     public Observable<Secret> createResourceAsync() {
         SecretsInner client = this.manager.inner().secrets();
         return client.createOrUpdateAsync(this.resourceGroupName, this.vaultName, this.secretName, this.createParameter)
+            .map(new Func1<SecretInner, SecretInner>() {
+                @Override
+                public SecretInner call(SecretInner secretInner) {
+                    createParameter = new SecretCreateOrUpdateParametersInner();
+                    updateParameter = new SecretPatchParametersInner();
+                    return secretInner;
+                }
+            })
             .map(innerToFluentMap(this));
     }
     @Override
     public Observable<Secret> updateResourceAsync() {
         SecretsInner client = this.manager.inner().secrets();
         return client.updateAsync(this.resourceGroupName, this.vaultName, this.secretName, this.updateParameter)
+            .map(new Func1<SecretInner, SecretInner>() {
+                @Override
+                public SecretInner call(SecretInner secretInner) {
+                    createParameter = new SecretCreateOrUpdateParametersInner();
+                    updateParameter = new SecretPatchParametersInner();
+                    return secretInner;
+                }
+            })
             .map(innerToFluentMap(this));
     }
     @Override
@@ -95,7 +114,7 @@ class SecretImpl extends CreatableUpdatableImpl<Secret, SecretInner, SecretImpl>
 
     @Override
     public Map<String, String> tags() {
-        return this.inner().tags();
+        return this.inner().getTags();
     }
 
     @Override

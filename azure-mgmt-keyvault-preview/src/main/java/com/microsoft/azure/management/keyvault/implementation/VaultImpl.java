@@ -13,6 +13,7 @@ import com.microsoft.azure.management.keyvault.VaultPatchProperties;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.keyvault.Vault;
 import rx.Observable;
+import rx.functions.Func1;
 
 class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyVaultManager> implements Vault, Vault.Definition, Vault.Update {
     private VaultPatchParametersInner updateParameter;
@@ -43,14 +44,37 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
     @Override
     public Observable<Vault> createResourceAsync() {
         final VaultsInner client = this.manager().inner().vaults();
+        //
+        this.createParameter.withLocation(this.inner().location());
+        this.createParameter.withTags(this.inner().getTags());
+        //
         return client.createOrUpdateAsync(this.resourceGroupName(), this.name(), this.createParameter)
+                .map(new Func1<VaultInner, VaultInner>() {
+                    @Override
+                    public VaultInner call(VaultInner vaultInner) {
+                        updateParameter = new VaultPatchParametersInner();
+                        createParameter = new VaultCreateOrUpdateParametersInner();
+                        return vaultInner;
+                    }
+                })
                 .map(innerToFluentMap(this));
     }
 
     @Override
     public Observable<Vault> updateResourceAsync() {
         final VaultsInner client = this.manager().inner().vaults();
+        //
+        this.updateParameter.withTags(this.inner().getTags());
+        //
         return client.updateAsync(this.resourceGroupName(), this.name(), this.updateParameter)
+                .map(new Func1<VaultInner, VaultInner>() {
+                    @Override
+                    public VaultInner call(VaultInner vaultInner) {
+                        updateParameter = new VaultPatchParametersInner();
+                        createParameter = new VaultCreateOrUpdateParametersInner();
+                        return vaultInner;
+                    }
+                })
                 .map(innerToFluentMap(this));
     }
 

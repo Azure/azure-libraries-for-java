@@ -11,6 +11,7 @@ package com.microsoft.azure.management.keyvault;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.keyvault.implementation.SecretsInner;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import rx.Observable;
 
 /**
  * Type representing Secrets.

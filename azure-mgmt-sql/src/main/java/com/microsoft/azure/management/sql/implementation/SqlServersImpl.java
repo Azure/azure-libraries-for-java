@@ -14,6 +14,7 @@ import com.microsoft.azure.management.sql.CheckNameAvailabilityResult;
 import com.microsoft.azure.management.sql.RegionCapabilities;
 import com.microsoft.azure.management.sql.SqlDatabaseOperations;
 import com.microsoft.azure.management.sql.SqlElasticPoolOperations;
+import com.microsoft.azure.management.sql.SqlEncryptionProtectorOperations;
 import com.microsoft.azure.management.sql.SqlFirewallRuleOperations;
 import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.sql.SqlServerKeyOperations;
@@ -48,6 +49,7 @@ class SqlServersImpl
     private SqlServerDnsAliasOperationsImpl dnsAliases;
     private SqlFailoverGroupOperationsImpl failoverGroups;
     private SqlServerKeyOperationsImpl serverKeys;
+    private SqlEncryptionProtectorOperationsImpl encryptionProtectors;
 
     protected SqlServersImpl(SqlServerManager manager) {
         super(manager.inner().servers(), manager);
@@ -116,6 +118,15 @@ class SqlServersImpl
         }
 
         return this.serverKeys;
+    }
+
+    @Override
+    public SqlEncryptionProtectorOperations encryptionProtectors() {
+        if (this.encryptionProtectors == null) {
+            this.encryptionProtectors = new SqlEncryptionProtectorOperationsImpl(this.manager());
+        }
+
+        return this.encryptionProtectors;
     }
 
     @Override

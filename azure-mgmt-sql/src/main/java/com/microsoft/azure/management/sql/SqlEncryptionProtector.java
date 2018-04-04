@@ -7,34 +7,30 @@ package com.microsoft.azure.management.sql;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.sql.implementation.ServerKeyInner;
-import org.joda.time.DateTime;
-import rx.Completable;
+import com.microsoft.azure.management.sql.implementation.EncryptionProtectorInner;
 
 /**
- * An immutable client-side representation of an Azure SQL Server Key.
+ * An immutable client-side representation of an Azure SQL Encryption Protector.
  */
 @Fluent
 @Beta(Beta.SinceVersion.V1_8_0)
-public interface SqlServerKey
+public interface SqlEncryptionProtector
     extends
         HasId,
-        HasInner<ServerKeyInner>,
-        HasName,
+        HasInner<EncryptionProtectorInner>,
         HasResourceGroup,
         Indexable,
-        Refreshable<SqlServerKey>,
-        Updatable<SqlServerKey.Update> {
+        Refreshable<SqlEncryptionProtector>,
+        Updatable<SqlEncryptionProtector.Update> {
+
     /**
      * @return name of the SQL Server to which this DNS alias belongs
      */
@@ -51,12 +47,17 @@ public interface SqlServerKey
     String kind();
 
     /**
-     * @return  the resource location
+     * @return the resource location
      */
     Region region();
 
     /**
-     * @return the server key type
+     * @return the name of the server key
+     */
+    String serverKeyName();
+
+    /**
+     * @return the encryption protector type
      */
     ServerKeyType serverKeyType();
 
@@ -66,68 +67,41 @@ public interface SqlServerKey
     String uri();
 
     /**
-     * @return  the thumbprint of the server key
+     * @return thumbprint of the server key
      */
     String thumbprint();
 
     /**
-     * @return the server key creation date
-     */
-    DateTime creationDate();
-
-    /**
-     * Deletes the SQL Server Key.
-     */
-    @Method
-    void delete();
-
-    /**
-     * Deletes the SQL Server Key asynchronously.
-     *
-     * @return a representation of the deferred computation of this call
-     */
-    @Method
-    Completable deleteAsync();
-
-    /**
-     * The template for a SQL Server Key update operation, containing all the settings that can be modified.
+     * The template for a SQL Encryption Protector update operation, containing all the settings that can be modified.
      */
     interface Update extends
-        SqlServerKey.UpdateStages.WithThumbprint,
-        SqlServerKey.UpdateStages.WithCreationDate,
-        Appliable<SqlServerKey> {
+        SqlEncryptionProtector.UpdateStages.WithServerKeyNameAndType,
+        Appliable<SqlEncryptionProtector> {
     }
 
     /**
-     * Grouping of all the SQL Server Key update stages.
+     * Grouping of all the SQL Encryption Protector update stages.
      */
     interface UpdateStages {
         /**
-         * The SQL Server Key definition to set the thumbprint.
+         * The SQL Encryption Protector update definition to set the server key name and type.
          */
         @Beta(Beta.SinceVersion.V1_8_0)
-        interface WithThumbprint {
+        interface WithServerKeyNameAndType {
             /**
-             * Sets the thumbprint of the server key.
+             * Updates the Encryption Protector to use an AzureKeyVault server key.
              *
-             * @param thumbprint the thumbprint of the server key
+             * @param serverKeyName the server key name
              * @return The next stage of the definition.
              */
-            SqlServerKey.Update withThumbprint(String thumbprint);
-        }
+            SqlEncryptionProtector.Update withAzureKeyVaultServerKey(String serverKeyName);
 
-        /**
-         * The SQL Server Key definition to set the server key creation date.
-         */
-        @Beta(Beta.SinceVersion.V1_8_0)
-        interface WithCreationDate {
             /**
-             * Sets the server key creation date.
+             * Updates the Encryption Protector to use the default service managed server key.
              *
-             * @param creationDate the server key creation date
              * @return The next stage of the definition.
              */
-            SqlServerKey.Update withCreationDate(DateTime creationDate);
+            SqlEncryptionProtector.Update withServiceManagedServerKey();
         }
     }
 }

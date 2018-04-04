@@ -17,25 +17,25 @@ public class OperationDisplay {
     /**
      * The name of the provider of the operation.
      */
-    @JsonProperty(value = "provider")
+    @JsonProperty(value = "provider", access = JsonProperty.Access.WRITE_ONLY)
     private String provider;
 
     /**
      * The name of the resource type of the operation.
      */
-    @JsonProperty(value = "resource")
+    @JsonProperty(value = "resource", access = JsonProperty.Access.WRITE_ONLY)
     private String resource;
 
     /**
      * The friendly name of the operation.
      */
-    @JsonProperty(value = "operation")
+    @JsonProperty(value = "operation", access = JsonProperty.Access.WRITE_ONLY)
     private String operation;
 
     /**
      * The description of the operation.
      */
-    @JsonProperty(value = "description")
+    @JsonProperty(value = "description", access = JsonProperty.Access.WRITE_ONLY)
     private String description;
 
     /**
@@ -48,34 +48,12 @@ public class OperationDisplay {
     }
 
     /**
-     * Set the provider value.
-     *
-     * @param provider the provider value to set
-     * @return the OperationDisplay object itself.
-     */
-    public OperationDisplay withProvider(String provider) {
-        this.provider = provider;
-        return this;
-    }
-
-    /**
      * Get the resource value.
      *
      * @return the resource value
      */
     public String resource() {
         return this.resource;
-    }
-
-    /**
-     * Set the resource value.
-     *
-     * @param resource the resource value to set
-     * @return the OperationDisplay object itself.
-     */
-    public OperationDisplay withResource(String resource) {
-        this.resource = resource;
-        return this;
     }
 
     /**
@@ -88,34 +66,12 @@ public class OperationDisplay {
     }
 
     /**
-     * Set the operation value.
-     *
-     * @param operation the operation value to set
-     * @return the OperationDisplay object itself.
-     */
-    public OperationDisplay withOperation(String operation) {
-        this.operation = operation;
-        return this;
-    }
-
-    /**
      * Get the description value.
      *
      * @return the description value
      */
     public String description() {
         return this.description;
-    }
-
-    /**
-     * Set the description value.
-     *
-     * @param description the description value to set
-     * @return the OperationDisplay object itself.
-     */
-    public OperationDisplay withDescription(String description) {
-        this.description = description;
-        return this;
     }
 
 }

@@ -12,6 +12,7 @@ import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.microsoft.azure.management.monitor.ActionGroups;
 import com.microsoft.azure.management.monitor.ActivityLogs;
 import com.microsoft.azure.management.monitor.DiagnosticSettings;
 import com.microsoft.azure.management.monitor.MetricDefinitions;
@@ -31,6 +32,7 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorManagem
     private ActivityLogs activityLogs;
     private MetricDefinitions metricDefinitions;
     private DiagnosticSettings diagnosticSettings;
+    private ActionGroups actionGroups;
 
     /**
     * Get a Configurable instance that can be used to create MonitorManager with optional configuration.
@@ -111,6 +113,16 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorManagem
         return this.diagnosticSettings;
     }
 
+    /**
+     * @return the Azure Action Groups API entry point
+     */
+    @Beta(SinceVersion.V1_8_0)
+    public ActionGroups actionGroups() {
+        if (this.actionGroups == null) {
+            this.actionGroups = new ActionGroupsImpl(this);
+        }
+        return this.actionGroups;
+    }
     /**
     * The implementation for Configurable interface.
     */

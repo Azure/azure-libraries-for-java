@@ -40,15 +40,15 @@ class ActionGroupImpl
             ActionGroup.Definition,
             ActionGroup.Update,
             ActionGroup.UpdateStages.WithActionUpdateDefinition {
-    private final String EMAILSUFFIX = "_-EmailAction-";
-    private final String SMSSUFFIX = "_-SMSAction-";
-    private final String APPACTIONSUFFIX = "_-AzureAppAction-";
-    private final String VOICESUFFIX = "_-VoiceAction-";
-    private final String RUNBOOKSUFFIX = " (RB)";
-    private final String LOGICSUFFIX = " (LA)";
-    private final String FUNCTIONSUFFIX = " (F)";
-    private final String WEBHOOKSUFFIX = " (WH)";
-    private final String ITSMSUFFIX = " (ITSM)";
+    private final String emailSuffix = "_-EmailAction-";
+    private final String smsSuffix = "_-SMSAction-";
+    private final String appActionSuffix = "_-AzureAppAction-";
+    private final String voiceSuffix = "_-VoiceAction-";
+    private final String runBookSuffix = " (RB)";
+    private final String logicSuffix = " (LA)";
+    private final String functionSuffix = " (F)";
+    private final String webhookSuffix = " (WH)";
+    private final String itsmSuffix = " (ITSM)";
 
     private String actionReceiverPrefix;
     private TreeMap<String, EmailReceiver> emailReceivers;
@@ -148,7 +148,7 @@ class ActionGroupImpl
 
     @Override
     public ActionGroupImpl defineReceiver(String actionNamePrefix) {
-        this.inner().withGroupShortName(actionNamePrefix.substring(0, (actionNamePrefix.length() > 14)? 14 : actionNamePrefix.length()));
+        this.inner().withGroupShortName(actionNamePrefix.substring(0, (actionNamePrefix.length() > 14) ? 14 : actionNamePrefix.length()));
         return this.updateReceiver(actionNamePrefix);
     }
 
@@ -244,7 +244,7 @@ class ActionGroupImpl
     public ActionGroupImpl withEmail(String emailAddress) {
         this.withoutEmail();
 
-        String compositeKey = this.actionReceiverPrefix + EMAILSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + emailSuffix;
         EmailReceiver er = new EmailReceiver();
         er.withName(compositeKey);
         er.withEmailAddress(emailAddress);
@@ -257,7 +257,7 @@ class ActionGroupImpl
     public ActionGroupImpl withSms(String countryCode, String phoneNumber) {
         this.withoutSms();
 
-        String compositeKey = this.actionReceiverPrefix + SMSSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + smsSuffix;
         SmsReceiver sr = new SmsReceiver();
         sr.withName(compositeKey);
         sr.withCountryCode(countryCode);
@@ -271,7 +271,7 @@ class ActionGroupImpl
     public ActionGroupImpl withWebhook(String serviceUri) {
         this.withoutWebhook();
 
-        String compositeKey = this.actionReceiverPrefix + WEBHOOKSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + webhookSuffix;
         WebhookReceiver wr = new WebhookReceiver();
         wr.withName(compositeKey);
         wr.withServiceUri(serviceUri);
@@ -284,7 +284,7 @@ class ActionGroupImpl
     public ActionGroupImpl withItsm(String workspaceId, String connectionId, String ticketConfiguration, String region) {
         this.withoutItsm();
 
-        String compositeKey = this.actionReceiverPrefix + ITSMSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + itsmSuffix;
         ItsmReceiver ir = new ItsmReceiver();
         ir.withName(compositeKey);
         ir.withWorkspaceId(workspaceId);
@@ -300,7 +300,7 @@ class ActionGroupImpl
     public ActionGroupImpl withAzureAppPush(String emailAddress) {
         this.withoutAzureAppPush();
 
-        String compositeKey = this.actionReceiverPrefix + APPACTIONSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + appActionSuffix;
         AzureAppPushReceiver ar = new AzureAppPushReceiver();
         ar.withName(compositeKey);
         ar.withEmailAddress(emailAddress);
@@ -313,7 +313,7 @@ class ActionGroupImpl
     public ActionGroupImpl withAutomationRunbook(String automationAccountId, String runbookName, String webhookResourceId, boolean isGlobalRunbook) {
         this.withoutAutomationRunbook();
 
-        String compositeKey = this.actionReceiverPrefix + RUNBOOKSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + runBookSuffix;
         AutomationRunbookReceiver arr = new AutomationRunbookReceiver();
         arr.withName(compositeKey);
         arr.withAutomationAccountId(automationAccountId);
@@ -329,7 +329,7 @@ class ActionGroupImpl
     public ActionGroupImpl withVoice(String countryCode, String phoneNumber) {
         this.withoutVoice();
 
-        String compositeKey = this.actionReceiverPrefix + VOICESUFFIX;
+        String compositeKey = this.actionReceiverPrefix + voiceSuffix;
         VoiceReceiver vr = new VoiceReceiver();
         vr.withName(compositeKey);
         vr.withCountryCode(countryCode);
@@ -343,7 +343,7 @@ class ActionGroupImpl
     public ActionGroupImpl withLogicApp(String logicAppResourceId, String callbackUrl) {
         this.withoutLogicApp();
 
-        String compositeKey = this.actionReceiverPrefix + LOGICSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + logicSuffix;
         LogicAppReceiver lr = new LogicAppReceiver();
         lr.withName(compositeKey);
         lr.withResourceId(logicAppResourceId);
@@ -355,7 +355,7 @@ class ActionGroupImpl
 
     @Override
     public ActionGroupImpl withAzureFunction(String functionAppResourceId, String functionName, String httpTriggerUrl) {
-        String compositeKey = this.actionReceiverPrefix + FUNCTIONSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + functionSuffix;
         if (this.functionReceivers.containsKey(compositeKey)) {
             this.functionReceivers.remove(compositeKey);
         }
@@ -389,7 +389,7 @@ class ActionGroupImpl
 
     @Override
     public ActionGroupImpl withoutEmail() {
-        String compositeKey = this.actionReceiverPrefix + EMAILSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + emailSuffix;
         if (this.emailReceivers.containsKey(compositeKey)) {
             this.emailReceivers.remove(compositeKey);
         }
@@ -401,7 +401,7 @@ class ActionGroupImpl
 
     @Override
     public ActionGroupImpl withoutSms() {
-        String compositeKey = this.actionReceiverPrefix + SMSSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + smsSuffix;
         if (this.smsReceivers.containsKey(compositeKey)) {
             this.smsReceivers.remove(compositeKey);
         }
@@ -413,7 +413,7 @@ class ActionGroupImpl
 
     @Override
     public ActionGroupImpl withoutWebhook() {
-        String compositeKey = this.actionReceiverPrefix + WEBHOOKSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + webhookSuffix;
         if (this.webhookReceivers.containsKey(compositeKey)) {
             this.webhookReceivers.remove(compositeKey);
         }
@@ -425,7 +425,7 @@ class ActionGroupImpl
 
     @Override
     public ActionGroupImpl withoutItsm() {
-        String compositeKey = this.actionReceiverPrefix + ITSMSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + itsmSuffix;
         if (this.itsmReceivers.containsKey(compositeKey)) {
             this.itsmReceivers.remove(compositeKey);
         }
@@ -437,7 +437,7 @@ class ActionGroupImpl
 
     @Override
     public ActionGroupImpl withoutAzureAppPush() {
-        String compositeKey = this.actionReceiverPrefix + APPACTIONSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + appActionSuffix;
         if (this.appActionReceivers.containsKey(compositeKey)) {
             this.appActionReceivers.remove(compositeKey);
         }
@@ -449,7 +449,7 @@ class ActionGroupImpl
 
     @Override
     public ActionGroupImpl withoutAutomationRunbook() {
-        String compositeKey = this.actionReceiverPrefix + RUNBOOKSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + runBookSuffix;
         if (this.runBookReceivers.containsKey(compositeKey)) {
             this.runBookReceivers.remove(compositeKey);
         }
@@ -461,7 +461,7 @@ class ActionGroupImpl
 
     @Override
     public ActionGroupImpl withoutVoice() {
-        String compositeKey = this.actionReceiverPrefix + VOICESUFFIX;
+        String compositeKey = this.actionReceiverPrefix + voiceSuffix;
         if (this.voiceReceivers.containsKey(compositeKey)) {
             this.voiceReceivers.remove(compositeKey);
         }
@@ -473,7 +473,7 @@ class ActionGroupImpl
 
     @Override
     public ActionGroupImpl withoutLogicApp() {
-        String compositeKey = this.actionReceiverPrefix + LOGICSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + logicSuffix;
         if (this.logicReceivers.containsKey(compositeKey)) {
             this.logicReceivers.remove(compositeKey);
         }
@@ -485,7 +485,7 @@ class ActionGroupImpl
 
     @Override
     public ActionGroupImpl withoutAzureFunction() {
-        String compositeKey = this.actionReceiverPrefix + LOGICSUFFIX;
+        String compositeKey = this.actionReceiverPrefix + logicSuffix;
         if (this.functionReceivers.containsKey(compositeKey)) {
             this.functionReceivers.remove(compositeKey);
         }

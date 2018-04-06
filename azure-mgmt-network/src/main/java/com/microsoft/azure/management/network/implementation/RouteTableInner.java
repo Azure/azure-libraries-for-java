@@ -11,12 +11,14 @@ package com.microsoft.azure.management.network.implementation;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * Route table resource.
  */
 @JsonFlatten
+@SkipParentValidation
 public class RouteTableInner extends Resource {
     /**
      * Collection of routes contained within a route table.

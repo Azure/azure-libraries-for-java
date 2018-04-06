@@ -12,12 +12,14 @@ import java.util.List;
 import com.microsoft.azure.management.network.ExpressRouteServiceProviderBandwidthsOffered;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * A ExpressRouteResourceProvider object.
  */
 @JsonFlatten
+@SkipParentValidation
 public class ExpressRouteServiceProviderInner extends Resource {
     /**
      * Get a list of peering locations.

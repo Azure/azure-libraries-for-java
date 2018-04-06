@@ -15,12 +15,14 @@ import com.microsoft.azure.management.network.ApplicationGatewaySslCipherSuite;
 import com.microsoft.azure.management.network.ApplicationGatewaySslProtocol;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * Response for ApplicationGatewayAvailableSslOptions API service call.
  */
 @JsonFlatten
+@SkipParentValidation
 public class ApplicationGatewayAvailableSslOptionsInner extends Resource {
     /**
      * List of available Ssl predefined policy.

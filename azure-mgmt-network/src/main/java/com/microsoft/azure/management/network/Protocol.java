@@ -16,11 +16,17 @@ import com.microsoft.rest.ExpandableStringEnum;
  * Defines values for Protocol.
  */
 public final class Protocol extends ExpandableStringEnum<Protocol> {
-    /** Static value TCP for Protocol. */
-    public static final Protocol TCP = fromString("TCP");
+    /** Static value Tcp for Protocol. */
+    public static final Protocol TCP = fromString("Tcp");
 
-    /** Static value UDP for Protocol. */
-    public static final Protocol UDP = fromString("UDP");
+    /** Static value Http for Protocol. */
+    public static final Protocol HTTP = fromString("Http");
+
+    /** Static value Https for Protocol. */
+    public static final Protocol HTTPS = fromString("Https");
+
+    /** Static value Icmp for Protocol. */
+    public static final Protocol ICMP = fromString("Icmp");
 
     /**
      * Creates or finds a Protocol from its string representation.

@@ -13,12 +13,14 @@ import com.microsoft.azure.management.network.ServiceProviderProvisioningState;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * ExpressRouteCrossConnection resource.
  */
 @JsonFlatten
+@SkipParentValidation
 public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * The name of the primary  port.

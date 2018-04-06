@@ -10,12 +10,14 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * An application security group in a resource group.
  */
 @JsonFlatten
+@SkipParentValidation
 public class ApplicationSecurityGroupInner extends Resource {
     /**
      * The resource GUID property of the application security group resource.

@@ -11,12 +11,14 @@ package com.microsoft.azure.management.network.implementation;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * NetworkSecurityGroup resource.
  */
 @JsonFlatten
+@SkipParentValidation
 public class NetworkSecurityGroupInner extends Resource {
     /**
      * A collection of security rules of the network security group.

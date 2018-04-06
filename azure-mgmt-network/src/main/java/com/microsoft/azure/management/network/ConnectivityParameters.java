@@ -27,6 +27,19 @@ public class ConnectivityParameters {
     private ConnectivityDestination destination;
 
     /**
+     * Network protocol. Possible values include: 'Tcp', 'Http', 'Https',
+     * 'Icmp'.
+     */
+    @JsonProperty(value = "protocol")
+    private Protocol protocol;
+
+    /**
+     * The protocolConfiguration property.
+     */
+    @JsonProperty(value = "protocolConfiguration")
+    private ProtocolConfiguration protocolConfiguration;
+
+    /**
      * Get the source value.
      *
      * @return the source value
@@ -63,6 +76,46 @@ public class ConnectivityParameters {
      */
     public ConnectivityParameters withDestination(ConnectivityDestination destination) {
         this.destination = destination;
+        return this;
+    }
+
+    /**
+     * Get the protocol value.
+     *
+     * @return the protocol value
+     */
+    public Protocol protocol() {
+        return this.protocol;
+    }
+
+    /**
+     * Set the protocol value.
+     *
+     * @param protocol the protocol value to set
+     * @return the ConnectivityParameters object itself.
+     */
+    public ConnectivityParameters withProtocol(Protocol protocol) {
+        this.protocol = protocol;
+        return this;
+    }
+
+    /**
+     * Get the protocolConfiguration value.
+     *
+     * @return the protocolConfiguration value
+     */
+    public ProtocolConfiguration protocolConfiguration() {
+        return this.protocolConfiguration;
+    }
+
+    /**
+     * Set the protocolConfiguration value.
+     *
+     * @param protocolConfiguration the protocolConfiguration value to set
+     * @return the ConnectivityParameters object itself.
+     */
+    public ConnectivityParameters withProtocolConfiguration(ProtocolConfiguration protocolConfiguration) {
+        this.protocolConfiguration = protocolConfiguration;
         return this;
     }
 

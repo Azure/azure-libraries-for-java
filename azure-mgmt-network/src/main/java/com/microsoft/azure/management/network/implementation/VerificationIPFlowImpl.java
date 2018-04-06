@@ -8,7 +8,7 @@ package com.microsoft.azure.management.network.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.Access;
 import com.microsoft.azure.management.network.Direction;
-import com.microsoft.azure.management.network.Protocol;
+import com.microsoft.azure.management.network.IpFlowProtocol;
 import com.microsoft.azure.management.network.VerificationIPFlow;
 import com.microsoft.azure.management.network.VerificationIPFlowParameters;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
@@ -52,19 +52,19 @@ public class VerificationIPFlowImpl extends ExecutableImpl<VerificationIPFlow>
     }
 
     @Override
-    public VerificationIPFlowImpl withProtocol(Protocol protocol) {
+    public VerificationIPFlowImpl withProtocol(IpFlowProtocol protocol) {
         parameters.withProtocol(protocol);
         return this;
     }
 
     @Override
     public DefinitionStages.WithLocalIP withTCP() {
-        return withProtocol(Protocol.TCP);
+        return withProtocol(IpFlowProtocol.TCP);
     }
 
     @Override
     public DefinitionStages.WithLocalIP withUDP() {
-        return withProtocol(Protocol.UDP);
+        return withProtocol(IpFlowProtocol.UDP);
     }
 
     @Override

@@ -12,12 +12,14 @@ import java.util.List;
 import com.microsoft.azure.management.network.BGPCommunity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * Service Community Properties.
  */
 @JsonFlatten
+@SkipParentValidation
 public class BgpServiceCommunityInner extends Resource {
     /**
      * The name of the bgp community. e.g. Skype.

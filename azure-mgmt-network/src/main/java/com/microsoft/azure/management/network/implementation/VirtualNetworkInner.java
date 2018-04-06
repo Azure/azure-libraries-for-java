@@ -14,12 +14,14 @@ import java.util.List;
 import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * Virtual Network resource.
  */
 @JsonFlatten
+@SkipParentValidation
 public class VirtualNetworkInner extends Resource {
     /**
      * The AddressSpace that contains an array of IP address ranges that can be

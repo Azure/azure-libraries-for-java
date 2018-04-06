@@ -68,18 +68,6 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Client API version. */
-    private String apiVersion;
-
-    /**
-     * Gets Client API version.
-     *
-     * @return the apiVersion value.
-     */
-    public String apiVersion() {
-        return this.apiVersion;
-    }
-
     /** Gets or sets the preferred language for the response. */
     private String acceptLanguage;
 
@@ -713,7 +701,6 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2018-02-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
@@ -769,7 +756,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "NetworkManagementClient", "2018-02-01");
+        return String.format("%s (%s)", super.userAgent(), "NetworkManagementClient");
     }
 
     private void initializeService() {
@@ -849,10 +836,8 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         if (domainNameLabel == null) {
             throw new IllegalArgumentException("Parameter domainNameLabel is required and cannot be null.");
         }
-        if (this.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.apiVersion() is required and cannot be null.");
-        }
-        return service.checkDnsNameAvailability(location, this.subscriptionId(), domainNameLabel, this.apiVersion(), this.acceptLanguage(), this.userAgent())
+        final String apiVersion = "2018-02-01";
+        return service.checkDnsNameAvailability(location, this.subscriptionId(), domainNameLabel, apiVersion, this.acceptLanguage(), this.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DnsNameAvailabilityResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DnsNameAvailabilityResultInner>> call(Response<ResponseBody> response) {

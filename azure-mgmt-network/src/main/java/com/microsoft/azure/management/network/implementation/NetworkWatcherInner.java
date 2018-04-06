@@ -11,12 +11,14 @@ package com.microsoft.azure.management.network.implementation;
 import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * Network watcher in a resource group.
  */
 @JsonFlatten
+@SkipParentValidation
 public class NetworkWatcherInner extends Resource {
     /**
      * A unique read-only string that changes whenever the resource is updated.

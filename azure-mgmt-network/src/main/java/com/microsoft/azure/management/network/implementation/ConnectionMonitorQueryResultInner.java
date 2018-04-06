@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.network.implementation;
 
+import com.microsoft.azure.management.network.ConnectionMonitorSourceStatus;
 import java.util.List;
 import com.microsoft.azure.management.network.ConnectionStateSnapshot;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,10 +18,37 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ConnectionMonitorQueryResultInner {
     /**
+     * Status of connection monitor source. Possible values include: 'Uknown',
+     * 'Active', 'Inactive'.
+     */
+    @JsonProperty(value = "sourceStatus")
+    private ConnectionMonitorSourceStatus sourceStatus;
+
+    /**
      * Information about connection states.
      */
     @JsonProperty(value = "states")
     private List<ConnectionStateSnapshot> states;
+
+    /**
+     * Get the sourceStatus value.
+     *
+     * @return the sourceStatus value
+     */
+    public ConnectionMonitorSourceStatus sourceStatus() {
+        return this.sourceStatus;
+    }
+
+    /**
+     * Set the sourceStatus value.
+     *
+     * @param sourceStatus the sourceStatus value to set
+     * @return the ConnectionMonitorQueryResultInner object itself.
+     */
+    public ConnectionMonitorQueryResultInner withSourceStatus(ConnectionMonitorSourceStatus sourceStatus) {
+        this.sourceStatus = sourceStatus;
+        return this;
+    }
 
     /**
      * Get the states value.

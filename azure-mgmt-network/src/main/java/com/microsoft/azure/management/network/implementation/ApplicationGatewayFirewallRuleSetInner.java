@@ -12,12 +12,14 @@ import java.util.List;
 import com.microsoft.azure.management.network.ApplicationGatewayFirewallRuleGroup;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * A web application firewall rule set.
  */
 @JsonFlatten
+@SkipParentValidation
 public class ApplicationGatewayFirewallRuleSetInner extends Resource {
     /**
      * The provisioning state of the web application firewall rule set.

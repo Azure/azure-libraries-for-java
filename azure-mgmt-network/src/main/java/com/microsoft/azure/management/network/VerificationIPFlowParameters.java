@@ -31,7 +31,7 @@ public class VerificationIPFlowParameters {
      * Protocol to be verified on. Possible values include: 'TCP', 'UDP'.
      */
     @JsonProperty(value = "protocol", required = true)
-    private Protocol protocol;
+    private IpFlowProtocol protocol;
 
     /**
      * The local port. Acceptable values are a single integer in the range
@@ -113,7 +113,7 @@ public class VerificationIPFlowParameters {
      *
      * @return the protocol value
      */
-    public Protocol protocol() {
+    public IpFlowProtocol protocol() {
         return this.protocol;
     }
 
@@ -123,7 +123,7 @@ public class VerificationIPFlowParameters {
      * @param protocol the protocol value to set
      * @return the VerificationIPFlowParameters object itself.
      */
-    public VerificationIPFlowParameters withProtocol(Protocol protocol) {
+    public VerificationIPFlowParameters withProtocol(IpFlowProtocol protocol) {
         this.protocol = protocol;
         return this;
     }

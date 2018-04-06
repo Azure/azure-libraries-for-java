@@ -11,12 +11,14 @@ package com.microsoft.azure.management.network.implementation;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * Route Filter Resource.
  */
 @JsonFlatten
+@SkipParentValidation
 public class RouteFilterInner extends Resource {
     /**
      * Collection of RouteFilterRules contained within a route filter.

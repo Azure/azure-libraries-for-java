@@ -12,12 +12,14 @@ import java.util.List;
 import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * A DDoS protection plan in a resource group.
  */
 @JsonFlatten
+@SkipParentValidation
 public class DdosProtectionPlanInner extends Resource {
     /**
      * The resource GUID property of the DDoS protection plan resource. It

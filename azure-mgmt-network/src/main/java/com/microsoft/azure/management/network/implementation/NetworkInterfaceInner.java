@@ -13,12 +13,14 @@ import java.util.List;
 import com.microsoft.azure.management.network.NetworkInterfaceDnsSettings;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * A network interface in a resource group.
  */
 @JsonFlatten
+@SkipParentValidation
 public class NetworkInterfaceInner extends Resource {
     /**
      * The reference of a virtual machine.

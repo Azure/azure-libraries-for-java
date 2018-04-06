@@ -12,12 +12,14 @@ import com.microsoft.azure.management.network.AddressSpace;
 import com.microsoft.azure.management.network.BgpSettings;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * A common class for general resource information.
  */
 @JsonFlatten
+@SkipParentValidation
 public class LocalNetworkGatewayInner extends Resource {
     /**
      * Local network site address space.

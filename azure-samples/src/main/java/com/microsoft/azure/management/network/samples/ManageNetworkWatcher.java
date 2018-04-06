@@ -12,6 +12,7 @@ import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.network.Direction;
 import com.microsoft.azure.management.network.FlowLogSettings;
+import com.microsoft.azure.management.network.IpFlowProtocol;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkWatcher;
@@ -194,7 +195,7 @@ public final class ManageNetworkWatcher {
             VerificationIPFlow verificationIPFlow = nw.verifyIPFlow()
                     .withTargetResourceId(vm.id())
                     .withDirection(Direction.INBOUND)
-                    .withProtocol(Protocol.TCP)
+                    .withProtocol(IpFlowProtocol.TCP)
                     .withLocalIPAddress(ipAddress)
                     .withRemoteIPAddress("8.8.8.8")
                     .withLocalPort("443")

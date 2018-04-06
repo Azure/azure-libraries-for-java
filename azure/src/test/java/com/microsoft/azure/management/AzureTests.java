@@ -23,6 +23,7 @@ import com.microsoft.azure.management.network.Access;
 import com.microsoft.azure.management.network.ConnectivityCheck;
 import com.microsoft.azure.management.network.Direction;
 import com.microsoft.azure.management.network.FlowLogSettings;
+import com.microsoft.azure.management.network.IpFlowProtocol;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.NetworkWatcher;
@@ -31,7 +32,6 @@ import com.microsoft.azure.management.network.NextHopType;
 import com.microsoft.azure.management.network.PacketCapture;
 import com.microsoft.azure.management.network.PcProtocol;
 import com.microsoft.azure.management.network.PcStatus;
-import com.microsoft.azure.management.network.Protocol;
 import com.microsoft.azure.management.network.SecurityGroupView;
 import com.microsoft.azure.management.network.Subnet;
 import com.microsoft.azure.management.network.Topology;
@@ -716,7 +716,7 @@ public class AzureTests extends TestBase {
         VerificationIPFlow verificationIPFlow = nw.verifyIPFlow()
                 .withTargetResourceId(virtualMachines[0].id())
                 .withDirection(Direction.OUTBOUND)
-                .withProtocol(Protocol.TCP)
+                .withProtocol(IpFlowProtocol.TCP)
                 .withLocalIPAddress("10.0.0.4")
                 .withRemoteIPAddress("8.8.8.8")
                 .withLocalPort("443")

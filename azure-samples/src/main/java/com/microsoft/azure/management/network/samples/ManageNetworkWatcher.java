@@ -19,7 +19,6 @@ import com.microsoft.azure.management.network.NetworkWatcher;
 import com.microsoft.azure.management.network.NextHop;
 import com.microsoft.azure.management.network.PacketCapture;
 import com.microsoft.azure.management.network.PcProtocol;
-import com.microsoft.azure.management.network.Protocol;
 import com.microsoft.azure.management.network.SecurityGroupView;
 import com.microsoft.azure.management.network.Topology;
 import com.microsoft.azure.management.network.VerificationIPFlow;

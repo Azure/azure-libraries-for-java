@@ -17,6 +17,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import rx.Completable;
 import rx.Emitter;
@@ -27,9 +28,8 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.Func2;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -58,7 +58,7 @@ class KuduClient {
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps warDeploy", "x-ms-body-logging: false" })
         @POST("api/wardeploy")
         @Streaming
-        Observable<Void> warDeploy(@Body RequestBody warFile);
+        Observable<Void> warDeploy(@Body RequestBody warFile, @Query("name") String appName);
     }
 
     Observable<String> streamApplicationLogsAsync() {
@@ -84,10 +84,10 @@ class KuduClient {
                 });
     }
 
-    Completable warDeployAsync(File warFile) {
+    Completable warDeployAsync(InputStream warFile, String appName) {
         try {
-            RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(new FileInputStream(warFile)));
-            return service.warDeploy(body)
+            RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(warFile));
+            return service.warDeploy(body, appName)
                     .toCompletable()
                     .retryWhen(new Func1<Observable<? extends Throwable>, Observable<?>>() {
                         @Override

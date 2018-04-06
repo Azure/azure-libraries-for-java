@@ -46,4 +46,34 @@ public class WarDeployTests extends AppServiceTest {
             Assert.assertTrue(body.contains("Azure Samples Hello World"));
         }
     }
+
+    @Test
+    public void canDeployMultipleWars() throws Exception {
+        // Create web app
+        WebApp webApp = appServiceManager.webApps().define(WEBAPP_NAME)
+                .withRegion(Region.US_WEST)
+                .withNewResourceGroup(RG_NAME)
+                .withNewWindowsPlan(PricingTier.STANDARD_S1)
+                .withJavaVersion(JavaVersion.JAVA_8_NEWEST)
+                .withWebContainer(WebContainer.TOMCAT_9_0_NEWEST)
+                .create();
+        Assert.assertNotNull(webApp);
+
+        webApp.warDeploy(new File(WarDeployTests.class.getResource("/helloworld.war").getPath()));
+        webApp.warDeploy(WarDeployTests.class.getResourceAsStream("/helloworld.war"), "app2");
+
+        if (!isPlaybackMode()) {
+            Response response = curl("http://" + WEBAPP_NAME + "." + "azurewebsites.net");
+            Assert.assertEquals(200, response.code());
+            String body = response.body().string();
+            Assert.assertNotNull(body);
+            Assert.assertTrue(body.contains("Azure Samples Hello World"));
+
+            response = curl("http://" + WEBAPP_NAME + "." + "azurewebsites.net/app2");
+            Assert.assertEquals(200, response.code());
+            body = response.body().string();
+            Assert.assertNotNull(body);
+            Assert.assertTrue(body.contains("Azure Samples Hello World"));
+        }
+    }
 }

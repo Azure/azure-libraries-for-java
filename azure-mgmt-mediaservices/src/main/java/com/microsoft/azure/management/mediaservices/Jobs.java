@@ -12,6 +12,7 @@ import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCr
 import com.microsoft.azure.management.mediaservices.implementation.JobsInner;
 import rx.Completable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import rx.Observable;
 
 /**
  * Type representing Jobs.
@@ -28,7 +29,7 @@ public interface Jobs extends SupportsCreating<Job.DefinitionStages.Blank>, HasI
     * @throws IllegalArgumentException thrown if parameters fail the validation
     * @return the observable for the request
     */
-    Observable<Job> listByTransformsAsync(final String resourceGroupName, final String accountName, final String transformName);
+    Observable<Job> listByTransformAsync(final String resourceGroupName, final String accountName, final String transformName);
 
     /**
 * Get Job.

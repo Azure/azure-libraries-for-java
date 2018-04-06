@@ -8,8 +8,10 @@
 
 package com.microsoft.azure.management.mediaservices;
 
+import com.microsoft.azure.management.mediaservices.implementation.ListContainerSasInputInner;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.mediaservices.implementation.AssetsInner;
+import rx.Completable;
 import rx.Observable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
@@ -27,7 +29,7 @@ public interface Assets extends SupportsCreating<Asset.DefinitionStages.Blank>, 
     * @throws IllegalArgumentException thrown if parameters fail the validation
     * @return the observable for the request
     */
-    Observable<Asset> listByMediaservicesAsync(final String resourceGroupName, final String accountName);
+    Observable<Asset> listByMediaserviceAsync(final String resourceGroupName, final String accountName);
 
     /**
 * Get an Asset.

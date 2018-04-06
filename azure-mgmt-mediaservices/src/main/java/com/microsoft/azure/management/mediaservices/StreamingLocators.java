@@ -10,6 +10,7 @@ package com.microsoft.azure.management.mediaservices;
 
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.mediaservices.implementation.StreamingLocatorsInner;
+import rx.Completable;
 import rx.Observable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
@@ -27,7 +28,7 @@ public interface StreamingLocators extends SupportsCreating<StreamingLocator.Def
     * @throws IllegalArgumentException thrown if parameters fail the validation
     * @return the observable for the request
     */
-    Observable<StreamingLocator> listByMediaservicesAsync(final String resourceGroupName, final String accountName);
+    Observable<StreamingLocator> listByMediaserviceAsync(final String resourceGroupName, final String accountName);
 
     /**
 * Get a Streaming Locator.

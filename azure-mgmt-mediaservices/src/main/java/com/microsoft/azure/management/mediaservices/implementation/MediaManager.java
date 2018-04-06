@@ -11,8 +11,6 @@ package com.microsoft.azure.management.mediaservices.implementation;
 import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -35,7 +33,6 @@ import com.microsoft.azure.management.mediaservices.Mediaservices;
 /**
  * Entry point to Azure Media resource management.
  */
-@Beta(SinceVersion.V1_9_0)
 public final class MediaManager extends Manager<MediaManager, AzureMediaServicesImpl> {
     private Assets assets;
     private ContentKeyPolicies contentKeyPolicies;

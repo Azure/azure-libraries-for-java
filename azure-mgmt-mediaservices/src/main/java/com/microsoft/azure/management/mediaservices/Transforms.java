@@ -11,6 +11,8 @@ package com.microsoft.azure.management.mediaservices;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.mediaservices.implementation.TransformsInner;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import rx.Completable;
+import rx.Observable;
 
 /**
  * Type representing Transforms.
@@ -31,7 +33,7 @@ public interface Transforms extends SupportsCreating<Transform.DefinitionStages.
     * @throws IllegalArgumentException thrown if parameters fail the validation
     * @return the observable for the request
     */
-    Observable<Transform> listByMediaservicesAsync(final String resourceGroupName, final String accountName);
+    Observable<Transform> listByMediaserviceAsync(final String resourceGroupName, final String accountName);
 
     /**
 * Get Transform.

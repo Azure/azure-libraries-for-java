@@ -59,7 +59,7 @@ class OperationsImpl extends WrapperImpl<OperationsInner> implements Operations 
         .map(new Func1<OperationInner, Operation>() {
             @Override
             public Operation call(OperationInner inner) {
-                return new OperationImpl(inner);
+                return new OperationImpl(inner, manager());
             }
        });
     }

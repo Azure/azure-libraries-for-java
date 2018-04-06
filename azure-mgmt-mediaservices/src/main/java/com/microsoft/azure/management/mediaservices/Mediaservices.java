@@ -77,6 +77,6 @@ public interface Mediaservices extends SupportsCreating<MediaService.DefinitionS
     * @throws IllegalArgumentException thrown if parameters fail the validation
     * @return the observable for the request
     */
-    Observable<SubscriptionMediaService> getBySubscriptionAsync(String accountName);
+    Observable<MediaService> getBySubscriptionAsync(String accountName);
 
 }

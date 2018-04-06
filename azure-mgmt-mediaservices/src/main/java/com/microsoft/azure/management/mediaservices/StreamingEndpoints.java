@@ -12,6 +12,7 @@ import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCr
 import com.microsoft.azure.management.mediaservices.implementation.StreamingEndpointsInner;
 import rx.Completable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import rx.Observable;
 
 /**
  * Type representing StreamingEndpoints.
@@ -26,7 +27,7 @@ public interface StreamingEndpoints extends SupportsCreating<StreamingEndpoint.D
     * @throws IllegalArgumentException thrown if parameters fail the validation
     * @return the observable for the request
     */
-    Observable<StreamingEndpoint> listByMediaservicesAsync(final String resourceGroupName, final String accountName);
+    Observable<StreamingEndpoint> listByMediaserviceAsync(final String resourceGroupName, final String accountName);
 
     /**
     * Gets a StreamingEndpoint.

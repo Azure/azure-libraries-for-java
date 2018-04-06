@@ -145,7 +145,7 @@ class LiveEventImpl extends CreatableUpdatableImpl<LiveEvent, LiveEventInner, Li
 
     @Override
     public Map<String, String> tags() {
-        return this.inner().tags();
+        return this.inner().getTags();
     }
 
     @Override

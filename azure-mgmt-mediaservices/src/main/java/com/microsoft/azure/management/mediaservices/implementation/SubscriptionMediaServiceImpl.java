@@ -54,7 +54,7 @@ class SubscriptionMediaServiceImpl extends WrapperImpl<SubscriptionMediaServiceI
 
     @Override
     public Map<String, String> tags() {
-        return this.inner().tags();
+        return this.inner().getTags();
     }
 
     @Override

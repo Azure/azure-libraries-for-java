@@ -33,7 +33,7 @@ class ProvidersImpl extends WrapperImpl<ProvidersInner> implements Providers {
         .map(new Func1<EntityNameAvailabilityCheckOutputInner, EntityNameAvailabilityCheckOutput>() {
             @Override
             public EntityNameAvailabilityCheckOutput call(EntityNameAvailabilityCheckOutputInner inner) {
-                return new EntityNameAvailabilityCheckOutputImpl(inner);
+                return new EntityNameAvailabilityCheckOutputImpl(inner, manager());
             }
         });
     }

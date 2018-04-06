@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.mediaservices;
 
+import com.microsoft.azure.management.mediaservices.implementation.CheckNameAvailabilityInputInner;
 import com.microsoft.azure.management.mediaservices.implementation.ProvidersInner;
 import rx.Observable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;

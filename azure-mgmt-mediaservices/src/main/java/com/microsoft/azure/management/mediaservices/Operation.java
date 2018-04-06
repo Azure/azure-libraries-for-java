@@ -12,7 +12,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.mediaservices.implementation.MediaManager;
 import com.microsoft.azure.management.mediaservices.implementation.OperationInner;
-import com.microsoft.azure.management.mediaservices.OperationDisplay;
 
 /**
  * Type representing Operation.

@@ -13,7 +13,6 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager
 import com.microsoft.azure.management.mediaservices.implementation.MediaManager;
 import com.microsoft.azure.management.mediaservices.implementation.ListPathsResponseInner;
 import java.util.List;
-import com.microsoft.azure.management.mediaservices.StreamingPath;
 
 /**
  * Type representing ListPathsResponse.

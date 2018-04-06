@@ -14,7 +14,6 @@ import com.microsoft.azure.management.mediaservices.implementation.MediaManager;
 import com.microsoft.azure.management.mediaservices.implementation.SubscriptionMediaServiceInner;
 import java.util.UUID;
 import java.util.List;
-import com.microsoft.azure.management.mediaservices.StorageAccount;
 import java.util.Map;
 
 /**

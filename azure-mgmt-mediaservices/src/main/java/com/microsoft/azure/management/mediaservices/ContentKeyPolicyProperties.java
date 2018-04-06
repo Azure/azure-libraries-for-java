@@ -14,7 +14,6 @@ import com.microsoft.azure.management.mediaservices.implementation.MediaManager;
 import com.microsoft.azure.management.mediaservices.implementation.ContentKeyPolicyPropertiesInner;
 import org.joda.time.DateTime;
 import java.util.List;
-import com.microsoft.azure.management.mediaservices.ContentKeyPolicyOption;
 import java.util.UUID;
 
 /**

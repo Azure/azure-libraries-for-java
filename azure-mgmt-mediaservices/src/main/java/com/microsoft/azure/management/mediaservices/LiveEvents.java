@@ -12,6 +12,7 @@ import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCr
 import com.microsoft.azure.management.mediaservices.implementation.LiveEventsInner;
 import rx.Completable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import rx.Observable;
 
 /**
  * Type representing LiveEvents.
@@ -31,7 +32,7 @@ public interface LiveEvents extends SupportsCreating<LiveEvent.DefinitionStages.
     * @throws IllegalArgumentException thrown if parameters fail the validation
     * @return the observable for the request
     */
-    Observable<LiveEvent> listByMediaservicesAsync(final String resourceGroupName, final String accountName);
+    Observable<LiveEvent> listByMediaserviceAsync(final String resourceGroupName, final String accountName);
 
     /**
     * Gets a Live Event.

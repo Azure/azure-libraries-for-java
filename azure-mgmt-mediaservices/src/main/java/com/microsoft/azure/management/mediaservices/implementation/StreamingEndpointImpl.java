@@ -172,7 +172,7 @@ class StreamingEndpointImpl extends CreatableUpdatableImpl<StreamingEndpoint, St
 
     @Override
     public Map<String, String> tags() {
-        return this.inner().tags();
+        return this.inner().getTags();
     }
 
     @Override

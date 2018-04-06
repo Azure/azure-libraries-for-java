@@ -8,10 +8,51 @@
 
 package com.microsoft.azure.management.mediaservices.implementation;
 
-import com.microsoft.azure.Resource;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The resource model definition for a ARM proxy resource.
  */
-public class ProxyResourceInner extends Resource {
+public class ProxyResourceInner {
+    @JsonProperty(
+            access = JsonProperty.Access.WRITE_ONLY
+    )
+    private String id;
+
+    @JsonProperty(
+            access = JsonProperty.Access.WRITE_ONLY
+    )
+    private String name;
+
+    @JsonProperty(
+            access = JsonProperty.Access.WRITE_ONLY
+    )
+    private String type;
+
+    /**
+     * Creates ProxyResourceInner.
+     */
+    public ProxyResourceInner() {
+    }
+
+    /**
+     * @return id of the resource.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * @return name of the resource.
+     */
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * @return type of the resource.
+     */
+    public String type() {
+        return this.type;
+    }
 }

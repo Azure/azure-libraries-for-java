@@ -13,7 +13,6 @@ import com.microsoft.azure.management.mediaservices.Mediaservices;
 import com.microsoft.azure.management.mediaservices.MediaService;
 import rx.Observable;
 import rx.Completable;
-import com.microsoft.azure.management.mediaservices.SubscriptionMediaService;
 import rx.functions.Func1;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -219,13 +218,13 @@ class MediaservicesImpl extends GroupableResourcesImpl<MediaService, MediaServic
         return client.syncStorageKeysAsync(resourceGroupName, accountName).toCompletable();
     }
     @Override
-    public Observable<SubscriptionMediaService> getBySubscriptionAsync(String accountName) {
+    public Observable<MediaService> getBySubscriptionAsync(String accountName) {
         MediaservicesInner client = this.inner();
         return client.getBySubscriptionAsync(accountName)
-        .map(new Func1<SubscriptionMediaServiceInner, SubscriptionMediaService>() {
+        .map(new Func1<MediaServiceInner, MediaService>() {
             @Override
-            public SubscriptionMediaService call(SubscriptionMediaServiceInner inner) {
-                return new SubscriptionMediaServiceImpl(inner, manager());
+            public MediaService call(MediaServiceInner inner) {
+                return new MediaServiceImpl(inner.name(), inner, manager());
             }
         });
     }

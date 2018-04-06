@@ -11,6 +11,8 @@ package com.microsoft.azure.management.mediaservices;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.mediaservices.implementation.LiveOutputsInner;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import rx.Completable;
+import rx.Observable;
 
 /**
  * Type representing LiveOutputs.
@@ -26,7 +28,7 @@ public interface LiveOutputs extends SupportsCreating<LiveOutput.DefinitionStage
     * @throws IllegalArgumentException thrown if parameters fail the validation
     * @return the observable for the request
     */
-    Observable<LiveOutput> listByLiveEventsAsync(final String resourceGroupName, final String accountName, final String liveEventName);
+    Observable<LiveOutput> listByLiveEventAsync(final String resourceGroupName, final String accountName, final String liveEventName);
 
     /**
     * Gets a Live Output.

@@ -10,6 +10,7 @@ package com.microsoft.azure.management.mediaservices;
 
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.mediaservices.implementation.ContentKeyPoliciesInner;
+import rx.Completable;
 import rx.Observable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
@@ -27,7 +28,7 @@ public interface ContentKeyPolicies extends SupportsCreating<ContentKeyPolicy.De
     * @throws IllegalArgumentException thrown if parameters fail the validation
     * @return the observable for the request
     */
-    Observable<ContentKeyPolicy> listByMediaservicesAsync(final String resourceGroupName, final String accountName);
+    Observable<ContentKeyPolicy> listByMediaserviceAsync(final String resourceGroupName, final String accountName);
 
     /**
 * Get a Content Key Policy.

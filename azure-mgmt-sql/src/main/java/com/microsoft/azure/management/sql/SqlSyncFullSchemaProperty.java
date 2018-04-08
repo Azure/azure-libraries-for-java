@@ -17,7 +17,7 @@ import java.util.List;
  * An immutable client-side representation of an Azure SQL Server Sync Group.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
+@Beta(Beta.SinceVersion.V1_9_0)
 public interface SqlSyncFullSchemaProperty
     extends HasInner<SyncFullSchemaPropertiesInner> {
 

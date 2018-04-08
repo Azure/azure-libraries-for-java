@@ -76,13 +76,13 @@ public interface SqlServers extends
     /**
      * @return the SQL Encryption Protector entry point
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(Beta.SinceVersion.V1_9_0)
     SqlEncryptionProtectorOperations encryptionProtectors();
 
     /**
      * @return the SQL Sync Group entry point
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(Beta.SinceVersion.V1_9_0)
     SqlSyncGroupOperations syncGroups();
 
     /**

@@ -123,7 +123,7 @@ public interface SqlSyncGroupOperations extends
         /**
          * The SQL Sync Group definition to set the database ID to sync with.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithSyncGroupDatabase {
             /**
              * Sets the name of the database on which the sync group is hosted.
@@ -137,7 +137,7 @@ public interface SqlSyncGroupOperations extends
         /**
          * The SQL Sync Group definition to set the database ID to sync with.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithSyncDatabaseId {
             /**
              * Sets the sync database ID.
@@ -151,7 +151,7 @@ public interface SqlSyncGroupOperations extends
         /**
          * The SQL Sync Group definition to set the database user name.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithDatabaseUserName {
             /**
              * Sets the database user name.
@@ -165,7 +165,7 @@ public interface SqlSyncGroupOperations extends
         /**
          * The SQL Sync Group definition to set the database login password.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithDatabasePassword {
             /**
              * Sets the database login password.
@@ -179,7 +179,7 @@ public interface SqlSyncGroupOperations extends
         /**
          * The SQL Sync Group definition to set the conflict resolution policy.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithConflictResolutionPolicy {
             /**
              * Sets the conflict resolution policy to "HubWin".
@@ -199,7 +199,7 @@ public interface SqlSyncGroupOperations extends
         /**
          * The SQL Sync Group definition to set the sync frequency.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithInterval {
             /**
              * Sets the sync frequency.
@@ -213,7 +213,7 @@ public interface SqlSyncGroupOperations extends
         /**
          * The SQL Sync Group definition to set the schema.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithSchema {
             /**
              * Sets the schema.

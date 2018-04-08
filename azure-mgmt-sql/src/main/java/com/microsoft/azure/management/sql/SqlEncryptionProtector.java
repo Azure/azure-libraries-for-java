@@ -22,7 +22,7 @@ import com.microsoft.azure.management.sql.implementation.EncryptionProtectorInne
  * An immutable client-side representation of an Azure SQL Encryption Protector.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
+@Beta(Beta.SinceVersion.V1_9_0)
 public interface SqlEncryptionProtector
     extends
         HasId,
@@ -87,7 +87,7 @@ public interface SqlEncryptionProtector
         /**
          * The SQL Encryption Protector update definition to set the server key name and type.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithServerKeyNameAndType {
             /**
              * Updates the Encryption Protector to use an AzureKeyVault server key.

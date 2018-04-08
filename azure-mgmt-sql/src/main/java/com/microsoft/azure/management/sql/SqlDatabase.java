@@ -380,7 +380,7 @@ public interface SqlDatabase
     /**
      * @return the SQL Sync Group entry point for the current database
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(Beta.SinceVersion.V1_9_0)
     SqlSyncGroupOperations.SqlSyncGroupActionsDefinition syncGroups();
 
 

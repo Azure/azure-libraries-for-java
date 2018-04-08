@@ -245,7 +245,7 @@ public interface SqlServer extends
     /**
      * @return returns entry point to manage SQL Encryption Protector for this server.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(Beta.SinceVersion.V1_9_0)
     SqlEncryptionProtectorOperations.SqlEncryptionProtectorActionsDefinition encryptionProtectors();
 
 

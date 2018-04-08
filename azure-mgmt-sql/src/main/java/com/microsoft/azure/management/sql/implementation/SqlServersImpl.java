@@ -20,6 +20,7 @@ import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.sql.SqlServerKeyOperations;
 import com.microsoft.azure.management.sql.SqlServers;
 import com.microsoft.azure.management.sql.SqlSubscriptionUsageMetric;
+import com.microsoft.azure.management.sql.SqlSyncGroupOperations;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRuleOperations;
 import rx.Observable;
 import rx.functions.Func1;
@@ -50,6 +51,7 @@ class SqlServersImpl
     private SqlFailoverGroupOperationsImpl failoverGroups;
     private SqlServerKeyOperationsImpl serverKeys;
     private SqlEncryptionProtectorOperationsImpl encryptionProtectors;
+    private SqlSyncGroupOperationsImpl syncGroups;
 
     protected SqlServersImpl(SqlServerManager manager) {
         super(manager.inner().servers(), manager);
@@ -127,6 +129,15 @@ class SqlServersImpl
         }
 
         return this.encryptionProtectors;
+    }
+
+    @Override
+    public SqlSyncGroupOperations syncGroups() {
+        if (this.syncGroups == null) {
+            this.syncGroups = new SqlSyncGroupOperationsImpl(this.manager());
+        }
+
+        return this.syncGroups;
     }
 
     @Override

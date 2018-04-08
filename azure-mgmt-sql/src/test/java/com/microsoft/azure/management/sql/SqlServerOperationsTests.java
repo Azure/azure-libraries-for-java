@@ -12,6 +12,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.management.sql.implementation.SyncGroupInner;
 import com.microsoft.azure.management.storage.StorageAccount;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -29,6 +30,59 @@ public class SqlServerOperationsTests extends SqlServerTest {
     private static final String SQL_FIREWALLRULE_NAME = "firewallrule1";
     private static final String START_IPADDRESS = "10.102.1.10";
     private static final String END_IPADDRESS = "10.102.1.12";
+
+    @Test
+    public void canCRUDSqlSyncGroup() throws Exception {
+        String rgName = RG_NAME;
+        String sqlServerName = SQL_SERVER_NAME;
+        final String dbName = "dbSample";
+        final String dbSyncName = "dbSync";
+        final String syncGroupName = "groupName";
+        final String administratorLogin = "sqladmin";
+        final String administratorPassword = "N0t@P@ssw0rd!";
+
+        // Create
+        SqlServer sqlPrimaryServer = sqlServerManager.sqlServers().define(sqlServerName)
+            .withRegion(Region.US_WEST2)
+            .withNewResourceGroup(rgName)
+            .withAdministratorLogin(administratorLogin)
+            .withAdministratorPassword(administratorPassword)
+            .defineDatabase(dbName)
+                .fromSample(SampleName.ADVENTURE_WORKS_LT)
+                .withStandardEdition(SqlDatabaseStandardServiceObjective.S0)
+                .attach()
+            .defineDatabase(dbSyncName)
+                .withStandardEdition(SqlDatabaseStandardServiceObjective.S0)
+                .attach()
+            .create();
+
+        SqlDatabase dbSource = sqlPrimaryServer.databases().get(dbName);
+        SqlDatabase dbSync = sqlPrimaryServer.databases().get(dbSyncName);
+
+        SqlSyncGroup sqlSyncGroup = dbSync.syncGroups().define(syncGroupName)
+            .withSyncDatabaseId(dbSource.id())
+            .withDatabaseUserName(administratorLogin)
+            .withDatabasePassword(administratorPassword)
+            .withConflictResolutionPolicyHubWins()
+            .withInterval(-1)
+            .create();
+
+        Assert.assertNotNull(sqlSyncGroup);
+
+        sqlSyncGroup.update()
+            .withInterval(600)
+            .withConflictResolutionPolicyMemberWins()
+            .apply();
+
+        Assert.assertFalse(sqlServerManager.sqlServers().syncGroups().listSyncDatabaseIds(Region.US_WEST2).isEmpty());
+        Assert.assertFalse(dbSync.syncGroups().list().isEmpty());
+
+        sqlSyncGroup = sqlServerManager.sqlServers().syncGroups().getBySqlServer(rgName, sqlServerName, dbSyncName, syncGroupName);
+        Assert.assertNotNull(sqlSyncGroup);
+
+        sqlSyncGroup.delete();
+
+    }
 
     @Test
     public void canCopySqlDatabase() throws Exception {

@@ -7,6 +7,7 @@ package com.microsoft.azure.management.sql;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
@@ -101,6 +102,7 @@ public interface SqlEncryptionProtector
              *
              * @return The next stage of the definition.
              */
+            @Method
             SqlEncryptionProtector.Update withServiceManagedServerKey();
         }
     }

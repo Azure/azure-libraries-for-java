@@ -80,6 +80,12 @@ public interface SqlServers extends
     SqlEncryptionProtectorOperations encryptionProtectors();
 
     /**
+     * @return the SQL Sync Group entry point
+     */
+    @Beta(Beta.SinceVersion.V1_8_0)
+    SqlSyncGroupOperations syncGroups();
+
+    /**
      * @return the SQL Server Elastic Pools API entry point
      */
     @Beta(Beta.SinceVersion.V1_7_0)

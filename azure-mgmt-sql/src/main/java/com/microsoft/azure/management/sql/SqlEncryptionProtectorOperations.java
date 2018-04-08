@@ -114,6 +114,7 @@ public interface SqlEncryptionProtectorOperations {
          *
          * @return an immutable representation of the resource
          */
+        @Method
         SqlEncryptionProtector get();
 
         /**
@@ -121,6 +122,7 @@ public interface SqlEncryptionProtectorOperations {
          *
          * @return a representation of the deferred computation of this call returning the found resource
          */
+        @Method
         Observable<SqlEncryptionProtector> getAsync();
 
         /**

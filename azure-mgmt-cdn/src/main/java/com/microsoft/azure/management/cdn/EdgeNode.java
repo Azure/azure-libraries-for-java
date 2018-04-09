@@ -11,7 +11,6 @@ import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
 import com.microsoft.azure.management.cdn.implementation.EdgeNodeInner;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Provides information about edge node of CDN service.
@@ -58,25 +57,6 @@ public class EdgeNode {
     @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     public String type() {
         return this.inner.type();
-    }
-
-    /**
-     * Edge node location string.
-     *
-     * @return the resource location string
-     */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
-    public String location() {
-        return this.inner.location();
-    }
-
-    /**
-     * Edge node tags.
-     *
-     * @return the tags of edge node
-     */
-    public Map<String, String> getTags() {
-        return this.inner.getTags();
     }
 
     /**

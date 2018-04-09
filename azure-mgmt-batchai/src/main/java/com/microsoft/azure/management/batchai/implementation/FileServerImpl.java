@@ -6,23 +6,23 @@
 package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.FileServer;
 import com.microsoft.azure.management.batchai.FileServerReference;
 import com.microsoft.azure.management.batchai.ResourceId;
+import com.microsoft.azure.management.batchai.model.HasMountVolumes;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 /**
  * Represents file server reference.
  */
 @LangDefinition
-class FileServerImpl extends IndexableWrapperImpl<FileServerReference>
+class FileServerImpl<ParentT> extends IndexableWrapperImpl<FileServerReference>
         implements
         FileServer,
-        FileServer.Definition<BatchAICluster.DefinitionStages.WithCreate> {
-    private BatchAIClusterImpl parent;
+        FileServer.Definition<ParentT> {
+    private HasMountVolumes parent;
 
-    FileServerImpl(FileServerReference inner, BatchAIClusterImpl parent) {
+    FileServerImpl(FileServerReference inner, HasMountVolumes parent) {
         super(inner);
         this.parent = parent;
     }
@@ -34,14 +34,9 @@ class FileServerImpl extends IndexableWrapperImpl<FileServerReference>
     }
 
     @Override
-    public BatchAICluster parent() {
-        return parent;
-    }
-
-    @Override
-    public BatchAICluster.DefinitionStages.WithCreate attach() {
+    public ParentT attach() {
         this.parent.attachFileServer(this);
-        return parent;
+        return (ParentT) parent;
     }
 
     @Override
@@ -57,7 +52,7 @@ class FileServerImpl extends IndexableWrapperImpl<FileServerReference>
     }
 
     @Override
-    public DefinitionStages.WithAttach<BatchAICluster.DefinitionStages.WithCreate> withSourceDirectory(String sourceDirectory) {
+    public DefinitionStages.WithAttach<ParentT> withSourceDirectory(String sourceDirectory) {
         inner().withSourceDirectory(sourceDirectory);
         return this;
     }

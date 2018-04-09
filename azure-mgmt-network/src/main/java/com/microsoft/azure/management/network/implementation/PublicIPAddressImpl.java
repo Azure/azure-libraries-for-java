@@ -111,7 +111,7 @@ class PublicIPAddressImpl
 
     @Override
     public PublicIPAddressImpl withReverseFqdn(String reverseFqdn) {
-        this.inner().dnsSettings().withReverseFqdn(reverseFqdn.toLowerCase());
+        this.inner().dnsSettings().withReverseFqdn(reverseFqdn != null ? reverseFqdn.toLowerCase() : null);
         return this;
     }
 

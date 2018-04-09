@@ -8,58 +8,40 @@
 
 package com.microsoft.azure.management.cdn;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ProfileResourceState.
  */
-public final class ProfileResourceState {
+public final class ProfileResourceState extends ExpandableStringEnum<ProfileResourceState> {
     /** Static value Creating for ProfileResourceState. */
-    public static final ProfileResourceState CREATING = new ProfileResourceState("Creating");
+    public static final ProfileResourceState CREATING = fromString("Creating");
 
     /** Static value Active for ProfileResourceState. */
-    public static final ProfileResourceState ACTIVE = new ProfileResourceState("Active");
+    public static final ProfileResourceState ACTIVE = fromString("Active");
 
     /** Static value Deleting for ProfileResourceState. */
-    public static final ProfileResourceState DELETING = new ProfileResourceState("Deleting");
+    public static final ProfileResourceState DELETING = fromString("Deleting");
 
     /** Static value Disabled for ProfileResourceState. */
-    public static final ProfileResourceState DISABLED = new ProfileResourceState("Disabled");
-
-    private String value;
+    public static final ProfileResourceState DISABLED = fromString("Disabled");
 
     /**
-     * Creates a custom value for ProfileResourceState.
-     * @param value the custom value
+     * Creates or finds a ProfileResourceState from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ProfileResourceState
      */
-    public ProfileResourceState(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ProfileResourceState fromString(String name) {
+        return fromString(name, ProfileResourceState.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ProfileResourceState)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ProfileResourceState rhs = (ProfileResourceState) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ProfileResourceState values
+     */
+    public static Collection<ProfileResourceState> values() {
+        return values(ProfileResourceState.class);
     }
 }

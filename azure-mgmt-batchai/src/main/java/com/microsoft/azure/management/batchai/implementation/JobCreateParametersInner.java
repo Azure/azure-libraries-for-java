@@ -10,8 +10,10 @@ package com.microsoft.azure.management.batchai.implementation;
 
 import java.util.Map;
 import com.microsoft.azure.management.batchai.ResourceId;
+import com.microsoft.azure.management.batchai.MountVolumes;
 import com.microsoft.azure.management.batchai.ContainerSettings;
 import com.microsoft.azure.management.batchai.CNTKsettings;
+import com.microsoft.azure.management.batchai.PyTorchSettings;
 import com.microsoft.azure.management.batchai.TensorFlowSettings;
 import com.microsoft.azure.management.batchai.CaffeSettings;
 import com.microsoft.azure.management.batchai.Caffe2Settings;
@@ -21,7 +23,8 @@ import com.microsoft.azure.management.batchai.JobPreparation;
 import java.util.List;
 import com.microsoft.azure.management.batchai.InputDirectory;
 import com.microsoft.azure.management.batchai.OutputDirectory;
-import com.microsoft.azure.management.batchai.EnvironmentSetting;
+import com.microsoft.azure.management.batchai.EnvironmentVariable;
+import com.microsoft.azure.management.batchai.EnvironmentVariableWithSecretValue;
 import com.microsoft.azure.management.batchai.JobBasePropertiesConstraints;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -65,6 +68,15 @@ public class JobCreateParametersInner {
     private ResourceId cluster;
 
     /**
+     * Information on mount volumes to be used by the job.
+     * These volumes will be mounted before the job execution and will be
+     * unmouted after the job completion. The volumes will be mounted at
+     * location specified by $AZ_BATCHAI_JOB_MOUNT_ROOT environment variable.
+     */
+    @JsonProperty(value = "properties.mountVolumes")
+    private MountVolumes mountVolumes;
+
+    /**
      * Number of compute nodes to run the job on.
      * The job will be gang scheduled on that many compute nodes.
      */
@@ -85,6 +97,12 @@ public class JobCreateParametersInner {
      */
     @JsonProperty(value = "properties.cntkSettings")
     private CNTKsettings cntkSettings;
+
+    /**
+     * Specifies the settings for pyTorch job.
+     */
+    @JsonProperty(value = "properties.pyTorchSettings")
+    private PyTorchSettings pyTorchSettings;
 
     /**
      * Specifies the settings for Tensor Flow job.
@@ -138,22 +156,25 @@ public class JobCreateParametersInner {
     private List<InputDirectory> inputDirectories;
 
     /**
-     * Specifies the list of output directories where the models will be
-     * created. .
+     * Specifies the list of output directories.
      */
     @JsonProperty(value = "properties.outputDirectories")
     private List<OutputDirectory> outputDirectories;
 
     /**
      * Additional environment variables to set on the job.
-     * Batch AI service sets the following environment variables for all jobs:
-     * AZ_BATCHAI_INPUT_id, AZ_BATCHAI_OUTPUT_id, AZ_BATCHAI_NUM_GPUS_PER_NODE.
-     * For distributed TensorFlow jobs, following additional environment
-     * variables are set by the Batch AI Service: AZ_BATCHAI_PS_HOSTS,
-     * AZ_BATCHAI_WORKER_HOSTS.
+     * Batch AI will setup these additional environment variables for the job.
      */
     @JsonProperty(value = "properties.environmentVariables")
-    private List<EnvironmentSetting> environmentVariables;
+    private List<EnvironmentVariable> environmentVariables;
+
+    /**
+     * Additional environment variables with secret values to set on the job.
+     * Batch AI will setup these additional environment variables for the job.
+     * Server will never report values of these variables back.
+     */
+    @JsonProperty(value = "properties.secrets")
+    private List<EnvironmentVariableWithSecretValue> secrets;
 
     /**
      * Constraints associated with the Job.
@@ -262,6 +283,26 @@ public class JobCreateParametersInner {
     }
 
     /**
+     * Get the mountVolumes value.
+     *
+     * @return the mountVolumes value
+     */
+    public MountVolumes mountVolumes() {
+        return this.mountVolumes;
+    }
+
+    /**
+     * Set the mountVolumes value.
+     *
+     * @param mountVolumes the mountVolumes value to set
+     * @return the JobCreateParametersInner object itself.
+     */
+    public JobCreateParametersInner withMountVolumes(MountVolumes mountVolumes) {
+        this.mountVolumes = mountVolumes;
+        return this;
+    }
+
+    /**
      * Get the nodeCount value.
      *
      * @return the nodeCount value
@@ -318,6 +359,26 @@ public class JobCreateParametersInner {
      */
     public JobCreateParametersInner withCntkSettings(CNTKsettings cntkSettings) {
         this.cntkSettings = cntkSettings;
+        return this;
+    }
+
+    /**
+     * Get the pyTorchSettings value.
+     *
+     * @return the pyTorchSettings value
+     */
+    public PyTorchSettings pyTorchSettings() {
+        return this.pyTorchSettings;
+    }
+
+    /**
+     * Set the pyTorchSettings value.
+     *
+     * @param pyTorchSettings the pyTorchSettings value to set
+     * @return the JobCreateParametersInner object itself.
+     */
+    public JobCreateParametersInner withPyTorchSettings(PyTorchSettings pyTorchSettings) {
+        this.pyTorchSettings = pyTorchSettings;
         return this;
     }
 
@@ -506,7 +567,7 @@ public class JobCreateParametersInner {
      *
      * @return the environmentVariables value
      */
-    public List<EnvironmentSetting> environmentVariables() {
+    public List<EnvironmentVariable> environmentVariables() {
         return this.environmentVariables;
     }
 
@@ -516,8 +577,28 @@ public class JobCreateParametersInner {
      * @param environmentVariables the environmentVariables value to set
      * @return the JobCreateParametersInner object itself.
      */
-    public JobCreateParametersInner withEnvironmentVariables(List<EnvironmentSetting> environmentVariables) {
+    public JobCreateParametersInner withEnvironmentVariables(List<EnvironmentVariable> environmentVariables) {
         this.environmentVariables = environmentVariables;
+        return this;
+    }
+
+    /**
+     * Get the secrets value.
+     *
+     * @return the secrets value
+     */
+    public List<EnvironmentVariableWithSecretValue> secrets() {
+        return this.secrets;
+    }
+
+    /**
+     * Set the secrets value.
+     *
+     * @param secrets the secrets value to set
+     * @return the JobCreateParametersInner object itself.
+     */
+    public JobCreateParametersInner withSecrets(List<EnvironmentVariableWithSecretValue> secrets) {
+        this.secrets = secrets;
         return this;
     }
 

@@ -141,11 +141,11 @@ public final class TestCdnCrud {
                         .withNewPremiumEndpoint("xplattestvmss1sto0575014.blob.core.windows.net")
                         .defineNewPremiumEndpoint("supermuperep3")
                             .withPremiumOrigin("xplattestvmss1sto0575014.blob.core.windows.net")
-                        .attach()
+                            .attach()
                         .updatePremiumEndpoint(cdnPremiumEndpointName)
                             .withHttpsAllowed(true)
                             .withHttpsPort(1111)
-                        .parent()
+                            .parent()
                         .withoutEndpoint("supermuperep1")
                 .apply();
 

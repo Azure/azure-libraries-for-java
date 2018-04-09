@@ -8,55 +8,37 @@
 
 package com.microsoft.azure.management.cdn;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for CustomDomainResourceState.
  */
-public final class CustomDomainResourceState {
+public final class CustomDomainResourceState extends ExpandableStringEnum<CustomDomainResourceState> {
     /** Static value Creating for CustomDomainResourceState. */
-    public static final CustomDomainResourceState CREATING = new CustomDomainResourceState("Creating");
+    public static final CustomDomainResourceState CREATING = fromString("Creating");
 
     /** Static value Active for CustomDomainResourceState. */
-    public static final CustomDomainResourceState ACTIVE = new CustomDomainResourceState("Active");
+    public static final CustomDomainResourceState ACTIVE = fromString("Active");
 
     /** Static value Deleting for CustomDomainResourceState. */
-    public static final CustomDomainResourceState DELETING = new CustomDomainResourceState("Deleting");
-
-    private String value;
+    public static final CustomDomainResourceState DELETING = fromString("Deleting");
 
     /**
-     * Creates a custom value for CustomDomainResourceState.
-     * @param value the custom value
+     * Creates or finds a CustomDomainResourceState from its string representation.
+     * @param name a name to look for
+     * @return the corresponding CustomDomainResourceState
      */
-    public CustomDomainResourceState(String value) {
-        this.value = value;
+    @JsonCreator
+    public static CustomDomainResourceState fromString(String name) {
+        return fromString(name, CustomDomainResourceState.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof CustomDomainResourceState)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        CustomDomainResourceState rhs = (CustomDomainResourceState) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known CustomDomainResourceState values
+     */
+    public static Collection<CustomDomainResourceState> values() {
+        return values(CustomDomainResourceState.class);
     }
 }

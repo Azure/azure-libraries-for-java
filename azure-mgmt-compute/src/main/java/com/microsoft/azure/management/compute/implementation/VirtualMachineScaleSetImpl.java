@@ -26,6 +26,7 @@ import com.microsoft.azure.management.compute.StorageAccountTypes;
 import com.microsoft.azure.management.compute.UpgradeMode;
 import com.microsoft.azure.management.compute.UpgradePolicy;
 import com.microsoft.azure.management.compute.VirtualHardDisk;
+import com.microsoft.azure.management.compute.VirtualMachinePriorityTypes;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetExtension;
@@ -114,8 +115,6 @@ public class VirtualMachineScaleSetImpl
     // reference to an existing storage account to be used for virtual machines child resources that
     // requires storage [OS disk]
     private List<StorageAccount> existingStorageAccountsToAssociate = new ArrayList<>();
-    // Name of the container in the storage account to use to store the disks
-    private String vhdContainerName;
     // the child resource extensions
     private Map<String, VirtualMachineScaleSetExtension> extensions;
     // reference to the primary and internal Internet facing load balancer
@@ -400,6 +399,15 @@ public class VirtualMachineScaleSetImpl
     @Override
     public Map<String, VirtualMachineScaleSetExtension> extensions() {
         return Collections.unmodifiableMap(this.extensions);
+    }
+
+    @Override
+    public VirtualMachinePriorityTypes virtualMachinePriority() {
+        if (this.inner().virtualMachineProfile() != null) {
+            return this.inner().virtualMachineProfile().priority();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -1529,12 +1537,10 @@ public class VirtualMachineScaleSetImpl
             return;
         }
 
-        String containerName = this.vhdContainerName;
-        if (containerName == null) {
-            for (String containerUrl : storageProfile.osDisk().vhdContainers()) {
-                containerName = containerUrl.substring(containerUrl.lastIndexOf("/") + 1);
-                break;
-            }
+        String containerName = null;
+        for (String containerUrl : storageProfile.osDisk().vhdContainers()) {
+            containerName = containerUrl.substring(containerUrl.lastIndexOf("/") + 1);
+            break;
         }
 
         if (containerName == null) {
@@ -1559,7 +1565,6 @@ public class VirtualMachineScaleSetImpl
                     .vhdContainers()
                     .add(mergePath(storageAccount.endPoints().primary().blob(), containerName));
         }
-        this.vhdContainerName = null;
         this.creatableStorageAccountKeys.clear();
         this.existingStorageAccountsToAssociate.clear();
     }
@@ -2151,6 +2156,12 @@ public class VirtualMachineScaleSetImpl
     @Override
     public VirtualMachineScaleSetImpl withoutBootDiagnostics() {
         this.bootDiagnosticsHandler.withoutBootDiagnostics();
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withVirtualMachinePriority(VirtualMachinePriorityTypes priority) {
+        this.inner().virtualMachineProfile().withPriority(priority);
         return this;
     }
 

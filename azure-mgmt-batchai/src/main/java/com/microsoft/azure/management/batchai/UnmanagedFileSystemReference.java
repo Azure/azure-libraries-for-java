@@ -23,8 +23,9 @@ public class UnmanagedFileSystemReference {
     /**
      * Specifies the relative path on the compute cluster node where the file
      * system will be mounted.
-     * Note that all file shares will be mounted under $AZ_BATCHAI_MOUNT_ROOT
-     * location.
+     * Note that all cluster level unmanaged file system will be mounted under
+     * $AZ_BATCHAI_MOUNT_ROOT location and job level unmanaged file system will
+     * be mounted under $AZ_BATCHAI_JOB_MOUNT_ROOT.
      */
     @JsonProperty(value = "relativeMountPath", required = true)
     private String relativeMountPath;

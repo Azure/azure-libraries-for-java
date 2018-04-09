@@ -355,10 +355,9 @@ class ActionGroupImpl
 
     @Override
     public ActionGroupImpl withAzureFunction(String functionAppResourceId, String functionName, String httpTriggerUrl) {
+        this.withoutAzureFunction();
         String compositeKey = this.actionReceiverPrefix + functionSuffix;
-        if (this.functionReceivers.containsKey(compositeKey)) {
-            this.functionReceivers.remove(compositeKey);
-        }
+
         AzureFunctionReceiver afr = new AzureFunctionReceiver();
         afr.withName(compositeKey);
         afr.withFunctionAppResourceId(functionAppResourceId);

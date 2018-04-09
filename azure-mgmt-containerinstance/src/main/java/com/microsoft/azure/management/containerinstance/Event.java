@@ -18,37 +18,37 @@ public class Event {
     /**
      * The count of the event.
      */
-    @JsonProperty(value = "count")
+    @JsonProperty(value = "count", access = JsonProperty.Access.WRITE_ONLY)
     private Integer count;
 
     /**
      * The date-time of the earliest logged event.
      */
-    @JsonProperty(value = "firstTimestamp")
+    @JsonProperty(value = "firstTimestamp", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime firstTimestamp;
 
     /**
      * The date-time of the latest logged event.
      */
-    @JsonProperty(value = "lastTimestamp")
+    @JsonProperty(value = "lastTimestamp", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime lastTimestamp;
 
     /**
      * The event name.
      */
-    @JsonProperty(value = "name")
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
      * The event message.
      */
-    @JsonProperty(value = "message")
+    @JsonProperty(value = "message", access = JsonProperty.Access.WRITE_ONLY)
     private String message;
 
     /**
      * The event type.
      */
-    @JsonProperty(value = "type")
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
     /**
@@ -61,34 +61,12 @@ public class Event {
     }
 
     /**
-     * Set the count value.
-     *
-     * @param count the count value to set
-     * @return the Event object itself.
-     */
-    public Event withCount(Integer count) {
-        this.count = count;
-        return this;
-    }
-
-    /**
      * Get the firstTimestamp value.
      *
      * @return the firstTimestamp value
      */
     public DateTime firstTimestamp() {
         return this.firstTimestamp;
-    }
-
-    /**
-     * Set the firstTimestamp value.
-     *
-     * @param firstTimestamp the firstTimestamp value to set
-     * @return the Event object itself.
-     */
-    public Event withFirstTimestamp(DateTime firstTimestamp) {
-        this.firstTimestamp = firstTimestamp;
-        return this;
     }
 
     /**
@@ -101,34 +79,12 @@ public class Event {
     }
 
     /**
-     * Set the lastTimestamp value.
-     *
-     * @param lastTimestamp the lastTimestamp value to set
-     * @return the Event object itself.
-     */
-    public Event withLastTimestamp(DateTime lastTimestamp) {
-        this.lastTimestamp = lastTimestamp;
-        return this;
-    }
-
-    /**
      * Get the name value.
      *
      * @return the name value
      */
     public String name() {
         return this.name;
-    }
-
-    /**
-     * Set the name value.
-     *
-     * @param name the name value to set
-     * @return the Event object itself.
-     */
-    public Event withName(String name) {
-        this.name = name;
-        return this;
     }
 
     /**
@@ -141,34 +97,12 @@ public class Event {
     }
 
     /**
-     * Set the message value.
-     *
-     * @param message the message value to set
-     * @return the Event object itself.
-     */
-    public Event withMessage(String message) {
-        this.message = message;
-        return this;
-    }
-
-    /**
      * Get the type value.
      *
      * @return the type value
      */
     public String type() {
         return this.type;
-    }
-
-    /**
-     * Set the type value.
-     *
-     * @param type the type value to set
-     * @return the Event object itself.
-     */
-    public Event withType(String type) {
-        this.type = type;
-        return this;
     }
 
 }

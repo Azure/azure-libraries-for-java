@@ -17,20 +17,20 @@ public class Operation {
     /**
      * The name of the operation.
      */
-    @JsonProperty(value = "name", required = true)
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
      * The display information of the operation.
      */
-    @JsonProperty(value = "display", required = true)
+    @JsonProperty(value = "display")
     private OperationDisplay display;
 
     /**
      * The intended executor of the operation. Possible values include: 'User',
      * 'System'.
      */
-    @JsonProperty(value = "origin")
+    @JsonProperty(value = "origin", access = JsonProperty.Access.WRITE_ONLY)
     private ContainerInstanceOperationsOrigin origin;
 
     /**
@@ -40,17 +40,6 @@ public class Operation {
      */
     public String name() {
         return this.name;
-    }
-
-    /**
-     * Set the name value.
-     *
-     * @param name the name value to set
-     * @return the Operation object itself.
-     */
-    public Operation withName(String name) {
-        this.name = name;
-        return this;
     }
 
     /**
@@ -80,17 +69,6 @@ public class Operation {
      */
     public ContainerInstanceOperationsOrigin origin() {
         return this.origin;
-    }
-
-    /**
-     * Set the origin value.
-     *
-     * @param origin the origin value to set
-     * @return the Operation object itself.
-     */
-    public Operation withOrigin(ContainerInstanceOperationsOrigin origin) {
-        this.origin = origin;
-        return this;
     }
 
 }

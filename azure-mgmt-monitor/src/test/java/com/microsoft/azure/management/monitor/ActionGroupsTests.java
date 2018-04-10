@@ -39,7 +39,6 @@ public class ActionGroupsTests extends MonitorManagementTest {
 
         ActionGroup ag = monitorManager.actionGroups().define("simpleActionGroup")
                 .withNewResourceGroup(RG_NAME, Region.AUSTRALIA_SOUTHEAST)
-                .withShortName("SuperAction")
                 .defineReceiver("first")
                     .withAzureAppPush("azurepush@outlook.com")
                     .withEmail("justemail@outlook.com")
@@ -53,7 +52,7 @@ public class ActionGroupsTests extends MonitorManagementTest {
                     .attach()
                 .create();
         Assert.assertNotNull(ag);
-        Assert.assertEquals("SuperAction", ag.shortName());
+        Assert.assertEquals("simpleAction", ag.shortName());
         Assert.assertNotNull(ag.azureAppPushReceivers());
         Assert.assertEquals(1, ag.azureAppPushReceivers().size());
         Assert.assertNotNull(ag.smsReceivers());
@@ -83,7 +82,7 @@ public class ActionGroupsTests extends MonitorManagementTest {
         Assert.assertEquals(0, ag.smsReceivers().size());
 
         ActionGroup agGet = monitorManager.actionGroups().getById(ag.id());
-        Assert.assertEquals("SuperAction", agGet.shortName());
+        Assert.assertEquals("simpleAction", agGet.shortName());
         Assert.assertEquals(2, agGet.webhookReceivers().size());
         Assert.assertEquals(1, agGet.emailReceivers().size());
         Assert.assertEquals(0, agGet.smsReceivers().size());

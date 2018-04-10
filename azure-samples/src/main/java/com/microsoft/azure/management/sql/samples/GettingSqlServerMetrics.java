@@ -16,12 +16,13 @@ import com.microsoft.azure.management.monitor.MetricDefinition;
 import com.microsoft.azure.management.monitor.MetricValue;
 import com.microsoft.azure.management.monitor.TimeSeriesElement;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.azure.management.sql.SampleName;
 import com.microsoft.azure.management.sql.SqlDatabase;
 import com.microsoft.azure.management.sql.SqlDatabaseMetric;
-import com.microsoft.azure.management.sql.SqlDatabaseStandardServiceObjective;
 import com.microsoft.azure.management.sql.SqlDatabaseUsageMetric;
+import com.microsoft.azure.management.sql.SqlElasticPool;
 import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.sql.SqlSubscriptionUsageMetric;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
@@ -42,7 +43,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Azure SQL sample for getting SQL Server and Databases metrics
- *  - Create a primary SQL Server with a sample database and a secondary SQL Server.
+ *  - Create a primary SQL Server with a sample database.
  *  - Run some queries on the sample database.
  *  - Create a new table and insert some values into the database.
  *  - List the SQL subscription usage metrics, the database usage metrics and the other database metrics
@@ -58,6 +59,7 @@ public class GettingSqlServerMetrics {
     public static boolean runSample(Azure azure) {
         final String sqlServerName = Utils.createRandomName("sqltest");
         final String dbName = "dbSample";
+        final String epName = "epSample";
         final String rgName = Utils.createRandomName("rgsql");
         final String administratorLogin = "sqladmin3423";
         final String administratorPassword = "myS3curePwd";
@@ -79,9 +81,12 @@ public class GettingSqlServerMetrics {
                 .defineFirewallRule("allowAll")
                     .withIPAddressRange("0.0.0.1", "255.255.255.255")
                     .attach()
+                .defineElasticPool(epName)
+                    .withStandardPool()
+                    .attach()
                 .defineDatabase(dbName)
+                    .withExistingElasticPool(epName)
                     .fromSample(SampleName.ADVENTURE_WORKS_LT)
-                    .withStandardEdition(SqlDatabaseStandardServiceObjective.S0)
                     .attach()
                 .create();
 
@@ -160,10 +165,13 @@ public class GettingSqlServerMetrics {
             // Close the connection to the "test" database
             connection.close();
 
+            SdkContext.sleep(6 * 60 * 1000);
+
 
             // ============================================================
             // List the SQL subscription usage metrics for the current selected region.
             System.out.println("Listing the SQL subscription usage metrics for the current selected region");
+
 
             List<SqlSubscriptionUsageMetric> subscriptionUsageMetrics = azure.sqlServers().listUsageByRegion(Region.US_EAST);
             for (SqlSubscriptionUsageMetric usageMetric : subscriptionUsageMetrics) {
@@ -210,24 +218,28 @@ public class GettingSqlServerMetrics {
             // ============================================================
             // Use Monitor Service to list the SQL server metrics.
             System.out.println("Using Monitor Service to list the SQL server metrics");
+            List<MetricDefinition> metricDefinitions = azure.metricDefinitions().listByResource(sqlServer.id());
 
-            for (MetricDefinition metricDefinition : azure.metricDefinitions().listByResource(sqlServer.id())) {
-                // find metric definition for Transactions
-                if (metricDefinition.name().localizedValue().equalsIgnoreCase("transactions")) {
+            SqlElasticPool ep = sqlServer.elasticPools().get(epName);
+
+            for (MetricDefinition metricDefinition : metricDefinitions) {
+                // find metric definition for "DTU used" and "Storage used"
+                if (metricDefinition.name().localizedValue().equalsIgnoreCase("dtu used")
+                    || metricDefinition.name().localizedValue().equalsIgnoreCase("storage used")) {
                     // get metric records
                     MetricCollection metricCollection = metricDefinition.defineQuery()
                         .startingFrom(startTime)
                         .endsBefore(endTime)
                         .withAggregation("Average")
                         .withInterval(Period.minutes(5))
-                        .withOdataFilter("responseType eq 'Success'")
+                        .withOdataFilter(String.format("ElasticPoolResourceId eq '%s'", ep.id()))
                         .execute();
 
-                    System.out.println("Metrics for '" + sqlServer.id() + "':");
-                    System.out.println("Namespacse: " + metricCollection.namespace());
-                    System.out.println("Query time: " + metricCollection.timespan());
-                    System.out.println("Time Grain: " + metricCollection.interval());
-                    System.out.println("Cost: " + metricCollection.cost());
+                    System.out.format("SQL server \"%s\" %s metrics\n", sqlServer.name(), metricDefinition.name().localizedValue());
+                    System.out.println("\tNamespace: " + metricCollection.namespace());
+                    System.out.println("\tQuery time: " + metricCollection.timespan());
+                    System.out.println("\tTime Grain: " + metricCollection.interval());
+                    System.out.println("\tCost: " + metricCollection.cost());
 
                     for (Metric metric : metricCollection.metrics()) {
                         System.out.println("\tMetric: " + metric.name().localizedValue());
@@ -257,21 +269,21 @@ public class GettingSqlServerMetrics {
             // ============================================================
             // Use Monitor Service to list the SQL Database metrics.
             System.out.println("Using Monitor Service to list the SQL Database metrics");
+            metricDefinitions = azure.metricDefinitions().listByResource(db.id());
 
-            for (MetricDefinition metricDefinition : azure.metricDefinitions().listByResource(db.id())) {
+            for (MetricDefinition metricDefinition : metricDefinitions) {
                 // find metric definition for Transactions
-                if (metricDefinition.name().localizedValue().equalsIgnoreCase("transactions")) {
+                if (metricDefinition.name().localizedValue().equalsIgnoreCase("dtu used")
+                    || metricDefinition.name().localizedValue().equalsIgnoreCase("cpu used")
+                    || metricDefinition.name().localizedValue().equalsIgnoreCase("storage used")) {
                     // get metric records
                     MetricCollection metricCollection = metricDefinition.defineQuery()
                         .startingFrom(startTime)
                         .endsBefore(endTime)
-                        .withAggregation("Average")
-                        .withInterval(Period.minutes(5))
-                        .withOdataFilter("responseType eq 'Success'")
                         .execute();
 
                     System.out.println("Metrics for '" + db.id() + "':");
-                    System.out.println("Namespacse: " + metricCollection.namespace());
+                    System.out.println("Namespace: " + metricCollection.namespace());
                     System.out.println("Query time: " + metricCollection.timespan());
                     System.out.println("Time Grain: " + metricCollection.interval());
                     System.out.println("Cost: " + metricCollection.cost());

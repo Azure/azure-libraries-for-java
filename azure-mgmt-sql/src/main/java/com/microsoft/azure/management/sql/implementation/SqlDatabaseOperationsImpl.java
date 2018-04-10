@@ -194,8 +194,20 @@ public class SqlDatabaseOperationsImpl
     }
 
     @Override
-    public Observable<SqlDatabase> listBySqlServerAsync(SqlServer sqlServer) {
-        return null;
+    public Observable<SqlDatabase> listBySqlServerAsync(final SqlServer sqlServer) {
+        return sqlServer.manager().inner().databases().listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
+            .flatMap(new Func1<List<DatabaseInner>, Observable<DatabaseInner>>() {
+                @Override
+                public Observable<DatabaseInner> call(List<DatabaseInner> databaseInners) {
+                    return Observable.from(databaseInners);
+                }
+            })
+            .map(new Func1<DatabaseInner, SqlDatabase>() {
+                @Override
+                public SqlDatabase call(DatabaseInner inner) {
+                    return new SqlDatabaseImpl(inner.name(), (SqlServerImpl) sqlServer, inner, sqlServer.manager());
+                }
+            });
     }
 
     @Override

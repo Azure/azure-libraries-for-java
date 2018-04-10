@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.monitor.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.monitor.CategoryType;
 import com.microsoft.azure.management.monitor.DiagnosticSettingsCategory;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
@@ -13,6 +14,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
 /**
  * The Azure {@link DiagnosticSettingsCategory} wrapper class implementation.
  */
+@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 class DiagnosticSettingsCategoryImpl
         extends WrapperImpl<DiagnosticSettingsCategoryResourceInner> implements DiagnosticSettingsCategory {
 

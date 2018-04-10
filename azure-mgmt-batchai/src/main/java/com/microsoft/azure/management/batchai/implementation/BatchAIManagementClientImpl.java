@@ -146,6 +146,19 @@ public class BatchAIManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The UsagesInner object to access its operations.
+     */
+    private UsagesInner usages;
+
+    /**
+     * Gets the UsagesInner object to access its operations.
+     * @return the UsagesInner object.
+     */
+    public UsagesInner usages() {
+        return this.usages;
+    }
+
+    /**
      * The ClustersInner object to access its operations.
      */
     private ClustersInner clusters;
@@ -215,11 +228,12 @@ public class BatchAIManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2017-09-01-preview";
+        this.apiVersion = "2018-03-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
         this.operations = new OperationsInner(restClient().retrofit(), this);
+        this.usages = new UsagesInner(restClient().retrofit(), this);
         this.clusters = new ClustersInner(restClient().retrofit(), this);
         this.jobs = new JobsInner(restClient().retrofit(), this);
         this.fileServers = new FileServersInner(restClient().retrofit(), this);
@@ -233,6 +247,6 @@ public class BatchAIManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "BatchAIManagementClient", "2017-09-01-preview");
+        return String.format("%s (%s, %s)", super.userAgent(), "BatchAIManagementClient", "2018-03-01");
     }
 }

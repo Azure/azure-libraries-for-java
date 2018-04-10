@@ -15,10 +15,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The connection strings for the given database account.
  */
-public class DatabaseAccountListConnectionStringsResult {
+public class DatabaseAccountListConnectionStringsResultInner {
     /**
-     * An array that contains the connection strings for the DocumentDB
-     * account.
+     * An array that contains the connection strings for the Cosmos DB account.
      */
     @JsonProperty(value = "connectionStrings")
     private List<DatabaseAccountConnectionString> connectionStrings;
@@ -36,9 +35,9 @@ public class DatabaseAccountListConnectionStringsResult {
      * Set the connectionStrings value.
      *
      * @param connectionStrings the connectionStrings value to set
-     * @return the DatabaseAccountListConnectionStringsResult object itself.
+     * @return the DatabaseAccountListConnectionStringsResultInner object itself.
      */
-    public DatabaseAccountListConnectionStringsResult withConnectionStrings(List<DatabaseAccountConnectionString> connectionStrings) {
+    public DatabaseAccountListConnectionStringsResultInner withConnectionStrings(List<DatabaseAccountConnectionString> connectionStrings) {
         this.connectionStrings = connectionStrings;
         return this;
     }

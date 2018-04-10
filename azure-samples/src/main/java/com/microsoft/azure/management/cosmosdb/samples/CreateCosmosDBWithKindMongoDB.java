@@ -6,11 +6,12 @@
 
 package com.microsoft.azure.management.cosmosdb.samples;
 
+import com.microsoft.azure.CloudException;
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
-import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountListConnectionStringsResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListConnectionStringsResult;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.Utils;
@@ -63,7 +64,11 @@ public final class CreateCosmosDBWithKindMongoDB {
             //============================================================
             // Delete CosmosDB
             System.out.println("Deleting the CosmosDB");
-            azure.cosmosDBAccounts().deleteById(cosmosDBAccount.id());
+            // work around CosmosDB service issue returning 404 CloudException on delete operation
+            try {
+                azure.cosmosDBAccounts().deleteById(cosmosDBAccount.id());
+            } catch (CloudException e) {
+            }
             System.out.println("Deleted the CosmosDB");
 
             return true;
@@ -72,7 +77,7 @@ public final class CreateCosmosDBWithKindMongoDB {
         } finally {
             try {
                 System.out.println("Deleting resource group: " + rgName);
-                azure.resourceGroups().deleteByName(rgName);
+                azure.resourceGroups().beginDeleteByName(rgName);
                 System.out.println("Deleted resource group: " + rgName);
             } catch (NullPointerException npe) {
                 System.out.println("Did not create any resources in Azure. No clean up is necessary");

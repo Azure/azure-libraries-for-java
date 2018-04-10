@@ -16,72 +16,12 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * Response to put/get patch schedules for Redis cache.
  */
 @JsonFlatten
-public class RedisPatchScheduleInner {
-    /**
-     * Resource ID.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private String id;
-
-    /**
-     * Resource name.
-     */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
-
-    /**
-     * Resource type.
-     */
-    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
-    private String type;
-
-    /**
-     * Resource location.
-     */
-    @JsonProperty(value = "location", access = JsonProperty.Access.WRITE_ONLY)
-    private String location;
-
+public class RedisPatchScheduleInner extends ProxyResourceInner {
     /**
      * List of patch schedules for a Redis cache.
      */
     @JsonProperty(value = "properties.scheduleEntries", required = true)
     private List<ScheduleEntryInner> scheduleEntries;
-
-    /**
-     * Get the id value.
-     *
-     * @return the id value
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
-     * Get the name value.
-     *
-     * @return the name value
-     */
-    public String name() {
-        return this.name;
-    }
-
-    /**
-     * Get the type value.
-     *
-     * @return the type value
-     */
-    public String type() {
-        return this.type;
-    }
-
-    /**
-     * Get the location value.
-     *
-     * @return the location value
-     */
-    public String location() {
-        return this.location;
-    }
 
     /**
      * Get the scheduleEntries value.

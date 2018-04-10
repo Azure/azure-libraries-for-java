@@ -19,7 +19,7 @@ import org.joda.time.Period;
 import java.io.File;
 
 /**
- * Azure Event Hub sample for managing event hub models.
+ * Stream Azure Service Logs and Metrics for consumption through Event Hub.
  *   - Create a DocumentDB instance
  *   - Creates a Event Hub namespace and an Event Hub in it
  *   - Retrieve the root namespace authorization rule

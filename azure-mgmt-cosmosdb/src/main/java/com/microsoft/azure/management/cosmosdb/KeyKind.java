@@ -8,58 +8,40 @@
 
 package com.microsoft.azure.management.cosmosdb;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for KeyKind.
  */
-public final class KeyKind {
+public final class KeyKind extends ExpandableStringEnum<KeyKind> {
     /** Static value primary for KeyKind. */
-    public static final KeyKind PRIMARY = new KeyKind("primary");
+    public static final KeyKind PRIMARY = fromString("primary");
 
     /** Static value secondary for KeyKind. */
-    public static final KeyKind SECONDARY = new KeyKind("secondary");
+    public static final KeyKind SECONDARY = fromString("secondary");
 
     /** Static value primaryReadonly for KeyKind. */
-    public static final KeyKind PRIMARY_READONLY = new KeyKind("primaryReadonly");
+    public static final KeyKind PRIMARY_READONLY = fromString("primaryReadonly");
 
     /** Static value secondaryReadonly for KeyKind. */
-    public static final KeyKind SECONDARY_READONLY = new KeyKind("secondaryReadonly");
-
-    private String value;
+    public static final KeyKind SECONDARY_READONLY = fromString("secondaryReadonly");
 
     /**
-     * Creates a custom value for KeyKind.
-     * @param value the custom value
+     * Creates or finds a KeyKind from its string representation.
+     * @param name a name to look for
+     * @return the corresponding KeyKind
      */
-    public KeyKind(String value) {
-        this.value = value;
+    @JsonCreator
+    public static KeyKind fromString(String name) {
+        return fromString(name, KeyKind.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof KeyKind)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        KeyKind rhs = (KeyKind) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known KeyKind values
+     */
+    public static Collection<KeyKind> values() {
+        return values(KeyKind.class);
     }
 }

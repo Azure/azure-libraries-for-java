@@ -17,19 +17,19 @@ public class OperationDisplay {
     /**
      * Service provider: Microsoft.Cdn.
      */
-    @JsonProperty(value = "provider")
+    @JsonProperty(value = "provider", access = JsonProperty.Access.WRITE_ONLY)
     private String provider;
 
     /**
      * Resource on which the operation is performed: Profile, endpoint, etc.
      */
-    @JsonProperty(value = "resource")
+    @JsonProperty(value = "resource", access = JsonProperty.Access.WRITE_ONLY)
     private String resource;
 
     /**
      * Operation type: Read, write, delete, etc.
      */
-    @JsonProperty(value = "operation")
+    @JsonProperty(value = "operation", access = JsonProperty.Access.WRITE_ONLY)
     private String operation;
 
     /**
@@ -42,17 +42,6 @@ public class OperationDisplay {
     }
 
     /**
-     * Set the provider value.
-     *
-     * @param provider the provider value to set
-     * @return the OperationDisplay object itself.
-     */
-    public OperationDisplay withProvider(String provider) {
-        this.provider = provider;
-        return this;
-    }
-
-    /**
      * Get the resource value.
      *
      * @return the resource value
@@ -62,34 +51,12 @@ public class OperationDisplay {
     }
 
     /**
-     * Set the resource value.
-     *
-     * @param resource the resource value to set
-     * @return the OperationDisplay object itself.
-     */
-    public OperationDisplay withResource(String resource) {
-        this.resource = resource;
-        return this;
-    }
-
-    /**
      * Get the operation value.
      *
      * @return the operation value
      */
     public String operation() {
         return this.operation;
-    }
-
-    /**
-     * Set the operation value.
-     *
-     * @param operation the operation value to set
-     * @return the OperationDisplay object itself.
-     */
-    public OperationDisplay withOperation(String operation) {
-        this.operation = operation;
-        return this;
     }
 
 }

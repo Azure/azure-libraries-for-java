@@ -32,6 +32,76 @@ public class SqlServerOperationsTests extends SqlServerTest {
     private static final String END_IPADDRESS = "10.102.1.12";
 
     @Test
+    public void canCRUDSqlSyncMember() throws Exception {
+        String rgName = RG_NAME;
+        String sqlServerName = SQL_SERVER_NAME;
+        final String dbName = "dbSample";
+        final String dbSyncName = "dbSync";
+        final String dbMemberName = "dbMember";
+        final String syncGroupName = "groupName";
+        final String syncMemberName = "memberName";
+        final String administratorLogin = "sqladmin";
+        final String administratorPassword = "N0t@P@ssw0rd!";
+
+        // Create
+        SqlServer sqlPrimaryServer = sqlServerManager.sqlServers().define(sqlServerName)
+            .withRegion(Region.US_SOUTH_CENTRAL)
+            .withNewResourceGroup(rgName)
+            .withAdministratorLogin(administratorLogin)
+            .withAdministratorPassword(administratorPassword)
+            .defineDatabase(dbName)
+                .fromSample(SampleName.ADVENTURE_WORKS_LT)
+                .withStandardEdition(SqlDatabaseStandardServiceObjective.S0)
+                .attach()
+            .defineDatabase(dbSyncName)
+                .withStandardEdition(SqlDatabaseStandardServiceObjective.S0)
+                .attach()
+            .defineDatabase(dbMemberName)
+                .withStandardEdition(SqlDatabaseStandardServiceObjective.S0)
+                .attach()
+            .create();
+
+        SqlDatabase dbSource = sqlPrimaryServer.databases().get(dbName);
+        SqlDatabase dbSync = sqlPrimaryServer.databases().get(dbSyncName);
+        SqlDatabase dbMember = sqlPrimaryServer.databases().get(dbMemberName);
+
+        SqlSyncGroup sqlSyncGroup = dbSync.syncGroups().define(syncGroupName)
+            .withSyncDatabaseId(dbSource.id())
+            .withDatabaseUserName(administratorLogin)
+            .withDatabasePassword(administratorPassword)
+            .withConflictResolutionPolicyHubWins()
+            .withInterval(-1)
+            .create();
+        Assert.assertNotNull(sqlSyncGroup);
+
+        SqlSyncMember sqlSyncMember = sqlSyncGroup.syncMembers().define(syncMemberName)
+            .withMemberSqlDatabase(dbMember)
+            .withMemberUserName(administratorLogin)
+            .withMemberPassword(administratorPassword)
+            .withMemberDatabaseType(SyncMemberDbType.AZURE_SQL_DATABASE)
+            .withDatabaseType(SyncDirection.ONE_WAY_MEMBER_TO_HUB)
+            .create();
+        Assert.assertNotNull(sqlSyncMember);
+
+        sqlSyncMember.update()
+            .withDatabaseType(SyncDirection.BIDIRECTIONAL)
+            .withMemberUserName(administratorLogin)
+            .withMemberPassword(administratorPassword)
+            .withMemberDatabaseType(SyncMemberDbType.AZURE_SQL_DATABASE)
+            .apply();
+
+        Assert.assertFalse(sqlSyncGroup.syncMembers().list().isEmpty());
+
+        sqlSyncMember = sqlServerManager.sqlServers().syncMembers().getBySqlServer(rgName, sqlServerName, dbSyncName, syncGroupName, syncMemberName);
+        Assert.assertNotNull(sqlSyncMember);
+
+        sqlSyncMember.delete();
+
+        sqlSyncGroup.delete();
+
+    }
+
+    @Test
     public void canCRUDSqlSyncGroup() throws Exception {
         String rgName = RG_NAME;
         String sqlServerName = SQL_SERVER_NAME;

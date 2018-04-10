@@ -171,7 +171,7 @@ public class SqlSyncMemberOperationsImpl
                 .listBySyncGroup(this.sqlSyncGroup.resourceGroupName(), this.sqlSyncGroup.sqlServerName(), this.sqlSyncGroup.sqlDatabaseName(), this.sqlSyncGroup.name());
             if (syncMemberInners != null) {
                 for (SyncMemberInner syncMemberInner : syncMemberInners) {
-                    new SqlSyncMemberImpl(syncMemberInner.name(), this.sqlSyncGroup, syncMemberInner, this.sqlServerManager);
+                    sqlSyncMembers.add(new SqlSyncMemberImpl(syncMemberInner.name(), this.sqlSyncGroup, syncMemberInner, this.sqlServerManager));
                 }
             }
 

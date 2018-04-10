@@ -149,6 +149,7 @@ public interface SqlSyncGroup
     /**
      * Triggers a sync group synchronization.
      */
+    @Method
     void triggerSynchronization();
 
     /**
@@ -156,11 +157,13 @@ public interface SqlSyncGroup
      *
      * @return a representation of the deferred computation of this call
      */
+    @Method
     Completable triggerSynchronizationAsync();
 
     /**
      * Cancels a sync group synchronization.
      */
+    @Method
     void cancelSynchronization();
 
     /**
@@ -168,7 +171,15 @@ public interface SqlSyncGroup
      *
      * @return a representation of the deferred computation of this call
      */
+    @Method
     Completable cancelSynchronizationAsync();
+
+    /**
+     * @return the SQL Sync Member entry point
+     */
+    @Beta(Beta.SinceVersion.V1_9_0)
+    @Method
+    SqlSyncMemberOperations.SqlSyncMemberActionsDefinition syncMembers();
 
 
 
@@ -261,6 +272,7 @@ public interface SqlSyncGroup
              *
              * @return The next stage of the definition.
              */
+            @Method
             SqlSyncGroup.Update withConflictResolutionPolicyHubWins();
 
             /**
@@ -268,6 +280,7 @@ public interface SqlSyncGroup
              *
              * @return The next stage of the definition.
              */
+            @Method
             SqlSyncGroup.Update withConflictResolutionPolicyMemberWins();
         }
 

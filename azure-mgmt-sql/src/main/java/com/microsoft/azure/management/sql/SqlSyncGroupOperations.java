@@ -5,21 +5,19 @@
  */
 package com.microsoft.azure.management.sql;
 
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.sql.implementation.SyncDatabaseIdPropertiesInner;
 import rx.Observable;
 
 /**
- * A representation of the Azure SQL Server DNS alias operations.
+ * A representation of the Azure SQL Sync Group operations.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
+@Beta(Beta.SinceVersion.V1_9_0)
 public interface SqlSyncGroupOperations extends
     SupportsCreating<SqlSyncGroupOperations.DefinitionStages.WithSqlServer> {
 
@@ -81,6 +79,7 @@ public interface SqlSyncGroupOperations extends
     /**
      * Container interface for all the definitions that need to be implemented.
      */
+    @Beta(Beta.SinceVersion.V1_9_0)
     interface SqlSyncGroupOperationsDefinition extends
         SqlSyncGroupOperations.DefinitionStages.WithSqlServer,
         SqlSyncGroupOperations.DefinitionStages.WithSyncGroupDatabase,
@@ -96,11 +95,12 @@ public interface SqlSyncGroupOperations extends
     /**
      * Grouping of all the SQL Sync Group definition stages.
      */
+    @Beta(Beta.SinceVersion.V1_9_0)
     interface DefinitionStages {
         /**
          * The first stage of the SQL Sync Group definition.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithSqlServer {
             /**
              * Sets the parent SQL server name and resource group it belongs to.
@@ -121,7 +121,7 @@ public interface SqlSyncGroupOperations extends
         }
 
         /**
-         * The SQL Sync Group definition to set the database ID to sync with.
+         * The SQL Sync Group definition to set the parent database name.
          */
         @Beta(Beta.SinceVersion.V1_9_0)
         interface WithSyncGroupDatabase {
@@ -237,6 +237,7 @@ public interface SqlSyncGroupOperations extends
     /**
      * Grouping of the Azure SQL Server Sync Group common actions.
      */
+    @Beta(Beta.SinceVersion.V1_9_0)
     interface SqlSyncGroupActionsDefinition extends SqlChildrenOperations.SqlChildrenActionsDefinition<SqlSyncGroup> {
         /**
          * Begins the definition of a new SQL Sync Group to be added to this server.

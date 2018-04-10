@@ -21,6 +21,7 @@ import com.microsoft.azure.management.sql.SqlServerKeyOperations;
 import com.microsoft.azure.management.sql.SqlServers;
 import com.microsoft.azure.management.sql.SqlSubscriptionUsageMetric;
 import com.microsoft.azure.management.sql.SqlSyncGroupOperations;
+import com.microsoft.azure.management.sql.SqlSyncMemberOperations;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRuleOperations;
 import rx.Observable;
 import rx.functions.Func1;
@@ -52,6 +53,7 @@ class SqlServersImpl
     private SqlServerKeyOperationsImpl serverKeys;
     private SqlEncryptionProtectorOperationsImpl encryptionProtectors;
     private SqlSyncGroupOperationsImpl syncGroups;
+    private SqlSyncMemberOperationsImpl syncMembers;
 
     protected SqlServersImpl(SqlServerManager manager) {
         super(manager.inner().servers(), manager);
@@ -138,6 +140,15 @@ class SqlServersImpl
         }
 
         return this.syncGroups;
+    }
+
+    @Override
+    public SqlSyncMemberOperations syncMembers() {
+        if (this.syncMembers == null) {
+            this.syncMembers = new SqlSyncMemberOperationsImpl(this.manager());
+        }
+
+        return this.syncMembers;
     }
 
     @Override

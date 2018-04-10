@@ -86,6 +86,12 @@ public interface SqlServers extends
     SqlSyncGroupOperations syncGroups();
 
     /**
+     * @return the SQL Sync Group entry point
+     */
+    @Beta(Beta.SinceVersion.V1_9_0)
+    SqlSyncMemberOperations syncMembers();
+
+    /**
      * @return the SQL Server Elastic Pools API entry point
      */
     @Beta(Beta.SinceVersion.V1_7_0)

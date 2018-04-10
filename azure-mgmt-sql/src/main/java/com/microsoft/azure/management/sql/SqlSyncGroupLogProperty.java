@@ -18,8 +18,9 @@ import org.joda.time.DateTime;
 @Beta(Beta.SinceVersion.V1_9_0)
 public interface SqlSyncGroupLogProperty
     extends HasInner<SyncGroupLogPropertiesInner> {
+
     /**
-     * Timestamp of the sync group log.
+     * @return timestamp of the sync group log
      */
     DateTime timestamp();
 

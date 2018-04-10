@@ -17,6 +17,7 @@ import com.microsoft.azure.management.sql.SqlSyncFullSchemaProperty;
 import com.microsoft.azure.management.sql.SqlSyncGroup;
 import com.microsoft.azure.management.sql.SqlSyncGroupLogProperty;
 import com.microsoft.azure.management.sql.SqlSyncGroupOperations;
+import com.microsoft.azure.management.sql.SqlSyncMemberOperations;
 import com.microsoft.azure.management.sql.SyncConflictResolutionPolicy;
 import com.microsoft.azure.management.sql.SyncGroupSchema;
 import com.microsoft.azure.management.sql.SyncGroupState;
@@ -43,6 +44,8 @@ public class SqlSyncGroupImpl
     private String resourceGroupName;
     private String sqlServerName;
     private String sqlDatabaseName;
+
+    private SqlSyncMemberOperations.SqlSyncMemberActionsDefinition syncMemberOps;
 
     /**
      * Creates an instance of external child resource in-memory.
@@ -371,6 +374,15 @@ public class SqlSyncGroupImpl
     @Override
     public Completable deleteAsync() {
         return this.deleteResourceAsync().toCompletable();
+    }
+
+    @Override
+    public SqlSyncMemberOperations.SqlSyncMemberActionsDefinition syncMembers() {
+        if (this.syncMemberOps == null) {
+            this.syncMemberOps = new SqlSyncMemberOperationsImpl(this, this.sqlServerManager);
+        }
+
+        return this.syncMemberOps;
     }
 
 }

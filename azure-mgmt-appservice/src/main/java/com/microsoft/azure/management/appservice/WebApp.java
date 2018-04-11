@@ -18,6 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import rx.Completable;
 
 import java.io.File;
+import java.io.InputStream;
 
 /**
  * An immutable client-side representation of an Azure Web App.
@@ -47,6 +48,55 @@ public interface WebApp extends
      */
     @Beta(SinceVersion.V1_7_0)
     Completable warDeployAsync(File warFile);
+
+    /**
+     * Deploys a WAR file onto the Azure specialized Tomcat on this web app.
+     * @param warFile the WAR file to upload
+     */
+    @Beta(SinceVersion.V1_7_0)
+    void warDeploy(InputStream warFile);
+
+    /**
+     * Deploys a WAR file onto the Azure specialized Tomcat on this web app.
+     * @param warFile the WAR file to upload
+     * @return a completable of the operation
+     */
+    @Beta(SinceVersion.V1_7_0)
+    Completable warDeployAsync(InputStream warFile);
+
+    /**
+     * Deploys a WAR file onto the Azure specialized Tomcat on this web app.
+     * @param warFile the WAR file to upload
+     * @param appName the name of the app, default to "ROOT" when not provided
+     */
+    @Beta(SinceVersion.V1_7_0)
+    void warDeploy(File warFile, String appName);
+
+    /**
+     * Deploys a WAR file onto the Azure specialized Tomcat on this web app.
+     * @param warFile the WAR file to upload
+     * @param appName the name of the app, default to "ROOT" when not provided
+     * @return a completable of the operation
+     */
+    @Beta(SinceVersion.V1_7_0)
+    Completable warDeployAsync(File warFile, String appName);
+
+    /**
+     * Deploys a WAR file onto the Azure specialized Tomcat on this web app.
+     * @param warFile the WAR file to upload
+     * @param appName the name of the app, default to "ROOT" when not provided
+     */
+    @Beta(SinceVersion.V1_7_0)
+    void warDeploy(InputStream warFile, String appName);
+
+    /**
+     * Deploys a WAR file onto the Azure specialized Tomcat on this web app.
+     * @param warFile the WAR file to upload
+     * @param appName the name of the app, default to "ROOT" when not provided
+     * @return a completable of the operation
+     */
+    @Beta(SinceVersion.V1_7_0)
+    Completable warDeployAsync(InputStream warFile, String appName);
 
     /**************************************************************
      * Fluent interfaces to provision a Web App

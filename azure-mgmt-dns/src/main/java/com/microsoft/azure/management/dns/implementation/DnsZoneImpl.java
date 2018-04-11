@@ -31,7 +31,6 @@ import rx.functions.Func0;
 import rx.functions.Func1;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -65,7 +64,7 @@ public class DnsZoneImpl
         super(name, innerModel, manager);
         this.recordSets = new DnsRecordSetsImpl(this);
         initRecordSets();
-        if(isInCreateMode()) {
+        if (isInCreateMode()) {
             // Set the zone type to Public by default
             this.inner().withZoneType(ZoneType.PUBLIC);
         }
@@ -531,12 +530,12 @@ public class DnsZoneImpl
         this.withPrivateAccess();
         this.inner().withRegistrationVirtualNetworks(new ArrayList<SubResource>());
         this.inner().withResolutionVirtualNetworks(new ArrayList<SubResource>());
-        for(String rvnId : registrationVirtualNetworkIds) {
+        for (String rvnId : registrationVirtualNetworkIds) {
             SubResource sb = new SubResource();
             sb.withId(rvnId);
             this.inner().registrationVirtualNetworks().add(sb);
         }
-        for(String rvnId : resolutionVirtualNetworkIds) {
+        for (String rvnId : resolutionVirtualNetworkIds) {
             SubResource sb = new SubResource();
             sb.withId(rvnId);
             this.inner().resolutionVirtualNetworks().add(sb);

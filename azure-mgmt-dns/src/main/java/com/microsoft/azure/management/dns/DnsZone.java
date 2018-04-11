@@ -261,7 +261,7 @@ public interface DnsZone extends
         }
 
         /**
-         * The stage of the DNS zone definition allowing to specify Zone access type
+         * The stage of the DNS zone definition allowing to specify Zone access type.
          */
         interface WithZoneType {
             /**
@@ -648,7 +648,7 @@ public interface DnsZone extends
         }
 
         /**
-         * The stage of the DNS zone update allowing to specify Zone access type
+         * The stage of the DNS zone update allowing to specify Zone access type.
          */
         interface WithZoneType {
             /**

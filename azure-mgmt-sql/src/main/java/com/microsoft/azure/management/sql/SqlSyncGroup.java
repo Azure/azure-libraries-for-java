@@ -178,7 +178,6 @@ public interface SqlSyncGroup
      * @return the SQL Sync Member entry point
      */
     @Beta(Beta.SinceVersion.V1_9_0)
-    @Method
     SqlSyncMemberOperations.SqlSyncMemberActionsDefinition syncMembers();
 
 

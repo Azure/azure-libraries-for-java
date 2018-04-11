@@ -33,7 +33,7 @@ class AaaaRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new AaaaRecordSetImpl(inner.name(), inner.type(), this.dnsZone, inner);
+        return new AaaaRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 
     @Override
@@ -59,6 +59,6 @@ class AaaaRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new AaaaRecordSetImpl(inner.name(), inner.type(), this.dnsZone, inner);
+        return new AaaaRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 }

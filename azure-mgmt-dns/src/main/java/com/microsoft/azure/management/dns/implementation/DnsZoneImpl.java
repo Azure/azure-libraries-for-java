@@ -10,7 +10,6 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.dns.ARecordSets;
 import com.microsoft.azure.management.dns.AaaaRecordSets;
 import com.microsoft.azure.management.dns.CNameRecordSets;
-import com.microsoft.azure.management.dns.CaaRecordSet;
 import com.microsoft.azure.management.dns.CaaRecordSets;
 import com.microsoft.azure.management.dns.DnsRecordSet;
 import com.microsoft.azure.management.dns.DnsZone;
@@ -159,7 +158,7 @@ public class DnsZoneImpl
         if (inner == null) {
             return null;
         }
-        return new SoaRecordSetImpl(inner.name(), inner.type(),this, inner);
+        return new SoaRecordSetImpl(inner.name(), this, inner);
     }
 
     // Setters
@@ -450,25 +449,25 @@ public class DnsZoneImpl
                 DnsRecordSet recordSet = new DnsRecordSetImpl(inner.name(), inner.type(), self, inner);
                 switch (recordSet.recordType()) {
                     case A:
-                        return Observable.just((DnsRecordSet) new ARecordSetImpl(inner.name(), recordSet.recordType().toString(), self, inner));
+                        return Observable.just((DnsRecordSet) new ARecordSetImpl(inner.name(), self, inner));
                     case AAAA:
-                        return Observable.just((DnsRecordSet) new AaaaRecordSetImpl(inner.name(), recordSet.recordType().toString(), self, inner));
+                        return Observable.just((DnsRecordSet) new AaaaRecordSetImpl(inner.name(), self, inner));
                     case CAA:
-                        return Observable.just((DnsRecordSet) new CaaRecordSetImpl(inner.name(), recordSet.recordType().toString(), self, inner));
+                        return Observable.just((DnsRecordSet) new CaaRecordSetImpl(inner.name(), self, inner));
                     case CNAME:
-                        return Observable.just((DnsRecordSet) new CNameRecordSetImpl(inner.name(), recordSet.recordType().toString(), self, inner));
+                        return Observable.just((DnsRecordSet) new CNameRecordSetImpl(inner.name(), self, inner));
                     case MX:
-                        return Observable.just((DnsRecordSet) new MXRecordSetImpl(inner.name(), recordSet.recordType().toString(), self, inner));
+                        return Observable.just((DnsRecordSet) new MXRecordSetImpl(inner.name(), self, inner));
                     case NS:
-                        return Observable.just((DnsRecordSet) new NSRecordSetImpl(inner.name(), recordSet.recordType().toString(), self, inner));
+                        return Observable.just((DnsRecordSet) new NSRecordSetImpl(inner.name(), self, inner));
                     case PTR:
-                        return Observable.just((DnsRecordSet) new PtrRecordSetImpl(inner.name(), recordSet.recordType().toString(), self, inner));
+                        return Observable.just((DnsRecordSet) new PtrRecordSetImpl(inner.name(), self, inner));
                     case SOA:
-                        return Observable.just((DnsRecordSet) new SoaRecordSetImpl(inner.name(), recordSet.recordType().toString(), self, inner));
+                        return Observable.just((DnsRecordSet) new SoaRecordSetImpl(inner.name(), self, inner));
                     case SRV:
-                        return Observable.just((DnsRecordSet) new SrvRecordSetImpl(inner.name(), recordSet.recordType().toString(), self, inner));
+                        return Observable.just((DnsRecordSet) new SrvRecordSetImpl(inner.name(), self, inner));
                     case TXT:
-                        return Observable.just((DnsRecordSet) new TxtRecordSetImpl(inner.name(), recordSet.recordType().toString(), self, inner));
+                        return Observable.just((DnsRecordSet) new TxtRecordSetImpl(inner.name(), self, inner));
                     default:
                         return Observable.just(recordSet);
                 }

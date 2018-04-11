@@ -34,7 +34,7 @@ class SrvRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new SrvRecordSetImpl(inner.name(), inner.type(), this.dnsZone, inner);
+        return new SrvRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 
     @Override
@@ -60,6 +60,6 @@ class SrvRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new SrvRecordSetImpl(inner.name(), inner.type(), this.dnsZone, inner);
+        return new SrvRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 }

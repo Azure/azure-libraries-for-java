@@ -21,12 +21,12 @@ import java.util.List;
 class CaaRecordSetImpl
         extends DnsRecordSetImpl
         implements CaaRecordSet {
-    CaaRecordSetImpl(final String name, final String type, final DnsZoneImpl parent, final RecordSetInner innerModel) {
-        super(name, type, parent, innerModel);
+    CaaRecordSetImpl(final String name, final DnsZoneImpl parent, final RecordSetInner innerModel) {
+        super(name, RecordType.CAA.toString(), parent, innerModel);
     }
 
     static CaaRecordSetImpl newRecordSet(final String name, final DnsZoneImpl parent) {
-        return new CaaRecordSetImpl(name, RecordType.CAA.toString(), parent,
+        return new CaaRecordSetImpl(name, parent,
                 new RecordSetInner()
                         .withCaaRecords(new ArrayList<CaaRecord>()));
     }

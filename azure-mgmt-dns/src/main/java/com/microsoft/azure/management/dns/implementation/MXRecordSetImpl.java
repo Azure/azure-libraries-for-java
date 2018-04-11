@@ -21,12 +21,12 @@ import java.util.List;
 class MXRecordSetImpl
         extends DnsRecordSetImpl
         implements MXRecordSet {
-    MXRecordSetImpl(final String name, final String type, final DnsZoneImpl parent, final RecordSetInner innerModel) {
-        super(name, type, parent, innerModel);
+    MXRecordSetImpl(final String name, final DnsZoneImpl parent, final RecordSetInner innerModel) {
+        super(name, RecordType.MX.toString(), parent, innerModel);
     }
 
     static MXRecordSetImpl newRecordSet(final String name, final DnsZoneImpl parent) {
-        return new MXRecordSetImpl(name, RecordType.MX.toString(), parent,
+        return new MXRecordSetImpl(name, parent,
                 new RecordSetInner()
                         .withMxRecords(new ArrayList<MxRecord>()));
     }

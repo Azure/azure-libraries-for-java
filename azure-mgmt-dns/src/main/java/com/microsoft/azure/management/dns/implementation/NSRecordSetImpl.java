@@ -21,12 +21,12 @@ import java.util.List;
 class NSRecordSetImpl
         extends DnsRecordSetImpl
         implements NSRecordSet {
-    NSRecordSetImpl(final String name, final String type, final DnsZoneImpl parent, final RecordSetInner innerModel) {
-        super(name, type, parent, innerModel);
+    NSRecordSetImpl(final String name, final DnsZoneImpl parent, final RecordSetInner innerModel) {
+        super(name, RecordType.NS.toString(), parent, innerModel);
     }
 
     static NSRecordSetImpl newRecordSet(final String name, final DnsZoneImpl parent) {
-        return new NSRecordSetImpl(name, RecordType.NS.toString(), parent,
+        return new NSRecordSetImpl(name, parent,
                 new RecordSetInner()
                         .withNsRecords(new ArrayList<NsRecord>()));
     }

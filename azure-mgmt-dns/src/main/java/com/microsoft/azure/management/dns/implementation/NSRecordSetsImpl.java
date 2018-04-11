@@ -34,7 +34,7 @@ class NSRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new NSRecordSetImpl(inner.name(), inner.type(), this.dnsZone, inner);
+        return new NSRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 
     @Override
@@ -60,6 +60,6 @@ class NSRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new NSRecordSetImpl(inner.name(), inner.type(), this.dnsZone, inner);
+        return new NSRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 }

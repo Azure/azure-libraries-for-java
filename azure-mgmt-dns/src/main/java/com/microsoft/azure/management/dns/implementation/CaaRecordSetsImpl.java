@@ -34,7 +34,7 @@ class CaaRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new CaaRecordSetImpl(inner.name(), inner.type(), this.dnsZone, inner);
+        return new CaaRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 
     @Override
@@ -60,6 +60,6 @@ class CaaRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new CaaRecordSetImpl(inner.name(), inner.type(), this.dnsZone, inner);
+        return new CaaRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 }

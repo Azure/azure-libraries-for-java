@@ -8,12 +8,19 @@
 
 package com.microsoft.azure.management.graphrbac.implementation;
 
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Active Directory Domain information.
  */
 public class DomainInner {
+    /**
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
+
     /**
      * the type of the authentication into the domain.
      */
@@ -37,6 +44,26 @@ public class DomainInner {
      */
     @JsonProperty(value = "name", required = true)
     private String name;
+
+    /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set
+     * @return the DomainInner object itself.
+     */
+    public DomainInner withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        return this;
+    }
 
     /**
      * Get the authenticationType value.

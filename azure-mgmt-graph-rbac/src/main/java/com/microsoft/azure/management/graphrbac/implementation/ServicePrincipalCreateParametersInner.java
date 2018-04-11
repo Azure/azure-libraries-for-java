@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.graphrbac.implementation;
 
+import java.util.Map;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -15,6 +16,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Request parameters for creating a new service principal.
  */
 public class ServicePrincipalCreateParametersInner {
+    /**
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
+
     /**
      * application Id.
      */
@@ -38,6 +45,26 @@ public class ServicePrincipalCreateParametersInner {
      */
     @JsonProperty(value = "passwordCredentials")
     private List<PasswordCredentialInner> passwordCredentials;
+
+    /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set
+     * @return the ServicePrincipalCreateParametersInner object itself.
+     */
+    public ServicePrincipalCreateParametersInner withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        return this;
+    }
 
     /**
      * Get the appId value.

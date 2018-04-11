@@ -8,10 +8,12 @@ package com.microsoft.azure.management.graphrbac.implementation;
 
 import com.google.common.collect.Sets;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.graphrbac.Permission;
 import com.microsoft.azure.management.graphrbac.RoleDefinition;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -53,41 +55,30 @@ class RoleDefinitionImpl
 
     @Override
     public String roleName() {
-        if (inner().properties() == null) {
-            return null;
-        }
-        return inner().properties().roleName();
+        return inner().roleName();
     }
 
     @Override
     public String description() {
-        if (inner().properties() == null) {
-            return null;
-        }
-        return inner().properties().description();
+        return inner().description();
     }
 
     @Override
     public String type() {
-        if (inner().properties() == null) {
-            return null;
-        }
-        return inner().properties().type();
+        return inner().type();
     }
 
     @Override
-    public Set<PermissionInner> permissions() {
-        if (inner().properties() == null) {
-            return null;
+    public Set<Permission> permissions() {
+        HashSet<Permission> ret = new HashSet<>();
+        for (PermissionInner inner : inner().permissions()) {
+            ret.add(new PermissionImpl(inner));
         }
-        return Collections.unmodifiableSet(Sets.newHashSet(inner().properties().permissions()));
+        return ret;
     }
 
     @Override
     public Set<String> assignableScopes() {
-        if (inner().properties() == null) {
-            return null;
-        }
-        return Collections.unmodifiableSet(Sets.newHashSet(inner().properties().assignableScopes()));
+        return Collections.unmodifiableSet(Sets.newHashSet(inner().assignableScopes()));
     }
 }

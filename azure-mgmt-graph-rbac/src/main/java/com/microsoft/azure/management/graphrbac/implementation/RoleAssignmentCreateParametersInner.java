@@ -9,15 +9,17 @@
 package com.microsoft.azure.management.graphrbac.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Role assignment properties.
+ * Role assignment create parameters.
  */
-public class RoleAssignmentPropertiesInner {
+@JsonFlatten
+public class RoleAssignmentCreateParametersInner {
     /**
      * The role definition ID used in the role assignment.
      */
-    @JsonProperty(value = "roleDefinitionId")
+    @JsonProperty(value = "properties.roleDefinitionId")
     private String roleDefinitionId;
 
     /**
@@ -25,8 +27,14 @@ public class RoleAssignmentPropertiesInner {
      * Active Directory. It can point to a user, service principal, or security
      * group.
      */
-    @JsonProperty(value = "principalId")
+    @JsonProperty(value = "properties.principalId")
     private String principalId;
+
+    /**
+     * The delgation flag used for creating a role assignment.
+     */
+    @JsonProperty(value = "properties.canDelegate")
+    private Boolean canDelegate;
 
     /**
      * Get the roleDefinitionId value.
@@ -41,9 +49,9 @@ public class RoleAssignmentPropertiesInner {
      * Set the roleDefinitionId value.
      *
      * @param roleDefinitionId the roleDefinitionId value to set
-     * @return the RoleAssignmentPropertiesInner object itself.
+     * @return the RoleAssignmentCreateParametersInner object itself.
      */
-    public RoleAssignmentPropertiesInner withRoleDefinitionId(String roleDefinitionId) {
+    public RoleAssignmentCreateParametersInner withRoleDefinitionId(String roleDefinitionId) {
         this.roleDefinitionId = roleDefinitionId;
         return this;
     }
@@ -61,10 +69,30 @@ public class RoleAssignmentPropertiesInner {
      * Set the principalId value.
      *
      * @param principalId the principalId value to set
-     * @return the RoleAssignmentPropertiesInner object itself.
+     * @return the RoleAssignmentCreateParametersInner object itself.
      */
-    public RoleAssignmentPropertiesInner withPrincipalId(String principalId) {
+    public RoleAssignmentCreateParametersInner withPrincipalId(String principalId) {
         this.principalId = principalId;
+        return this;
+    }
+
+    /**
+     * Get the canDelegate value.
+     *
+     * @return the canDelegate value
+     */
+    public Boolean canDelegate() {
+        return this.canDelegate;
+    }
+
+    /**
+     * Set the canDelegate value.
+     *
+     * @param canDelegate the canDelegate value to set
+     * @return the RoleAssignmentCreateParametersInner object itself.
+     */
+    public RoleAssignmentCreateParametersInner withCanDelegate(Boolean canDelegate) {
+        this.canDelegate = canDelegate;
         return this;
     }
 

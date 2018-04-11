@@ -10,11 +10,12 @@ package com.microsoft.azure.management.graphrbac.implementation;
 
 import com.microsoft.azure.management.graphrbac.PasswordProfile;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.graphrbac.UserBase;
 
 /**
  * Request parameters for updating an existing work or school account user.
  */
-public class UserUpdateParametersInner {
+public class UserUpdateParametersInner extends UserBase {
     /**
      * Whether the account is enabled.
      */
@@ -34,19 +35,17 @@ public class UserUpdateParametersInner {
     private PasswordProfile passwordProfile;
 
     /**
+     * The user principal name (someuser@contoso.com). It must contain one of
+     * the verified domains for the tenant.
+     */
+    @JsonProperty(value = "userPrincipalName")
+    private String userPrincipalName;
+
+    /**
      * The mail alias for the user.
      */
     @JsonProperty(value = "mailNickname")
     private String mailNickname;
-
-    /**
-     * A two letter country code (ISO standard 3166). Required for users that
-     * will be assigned licenses due to legal requirement to check for
-     * availability of services in countries. Examples include: "US", "JP", and
-     * "GB".
-     */
-    @JsonProperty(value = "usageLocation")
-    private String usageLocation;
 
     /**
      * Get the accountEnabled value.
@@ -109,6 +108,26 @@ public class UserUpdateParametersInner {
     }
 
     /**
+     * Get the userPrincipalName value.
+     *
+     * @return the userPrincipalName value
+     */
+    public String userPrincipalName() {
+        return this.userPrincipalName;
+    }
+
+    /**
+     * Set the userPrincipalName value.
+     *
+     * @param userPrincipalName the userPrincipalName value to set
+     * @return the UserUpdateParametersInner object itself.
+     */
+    public UserUpdateParametersInner withUserPrincipalName(String userPrincipalName) {
+        this.userPrincipalName = userPrincipalName;
+        return this;
+    }
+
+    /**
      * Get the mailNickname value.
      *
      * @return the mailNickname value
@@ -125,26 +144,6 @@ public class UserUpdateParametersInner {
      */
     public UserUpdateParametersInner withMailNickname(String mailNickname) {
         this.mailNickname = mailNickname;
-        return this;
-    }
-
-    /**
-     * Get the usageLocation value.
-     *
-     * @return the usageLocation value
-     */
-    public String usageLocation() {
-        return this.usageLocation;
-    }
-
-    /**
-     * Set the usageLocation value.
-     *
-     * @param usageLocation the usageLocation value to set
-     * @return the UserUpdateParametersInner object itself.
-     */
-    public UserUpdateParametersInner withUsageLocation(String usageLocation) {
-        this.usageLocation = usageLocation;
         return this;
     }
 

@@ -660,7 +660,8 @@ public interface DnsZone extends
             Update withPublicAccess();
 
             /**
-             * Sets the type of this zone to Private.
+             * Sets the type of this zone to Private. Note that this method call will clean any previously set
+             * registrationVirtualNetworkIds and resolutionVirtualNetworkIds lists.
              *
              * @return the next stage of the definition
              */

@@ -129,6 +129,9 @@ public class DnsZoneRecordSetETagTests extends TestBase {
                     .withIPv6Address("2002:0db9:85a4:0000:0000:8a2e:0371:7335")
                     .withETagCheck()
                     .attach()
+                .defineCaaRecordSet("caaName")
+                    .withRecord(4, "sometag", "someValue")
+                    .attach()
                 .defineCNameRecordSet("documents")
                     .withAlias("doc.contoso.com")
                     .withETagCheck()
@@ -153,6 +156,14 @@ public class DnsZoneRecordSetETagTests extends TestBase {
         // Check CNAME records
         PagedList<CNameRecordSet> cnameRecordSets = dnsZone.cNameRecordSets().list();
         Assert.assertTrue(cnameRecordSets.size() == 2);
+
+        // Check Caa records
+        PagedList<CaaRecordSet> caaRecordSets = dnsZone.caaRecordSets().list();
+        Assert.assertTrue(caaRecordSets.size() == 1);
+        Assert.assertTrue(caaRecordSets.get(0).name().startsWith("caaname"));
+        Assert.assertTrue(caaRecordSets.get(0).records().get(0).value().equalsIgnoreCase("someValue"));
+        Assert.assertEquals(4, (long) caaRecordSets.get(0).records().get(0).flags());
+        Assert.assertTrue(caaRecordSets.get(0).fqdn().startsWith("caaname.www.contoso"));
 
         CompositeException compositeException = null;
         try {

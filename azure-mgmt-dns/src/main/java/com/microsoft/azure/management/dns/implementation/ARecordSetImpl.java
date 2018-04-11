@@ -21,15 +21,13 @@ import java.util.List;
 class ARecordSetImpl
         extends DnsRecordSetImpl
         implements ARecordSet {
-    ARecordSetImpl(final DnsZoneImpl parent, final RecordSetInner innerModel) {
-        super(parent, innerModel);
+    ARecordSetImpl(final String name, final String type, final DnsZoneImpl parent, final RecordSetInner innerModel) {
+        super(name, type, parent, innerModel);
     }
 
     static ARecordSetImpl newRecordSet(final String name, final DnsZoneImpl parent) {
-        return new ARecordSetImpl(parent,
+        return new ARecordSetImpl(name, RecordType.A.toString(), parent,
                 new RecordSetInner()
-                    .withName(name)
-                    .withType(RecordType.A.toString())
                     .withARecords(new ArrayList<ARecord>()));
     }
 

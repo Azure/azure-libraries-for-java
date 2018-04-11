@@ -21,15 +21,13 @@ import java.util.List;
 class TxtRecordSetImpl
         extends DnsRecordSetImpl
         implements TxtRecordSet {
-    TxtRecordSetImpl(final DnsZoneImpl parent, final RecordSetInner innerModel) {
-        super(parent, innerModel);
+    TxtRecordSetImpl(final String name, final String type, final DnsZoneImpl parent, final RecordSetInner innerModel) {
+        super(name, type, parent, innerModel);
     }
 
     static TxtRecordSetImpl newRecordSet(final String name, final DnsZoneImpl parent) {
-        return new TxtRecordSetImpl(parent,
+        return new TxtRecordSetImpl(name, RecordType.TXT.toString(), parent,
                 new RecordSetInner()
-                        .withName(name)
-                        .withType(RecordType.TXT.toString())
                         .withTxtRecords(new ArrayList<TxtRecord>()));
     }
 

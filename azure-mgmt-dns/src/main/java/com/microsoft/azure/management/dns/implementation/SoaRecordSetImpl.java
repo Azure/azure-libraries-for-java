@@ -17,15 +17,13 @@ import com.microsoft.azure.management.dns.SoaRecordSet;
 class SoaRecordSetImpl
         extends DnsRecordSetImpl
         implements SoaRecordSet {
-    SoaRecordSetImpl(final DnsZoneImpl parent, final RecordSetInner innerModel) {
-        super(parent, innerModel);
+    SoaRecordSetImpl(final String name, final String type, final DnsZoneImpl parent, final RecordSetInner innerModel) {
+        super(name, type, parent, innerModel);
     }
 
     static SoaRecordSetImpl newRecordSet(final DnsZoneImpl parent) {
-        return new SoaRecordSetImpl(parent,
+        return new SoaRecordSetImpl("@", RecordType.SOA.toString(), parent,
                 new RecordSetInner()
-                        .withName("@")
-                        .withType(RecordType.SOA.toString())
                         .withSoaRecord(new SoaRecord()));
     }
 

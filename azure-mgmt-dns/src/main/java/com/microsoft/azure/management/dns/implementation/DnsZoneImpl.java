@@ -19,7 +19,9 @@ import com.microsoft.azure.management.dns.PtrRecordSets;
 import com.microsoft.azure.management.dns.RecordType;
 import com.microsoft.azure.management.dns.SoaRecordSet;
 import com.microsoft.azure.management.dns.SrvRecordSets;
+import com.microsoft.azure.management.dns.SubResource;
 import com.microsoft.azure.management.dns.TxtRecordSets;
+import com.microsoft.azure.management.dns.ZoneType;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
@@ -29,6 +31,7 @@ import rx.functions.Func0;
 import rx.functions.Func1;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -62,6 +65,10 @@ public class DnsZoneImpl
         super(name, innerModel, manager);
         this.recordSets = new DnsRecordSetsImpl(this);
         initRecordSets();
+        if(isInCreateMode()) {
+            // Set the zone type to Public by default
+            this.inner().withZoneType(ZoneType.PUBLIC);
+        }
     }
 
     @Override
@@ -77,6 +84,33 @@ public class DnsZoneImpl
     @Override
     public String eTag() {
         return this.inner().etag();
+    }
+
+    @Override
+    public ZoneType accessType() {
+        return this.inner().zoneType();
+    }
+
+    @Override
+    public List<String> registrationVirtualNetworkIds() {
+        List<String> list = new ArrayList<>();
+        if (this.inner().registrationVirtualNetworks() != null) {
+            for (SubResource sb : this.inner().registrationVirtualNetworks()) {
+                list.add(sb.id());
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> resolutionVirtualNetworkIds() {
+        List<String> list = new ArrayList<>();
+        if (this.inner().resolutionVirtualNetworks() != null) {
+            for (SubResource sb : this.inner().resolutionVirtualNetworks()) {
+                list.add(sb.id());
+            }
+        }
+        return list;
     }
 
     @Override
@@ -474,5 +508,39 @@ public class DnsZoneImpl
             }
         };
         return converter.convert(manager().inner().recordSets().listByDnsZone(this.resourceGroupName(), this.name(), pageSize, recordSetSuffix));
+    }
+
+    @Override
+    public DnsZoneImpl withPublicAccess() {
+        this.inner().withZoneType(ZoneType.PUBLIC);
+        this.inner().withRegistrationVirtualNetworks(null);
+        this.inner().withResolutionVirtualNetworks(null);
+        return this;
+    }
+
+    @Override
+    public DnsZoneImpl withPrivateAccess() {
+        this.inner().withZoneType(ZoneType.PRIVATE);
+        this.inner().withRegistrationVirtualNetworks(null);
+        this.inner().withResolutionVirtualNetworks(null);
+        return this;
+    }
+
+    @Override
+    public DnsZoneImpl withPrivateAccess(List<String> registrationVirtualNetworkIds, List<String> resolutionVirtualNetworkIds) {
+        this.withPrivateAccess();
+        this.inner().withRegistrationVirtualNetworks(new ArrayList<SubResource>());
+        this.inner().withResolutionVirtualNetworks(new ArrayList<SubResource>());
+        for(String rvnId : registrationVirtualNetworkIds) {
+            SubResource sb = new SubResource();
+            sb.withId(rvnId);
+            this.inner().registrationVirtualNetworks().add(sb);
+        }
+        for(String rvnId : resolutionVirtualNetworkIds) {
+            SubResource sb = new SubResource();
+            sb.withId(rvnId);
+            this.inner().resolutionVirtualNetworks().add(sb);
+        }
+        return this;
     }
 }

@@ -118,6 +118,7 @@ public class DnsZoneRecordSetETagTests extends TestBase {
 
         DnsZone dnsZone = zoneManager.zones().define(topLevelDomain)
                 .withNewResourceGroup(RG_NAME, region)
+                .withPrivateAccess()
                 .defineARecordSet("www")
                     .withIPv4Address("23.96.104.40")
                     .withIPv4Address("24.97.105.41")
@@ -165,10 +166,13 @@ public class DnsZoneRecordSetETagTests extends TestBase {
         Assert.assertEquals(4, (long) caaRecordSets.get(0).records().get(0).flags());
         Assert.assertTrue(caaRecordSets.get(0).fqdn().startsWith("caaname.www.contoso"));
 
+        Assert.assertEquals(ZoneType.PRIVATE , dnsZone.accessType());
+
         CompositeException compositeException = null;
         try {
             zoneManager.zones().define(topLevelDomain)
                     .withNewResourceGroup(RG_NAME, region)
+                    .withPrivateAccess()
                     .defineARecordSet("www")
                         .withIPv4Address("23.96.104.40")
                         .withIPv4Address("24.97.105.41")
@@ -235,6 +239,8 @@ public class DnsZoneRecordSetETagTests extends TestBase {
         AaaaRecordSet aaaaRecordSet = aaaaRecordSets.get(0);
         Assert.assertNotNull(aaaaRecordSet.eTag());
 
+        // by default zone access type should be public
+        Assert.assertEquals(ZoneType.PUBLIC, dnsZone.accessType());
         // Try updates with invalid eTag
         //
         CompositeException compositeException = null;

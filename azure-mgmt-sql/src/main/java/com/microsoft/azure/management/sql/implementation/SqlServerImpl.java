@@ -20,6 +20,7 @@ import com.microsoft.azure.management.sql.ServerMetric;
 import com.microsoft.azure.management.sql.ServiceObjective;
 import com.microsoft.azure.management.sql.SqlDatabaseOperations;
 import com.microsoft.azure.management.sql.SqlElasticPoolOperations;
+import com.microsoft.azure.management.sql.SqlEncryptionProtectorOperations;
 import com.microsoft.azure.management.sql.SqlFailoverGroupOperations;
 import com.microsoft.azure.management.sql.SqlFirewallRule;
 import com.microsoft.azure.management.sql.SqlFirewallRuleOperations;
@@ -70,6 +71,7 @@ public class SqlServerImpl
     private SqlServerDnsAliasOperations.SqlServerDnsAliasActionsDefinition sqlServerDnsAliasOperations;
     private SqlFailoverGroupOperations.SqlFailoverGroupActionsDefinition sqlFailoverGroupOperations;
     private SqlServerKeyOperations.SqlServerKeyActionsDefinition sqlServerKeyOperations;
+    private SqlEncryptionProtectorOperations.SqlEncryptionProtectorActionsDefinition sqlEncryptionProtectorsOperations;
 
     protected SqlServerImpl(String name, ServerInner innerObject, SqlServerManager manager) {
         super(name, innerObject, manager);
@@ -462,6 +464,14 @@ public class SqlServerImpl
             this.sqlServerKeyOperations = new SqlServerKeyOperationsImpl(this, this.manager());
         }
         return this.sqlServerKeyOperations;
+    }
+
+    @Override
+    public SqlEncryptionProtectorOperations.SqlEncryptionProtectorActionsDefinition encryptionProtectors() {
+        if (this.sqlEncryptionProtectorsOperations == null) {
+            this.sqlEncryptionProtectorsOperations = new SqlEncryptionProtectorOperationsImpl(this, this.manager());
+        }
+        return this.sqlEncryptionProtectorsOperations;
     }
 
     @Override

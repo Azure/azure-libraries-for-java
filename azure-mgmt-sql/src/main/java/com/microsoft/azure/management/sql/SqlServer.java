@@ -242,6 +242,12 @@ public interface SqlServer extends
     @Beta(Beta.SinceVersion.V1_8_0)
     SqlServerKeyOperations.SqlServerKeyActionsDefinition serverKeys();
 
+    /**
+     * @return returns entry point to manage SQL Encryption Protector for this server.
+     */
+    @Beta(Beta.SinceVersion.V1_9_0)
+    SqlEncryptionProtectorOperations.SqlEncryptionProtectorActionsDefinition encryptionProtectors();
+
 
     /**************************************************************
      * Fluent interfaces to provision a SqlServer

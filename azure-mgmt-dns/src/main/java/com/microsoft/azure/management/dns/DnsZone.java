@@ -193,6 +193,7 @@ public interface DnsZone extends
              * @param name the name of the Caa record set
              * @return the stage representing configuration for the Caa record set
              */
+            @Beta(Beta.SinceVersion.V1_9_0)
             DnsRecordSet.DefinitionStages.CaaRecordSetBlank<WithCreate> defineCaaRecordSet(String name);
 
             /**
@@ -342,6 +343,7 @@ public interface DnsZone extends
              * @param name the name of the Caa record set
              * @return the stage representing configuration for the Caa record set
              */
+            @Beta(Beta.SinceVersion.V1_9_0)
             DnsRecordSet.UpdateDefinitionStages.CaaRecordSetBlank<Update> defineCaaRecordSet(String name);
 
             /**
@@ -423,6 +425,7 @@ public interface DnsZone extends
              * @param name the name of the Caa record set
              * @return the stage representing configuration for the Caa record set
              */
+            @Beta(Beta.SinceVersion.V1_9_0)
             DnsRecordSet.UpdateCaaRecordSet updateCaaRecordSet(String name);
 
             /**
@@ -521,6 +524,7 @@ public interface DnsZone extends
              * @param name name of the Caa record set
              * @return the next stage of DNS zone update
              */
+            @Beta(Beta.SinceVersion.V1_9_0)
             Update withoutCaaRecordSet(String name);
 
             /**
@@ -530,6 +534,7 @@ public interface DnsZone extends
              * @param eTagValue the etag to use for concurrent protection
              * @return the next stage of DNS zone update
              */
+            @Beta(Beta.SinceVersion.V1_9_0)
             Update withoutCaaRecordSet(String name, String eTagValue);
 
             /**

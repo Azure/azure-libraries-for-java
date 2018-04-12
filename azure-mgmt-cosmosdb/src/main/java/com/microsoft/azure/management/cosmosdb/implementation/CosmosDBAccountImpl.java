@@ -8,6 +8,9 @@ package com.microsoft.azure.management.cosmosdb.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListConnectionStringsResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListKeysResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListReadOnlyKeysResult;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountOfferType;
 import com.microsoft.azure.management.cosmosdb.ConsistencyPolicy;
 import com.microsoft.azure.management.cosmosdb.DefaultConsistencyLevel;
@@ -98,8 +101,31 @@ class CosmosDBAccountImpl
 
     @Override
     public Observable<DatabaseAccountListKeysResult> listKeysAsync() {
-        return this.manager().inner().databaseAccounts().listKeysAsync(this.resourceGroupName(),
-                this.name());
+        return this.manager().inner().databaseAccounts()
+            .listKeysAsync(this.resourceGroupName(), this.name())
+            .map(new Func1<DatabaseAccountListKeysResultInner, DatabaseAccountListKeysResult>() {
+                @Override
+                public DatabaseAccountListKeysResult call(DatabaseAccountListKeysResultInner databaseAccountListKeysResultInner) {
+                    return new DatabaseAccountListKeysResultImpl(databaseAccountListKeysResultInner);
+                }
+            });
+    }
+
+    @Override
+    public DatabaseAccountListReadOnlyKeysResult listReadOnlyKeys() {
+        return this.listReadOnlyKeysAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<DatabaseAccountListReadOnlyKeysResult> listReadOnlyKeysAsync() {
+        return this.manager().inner().databaseAccounts()
+            .listReadOnlyKeysAsync(this.resourceGroupName(), this.name())
+            .map(new Func1<DatabaseAccountListReadOnlyKeysResultInner, DatabaseAccountListReadOnlyKeysResult>() {
+                @Override
+                public DatabaseAccountListReadOnlyKeysResult call(DatabaseAccountListReadOnlyKeysResultInner databaseAccountListReadOnlyKeysResultInner) {
+                    return new DatabaseAccountListReadOnlyKeysResultImpl(databaseAccountListReadOnlyKeysResultInner);
+                }
+            });
     }
 
     @Override
@@ -109,8 +135,14 @@ class CosmosDBAccountImpl
 
     @Override
     public Observable<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync() {
-        return this.manager().inner().databaseAccounts().listConnectionStringsAsync(this.resourceGroupName(),
-                this.name());
+        return this.manager().inner().databaseAccounts()
+            .listConnectionStringsAsync(this.resourceGroupName(), this.name())
+            .map(new Func1<DatabaseAccountListConnectionStringsResultInner, DatabaseAccountListConnectionStringsResult>() {
+                @Override
+                public DatabaseAccountListConnectionStringsResult call(DatabaseAccountListConnectionStringsResultInner databaseAccountListConnectionStringsResultInner) {
+                    return new DatabaseAccountListConnectionStringsResultImpl(databaseAccountListConnectionStringsResultInner);
+                }
+            });
     }
 
     @Override

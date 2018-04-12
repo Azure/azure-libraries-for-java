@@ -42,7 +42,7 @@ class RoleAssignmentsImpl
         if (roleAssignmentInner == null) {
             return null;
         }
-        return new RoleAssignmentImpl(roleAssignmentInner, manager());
+        return new RoleAssignmentImpl(roleAssignmentInner.name(), roleAssignmentInner, manager());
     }
 
     @Override
@@ -58,7 +58,7 @@ class RoleAssignmentsImpl
                 if (roleAssignmentInner == null) {
                     return null;
                 } else {
-                    return new RoleAssignmentImpl(roleAssignmentInner, manager());
+                    return new RoleAssignmentImpl(roleAssignmentInner.name(), roleAssignmentInner, manager());
                 }
             }
         });
@@ -98,7 +98,7 @@ class RoleAssignmentsImpl
                         if (roleAssignmentInner == null) {
                             return null;
                         }
-                        return new RoleAssignmentImpl(roleAssignmentInner, manager());
+                        return new RoleAssignmentImpl(roleAssignmentInner.name(), roleAssignmentInner, manager());
                     }
                 });
     }
@@ -115,7 +115,7 @@ class RoleAssignmentsImpl
 
     @Override
     protected RoleAssignmentImpl wrapModel(String name) {
-        return new RoleAssignmentImpl(new RoleAssignmentInner().withName(name), manager());
+        return new RoleAssignmentImpl(name, new RoleAssignmentInner(), manager());
     }
 
     @Override

@@ -17,7 +17,7 @@ public class RedisForceRebootResponseInner {
     /**
      * Status message.
      */
-    @JsonProperty(value = "Message", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "message", access = JsonProperty.Access.WRITE_ONLY)
     private String message;
 
     /**

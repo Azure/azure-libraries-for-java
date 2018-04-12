@@ -43,6 +43,12 @@ public class VpnClientConfiguration {
     private List<VpnClientProtocol> vpnClientProtocols;
 
     /**
+     * VpnClientIpsecPolicies for virtual network gateway P2S client.
+     */
+    @JsonProperty(value = "vpnClientIpsecPolicies")
+    private List<IpsecPolicy> vpnClientIpsecPolicies;
+
+    /**
      * The radius server address property of the VirtualNetworkGateway resource
      * for vpn client connection.
      */
@@ -133,6 +139,26 @@ public class VpnClientConfiguration {
      */
     public VpnClientConfiguration withVpnClientProtocols(List<VpnClientProtocol> vpnClientProtocols) {
         this.vpnClientProtocols = vpnClientProtocols;
+        return this;
+    }
+
+    /**
+     * Get the vpnClientIpsecPolicies value.
+     *
+     * @return the vpnClientIpsecPolicies value
+     */
+    public List<IpsecPolicy> vpnClientIpsecPolicies() {
+        return this.vpnClientIpsecPolicies;
+    }
+
+    /**
+     * Set the vpnClientIpsecPolicies value.
+     *
+     * @param vpnClientIpsecPolicies the vpnClientIpsecPolicies value to set
+     * @return the VpnClientConfiguration object itself.
+     */
+    public VpnClientConfiguration withVpnClientIpsecPolicies(List<IpsecPolicy> vpnClientIpsecPolicies) {
+        this.vpnClientIpsecPolicies = vpnClientIpsecPolicies;
         return this;
     }
 

@@ -45,6 +45,8 @@ import com.microsoft.azure.management.containerservice.ContainerService;
 import com.microsoft.azure.management.containerservice.ContainerServiceOrchestratorTypes;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListKeysResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListReadOnlyKeysResult;
 import com.microsoft.azure.management.dns.ARecordSet;
 import com.microsoft.azure.management.dns.AaaaRecordSet;
 import com.microsoft.azure.management.dns.CNameRecordSet;
@@ -72,7 +74,7 @@ import com.microsoft.azure.management.graphrbac.ActiveDirectoryUser;
 import com.microsoft.azure.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.management.graphrbac.RoleDefinition;
 import com.microsoft.azure.management.graphrbac.ServicePrincipal;
-import com.microsoft.azure.management.graphrbac.implementation.PermissionInner;
+import com.microsoft.azure.management.graphrbac.Permission;
 import com.microsoft.azure.management.keyvault.AccessPolicy;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.locks.ManagementLock;
@@ -2276,6 +2278,14 @@ public final class Utils {
                 .append("\n\tDefault consistency level: ").append(cosmosDBAccount.consistencyPolicy().defaultConsistencyLevel())
                 .append("\n\tIP range filter: ").append(cosmosDBAccount.ipRangeFilter());
 
+        DatabaseAccountListKeysResult keys = cosmosDBAccount.listKeys();
+        DatabaseAccountListReadOnlyKeysResult readOnlyKeys = cosmosDBAccount.listReadOnlyKeys();
+        builder
+            .append("\n\tPrimary Master Key: ").append(keys.primaryMasterKey())
+            .append("\n\tSecondary Master Key: ").append(keys.secondaryMasterKey())
+            .append("\n\tPrimary Read-Only Key: ").append(readOnlyKeys.primaryReadonlyMasterKey())
+            .append("\n\tSecondary Read-Only Key: ").append(readOnlyKeys.secondaryReadonlyMasterKey());
+
         for (com.microsoft.azure.management.cosmosdb.Location writeReplica : cosmosDBAccount.writableReplications()) {
             builder.append("\n\t\tWrite replication: ")
                     .append("\n\t\t\tName :").append(writeReplica.locationName());
@@ -2286,6 +2296,7 @@ public final class Utils {
             builder.append("\n\t\tRead replication: ")
                     .append("\n\t\t\tName :").append(readReplica.locationName());
         }
+
     }
 
     /**
@@ -2317,9 +2328,9 @@ public final class Utils {
                 .append("\n\tDescription: ").append(role.description())
                 .append("\n\tType: ").append(role.type());
 
-        Set<PermissionInner> permissions = role.permissions();
+        Set<Permission> permissions = role.permissions();
         builder.append("\n\tPermissions: ").append(permissions.size());
-        for (PermissionInner permission : permissions) {
+        for (Permission permission : permissions) {
             builder.append("\n\t\tPermission Actions: " + permission.actions().size());
             for (String action : permission.actions()) {
                 builder.append("\n\t\t\tName :").append(action);
@@ -2470,7 +2481,10 @@ public final class Utils {
      */
     public static void print(Topology resource) {
         StringBuilder sb = new StringBuilder().append("Topology: ").append(resource.id())
-                .append("\n\tResource group: ").append(resource.resourceGroupName())
+                .append("\n\tTopology parameters: ")
+                .append("\n\t\tResource group: ").append(resource.topologyParameters().targetResourceGroupName())
+                .append("\n\t\tVirtual network: ").append(resource.topologyParameters().targetVirtualNetwork() == null ? "" : resource.topologyParameters().targetVirtualNetwork().id())
+                .append("\n\t\tSubnet id: ").append(resource.topologyParameters().targetSubnet() == null ? "" : resource.topologyParameters().targetSubnet().id())
                 .append("\n\tCreated time: ").append(resource.createdTime())
                 .append("\n\tLast modified time: ").append(resource.lastModifiedTime());
         for (TopologyResource tr : resource.resources().values()) {

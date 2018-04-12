@@ -17,52 +17,52 @@ public class ContainerExecRequestTerminalSize {
     /**
      * The row size of the terminal.
      */
-    @JsonProperty(value = "rows")
-    private Integer rows;
+    @JsonProperty(value = "row")
+    private Integer row;
 
     /**
      * The column size of the terminal.
      */
-    @JsonProperty(value = "cols")
-    private Integer cols;
+    @JsonProperty(value = "column")
+    private Integer column;
 
     /**
-     * Get the rows value.
+     * Get the row value.
      *
-     * @return the rows value
+     * @return the row value
      */
-    public Integer rows() {
-        return this.rows;
+    public Integer row() {
+        return this.row;
     }
 
     /**
-     * Set the rows value.
+     * Set the row value.
      *
-     * @param rows the rows value to set
+     * @param row the row value to set
      * @return the ContainerExecRequestTerminalSize object itself.
      */
-    public ContainerExecRequestTerminalSize withRows(Integer rows) {
-        this.rows = rows;
+    public ContainerExecRequestTerminalSize withRow(Integer row) {
+        this.row = row;
         return this;
     }
 
     /**
-     * Get the cols value.
+     * Get the column value.
      *
-     * @return the cols value
+     * @return the column value
      */
-    public Integer cols() {
-        return this.cols;
+    public Integer column() {
+        return this.column;
     }
 
     /**
-     * Set the cols value.
+     * Set the column value.
      *
-     * @param cols the cols value to set
+     * @param column the column value to set
      * @return the ContainerExecRequestTerminalSize object itself.
      */
-    public ContainerExecRequestTerminalSize withCols(Integer cols) {
-        this.cols = cols;
+    public ContainerExecRequestTerminalSize withColumn(Integer column) {
+        this.column = column;
         return this;
     }
 

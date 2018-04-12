@@ -17,12 +17,14 @@ import com.microsoft.azure.management.network.VpnClientConfiguration;
 import com.microsoft.azure.management.network.BgpSettings;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * A common class for general resource information.
  */
 @JsonFlatten
+@SkipParentValidation
 public class VirtualNetworkGatewayInner extends Resource {
     /**
      * IP configurations for virtual network gateway.
@@ -104,6 +106,12 @@ public class VirtualNetworkGatewayInner extends Resource {
      */
     @JsonProperty(value = "etag")
     private String etag;
+
+    /**
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
 
     /**
      * Get the ipConfigurations value.
@@ -331,6 +339,26 @@ public class VirtualNetworkGatewayInner extends Resource {
      */
     public VirtualNetworkGatewayInner withEtag(String etag) {
         this.etag = etag;
+        return this;
+    }
+
+    /**
+     * Get the id value.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id value.
+     *
+     * @param id the id value to set
+     * @return the VirtualNetworkGatewayInner object itself.
+     */
+    public VirtualNetworkGatewayInner withId(String id) {
+        this.id = id;
         return this;
     }
 

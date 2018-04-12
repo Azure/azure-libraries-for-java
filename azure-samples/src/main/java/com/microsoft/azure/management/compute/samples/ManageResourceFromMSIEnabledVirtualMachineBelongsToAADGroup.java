@@ -50,7 +50,7 @@ public final class ManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup {
         final String pipName = Utils.createRandomName("pip1");
         final String userName = "tirekicker";
         final String password = "12NewPA$$w0rd!";
-        final Region region = Region.US_WEST_CENTRAL;
+        final Region region = Region.US_SOUTH_CENTRAL;
 
         final String installScript = "https://raw.githubusercontent.com/Azure/azure-libraries-for-java/master/azure-samples/src/main/resources/create_resources_with_msi.sh";
         String installCommand = "bash create_resources_with_msi.sh {stgName} {rgName} {location}";

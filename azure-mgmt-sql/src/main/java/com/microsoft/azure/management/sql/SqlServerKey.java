@@ -76,13 +76,13 @@ public interface SqlServerKey
     DateTime creationDate();
 
     /**
-     * Deletes the DNS alias.
+     * Deletes the SQL Server Key.
      */
     @Method
     void delete();
 
     /**
-     * Deletes the DNS alias asynchronously.
+     * Deletes the SQL Server Key asynchronously.
      *
      * @return a representation of the deferred computation of this call
      */
@@ -90,7 +90,7 @@ public interface SqlServerKey
     Completable deleteAsync();
 
     /**
-     * The template for a SQL Firewall Rule update operation, containing all the settings that can be modified.
+     * The template for a SQL Server Key update operation, containing all the settings that can be modified.
      */
     interface Update extends
         SqlServerKey.UpdateStages.WithThumbprint,
@@ -99,7 +99,7 @@ public interface SqlServerKey
     }
 
     /**
-     * Grouping of all the SQL Firewall Rule update stages.
+     * Grouping of all the SQL Server Key update stages.
      */
     interface UpdateStages {
         /**

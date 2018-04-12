@@ -45,14 +45,14 @@ public class IpsecPolicy {
 
     /**
      * The IKE encryption algorithm (IKE phase 2). Possible values include:
-     * 'DES', 'DES3', 'AES128', 'AES192', 'AES256'.
+     * 'DES', 'DES3', 'AES128', 'AES192', 'AES256', 'GCMAES256', 'GCMAES128'.
      */
     @JsonProperty(value = "ikeEncryption", required = true)
     private IkeEncryption ikeEncryption;
 
     /**
      * The IKE integrity algorithm (IKE phase 2). Possible values include:
-     * 'MD5', 'SHA1', 'SHA256', 'SHA384'.
+     * 'MD5', 'SHA1', 'SHA256', 'SHA384', 'GCMAES256', 'GCMAES128'.
      */
     @JsonProperty(value = "ikeIntegrity", required = true)
     private IkeIntegrity ikeIntegrity;
@@ -66,8 +66,9 @@ public class IpsecPolicy {
     private DhGroup dhGroup;
 
     /**
-     * The DH Groups used in IKE Phase 2 for new child SA. Possible values
-     * include: 'None', 'PFS1', 'PFS2', 'PFS2048', 'ECP256', 'ECP384', 'PFS24'.
+     * The Pfs Groups used in IKE Phase 2 for new child SA. Possible values
+     * include: 'None', 'PFS1', 'PFS2', 'PFS2048', 'ECP256', 'ECP384', 'PFS24',
+     * 'PFS14', 'PFSMM'.
      */
     @JsonProperty(value = "pfsGroup", required = true)
     private PfsGroup pfsGroup;

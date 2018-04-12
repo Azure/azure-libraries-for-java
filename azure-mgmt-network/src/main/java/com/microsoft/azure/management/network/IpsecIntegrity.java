@@ -8,64 +8,46 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for IpsecIntegrity.
  */
-public final class IpsecIntegrity {
+public final class IpsecIntegrity extends ExpandableStringEnum<IpsecIntegrity> {
     /** Static value MD5 for IpsecIntegrity. */
-    public static final IpsecIntegrity MD5 = new IpsecIntegrity("MD5");
+    public static final IpsecIntegrity MD5 = fromString("MD5");
 
     /** Static value SHA1 for IpsecIntegrity. */
-    public static final IpsecIntegrity SHA1 = new IpsecIntegrity("SHA1");
+    public static final IpsecIntegrity SHA1 = fromString("SHA1");
 
     /** Static value SHA256 for IpsecIntegrity. */
-    public static final IpsecIntegrity SHA256 = new IpsecIntegrity("SHA256");
+    public static final IpsecIntegrity SHA256 = fromString("SHA256");
 
     /** Static value GCMAES128 for IpsecIntegrity. */
-    public static final IpsecIntegrity GCMAES128 = new IpsecIntegrity("GCMAES128");
+    public static final IpsecIntegrity GCMAES128 = fromString("GCMAES128");
 
     /** Static value GCMAES192 for IpsecIntegrity. */
-    public static final IpsecIntegrity GCMAES192 = new IpsecIntegrity("GCMAES192");
+    public static final IpsecIntegrity GCMAES192 = fromString("GCMAES192");
 
     /** Static value GCMAES256 for IpsecIntegrity. */
-    public static final IpsecIntegrity GCMAES256 = new IpsecIntegrity("GCMAES256");
-
-    private String value;
+    public static final IpsecIntegrity GCMAES256 = fromString("GCMAES256");
 
     /**
-     * Creates a custom value for IpsecIntegrity.
-     * @param value the custom value
+     * Creates or finds a IpsecIntegrity from its string representation.
+     * @param name a name to look for
+     * @return the corresponding IpsecIntegrity
      */
-    public IpsecIntegrity(String value) {
-        this.value = value;
+    @JsonCreator
+    public static IpsecIntegrity fromString(String name) {
+        return fromString(name, IpsecIntegrity.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof IpsecIntegrity)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        IpsecIntegrity rhs = (IpsecIntegrity) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known IpsecIntegrity values
+     */
+    public static Collection<IpsecIntegrity> values() {
+        return values(IpsecIntegrity.class);
     }
 }

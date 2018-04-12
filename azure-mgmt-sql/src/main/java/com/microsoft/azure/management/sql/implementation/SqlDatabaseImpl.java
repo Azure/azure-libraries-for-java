@@ -39,6 +39,7 @@ import com.microsoft.azure.management.sql.SqlDatabaseUsageMetric;
 import com.microsoft.azure.management.sql.SqlElasticPool;
 import com.microsoft.azure.management.sql.SqlRestorableDroppedDatabase;
 import com.microsoft.azure.management.sql.SqlServer;
+import com.microsoft.azure.management.sql.SqlSyncGroupOperations;
 import com.microsoft.azure.management.sql.SqlWarehouse;
 import com.microsoft.azure.management.sql.StorageKeyType;
 import com.microsoft.azure.management.sql.TransparentDataEncryption;
@@ -88,6 +89,9 @@ class SqlDatabaseImpl
     protected String sqlServerLocation;
     private boolean isPatchUpdate;
     private ImportRequestInner importRequestInner;
+
+    private SqlSyncGroupOperationsImpl syncGroups;
+
 
     /**
      * Creates an instance of external child resource in-memory.
@@ -566,6 +570,16 @@ class SqlDatabaseImpl
     public UpgradeHintInterface getUpgradeHint() {
         return null;
     }
+
+    @Override
+    public SqlSyncGroupOperations.SqlSyncGroupActionsDefinition syncGroups() {
+        if (this.syncGroups == null) {
+            this.syncGroups = new SqlSyncGroupOperationsImpl(this, this.sqlServerManager);
+        }
+
+        return this.syncGroups;
+    }
+
 
     SqlDatabaseImpl withPatchUpdate() {
         this.isPatchUpdate = true;

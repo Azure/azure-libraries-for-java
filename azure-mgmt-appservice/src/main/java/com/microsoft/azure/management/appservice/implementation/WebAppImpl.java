@@ -17,6 +17,9 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import rx.Completable;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * The implementation for WebApp.
@@ -181,11 +184,45 @@ class WebAppImpl
 
     @Override
     public Completable warDeployAsync(File warFile) {
-        return kuduClient.warDeployAsync(warFile);
+        return warDeployAsync(warFile, null);
     }
 
     @Override
     public void warDeploy(File warFile) {
         warDeployAsync(warFile).await();
+    }
+
+    @Override
+    public Completable warDeployAsync(InputStream warFile) {
+        return warDeployAsync(warFile, null);
+    }
+
+    @Override
+    public void warDeploy(InputStream warFile) {
+        warDeployAsync(warFile).await();
+    }
+
+    @Override
+    public Completable warDeployAsync(File warFile, String appName) {
+        try {
+            return warDeployAsync(new FileInputStream(warFile), appName);
+        } catch (IOException e) {
+            return Completable.error(e);
+        }
+    }
+
+    @Override
+    public void warDeploy(File warFile, String appName) {
+        warDeployAsync(warFile, appName).await();
+    }
+
+    @Override
+    public Completable warDeployAsync(InputStream warFile, String appName) {
+        return kuduClient.warDeployAsync(warFile, appName);
+    }
+
+    @Override
+    public void warDeploy(InputStream warFile, String appName) {
+        warDeployAsync(warFile, appName).await();
     }
 }

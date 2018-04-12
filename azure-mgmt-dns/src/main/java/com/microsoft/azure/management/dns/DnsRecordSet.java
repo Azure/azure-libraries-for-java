@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.dns;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.dns.implementation.RecordSetInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
@@ -39,6 +40,13 @@ public interface DnsRecordSet extends
     Map<String, String> metadata();
 
     /**
+     * @return the fully qualified domain name of the record set.
+     */
+
+    @Beta(Beta.SinceVersion.V1_9_0)
+    String fqdn();
+
+    /**
      * @return the etag associated with the record set.
      */
     String eTag();
@@ -55,6 +63,9 @@ public interface DnsRecordSet extends
             DefinitionStages.AaaaRecordSetBlank<ParentT>,
             DefinitionStages.WithAaaaRecordIPv6Address<ParentT>,
             DefinitionStages.WithAaaaRecordIPv6AddressOrAttachable<ParentT>,
+            DefinitionStages.CaaRecordSetBlank<ParentT>,
+            DefinitionStages.WithCaaRecordEntry<ParentT>,
+            DefinitionStages.WithCaaRecordEntryOrAttachable<ParentT>,
             DefinitionStages.CNameRecordSetBlank<ParentT>,
             DefinitionStages.WithCNameRecordAlias<ParentT>,
             DefinitionStages.WithCNameRecordSetAttachable<ParentT>,
@@ -144,6 +155,46 @@ public interface DnsRecordSet extends
          */
         interface WithAaaaRecordIPv6AddressOrAttachable<ParentT>
                 extends WithAaaaRecordIPv6Address<ParentT>, WithAttach<ParentT> {
+        }
+
+
+        /**
+         * The first stage of a Caa record definition.
+         *
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        @Beta(Beta.SinceVersion.V1_9_0)
+        interface CaaRecordSetBlank<ParentT> extends WithCaaRecordEntry<ParentT> {
+        }
+
+        /**
+         * The stage of the Caa record definition allowing to add first service record.
+         *
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        @Beta(Beta.SinceVersion.V1_9_0)
+        interface WithCaaRecordEntry<ParentT> {
+            /**
+             * Specifies a Caa record for a service.
+             *
+             * @param flags the flags for this CAA record as an integer between 0 and 255
+             * @param tag the tag for this CAA record
+             * @param value the value for this CAA record
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_9_0)
+            WithCaaRecordEntryOrAttachable<ParentT> withRecord(int flags, String tag, String value);
+        }
+
+        /**
+         * The stage of the Caa record set definition allowing to add additional Caa records or attach the record set
+         * to the parent.
+         *
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        @Beta(Beta.SinceVersion.V1_9_0)
+        interface WithCaaRecordEntryOrAttachable<ParentT>
+                extends WithCaaRecordEntry<ParentT>, WithAttach<ParentT> {
         }
 
         /**
@@ -418,6 +469,9 @@ public interface DnsRecordSet extends
             UpdateDefinitionStages.AaaaRecordSetBlank<ParentT>,
             UpdateDefinitionStages.WithAaaaRecordIPv6Address<ParentT>,
             UpdateDefinitionStages.WithAaaaRecordIPv6AddressOrAttachable<ParentT>,
+            UpdateDefinitionStages.CaaRecordSetBlank<ParentT>,
+            UpdateDefinitionStages.WithCaaRecordEntry<ParentT>,
+            UpdateDefinitionStages.WithCaaRecordEntryOrAttachable<ParentT>,
             UpdateDefinitionStages.CNameRecordSetBlank<ParentT>,
             UpdateDefinitionStages.WithCNameRecordAlias<ParentT>,
             UpdateDefinitionStages.WithCNameRecordSetAttachable<ParentT>,
@@ -507,6 +561,45 @@ public interface DnsRecordSet extends
          */
         interface WithAaaaRecordIPv6AddressOrAttachable<ParentT>
                 extends WithAaaaRecordIPv6Address<ParentT>, WithAttach<ParentT> {
+        }
+
+        /**
+         * The first stage of a Caa record definition.
+         *
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        @Beta(Beta.SinceVersion.V1_9_0)
+        interface CaaRecordSetBlank<ParentT> extends WithCaaRecordEntry<ParentT> {
+        }
+
+        /**
+         * The stage of the Caa record definition allowing to add first service record.
+         *
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        @Beta(Beta.SinceVersion.V1_9_0)
+        interface WithCaaRecordEntry<ParentT> {
+            /**
+             * Specifies a Caa record for a service.
+             *
+             * @param flags the flags for this CAA record as an integer between 0 and 255
+             * @param tag the tag for this CAA record
+             * @param value the value for this CAA record
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_9_0)
+            WithCaaRecordEntryOrAttachable<ParentT> withRecord(int flags, String tag, String value);
+        }
+
+        /**
+         * The stage of the Caa record set definition allowing to add additional Caa records or attach the record set
+         * to the parent.
+         *
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        @Beta(Beta.SinceVersion.V1_9_0)
+        interface WithCaaRecordEntryOrAttachable<ParentT>
+                extends WithCaaRecordEntry<ParentT>, WithAttach<ParentT> {
         }
 
         /**
@@ -775,6 +868,7 @@ public interface DnsRecordSet extends
     interface UpdateCombined extends
             UpdateARecordSet,
             UpdateAaaaRecordSet,
+            UpdateCaaRecordSet,
             UpdateCNameRecordSet,
             UpdateMXRecordSet,
             UpdatePtrRecordSet,
@@ -798,6 +892,15 @@ public interface DnsRecordSet extends
      */
     interface UpdateAaaaRecordSet extends
             UpdateStages.WithAaaaRecordIPv6Address,
+            Update {
+    }
+
+    /**
+     * The entirety of a Caa record set update as a part of parent DNS zone update.
+     */
+    @Beta(Beta.SinceVersion.V1_9_0)
+    interface UpdateCaaRecordSet extends
+            UpdateStages.WithCaaRecordEntry,
             Update {
     }
 
@@ -914,6 +1017,34 @@ public interface DnsRecordSet extends
         }
 
         /**
+         * The stage of the Caa record definition allowing to add or remove service record.
+         */
+        @Beta(Beta.SinceVersion.V1_9_0)
+        interface WithCaaRecordEntry {
+            /**
+             * Specifies a Caa record for a service.
+             *
+             * @param flags the flags for this CAA record as an integer between 0 and 255
+             * @param tag the tag for this CAA record
+             * @param value the value for this CAA record
+             * @return the next stage of the record set update
+             */
+            @Beta(Beta.SinceVersion.V1_9_0)
+            UpdateCaaRecordSet withRecord(int flags, String tag, String value);
+
+            /**
+             * Removes a Caa record for a service.
+             *
+             * @param flags the flags for this CAA record as an integer between 0 and 255
+             * @param tag the tag for this CAA record
+             * @param value the value for this CAA record
+             * @return the next stage of the record set update
+             */
+            @Beta(Beta.SinceVersion.V1_9_0)
+            UpdateCaaRecordSet withoutRecord(int flags, String tag, String value);
+        }
+
+        /**
          * The stage of the CNAME record set update allowing to update the CNAME record.
          */
         interface WithCNameRecordAlias {
@@ -1019,7 +1150,7 @@ public interface DnsRecordSet extends
         }
 
         /**
-         * The stage of the SRV record definition allowing to add or remove TXT record.
+         * The stage of the Txt record definition allowing to add or remove TXT record.
          */
         interface WithTxtRecordTextValue {
             /**

@@ -30,7 +30,10 @@ class MXRecordSetsImpl
                 this.dnsZone.name(),
                 name,
                 this.recordType);
-        return new MXRecordSetImpl(this.dnsZone, inner);
+        if (inner == null) {
+            return null;
+        }
+        return new MXRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 
     @Override
@@ -62,6 +65,6 @@ class MXRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new MXRecordSetImpl(this.dnsZone, inner);
+        return new MXRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 }

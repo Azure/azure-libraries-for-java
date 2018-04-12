@@ -31,7 +31,10 @@ class ARecordSetsImpl
                 this.dnsZone.name(),
                 name,
                 this.recordType);
-        return new ARecordSetImpl(this.dnsZone, inner);
+        if (inner == null) {
+            return null;
+        }
+        return new ARecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 
     @Override
@@ -54,6 +57,6 @@ class ARecordSetsImpl
 
     @Override
     protected ARecordSetImpl wrapModel(RecordSetInner inner) {
-        return new ARecordSetImpl(this.dnsZone, inner);
+        return new ARecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 }

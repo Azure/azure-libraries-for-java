@@ -7,25 +7,25 @@ package com.microsoft.azure.management.dns.implementation;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.dns.CaaRecordSet;
+import com.microsoft.azure.management.dns.CaaRecordSets;
 import com.microsoft.azure.management.dns.RecordType;
-import com.microsoft.azure.management.dns.SrvRecordSet;
-import com.microsoft.azure.management.dns.SrvRecordSets;
 import rx.Observable;
 
 /**
- * Implementation of SrvRecordSets.
+ * Implementation of CaaRecordSets.
  */
 @LangDefinition
-class SrvRecordSetsImpl
-        extends DnsRecordSetsBaseImpl<SrvRecordSet, SrvRecordSetImpl>
-        implements SrvRecordSets {
+class CaaRecordSetsImpl
+        extends DnsRecordSetsBaseImpl<CaaRecordSet, CaaRecordSetImpl>
+        implements CaaRecordSets {
 
-    SrvRecordSetsImpl(DnsZoneImpl dnsZone) {
-        super(dnsZone, RecordType.SRV);
+    CaaRecordSetsImpl(DnsZoneImpl dnsZone) {
+        super(dnsZone, RecordType.CAA);
     }
 
     @Override
-    public SrvRecordSetImpl getByName(String name) {
+    public CaaRecordSetImpl getByName(String name) {
         RecordSetInner inner = this.parent().manager().inner().recordSets().get(
                 this.dnsZone.resourceGroupName(),
                 this.dnsZone.name(),
@@ -34,11 +34,11 @@ class SrvRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new SrvRecordSetImpl(inner.name(), this.dnsZone, inner);
+        return new CaaRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 
     @Override
-    protected PagedList<SrvRecordSet> listIntern(String recordSetNameSuffix, Integer pageSize) {
+    protected PagedList<CaaRecordSet> listIntern(String recordSetNameSuffix, Integer pageSize) {
         return super.wrapList(this.parent().manager().inner().recordSets().listByType(
                 this.dnsZone.resourceGroupName(),
                 this.dnsZone.name(),
@@ -48,7 +48,7 @@ class SrvRecordSetsImpl
     }
 
     @Override
-    protected Observable<SrvRecordSet> listInternAsync(String recordSetNameSuffix, Integer pageSize) {
+    protected Observable<CaaRecordSet> listInternAsync(String recordSetNameSuffix, Integer pageSize) {
         return wrapPageAsync(this.parent().manager().inner().recordSets().listByTypeAsync(
                 this.dnsZone.resourceGroupName(),
                 this.dnsZone.name(),
@@ -56,10 +56,10 @@ class SrvRecordSetsImpl
     }
 
     @Override
-    protected SrvRecordSetImpl wrapModel(RecordSetInner inner) {
+    protected CaaRecordSetImpl wrapModel(RecordSetInner inner) {
         if (inner == null) {
             return null;
         }
-        return new SrvRecordSetImpl(inner.name(), this.dnsZone, inner);
+        return new CaaRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 }

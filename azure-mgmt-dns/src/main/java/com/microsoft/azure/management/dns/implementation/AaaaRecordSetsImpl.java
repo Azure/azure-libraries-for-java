@@ -30,7 +30,10 @@ class AaaaRecordSetsImpl
                 this.dnsZone.name(),
                 name,
                 this.recordType);
-        return new AaaaRecordSetImpl(this.dnsZone, inner);
+        if (inner == null) {
+            return null;
+        }
+        return new AaaaRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 
     @Override
@@ -56,6 +59,6 @@ class AaaaRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new AaaaRecordSetImpl(this.dnsZone, inner);
+        return new AaaaRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 }

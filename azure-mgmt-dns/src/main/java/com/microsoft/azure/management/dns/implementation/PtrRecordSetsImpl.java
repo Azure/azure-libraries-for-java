@@ -31,7 +31,10 @@ class PtrRecordSetsImpl
                 this.dnsZone.name(),
                 name,
                 this.recordType);
-        return new PtrRecordSetImpl(this.dnsZone, inner);
+        if (inner == null) {
+            return null;
+        }
+        return new PtrRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 
     @Override
@@ -57,6 +60,6 @@ class PtrRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new PtrRecordSetImpl(this.dnsZone, inner);
+        return new PtrRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 }

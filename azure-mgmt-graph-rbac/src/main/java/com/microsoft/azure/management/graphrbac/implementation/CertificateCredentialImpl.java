@@ -40,8 +40,8 @@ class CertificateCredentialImpl<T>
 
     CertificateCredentialImpl(KeyCredentialInner keyCredential) {
         super(keyCredential);
-        if (keyCredential.customKeyIdentifier() != null && !keyCredential.customKeyIdentifier().isEmpty()) {
-            this.name = new String(BaseEncoding.base64().decode(keyCredential.customKeyIdentifier()));
+        if (keyCredential.customKeyIdentifier() != null && keyCredential.customKeyIdentifier().length > 0) {
+            this.name = new String(BaseEncoding.base64().decode(new String(keyCredential.customKeyIdentifier())));
         } else {
             this.name = keyCredential.keyId();
         }
@@ -50,7 +50,7 @@ class CertificateCredentialImpl<T>
     CertificateCredentialImpl(String name, HasCredential<?> parent) {
         super(new KeyCredentialInner()
                 .withUsage("Verify")
-                .withCustomKeyIdentifier(BaseEncoding.base64().encode(name.getBytes()))
+                .withCustomKeyIdentifier(BaseEncoding.base64().encode(name.getBytes()).getBytes())
                 .withStartDate(DateTime.now())
                 .withEndDate(DateTime.now().plusYears(1)));
         this.name = name;

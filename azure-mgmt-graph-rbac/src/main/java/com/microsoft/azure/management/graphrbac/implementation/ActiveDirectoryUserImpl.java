@@ -56,7 +56,11 @@ class ActiveDirectoryUserImpl
 
     @Override
     public String signInName() {
-        return inner().signInName();
+        if (inner().signInNames() != null && !inner().signInNames().isEmpty()) {
+            return inner().signInNames().get(0).value();
+        } else {
+            return null;
+        }
     }
 
     @Override

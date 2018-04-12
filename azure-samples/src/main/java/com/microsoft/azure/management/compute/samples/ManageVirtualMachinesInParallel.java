@@ -38,7 +38,7 @@ public final class ManageVirtualMachinesInParallel {
      */
     public static boolean runSample(Azure azure) {
         final int vmCount = 10;
-        final Region region = Region.US_EAST;
+        final Region region = Region.US_SOUTH_CENTRAL;
         final String rgName = SdkContext.randomResourceName("rgCOPP", 24);
         final String networkName = SdkContext.randomResourceName("vnetCOMV", 24);
         final String storageAccountName = SdkContext.randomResourceName("stgCOMV", 20);

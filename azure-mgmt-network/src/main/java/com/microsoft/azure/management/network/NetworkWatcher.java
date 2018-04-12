@@ -35,18 +35,11 @@ public interface NetworkWatcher extends
     PacketCaptures packetCaptures();
 
     /**
-     * Gets network topology of a given resource group.
-     * @param targetResourceGroup the name of the target resource group to perform getTopology on
+     * First step specifying parameters to get topology of a resource group.
      * @return current network topology by resource group
      */
-    Topology getTopology(String targetResourceGroup);
-
-    /**
-     * Gets network topology of a given resource group asynchronously.
-     * @param targetResourceGroup the name of the target resource group to perform getTopology on
-     * @return current network topology by resource group
-     */
-    Observable<Topology> getTopologyAsync(String targetResourceGroup);
+    @Method
+    Topology.DefinitionStages.WithTargetResourceGroup topology();
 
     /**
      * Gets the configured and effective security group rules on the specified VM.

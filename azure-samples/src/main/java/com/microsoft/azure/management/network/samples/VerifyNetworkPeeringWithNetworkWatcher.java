@@ -60,7 +60,7 @@ public final class VerifyNetworkPeeringWithNetworkWatcher {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final Region region = Region.US_EAST;
+        final Region region = Region.US_SOUTH_CENTRAL;
         final String resourceGroupName = SdkContext.randomResourceName("rg", 15);
         final String vnetAName = SdkContext.randomResourceName("net", 15);
         final String vnetBName = SdkContext.randomResourceName("net", 15);

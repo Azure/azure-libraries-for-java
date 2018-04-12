@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ApplicationGatewayProtocol.
  */
-public final class ApplicationGatewayProtocol {
+public final class ApplicationGatewayProtocol extends ExpandableStringEnum<ApplicationGatewayProtocol> {
     /** Static value Http for ApplicationGatewayProtocol. */
-    public static final ApplicationGatewayProtocol HTTP = new ApplicationGatewayProtocol("Http");
+    public static final ApplicationGatewayProtocol HTTP = fromString("Http");
 
     /** Static value Https for ApplicationGatewayProtocol. */
-    public static final ApplicationGatewayProtocol HTTPS = new ApplicationGatewayProtocol("Https");
-
-    private String value;
+    public static final ApplicationGatewayProtocol HTTPS = fromString("Https");
 
     /**
-     * Creates a custom value for ApplicationGatewayProtocol.
-     * @param value the custom value
+     * Creates or finds a ApplicationGatewayProtocol from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ApplicationGatewayProtocol
      */
-    public ApplicationGatewayProtocol(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ApplicationGatewayProtocol fromString(String name) {
+        return fromString(name, ApplicationGatewayProtocol.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ApplicationGatewayProtocol)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ApplicationGatewayProtocol rhs = (ApplicationGatewayProtocol) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ApplicationGatewayProtocol values
+     */
+    public static Collection<ApplicationGatewayProtocol> values() {
+        return values(ApplicationGatewayProtocol.class);
     }
 }

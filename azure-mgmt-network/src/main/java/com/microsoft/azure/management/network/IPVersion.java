@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for IPVersion.
  */
-public final class IPVersion {
+public final class IPVersion extends ExpandableStringEnum<IPVersion> {
     /** Static value IPv4 for IPVersion. */
-    public static final IPVersion IPV4 = new IPVersion("IPv4");
+    public static final IPVersion IPV4 = fromString("IPv4");
 
     /** Static value IPv6 for IPVersion. */
-    public static final IPVersion IPV6 = new IPVersion("IPv6");
-
-    private String value;
+    public static final IPVersion IPV6 = fromString("IPv6");
 
     /**
-     * Creates a custom value for IPVersion.
-     * @param value the custom value
+     * Creates or finds a IPVersion from its string representation.
+     * @param name a name to look for
+     * @return the corresponding IPVersion
      */
-    public IPVersion(String value) {
-        this.value = value;
+    @JsonCreator
+    public static IPVersion fromString(String name) {
+        return fromString(name, IPVersion.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof IPVersion)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        IPVersion rhs = (IPVersion) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known IPVersion values
+     */
+    public static Collection<IPVersion> values() {
+        return values(IPVersion.class);
     }
 }

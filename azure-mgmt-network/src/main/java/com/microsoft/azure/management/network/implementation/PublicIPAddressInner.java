@@ -13,14 +13,17 @@ import com.microsoft.azure.management.network.IPAllocationMethod;
 import com.microsoft.azure.management.network.IPVersion;
 import com.microsoft.azure.management.network.PublicIPAddressDnsSettings;
 import java.util.List;
+import com.microsoft.azure.management.network.IpTag;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * Public IP address resource.
  */
 @JsonFlatten
+@SkipParentValidation
 public class PublicIPAddressInner extends Resource {
     /**
      * The public IP address SKU.
@@ -53,6 +56,12 @@ public class PublicIPAddressInner extends Resource {
      */
     @JsonProperty(value = "properties.dnsSettings")
     private PublicIPAddressDnsSettings dnsSettings;
+
+    /**
+     * The list of tags associated with the public IP address.
+     */
+    @JsonProperty(value = "properties.ipTags")
+    private List<IpTag> ipTags;
 
     /**
      * The IP address associated with the public IP address resource.
@@ -91,6 +100,12 @@ public class PublicIPAddressInner extends Resource {
      */
     @JsonProperty(value = "zones")
     private List<String> zones;
+
+    /**
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
 
     /**
      * Get the sku value.
@@ -178,6 +193,26 @@ public class PublicIPAddressInner extends Resource {
      */
     public PublicIPAddressInner withDnsSettings(PublicIPAddressDnsSettings dnsSettings) {
         this.dnsSettings = dnsSettings;
+        return this;
+    }
+
+    /**
+     * Get the ipTags value.
+     *
+     * @return the ipTags value
+     */
+    public List<IpTag> ipTags() {
+        return this.ipTags;
+    }
+
+    /**
+     * Set the ipTags value.
+     *
+     * @param ipTags the ipTags value to set
+     * @return the PublicIPAddressInner object itself.
+     */
+    public PublicIPAddressInner withIpTags(List<IpTag> ipTags) {
+        this.ipTags = ipTags;
         return this;
     }
 
@@ -298,6 +333,26 @@ public class PublicIPAddressInner extends Resource {
      */
     public PublicIPAddressInner withZones(List<String> zones) {
         this.zones = zones;
+        return this;
+    }
+
+    /**
+     * Get the id value.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id value.
+     *
+     * @param id the id value to set
+     * @return the PublicIPAddressInner object itself.
+     */
+    public PublicIPAddressInner withId(String id) {
+        this.id = id;
         return this;
     }
 

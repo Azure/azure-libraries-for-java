@@ -33,14 +33,13 @@ public class InboundNatRuleInner extends SubResource {
     private NetworkInterfaceIPConfigurationInner backendIPConfiguration;
 
     /**
-     * The transport protocol for the endpoint. Possible values are: 'Udp' or
-     * 'Tcp'. Possible values include: 'Udp', 'Tcp'.
+     * Possible values include: 'Udp', 'Tcp', 'All'.
      */
     @JsonProperty(value = "properties.protocol")
     private TransportProtocol protocol;
 
     /**
-     * The port for the external endpoint. Port numbers for each Rule must be
+     * The port for the external endpoint. Port numbers for each rule must be
      * unique within the Load Balancer. Acceptable values range from 1 to
      * 65534.
      */

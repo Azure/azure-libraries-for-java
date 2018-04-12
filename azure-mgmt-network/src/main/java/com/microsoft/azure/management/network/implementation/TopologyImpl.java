@@ -5,11 +5,13 @@
  */
 package com.microsoft.azure.management.network.implementation;
 
+import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.NetworkWatcher;
 import com.microsoft.azure.management.network.Topology;
+import com.microsoft.azure.management.network.TopologyParameters;
 import com.microsoft.azure.management.network.TopologyResource;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
+import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
 import org.joda.time.DateTime;
 import rx.Observable;
 import rx.functions.Func1;
@@ -23,17 +25,16 @@ import java.util.TreeMap;
  * The implementation of Topology.
  */
 @LangDefinition
-class TopologyImpl extends RefreshableWrapperImpl<TopologyInner, Topology>
-        implements Topology {
+class TopologyImpl extends ExecutableImpl<Topology>
+        implements Topology,
+        Topology.Definition {
     private Map<String, TopologyResource> resources;
     private final NetworkWatcherImpl parent;
-    private final String groupName;
+    private TopologyParameters parameters = new TopologyParameters();
+    private TopologyInner inner;
 
-    TopologyImpl(NetworkWatcherImpl parent, TopologyInner innerObject, String groupName) {
-        super(innerObject);
+    TopologyImpl(NetworkWatcherImpl parent) {
         this.parent = parent;
-        this.groupName = groupName;
-        initializeResourcesFromInner();
     }
 
     @Override
@@ -42,8 +43,8 @@ class TopologyImpl extends RefreshableWrapperImpl<TopologyInner, Topology>
     }
 
     @Override
-    public String resourceGroupName() {
-        return groupName;
+    public TopologyParameters topologyParameters() {
+        return parameters;
     }
 
     @Override
@@ -77,20 +78,39 @@ class TopologyImpl extends RefreshableWrapperImpl<TopologyInner, Topology>
     }
 
     @Override
-    public Observable<Topology> refreshAsync() {
-        return super.refreshAsync().map(new Func1<Topology, Topology>() {
-            @Override
-            public Topology call(Topology topology) {
-                TopologyImpl impl = (TopologyImpl) topology;
-                impl.initializeResourcesFromInner();
-                return impl;
-            }
-        });
+    public TopologyImpl withTargetResourceGroup(String resourceGroupName) {
+        parameters.withTargetResourceGroupName(resourceGroupName);
+        return this;
     }
 
     @Override
-    protected Observable<TopologyInner> getInnerAsync() {
+    public TopologyImpl withTargetNetwork(String networkId) {
+        parameters.withTargetVirtualNetwork(new SubResource().withId(networkId));
+        return this;
+    }
+
+    @Override
+    public TopologyImpl withTargetSubnet(String subnetName) {
+        parameters.withTargetSubnet(new SubResource().withId(parameters.targetVirtualNetwork().id() + "/subnets/" + subnetName));
+        return this;
+    }
+
+    @Override
+    public TopologyInner inner() {
+        return this.inner;
+    }
+
+    @Override
+    public Observable<Topology> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
-                .getTopologyAsync(parent().resourceGroupName(), parent().name(), groupName);
+                .getTopologyAsync(parent().resourceGroupName(), parent().name(), parameters)
+                .map(new Func1<TopologyInner, Topology>() {
+                    @Override
+                    public Topology call(TopologyInner topologyInner) {
+                        TopologyImpl.this.inner = topologyInner;
+                        TopologyImpl.this.initializeResourcesFromInner();
+                        return TopologyImpl.this;
+                    }
+                });
     }
 }

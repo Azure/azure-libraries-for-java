@@ -8,58 +8,40 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ConnectionStatus.
  */
-public final class ConnectionStatus {
+public final class ConnectionStatus extends ExpandableStringEnum<ConnectionStatus> {
     /** Static value Unknown for ConnectionStatus. */
-    public static final ConnectionStatus UNKNOWN = new ConnectionStatus("Unknown");
+    public static final ConnectionStatus UNKNOWN = fromString("Unknown");
 
     /** Static value Connected for ConnectionStatus. */
-    public static final ConnectionStatus CONNECTED = new ConnectionStatus("Connected");
+    public static final ConnectionStatus CONNECTED = fromString("Connected");
 
     /** Static value Disconnected for ConnectionStatus. */
-    public static final ConnectionStatus DISCONNECTED = new ConnectionStatus("Disconnected");
+    public static final ConnectionStatus DISCONNECTED = fromString("Disconnected");
 
     /** Static value Degraded for ConnectionStatus. */
-    public static final ConnectionStatus DEGRADED = new ConnectionStatus("Degraded");
-
-    private String value;
+    public static final ConnectionStatus DEGRADED = fromString("Degraded");
 
     /**
-     * Creates a custom value for ConnectionStatus.
-     * @param value the custom value
+     * Creates or finds a ConnectionStatus from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ConnectionStatus
      */
-    public ConnectionStatus(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ConnectionStatus fromString(String name) {
+        return fromString(name, ConnectionStatus.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ConnectionStatus)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ConnectionStatus rhs = (ConnectionStatus) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ConnectionStatus values
+     */
+    public static Collection<ConnectionStatus> values() {
+        return values(ConnectionStatus.class);
     }
 }

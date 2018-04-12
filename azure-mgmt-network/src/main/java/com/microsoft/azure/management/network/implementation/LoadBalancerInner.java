@@ -12,12 +12,14 @@ import com.microsoft.azure.management.network.LoadBalancerSku;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * LoadBalancer resource.
  */
 @JsonFlatten
+@SkipParentValidation
 public class LoadBalancerInner extends Resource {
     /**
      * The load balancer SKU.
@@ -100,11 +102,10 @@ public class LoadBalancerInner extends Resource {
     private String etag;
 
     /**
-     * A list of availability zones denoting the IP allocated for the resource
-     * needs to come from.
+     * Resource ID.
      */
-    @JsonProperty(value = "zones")
-    private List<String> zones;
+    @JsonProperty(value = "id")
+    private String id;
 
     /**
      * Get the sku value.
@@ -327,22 +328,22 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Get the zones value.
+     * Get the id value.
      *
-     * @return the zones value
+     * @return the id value
      */
-    public List<String> zones() {
-        return this.zones;
+    public String id() {
+        return this.id;
     }
 
     /**
-     * Set the zones value.
+     * Set the id value.
      *
-     * @param zones the zones value to set
+     * @param id the id value to set
      * @return the LoadBalancerInner object itself.
      */
-    public LoadBalancerInner withZones(List<String> zones) {
-        this.zones = zones;
+    public LoadBalancerInner withId(String id) {
+        this.id = id;
         return this;
     }
 

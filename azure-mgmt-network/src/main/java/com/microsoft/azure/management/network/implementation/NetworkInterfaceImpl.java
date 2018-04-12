@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.IPAllocationMethod;
 import com.microsoft.azure.management.network.LoadBalancer;
@@ -490,7 +489,7 @@ class NetworkInterfaceImpl
 
         // Associate an NSG if needed
         if (networkSecurityGroup != null) {
-            this.inner().withNetworkSecurityGroup(new SubResource().withId(networkSecurityGroup.id()));
+            this.inner().withNetworkSecurityGroup(new NetworkSecurityGroupInner().withId(networkSecurityGroup.id()));
         }
 
         NicIPConfigurationImpl.ensureConfigurations(this.nicIPConfigurations.values());

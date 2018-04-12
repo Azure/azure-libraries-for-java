@@ -54,7 +54,7 @@ public class SecurityRuleInner extends SubResource {
      * and 'Internet' can also be used. If this is an ingress rule, specifies
      * where network traffic originates from.
      */
-    @JsonProperty(value = "properties.sourceAddressPrefix", required = true)
+    @JsonProperty(value = "properties.sourceAddressPrefix")
     private String sourceAddressPrefix;
 
     /**
@@ -64,11 +64,17 @@ public class SecurityRuleInner extends SubResource {
     private List<String> sourceAddressPrefixes;
 
     /**
+     * The application security group specified as source.
+     */
+    @JsonProperty(value = "properties.sourceApplicationSecurityGroups")
+    private List<ApplicationSecurityGroupInner> sourceApplicationSecurityGroups;
+
+    /**
      * The destination address prefix. CIDR or destination IP range. Asterix
      * '*' can also be used to match all source IPs. Default tags such as
      * 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
      */
-    @JsonProperty(value = "properties.destinationAddressPrefix", required = true)
+    @JsonProperty(value = "properties.destinationAddressPrefix")
     private String destinationAddressPrefix;
 
     /**
@@ -76,6 +82,12 @@ public class SecurityRuleInner extends SubResource {
      */
     @JsonProperty(value = "properties.destinationAddressPrefixes")
     private List<String> destinationAddressPrefixes;
+
+    /**
+     * The application security group specified as destination.
+     */
+    @JsonProperty(value = "properties.destinationApplicationSecurityGroups")
+    private List<ApplicationSecurityGroupInner> destinationApplicationSecurityGroups;
 
     /**
      * The source port ranges.
@@ -254,6 +266,26 @@ public class SecurityRuleInner extends SubResource {
     }
 
     /**
+     * Get the sourceApplicationSecurityGroups value.
+     *
+     * @return the sourceApplicationSecurityGroups value
+     */
+    public List<ApplicationSecurityGroupInner> sourceApplicationSecurityGroups() {
+        return this.sourceApplicationSecurityGroups;
+    }
+
+    /**
+     * Set the sourceApplicationSecurityGroups value.
+     *
+     * @param sourceApplicationSecurityGroups the sourceApplicationSecurityGroups value to set
+     * @return the SecurityRuleInner object itself.
+     */
+    public SecurityRuleInner withSourceApplicationSecurityGroups(List<ApplicationSecurityGroupInner> sourceApplicationSecurityGroups) {
+        this.sourceApplicationSecurityGroups = sourceApplicationSecurityGroups;
+        return this;
+    }
+
+    /**
      * Get the destinationAddressPrefix value.
      *
      * @return the destinationAddressPrefix value
@@ -290,6 +322,26 @@ public class SecurityRuleInner extends SubResource {
      */
     public SecurityRuleInner withDestinationAddressPrefixes(List<String> destinationAddressPrefixes) {
         this.destinationAddressPrefixes = destinationAddressPrefixes;
+        return this;
+    }
+
+    /**
+     * Get the destinationApplicationSecurityGroups value.
+     *
+     * @return the destinationApplicationSecurityGroups value
+     */
+    public List<ApplicationSecurityGroupInner> destinationApplicationSecurityGroups() {
+        return this.destinationApplicationSecurityGroups;
+    }
+
+    /**
+     * Set the destinationApplicationSecurityGroups value.
+     *
+     * @param destinationApplicationSecurityGroups the destinationApplicationSecurityGroups value to set
+     * @return the SecurityRuleInner object itself.
+     */
+    public SecurityRuleInner withDestinationApplicationSecurityGroups(List<ApplicationSecurityGroupInner> destinationApplicationSecurityGroups) {
+        this.destinationApplicationSecurityGroups = destinationApplicationSecurityGroups;
         return this;
     }
 

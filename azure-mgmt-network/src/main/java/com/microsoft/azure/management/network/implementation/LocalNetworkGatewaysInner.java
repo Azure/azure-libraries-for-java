@@ -15,6 +15,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.network.TagsObject;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -23,12 +24,14 @@ import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.HTTP;
+import retrofit2.http.PATCH;
 import retrofit2.http.Path;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -82,6 +85,14 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LocalNetworkGateways beginDelete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("localNetworkGatewayName") String localNetworkGatewayName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LocalNetworkGateways updateTags" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}")
+        Observable<Response<ResponseBody>> updateTags(@Path("resourceGroupName") String resourceGroupName, @Path("localNetworkGatewayName") String localNetworkGatewayName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LocalNetworkGateways beginUpdateTags" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}")
+        Observable<Response<ResponseBody>> beginUpdateTags(@Path("resourceGroupName") String resourceGroupName, @Path("localNetworkGatewayName") String localNetworkGatewayName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LocalNetworkGateways listByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways")
@@ -163,7 +174,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-02-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<LocalNetworkGatewayInner>() { }.getType());
     }
@@ -238,7 +249,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-02-01";
         return service.beginCreateOrUpdate(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LocalNetworkGatewayInner>>>() {
                 @Override
@@ -255,8 +266,8 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
 
     private ServiceResponse<LocalNetworkGatewayInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<LocalNetworkGatewayInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(201, new TypeToken<LocalNetworkGatewayInner>() { }.getType())
                 .register(200, new TypeToken<LocalNetworkGatewayInner>() { }.getType())
+                .register(201, new TypeToken<LocalNetworkGatewayInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -323,7 +334,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-02-01";
         return service.getByResourceGroup(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LocalNetworkGatewayInner>>>() {
                 @Override
@@ -406,7 +417,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-02-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -472,7 +483,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-02-01";
         return service.beginDelete(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -489,9 +500,323 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
 
     private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the LocalNetworkGatewayInner object if successful.
+     */
+    public LocalNetworkGatewayInner updateTags(String resourceGroupName, String localNetworkGatewayName) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, localNetworkGatewayName).toBlocking().last().body();
+    }
+
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<LocalNetworkGatewayInner> updateTagsAsync(String resourceGroupName, String localNetworkGatewayName, final ServiceCallback<LocalNetworkGatewayInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, localNetworkGatewayName), serviceCallback);
+    }
+
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<LocalNetworkGatewayInner> updateTagsAsync(String resourceGroupName, String localNetworkGatewayName) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, localNetworkGatewayName).map(new Func1<ServiceResponse<LocalNetworkGatewayInner>, LocalNetworkGatewayInner>() {
+            @Override
+            public LocalNetworkGatewayInner call(ServiceResponse<LocalNetworkGatewayInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<LocalNetworkGatewayInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String localNetworkGatewayName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (localNetworkGatewayName == null) {
+            throw new IllegalArgumentException("Parameter localNetworkGatewayName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-02-01";
+        final Map<String, String> tags = null;
+        TagsObject parameters = new TagsObject();
+        parameters.withTags(null);
+        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<LocalNetworkGatewayInner>() { }.getType());
+    }
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the LocalNetworkGatewayInner object if successful.
+     */
+    public LocalNetworkGatewayInner updateTags(String resourceGroupName, String localNetworkGatewayName, Map<String, String> tags) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, localNetworkGatewayName, tags).toBlocking().last().body();
+    }
+
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @param tags Resource tags.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<LocalNetworkGatewayInner> updateTagsAsync(String resourceGroupName, String localNetworkGatewayName, Map<String, String> tags, final ServiceCallback<LocalNetworkGatewayInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, localNetworkGatewayName, tags), serviceCallback);
+    }
+
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<LocalNetworkGatewayInner> updateTagsAsync(String resourceGroupName, String localNetworkGatewayName, Map<String, String> tags) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, localNetworkGatewayName, tags).map(new Func1<ServiceResponse<LocalNetworkGatewayInner>, LocalNetworkGatewayInner>() {
+            @Override
+            public LocalNetworkGatewayInner call(ServiceResponse<LocalNetworkGatewayInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<LocalNetworkGatewayInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String localNetworkGatewayName, Map<String, String> tags) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (localNetworkGatewayName == null) {
+            throw new IllegalArgumentException("Parameter localNetworkGatewayName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        Validator.validate(tags);
+        final String apiVersion = "2018-02-01";
+        TagsObject parameters = new TagsObject();
+        parameters.withTags(tags);
+        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<LocalNetworkGatewayInner>() { }.getType());
+    }
+
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the LocalNetworkGatewayInner object if successful.
+     */
+    public LocalNetworkGatewayInner beginUpdateTags(String resourceGroupName, String localNetworkGatewayName) {
+        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, localNetworkGatewayName).toBlocking().single().body();
+    }
+
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<LocalNetworkGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String localNetworkGatewayName, final ServiceCallback<LocalNetworkGatewayInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, localNetworkGatewayName), serviceCallback);
+    }
+
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the LocalNetworkGatewayInner object
+     */
+    public Observable<LocalNetworkGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String localNetworkGatewayName) {
+        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, localNetworkGatewayName).map(new Func1<ServiceResponse<LocalNetworkGatewayInner>, LocalNetworkGatewayInner>() {
+            @Override
+            public LocalNetworkGatewayInner call(ServiceResponse<LocalNetworkGatewayInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the LocalNetworkGatewayInner object
+     */
+    public Observable<ServiceResponse<LocalNetworkGatewayInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String localNetworkGatewayName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (localNetworkGatewayName == null) {
+            throw new IllegalArgumentException("Parameter localNetworkGatewayName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-02-01";
+        final Map<String, String> tags = null;
+        TagsObject parameters = new TagsObject();
+        parameters.withTags(null);
+        return service.beginUpdateTags(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LocalNetworkGatewayInner>>>() {
+                @Override
+                public Observable<ServiceResponse<LocalNetworkGatewayInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<LocalNetworkGatewayInner> clientResponse = beginUpdateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the LocalNetworkGatewayInner object if successful.
+     */
+    public LocalNetworkGatewayInner beginUpdateTags(String resourceGroupName, String localNetworkGatewayName, Map<String, String> tags) {
+        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, localNetworkGatewayName, tags).toBlocking().single().body();
+    }
+
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @param tags Resource tags.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<LocalNetworkGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String localNetworkGatewayName, Map<String, String> tags, final ServiceCallback<LocalNetworkGatewayInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, localNetworkGatewayName, tags), serviceCallback);
+    }
+
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the LocalNetworkGatewayInner object
+     */
+    public Observable<LocalNetworkGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String localNetworkGatewayName, Map<String, String> tags) {
+        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, localNetworkGatewayName, tags).map(new Func1<ServiceResponse<LocalNetworkGatewayInner>, LocalNetworkGatewayInner>() {
+            @Override
+            public LocalNetworkGatewayInner call(ServiceResponse<LocalNetworkGatewayInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Updates a local network gateway tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param localNetworkGatewayName The name of the local network gateway.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the LocalNetworkGatewayInner object
+     */
+    public Observable<ServiceResponse<LocalNetworkGatewayInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String localNetworkGatewayName, Map<String, String> tags) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (localNetworkGatewayName == null) {
+            throw new IllegalArgumentException("Parameter localNetworkGatewayName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        Validator.validate(tags);
+        final String apiVersion = "2018-02-01";
+        TagsObject parameters = new TagsObject();
+        parameters.withTags(tags);
+        return service.beginUpdateTags(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LocalNetworkGatewayInner>>>() {
+                @Override
+                public Observable<ServiceResponse<LocalNetworkGatewayInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<LocalNetworkGatewayInner> clientResponse = beginUpdateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<LocalNetworkGatewayInner> beginUpdateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<LocalNetworkGatewayInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<LocalNetworkGatewayInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -587,7 +912,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-08-01";
+        final String apiVersion = "2018-02-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LocalNetworkGatewayInner>>>>() {
                 @Override

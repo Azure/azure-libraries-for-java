@@ -156,7 +156,7 @@ class LoadBalancerFrontendImpl
 
     @Override
     public LoadBalancerFrontendImpl withExistingSubnet(String parentNetworkResourceId, String subnetName) {
-        SubResource subnetRef = new SubResource()
+        SubnetInner subnetRef = (SubnetInner) new SubnetInner()
                 .withId(parentNetworkResourceId + "/subnets/" + subnetName);
         this.inner()
                 .withSubnet(subnetRef)
@@ -187,7 +187,7 @@ class LoadBalancerFrontendImpl
 
     @Override
     public LoadBalancerFrontendImpl withExistingPublicIPAddress(String resourceId) {
-        SubResource pipRef = new SubResource().withId(resourceId);
+        PublicIPAddressInner pipRef = new PublicIPAddressInner().withId(resourceId);
         this.inner()
                 .withPublicIPAddress(pipRef)
 

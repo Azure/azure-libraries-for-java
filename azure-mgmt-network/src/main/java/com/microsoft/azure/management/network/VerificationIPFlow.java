@@ -96,7 +96,7 @@ public interface VerificationIPFlow extends Executable<VerificationIPFlow>,
         /**
          * Protocol to be verified on. Possible values include: 'TCP', 'UDP'.
          */
-        interface WithProtocol extends HasProtocol.DefinitionStages.WithProtocol<WithLocalIP, Protocol> {
+        interface WithProtocol extends HasProtocol.DefinitionStages.WithProtocol<WithLocalIP, IpFlowProtocol> {
             /**
              * Set TCP protocol.
              *

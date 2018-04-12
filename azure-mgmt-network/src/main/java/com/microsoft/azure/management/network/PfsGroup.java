@@ -8,67 +8,55 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for PfsGroup.
  */
-public final class PfsGroup {
+public final class PfsGroup extends ExpandableStringEnum<PfsGroup> {
     /** Static value None for PfsGroup. */
-    public static final PfsGroup NONE = new PfsGroup("None");
+    public static final PfsGroup NONE = fromString("None");
 
     /** Static value PFS1 for PfsGroup. */
-    public static final PfsGroup PFS1 = new PfsGroup("PFS1");
+    public static final PfsGroup PFS1 = fromString("PFS1");
 
     /** Static value PFS2 for PfsGroup. */
-    public static final PfsGroup PFS2 = new PfsGroup("PFS2");
+    public static final PfsGroup PFS2 = fromString("PFS2");
 
     /** Static value PFS2048 for PfsGroup. */
-    public static final PfsGroup PFS2048 = new PfsGroup("PFS2048");
+    public static final PfsGroup PFS2048 = fromString("PFS2048");
 
     /** Static value ECP256 for PfsGroup. */
-    public static final PfsGroup ECP256 = new PfsGroup("ECP256");
+    public static final PfsGroup ECP256 = fromString("ECP256");
 
     /** Static value ECP384 for PfsGroup. */
-    public static final PfsGroup ECP384 = new PfsGroup("ECP384");
+    public static final PfsGroup ECP384 = fromString("ECP384");
 
     /** Static value PFS24 for PfsGroup. */
-    public static final PfsGroup PFS24 = new PfsGroup("PFS24");
+    public static final PfsGroup PFS24 = fromString("PFS24");
 
-    private String value;
+    /** Static value PFS14 for PfsGroup. */
+    public static final PfsGroup PFS14 = fromString("PFS14");
+
+    /** Static value PFSMM for PfsGroup. */
+    public static final PfsGroup PFSMM = fromString("PFSMM");
 
     /**
-     * Creates a custom value for PfsGroup.
-     * @param value the custom value
+     * Creates or finds a PfsGroup from its string representation.
+     * @param name a name to look for
+     * @return the corresponding PfsGroup
      */
-    public PfsGroup(String value) {
-        this.value = value;
+    @JsonCreator
+    public static PfsGroup fromString(String name) {
+        return fromString(name, PfsGroup.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PfsGroup)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        PfsGroup rhs = (PfsGroup) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known PfsGroup values
+     */
+    public static Collection<PfsGroup> values() {
+        return values(PfsGroup.class);
     }
 }

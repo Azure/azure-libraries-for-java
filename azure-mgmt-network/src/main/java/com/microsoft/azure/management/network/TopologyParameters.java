@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.network;
 
+import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -17,8 +18,20 @@ public class TopologyParameters {
     /**
      * The name of the target resource group to perform topology on.
      */
-    @JsonProperty(value = "targetResourceGroupName", required = true)
+    @JsonProperty(value = "targetResourceGroupName")
     private String targetResourceGroupName;
+
+    /**
+     * The reference of the Virtual Network resource.
+     */
+    @JsonProperty(value = "targetVirtualNetwork")
+    private SubResource targetVirtualNetwork;
+
+    /**
+     * The reference of the Subnet resource.
+     */
+    @JsonProperty(value = "targetSubnet")
+    private SubResource targetSubnet;
 
     /**
      * Get the targetResourceGroupName value.
@@ -37,6 +50,46 @@ public class TopologyParameters {
      */
     public TopologyParameters withTargetResourceGroupName(String targetResourceGroupName) {
         this.targetResourceGroupName = targetResourceGroupName;
+        return this;
+    }
+
+    /**
+     * Get the targetVirtualNetwork value.
+     *
+     * @return the targetVirtualNetwork value
+     */
+    public SubResource targetVirtualNetwork() {
+        return this.targetVirtualNetwork;
+    }
+
+    /**
+     * Set the targetVirtualNetwork value.
+     *
+     * @param targetVirtualNetwork the targetVirtualNetwork value to set
+     * @return the TopologyParameters object itself.
+     */
+    public TopologyParameters withTargetVirtualNetwork(SubResource targetVirtualNetwork) {
+        this.targetVirtualNetwork = targetVirtualNetwork;
+        return this;
+    }
+
+    /**
+     * Get the targetSubnet value.
+     *
+     * @return the targetSubnet value
+     */
+    public SubResource targetSubnet() {
+        return this.targetSubnet;
+    }
+
+    /**
+     * Set the targetSubnet value.
+     *
+     * @param targetSubnet the targetSubnet value to set
+     * @return the TopologyParameters object itself.
+     */
+    public TopologyParameters withTargetSubnet(SubResource targetSubnet) {
+        this.targetSubnet = targetSubnet;
         return this;
     }
 

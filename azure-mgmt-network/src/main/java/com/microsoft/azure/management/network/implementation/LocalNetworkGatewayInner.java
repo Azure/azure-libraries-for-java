@@ -12,12 +12,14 @@ import com.microsoft.azure.management.network.AddressSpace;
 import com.microsoft.azure.management.network.BgpSettings;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * A common class for general resource information.
  */
 @JsonFlatten
+@SkipParentValidation
 public class LocalNetworkGatewayInner extends Resource {
     /**
      * Local network site address space.
@@ -55,6 +57,12 @@ public class LocalNetworkGatewayInner extends Resource {
      */
     @JsonProperty(value = "etag")
     private String etag;
+
+    /**
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
 
     /**
      * Get the localNetworkAddressSpace value.
@@ -162,6 +170,26 @@ public class LocalNetworkGatewayInner extends Resource {
      */
     public LocalNetworkGatewayInner withEtag(String etag) {
         this.etag = etag;
+        return this;
+    }
+
+    /**
+     * Get the id value.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id value.
+     *
+     * @param id the id value to set
+     * @return the LocalNetworkGatewayInner object itself.
+     */
+    public LocalNetworkGatewayInner withId(String id) {
+        this.id = id;
         return this;
     }
 

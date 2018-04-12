@@ -857,7 +857,7 @@ public final class Azure {
     /**
      * @return entry point to listing action groups in Azure
      */
-    @Beta(SinceVersion.V1_8_0)
+    @Beta(SinceVersion.V1_9_0)
     public ActionGroups actionGroups() {
         return this.monitorManager.actionGroups();
     }

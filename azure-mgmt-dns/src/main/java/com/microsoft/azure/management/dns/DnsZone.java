@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.dns;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.dns.implementation.DnsZoneManager;
@@ -45,16 +46,19 @@ public interface DnsZone extends
     /**
      * @return the access type of this zone (Private or Public).
      */
+    @Beta(Beta.SinceVersion.V1_9_0)
     ZoneType accessType();
 
     /**
      * @return a list of references to virtual networks that register hostnames in this DNS zone for Private DNS zone.
      */
+    @Beta(Beta.SinceVersion.V1_9_0)
     List<String> registrationVirtualNetworkIds();
 
     /**
      * @return a list of references to virtual networks that resolve records in this DNS zone for Private DNS zone.
      */
+    @Beta(Beta.SinceVersion.V1_9_0)
     List<String> resolutionVirtualNetworkIds();
 
     /**
@@ -107,6 +111,7 @@ public interface DnsZone extends
     /**
      * @return entry point to manage record sets in this zone containing Caa (canonical name) records
      */
+    @Beta
     CaaRecordSets caaRecordSets();
 
     /**
@@ -263,12 +268,14 @@ public interface DnsZone extends
         /**
          * The stage of the DNS zone definition allowing to specify Zone access type.
          */
+        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithZoneType {
             /**
              * Sets the type of this zone to Public (default behavior).
              *
              * @return the next stage of the definition
              */
+            @Beta(Beta.SinceVersion.V1_9_0)
             @Method
             WithCreate withPublicAccess();
 
@@ -277,6 +284,7 @@ public interface DnsZone extends
              *
              * @return the next stage of the definition
              */
+            @Beta(Beta.SinceVersion.V1_9_0)
             @Method
             WithCreate withPrivateAccess();
 
@@ -287,6 +295,7 @@ public interface DnsZone extends
              * @param resolutionVirtualNetworkIds a list of references to virtual networks that resolve records in this DNS zone.
              * @return the next stage of the definition
              */
+            @Beta(Beta.SinceVersion.V1_9_0)
             WithCreate withPrivateAccess(List<String> registrationVirtualNetworkIds,  List<String> resolutionVirtualNetworkIds);
         }
 
@@ -650,12 +659,14 @@ public interface DnsZone extends
         /**
          * The stage of the DNS zone update allowing to specify Zone access type.
          */
+        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithZoneType {
             /**
              * Sets the type of this zone to Public (default behavior).
              *
              * @return the next stage of the definition
              */
+            @Beta(Beta.SinceVersion.V1_9_0)
             @Method
             Update withPublicAccess();
 
@@ -665,6 +676,7 @@ public interface DnsZone extends
              *
              * @return the next stage of the definition
              */
+            @Beta(Beta.SinceVersion.V1_9_0)
             @Method
             Update withPrivateAccess();
 
@@ -675,6 +687,7 @@ public interface DnsZone extends
              * @param resolutionVirtualNetworkIds a list of references to virtual networks that resolve records in this DNS zone.
              * @return the next stage of the definition
              */
+            @Beta(Beta.SinceVersion.V1_9_0)
             Update withPrivateAccess(List<String> registrationVirtualNetworkIds,  List<String> resolutionVirtualNetworkIds);
         }
     }

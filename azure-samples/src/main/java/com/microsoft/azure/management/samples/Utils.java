@@ -74,7 +74,7 @@ import com.microsoft.azure.management.graphrbac.ActiveDirectoryUser;
 import com.microsoft.azure.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.management.graphrbac.RoleDefinition;
 import com.microsoft.azure.management.graphrbac.ServicePrincipal;
-import com.microsoft.azure.management.graphrbac.implementation.PermissionInner;
+import com.microsoft.azure.management.graphrbac.Permission;
 import com.microsoft.azure.management.keyvault.AccessPolicy;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.locks.ManagementLock;
@@ -2328,9 +2328,9 @@ public final class Utils {
                 .append("\n\tDescription: ").append(role.description())
                 .append("\n\tType: ").append(role.type());
 
-        Set<PermissionInner> permissions = role.permissions();
+        Set<Permission> permissions = role.permissions();
         builder.append("\n\tPermissions: ").append(permissions.size());
-        for (PermissionInner permission : permissions) {
+        for (Permission permission : permissions) {
             builder.append("\n\t\tPermission Actions: " + permission.actions().size());
             for (String action : permission.actions()) {
                 builder.append("\n\t\t\tName :").append(action);

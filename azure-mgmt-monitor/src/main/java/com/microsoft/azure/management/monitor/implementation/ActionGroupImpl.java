@@ -75,6 +75,7 @@ class ActionGroupImpl
         this.itsmReceivers = new TreeMap<>();
         if (isInCreateMode()) {
             this.inner().withEnabled(true);
+            this.inner().withGroupShortName(this.name().substring(0, (this.name().length() > 12) ? 12 : this.name().length()));
         } else {
             this.withExistingResourceGroup(ResourceUtils.groupFromResourceId(this.id()));
         }
@@ -148,7 +149,6 @@ class ActionGroupImpl
 
     @Override
     public ActionGroupImpl defineReceiver(String actionNamePrefix) {
-        this.inner().withGroupShortName(actionNamePrefix.substring(0, (actionNamePrefix.length() > 14) ? 14 : actionNamePrefix.length()));
         return this.updateReceiver(actionNamePrefix);
     }
 
@@ -355,10 +355,9 @@ class ActionGroupImpl
 
     @Override
     public ActionGroupImpl withAzureFunction(String functionAppResourceId, String functionName, String httpTriggerUrl) {
+        this.withoutAzureFunction();
         String compositeKey = this.actionReceiverPrefix + functionSuffix;
-        if (this.functionReceivers.containsKey(compositeKey)) {
-            this.functionReceivers.remove(compositeKey);
-        }
+
         AzureFunctionReceiver afr = new AzureFunctionReceiver();
         afr.withName(compositeKey);
         afr.withFunctionAppResourceId(functionAppResourceId);

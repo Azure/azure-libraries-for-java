@@ -377,6 +377,12 @@ public interface SqlDatabase
     @Beta(Beta.SinceVersion.V1_7_0)
     Completable deleteAsync();
 
+    /**
+     * @return the SQL Sync Group entry point for the current database
+     */
+    @Beta(Beta.SinceVersion.V1_9_0)
+    SqlSyncGroupOperations.SqlSyncGroupActionsDefinition syncGroups();
+
 
     /**************************************************************
      * Fluent interfaces to provision a SQL Database

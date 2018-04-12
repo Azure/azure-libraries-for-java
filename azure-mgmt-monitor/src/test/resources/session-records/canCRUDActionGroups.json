@@ -1,7 +1,7 @@
 {
   "networkCallRecords" : [ {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_60053429?api-version=2017-05-10",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_4f186339?api-version=2017-05-10",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 8.1/6.3 MacAddressHash:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 Java:1.7.0_80 (ResourceManagementClient, 2017-05-10)",
       "Content-Type" : "application/json; charset=utf-8"
@@ -9,23 +9,23 @@
     "Response" : {
       "StatusCode" : "201",
       "content-type" : "application/json; charset=utf-8",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_60053429\",\"name\":\"jmonitor_60053429\",\"location\":\"australiasoutheast\",\"properties\":{\"provisioningState\":\"Succeeded\"}}",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1198",
-      "x-ms-routing-request-id" : "WESTUS2:20180404T233601Z:156a5bc7-dca7-4e5a-ab63-801cd10575c9",
-      "date" : "Wed, 04 Apr 2018 23:36:00 GMT",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4f186339\",\"name\":\"jmonitor_4f186339\",\"location\":\"australiasoutheast\",\"properties\":{\"provisioningState\":\"Succeeded\"}}",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
+      "x-ms-routing-request-id" : "WESTUS2:20180409T233106Z:45d38aa9-f8d4-43a7-8b24-594d51aae174",
+      "date" : "Mon, 09 Apr 2018 23:31:05 GMT",
       "pragma" : "no-cache",
       "retry-after" : "0",
       "cache-control" : "no-cache",
       "x-content-type-options" : "nosniff",
       "expires" : "-1",
-      "x-ms-request-id" : "156a5bc7-dca7-4e5a-ab63-801cd10575c9",
+      "x-ms-request-id" : "45d38aa9-f8d4-43a7-8b24-594d51aae174",
       "content-length" : "199",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "156a5bc7-dca7-4e5a-ab63-801cd10575c9"
+      "x-ms-correlation-request-id" : "45d38aa9-f8d4-43a7-8b24-594d51aae174"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_60053429/providers/microsoft.insights/actionGroups/simpleActionGroup?api-version=2018-03-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4f186339/providers/microsoft.insights/actionGroups/simpleActionGroup?api-version=2018-03-01",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 8.1/6.3 MacAddressHash:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 Java:1.7.0_80 (MonitorManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
@@ -33,24 +33,24 @@
     "Response" : {
       "StatusCode" : "201",
       "content-type" : "application/json; charset=utf-8",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_60053429/providers/microsoft.insights/actionGroups/simpleActionGroup\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"simpleActionGroup\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"SuperAction\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"first_-EmailAction-\",\"emailAddress\":\"justemail@outlook.com\",\"status\":\"Enabled\"},{\"name\":\"second_-EmailAction-\",\"emailAddress\":\"secondemail@outlook.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[{\"name\":\"first_-SMSAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"4255655665\",\"status\":\"Enabled\"}],\"webhookReceivers\":[{\"name\":\"first (WH)\",\"serviceUri\":\"https://www.rate.am\"},{\"name\":\"second (WH)\",\"serviceUri\":\"https://www.spyur.am\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"first_-AzureAppAction-\",\"emailAddress\":\"azurepush@outlook.com\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"first_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2062066050\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null}",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1197",
-      "x-ms-routing-request-id" : "WESTUS2:20180404T233605Z:531115c9-b288-4229-ad3e-d7c1d16c35e2",
-      "date" : "Wed, 04 Apr 2018 23:36:05 GMT",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4f186339/providers/microsoft.insights/actionGroups/simpleActionGroup\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"simpleActionGroup\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"simpleAction\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"first_-EmailAction-\",\"emailAddress\":\"justemail@outlook.com\",\"status\":\"Enabled\"},{\"name\":\"second_-EmailAction-\",\"emailAddress\":\"secondemail@outlook.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[{\"name\":\"first_-SMSAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"4255655665\",\"status\":\"Enabled\"}],\"webhookReceivers\":[{\"name\":\"first (WH)\",\"serviceUri\":\"https://www.rate.am\"},{\"name\":\"second (WH)\",\"serviceUri\":\"https://www.spyur.am\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"first_-AzureAppAction-\",\"emailAddress\":\"azurepush@outlook.com\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"first_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2062066050\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null}",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1198",
+      "x-ms-routing-request-id" : "WESTUS2:20180409T233110Z:0dbb87cd-d421-4399-8140-ec9a3035139a",
+      "date" : "Mon, 09 Apr 2018 23:31:09 GMT",
       "pragma" : "no-cache",
       "retry-after" : "0",
       "cache-control" : "no-cache",
       "x-content-type-options" : "nosniff",
       "expires" : "-1",
-      "x-ms-request-id" : "db767c59-f95e-4ed4-9bf1-3ead2324c5e2",
-      "content-length" : "1083",
+      "x-ms-request-id" : "3c39b9f8-ed8b-48fb-82c5-39ba58988a30",
+      "content-length" : "1084",
       "server" : "Microsoft-IIS/8.5",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "531115c9-b288-4229-ad3e-d7c1d16c35e2"
+      "x-ms-correlation-request-id" : "0dbb87cd-d421-4399-8140-ec9a3035139a"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_60053429/providers/microsoft.insights/actionGroups/simpleActionGroup?api-version=2018-03-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4f186339/providers/microsoft.insights/actionGroups/simpleActionGroup?api-version=2018-03-01",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 8.1/6.3 MacAddressHash:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 Java:1.7.0_80 (MonitorManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
@@ -58,26 +58,26 @@
     "Response" : {
       "StatusCode" : "200",
       "content-type" : "application/json; charset=utf-8",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_60053429/providers/microsoft.insights/actionGroups/simpleActionGroup\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"simpleActionGroup\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"SuperAction\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"first_-EmailAction-\",\"emailAddress\":\"justemail@outlook.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[],\"webhookReceivers\":[{\"name\":\"first (WH)\",\"serviceUri\":\"https://www.rate.am\"},{\"name\":\"third (WH)\",\"serviceUri\":\"https://www.news.am\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"first_-AzureAppAction-\",\"emailAddress\":\"azurepush@outlook.com\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"first_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2062066050\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null}",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1196",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4f186339/providers/microsoft.insights/actionGroups/simpleActionGroup\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"simpleActionGroup\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"simpleAction\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"first_-EmailAction-\",\"emailAddress\":\"justemail@outlook.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[],\"webhookReceivers\":[{\"name\":\"first (WH)\",\"serviceUri\":\"https://www.rate.am\"},{\"name\":\"third (WH)\",\"serviceUri\":\"https://www.news.am\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"first_-AzureAppAction-\",\"emailAddress\":\"azurepush@outlook.com\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"first_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2062066050\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null}",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1197",
       "transfer-encoding" : "chunked",
-      "x-ms-routing-request-id" : "WESTUS2:20180404T233605Z:474f0eec-65b1-45ed-a0f2-bb24879783b8",
-      "date" : "Wed, 04 Apr 2018 23:36:05 GMT",
+      "x-ms-routing-request-id" : "WESTUS2:20180409T233110Z:d1709345-2b92-4d8e-9d80-4a8791b94a89",
+      "date" : "Mon, 09 Apr 2018 23:31:10 GMT",
       "vary" : "Accept-Encoding",
       "pragma" : "no-cache",
       "retry-after" : "0",
       "cache-control" : "no-cache",
       "x-content-type-options" : "nosniff",
       "expires" : "-1",
-      "x-ms-request-id" : "a738b2a9-e224-4b84-ba10-d0cb461ae001",
-      "content-length" : "897",
+      "x-ms-request-id" : "5f2819bb-4b1e-4141-901e-054dbf83764a",
+      "content-length" : "898",
       "server" : "Microsoft-IIS/8.5",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "474f0eec-65b1-45ed-a0f2-bb24879783b8"
+      "x-ms-correlation-request-id" : "d1709345-2b92-4d8e-9d80-4a8791b94a89"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_60053429/providers/microsoft.insights/actionGroups/simpleActionGroup?api-version=2018-03-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4f186339/providers/microsoft.insights/actionGroups/simpleActionGroup?api-version=2018-03-01",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 8.1/6.3 MacAddressHash:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 Java:1.7.0_80 (MonitorManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
@@ -85,26 +85,26 @@
     "Response" : {
       "StatusCode" : "200",
       "content-type" : "application/json; charset=utf-8",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_60053429/providers/microsoft.insights/actionGroups/simpleActionGroup\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"simpleActionGroup\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"SuperAction\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"first_-EmailAction-\",\"emailAddress\":\"justemail@outlook.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[],\"webhookReceivers\":[{\"name\":\"first (WH)\",\"serviceUri\":\"https://www.rate.am\"},{\"name\":\"third (WH)\",\"serviceUri\":\"https://www.news.am\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"first_-AzureAppAction-\",\"emailAddress\":\"azurepush@outlook.com\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"first_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2062066050\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null}",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4f186339/providers/microsoft.insights/actionGroups/simpleActionGroup\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"simpleActionGroup\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"simpleAction\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"first_-EmailAction-\",\"emailAddress\":\"justemail@outlook.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[],\"webhookReceivers\":[{\"name\":\"first (WH)\",\"serviceUri\":\"https://www.rate.am\"},{\"name\":\"third (WH)\",\"serviceUri\":\"https://www.news.am\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"first_-AzureAppAction-\",\"emailAddress\":\"azurepush@outlook.com\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"first_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2062066050\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null}",
       "transfer-encoding" : "chunked",
-      "x-ms-routing-request-id" : "WESTUS2:20180404T233605Z:516e7858-2e0f-4696-b122-1ffe9deb85cd",
+      "x-ms-routing-request-id" : "WESTUS2:20180409T233111Z:55547887-340e-473f-801b-d92b3f3602cd",
       "x-ms-ratelimit-remaining-subscription-reads" : "14996",
-      "date" : "Wed, 04 Apr 2018 23:36:05 GMT",
+      "date" : "Mon, 09 Apr 2018 23:31:10 GMT",
       "vary" : "Accept-Encoding",
       "pragma" : "no-cache",
       "retry-after" : "0",
       "cache-control" : "no-cache",
       "x-content-type-options" : "nosniff",
       "expires" : "-1",
-      "x-ms-request-id" : "246c2d3c-b166-4ca4-8422-b065ac987bfb",
-      "content-length" : "897",
+      "x-ms-request-id" : "a08dfb9d-5537-4504-b5a1-68749dc7c2b6",
+      "content-length" : "898",
       "server" : "Microsoft-IIS/8.5",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "516e7858-2e0f-4696-b122-1ffe9deb85cd"
+      "x-ms-correlation-request-id" : "55547887-340e-473f-801b-d92b3f3602cd"
     }
   }, {
     "Method" : "POST",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_60053429/providers/microsoft.insights/actionGroups/simpleActionGroup/subscribe?api-version=2018-03-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4f186339/providers/microsoft.insights/actionGroups/simpleActionGroup/subscribe?api-version=2018-03-01",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 8.1/6.3 MacAddressHash:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 Java:1.7.0_80 (MonitorManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
@@ -113,23 +113,23 @@
       "StatusCode" : "409",
       "content-type" : "application/json; charset=utf-8",
       "Body" : "{\"Code\":\"ReceiverAlreadyEnabled\",\"Message\":null}",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1195",
-      "x-ms-routing-request-id" : "WESTUS2:20180404T233609Z:c1c0d983-e669-4490-b749-639692eb2b41",
-      "date" : "Wed, 04 Apr 2018 23:36:09 GMT",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1196",
+      "x-ms-routing-request-id" : "WESTUS2:20180409T233111Z:abb84d70-a478-4a60-bcff-fd375e9148e8",
+      "date" : "Mon, 09 Apr 2018 23:31:10 GMT",
       "pragma" : "no-cache",
       "retry-after" : "0",
       "cache-control" : "no-cache",
       "x-content-type-options" : "nosniff",
       "expires" : "-1",
-      "x-ms-request-id" : "13bc5867-5143-4169-8f97-d798491a513d",
+      "x-ms-request-id" : "b1109479-7b5a-4edb-b6d5-64f87e94c976",
       "content-length" : "48",
       "server" : "Microsoft-IIS/8.5",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "c1c0d983-e669-4490-b749-639692eb2b41"
+      "x-ms-correlation-request-id" : "abb84d70-a478-4a60-bcff-fd375e9148e8"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_60053429/providers/microsoft.insights/actionGroups?api-version=2018-03-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4f186339/providers/microsoft.insights/actionGroups?api-version=2018-03-01",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 8.1/6.3 MacAddressHash:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 Java:1.7.0_80 (MonitorManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
@@ -137,22 +137,22 @@
     "Response" : {
       "StatusCode" : "200",
       "content-type" : "application/json; charset=utf-8",
-      "Body" : "{\"value\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_60053429/providers/microsoft.insights/actionGroups/simpleActionGroup\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"simpleActionGroup\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"SuperAction\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"first_-EmailAction-\",\"emailAddress\":\"justemail@outlook.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[],\"webhookReceivers\":[{\"name\":\"first (WH)\",\"serviceUri\":\"https://www.rate.am\"},{\"name\":\"third (WH)\",\"serviceUri\":\"https://www.news.am\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"first_-AzureAppAction-\",\"emailAddress\":\"azurepush@outlook.com\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"first_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2062066050\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null}]}",
+      "Body" : "{\"value\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4f186339/providers/microsoft.insights/actionGroups/simpleActionGroup\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"simpleActionGroup\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"simpleAction\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"first_-EmailAction-\",\"emailAddress\":\"justemail@outlook.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[],\"webhookReceivers\":[{\"name\":\"first (WH)\",\"serviceUri\":\"https://www.rate.am\"},{\"name\":\"third (WH)\",\"serviceUri\":\"https://www.news.am\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"first_-AzureAppAction-\",\"emailAddress\":\"azurepush@outlook.com\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"first_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2062066050\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null}]}",
       "transfer-encoding" : "chunked",
-      "x-ms-routing-request-id" : "WESTUS2:20180404T233611Z:8ff212df-cf72-4c84-b923-b52711821099",
+      "x-ms-routing-request-id" : "WESTUS2:20180409T233111Z:d2d503ed-9ecd-4ba7-8675-a4af54191dac",
       "x-ms-ratelimit-remaining-subscription-reads" : "14995",
-      "date" : "Wed, 04 Apr 2018 23:36:11 GMT",
+      "date" : "Mon, 09 Apr 2018 23:31:10 GMT",
       "vary" : "Accept-Encoding",
       "pragma" : "no-cache",
       "retry-after" : "0",
       "cache-control" : "no-cache",
       "x-content-type-options" : "nosniff",
       "expires" : "-1",
-      "x-ms-request-id" : "b812c347-38d9-4d10-96f6-798e67739fc3",
-      "content-length" : "909",
+      "x-ms-request-id" : "4e38de6b-a03c-487f-b3da-2fda1fce2c3c",
+      "content-length" : "910",
       "server" : "Microsoft-IIS/8.5",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "8ff212df-cf72-4c84-b923-b52711821099"
+      "x-ms-correlation-request-id" : "d2d503ed-9ecd-4ba7-8675-a4af54191dac"
     }
   }, {
     "Method" : "GET",
@@ -164,26 +164,26 @@
     "Response" : {
       "StatusCode" : "200",
       "content-type" : "application/json; charset=utf-8",
-      "Body" : "{\"value\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_60053429/providers/microsoft.insights/actionGroups/simpleActionGroup\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"simpleActionGroup\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"SuperAction\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"first_-EmailAction-\",\"emailAddress\":\"justemail@outlook.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[],\"webhookReceivers\":[{\"name\":\"first (WH)\",\"serviceUri\":\"https://www.rate.am\"},{\"name\":\"third (WH)\",\"serviceUri\":\"https://www.news.am\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"first_-AzureAppAction-\",\"emailAddress\":\"azurepush@outlook.com\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"first_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2062066050\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/microsoft.insights/actionGroups/AbuBakan\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"AbuBakan\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"bakanabu\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"simple_-EmailAction-\",\"emailAddress\":\"brno@mrno.com\",\"status\":\"Enabled\"},{\"name\":\"hard_-EmailAction-\",\"emailAddress\":\"hard@mard.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[{\"name\":\"simple_-SMSAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"4254254254\",\"status\":\"Enabled\"},{\"name\":\"hard_-SMSAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2032222223\",\"status\":\"Enabled\"}],\"webhookReceivers\":[{\"name\":\"metarded\",\"serviceUri\":\"http://www.shmmmmdw.com\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"simple_-AzureAppAction-\",\"emailAddress\":\"gago@mago.com\"},{\"name\":\"hard_-AzureAppAction-\",\"emailAddress\":\"hard@shard.ru\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"simple_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"8188188188\"},{\"name\":\"hard_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"4065050910\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null}]}",
+      "Body" : "{\"value\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_1a924560/providers/microsoft.insights/actionGroups/simpleActionGroup\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"simpleActionGroup\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"simpleAction\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"first_-EmailAction-\",\"emailAddress\":\"justemail@outlook.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[],\"webhookReceivers\":[{\"name\":\"first (WH)\",\"serviceUri\":\"https://www.rate.am\"},{\"name\":\"third (WH)\",\"serviceUri\":\"https://www.news.am\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"first_-AzureAppAction-\",\"emailAddress\":\"azurepush@outlook.com\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"first_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2062066050\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4f186339/providers/microsoft.insights/actionGroups/simpleActionGroup\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"simpleActionGroup\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"simpleAction\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"first_-EmailAction-\",\"emailAddress\":\"justemail@outlook.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[],\"webhookReceivers\":[{\"name\":\"first (WH)\",\"serviceUri\":\"https://www.rate.am\"},{\"name\":\"third (WH)\",\"serviceUri\":\"https://www.news.am\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"first_-AzureAppAction-\",\"emailAddress\":\"azurepush@outlook.com\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"first_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2062066050\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_81b68937/providers/microsoft.insights/actionGroups/simpleActionGroup\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"simpleActionGroup\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"second\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"first_-EmailAction-\",\"emailAddress\":\"justemail@outlook.com\",\"status\":\"Enabled\"},{\"name\":\"second_-EmailAction-\",\"emailAddress\":\"secondemail@outlook.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[{\"name\":\"first_-SMSAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"4255655665\",\"status\":\"Enabled\"}],\"webhookReceivers\":[{\"name\":\"first (WH)\",\"serviceUri\":\"https://www.rate.am\"},{\"name\":\"second (WH)\",\"serviceUri\":\"https://www.spyur.am\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"first_-AzureAppAction-\",\"emailAddress\":\"azurepush@outlook.com\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"first_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2062066050\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_9d293747/providers/microsoft.insights/actionGroups/simpleActionGroup\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"simpleActionGroup\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"simpleAction\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"first_-EmailAction-\",\"emailAddress\":\"justemail@outlook.com\",\"status\":\"Enabled\"},{\"name\":\"second_-EmailAction-\",\"emailAddress\":\"secondemail@outlook.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[{\"name\":\"first_-SMSAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"4255655665\",\"status\":\"Enabled\"}],\"webhookReceivers\":[{\"name\":\"first (WH)\",\"serviceUri\":\"https://www.rate.am\"},{\"name\":\"second (WH)\",\"serviceUri\":\"https://www.spyur.am\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"first_-AzureAppAction-\",\"emailAddress\":\"azurepush@outlook.com\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"first_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2062066050\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_ad208963/providers/microsoft.insights/actionGroups/simpleActionGroup\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"simpleActionGroup\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"simpleAction\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"first_-EmailAction-\",\"emailAddress\":\"justemail@outlook.com\",\"status\":\"Enabled\"},{\"name\":\"second_-EmailAction-\",\"emailAddress\":\"secondemail@outlook.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[{\"name\":\"first_-SMSAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"4255655665\",\"status\":\"Enabled\"}],\"webhookReceivers\":[{\"name\":\"first (WH)\",\"serviceUri\":\"https://www.rate.am\"},{\"name\":\"second (WH)\",\"serviceUri\":\"https://www.spyur.am\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"first_-AzureAppAction-\",\"emailAddress\":\"azurepush@outlook.com\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"first_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2062066050\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/microsoft.insights/actionGroups/AbuBakan\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"AbuBakan\",\"location\":\"Global\",\"kind\":null,\"tags\":{},\"properties\":{\"groupShortName\":\"bakanabu\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"simple_-EmailAction-\",\"emailAddress\":\"brno@mrno.com\",\"status\":\"Enabled\"},{\"name\":\"hard_-EmailAction-\",\"emailAddress\":\"hard@mard.com\",\"status\":\"Enabled\"}],\"smsReceivers\":[{\"name\":\"simple_-SMSAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"4254254254\",\"status\":\"Enabled\"},{\"name\":\"hard_-SMSAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"2032222223\",\"status\":\"Enabled\"}],\"webhookReceivers\":[{\"name\":\"metarded\",\"serviceUri\":\"http://www.shmmmmdw.com\"}],\"itsmReceivers\":[],\"azureAppPushReceivers\":[{\"name\":\"simple_-AzureAppAction-\",\"emailAddress\":\"gago@mago.com\"},{\"name\":\"hard_-AzureAppAction-\",\"emailAddress\":\"hard@shard.ru\"}],\"automationRunbookReceivers\":[],\"voiceReceivers\":[{\"name\":\"simple_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"8188188188\"},{\"name\":\"hard_-VoiceAction-\",\"countryCode\":\"1\",\"phoneNumber\":\"4065050910\"}],\"logicAppReceivers\":[],\"azureFunctionReceivers\":[]},\"identity\":null}]}",
       "transfer-encoding" : "chunked",
-      "x-ms-routing-request-id" : "WESTUS2:20180404T233611Z:a6ee8248-d56e-4867-b9c6-1a8b1767a60f",
+      "x-ms-routing-request-id" : "WESTUS2:20180409T233111Z:c28b30f1-d619-4129-acfb-40023b68ac77",
       "x-ms-ratelimit-remaining-subscription-reads" : "14994",
-      "date" : "Wed, 04 Apr 2018 23:36:11 GMT",
+      "date" : "Mon, 09 Apr 2018 23:31:10 GMT",
       "vary" : "Accept-Encoding",
       "pragma" : "no-cache",
       "retry-after" : "0",
       "cache-control" : "no-cache",
       "x-content-type-options" : "nosniff",
       "expires" : "-1",
-      "x-ms-request-id" : "4b4a0f7e-6089-4d93-b8a3-1639a655476a",
-      "content-length" : "2108",
+      "x-ms-request-id" : "1117800e-fcdf-4688-8a08-7d76526f3ab4",
+      "content-length" : "6257",
       "server" : "Microsoft-IIS/8.5",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "a6ee8248-d56e-4867-b9c6-1a8b1767a60f"
+      "x-ms-correlation-request-id" : "c28b30f1-d619-4129-acfb-40023b68ac77"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_60053429/providers/microsoft.insights/actionGroups/simpleActionGroup?api-version=2018-03-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4f186339/providers/microsoft.insights/actionGroups/simpleActionGroup?api-version=2018-03-01",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 8.1/6.3 MacAddressHash:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 Java:1.7.0_80 (MonitorManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
@@ -191,23 +191,23 @@
     "Response" : {
       "StatusCode" : "200",
       "Body" : "",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1194",
-      "x-ms-routing-request-id" : "WESTUS2:20180404T233613Z:68a34acf-84fd-4360-ae91-56c5eae7ae34",
-      "date" : "Wed, 04 Apr 2018 23:36:12 GMT",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1195",
+      "x-ms-routing-request-id" : "WESTUS2:20180409T233113Z:f7665070-858a-4efb-9f34-4400e2941baa",
+      "date" : "Mon, 09 Apr 2018 23:31:12 GMT",
       "pragma" : "no-cache",
       "retry-after" : "0",
       "cache-control" : "no-cache",
       "x-content-type-options" : "nosniff",
       "expires" : "-1",
-      "x-ms-request-id" : "b4913b21-a0cc-4692-86bb-14f81e8e35b3",
+      "x-ms-request-id" : "63bb3dba-9c3d-429e-91a0-8d7d4cb256b1",
       "content-length" : "0",
       "server" : "Microsoft-IIS/8.5",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "68a34acf-84fd-4360-ae91-56c5eae7ae34"
+      "x-ms-correlation-request-id" : "f7665070-858a-4efb-9f34-4400e2941baa"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_60053429/providers/microsoft.insights/actionGroups?api-version=2018-03-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4f186339/providers/microsoft.insights/actionGroups?api-version=2018-03-01",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 8.1/6.3 MacAddressHash:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 Java:1.7.0_80 (MonitorManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
@@ -217,24 +217,48 @@
       "content-type" : "application/json; charset=utf-8",
       "Body" : "{\"value\":[]}",
       "transfer-encoding" : "chunked",
-      "x-ms-routing-request-id" : "WESTUS2:20180404T233613Z:597bb54b-434d-423d-bf5e-5b693d228e35",
+      "x-ms-routing-request-id" : "WESTUS2:20180409T233113Z:65121813-02e6-49e6-9418-d65f62e0141b",
       "x-ms-ratelimit-remaining-subscription-reads" : "14993",
-      "date" : "Wed, 04 Apr 2018 23:36:13 GMT",
+      "date" : "Mon, 09 Apr 2018 23:31:12 GMT",
       "vary" : "Accept-Encoding",
       "pragma" : "no-cache",
       "retry-after" : "0",
       "cache-control" : "no-cache",
       "x-content-type-options" : "nosniff",
       "expires" : "-1",
-      "x-ms-request-id" : "8ad08738-bec1-4492-bf3d-2635c6cf57e1",
+      "x-ms-request-id" : "f8555a4b-c8a6-4dda-be05-e20b48a2ee1d",
       "content-length" : "12",
       "server" : "Microsoft-IIS/8.5",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "597bb54b-434d-423d-bf5e-5b693d228e35"
+      "x-ms-correlation-request-id" : "65121813-02e6-49e6-9418-d65f62e0141b"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_60053429?api-version=2017-05-10",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_4f186339?api-version=2017-05-10",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 8.1/6.3 MacAddressHash:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 Java:1.7.0_80 (ResourceManagementClient, 2017-05-10)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "StatusCode" : "202",
+      "Body" : "",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1194",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1KTU9OSVRPUjo1RjRGMTg2MzM5LUFVU1RSQUxJQVNPVVRIRUFTVCIsImpvYkxvY2F0aW9uIjoiYXVzdHJhbGlhc291dGhlYXN0In0?api-version=2017-05-10",
+      "x-ms-routing-request-id" : "WESTUS2:20180409T233115Z:df6f9553-06e4-4335-bb95-e90245466b44",
+      "date" : "Mon, 09 Apr 2018 23:31:15 GMT",
+      "pragma" : "no-cache",
+      "cache-control" : "no-cache",
+      "retry-after" : "0",
+      "x-content-type-options" : "nosniff",
+      "expires" : "-1",
+      "x-ms-request-id" : "df6f9553-06e4-4335-bb95-e90245466b44",
+      "content-length" : "0",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "df6f9553-06e4-4335-bb95-e90245466b44"
+    }
+  }, {
+    "Method" : "DELETE",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_4f186339?api-version=2017-05-10",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 8.1/6.3 MacAddressHash:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 Java:1.7.0_80 (ResourceManagementClient, 2017-05-10)",
       "Content-Type" : "application/json; charset=utf-8"
@@ -243,43 +267,19 @@
       "StatusCode" : "202",
       "Body" : "",
       "x-ms-ratelimit-remaining-subscription-writes" : "1193",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1KTU9OSVRPUjo1RjYwMDUzNDI5LUFVU1RSQUxJQVNPVVRIRUFTVCIsImpvYkxvY2F0aW9uIjoiYXVzdHJhbGlhc291dGhlYXN0In0?api-version=2017-05-10",
-      "x-ms-routing-request-id" : "WESTUS2:20180404T233615Z:7cb37c28-a5a0-40fa-9128-ed00825db635",
-      "date" : "Wed, 04 Apr 2018 23:36:15 GMT",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1KTU9OSVRPUjo1RjRGMTg2MzM5LUFVU1RSQUxJQVNPVVRIRUFTVCIsImpvYkxvY2F0aW9uIjoiYXVzdHJhbGlhc291dGhlYXN0In0?api-version=2017-05-10",
+      "x-ms-routing-request-id" : "WESTUS2:20180409T233118Z:052b905e-e5be-49ae-94a4-2d686d82be4e",
+      "date" : "Mon, 09 Apr 2018 23:31:17 GMT",
       "pragma" : "no-cache",
       "cache-control" : "no-cache",
       "retry-after" : "0",
       "x-content-type-options" : "nosniff",
       "expires" : "-1",
-      "x-ms-request-id" : "7cb37c28-a5a0-40fa-9128-ed00825db635",
+      "x-ms-request-id" : "052b905e-e5be-49ae-94a4-2d686d82be4e",
       "content-length" : "0",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "7cb37c28-a5a0-40fa-9128-ed00825db635"
-    }
-  }, {
-    "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_60053429?api-version=2017-05-10",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 8.1/6.3 MacAddressHash:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 Java:1.7.0_80 (ResourceManagementClient, 2017-05-10)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
-    "Response" : {
-      "StatusCode" : "202",
-      "Body" : "",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1192",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1KTU9OSVRPUjo1RjYwMDUzNDI5LUFVU1RSQUxJQVNPVVRIRUFTVCIsImpvYkxvY2F0aW9uIjoiYXVzdHJhbGlhc291dGhlYXN0In0?api-version=2017-05-10",
-      "x-ms-routing-request-id" : "WESTUS2:20180404T233617Z:23dbec01-5244-4205-8241-0767700901db",
-      "date" : "Wed, 04 Apr 2018 23:36:17 GMT",
-      "pragma" : "no-cache",
-      "cache-control" : "no-cache",
-      "retry-after" : "0",
-      "x-content-type-options" : "nosniff",
-      "expires" : "-1",
-      "x-ms-request-id" : "23dbec01-5244-4205-8241-0767700901db",
-      "content-length" : "0",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "23dbec01-5244-4205-8241-0767700901db"
+      "x-ms-correlation-request-id" : "052b905e-e5be-49ae-94a4-2d686d82be4e"
     }
   } ],
-  "variables" : [ "jmonitor_60053429", "ac1255bc-fa63-4ad6-979d-4977ee1ba1a4", "0d6852a0-2bb7-4be1-937f-47e5feb5ea01", "0637e405-51b4-4cfb-88d5-aadf4ce8cc5d", "6fdae057-646e-4634-ad9b-a0fe4b37c58f", "89b4d53f-74f4-4e64-aa4a-a560e61804e1", "e4f67acc-3a3d-45de-9885-7f965aaf0eae" ]
+  "variables" : [ "jmonitor_4f186339", "f7a2f981-3106-4e81-868f-d840c72d88ea", "291ce0c7-ab90-400c-8d34-8425b721e7c4", "06f60862-956b-4307-9cf1-93e173d8fc31", "3a28fba3-9c72-408a-b1dd-b479f81f29a5", "cafc7469-2167-44bd-98a4-acb5394faaff", "736d36ca-74f2-4a9a-bbad-b086dce131c5", "1c0049db-629a-4d35-831c-ccbf3907081c", "14e94d9f-6ff4-4b17-97a9-602651ac4dbb", "2d85383e-f93e-4cff-9a48-50d7cf41850d", "3505ed34-bfb9-4607-9c93-d05c7162b3b7" ]
 }

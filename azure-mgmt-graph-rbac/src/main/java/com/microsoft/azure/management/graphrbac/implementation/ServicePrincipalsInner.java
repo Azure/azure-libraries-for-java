@@ -74,27 +74,31 @@ public class ServicePrincipalsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.ServicePrincipals delete" })
         @HTTP(path = "{tenantID}/servicePrincipals/{objectId}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path(value = "objectId", encoded = true) String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> delete(@Path("objectId") String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.ServicePrincipals get" })
         @GET("{tenantID}/servicePrincipals/{objectId}")
-        Observable<Response<ResponseBody>> get(@Path(value = "objectId", encoded = true) String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> get(@Path("objectId") String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.ServicePrincipals listOwners" })
+        @GET("{tenantID}/servicePrincipals/{objectId}/owners")
+        Observable<Response<ResponseBody>> listOwners(@Path("objectId") String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.ServicePrincipals listKeyCredentials" })
         @GET("{tenantID}/servicePrincipals/{objectId}/keyCredentials")
-        Observable<Response<ResponseBody>> listKeyCredentials(@Path(value = "objectId", encoded = true) String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listKeyCredentials(@Path("objectId") String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.ServicePrincipals updateKeyCredentials" })
         @PATCH("{tenantID}/servicePrincipals/{objectId}/keyCredentials")
-        Observable<Response<ResponseBody>> updateKeyCredentials(@Path(value = "objectId", encoded = true) String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body KeyCredentialsUpdateParameters parameters, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> updateKeyCredentials(@Path("objectId") String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body KeyCredentialsUpdateParameters parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.ServicePrincipals listPasswordCredentials" })
         @GET("{tenantID}/servicePrincipals/{objectId}/passwordCredentials")
-        Observable<Response<ResponseBody>> listPasswordCredentials(@Path(value = "objectId", encoded = true) String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listPasswordCredentials(@Path("objectId") String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.ServicePrincipals updatePasswordCredentials" })
         @PATCH("{tenantID}/servicePrincipals/{objectId}/passwordCredentials")
-        Observable<Response<ResponseBody>> updatePasswordCredentials(@Path(value = "objectId", encoded = true) String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body PasswordCredentialsUpdateParameters parameters, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> updatePasswordCredentials(@Path("objectId") String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body PasswordCredentialsUpdateParameters parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.ServicePrincipals listNext" })
         @GET
@@ -548,6 +552,90 @@ public class ServicePrincipalsInner {
     private ServiceResponse<ServicePrincipalInner> getDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ServicePrincipalInner, GraphErrorException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<ServicePrincipalInner>() { }.getType())
+                .registerError(GraphErrorException.class)
+                .build(response);
+    }
+
+    /**
+     * Directory objects that are owners of this service principal.
+     * The owners are a set of non-admin users who are allowed to modify this object.
+     *
+     * @param objectId The object ID of the service principal for which to get owners.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws GraphErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the List&lt;DirectoryObjectInner&gt; object if successful.
+     */
+    public List<DirectoryObjectInner> listOwners(String objectId) {
+        return listOwnersWithServiceResponseAsync(objectId).toBlocking().single().body();
+    }
+
+    /**
+     * Directory objects that are owners of this service principal.
+     * The owners are a set of non-admin users who are allowed to modify this object.
+     *
+     * @param objectId The object ID of the service principal for which to get owners.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<DirectoryObjectInner>> listOwnersAsync(String objectId, final ServiceCallback<List<DirectoryObjectInner>> serviceCallback) {
+        return ServiceFuture.fromResponse(listOwnersWithServiceResponseAsync(objectId), serviceCallback);
+    }
+
+    /**
+     * Directory objects that are owners of this service principal.
+     * The owners are a set of non-admin users who are allowed to modify this object.
+     *
+     * @param objectId The object ID of the service principal for which to get owners.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the List&lt;DirectoryObjectInner&gt; object
+     */
+    public Observable<List<DirectoryObjectInner>> listOwnersAsync(String objectId) {
+        return listOwnersWithServiceResponseAsync(objectId).map(new Func1<ServiceResponse<List<DirectoryObjectInner>>, List<DirectoryObjectInner>>() {
+            @Override
+            public List<DirectoryObjectInner> call(ServiceResponse<List<DirectoryObjectInner>> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Directory objects that are owners of this service principal.
+     * The owners are a set of non-admin users who are allowed to modify this object.
+     *
+     * @param objectId The object ID of the service principal for which to get owners.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the List&lt;DirectoryObjectInner&gt; object
+     */
+    public Observable<ServiceResponse<List<DirectoryObjectInner>>> listOwnersWithServiceResponseAsync(String objectId) {
+        if (objectId == null) {
+            throw new IllegalArgumentException("Parameter objectId is required and cannot be null.");
+        }
+        if (this.client.tenantID() == null) {
+            throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listOwners(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<DirectoryObjectInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<List<DirectoryObjectInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl1<DirectoryObjectInner>> result = listOwnersDelegate(response);
+                        ServiceResponse<List<DirectoryObjectInner>> clientResponse = new ServiceResponse<List<DirectoryObjectInner>>(result.body().items(), result.response());
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl1<DirectoryObjectInner>> listOwnersDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl1<DirectoryObjectInner>, GraphErrorException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl1<DirectoryObjectInner>>() { }.getType())
                 .registerError(GraphErrorException.class)
                 .build(response);
     }

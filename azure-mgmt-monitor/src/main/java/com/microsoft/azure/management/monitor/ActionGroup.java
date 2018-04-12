@@ -251,9 +251,9 @@ public interface ActionGroup extends
             ActionDefinition<ActionGroup.DefinitionStages.WithCreate> defineReceiver(String actionNamePrefix);
 
             /**
-             * Sets the short name of the action group. This will be used in SMS messages. Maximum length cannot exceed 15 symbols.
+             * Sets the short name of the action group. This will be used in SMS messages. Maximum length cannot exceed 12 symbols.
              *
-             * @param shortName short name of the action group. Cannot exceed 15 symbols.
+             * @param shortName short name of the action group. Cannot exceed 12 symbols.
              * @return the next stage of the definition
              */
             WithCreate withShortName(String shortName);
@@ -294,9 +294,9 @@ public interface ActionGroup extends
             WithActionUpdateDefinition updateReceiver(String actionNamePrefix);
 
             /**
-             * Sets the short name of the action group. This will be used in SMS messages. Maximum length cannot exceed 15 symbols.
+             * Sets the short name of the action group. This will be used in SMS messages. Maximum length cannot exceed 12 symbols.
              *
-             * @param shortName short name of the action group. Cannot exceed 15 symbols
+             * @param shortName short name of the action group. Cannot exceed 12 symbols
              * @return the next stage of the update
              */
             Update withShortName(String shortName);

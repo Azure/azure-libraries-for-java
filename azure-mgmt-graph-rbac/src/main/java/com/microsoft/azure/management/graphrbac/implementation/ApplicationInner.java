@@ -10,23 +10,15 @@ package com.microsoft.azure.management.graphrbac.implementation;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Active Directory application information.
  */
-public class ApplicationInner {
-    /**
-     * The object ID.
-     */
-    @JsonProperty(value = "objectId")
-    private String objectId;
-
-    /**
-     * The object type.
-     */
-    @JsonProperty(value = "objectType")
-    private String objectType;
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
+@JsonTypeName("Application")
+public class ApplicationInner extends DirectoryObjectInner {
     /**
      * The application ID.
      */
@@ -70,44 +62,10 @@ public class ApplicationInner {
     private String homepage;
 
     /**
-     * Get the objectId value.
-     *
-     * @return the objectId value
+     * Whether to allow implicit grant flow for OAuth2.
      */
-    public String objectId() {
-        return this.objectId;
-    }
-
-    /**
-     * Set the objectId value.
-     *
-     * @param objectId the objectId value to set
-     * @return the ApplicationInner object itself.
-     */
-    public ApplicationInner withObjectId(String objectId) {
-        this.objectId = objectId;
-        return this;
-    }
-
-    /**
-     * Get the objectType value.
-     *
-     * @return the objectType value
-     */
-    public String objectType() {
-        return this.objectType;
-    }
-
-    /**
-     * Set the objectType value.
-     *
-     * @param objectType the objectType value to set
-     * @return the ApplicationInner object itself.
-     */
-    public ApplicationInner withObjectType(String objectType) {
-        this.objectType = objectType;
-        return this;
-    }
+    @JsonProperty(value = "oauth2AllowImplicitFlow")
+    private Boolean oauth2AllowImplicitFlow;
 
     /**
      * Get the appId value.
@@ -246,6 +204,26 @@ public class ApplicationInner {
      */
     public ApplicationInner withHomepage(String homepage) {
         this.homepage = homepage;
+        return this;
+    }
+
+    /**
+     * Get the oauth2AllowImplicitFlow value.
+     *
+     * @return the oauth2AllowImplicitFlow value
+     */
+    public Boolean oauth2AllowImplicitFlow() {
+        return this.oauth2AllowImplicitFlow;
+    }
+
+    /**
+     * Set the oauth2AllowImplicitFlow value.
+     *
+     * @param oauth2AllowImplicitFlow the oauth2AllowImplicitFlow value to set
+     * @return the ApplicationInner object itself.
+     */
+    public ApplicationInner withOauth2AllowImplicitFlow(Boolean oauth2AllowImplicitFlow) {
+        this.oauth2AllowImplicitFlow = oauth2AllowImplicitFlow;
         return this;
     }
 

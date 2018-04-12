@@ -8,13 +8,21 @@
 
 package com.microsoft.azure.management.graphrbac.implementation;
 
+import java.util.Map;
 import java.util.List;
+import com.microsoft.azure.management.graphrbac.RequiredResourceAccess;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Request parameters for creating a new application.
  */
 public class ApplicationCreateParametersInner {
+    /**
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
+
     /**
      * Whether the application is available to other tenants.
      */
@@ -56,6 +64,41 @@ public class ApplicationCreateParametersInner {
      */
     @JsonProperty(value = "passwordCredentials")
     private List<PasswordCredentialInner> passwordCredentials;
+
+    /**
+     * Whether to allow implicit grant flow for OAuth2.
+     */
+    @JsonProperty(value = "oauth2AllowImplicitFlow")
+    private Boolean oauth2AllowImplicitFlow;
+
+    /**
+     * Specifies resources that this application requires access to and the set
+     * of OAuth permission scopes and application roles that it needs under
+     * each of those resources. This pre-configuration of required resource
+     * access drives the consent experience.
+     */
+    @JsonProperty(value = "requiredResourceAccess")
+    private List<RequiredResourceAccess> requiredResourceAccess;
+
+    /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set
+     * @return the ApplicationCreateParametersInner object itself.
+     */
+    public ApplicationCreateParametersInner withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        return this;
+    }
 
     /**
      * Get the availableToOtherTenants value.
@@ -194,6 +237,46 @@ public class ApplicationCreateParametersInner {
      */
     public ApplicationCreateParametersInner withPasswordCredentials(List<PasswordCredentialInner> passwordCredentials) {
         this.passwordCredentials = passwordCredentials;
+        return this;
+    }
+
+    /**
+     * Get the oauth2AllowImplicitFlow value.
+     *
+     * @return the oauth2AllowImplicitFlow value
+     */
+    public Boolean oauth2AllowImplicitFlow() {
+        return this.oauth2AllowImplicitFlow;
+    }
+
+    /**
+     * Set the oauth2AllowImplicitFlow value.
+     *
+     * @param oauth2AllowImplicitFlow the oauth2AllowImplicitFlow value to set
+     * @return the ApplicationCreateParametersInner object itself.
+     */
+    public ApplicationCreateParametersInner withOauth2AllowImplicitFlow(Boolean oauth2AllowImplicitFlow) {
+        this.oauth2AllowImplicitFlow = oauth2AllowImplicitFlow;
+        return this;
+    }
+
+    /**
+     * Get the requiredResourceAccess value.
+     *
+     * @return the requiredResourceAccess value
+     */
+    public List<RequiredResourceAccess> requiredResourceAccess() {
+        return this.requiredResourceAccess;
+    }
+
+    /**
+     * Set the requiredResourceAccess value.
+     *
+     * @param requiredResourceAccess the requiredResourceAccess value to set
+     * @return the ApplicationCreateParametersInner object itself.
+     */
+    public ApplicationCreateParametersInner withRequiredResourceAccess(List<RequiredResourceAccess> requiredResourceAccess) {
+        this.requiredResourceAccess = requiredResourceAccess;
         return this;
     }
 

@@ -161,15 +161,13 @@ public class VirtualNetworkGatewayConnectionImpl
 
     @Override
     public VirtualNetworkGatewayConnectionImpl withLocalNetworkGateway(LocalNetworkGateway localNetworkGateway) {
-        SubResource localNetworkGatewayRef = new SubResource().withId(localNetworkGateway.id());
-        inner().withLocalNetworkGateway2(localNetworkGatewayRef);
+        inner().withLocalNetworkGateway2(localNetworkGateway.inner());
         return this;
     }
 
     @Override
     public VirtualNetworkGatewayConnectionImpl withSecondVirtualNetworkGateway(VirtualNetworkGateway virtualNetworkGateway2) {
-        SubResource virtualNetworkGateway2Ref = new SubResource().withId(virtualNetworkGateway2.id());
-        inner().withVirtualNetworkGateway2(virtualNetworkGateway2Ref);
+        inner().withVirtualNetworkGateway2(virtualNetworkGateway2.inner());
         return this;
     }
 
@@ -211,7 +209,6 @@ public class VirtualNetworkGatewayConnectionImpl
     }
 
     private void beforeCreating() {
-        SubResource virtualNetworkGatewayRef = new SubResource().withId(parent.id());
-        inner().withVirtualNetworkGateway1(virtualNetworkGatewayRef);
+        inner().withVirtualNetworkGateway1(parent.inner());
     }
 }

@@ -9,6 +9,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.NetworkWatcher;
 import com.microsoft.azure.management.network.Troubleshooting;
 import com.microsoft.azure.management.network.TroubleshootingDetails;
+import com.microsoft.azure.management.network.TroubleshootingParameters;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
 import org.joda.time.DateTime;
 import rx.Observable;
@@ -24,7 +25,7 @@ class TroubleshootingImpl extends ExecutableImpl<Troubleshooting>
         implements Troubleshooting, Troubleshooting.Definition {
 
     private final NetworkWatcherImpl parent;
-    private TroubleshootingParametersInner parameters = new TroubleshootingParametersInner();
+    private TroubleshootingParameters parameters = new TroubleshootingParameters();
     private TroubleshootingResultInner result;
 
     TroubleshootingImpl(NetworkWatcherImpl parent) {

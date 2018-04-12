@@ -19,6 +19,7 @@ import com.microsoft.azure.management.network.VirtualNetworkGatewaySkuName;
 import com.microsoft.azure.management.network.VirtualNetworkGatewaySkuTier;
 import com.microsoft.azure.management.network.VirtualNetworkGatewayType;
 import com.microsoft.azure.management.network.VpnClientConfiguration;
+import com.microsoft.azure.management.network.VpnClientParameters;
 import com.microsoft.azure.management.network.VpnType;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
@@ -100,7 +101,7 @@ class VirtualNetworkGatewayImpl
         VirtualNetworkGatewaySku sku = new VirtualNetworkGatewaySku()
                 .withName(skuName)
                 // same sku tier as sku name
-                .withTier(new VirtualNetworkGatewaySkuTier(skuName.toString()));
+                .withTier(VirtualNetworkGatewaySkuTier.fromString(skuName.toString()));
         this.inner().withSku(sku);
         return this;
     }
@@ -223,12 +224,12 @@ class VirtualNetworkGatewayImpl
 
     @Override
     public String generateVpnProfile() {
-        return this.manager().inner().virtualNetworkGateways().generateVpnProfile(resourceGroupName(), name(), new VpnClientParametersInner());
+        return this.manager().inner().virtualNetworkGateways().generateVpnProfile(resourceGroupName(), name(), new VpnClientParameters());
     }
 
     @Override
     public Observable<String> generateVpnProfileAsync() {
-        return this.manager().inner().virtualNetworkGateways().generateVpnProfileAsync(resourceGroupName(), name(), new VpnClientParametersInner());
+        return this.manager().inner().virtualNetworkGateways().generateVpnProfileAsync(resourceGroupName(), name(), new VpnClientParameters());
     }
 
     @Override

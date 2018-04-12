@@ -7,6 +7,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.NextHop;
+import com.microsoft.azure.management.network.NextHopParameters;
 import com.microsoft.azure.management.network.NextHopType;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
 import rx.Observable;
@@ -19,7 +20,7 @@ import rx.functions.Func1;
 public class NextHopImpl extends ExecutableImpl<NextHop>
         implements NextHop, NextHop.Definition {
     private final NetworkWatcherImpl parent;
-    private NextHopParametersInner parameters = new NextHopParametersInner();
+    private NextHopParameters parameters = new NextHopParameters();
     private NextHopResultInner result;
 
     NextHopImpl(NetworkWatcherImpl parent) {

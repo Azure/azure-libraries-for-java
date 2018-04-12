@@ -9,8 +9,8 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.ExpressRouteCircuit;
 import com.microsoft.azure.management.network.ExpressRouteCircuitPeering;
 import com.microsoft.azure.management.network.ExpressRouteCircuitPeeringConfig;
-import com.microsoft.azure.management.network.ExpressRouteCircuitPeeringState;
-import com.microsoft.azure.management.network.ExpressRouteCircuitPeeringType;
+import com.microsoft.azure.management.network.ExpressRoutePeeringState;
+import com.microsoft.azure.management.network.ExpressRoutePeeringType;
 import com.microsoft.azure.management.network.Ipv6ExpressRouteCircuitPeeringConfig;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
@@ -31,7 +31,7 @@ class ExpressRouteCircuitPeeringImpl extends
     private ExpressRouteCircuitStatsImpl stats;
 
     ExpressRouteCircuitPeeringImpl(ExpressRouteCircuitImpl parent, ExpressRouteCircuitPeeringInner innerObject,
-                                   ExpressRouteCircuitPeeringsInner client, ExpressRouteCircuitPeeringType type) {
+                                   ExpressRouteCircuitPeeringsInner client, ExpressRoutePeeringType type) {
         super(type.toString(), innerObject);
         this.client = client;
         this.parent = parent;
@@ -71,7 +71,7 @@ class ExpressRouteCircuitPeeringImpl extends
     }
 
     @Override
-    public ExpressRouteCircuitPeeringImpl withPeerAsn(int peerAsn) {
+    public ExpressRouteCircuitPeeringImpl withPeerAsn(long peerAsn) {
         inner().withPeerASN(peerAsn);
         return this;
     }
@@ -108,12 +108,12 @@ class ExpressRouteCircuitPeeringImpl extends
     }
 
     @Override
-    public ExpressRouteCircuitPeeringType peeringType() {
+    public ExpressRoutePeeringType peeringType() {
         return inner().peeringType();
     }
 
     @Override
-    public ExpressRouteCircuitPeeringState state() {
+    public ExpressRoutePeeringState state() {
         return inner().state();
     }
 
@@ -123,7 +123,7 @@ class ExpressRouteCircuitPeeringImpl extends
     }
 
     @Override
-    public int peerAsn() {
+    public long peerAsn() {
         return Utils.toPrimitiveInt(inner().peerASN());
     }
 

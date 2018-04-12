@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ApplicationGatewaySslPolicyType.
  */
-public final class ApplicationGatewaySslPolicyType {
+public final class ApplicationGatewaySslPolicyType extends ExpandableStringEnum<ApplicationGatewaySslPolicyType> {
     /** Static value Predefined for ApplicationGatewaySslPolicyType. */
-    public static final ApplicationGatewaySslPolicyType PREDEFINED = new ApplicationGatewaySslPolicyType("Predefined");
+    public static final ApplicationGatewaySslPolicyType PREDEFINED = fromString("Predefined");
 
     /** Static value Custom for ApplicationGatewaySslPolicyType. */
-    public static final ApplicationGatewaySslPolicyType CUSTOM = new ApplicationGatewaySslPolicyType("Custom");
-
-    private String value;
+    public static final ApplicationGatewaySslPolicyType CUSTOM = fromString("Custom");
 
     /**
-     * Creates a custom value for ApplicationGatewaySslPolicyType.
-     * @param value the custom value
+     * Creates or finds a ApplicationGatewaySslPolicyType from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ApplicationGatewaySslPolicyType
      */
-    public ApplicationGatewaySslPolicyType(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ApplicationGatewaySslPolicyType fromString(String name) {
+        return fromString(name, ApplicationGatewaySslPolicyType.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ApplicationGatewaySslPolicyType)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ApplicationGatewaySslPolicyType rhs = (ApplicationGatewaySslPolicyType) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ApplicationGatewaySslPolicyType values
+     */
+    public static Collection<ApplicationGatewaySslPolicyType> values() {
+        return values(ApplicationGatewaySslPolicyType.class);
     }
 }

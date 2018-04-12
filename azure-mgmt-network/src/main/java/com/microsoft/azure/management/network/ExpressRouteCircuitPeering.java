@@ -32,13 +32,13 @@ public interface ExpressRouteCircuitPeering extends
     /**
      * @return peering type
      */
-    ExpressRouteCircuitPeeringType peeringType();
+    ExpressRoutePeeringType peeringType();
 
     /**
      * Gets the state of peering.
      * @return peering state
      */
-    ExpressRouteCircuitPeeringState state();
+    ExpressRoutePeeringState state();
 
     /**
      * @return the Azure ASN
@@ -48,7 +48,7 @@ public interface ExpressRouteCircuitPeering extends
     /**
      * @return the peer ASN
      */
-    int peerAsn();
+    long peerAsn();
 
     /**
      * @return the primary address prefix
@@ -174,7 +174,7 @@ public interface ExpressRouteCircuitPeering extends
              * @param peerAsn AS number for peering. Both 2-byte and 4-byte AS numbers can be used
              * @return next stage of definition
              */
-            WithCreate withPeerAsn(int peerAsn);
+            WithCreate withPeerAsn(long peerAsn);
         }
 
         interface WithCreate extends
@@ -230,7 +230,7 @@ public interface ExpressRouteCircuitPeering extends
          * The stage of Express Route Circuit Peering update allowing to specify AS number for peering.
          */
         interface WithPeerAsn {
-            Update withPeerAsn(int peerAsn);
+            Update withPeerAsn(long peerAsn);
         }
     }
 }

@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for SecurityRuleAccess.
  */
-public final class SecurityRuleAccess {
+public final class SecurityRuleAccess extends ExpandableStringEnum<SecurityRuleAccess> {
     /** Static value Allow for SecurityRuleAccess. */
-    public static final SecurityRuleAccess ALLOW = new SecurityRuleAccess("Allow");
+    public static final SecurityRuleAccess ALLOW = fromString("Allow");
 
     /** Static value Deny for SecurityRuleAccess. */
-    public static final SecurityRuleAccess DENY = new SecurityRuleAccess("Deny");
-
-    private String value;
+    public static final SecurityRuleAccess DENY = fromString("Deny");
 
     /**
-     * Creates a custom value for SecurityRuleAccess.
-     * @param value the custom value
+     * Creates or finds a SecurityRuleAccess from its string representation.
+     * @param name a name to look for
+     * @return the corresponding SecurityRuleAccess
      */
-    public SecurityRuleAccess(String value) {
-        this.value = value;
+    @JsonCreator
+    public static SecurityRuleAccess fromString(String name) {
+        return fromString(name, SecurityRuleAccess.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof SecurityRuleAccess)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        SecurityRuleAccess rhs = (SecurityRuleAccess) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known SecurityRuleAccess values
+     */
+    public static Collection<SecurityRuleAccess> values() {
+        return values(SecurityRuleAccess.class);
     }
 }

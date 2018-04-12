@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for IPAllocationMethod.
  */
-public final class IPAllocationMethod {
+public final class IPAllocationMethod extends ExpandableStringEnum<IPAllocationMethod> {
     /** Static value Static for IPAllocationMethod. */
-    public static final IPAllocationMethod STATIC = new IPAllocationMethod("Static");
+    public static final IPAllocationMethod STATIC = fromString("Static");
 
     /** Static value Dynamic for IPAllocationMethod. */
-    public static final IPAllocationMethod DYNAMIC = new IPAllocationMethod("Dynamic");
-
-    private String value;
+    public static final IPAllocationMethod DYNAMIC = fromString("Dynamic");
 
     /**
-     * Creates a custom value for IPAllocationMethod.
-     * @param value the custom value
+     * Creates or finds a IPAllocationMethod from its string representation.
+     * @param name a name to look for
+     * @return the corresponding IPAllocationMethod
      */
-    public IPAllocationMethod(String value) {
-        this.value = value;
+    @JsonCreator
+    public static IPAllocationMethod fromString(String name) {
+        return fromString(name, IPAllocationMethod.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof IPAllocationMethod)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        IPAllocationMethod rhs = (IPAllocationMethod) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known IPAllocationMethod values
+     */
+    public static Collection<IPAllocationMethod> values() {
+        return values(IPAllocationMethod.class);
     }
 }

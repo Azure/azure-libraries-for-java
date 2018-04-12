@@ -10,6 +10,7 @@ import com.microsoft.azure.management.network.ConnectionStatus;
 import com.microsoft.azure.management.network.ConnectivityCheck;
 import com.microsoft.azure.management.network.ConnectivityDestination;
 import com.microsoft.azure.management.network.ConnectivityHop;
+import com.microsoft.azure.management.network.ConnectivityParameters;
 import com.microsoft.azure.management.network.ConnectivitySource;
 import com.microsoft.azure.management.network.model.HasNetworkInterfaces;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
@@ -27,7 +28,7 @@ public class ConnectivityCheckImpl extends ExecutableImpl<ConnectivityCheck>
         implements ConnectivityCheck, ConnectivityCheck.Definition {
 
     private final NetworkWatcherImpl parent;
-    private ConnectivityParametersInner parameters = new ConnectivityParametersInner();
+    private ConnectivityParameters parameters = new ConnectivityParameters();
     private ConnectivityInformationInner result;
 
     ConnectivityCheckImpl(NetworkWatcherImpl parent) {

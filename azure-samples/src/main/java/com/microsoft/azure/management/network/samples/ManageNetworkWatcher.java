@@ -12,13 +12,13 @@ import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.network.Direction;
 import com.microsoft.azure.management.network.FlowLogSettings;
+import com.microsoft.azure.management.network.IpFlowProtocol;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkWatcher;
 import com.microsoft.azure.management.network.NextHop;
 import com.microsoft.azure.management.network.PacketCapture;
 import com.microsoft.azure.management.network.PcProtocol;
-import com.microsoft.azure.management.network.Protocol;
 import com.microsoft.azure.management.network.SecurityGroupView;
 import com.microsoft.azure.management.network.Topology;
 import com.microsoft.azure.management.network.VerificationIPFlow;
@@ -194,7 +194,7 @@ public final class ManageNetworkWatcher {
             VerificationIPFlow verificationIPFlow = nw.verifyIPFlow()
                     .withTargetResourceId(vm.id())
                     .withDirection(Direction.INBOUND)
-                    .withProtocol(Protocol.TCP)
+                    .withProtocol(IpFlowProtocol.TCP)
                     .withLocalIPAddress(ipAddress)
                     .withRemoteIPAddress("8.8.8.8")
                     .withLocalPort("443")
@@ -214,7 +214,7 @@ public final class ManageNetworkWatcher {
             //============================================================
             // Retrieve network topology for a resource group
             System.out.println("Getting topology...");
-            Topology topology = nw.getTopology(rgName);
+            Topology topology = nw.topology().withTargetResourceGroup(rgName).execute();
             Utils.print(topology);
 
             //============================================================

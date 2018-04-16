@@ -10,7 +10,6 @@ package com.microsoft.azure.management.eventgrid.implementation;
 
 import com.microsoft.azure.management.eventgrid.EventType;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import rx.Observable;
 
 class EventTypeImpl extends WrapperImpl<EventTypeInner> implements EventType {
     private final EventGridManager manager;

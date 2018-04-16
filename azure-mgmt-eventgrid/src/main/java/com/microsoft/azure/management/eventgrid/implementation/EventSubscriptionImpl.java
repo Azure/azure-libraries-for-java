@@ -40,8 +40,9 @@ class EventSubscriptionImpl extends CreatableUpdatableImpl<EventSubscription, Ev
         this.eventSubscriptionName = inner.name();
         // resource ancestor names
         this.eventSubscriptionName = IdParsingUtils.getValueFromIdByName(inner.id(), "eventSubscriptions");
-        this.scope = IdParsingUtils.getValueFromIdByPosition(inner.id(), 0);
+        // this.scope = IdParsingUtils.getValueFromIdByPosition(inner.id(), 0);
         //
+        this.scope = inner.id().substring(1, inner.id().indexOf("/provider") - 1);
         this.updateParameter = new EventSubscriptionUpdateParametersInner();
     }
 

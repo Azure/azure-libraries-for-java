@@ -12,7 +12,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.eventgrid.implementation.EventGridManager;
 import com.microsoft.azure.management.eventgrid.implementation.OperationInner;
-import com.microsoft.azure.management.eventgrid.OperationInfo;
 
 /**
  * Type representing Operation.

@@ -12,8 +12,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.eventgrid.implementation.EventGridManager;
 import com.microsoft.azure.management.eventgrid.implementation.TopicTypeInfoInner;
-import com.microsoft.azure.management.eventgrid.TopicTypeProvisioningState;
-import com.microsoft.azure.management.eventgrid.ResourceRegionType;
 import java.util.List;
 
 /**

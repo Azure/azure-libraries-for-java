@@ -23,12 +23,26 @@ The following methods and/or types have been changed in V1.9 compared to the pre
     <th align=left>Ref</th>
   </tr>
   <tr>
-    <td><code>SqlServer</code></td>
-    <td><code>.version()</code></td>
-    <td>returns String</td>
-    <td>Previously it returned ServerVersion which contained fixed set of values</td>
-    <td><a href="https://github.com/Azure/azure-libraries-for-java/issues/219">Issue #219 </a></td>
+    <td><code>NetworkWatcher</code></td>
+    <td><code>.getTopology(String targetResourceGroup)</code></td>
+    <td><code>.topology().withTargetResourceGroup(String resourceGroupName).withTargetNetwork(String networkId).withTargetSubnet(String subnetName).execute()</code> where <code>withTargetNetwork()</code> and <code>withTargetSubnet()</code> are optional</td>
+    <td></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/394">PR #394 </a></td>
   </tr>
+  <tr>
+    <td><code>NetworkWatcher</code></td>
+    <td><code>.getTopologyAsync(String targetResourceGroup)</code></td>
+    <td><code>.topology().withTargetResourceGroup(String resourceGroupName).withTargetNetwork(String networkId).withTargetSubnet(String subnetName).executeAsync()</code> where <code>withTargetNetwork()</code> and <code>withTargetSubnet()</code> are optional</td>
+    <td></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/394">PR #394 </a></td>
+  </tr>
+  <tr>
+    <td><code>VerificationIPFlow</code></td>
+    <td><code>.withProtocol(Protocol protocol)</code></td>
+    <td><code>.withProtocol(IpFlowProtocol)</code></td>
+    <td>Updated to the latest swagger specs</td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/394">PR #394 </a></td>
+  </tr>      
 </table>
 
 

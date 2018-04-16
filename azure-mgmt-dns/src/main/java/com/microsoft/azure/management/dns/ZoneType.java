@@ -12,35 +12,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for OperationStatus.
+ * Defines values for ZoneType.
  */
-public enum OperationStatus {
-    /** Enum value InProgress. */
-    IN_PROGRESS("InProgress"),
+public enum ZoneType {
+    /** Enum value Public. */
+    PUBLIC("Public"),
 
-    /** Enum value Succeeded. */
-    SUCCEEDED("Succeeded"),
+    /** Enum value Private. */
+    PRIVATE("Private");
 
-    /** Enum value Failed. */
-    FAILED("Failed");
-
-    /** The actual serialized value for a OperationStatus instance. */
+    /** The actual serialized value for a ZoneType instance. */
     private String value;
 
-    OperationStatus(String value) {
+    ZoneType(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a OperationStatus instance.
+     * Parses a serialized value to a ZoneType instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed OperationStatus object, or null if unable to parse.
+     * @return the parsed ZoneType object, or null if unable to parse.
      */
     @JsonCreator
-    public static OperationStatus fromString(String value) {
-        OperationStatus[] items = OperationStatus.values();
-        for (OperationStatus item : items) {
+    public static ZoneType fromString(String value) {
+        ZoneType[] items = ZoneType.values();
+        for (ZoneType item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

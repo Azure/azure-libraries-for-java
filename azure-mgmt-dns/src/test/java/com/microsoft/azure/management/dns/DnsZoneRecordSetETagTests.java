@@ -118,6 +118,7 @@ public class DnsZoneRecordSetETagTests extends TestBase {
 
         DnsZone dnsZone = zoneManager.zones().define(topLevelDomain)
                 .withNewResourceGroup(RG_NAME, region)
+                .withPrivateAccess()
                 .defineARecordSet("www")
                     .withIPv4Address("23.96.104.40")
                     .withIPv4Address("24.97.105.41")
@@ -128,6 +129,9 @@ public class DnsZoneRecordSetETagTests extends TestBase {
                     .withIPv6Address("2001:0db8:85a3:0000:0000:8a2e:0370:7334")
                     .withIPv6Address("2002:0db9:85a4:0000:0000:8a2e:0371:7335")
                     .withETagCheck()
+                    .attach()
+                .defineCaaRecordSet("caaName")
+                    .withRecord(4, "sometag", "someValue")
                     .attach()
                 .defineCNameRecordSet("documents")
                     .withAlias("doc.contoso.com")
@@ -154,10 +158,21 @@ public class DnsZoneRecordSetETagTests extends TestBase {
         PagedList<CNameRecordSet> cnameRecordSets = dnsZone.cNameRecordSets().list();
         Assert.assertTrue(cnameRecordSets.size() == 2);
 
+        // Check Caa records
+        PagedList<CaaRecordSet> caaRecordSets = dnsZone.caaRecordSets().list();
+        Assert.assertTrue(caaRecordSets.size() == 1);
+        Assert.assertTrue(caaRecordSets.get(0).name().startsWith("caaname"));
+        Assert.assertTrue(caaRecordSets.get(0).records().get(0).value().equalsIgnoreCase("someValue"));
+        Assert.assertEquals(4, (long) caaRecordSets.get(0).records().get(0).flags());
+        Assert.assertTrue(caaRecordSets.get(0).fqdn().startsWith("caaname.www.contoso"));
+
+        Assert.assertEquals(ZoneType.PRIVATE , dnsZone.accessType());
+
         CompositeException compositeException = null;
         try {
             zoneManager.zones().define(topLevelDomain)
                     .withNewResourceGroup(RG_NAME, region)
+                    .withPrivateAccess()
                     .defineARecordSet("www")
                         .withIPv4Address("23.96.104.40")
                         .withIPv4Address("24.97.105.41")
@@ -224,6 +239,8 @@ public class DnsZoneRecordSetETagTests extends TestBase {
         AaaaRecordSet aaaaRecordSet = aaaaRecordSets.get(0);
         Assert.assertNotNull(aaaaRecordSet.eTag());
 
+        // by default zone access type should be public
+        Assert.assertEquals(ZoneType.PUBLIC, dnsZone.accessType());
         // Try updates with invalid eTag
         //
         CompositeException compositeException = null;

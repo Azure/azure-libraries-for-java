@@ -22,15 +22,13 @@ class AaaaRecordSetImpl
         extends DnsRecordSetImpl
         implements AaaaRecordSet {
 
-    AaaaRecordSetImpl(final DnsZoneImpl parent, final RecordSetInner innerModel) {
-        super(parent, innerModel);
+    AaaaRecordSetImpl(final String name, final DnsZoneImpl parent, final RecordSetInner innerModel) {
+        super(name, RecordType.AAAA.toString(), parent, innerModel);
     }
 
     static AaaaRecordSetImpl newRecordSet(final String name, final DnsZoneImpl parent) {
-        return new AaaaRecordSetImpl(parent,
+        return new AaaaRecordSetImpl(name, parent,
                 new RecordSetInner()
-                        .withName(name)
-                        .withType(RecordType.AAAA.toString())
                         .withAaaaRecords(new ArrayList<AaaaRecord>()));
     }
 

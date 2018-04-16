@@ -31,7 +31,10 @@ class TxtRecordSetsImpl
                 this.dnsZone.name(),
                 name,
                 recordType);
-        return new TxtRecordSetImpl(this.dnsZone, inner);
+        if (inner == null) {
+            return null;
+        }
+        return new TxtRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 
     @Override
@@ -57,6 +60,6 @@ class TxtRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new TxtRecordSetImpl(this.dnsZone, inner);
+        return new TxtRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 }

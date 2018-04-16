@@ -21,15 +21,13 @@ import java.util.List;
 class PtrRecordSetImpl
         extends DnsRecordSetImpl
         implements PtrRecordSet {
-    PtrRecordSetImpl(final DnsZoneImpl parent, final RecordSetInner innerModel) {
-        super(parent, innerModel);
+    PtrRecordSetImpl(final String name, final DnsZoneImpl parent, final RecordSetInner innerModel) {
+        super(name, RecordType.PTR.toString(), parent, innerModel);
     }
 
     static PtrRecordSetImpl newRecordSet(final String name, final DnsZoneImpl parent) {
-        return new PtrRecordSetImpl(parent,
+        return new PtrRecordSetImpl(name, parent,
                 new RecordSetInner()
-                        .withName(name)
-                        .withType(RecordType.PTR.toString())
                         .withPtrRecords(new ArrayList<PtrRecord>()));
     }
 

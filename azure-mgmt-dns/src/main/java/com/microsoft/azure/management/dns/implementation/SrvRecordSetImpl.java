@@ -21,15 +21,13 @@ import java.util.List;
 class SrvRecordSetImpl
         extends DnsRecordSetImpl
         implements SrvRecordSet {
-    SrvRecordSetImpl(final DnsZoneImpl parent, final RecordSetInner innerModel) {
-        super(parent, innerModel);
+    SrvRecordSetImpl(final String name, final DnsZoneImpl parent, final RecordSetInner innerModel) {
+        super(name, RecordType.SRV.toString(), parent, innerModel);
     }
 
     static SrvRecordSetImpl newRecordSet(final String name, final DnsZoneImpl parent) {
-        return new SrvRecordSetImpl(parent,
+        return new SrvRecordSetImpl(name, parent,
                 new RecordSetInner()
-                        .withName(name)
-                        .withType(RecordType.SRV.toString())
                         .withSrvRecords(new ArrayList<SrvRecord>()));
     }
 

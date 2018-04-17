@@ -56,6 +56,22 @@ The following methods and/or types have been changed in V1.9 compared to the pre
     <th align=left>Remarks</th>
     <th align=left>Ref</th>
   </tr>
+
+  <tr>
+    <td><code>Redis Cache</code></td>
+    <td><code>Update.withSubnet(HasId networkResource, String subnetName)</code></td>
+    <td><i>Deprecated</i></td>
+    <td>Subnet configuration cannot be changed on existing Redis Cache instance.</td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/391">PR #391 </a></td>
+  </tr>
+  <tr>
+    <td><code>Redis Cache</code></td>
+    <td><code>Update.withStaticIP(String staticIP)</code></td>
+    <td><i>Deprecated</i></td>
+    <td>Static IP configuration cannot be changed on existing Redis Cache instance.</td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/391">PR #391 </a></td>
+  </tr>
+
   <tr>
     <td><code>SqlServer</code></td>
     <td><code>.listUsages()</code></td>

@@ -189,7 +189,7 @@ public class KeyVaultManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2016-10-01";
+        this.apiVersion = "2018-02-14-preview";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
@@ -205,6 +205,6 @@ public class KeyVaultManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "KeyVaultManagementClient", "2016-10-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "KeyVaultManagementClient", "2018-02-14-preview");
     }
 }

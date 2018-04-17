@@ -19,6 +19,7 @@ import com.microsoft.azure.management.keyvault.Secrets;
 import com.microsoft.azure.management.keyvault.Sku;
 import com.microsoft.azure.management.keyvault.SkuName;
 import com.microsoft.azure.management.keyvault.Vault;
+import com.microsoft.azure.management.keyvault.VaultCreateOrUpdateParameters;
 import com.microsoft.azure.management.keyvault.VaultProperties;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
@@ -281,7 +282,7 @@ class VaultImpl
                 .flatMap(new Func1<Object, Observable<VaultInner>>() {
                     @Override
                     public Observable<VaultInner> call(Object o) {
-                        VaultCreateOrUpdateParametersInner parameters = new VaultCreateOrUpdateParametersInner();
+                        VaultCreateOrUpdateParameters parameters = new VaultCreateOrUpdateParameters();
                         parameters.withLocation(regionName());
                         parameters.withProperties(inner().properties());
                         parameters.withTags(inner().getTags());

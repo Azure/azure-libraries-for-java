@@ -13,8 +13,8 @@ import com.microsoft.azure.management.resources.fluentcore.collection.InnerSuppo
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
+import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.management.resources.ErrorResponseException;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -64,15 +64,15 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      */
     interface PolicyAssignmentsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.PolicyAssignments delete" })
-        @HTTP(path = "{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}", method = "DELETE", hasBody = true)
+        @HTTP(path = "{scope}/providers/Microsoft.Authorization/policyassignments/{policyAssignmentName}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> delete(@Path(value = "scope", encoded = true) String scope, @Path("policyAssignmentName") String policyAssignmentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.PolicyAssignments create" })
-        @PUT("{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}")
+        @PUT("{scope}/providers/Microsoft.Authorization/policyassignments/{policyAssignmentName}")
         Observable<Response<ResponseBody>> create(@Path(value = "scope", encoded = true) String scope, @Path("policyAssignmentName") String policyAssignmentName, @Body PolicyAssignmentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.PolicyAssignments get" })
-        @GET("{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}")
+        @GET("{scope}/providers/Microsoft.Authorization/policyassignments/{policyAssignmentName}")
         Observable<Response<ResponseBody>> get(@Path(value = "scope", encoded = true) String scope, @Path("policyAssignmentName") String policyAssignmentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.PolicyAssignments listByResourceGroup" })
@@ -80,11 +80,11 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
         Observable<Response<ResponseBody>> listByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query(value = "$filter", encoded = true) String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.PolicyAssignments listForResource" })
-        @GET("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments")
+        @GET("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyassignments")
         Observable<Response<ResponseBody>> listForResource(@Path("resourceGroupName") String resourceGroupName, @Path("resourceProviderNamespace") String resourceProviderNamespace, @Path(value = "parentResourcePath", encoded = true) String parentResourcePath, @Path(value = "resourceType", encoded = true) String resourceType, @Path("resourceName") String resourceName, @Path("subscriptionId") String subscriptionId, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.PolicyAssignments list" })
-        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments")
+        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyassignments")
         Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.PolicyAssignments deleteById" })
@@ -119,7 +119,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param scope The scope of the policy assignment.
      * @param policyAssignmentName The name of the policy assignment to delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PolicyAssignmentInner object if successful.
      */
@@ -172,8 +172,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
         if (policyAssignmentName == null) {
             throw new IllegalArgumentException("Parameter policyAssignmentName is required and cannot be null.");
         }
-        final String apiVersion = "2017-06-01-preview";
-        return service.delete(scope, policyAssignmentName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.delete(scope, policyAssignmentName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PolicyAssignmentInner>>>() {
                 @Override
                 public Observable<ServiceResponse<PolicyAssignmentInner>> call(Response<ResponseBody> response) {
@@ -187,11 +189,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
             });
     }
 
-    private ServiceResponse<PolicyAssignmentInner> deleteDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PolicyAssignmentInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PolicyAssignmentInner> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PolicyAssignmentInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PolicyAssignmentInner>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(ErrorResponseException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -203,7 +204,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param policyAssignmentName The name of the policy assignment.
      * @param parameters Parameters for the policy assignment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PolicyAssignmentInner object if successful.
      */
@@ -265,9 +266,11 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
         if (parameters == null) {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(parameters);
-        final String apiVersion = "2017-06-01-preview";
-        return service.create(scope, policyAssignmentName, parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.create(scope, policyAssignmentName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PolicyAssignmentInner>>>() {
                 @Override
                 public Observable<ServiceResponse<PolicyAssignmentInner>> call(Response<ResponseBody> response) {
@@ -281,10 +284,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
             });
     }
 
-    private ServiceResponse<PolicyAssignmentInner> createDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PolicyAssignmentInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PolicyAssignmentInner> createDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PolicyAssignmentInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(201, new TypeToken<PolicyAssignmentInner>() { }.getType())
-                .registerError(ErrorResponseException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -294,7 +297,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param scope The scope of the policy assignment.
      * @param policyAssignmentName The name of the policy assignment to get.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PolicyAssignmentInner object if successful.
      */
@@ -347,8 +350,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
         if (policyAssignmentName == null) {
             throw new IllegalArgumentException("Parameter policyAssignmentName is required and cannot be null.");
         }
-        final String apiVersion = "2017-06-01-preview";
-        return service.get(scope, policyAssignmentName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.get(scope, policyAssignmentName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PolicyAssignmentInner>>>() {
                 @Override
                 public Observable<ServiceResponse<PolicyAssignmentInner>> call(Response<ResponseBody> response) {
@@ -362,10 +367,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
             });
     }
 
-    private ServiceResponse<PolicyAssignmentInner> getDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PolicyAssignmentInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PolicyAssignmentInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PolicyAssignmentInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PolicyAssignmentInner>() { }.getType())
-                .registerError(ErrorResponseException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -374,7 +379,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param resourceGroupName The name of the resource group that contains policy assignments.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
@@ -460,9 +465,11 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-06-01-preview";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String filter = null;
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<PolicyAssignmentInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<PolicyAssignmentInner>>> call(Response<ResponseBody> response) {
@@ -482,7 +489,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param resourceGroupName The name of the resource group that contains policy assignments.
      * @param filter The filter to apply on the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
@@ -572,8 +579,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-06-01-preview";
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<PolicyAssignmentInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<PolicyAssignmentInner>>> call(Response<ResponseBody> response) {
@@ -587,10 +596,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
             });
     }
 
-    private ServiceResponse<PageImpl<PolicyAssignmentInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<PolicyAssignmentInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<PolicyAssignmentInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<PolicyAssignmentInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<PolicyAssignmentInner>>() { }.getType())
-                .registerError(ErrorResponseException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -603,7 +612,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param resourceType The resource type.
      * @param resourceName The name of the resource with policy assignments.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
@@ -717,9 +726,11 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-06-01-preview";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String filter = null;
-        return service.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<PolicyAssignmentInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<PolicyAssignmentInner>>> call(Response<ResponseBody> response) {
@@ -743,7 +754,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param resourceName The name of the resource with policy assignments.
      * @param filter The filter to apply on the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
@@ -861,8 +872,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-06-01-preview";
-        return service.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<PolicyAssignmentInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<PolicyAssignmentInner>>> call(Response<ResponseBody> response) {
@@ -876,10 +889,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
             });
     }
 
-    private ServiceResponse<PageImpl<PolicyAssignmentInner>> listForResourceDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<PolicyAssignmentInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<PolicyAssignmentInner>> listForResourceDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<PolicyAssignmentInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<PolicyAssignmentInner>>() { }.getType())
-                .registerError(ErrorResponseException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -887,7 +900,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * Gets all the policy assignments for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
@@ -966,9 +979,11 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-06-01-preview";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String filter = null;
-        return service.list(this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.list(this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<PolicyAssignmentInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<PolicyAssignmentInner>>> call(Response<ResponseBody> response) {
@@ -987,7 +1002,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param filter The filter to apply on the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
@@ -1070,8 +1085,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-06-01-preview";
-        return service.list(this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.list(this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<PolicyAssignmentInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<PolicyAssignmentInner>>> call(Response<ResponseBody> response) {
@@ -1085,10 +1102,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
             });
     }
 
-    private ServiceResponse<PageImpl<PolicyAssignmentInner>> listDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<PolicyAssignmentInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<PolicyAssignmentInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<PolicyAssignmentInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<PolicyAssignmentInner>>() { }.getType())
-                .registerError(ErrorResponseException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1098,7 +1115,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param policyAssignmentId The ID of the policy assignment to delete. Use the format '/{scope}/providers/Microsoft.Authorization/policyAssignments/{policy-assignment-name}'.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PolicyAssignmentInner object if successful.
      */
@@ -1148,8 +1165,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
         if (policyAssignmentId == null) {
             throw new IllegalArgumentException("Parameter policyAssignmentId is required and cannot be null.");
         }
-        final String apiVersion = "2017-06-01-preview";
-        return service.deleteById(policyAssignmentId, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.deleteById(policyAssignmentId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PolicyAssignmentInner>>>() {
                 @Override
                 public Observable<ServiceResponse<PolicyAssignmentInner>> call(Response<ResponseBody> response) {
@@ -1163,10 +1182,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
             });
     }
 
-    private ServiceResponse<PolicyAssignmentInner> deleteByIdDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PolicyAssignmentInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PolicyAssignmentInner> deleteByIdDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PolicyAssignmentInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PolicyAssignmentInner>() { }.getType())
-                .registerError(ErrorResponseException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1177,7 +1196,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param policyAssignmentId The ID of the policy assignment to create. Use the format '/{scope}/providers/Microsoft.Authorization/policyAssignments/{policy-assignment-name}'.
      * @param parameters Parameters for policy assignment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PolicyAssignmentInner object if successful.
      */
@@ -1233,9 +1252,11 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
         if (parameters == null) {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(parameters);
-        final String apiVersion = "2017-06-01-preview";
-        return service.createById(policyAssignmentId, parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.createById(policyAssignmentId, parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PolicyAssignmentInner>>>() {
                 @Override
                 public Observable<ServiceResponse<PolicyAssignmentInner>> call(Response<ResponseBody> response) {
@@ -1249,10 +1270,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
             });
     }
 
-    private ServiceResponse<PolicyAssignmentInner> createByIdDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PolicyAssignmentInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PolicyAssignmentInner> createByIdDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PolicyAssignmentInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(201, new TypeToken<PolicyAssignmentInner>() { }.getType())
-                .registerError(ErrorResponseException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1262,7 +1283,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param policyAssignmentId The ID of the policy assignment to get. Use the format '/{scope}/providers/Microsoft.Authorization/policyAssignments/{policy-assignment-name}'.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PolicyAssignmentInner object if successful.
      */
@@ -1312,8 +1333,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
         if (policyAssignmentId == null) {
             throw new IllegalArgumentException("Parameter policyAssignmentId is required and cannot be null.");
         }
-        final String apiVersion = "2017-06-01-preview";
-        return service.getById(policyAssignmentId, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getById(policyAssignmentId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PolicyAssignmentInner>>>() {
                 @Override
                 public Observable<ServiceResponse<PolicyAssignmentInner>> call(Response<ResponseBody> response) {
@@ -1327,10 +1350,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
             });
     }
 
-    private ServiceResponse<PolicyAssignmentInner> getByIdDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PolicyAssignmentInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PolicyAssignmentInner> getByIdDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PolicyAssignmentInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PolicyAssignmentInner>() { }.getType())
-                .registerError(ErrorResponseException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1339,7 +1362,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
@@ -1438,10 +1461,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
             });
     }
 
-    private ServiceResponse<PageImpl<PolicyAssignmentInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<PolicyAssignmentInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<PolicyAssignmentInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<PolicyAssignmentInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<PolicyAssignmentInner>>() { }.getType())
-                .registerError(ErrorResponseException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1450,7 +1473,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
@@ -1549,10 +1572,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
             });
     }
 
-    private ServiceResponse<PageImpl<PolicyAssignmentInner>> listForResourceNextDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<PolicyAssignmentInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<PolicyAssignmentInner>> listForResourceNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<PolicyAssignmentInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<PolicyAssignmentInner>>() { }.getType())
-                .registerError(ErrorResponseException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1561,7 +1584,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
@@ -1660,10 +1683,10 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
             });
     }
 
-    private ServiceResponse<PageImpl<PolicyAssignmentInner>> listNextDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<PolicyAssignmentInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<PolicyAssignmentInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<PolicyAssignmentInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<PolicyAssignmentInner>>() { }.getType())
-                .registerError(ErrorResponseException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 

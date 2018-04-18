@@ -39,12 +39,6 @@ public class Plan {
     private String promotionCode;
 
     /**
-     * The plan's version.
-     */
-    @JsonProperty(value = "version")
-    private String version;
-
-    /**
      * Get the name value.
      *
      * @return the name value
@@ -121,26 +115,6 @@ public class Plan {
      */
     public Plan withPromotionCode(String promotionCode) {
         this.promotionCode = promotionCode;
-        return this;
-    }
-
-    /**
-     * Get the version value.
-     *
-     * @return the version value
-     */
-    public String version() {
-        return this.version;
-    }
-
-    /**
-     * Set the version value.
-     *
-     * @param version the version value to set
-     * @return the Plan object itself.
-     */
-    public Plan withVersion(String version) {
-        this.version = version;
         return this;
     }
 

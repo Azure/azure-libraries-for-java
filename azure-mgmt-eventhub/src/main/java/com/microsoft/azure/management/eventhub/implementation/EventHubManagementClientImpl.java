@@ -159,6 +159,19 @@ public class EventHubManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The MessagingPlansInner object to access its operations.
+     */
+    private MessagingPlansInner messagingPlans;
+
+    /**
+     * Gets the MessagingPlansInner object to access its operations.
+     * @return the MessagingPlansInner object.
+     */
+    public MessagingPlansInner messagingPlans() {
+        return this.messagingPlans;
+    }
+
+    /**
      * The DisasterRecoveryConfigsInner object to access its operations.
      */
     private DisasterRecoveryConfigsInner disasterRecoveryConfigs;
@@ -198,6 +211,19 @@ public class EventHubManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The RegionsInner object to access its operations.
+     */
+    private RegionsInner regions;
+
+    /**
+     * Gets the RegionsInner object to access its operations.
+     * @return the RegionsInner object.
+     */
+    public RegionsInner regions() {
+        return this.regions;
+    }
+
+    /**
      * Initializes an instance of EventHubManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -234,9 +260,11 @@ public class EventHubManagementClientImpl extends AzureServiceClient {
         this.generateClientRequestId = true;
         this.operations = new OperationsInner(restClient().retrofit(), this);
         this.namespaces = new NamespacesInner(restClient().retrofit(), this);
+        this.messagingPlans = new MessagingPlansInner(restClient().retrofit(), this);
         this.disasterRecoveryConfigs = new DisasterRecoveryConfigsInner(restClient().retrofit(), this);
         this.eventHubs = new EventHubsInner(restClient().retrofit(), this);
         this.consumerGroups = new ConsumerGroupsInner(restClient().retrofit(), this);
+        this.regions = new RegionsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

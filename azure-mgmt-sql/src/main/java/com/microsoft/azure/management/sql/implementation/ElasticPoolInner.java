@@ -10,7 +10,7 @@ package com.microsoft.azure.management.sql.implementation;
 
 import org.joda.time.DateTime;
 import com.microsoft.azure.management.sql.ElasticPoolState;
-import com.microsoft.azure.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.management.sql.ElasticPoolEdition;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -37,7 +37,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
      * 'Standard', 'Premium'.
      */
     @JsonProperty(value = "properties.edition")
-    private ElasticPoolEditions edition;
+    private ElasticPoolEdition edition;
 
     /**
      * The total shared DTU for the database elastic pool.
@@ -101,7 +101,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
      *
      * @return the edition value
      */
-    public ElasticPoolEditions edition() {
+    public ElasticPoolEdition edition() {
         return this.edition;
     }
 
@@ -111,7 +111,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
      * @param edition the edition value to set
      * @return the ElasticPoolInner object itself.
      */
-    public ElasticPoolInner withEdition(ElasticPoolEditions edition) {
+    public ElasticPoolInner withEdition(ElasticPoolEdition edition) {
         this.edition = edition;
         return this;
     }

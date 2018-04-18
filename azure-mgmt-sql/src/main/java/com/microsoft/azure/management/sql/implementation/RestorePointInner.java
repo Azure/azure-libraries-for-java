@@ -8,7 +8,7 @@
 
 package com.microsoft.azure.management.sql.implementation;
 
-import com.microsoft.azure.management.sql.RestorePointTypes;
+import com.microsoft.azure.management.sql.RestorePointType;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -29,7 +29,7 @@ public class RestorePointInner extends ProxyResourceInner {
      * 'DISCRETE'.
      */
     @JsonProperty(value = "properties.restorePointType", access = JsonProperty.Access.WRITE_ONLY)
-    private RestorePointTypes restorePointType;
+    private RestorePointType restorePointType;
 
     /**
      * The earliest time to which this database can be restored.
@@ -63,7 +63,7 @@ public class RestorePointInner extends ProxyResourceInner {
      *
      * @return the restorePointType value
      */
-    public RestorePointTypes restorePointType() {
+    public RestorePointType restorePointType() {
         return this.restorePointType;
     }
 

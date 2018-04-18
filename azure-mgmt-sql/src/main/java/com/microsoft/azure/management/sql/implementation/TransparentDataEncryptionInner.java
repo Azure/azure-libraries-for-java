@@ -8,7 +8,7 @@
 
 package com.microsoft.azure.management.sql.implementation;
 
-import com.microsoft.azure.management.sql.TransparentDataEncryptionStates;
+import com.microsoft.azure.management.sql.TransparentDataEncryptionStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -28,7 +28,7 @@ public class TransparentDataEncryptionInner extends ProxyResourceInner {
      * include: 'Enabled', 'Disabled'.
      */
     @JsonProperty(value = "properties.status")
-    private TransparentDataEncryptionStates status;
+    private TransparentDataEncryptionStatus status;
 
     /**
      * Get the location value.
@@ -44,7 +44,7 @@ public class TransparentDataEncryptionInner extends ProxyResourceInner {
      *
      * @return the status value
      */
-    public TransparentDataEncryptionStates status() {
+    public TransparentDataEncryptionStatus status() {
         return this.status;
     }
 
@@ -54,7 +54,7 @@ public class TransparentDataEncryptionInner extends ProxyResourceInner {
      * @param status the status value to set
      * @return the TransparentDataEncryptionInner object itself.
      */
-    public TransparentDataEncryptionInner withStatus(TransparentDataEncryptionStates status) {
+    public TransparentDataEncryptionInner withStatus(TransparentDataEncryptionStatus status) {
         this.status = status;
         return this;
     }

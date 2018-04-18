@@ -15,7 +15,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * A long term retention policy.
  */
 @JsonFlatten
-public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
+public class LongTermRetentionPolicyInner extends ProxyResourceInner {
     /**
      * The weekly retention policy for an LTR backup in an ISO 8601 format.
      */
@@ -53,9 +53,9 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
      * Set the weeklyRetention value.
      *
      * @param weeklyRetention the weeklyRetention value to set
-     * @return the BackupLongTermRetentionPolicyInner object itself.
+     * @return the LongTermRetentionPolicyInner object itself.
      */
-    public BackupLongTermRetentionPolicyInner withWeeklyRetention(String weeklyRetention) {
+    public LongTermRetentionPolicyInner withWeeklyRetention(String weeklyRetention) {
         this.weeklyRetention = weeklyRetention;
         return this;
     }
@@ -73,9 +73,9 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
      * Set the monthlyRetention value.
      *
      * @param monthlyRetention the monthlyRetention value to set
-     * @return the BackupLongTermRetentionPolicyInner object itself.
+     * @return the LongTermRetentionPolicyInner object itself.
      */
-    public BackupLongTermRetentionPolicyInner withMonthlyRetention(String monthlyRetention) {
+    public LongTermRetentionPolicyInner withMonthlyRetention(String monthlyRetention) {
         this.monthlyRetention = monthlyRetention;
         return this;
     }
@@ -93,9 +93,9 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
      * Set the yearlyRetention value.
      *
      * @param yearlyRetention the yearlyRetention value to set
-     * @return the BackupLongTermRetentionPolicyInner object itself.
+     * @return the LongTermRetentionPolicyInner object itself.
      */
-    public BackupLongTermRetentionPolicyInner withYearlyRetention(String yearlyRetention) {
+    public LongTermRetentionPolicyInner withYearlyRetention(String yearlyRetention) {
         this.yearlyRetention = yearlyRetention;
         return this;
     }
@@ -113,9 +113,9 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
      * Set the weekOfYear value.
      *
      * @param weekOfYear the weekOfYear value to set
-     * @return the BackupLongTermRetentionPolicyInner object itself.
+     * @return the LongTermRetentionPolicyInner object itself.
      */
-    public BackupLongTermRetentionPolicyInner withWeekOfYear(Integer weekOfYear) {
+    public LongTermRetentionPolicyInner withWeekOfYear(Integer weekOfYear) {
         this.weekOfYear = weekOfYear;
         return this;
     }

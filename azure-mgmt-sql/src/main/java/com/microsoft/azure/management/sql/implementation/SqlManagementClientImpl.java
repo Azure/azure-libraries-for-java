@@ -667,6 +667,19 @@ public class SqlManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The DatabaseVulnerabilityAssessmentScansInner object to access its operations.
+     */
+    private DatabaseVulnerabilityAssessmentScansInner databaseVulnerabilityAssessmentScans;
+
+    /**
+     * Gets the DatabaseVulnerabilityAssessmentScansInner object to access its operations.
+     * @return the DatabaseVulnerabilityAssessmentScansInner object.
+     */
+    public DatabaseVulnerabilityAssessmentScansInner databaseVulnerabilityAssessmentScans() {
+        return this.databaseVulnerabilityAssessmentScans;
+    }
+
+    /**
      * Initializes an instance of SqlManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -742,6 +755,7 @@ public class SqlManagementClientImpl extends AzureServiceClient {
         this.restorePoints = new RestorePointsInner(restClient().retrofit(), this);
         this.databaseOperations = new DatabaseOperationsInner(restClient().retrofit(), this);
         this.elasticPoolOperations = new ElasticPoolOperationsInner(restClient().retrofit(), this);
+        this.databaseVulnerabilityAssessmentScans = new DatabaseVulnerabilityAssessmentScansInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

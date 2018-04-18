@@ -62,6 +62,10 @@ public class FeaturesInner {
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Features/features")
         Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Features operations" })
+        @GET("providers/Microsoft.Features/operations")
+        Observable<Response<ResponseBody>> operations(@Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Features list1" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features")
         Observable<Response<ResponseBody>> list1(@Path("resourceProviderNamespace") String resourceProviderNamespace, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -187,6 +191,72 @@ public class FeaturesInner {
     private ServiceResponse<PageImpl<FeatureResultInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<FeatureResultInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<FeatureResultInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets all the preview feature operations.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the OperationsListInner object if successful.
+     */
+    public OperationsListInner operations() {
+        return operationsWithServiceResponseAsync().toBlocking().single().body();
+    }
+
+    /**
+     * Gets all the preview feature operations.
+     *
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<OperationsListInner> operationsAsync(final ServiceCallback<OperationsListInner> serviceCallback) {
+        return ServiceFuture.fromResponse(operationsWithServiceResponseAsync(), serviceCallback);
+    }
+
+    /**
+     * Gets all the preview feature operations.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the OperationsListInner object
+     */
+    public Observable<OperationsListInner> operationsAsync() {
+        return operationsWithServiceResponseAsync().map(new Func1<ServiceResponse<OperationsListInner>, OperationsListInner>() {
+            @Override
+            public OperationsListInner call(ServiceResponse<OperationsListInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets all the preview feature operations.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the OperationsListInner object
+     */
+    public Observable<ServiceResponse<OperationsListInner>> operationsWithServiceResponseAsync() {
+        return service.operations(this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<OperationsListInner>>>() {
+                @Override
+                public Observable<ServiceResponse<OperationsListInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<OperationsListInner> clientResponse = operationsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<OperationsListInner> operationsDelegate(Response<ResponseBody> response) throws CloudException, IOException {
+        return this.client.restClient().responseBuilderFactory().<OperationsListInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<OperationsListInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

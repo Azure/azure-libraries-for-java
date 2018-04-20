@@ -12,35 +12,35 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for PackageState.
+ * Defines values for CertificateVisibility.
  */
-public enum PackageState {
-    /** Enum value Pending. */
-    PENDING("Pending"),
+public enum CertificateVisibility {
+    /** Enum value StartTask. */
+    START_TASK("StartTask"),
 
-    /** Enum value Active. */
-    ACTIVE("Active"),
+    /** Enum value Task. */
+    TASK("Task"),
 
-    /** Enum value Unmapped. */
-    UNMAPPED("Unmapped");
+    /** Enum value RemoteUser. */
+    REMOTE_USER("RemoteUser");
 
-    /** The actual serialized value for a PackageState instance. */
+    /** The actual serialized value for a CertificateVisibility instance. */
     private String value;
 
-    PackageState(String value) {
+    CertificateVisibility(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a PackageState instance.
+     * Parses a serialized value to a CertificateVisibility instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed PackageState object, or null if unable to parse.
+     * @return the parsed CertificateVisibility object, or null if unable to parse.
      */
     @JsonCreator
-    public static PackageState fromString(String value) {
-        PackageState[] items = PackageState.values();
-        for (PackageState item : items) {
+    public static CertificateVisibility fromString(String value) {
+        CertificateVisibility[] items = CertificateVisibility.values();
+        for (CertificateVisibility item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

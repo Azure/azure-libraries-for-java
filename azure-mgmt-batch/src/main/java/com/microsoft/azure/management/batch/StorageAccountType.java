@@ -12,35 +12,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for PackageState.
+ * Defines values for StorageAccountType.
  */
-public enum PackageState {
-    /** Enum value Pending. */
-    PENDING("Pending"),
+public enum StorageAccountType {
+    /** Enum value Standard_LRS. */
+    STANDARD_LRS("Standard_LRS"),
 
-    /** Enum value Active. */
-    ACTIVE("Active"),
+    /** Enum value Premium_LRS. */
+    PREMIUM_LRS("Premium_LRS");
 
-    /** Enum value Unmapped. */
-    UNMAPPED("Unmapped");
-
-    /** The actual serialized value for a PackageState instance. */
+    /** The actual serialized value for a StorageAccountType instance. */
     private String value;
 
-    PackageState(String value) {
+    StorageAccountType(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a PackageState instance.
+     * Parses a serialized value to a StorageAccountType instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed PackageState object, or null if unable to parse.
+     * @return the parsed StorageAccountType object, or null if unable to parse.
      */
     @JsonCreator
-    public static PackageState fromString(String value) {
-        PackageState[] items = PackageState.values();
-        for (PackageState item : items) {
+    public static StorageAccountType fromString(String value) {
+        StorageAccountType[] items = StorageAccountType.values();
+        for (StorageAccountType item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

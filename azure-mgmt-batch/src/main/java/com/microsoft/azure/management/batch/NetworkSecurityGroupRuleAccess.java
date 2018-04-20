@@ -12,35 +12,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for PackageState.
+ * Defines values for NetworkSecurityGroupRuleAccess.
  */
-public enum PackageState {
-    /** Enum value Pending. */
-    PENDING("Pending"),
+public enum NetworkSecurityGroupRuleAccess {
+    /** Enum value Allow. */
+    ALLOW("Allow"),
 
-    /** Enum value Active. */
-    ACTIVE("Active"),
+    /** Enum value Deny. */
+    DENY("Deny");
 
-    /** Enum value Unmapped. */
-    UNMAPPED("Unmapped");
-
-    /** The actual serialized value for a PackageState instance. */
+    /** The actual serialized value for a NetworkSecurityGroupRuleAccess instance. */
     private String value;
 
-    PackageState(String value) {
+    NetworkSecurityGroupRuleAccess(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a PackageState instance.
+     * Parses a serialized value to a NetworkSecurityGroupRuleAccess instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed PackageState object, or null if unable to parse.
+     * @return the parsed NetworkSecurityGroupRuleAccess object, or null if unable to parse.
      */
     @JsonCreator
-    public static PackageState fromString(String value) {
-        PackageState[] items = PackageState.values();
-        for (PackageState item : items) {
+    public static NetworkSecurityGroupRuleAccess fromString(String value) {
+        NetworkSecurityGroupRuleAccess[] items = NetworkSecurityGroupRuleAccess.values();
+        for (NetworkSecurityGroupRuleAccess item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

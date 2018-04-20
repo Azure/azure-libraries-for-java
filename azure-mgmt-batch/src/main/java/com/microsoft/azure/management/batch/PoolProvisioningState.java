@@ -12,35 +12,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for PackageState.
+ * Defines values for PoolProvisioningState.
  */
-public enum PackageState {
-    /** Enum value Pending. */
-    PENDING("Pending"),
+public enum PoolProvisioningState {
+    /** Enum value Succeeded. */
+    SUCCEEDED("Succeeded"),
 
-    /** Enum value Active. */
-    ACTIVE("Active"),
+    /** Enum value Deleting. */
+    DELETING("Deleting");
 
-    /** Enum value Unmapped. */
-    UNMAPPED("Unmapped");
-
-    /** The actual serialized value for a PackageState instance. */
+    /** The actual serialized value for a PoolProvisioningState instance. */
     private String value;
 
-    PackageState(String value) {
+    PoolProvisioningState(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a PackageState instance.
+     * Parses a serialized value to a PoolProvisioningState instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed PackageState object, or null if unable to parse.
+     * @return the parsed PoolProvisioningState object, or null if unable to parse.
      */
     @JsonCreator
-    public static PackageState fromString(String value) {
-        PackageState[] items = PackageState.values();
-        for (PackageState item : items) {
+    public static PoolProvisioningState fromString(String value) {
+        PoolProvisioningState[] items = PoolProvisioningState.values();
+        for (PoolProvisioningState item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

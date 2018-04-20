@@ -12,35 +12,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for PackageState.
+ * Defines values for ComputeNodeFillType.
  */
-public enum PackageState {
-    /** Enum value Pending. */
-    PENDING("Pending"),
+public enum ComputeNodeFillType {
+    /** Enum value Spread. */
+    SPREAD("Spread"),
 
-    /** Enum value Active. */
-    ACTIVE("Active"),
+    /** Enum value Pack. */
+    PACK("Pack");
 
-    /** Enum value Unmapped. */
-    UNMAPPED("Unmapped");
-
-    /** The actual serialized value for a PackageState instance. */
+    /** The actual serialized value for a ComputeNodeFillType instance. */
     private String value;
 
-    PackageState(String value) {
+    ComputeNodeFillType(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a PackageState instance.
+     * Parses a serialized value to a ComputeNodeFillType instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed PackageState object, or null if unable to parse.
+     * @return the parsed ComputeNodeFillType object, or null if unable to parse.
      */
     @JsonCreator
-    public static PackageState fromString(String value) {
-        PackageState[] items = PackageState.values();
-        for (PackageState item : items) {
+    public static ComputeNodeFillType fromString(String value) {
+        ComputeNodeFillType[] items = ComputeNodeFillType.values();
+        for (ComputeNodeFillType item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

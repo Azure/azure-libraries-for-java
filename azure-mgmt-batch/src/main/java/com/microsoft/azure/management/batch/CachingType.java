@@ -12,35 +12,35 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for PackageState.
+ * Defines values for CachingType.
  */
-public enum PackageState {
-    /** Enum value Pending. */
-    PENDING("Pending"),
+public enum CachingType {
+    /** Enum value None. */
+    NONE("None"),
 
-    /** Enum value Active. */
-    ACTIVE("Active"),
+    /** Enum value ReadOnly. */
+    READ_ONLY("ReadOnly"),
 
-    /** Enum value Unmapped. */
-    UNMAPPED("Unmapped");
+    /** Enum value ReadWrite. */
+    READ_WRITE("ReadWrite");
 
-    /** The actual serialized value for a PackageState instance. */
+    /** The actual serialized value for a CachingType instance. */
     private String value;
 
-    PackageState(String value) {
+    CachingType(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a PackageState instance.
+     * Parses a serialized value to a CachingType instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed PackageState object, or null if unable to parse.
+     * @return the parsed CachingType object, or null if unable to parse.
      */
     @JsonCreator
-    public static PackageState fromString(String value) {
-        PackageState[] items = PackageState.values();
-        for (PackageState item : items) {
+    public static CachingType fromString(String value) {
+        CachingType[] items = CachingType.values();
+        for (CachingType item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

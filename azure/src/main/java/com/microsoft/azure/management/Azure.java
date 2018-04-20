@@ -67,6 +67,7 @@ import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.msi.Identities;
 import com.microsoft.azure.management.msi.implementation.MSIManager;
 import com.microsoft.azure.management.network.ApplicationGateways;
+import com.microsoft.azure.management.network.ApplicationSecurityGroups;
 import com.microsoft.azure.management.network.ExpressRouteCircuits;
 import com.microsoft.azure.management.network.LoadBalancers;
 import com.microsoft.azure.management.network.LocalNetworkGateways;
@@ -598,6 +599,14 @@ public final class Azure {
     @Beta(SinceVersion.V1_4_0)
     public ExpressRouteCircuits expressRouteCircuits() {
         return networkManager.expressRouteCircuits();
+    }
+
+    /**
+     * @return entry point to managing express route circuits
+     */
+    @Beta(SinceVersion.V1_10_0)
+    public ApplicationSecurityGroups applicationSecurityGroups() {
+        return networkManager.applicationSecurityGroups();
     }
 
     /**

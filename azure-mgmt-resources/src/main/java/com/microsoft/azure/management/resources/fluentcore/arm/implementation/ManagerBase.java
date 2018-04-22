@@ -12,23 +12,14 @@ import com.microsoft.rest.RestClient;
 /**
  * Base class for Azure resource managers.
  */
-public abstract class ManagerBase {
-
+public abstract class ManagerBase extends ManagerBaseCore {
     private ResourceManager resourceManager;
-    private final String subscriptionId;
 
     protected ManagerBase(RestClient restClient, String subscriptionId) {
+        super(subscriptionId);
         if (restClient != null) {
             this.resourceManager = ResourceManager.authenticate(restClient).withSubscription(subscriptionId);
         }
-        this.subscriptionId = subscriptionId;
-    }
-
-    /**
-     * @return the ID of the subscription the manager is working with
-     */
-    public String subscriptionId() {
-        return this.subscriptionId;
     }
 
     protected final void setResourceManager(ResourceManager resourceManager) {

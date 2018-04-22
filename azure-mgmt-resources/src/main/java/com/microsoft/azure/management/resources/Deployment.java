@@ -12,6 +12,7 @@ import com.microsoft.azure.management.apigeneration.LangMethodDefinition.LangMet
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResourceCore;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -183,7 +184,9 @@ public interface Deployment extends
         /**
          * A deployment definition allowing resource group to be specified.
          */
-        interface WithGroup extends GroupableResource.DefinitionStages.WithExistingResourceGroup<WithTemplate> {
+        interface WithGroup extends
+                GroupableResourceCore.DefinitionStages.WithExistingResourceGroup<WithTemplate>,
+                GroupableResource.DefinitionStages.WithExistingResourceGroup<WithTemplate> {
             /**
              * Creates a new resource group to put the deployment in.
              * @param name the name of the new group

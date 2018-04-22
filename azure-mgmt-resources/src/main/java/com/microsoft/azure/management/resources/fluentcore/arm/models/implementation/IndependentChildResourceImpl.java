@@ -28,15 +28,15 @@ import java.util.TreeMap;
  */
 @LangDefinition
 public abstract class IndependentChildResourceImpl<
-            FluentModelT extends IndependentChildResource<ManagerT, InnerModelT>,
-            FluentParentModelT extends Resource & HasResourceGroup,
-            InnerModelT extends com.microsoft.azure.Resource,
-            FluentModelImplT extends IndependentChildResourceImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
-            ManagerT>
+        FluentModelT extends IndependentChildResource<ManagerT, InnerModelT>,
+        FluentParentModelT extends Resource & HasResourceGroup,
+        InnerModelT extends com.microsoft.azure.Resource,
+        FluentModelImplT extends IndependentChildResourceImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
+        ManagerT>
         extends
-            IndependentChildImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>
+        IndependentChildImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>
         implements
-            IndependentChildResource<ManagerT, InnerModelT> {
+        IndependentChildResource<ManagerT, InnerModelT> {
     /**
      * Creates a new instance of CreatableUpdatableImpl.
      *

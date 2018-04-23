@@ -12,35 +12,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for PackageState.
+ * Defines values for ElevationLevel.
  */
-public enum PackageState {
-    /** Enum value Pending. */
-    PENDING("Pending"),
+public enum ElevationLevel {
+    /** Enum value NonAdmin. */
+    NON_ADMIN("NonAdmin"),
 
-    /** Enum value Active. */
-    ACTIVE("Active"),
+    /** Enum value Admin. */
+    ADMIN("Admin");
 
-    /** Enum value Unmapped. */
-    UNMAPPED("Unmapped");
-
-    /** The actual serialized value for a PackageState instance. */
+    /** The actual serialized value for a ElevationLevel instance. */
     private String value;
 
-    PackageState(String value) {
+    ElevationLevel(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a PackageState instance.
+     * Parses a serialized value to a ElevationLevel instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed PackageState object, or null if unable to parse.
+     * @return the parsed ElevationLevel object, or null if unable to parse.
      */
     @JsonCreator
-    public static PackageState fromString(String value) {
-        PackageState[] items = PackageState.values();
-        for (PackageState item : items) {
+    public static ElevationLevel fromString(String value) {
+        ElevationLevel[] items = ElevationLevel.values();
+        for (ElevationLevel item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

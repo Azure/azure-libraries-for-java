@@ -12,35 +12,35 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for PackageState.
+ * Defines values for AllocationState.
  */
-public enum PackageState {
-    /** Enum value Pending. */
-    PENDING("Pending"),
+public enum AllocationState {
+    /** Enum value Steady. */
+    STEADY("Steady"),
 
-    /** Enum value Active. */
-    ACTIVE("Active"),
+    /** Enum value Resizing. */
+    RESIZING("Resizing"),
 
-    /** Enum value Unmapped. */
-    UNMAPPED("Unmapped");
+    /** Enum value Stopping. */
+    STOPPING("Stopping");
 
-    /** The actual serialized value for a PackageState instance. */
+    /** The actual serialized value for a AllocationState instance. */
     private String value;
 
-    PackageState(String value) {
+    AllocationState(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a PackageState instance.
+     * Parses a serialized value to a AllocationState instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed PackageState object, or null if unable to parse.
+     * @return the parsed AllocationState object, or null if unable to parse.
      */
     @JsonCreator
-    public static PackageState fromString(String value) {
-        PackageState[] items = PackageState.values();
-        for (PackageState item : items) {
+    public static AllocationState fromString(String value) {
+        AllocationState[] items = AllocationState.values();
+        for (AllocationState item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

@@ -12,35 +12,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for PackageState.
+ * Defines values for InboundEndpointProtocol.
  */
-public enum PackageState {
-    /** Enum value Pending. */
-    PENDING("Pending"),
+public enum InboundEndpointProtocol {
+    /** Enum value TCP. */
+    TCP("TCP"),
 
-    /** Enum value Active. */
-    ACTIVE("Active"),
+    /** Enum value UDP. */
+    UDP("UDP");
 
-    /** Enum value Unmapped. */
-    UNMAPPED("Unmapped");
-
-    /** The actual serialized value for a PackageState instance. */
+    /** The actual serialized value for a InboundEndpointProtocol instance. */
     private String value;
 
-    PackageState(String value) {
+    InboundEndpointProtocol(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a PackageState instance.
+     * Parses a serialized value to a InboundEndpointProtocol instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed PackageState object, or null if unable to parse.
+     * @return the parsed InboundEndpointProtocol object, or null if unable to parse.
      */
     @JsonCreator
-    public static PackageState fromString(String value) {
-        PackageState[] items = PackageState.values();
-        for (PackageState item : items) {
+    public static InboundEndpointProtocol fromString(String value) {
+        InboundEndpointProtocol[] items = InboundEndpointProtocol.values();
+        for (InboundEndpointProtocol item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

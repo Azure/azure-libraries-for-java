@@ -11,15 +11,18 @@ package com.microsoft.azure.management.batch.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.CloudException;
+import com.microsoft.azure.management.batch.CheckNameAvailabilityParameters;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import java.io.IOException;
 import okhttp3.ResponseBody;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.Response;
 import rx.functions.Func1;
@@ -54,6 +57,10 @@ public class LocationsInner {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Locations getQuotas" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/quotas")
         Observable<Response<ResponseBody>> getQuotas(@Path("locationName") String locationName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Locations checkNameAvailability" })
+        @POST("subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/checkNameAvailability")
+        Observable<Response<ResponseBody>> checkNameAvailability(@Path("locationName") String locationName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body CheckNameAvailabilityParameters parameters, @Header("User-Agent") String userAgent);
 
     }
 
@@ -132,6 +139,94 @@ public class LocationsInner {
     private ServiceResponse<BatchLocationQuotaInner> getQuotasDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<BatchLocationQuotaInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<BatchLocationQuotaInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Checks whether the Batch account name is available in the specified region.
+     *
+     * @param locationName The desired region for the name check.
+     * @param name The name to check for availability
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the CheckNameAvailabilityResultInner object if successful.
+     */
+    public CheckNameAvailabilityResultInner checkNameAvailability(String locationName, String name) {
+        return checkNameAvailabilityWithServiceResponseAsync(locationName, name).toBlocking().single().body();
+    }
+
+    /**
+     * Checks whether the Batch account name is available in the specified region.
+     *
+     * @param locationName The desired region for the name check.
+     * @param name The name to check for availability
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<CheckNameAvailabilityResultInner> checkNameAvailabilityAsync(String locationName, String name, final ServiceCallback<CheckNameAvailabilityResultInner> serviceCallback) {
+        return ServiceFuture.fromResponse(checkNameAvailabilityWithServiceResponseAsync(locationName, name), serviceCallback);
+    }
+
+    /**
+     * Checks whether the Batch account name is available in the specified region.
+     *
+     * @param locationName The desired region for the name check.
+     * @param name The name to check for availability
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the CheckNameAvailabilityResultInner object
+     */
+    public Observable<CheckNameAvailabilityResultInner> checkNameAvailabilityAsync(String locationName, String name) {
+        return checkNameAvailabilityWithServiceResponseAsync(locationName, name).map(new Func1<ServiceResponse<CheckNameAvailabilityResultInner>, CheckNameAvailabilityResultInner>() {
+            @Override
+            public CheckNameAvailabilityResultInner call(ServiceResponse<CheckNameAvailabilityResultInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Checks whether the Batch account name is available in the specified region.
+     *
+     * @param locationName The desired region for the name check.
+     * @param name The name to check for availability
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the CheckNameAvailabilityResultInner object
+     */
+    public Observable<ServiceResponse<CheckNameAvailabilityResultInner>> checkNameAvailabilityWithServiceResponseAsync(String locationName, String name) {
+        if (locationName == null) {
+            throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        CheckNameAvailabilityParameters parameters = new CheckNameAvailabilityParameters();
+        parameters.withName(name);
+        return service.checkNameAvailability(locationName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<CheckNameAvailabilityResultInner>>>() {
+                @Override
+                public Observable<ServiceResponse<CheckNameAvailabilityResultInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<CheckNameAvailabilityResultInner> clientResponse = checkNameAvailabilityDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<CheckNameAvailabilityResultInner> checkNameAvailabilityDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<CheckNameAvailabilityResultInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<CheckNameAvailabilityResultInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

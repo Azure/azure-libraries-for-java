@@ -12,35 +12,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for PackageState.
+ * Defines values for NameAvailabilityReason.
  */
-public enum PackageState {
-    /** Enum value Pending. */
-    PENDING("Pending"),
+public enum NameAvailabilityReason {
+    /** Enum value Invalid. */
+    INVALID("Invalid"),
 
-    /** Enum value Active. */
-    ACTIVE("Active"),
+    /** Enum value AlreadyExists. */
+    ALREADY_EXISTS("AlreadyExists");
 
-    /** Enum value Unmapped. */
-    UNMAPPED("Unmapped");
-
-    /** The actual serialized value for a PackageState instance. */
+    /** The actual serialized value for a NameAvailabilityReason instance. */
     private String value;
 
-    PackageState(String value) {
+    NameAvailabilityReason(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a PackageState instance.
+     * Parses a serialized value to a NameAvailabilityReason instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed PackageState object, or null if unable to parse.
+     * @return the parsed NameAvailabilityReason object, or null if unable to parse.
      */
     @JsonCreator
-    public static PackageState fromString(String value) {
-        PackageState[] items = PackageState.values();
-        for (PackageState item : items) {
+    public static NameAvailabilityReason fromString(String value) {
+        NameAvailabilityReason[] items = NameAvailabilityReason.values();
+        for (NameAvailabilityReason item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

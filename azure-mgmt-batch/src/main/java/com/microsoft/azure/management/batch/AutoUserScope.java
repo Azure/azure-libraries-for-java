@@ -12,35 +12,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for PackageState.
+ * Defines values for AutoUserScope.
  */
-public enum PackageState {
-    /** Enum value Pending. */
-    PENDING("Pending"),
+public enum AutoUserScope {
+    /** Enum value Task. */
+    TASK("Task"),
 
-    /** Enum value Active. */
-    ACTIVE("Active"),
+    /** Enum value Pool. */
+    POOL("Pool");
 
-    /** Enum value Unmapped. */
-    UNMAPPED("Unmapped");
-
-    /** The actual serialized value for a PackageState instance. */
+    /** The actual serialized value for a AutoUserScope instance. */
     private String value;
 
-    PackageState(String value) {
+    AutoUserScope(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a PackageState instance.
+     * Parses a serialized value to a AutoUserScope instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed PackageState object, or null if unable to parse.
+     * @return the parsed AutoUserScope object, or null if unable to parse.
      */
     @JsonCreator
-    public static PackageState fromString(String value) {
-        PackageState[] items = PackageState.values();
-        for (PackageState item : items) {
+    public static AutoUserScope fromString(String value) {
+        AutoUserScope[] items = AutoUserScope.values();
+        for (AutoUserScope item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

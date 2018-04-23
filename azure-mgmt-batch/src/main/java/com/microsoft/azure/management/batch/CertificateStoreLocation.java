@@ -12,35 +12,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for PackageState.
+ * Defines values for CertificateStoreLocation.
  */
-public enum PackageState {
-    /** Enum value Pending. */
-    PENDING("Pending"),
+public enum CertificateStoreLocation {
+    /** Enum value CurrentUser. */
+    CURRENT_USER("CurrentUser"),
 
-    /** Enum value Active. */
-    ACTIVE("Active"),
+    /** Enum value LocalMachine. */
+    LOCAL_MACHINE("LocalMachine");
 
-    /** Enum value Unmapped. */
-    UNMAPPED("Unmapped");
-
-    /** The actual serialized value for a PackageState instance. */
+    /** The actual serialized value for a CertificateStoreLocation instance. */
     private String value;
 
-    PackageState(String value) {
+    CertificateStoreLocation(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a PackageState instance.
+     * Parses a serialized value to a CertificateStoreLocation instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed PackageState object, or null if unable to parse.
+     * @return the parsed CertificateStoreLocation object, or null if unable to parse.
      */
     @JsonCreator
-    public static PackageState fromString(String value) {
-        PackageState[] items = PackageState.values();
-        for (PackageState item : items) {
+    public static CertificateStoreLocation fromString(String value) {
+        CertificateStoreLocation[] items = CertificateStoreLocation.values();
+        for (CertificateStoreLocation item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

@@ -35,4 +35,32 @@ public class RouteFilterTests extends NetworkManagementTest {
         rfList = networkManager.routeFilters().listByResourceGroup(RG_NAME);
         Assert.assertTrue(rfList.isEmpty());
     }
+
+    @Test
+    public void canCreateRouteFilterRule() throws Exception {
+        String rfName = SdkContext.randomResourceName("rf", 15);
+        String ruleName = "mynewrule";
+        RouteFilter routeFilter = networkManager.routeFilters().define(rfName)
+                .withRegion(Region.US_SOUTH_CENTRAL)
+                .withNewResourceGroup(RG_NAME)
+                .create();
+
+        routeFilter.update()
+                .defineRule(ruleName)
+                    .withBgpCommunity("12076:5010")
+                    .attach()
+                .apply();
+        Assert.assertEquals(1, routeFilter.rules().size());
+        Assert.assertEquals(1, routeFilter.rules().get(ruleName).communities().size());
+        Assert.assertEquals("12076:5010", routeFilter.rules().get(ruleName).communities().get(0));
+
+        routeFilter.update()
+                .updateRule(ruleName)
+                    .withBgpCommunities("12076:51005", "12076:51026")
+                    .denyAccess()
+                    .parent()
+                .apply();
+        Assert.assertEquals(2, routeFilter.rules().get(ruleName).communities().size());
+        Assert.assertEquals(Access.DENY, routeFilter.rules().get(ruleName).access());
+    }
 }

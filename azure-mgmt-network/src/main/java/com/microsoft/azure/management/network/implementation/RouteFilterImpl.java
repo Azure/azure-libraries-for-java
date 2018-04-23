@@ -33,7 +33,7 @@ class RouteFilterImpl
         RouteFilter,
         RouteFilter.Definition,
         RouteFilter.Update {
-    private static String RULE_TYPE = "Community";
+    private static final String RULE_TYPE = "Community";
 
     private Map<String, RouteFilterRule> rules;
     private Map<String, ExpressRouteCircuitPeering> peerings;

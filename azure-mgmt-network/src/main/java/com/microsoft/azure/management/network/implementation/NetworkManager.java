@@ -24,6 +24,7 @@ import com.microsoft.azure.management.network.NetworkSecurityGroups;
 import com.microsoft.azure.management.network.NetworkUsages;
 import com.microsoft.azure.management.network.Networks;
 import com.microsoft.azure.management.network.PublicIPAddresses;
+import com.microsoft.azure.management.network.RouteFilters;
 import com.microsoft.azure.management.network.RouteTables;
 import com.microsoft.azure.management.network.Subnet;
 import com.microsoft.azure.management.network.NetworkWatchers;
@@ -63,6 +64,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     private LocalNetworkGateways localNetworkGateways;
     private ExpressRouteCircuits expressRouteCircuits;
     private ApplicationSecurityGroups applicationSecurityGroups;
+    private RouteFilters routeFilters;
 
     /**
      * Get a Configurable instance that can be used to create {@link NetworkManager}
@@ -269,6 +271,17 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
             this.applicationSecurityGroups = new ApplicationSecurityGroupsImpl(this);
         }
         return this.applicationSecurityGroups;
+    }
+
+    /**
+     * @return entry point to application security groups management
+     */
+    @Beta(SinceVersion.V1_10_0)
+    public RouteFilters routeFilters() {
+        if (this.routeFilters == null) {
+            this.routeFilters = new RouteFiltersImpl(this);
+        }
+        return this.routeFilters;
     }
 
     // Internal utility function

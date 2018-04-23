@@ -7,15 +7,15 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.arm.resources.collection.implementation.ReadableWrappersImpl;
+import com.microsoft.azure.arm.resources.collection.implementation.SupportsGettingByResourceGroupImpl;
+import com.microsoft.azure.arm.resources.models.HasManager;
+import com.microsoft.azure.arm.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.Deployment;
 import com.microsoft.azure.management.resources.Deployments;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.SupportsGettingByResourceGroupImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
@@ -30,7 +30,7 @@ import java.util.List;
 final class DeploymentsImpl
     extends SupportsGettingByResourceGroupImpl<Deployment>
     implements Deployments,
-    HasManager<ResourceManager> {
+        HasManager<ResourceManager> {
 
     private final ResourceManager resourceManager;
     private PagedListConverter<DeploymentExtendedInner, Deployment> converter;

@@ -6,9 +6,9 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
+import com.microsoft.azure.arm.model.implementation.IndexableWrapperImpl;
+import com.microsoft.azure.arm.resources.Region;
 import com.microsoft.azure.management.resources.Location;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 /**
  * The implementation of {@link Location}.

@@ -8,10 +8,10 @@ package com.microsoft.azure.management.resources.core;
 
 import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.AzureResponseBuilder;
+import com.microsoft.azure.arm.utils.ResourceManagerThrottlingInterceptor;
+import com.microsoft.azure.arm.utils.SdkContext;
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.RestClient;

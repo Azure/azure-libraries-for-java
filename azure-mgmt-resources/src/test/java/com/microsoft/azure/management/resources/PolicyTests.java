@@ -8,8 +8,8 @@ package com.microsoft.azure.management.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.azure.CloudException;
+import com.microsoft.azure.arm.resources.Region;
 import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;

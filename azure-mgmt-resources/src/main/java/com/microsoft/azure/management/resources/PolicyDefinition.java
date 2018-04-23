@@ -6,15 +6,15 @@
 
 package com.microsoft.azure.management.resources;
 
+import com.microsoft.azure.arm.model.Appliable;
+import com.microsoft.azure.arm.model.Creatable;
+import com.microsoft.azure.arm.model.HasInner;
+import com.microsoft.azure.arm.model.Indexable;
+import com.microsoft.azure.arm.model.Refreshable;
+import com.microsoft.azure.arm.model.Updatable;
+import com.microsoft.azure.arm.resources.models.HasId;
+import com.microsoft.azure.arm.resources.models.HasName;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.implementation.PolicyDefinitionInner;
 
 /**

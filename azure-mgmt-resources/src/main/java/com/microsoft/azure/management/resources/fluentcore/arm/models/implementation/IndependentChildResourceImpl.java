@@ -6,11 +6,12 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.models.implementation;
 
+import com.microsoft.azure.arm.resources.Region;
+import com.microsoft.azure.arm.resources.models.HasResourceGroup;
+import com.microsoft.azure.arm.resources.models.Resource;
+import com.microsoft.azure.arm.resources.models.implementation.IndependentChildImpl;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,15 +29,15 @@ import java.util.TreeMap;
  */
 @LangDefinition
 public abstract class IndependentChildResourceImpl<
-            FluentModelT extends IndependentChildResource<ManagerT, InnerModelT>,
-            FluentParentModelT extends Resource & HasResourceGroup,
-            InnerModelT extends com.microsoft.azure.Resource,
-            FluentModelImplT extends IndependentChildResourceImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
-            ManagerT>
+        FluentModelT extends IndependentChildResource<ManagerT, InnerModelT>,
+        FluentParentModelT extends Resource & HasResourceGroup,
+        InnerModelT extends com.microsoft.azure.Resource,
+        FluentModelImplT extends IndependentChildResourceImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
+        ManagerT>
         extends
-            IndependentChildImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>
+        IndependentChildImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>
         implements
-            IndependentChildResource<ManagerT, InnerModelT> {
+        IndependentChildResource<ManagerT, InnerModelT> {
     /**
      * Creates a new instance of CreatableUpdatableImpl.
      *

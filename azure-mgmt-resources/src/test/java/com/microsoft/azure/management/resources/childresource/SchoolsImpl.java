@@ -6,12 +6,12 @@
 
 package com.microsoft.azure.management.resources.childresource;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesCachedImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskItem;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.arm.dag.TaskGroup;
+import com.microsoft.azure.arm.dag.TaskItem;
+import com.microsoft.azure.arm.model.Creatable;
+import com.microsoft.azure.arm.model.Indexable;
+import com.microsoft.azure.arm.resources.collection.implementation.ExternalChildResourcesCachedImpl;
+import com.microsoft.azure.arm.resources.models.implementation.ExternalChildResourceImpl;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;

@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.management.resources;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
+import com.microsoft.azure.arm.resources.ResourceId;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -6,11 +6,11 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.models;
 
+import com.microsoft.azure.arm.model.Creatable;
+import com.microsoft.azure.arm.resources.Region;
+import com.microsoft.azure.arm.resources.models.GroupableResourceCore;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * Base interface for resources in resource groups.
@@ -19,11 +19,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  */
 @Fluent()
 public interface GroupableResource<TManager, InnerT> extends
-    Resource,
-    HasResourceGroup,
-    HasManager<TManager>,
-    HasInner<InnerT> {
-
+        GroupableResourceCore<TManager, InnerT> {
     /**
      * Grouping of all the definition stages.
      */
@@ -129,14 +125,8 @@ public interface GroupableResource<TManager, InnerT> extends
          *
          * @param <T> the next stage of the definition
          */
-        interface WithExistingResourceGroup<T> {
-            /**
-             * Associates the resource with an existing resource group.
-             * @param groupName the name of an existing resource group to put this resource in.
-             * @return the next stage of the definition
-             */
-            T withExistingResourceGroup(String groupName);
-
+        interface WithExistingResourceGroup<T>
+                extends GroupableResourceCore.DefinitionStages.WithGroup<T> {
             /**
              * Associates the resource with an existing resource group.
              * @param group an existing resource group to put the resource in

@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.management.resources.core;
 
-import com.microsoft.azure.management.resources.fluentcore.utils.DelayProvider;
+import com.microsoft.azure.arm.utils.DelayProvider;
 import rx.Observable;
 
 public class TestDelayProvider extends DelayProvider {

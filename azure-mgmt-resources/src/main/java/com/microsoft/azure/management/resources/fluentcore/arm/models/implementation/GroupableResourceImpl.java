@@ -6,13 +6,14 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.models.implementation;
 
+import com.microsoft.azure.arm.model.Creatable;
+import com.microsoft.azure.arm.resources.Region;
+import com.microsoft.azure.arm.resources.ResourceUtilsCore;
+import com.microsoft.azure.arm.resources.models.Resource;
+import com.microsoft.azure.arm.resources.models.implementation.GroupableResourceCoreImpl;
 import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 
 /**
  * The implementation for {@link GroupableResource}.
@@ -29,11 +30,10 @@ public abstract class GroupableResourceImpl<
         FluentModelImplT extends GroupableResourceImpl<FluentModelT, InnerModelT, FluentModelImplT, ManagerT>,
         ManagerT extends ManagerBase>
         extends
-            ResourceImpl<FluentModelT, InnerModelT, FluentModelImplT>
+        GroupableResourceCoreImpl<FluentModelT, InnerModelT, FluentModelImplT, ManagerT>
         implements
             GroupableResource<ManagerT, InnerModelT> {
 
-    protected final ManagerT myManager;
     protected Creatable<ResourceGroup> creatableGroup;
     private String groupName;
 
@@ -41,8 +41,7 @@ public abstract class GroupableResourceImpl<
             String name,
             InnerModelT innerObject,
             ManagerT manager) {
-        super(name, innerObject);
-        this.myManager = manager;
+        super(name, innerObject, manager);
     }
 
     // Helpers
@@ -54,19 +53,12 @@ public abstract class GroupableResourceImpl<
                 .toString();
     }
 
-    /*******************************************
-     * Getters.
-     *******************************************/
-
-    @Override
-    public ManagerT manager() {
-        return this.myManager;
-    }
-
     @Override
     public String resourceGroupName() {
-        if (this.groupName == null) {
-            return ResourceUtils.groupFromResourceId(this.id());
+        if (super.resourceGroupName() != null) {
+            return super.resourceGroupName();
+        } else if (this.groupName == null) {
+            return ResourceUtilsCore.groupFromResourceId(this.id());
         } else {
             return this.groupName;
         }
@@ -136,17 +128,6 @@ public abstract class GroupableResourceImpl<
         this.groupName = creatable.name();
         this.creatableGroup = creatable;
         this.addDependency(creatable);
-        return (FluentModelImplT) this;
-    }
-
-    /**
-     * Associates the resources with an existing resource group.
-     * @param groupName the name of an existing resource group to put this resource in.
-     * @return the next stage of the definition
-     */
-    @SuppressWarnings("unchecked")
-    public final FluentModelImplT withExistingResourceGroup(String groupName) {
-        this.groupName = groupName;
         return (FluentModelImplT) this;
     }
 

@@ -7,21 +7,21 @@ package com.microsoft.azure.management.resources.fluentcore.arm.collection.imple
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.Resource;
+import com.microsoft.azure.arm.collection.InnerSupportsDelete;
+import com.microsoft.azure.arm.collection.InnerSupportsGet;
+import com.microsoft.azure.arm.collection.InnerSupportsListing;
+import com.microsoft.azure.arm.collection.SupportsListing;
+import com.microsoft.azure.arm.model.HasInner;
+import com.microsoft.azure.arm.resources.collection.SupportsBatchDeletion;
+import com.microsoft.azure.arm.resources.collection.SupportsDeletingByResourceGroup;
+import com.microsoft.azure.arm.resources.collection.SupportsGettingById;
+import com.microsoft.azure.arm.resources.collection.SupportsGettingByResourceGroup;
+import com.microsoft.azure.arm.resources.collection.SupportsListingByResourceGroup;
+import com.microsoft.azure.arm.resources.models.HasManager;
+import com.microsoft.azure.arm.utils.RXMapper;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.utils.RXMapper;
 import rx.Completable;
 import rx.Observable;
 

@@ -7,21 +7,22 @@
 package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.arm.collection.SupportsDeletingById;
+import com.microsoft.azure.arm.model.HasInner;
+import com.microsoft.azure.arm.resources.ResourceId;
+import com.microsoft.azure.arm.resources.collection.SupportsDeletingByParent;
+import com.microsoft.azure.arm.resources.collection.SupportsGettingById;
+import com.microsoft.azure.arm.resources.collection.SupportsGettingByParent;
+import com.microsoft.azure.arm.resources.collection.SupportsListingByParent;
+import com.microsoft.azure.arm.resources.collection.implementation.CreatableResourcesImpl;
+import com.microsoft.azure.arm.resources.models.HasManager;
+import com.microsoft.azure.arm.resources.models.HasResourceGroup;
+import com.microsoft.azure.arm.resources.models.IndependentChild;
+import com.microsoft.azure.arm.resources.models.Resource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByParent;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByParent;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByParent;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChild;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
 import rx.Observable;
 

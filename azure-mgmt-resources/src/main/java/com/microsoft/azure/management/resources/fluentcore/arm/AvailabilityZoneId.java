@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm;
 
+import com.microsoft.azure.arm.resources.ExpandableStringEnum;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 

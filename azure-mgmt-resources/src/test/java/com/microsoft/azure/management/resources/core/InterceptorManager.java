@@ -7,7 +7,7 @@ package com.microsoft.azure.management.resources.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.arm.utils.SdkContext;
 import okhttp3.*;
 import okhttp3.internal.Util;
 import okio.Buffer;

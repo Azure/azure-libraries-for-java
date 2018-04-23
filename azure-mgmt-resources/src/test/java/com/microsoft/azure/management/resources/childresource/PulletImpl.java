@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.management.resources.childresource;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.arm.resources.models.implementation.ExternalChildResourceImpl;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 

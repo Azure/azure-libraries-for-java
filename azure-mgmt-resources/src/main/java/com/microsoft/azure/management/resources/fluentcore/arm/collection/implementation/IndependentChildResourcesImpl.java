@@ -6,11 +6,12 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
 
+import com.microsoft.azure.arm.resources.models.HasResourceGroup;
+import com.microsoft.azure.arm.resources.models.IndependentChild;
+import com.microsoft.azure.arm.resources.models.Resource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 
 /**
  * Base class for independent child resource collection class.
@@ -24,7 +25,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
  */
 @LangDefinition
 public abstract class IndependentChildResourcesImpl<
-        T extends IndependentChildResource<ManagerT, InnerT>,
+        T extends GroupableResource<ManagerT, InnerT> & IndependentChild<ManagerT>,
         ImplT extends T,
         InnerT,
         InnerCollectionT,

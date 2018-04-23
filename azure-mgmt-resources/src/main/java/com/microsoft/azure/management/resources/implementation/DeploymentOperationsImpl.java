@@ -7,10 +7,10 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.arm.resources.collection.implementation.ReadableWrappersImpl;
 import com.microsoft.azure.management.resources.Deployment;
 import com.microsoft.azure.management.resources.DeploymentOperation;
 import com.microsoft.azure.management.resources.DeploymentOperations;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Observable;

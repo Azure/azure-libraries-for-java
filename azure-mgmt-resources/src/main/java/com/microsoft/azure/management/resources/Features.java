@@ -6,8 +6,8 @@
 
 package com.microsoft.azure.management.resources;
 
+import com.microsoft.azure.arm.collection.SupportsListing;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Observable;

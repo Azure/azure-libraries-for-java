@@ -8,7 +8,7 @@ package com.microsoft.azure.management.resources;
 
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.arm.resources.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
 import com.microsoft.azure.management.resources.implementation.ResourceGroupInner;

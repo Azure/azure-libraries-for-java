@@ -7,11 +7,11 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.arm.resources.collection.implementation.CreatableWrappersImpl;
 import com.microsoft.azure.management.resources.PolicyDefinition;
 import com.microsoft.azure.management.resources.PolicyDefinitions;
 import com.microsoft.azure.management.resources.PolicyType;
 import com.microsoft.azure.management.resources.ResourceGroups;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
 import rx.Completable;
 import rx.Observable;
 

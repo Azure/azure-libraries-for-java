@@ -8,6 +8,9 @@ package com.microsoft.azure.management.resources.implementation;
 
 import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.AzureResponseBuilder;
+import com.microsoft.azure.arm.model.HasInner;
+import com.microsoft.azure.arm.resources.AzureConfigurable;
+import com.microsoft.azure.arm.utils.ResourceManagerThrottlingInterceptor;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.resources.Deployments;
 import com.microsoft.azure.management.resources.Features;
@@ -18,12 +21,9 @@ import com.microsoft.azure.management.resources.Providers;
 import com.microsoft.azure.management.resources.ResourceGroups;
 import com.microsoft.azure.management.resources.Subscriptions;
 import com.microsoft.azure.management.resources.Tenants;
-import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.RestClient;
 

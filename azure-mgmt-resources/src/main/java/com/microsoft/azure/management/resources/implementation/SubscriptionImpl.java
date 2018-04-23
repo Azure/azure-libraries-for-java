@@ -8,13 +8,13 @@ package com.microsoft.azure.management.resources.implementation;
 
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.arm.model.implementation.IndexableWrapperImpl;
+import com.microsoft.azure.arm.resources.Region;
+import com.microsoft.azure.arm.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.Location;
 import com.microsoft.azure.management.resources.Subscription;
 import com.microsoft.azure.management.resources.SubscriptionPolicies;
 import com.microsoft.azure.management.resources.SubscriptionState;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import rx.Observable;
 
 import java.util.List;

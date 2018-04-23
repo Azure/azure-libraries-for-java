@@ -5,11 +5,10 @@
  */
 package com.microsoft.azure.management.resources;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.arm.resources.Region;
+import com.microsoft.azure.arm.utils.SdkContext;
 import com.microsoft.rest.RestClient;
 import org.junit.Ignore;
-import org.junit.Test;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;

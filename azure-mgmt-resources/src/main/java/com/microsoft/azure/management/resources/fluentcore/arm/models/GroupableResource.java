@@ -6,10 +6,11 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.models;
 
+import com.microsoft.azure.arm.model.Creatable;
+import com.microsoft.azure.arm.resources.Region;
+import com.microsoft.azure.arm.resources.models.GroupableResourceCore;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 
 /**
  * Base interface for resources in resource groups.

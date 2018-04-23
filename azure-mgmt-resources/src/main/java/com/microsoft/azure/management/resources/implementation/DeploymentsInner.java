@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.arm.collection.InnerSupportsDelete;
+import com.microsoft.azure.arm.collection.InnerSupportsGet;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;

@@ -6,11 +6,11 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
+import com.microsoft.azure.arm.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.arm.resources.Region;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.ResourceGroupExportResult;
 import com.microsoft.azure.management.resources.ResourceGroupExportTemplateOptions;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Observable;

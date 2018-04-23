@@ -8,6 +8,7 @@ package com.microsoft.azure.management.resources.fluentcore.utils;
 
 import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.CloudError;
+import com.microsoft.azure.arm.utils.SdkContext;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.resources.Provider;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;

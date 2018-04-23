@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.arm.model.HasInner;
 import com.microsoft.rest.RestClient;
 
 /**

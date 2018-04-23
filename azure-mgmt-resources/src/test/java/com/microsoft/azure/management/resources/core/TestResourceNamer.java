@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.management.resources.core;
 
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceNamer;
+import com.microsoft.azure.arm.utils.ResourceNamer;
 
 public class TestResourceNamer extends ResourceNamer {
     private final InterceptorManager interceptorManager;

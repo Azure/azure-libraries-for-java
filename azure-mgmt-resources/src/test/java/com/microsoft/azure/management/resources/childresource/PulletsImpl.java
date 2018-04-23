@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.management.resources.childresource;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesCachedImpl;
+import com.microsoft.azure.arm.resources.collection.implementation.ExternalChildResourcesCachedImpl;
 import java.util.ArrayList;
 import java.util.List;
 

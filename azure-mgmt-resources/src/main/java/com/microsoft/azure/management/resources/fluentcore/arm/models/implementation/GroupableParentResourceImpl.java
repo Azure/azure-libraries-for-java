@@ -6,9 +6,9 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.models.implementation;
 
+import com.microsoft.azure.arm.resources.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import rx.Observable;
 import rx.functions.Func1;
 

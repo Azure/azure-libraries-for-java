@@ -6,9 +6,9 @@
 
 package com.microsoft.azure.management.resources.childresource;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.arm.model.Creatable;
+import com.microsoft.azure.arm.model.Indexable;
+import com.microsoft.azure.arm.resources.models.implementation.ExternalChildResourceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import rx.Observable;
@@ -233,7 +233,7 @@ public class ExternalChildResourceTests {
     public void canCreateChildrenIndependently() throws Exception {
         SchoolsImpl schools = new SchoolsImpl();
 
-        Creatable<SchoolsImpl.TeacherImpl>  creatableTeacher = schools.independentTeachers()
+        Creatable<SchoolsImpl.TeacherImpl> creatableTeacher = schools.independentTeachers()
                 .define("john")
                 .withSubject("physics");
 

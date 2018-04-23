@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.models;
 
+import com.microsoft.azure.arm.resources.models.IndependentChild;
 import com.microsoft.azure.management.apigeneration.Fluent;
 
 /**
@@ -17,5 +18,5 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 @Fluent
 public interface IndependentChildResource<ManagerT, InnerT> extends
     GroupableResource<ManagerT, InnerT>,
-    IndependentChild<ManagerT> {
+        IndependentChild<ManagerT> {
 }

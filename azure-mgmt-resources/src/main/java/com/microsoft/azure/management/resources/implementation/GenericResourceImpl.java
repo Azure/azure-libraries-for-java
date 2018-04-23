@@ -6,12 +6,12 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
+import com.microsoft.azure.arm.utils.SdkContext;
 import com.microsoft.azure.management.resources.GenericResource;
 import com.microsoft.azure.management.resources.Plan;
 import com.microsoft.azure.management.resources.Provider;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -20,10 +20,10 @@ import rx.functions.Func1;
  */
 final class GenericResourceImpl
     extends GroupableResourceImpl<
-        GenericResource,
-        GenericResourceInner,
-        GenericResourceImpl,
-        ResourceManager>
+            GenericResource,
+            GenericResourceInner,
+            GenericResourceImpl,
+            ResourceManager>
     implements
         GenericResource,
         GenericResource.Definition,

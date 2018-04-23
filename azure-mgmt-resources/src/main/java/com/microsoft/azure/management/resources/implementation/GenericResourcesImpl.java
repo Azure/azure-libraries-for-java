@@ -7,13 +7,13 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.arm.utils.Utils;
 import com.microsoft.azure.management.resources.GenericResource;
 import com.microsoft.azure.management.resources.GenericResources;
 import com.microsoft.azure.management.resources.Provider;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;

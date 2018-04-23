@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.implementation;
 
+import com.microsoft.azure.arm.resources.implementation.ManagerBaseCore;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.rest.RestClient;
 

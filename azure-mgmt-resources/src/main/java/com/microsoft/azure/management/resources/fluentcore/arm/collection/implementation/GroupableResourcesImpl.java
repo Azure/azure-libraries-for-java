@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
 
 import com.microsoft.azure.Resource;
+import com.microsoft.azure.arm.resources.collection.implementation.GroupableResourcesCoreImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 

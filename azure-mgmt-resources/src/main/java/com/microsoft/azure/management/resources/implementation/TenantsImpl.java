@@ -7,10 +7,10 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.arm.resources.collection.implementation.ReadableWrappersImpl;
+import com.microsoft.azure.arm.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.Tenant;
 import com.microsoft.azure.management.resources.Tenants;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import rx.Observable;
 import rx.functions.Func1;
 

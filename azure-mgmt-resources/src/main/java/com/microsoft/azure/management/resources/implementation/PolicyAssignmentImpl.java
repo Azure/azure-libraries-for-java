@@ -6,11 +6,11 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
+import com.microsoft.azure.arm.model.implementation.CreatableImpl;
 import com.microsoft.azure.management.resources.GenericResource;
 import com.microsoft.azure.management.resources.PolicyAssignment;
 import com.microsoft.azure.management.resources.PolicyDefinition;
 import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableImpl;
 import rx.Observable;
 
 /**

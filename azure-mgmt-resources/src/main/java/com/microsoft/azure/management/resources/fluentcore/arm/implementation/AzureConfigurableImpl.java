@@ -7,10 +7,11 @@
 package com.microsoft.azure.management.resources.fluentcore.arm.implementation;
 
 import com.microsoft.azure.AzureEnvironment;
+import com.microsoft.azure.arm.resources.AzureConfigurable;
+import com.microsoft.azure.arm.resources.implementation.AzureConfigurableCoreImpl;
+import com.microsoft.azure.arm.utils.ResourceManagerThrottlingInterceptor;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
 import com.microsoft.rest.RestClient;
 
 /**

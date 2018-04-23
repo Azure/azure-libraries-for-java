@@ -6,21 +6,21 @@
 
 package com.microsoft.azure.management.resources;
 
+import com.microsoft.azure.arm.model.Appliable;
+import com.microsoft.azure.arm.model.Creatable;
+import com.microsoft.azure.arm.model.HasInner;
+import com.microsoft.azure.arm.model.Indexable;
+import com.microsoft.azure.arm.model.Refreshable;
+import com.microsoft.azure.arm.model.Updatable;
+import com.microsoft.azure.arm.resources.Region;
+import com.microsoft.azure.arm.resources.models.GroupableResourceCore;
+import com.microsoft.azure.arm.resources.models.HasManager;
+import com.microsoft.azure.arm.resources.models.HasName;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
 import com.microsoft.azure.management.apigeneration.LangMethodDefinition.LangMethodType;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResourceCore;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.implementation.DeploymentExtendedInner;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
 

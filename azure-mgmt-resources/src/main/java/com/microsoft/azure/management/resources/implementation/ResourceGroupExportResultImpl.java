@@ -8,9 +8,9 @@ package com.microsoft.azure.management.resources.implementation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.microsoft.azure.arm.model.implementation.WrapperImpl;
 import com.microsoft.azure.management.resources.DeploymentExportResult;
 import com.microsoft.azure.management.resources.ResourceGroupExportResult;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.microsoft.azure.management.resources.ResourceManagementErrorWithDetails;
 
 /**

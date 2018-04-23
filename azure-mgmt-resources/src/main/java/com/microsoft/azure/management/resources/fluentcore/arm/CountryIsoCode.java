@@ -6,6 +6,8 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm;
 
+import com.microsoft.azure.arm.resources.ExpandableStringEnum;
+
 import java.util.Collection;
 
 /**

@@ -6,8 +6,8 @@
 
 package com.microsoft.azure.management.resources;
 
+import com.microsoft.azure.arm.utils.Utils;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.junit.Assert;
 import org.junit.Test;
 import retrofit2.Retrofit;

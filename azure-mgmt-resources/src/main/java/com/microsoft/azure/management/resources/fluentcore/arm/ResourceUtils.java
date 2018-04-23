@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm;
 
+import com.microsoft.azure.arm.resources.ResourceUtilsCore;
 import com.microsoft.azure.management.resources.Provider;
 import com.microsoft.azure.management.resources.ProviderResourceType;
 

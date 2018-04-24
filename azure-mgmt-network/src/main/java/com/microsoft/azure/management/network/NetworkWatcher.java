@@ -100,6 +100,14 @@ public interface NetworkWatcher extends
     Troubleshooting.DefinitionStages.WithTargetResource troubleshoot();
 
     /**
+     * Lists all available internet service providers for a specified Azure region.
+     * @return a stage to specify parameters for internet providers list
+     */
+    @Beta(SinceVersion.V1_10_0)
+    @Method
+    AvailableProviders.DefinitionStages.WithExecute availableProviders();
+
+    /**
      * Container interface for all the definitions.
      */
     interface Definition extends

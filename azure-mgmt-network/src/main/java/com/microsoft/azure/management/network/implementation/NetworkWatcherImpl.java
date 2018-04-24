@@ -105,6 +105,11 @@ class NetworkWatcherImpl
     }
 
     @Override
+    public AvailableProvidersImpl availableProviders() {
+        return new AvailableProvidersImpl(this);
+    }
+
+    @Override
     public Observable<NetworkWatcher> createResourceAsync() {
         return this.manager().inner().networkWatchers().createOrUpdateAsync(
                 this.resourceGroupName(), this.name(), this.inner())

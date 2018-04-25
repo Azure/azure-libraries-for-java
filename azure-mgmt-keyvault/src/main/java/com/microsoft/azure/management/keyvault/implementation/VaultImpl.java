@@ -14,11 +14,13 @@ import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.keyvault.AccessPolicy;
 import com.microsoft.azure.management.keyvault.AccessPolicyEntry;
+import com.microsoft.azure.management.keyvault.CreateMode;
 import com.microsoft.azure.management.keyvault.Keys;
 import com.microsoft.azure.management.keyvault.Secrets;
 import com.microsoft.azure.management.keyvault.Sku;
 import com.microsoft.azure.management.keyvault.SkuName;
 import com.microsoft.azure.management.keyvault.Vault;
+import com.microsoft.azure.management.keyvault.Vault.DefinitionStages.WithCreate;
 import com.microsoft.azure.management.keyvault.VaultCreateOrUpdateParameters;
 import com.microsoft.azure.management.keyvault.VaultProperties;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
@@ -139,11 +141,27 @@ class VaultImpl
 
     @Override
     public boolean enabledForTemplateDeployment() {
-        if (inner().properties() == null || inner().properties().enabledForTemplateDeployment()) {
+        if (inner().properties() == null || inner().properties().enabledForTemplateDeployment() == null) {
             return false;
         }
         return inner().properties().enabledForTemplateDeployment();
     }
+    
+	@Override
+	public boolean softDeleteEnabled() {
+		if (inner().properties() == null || inner().properties().enableSoftDelete() == null) {
+			return false;
+		}
+		return inner().properties().enableSoftDelete();
+	}
+
+	@Override
+	public boolean purgeProtectionEnabled() {
+		if (inner().properties() == null || inner().properties().enablePurgeProtection() == null) {
+			return false;
+		}
+		return inner().properties().enablePurgeProtection();
+	}
 
     @Override
     public VaultImpl withEmptyAccessPolicy() {
@@ -201,6 +219,19 @@ class VaultImpl
         return this;
     }
 
+
+	@Override
+	public VaultImpl withSoftDeleteEnabled() {
+		inner().properties().withEnableSoftDelete(true);
+		return this;
+	}
+
+	@Override
+	public VaultImpl withPurgeProtectionEnabled() {
+		inner().properties().withEnablePurgeProtection(true);
+		return this;
+	}
+	
     @Override
     public VaultImpl withDeploymentDisabled() {
         inner().properties().withEnabledForDeployment(false);
@@ -300,4 +331,15 @@ class VaultImpl
     protected Observable<VaultInner> getInnerAsync() {
         return this.manager().inner().vaults().getByResourceGroupAsync(resourceGroupName(), name());
     }
+
+	@Override
+	public CreateMode createMode() {
+		return inner().properties().createMode();
+	}
+
+	@Override
+	public WithCreate withCreateMode(CreateMode createMode) {
+		inner().properties().withCreateMode(createMode);
+		return this;
+	}
 }

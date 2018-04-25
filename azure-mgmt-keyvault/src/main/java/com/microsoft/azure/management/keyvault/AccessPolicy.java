@@ -17,6 +17,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * An immutable client-side representation of a key vault access policy.
@@ -29,7 +30,7 @@ public interface AccessPolicy extends
      * @return The Azure Active Directory tenant ID that should be used for
      * authenticating requests to the key vault.
      */
-    String tenantId();
+    UUID tenantId();
 
     /**
      * @return The object ID of a user or service principal in the Azure Active
@@ -40,7 +41,7 @@ public interface AccessPolicy extends
     /**
      * @return Application ID of the client making request on behalf of a principal.
      */
-    String applicationId();
+    UUID applicationId();
 
     /**
      * @return Permissions the identity has for keys and secrets.
@@ -92,7 +93,7 @@ public interface AccessPolicy extends
              * @return the next stage of access policy definition
              */
             WithAttach<ParentT> forUser(ActiveDirectoryUser user);
-
+            
             /**
              * Specifies the Active Directory user this access policy is for.
              *
@@ -100,6 +101,23 @@ public interface AccessPolicy extends
              * @return the next stage of access policy definition
              */
             WithAttach<ParentT> forUser(String userPrincipalName);
+            
+            /**
+             * Application ID of the client making request on behalf of a principal.
+             * 
+             * @param applicationId the application ID
+             * @return the next stage of access policy definition
+             */
+            WithAttach<ParentT> forApplicationId(UUID applicationId);
+            
+            /**
+             * Specifies the Azure Active Directory tenant ID that should be used for
+             * authenticating requests to the key vault.
+             * 
+             * @param tenantId the tenant ID for the key vault.
+             * @return the next stage of access policy definition
+             */
+            WithAttach<ParentT> forTenantId(UUID tenantId);
 
             /**
              * Specifies the Active Directory group this access policy is for.
@@ -266,6 +284,23 @@ public interface AccessPolicy extends
              * @return the next stage of access policy definition
              */
             WithAttach<ParentT> forUser(String userPrincipalName);
+            
+            /**
+             * Application ID of the client making request on behalf of a principal.
+             * 
+             * @param applicationId the application ID
+             * @return the next stage of access policy definition
+             */
+            WithAttach<ParentT> forApplicationId(UUID applicationId);
+            
+            /**
+             * Specifies the Azure Active Directory tenant ID that should be used for
+             * authenticating requests to the key vault.
+             * 
+             * @param tenantId the tenant ID for the key vault.
+             * @return the next stage of access policy definition
+             */
+            WithAttach<ParentT> forTenantId(UUID tenantId);
 
             /**
              * Specifies the Active Directory group this access policy is for.

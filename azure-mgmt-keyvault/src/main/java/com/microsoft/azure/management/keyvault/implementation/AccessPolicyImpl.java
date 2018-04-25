@@ -11,6 +11,7 @@ import com.microsoft.azure.management.graphrbac.ActiveDirectoryGroup;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryUser;
 import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.keyvault.AccessPolicy;
+import com.microsoft.azure.management.keyvault.AccessPolicy.UpdateDefinitionStages.WithAttach;
 import com.microsoft.azure.management.keyvault.AccessPolicyEntry;
 import com.microsoft.azure.management.keyvault.CertificatePermissions;
 import com.microsoft.azure.management.keyvault.KeyPermissions;
@@ -55,11 +56,11 @@ class AccessPolicyImpl
     }
 
     @Override
-    public String tenantId() {
+    public UUID tenantId() {
         if (inner().tenantId() == null) {
             return null;
         }
-        return inner().tenantId().toString();
+        return inner().tenantId();
     }
 
     @Override
@@ -71,11 +72,11 @@ class AccessPolicyImpl
     }
 
     @Override
-    public String applicationId() {
+    public UUID applicationId() {
         if (inner().applicationId() == null) {
             return null;
         }
-        return inner().applicationId().toString();
+        return inner().applicationId();
     }
 
     @Override
@@ -233,6 +234,18 @@ class AccessPolicyImpl
         this.userPrincipalName = userPrincipalName;
         return this;
     }
+    
+	@Override
+	public AccessPolicyImpl forApplicationId(UUID applicationId) {
+		inner().withApplicationId(applicationId);
+		return this;
+	}
+
+	@Override
+	public AccessPolicyImpl forTenantId(UUID tenantId) {
+		inner().withTenantId(tenantId);
+		return this;
+	}
 
     @Override
     public AccessPolicyImpl forGroup(ActiveDirectoryGroup activeDirectoryGroup) {
@@ -309,4 +322,5 @@ class AccessPolicyImpl
         inner().permissions().secrets().removeAll(permissions);
         return this;
     }
+
 }

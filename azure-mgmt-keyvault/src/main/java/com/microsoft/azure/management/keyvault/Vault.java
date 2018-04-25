@@ -87,6 +87,24 @@ public interface Vault extends
      * retrieve secrets from the key vault.
      */
     boolean enabledForTemplateDeployment();
+    
+    /**
+     * @return whether soft delete is enabled for this key vault.
+     */
+    boolean softDeleteEnabled();
+    
+    /**
+     * @return whether purge protection is enabled for this key vault.
+     * Purge protection can only be enabled if soft delete is enabled.
+     */
+    boolean purgeProtectionEnabled();
+    
+    /**
+     * Get the createMode value.
+     * 
+     * @return the createMode value
+     */
+    public CreateMode createMode();
 
     /**************************************************************
      * Fluent interfaces to provision a Vault
@@ -183,6 +201,20 @@ public interface Vault extends
              * @return the next stage of key vault definition
              */
             WithCreate withTemplateDeploymentEnabled();
+            
+            /**
+             * Enable soft delete for the key vault.
+             * 
+             * @return the next stage of key vault definition
+             */
+            WithCreate withSoftDeleteEnabled();
+            
+            /**
+             * Enable purge protection for the key vault; valid only if soft delete is also enabled.
+             * 
+             * @return the next stage of key vault definition.
+             */
+            WithCreate withPurgeProtectionEnabled();
 
             /**
              * Disable Azure Virtual Machines to retrieve certificates stored as secrets from the key vault.
@@ -204,6 +236,13 @@ public interface Vault extends
              * @return the next stage of key vault definition
              */
             WithCreate withTemplateDeploymentDisabled();
+            
+            /**
+             * Set the createMode value. 
+             * 
+             * @return the next stage of key vault definition
+             */
+            WithCreate withCreateMode(CreateMode createMode);
         }
 
         /**
@@ -285,6 +324,20 @@ public interface Vault extends
              * @return the key vault update stage
              */
             Update withTemplateDeploymentEnabled();
+            
+            /**
+             * Enable soft delete for the key vault.
+             * 
+             * @return the next stage of key vault definition
+             */
+            Update withSoftDeleteEnabled();
+            
+            /**
+             * Enable purge protection for the key vault; valid only if soft delete is also enabled.
+             * 
+             * @return the next stage of key vault definition.
+             */
+            Update withPurgeProtectionEnabled();
 
             /**
              * Disable Azure Virtual Machines to retrieve certificates stored as secrets from the key vault.

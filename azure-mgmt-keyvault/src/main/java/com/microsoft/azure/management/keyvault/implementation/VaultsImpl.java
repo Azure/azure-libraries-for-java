@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Microsoft Corporation. All rights reserved.
+  * Copyright (c) Microsot Corporation. All rights reserved.
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
@@ -9,11 +9,14 @@ package com.microsoft.azure.management.keyvault.implementation;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.microsoft.azure.management.keyvault.DeletedVault;
 import com.microsoft.azure.management.keyvault.SkuName;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.keyvault.VaultProperties;
 import com.microsoft.azure.management.keyvault.Vaults;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
+
 import rx.Completable;
 import rx.Observable;
 
@@ -43,6 +46,7 @@ class VaultsImpl
         this.tenantId = tenantId;
     }
 
+    
     @Override
     public PagedList<Vault> listByResourceGroup(String groupName) {
         return wrapList(this.inner().listByResourceGroup(groupName));
@@ -97,4 +101,42 @@ class VaultsImpl
     public Observable<Vault> listByResourceGroupAsync(String resourceGroupName) {
         return wrapPageAsync(this.inner().listByResourceGroupAsync(resourceGroupName));
     }
+	
+	@Override
+	public PagedList<DeletedVault> listDeleted() {
+		return wrapPage(this.inner().listDeleted());
+	}
+
+	//Hacky method to convert from DeletedVaultInner to DeletedVault
+	private PagedList<DeletedVault> wrapPage(PagedList<DeletedVaultInner> listDeleted) {
+		PagedListConverter<DeletedVaultInner, DeletedVault> converter =  
+				new PagedListConverter<DeletedVaultInner, DeletedVault> () {
+					@Override
+					public Observable<DeletedVault> typeConvertAsync(DeletedVaultInner inner) {
+						return Observable.just((DeletedVault) new DeletedVaultImpl(inner));
+					}
+		};
+		return converter.convert(listDeleted);
+	}
+
+	@Override
+	public DeletedVault getDeleted(String vaultName, String location) {
+		if (inner().getDeleted(vaultName, location) == null) {
+			return null;
+		}
+		return (DeletedVault) new DeletedVaultImpl(inner().getDeleted(vaultName, location));
+	}
+
+
+	@Override
+	public void delete(String resourceGroupName, String vaultName) {
+		inner().delete(resourceGroupName, vaultName);
+	}
+
+
+	@Override
+	public void purgeDeleted(String vaultName, String location) {
+		inner().purgeDeleted(vaultName, location);
+	}
+
 }

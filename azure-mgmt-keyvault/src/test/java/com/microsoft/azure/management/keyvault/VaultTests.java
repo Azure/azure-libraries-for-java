@@ -6,14 +6,15 @@
 
 package com.microsoft.azure.management.keyvault;
 
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Test;
+
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryUser;
 import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.Assert;
-import org.junit.Test;
-
-import java.util.List;
 
 public class VaultTests extends KeyVaultManagementTest {
     @Test
@@ -51,6 +52,7 @@ public class VaultTests extends KeyVaultManagementTest {
                         .attach()
                     .create();
             Assert.assertNotNull(vault);
+            Assert.assertFalse(vault.softDeleteEnabled());
             // GET
             vault = keyVaultManager.vaults().getByResourceGroup(RG_NAME, VAULT_NAME);
             Assert.assertNotNull(vault);
@@ -91,9 +93,68 @@ public class VaultTests extends KeyVaultManagementTest {
                     Assert.assertEquals(CertificatePermissions.values().size(), policy.permissions().certificates().size());
                 }
             }
+            
+            // DELETE
+            keyVaultManager.vaults().delete(RG_NAME, VAULT_NAME);
+            Thread.sleep(20000);
+            Assert.assertNull(keyVaultManager.vaults().getDeleted(VAULT_NAME, Region.US_WEST.toString()));
+            
         } finally {
             graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
 //            graphRbacManager.users().deleteById(user.id());
         }
     }
+    
+    @Test
+    public void canEnableSoftDeleteAndPurge() throws InterruptedException {
+    	String otherVaultName = VAULT_NAME + "other";
+        String sp = SdkContext.randomResourceName("sp", 20);
+        String us = SdkContext.randomResourceName("us", 20);
+        
+        ServicePrincipal servicePrincipal = graphRbacManager.servicePrincipals()
+                .define(sp)
+                .withNewApplication("http://" + sp)
+                .create();
+
+        ActiveDirectoryUser user = graphRbacManager.users()
+                .define(us)
+                .withEmailAlias(us)
+                .withPassword("P@$$w0rd")
+                .create();
+
+        try {
+    	Vault vault = keyVaultManager.vaults().define(otherVaultName)
+                .withRegion(Region.US_WEST)
+                .withNewResourceGroup(RG_NAME)
+                .defineAccessPolicy()
+                .forServicePrincipal("http://" + sp)
+                    .allowKeyPermissions(KeyPermissions.LIST)
+                    .allowSecretAllPermissions()
+                    .allowCertificatePermissions(CertificatePermissions.GET)
+                    .attach()
+                .defineAccessPolicy()
+                .forUser(us)
+                    .allowKeyAllPermissions()
+                    .allowSecretAllPermissions()
+                    .allowCertificatePermissions(CertificatePermissions.GET, CertificatePermissions.LIST, CertificatePermissions.CREATE)
+                    .attach()
+                .withSoftDeleteEnabled()
+                .create();
+    	Assert.assertTrue(vault.softDeleteEnabled());
+    	
+    	keyVaultManager.vaults().delete(RG_NAME, otherVaultName);;
+    	Thread.sleep(20000);
+    	//Can still see deleted vault.
+    	Assert.assertNotNull(keyVaultManager.vaults().getDeleted(otherVaultName, Region.US_WEST.toString()));
+    	
+    	keyVaultManager.vaults().purgeDeleted(otherVaultName,  Region.US_WEST.toString());
+    	Thread.sleep(20000);
+    	//Vault is purged
+    	Assert.assertNull(keyVaultManager.vaults().getDeleted(otherVaultName, Region.US_WEST.toString()));
+        } finally {
+            graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
+           // graphRbacManager.users().deleteById(user.id());
+        }
+    }
+    
 }

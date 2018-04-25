@@ -35,6 +35,13 @@ public interface NetworkWatcher extends
     PacketCaptures packetCaptures();
 
     /**
+     * @return entry point to manage connection monitors associated with network watcher
+     */
+    @Beta(SinceVersion.V1_10_0)
+    @Method
+    ConnectionMonitors connectionMonitors();
+
+    /**
      * First step specifying parameters to get topology of a resource group.
      * @return current network topology by resource group
      */

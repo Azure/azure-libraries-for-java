@@ -18,7 +18,7 @@ import java.util.List;
  * Implementation for {@link com.microsoft.azure.management.network.PacketCaptureStatus}.
  */
 @LangDefinition
-public class PacketCaptureStatusImpl extends WrapperImpl<PacketCaptureQueryStatusResultInner>
+class PacketCaptureStatusImpl extends WrapperImpl<PacketCaptureQueryStatusResultInner>
         implements PacketCaptureStatus {
     PacketCaptureStatusImpl(PacketCaptureQueryStatusResultInner innerObject) {
         super(innerObject);

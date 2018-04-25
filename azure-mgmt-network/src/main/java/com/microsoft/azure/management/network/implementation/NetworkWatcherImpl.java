@@ -29,16 +29,23 @@ class NetworkWatcherImpl
         NetworkWatcher.Update {
 
     private PacketCapturesImpl packetCaptures;
+    private ConnectionMonitorsImpl connectionMonitors;
 
     NetworkWatcherImpl(String name,
                 final NetworkWatcherInner innerModel,
                 final NetworkManager networkManager) {
         super(name, innerModel, networkManager);
         this.packetCaptures = new PacketCapturesImpl(networkManager.inner().packetCaptures(), this);
+        this.connectionMonitors = new ConnectionMonitorsImpl(networkManager.inner().connectionMonitors(), this);
     }
 
     public PacketCapturesImpl packetCaptures() {
         return packetCaptures;
+    }
+
+    @Override
+    public ConnectionMonitorsImpl connectionMonitors() {
+        return connectionMonitors;
     }
 
     // Verbs

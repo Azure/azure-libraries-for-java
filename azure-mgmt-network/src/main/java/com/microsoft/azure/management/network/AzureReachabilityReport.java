@@ -42,7 +42,7 @@ public interface AzureReachabilityReport extends Executable<AzureReachabilityRep
     /**
      * @return parameters used to query available internet providers
      */
-    AzureReachabilityReportParameters AzureReachabilityReportParameters();
+    AzureReachabilityReportParameters azureReachabilityReportParameters();
 
     /**
      * The entirety of Azure reachability report parameters definition.

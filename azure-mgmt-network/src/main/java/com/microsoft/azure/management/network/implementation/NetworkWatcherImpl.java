@@ -6,7 +6,6 @@
 package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.network.AzureReachabilityReport;
 import com.microsoft.azure.management.network.FlowLogSettings;
 import com.microsoft.azure.management.network.NetworkWatcher;
 import com.microsoft.azure.management.network.SecurityGroupView;

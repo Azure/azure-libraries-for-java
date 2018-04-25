@@ -51,7 +51,7 @@ class AzureReachabilityReportImpl extends ExecutableImpl<AzureReachabilityReport
     }
 
     @Override
-    public AzureReachabilityReportParameters AzureReachabilityReportParameters() {
+    public AzureReachabilityReportParameters azureReachabilityReportParameters() {
         return parameters;
     }
 
@@ -71,8 +71,8 @@ class AzureReachabilityReportImpl extends ExecutableImpl<AzureReachabilityReport
                 .getAzureReachabilityReportAsync(parent().resourceGroupName(), parent().name(), parameters)
                 .map(new Func1<AzureReachabilityReportInner, AzureReachabilityReport>() {
                     @Override
-                    public AzureReachabilityReport call(AzureReachabilityReportInner AzureReachabilityReportListInner) {
-                        AzureReachabilityReportImpl.this.inner = AzureReachabilityReportListInner;
+                    public AzureReachabilityReport call(AzureReachabilityReportInner azureReachabilityReportListInner) {
+                        AzureReachabilityReportImpl.this.inner = azureReachabilityReportListInner;
                         return AzureReachabilityReportImpl.this;
                     }
                 });

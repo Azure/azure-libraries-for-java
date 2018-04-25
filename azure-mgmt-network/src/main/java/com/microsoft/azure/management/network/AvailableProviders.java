@@ -34,7 +34,7 @@ public interface AvailableProviders extends Executable<AvailableProviders>,
     Map<String, AvailableProvidersListCountry> providersByCountry();
 
     /**
-     * The entirety of topology parameters definition.
+     * The entirety of available providers parameters definition.
      */
     interface Definition extends DefinitionStages.WithExecuteAndCountry,
         DefinitionStages.WithExecuteAndState,
@@ -42,11 +42,11 @@ public interface AvailableProviders extends Executable<AvailableProviders>,
     }
 
     /**
-     * Grouping of topology definition stages.
+     * Grouping of available providers parameters definition stages.
      */
     interface DefinitionStages {
         /**
-         * The first stage of topology parameters definition.
+         * The first stage of available providers parameters definition.
          */
         interface WithAzureLocations {
             /**

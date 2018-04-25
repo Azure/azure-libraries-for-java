@@ -108,6 +108,14 @@ public interface NetworkWatcher extends
     AvailableProviders.DefinitionStages.WithExecute availableProviders();
 
     /**
+     * Gets the relative latency score for internet service providers from a specified location to Azure regions.
+     * @return a stage to specify parameters for internet providers list
+     */
+    @Beta(SinceVersion.V1_10_0)
+    @Method
+    AzureReachabilityReport.DefinitionStages.WithProviderLocation azureReachabilityReport();
+
+    /**
      * Container interface for all the definitions.
      */
     interface Definition extends

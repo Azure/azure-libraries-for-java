@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.network.AzureReachabilityReport;
 import com.microsoft.azure.management.network.FlowLogSettings;
 import com.microsoft.azure.management.network.NetworkWatcher;
 import com.microsoft.azure.management.network.SecurityGroupView;
@@ -107,6 +108,11 @@ class NetworkWatcherImpl
     @Override
     public AvailableProvidersImpl availableProviders() {
         return new AvailableProvidersImpl(this);
+    }
+
+    @Override
+    public AzureReachabilityReportImpl azureReachabilityReport() {
+        return new AzureReachabilityReportImpl(this);
     }
 
     @Override

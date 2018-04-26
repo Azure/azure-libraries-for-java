@@ -20,6 +20,8 @@ import com.microsoft.azure.management.compute.VirtualMachineSku;
 import com.microsoft.azure.management.locks.LockLevel;
 import com.microsoft.azure.management.locks.ManagementLock;
 import com.microsoft.azure.management.network.Access;
+import com.microsoft.azure.management.network.ConnectionMonitor;
+import com.microsoft.azure.management.network.ConnectionMonitorQueryResult;
 import com.microsoft.azure.management.network.ConnectivityCheck;
 import com.microsoft.azure.management.network.Direction;
 import com.microsoft.azure.management.network.FlowLogSettings;
@@ -684,6 +686,22 @@ public class AzureTests extends TestBase {
         VirtualMachine[] virtualMachines = tnw.ensureNetwork(azure.networkWatchers().manager().networks(),
                 azure.virtualMachines(), azure.networkInterfaces());
 
+        ConnectionMonitor connectionMonitor = nw.connectionMonitors()
+                .define("NewConnectionMonitor")
+                .withSourceId(virtualMachines[0].id())
+                .withDestinationId(virtualMachines[1].id())
+                .withDestinationPort(80)
+                .withTag("tag1", "value1")
+                .withoutAutoStart()
+                .withMonitoringInterval(35)
+                .create();
+        Assert.assertEquals("value1", connectionMonitor.tags().get("tag1"));
+        Assert.assertEquals(35, connectionMonitor.monitoringIntervalInSeconds());
+        Assert.assertEquals("NotStarted", connectionMonitor.monitoringStatus());
+        Assert.assertEquals("NewConnectionMonitor", connectionMonitor.name());
+
+        connectionMonitor.start();
+        Assert.assertEquals("Running", connectionMonitor.monitoringStatus());
         Topology topology = nw.topology().withTargetResourceGroup(virtualMachines[0].resourceGroupName()).execute();
         Assert.assertEquals(11, topology.resources().size());
         Assert.assertTrue(topology.resources().containsKey(virtualMachines[0].getPrimaryNetworkInterface().networkSecurityGroupId()));
@@ -755,6 +773,8 @@ public class AzureTests extends TestBase {
                 .fromSourceVirtualMachine(virtualMachines[0].id())
                 .execute();
         Assert.assertEquals("Reachable", connectivityCheck.connectionStatus().toString());
+
+        ConnectionMonitorQueryResult queryResult = connectionMonitor.query();
 
         azure.virtualMachines().deleteById(virtualMachines[1].id());
         topology.execute();

@@ -107,7 +107,13 @@ public class ConnectionMonitorImpl extends
 
     @Override
     public Completable stopAsync() {
-        return this.client.stopAsync(parent.resourceGroupName(), parent.name(), name()).toCompletable();
+        return this.client.stopAsync(parent.resourceGroupName(), parent.name(), name())
+                .flatMap(new Func1<Void, Observable<?>>() {
+                    @Override
+                    public Observable<?> call(Void aVoid) {
+                        return refreshAsync();
+                    }
+                }).toCompletable();
     }
 
     @Override
@@ -117,7 +123,13 @@ public class ConnectionMonitorImpl extends
 
     @Override
     public Completable startAsync() {
-        return this.client.startAsync(parent.resourceGroupName(), parent.name(), name()).toCompletable();
+        return this.client.startAsync(parent.resourceGroupName(), parent.name(), name())
+                .flatMap(new Func1<Void, Observable<?>>() {
+                    @Override
+                    public Observable<?> call(Void aVoid) {
+                        return refreshAsync();
+                    }
+                }).toCompletable();
     }
 
     @Override

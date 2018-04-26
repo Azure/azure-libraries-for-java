@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.CloudException;
+import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.AddressSpace;
 import com.microsoft.azure.management.network.DhcpOptions;
@@ -14,6 +15,7 @@ import com.microsoft.azure.management.network.NetworkPeerings;
 import com.microsoft.azure.management.network.Subnet;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
 
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -259,5 +261,24 @@ class NetworkImpl
     @Override
     public NetworkPeerings peerings() {
         return this.peerings;
+    }
+
+    @Override
+    public NetworkImpl withNewDdosProtectionPlan() {
+        inner().withEnableDdosProtection(true);
+        Creatable<DdosProtectionPlanInner> ddosProtectionPlanCreatable = null;
+        return this;
+    }
+
+    @Override
+    public NetworkImpl withExistingDdosProtectionPlan(String planId) {
+        inner().withEnableDdosProtection(true).withDdosProtectionPlan(new SubResource().withId(planId));
+        return this;
+    }
+
+    @Override
+    public NetworkImpl withoutDdosProtectionPlan() {
+        inner().withEnableDdosProtection(false).withDdosProtectionPlan(null);
+        return this;
     }
 }

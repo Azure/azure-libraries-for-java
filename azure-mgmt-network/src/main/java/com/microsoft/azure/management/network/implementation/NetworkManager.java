@@ -15,6 +15,7 @@ import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayBackend;
 import com.microsoft.azure.management.network.ApplicationGateways;
 import com.microsoft.azure.management.network.ApplicationSecurityGroups;
+import com.microsoft.azure.management.network.DdosProtectionPlans;
 import com.microsoft.azure.management.network.ExpressRouteCircuits;
 import com.microsoft.azure.management.network.LoadBalancers;
 import com.microsoft.azure.management.network.LocalNetworkGateways;
@@ -65,6 +66,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     private ExpressRouteCircuits expressRouteCircuits;
     private ApplicationSecurityGroups applicationSecurityGroups;
     private RouteFilters routeFilters;
+    private DdosProtectionPlans ddosProtectionPlans;
 
     /**
      * Get a Configurable instance that can be used to create {@link NetworkManager}
@@ -282,6 +284,17 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
             this.routeFilters = new RouteFiltersImpl(this);
         }
         return this.routeFilters;
+    }
+
+    /**
+     * @return entry point to DDoS protection plans management
+     */
+    @Beta(SinceVersion.V1_10_0)
+    public DdosProtectionPlans ddosProtectionPlans() {
+        if (this.ddosProtectionPlans == null) {
+            this.ddosProtectionPlans = new DdosProtectionPlansImpl(this);
+        }
+        return this.ddosProtectionPlans;
     }
 
     // Internal utility function

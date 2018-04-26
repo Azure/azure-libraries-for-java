@@ -54,6 +54,7 @@ public interface ConnectionMonitor extends
     /**
      * Determines if the connection monitor will start automatically once
      * created.
+     * @return true if the connection monitor will start automatically once created, false otherwise
      */
     boolean autoStart();
     /**
@@ -100,9 +101,17 @@ public interface ConnectionMonitor extends
     @Method
     Completable startAsync();
 
+    /**
+     * Query a snapshot of the most recent connection state of a connection monitor.
+     * @return snapshot of the most recent connection state
+     */
     @Method
     ConnectionMonitorQueryResult query();
 
+    /**
+     * Query a snapshot of the most recent connection state of a connection monitor asynchronously.
+     * @return snapshot of the most recent connection state
+     */
     @Method
     Observable<ConnectionMonitorQueryResult> queryAsync();
 

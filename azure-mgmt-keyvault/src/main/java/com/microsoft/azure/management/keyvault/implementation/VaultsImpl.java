@@ -121,18 +121,12 @@ class VaultsImpl
 
 	@Override
 	public DeletedVault getDeleted(String vaultName, String location) {
-		if (inner().getDeleted(vaultName, location) == null) {
+	    Object deletedVault = inner().getDeleted(vaultName, location);
+		if (deletedVault == null) {
 			return null;
 		}
-		return (DeletedVault) new DeletedVaultImpl(inner().getDeleted(vaultName, location));
+		return new DeletedVaultImpl((DeletedVaultInner) deletedVault);
 	}
-
-
-	@Override
-	public void delete(String resourceGroupName, String vaultName) {
-		inner().delete(resourceGroupName, vaultName);
-	}
-
 
 	@Override
 	public void purgeDeleted(String vaultName, String location) {

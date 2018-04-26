@@ -56,11 +56,11 @@ class AccessPolicyImpl
     }
 
     @Override
-    public UUID tenantId() {
+    public String tenantId() {
         if (inner().tenantId() == null) {
             return null;
         }
-        return inner().tenantId();
+        return inner().tenantId().toString();
     }
 
     @Override
@@ -72,11 +72,11 @@ class AccessPolicyImpl
     }
 
     @Override
-    public UUID applicationId() {
+    public String applicationId() {
         if (inner().applicationId() == null) {
             return null;
         }
-        return inner().applicationId();
+        return inner().applicationId().toString();
     }
 
     @Override
@@ -236,14 +236,14 @@ class AccessPolicyImpl
     }
     
 	@Override
-	public AccessPolicyImpl forApplicationId(UUID applicationId) {
-		inner().withApplicationId(applicationId);
+	public AccessPolicyImpl forApplicationId(String applicationId) {
+		inner().withApplicationId(UUID.fromString(applicationId));
 		return this;
 	}
 
 	@Override
-	public AccessPolicyImpl forTenantId(UUID tenantId) {
-		inner().withTenantId(tenantId);
+	public AccessPolicyImpl forTenantId(String tenantId) {
+		inner().withTenantId(UUID.fromString(tenantId));
 		return this;
 	}
 

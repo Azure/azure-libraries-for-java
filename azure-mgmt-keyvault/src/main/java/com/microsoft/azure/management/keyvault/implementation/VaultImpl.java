@@ -25,6 +25,8 @@ import com.microsoft.azure.management.keyvault.VaultCreateOrUpdateParameters;
 import com.microsoft.azure.management.keyvault.VaultProperties;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -125,42 +127,42 @@ class VaultImpl
 
     @Override
     public boolean enabledForDeployment() {
-        if (inner().properties() == null || inner().properties().enabledForDeployment() == null) {
+        if (inner().properties() == null) {
             return false;
         }
-        return inner().properties().enabledForDeployment();
+        return Utils.toPrimitiveBoolean(inner().properties().enabledForDeployment());
     }
 
     @Override
     public boolean enabledForDiskEncryption() {
-        if (inner().properties() == null || inner().properties().enabledForDiskEncryption() == null) {
+        if (inner().properties() == null) {
             return false;
         }
-        return inner().properties().enabledForDiskEncryption();
+        return Utils.toPrimitiveBoolean(inner().properties().enabledForDiskEncryption());
     }
 
     @Override
     public boolean enabledForTemplateDeployment() {
-        if (inner().properties() == null || inner().properties().enabledForTemplateDeployment() == null) {
+        if (inner().properties() == null) {
             return false;
         }
-        return inner().properties().enabledForTemplateDeployment();
+        return Utils.toPrimitiveBoolean(inner().properties().enabledForTemplateDeployment());
     }
     
 	@Override
 	public boolean softDeleteEnabled() {
-		if (inner().properties() == null || inner().properties().enableSoftDelete() == null) {
+		if (inner().properties() == null) {
 			return false;
 		}
-		return inner().properties().enableSoftDelete();
+		return Utils.toPrimitiveBoolean(inner().properties().enableSoftDelete());
 	}
 
 	@Override
 	public boolean purgeProtectionEnabled() {
-		if (inner().properties() == null || inner().properties().enablePurgeProtection() == null) {
+		if (inner().properties() == null) {
 			return false;
 		}
-		return inner().properties().enablePurgeProtection();
+		return Utils.toPrimitiveBoolean(inner().properties().enablePurgeProtection());
 	}
 
     @Override

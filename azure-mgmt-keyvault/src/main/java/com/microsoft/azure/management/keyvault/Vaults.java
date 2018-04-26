@@ -27,6 +27,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 @Fluent(ContainerName = "/Microsoft.Azure.Management.Fluent.KeyVault")
 public interface Vaults extends
         SupportsCreating<Vault.DefinitionStages.Blank>,
+        SupportsDeletingById,
         SupportsListingByResourceGroup<Vault>,
         SupportsGettingByResourceGroup<Vault>,
         SupportsGettingById<Vault>,
@@ -34,6 +35,14 @@ public interface Vaults extends
         HasManager<KeyVaultManager>,
         HasInner<VaultsInner> {
 	
+    /**
+     * Gets information about the deleted vaults in a subscription.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;DeletedVaultInner&gt; object if successful.
+     */
 	public PagedList<DeletedVault> listDeleted();
 	
     /**
@@ -47,17 +56,6 @@ public interface Vaults extends
      * @return the DeletedVaultInner object if successful.
      */
 	public DeletedVault getDeleted(String vaultName, String location);
-	
-    /**
-     * Deletes the specified Azure key vault.
-     *
-     * @param resourceGroupName The name of the Resource Group to which the vault belongs.
-     * @param vaultName The name of the vault to delete
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-	public void delete(String resourceGroupName, String vaultName);
 	
     /**
      * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.

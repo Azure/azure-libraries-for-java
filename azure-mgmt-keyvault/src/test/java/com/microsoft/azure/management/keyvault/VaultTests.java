@@ -95,8 +95,8 @@ public class VaultTests extends KeyVaultManagementTest {
             }
             
             // DELETE
-            keyVaultManager.vaults().delete(RG_NAME, VAULT_NAME);
-            Thread.sleep(20000);
+            keyVaultManager.vaults().deleteById(vault.id());
+            SdkContext.sleep(20000);
             Assert.assertNull(keyVaultManager.vaults().getDeleted(VAULT_NAME, Region.US_WEST.toString()));
             
         } finally {
@@ -142,13 +142,13 @@ public class VaultTests extends KeyVaultManagementTest {
                 .create();
     	Assert.assertTrue(vault.softDeleteEnabled());
     	
-    	keyVaultManager.vaults().delete(RG_NAME, otherVaultName);;
-    	Thread.sleep(20000);
+    	keyVaultManager.vaults().deleteByResourceGroup(RG_NAME, otherVaultName);;
+    	SdkContext.sleep(20000);
     	//Can still see deleted vault.
     	Assert.assertNotNull(keyVaultManager.vaults().getDeleted(otherVaultName, Region.US_WEST.toString()));
     	
     	keyVaultManager.vaults().purgeDeleted(otherVaultName,  Region.US_WEST.toString());
-    	Thread.sleep(20000);
+    	SdkContext.sleep(20000);
     	//Vault is purged
     	Assert.assertNull(keyVaultManager.vaults().getDeleted(otherVaultName, Region.US_WEST.toString()));
         } finally {

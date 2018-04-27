@@ -354,6 +354,48 @@ public class TestNetwork {
     }
 
     /**
+     * Test of network with DDoS protection plan.
+     */
+    public static class WithDDosProtectionPlanAndVmProtection extends TestTemplate<Network, Networks> {
+        @Override
+        public Network createResource(Networks networks) throws Exception {
+            Region region = Region.US_EAST2;
+            String groupName = "rg" + this.testId;
+
+            String networkName = SdkContext.randomResourceName("net", 15);
+
+            Network network = networks.define(networkName)
+                    .withRegion(region)
+                    .withNewResourceGroup(groupName)
+                    .withNewDdosProtectionPlan()
+                    .withVmProtection()
+                    .create();
+            Assert.assertTrue(network.isDdosProtectionEnabled());
+            Assert.assertNotNull(network.ddosProtectionPlanId());
+            Assert.assertTrue(network.isVmProtectionEnabled());
+
+            return network;
+        }
+
+        @Override
+        public Network updateResource(Network network) throws Exception {
+            network.update()
+                    .withoutDdosProtectionPlan()
+                    .withoutVmProtection()
+                    .apply();
+            Assert.assertFalse(network.isDdosProtectionEnabled());
+            Assert.assertNull(network.ddosProtectionPlanId());
+            Assert.assertFalse(network.isVmProtectionEnabled());
+            return network;
+        }
+
+        @Override
+        public void print(Network resource) {
+            printNetwork(resource);
+        }
+    }
+
+    /**
      * Outputs info about a network.
      * @param resource a network
      */

@@ -70,6 +70,22 @@ public interface Network extends
     NetworkPeerings peerings();
 
     /**
+     * @return whether DDoS protection is enabled for all the protected resources
+     * in the virtual network. It requires a DDoS protection plan associated with the resource.
+     */
+    boolean isDdosProtectionEnabled();
+
+    /**
+     * @return whether VM protection is enabled for all the subnets in the virtual network
+     */
+    boolean isVmProtectionEnabled();
+
+    /**
+     * @return the DDoS protection plan id associated with the virtual network
+     */
+    String ddosProtectionPlanId();
+
+    /**
      * The entirety of the virtual network definition.
      */
     interface Definition extends
@@ -152,6 +168,17 @@ public interface Network extends
         }
 
         /**
+         * The stage of the virtual network definition allowing to enable VM protection for all the subnets in the virtual network.
+         */
+        interface WithVmProtection {
+            /**
+             * Enable VM protection for all the subnets in the virtual network.
+             * @return the next stage of the definition
+             */
+            WithCreateAndSubnet withVmProtection();
+        }
+
+        /**
          * The stage of the virtual network definition which contains all the minimum required inputs for
          * the resource to be created, but also allows
          * for any other optional settings to be specified, except for adding subnets.
@@ -161,7 +188,8 @@ public interface Network extends
         interface WithCreate extends
             Creatable<Network>,
             Resource.DefinitionWithTags<WithCreate>,
-            DefinitionStages.WithDdosProtectionPlan {
+            DefinitionStages.WithDdosProtectionPlan,
+            DefinitionStages.WithVmProtection {
 
             /**
              * Specifies the IP address of an existing DNS server to associate with the virtual network.
@@ -289,7 +317,7 @@ public interface Network extends
         }
 
         /**
-         * The stage of the virtual network definition allowing to specify DDoS protection plan.
+         * The stage of the virtual network update allowing to specify DDoS protection plan.
          */
         interface WithDdosProtectionPlan {
             /**
@@ -312,6 +340,22 @@ public interface Network extends
              */
             Update withoutDdosProtectionPlan();
         }
+
+        /**
+         * The stage of the virtual network update allowing to enable/disable VM protection for all the subnets in the virtual network.
+         */
+        interface WithVmProtection {
+            /**
+             * Enable VM protection for all the subnets in the virtual network.
+             * @return the next stage of the update
+             */
+            Update withVmProtection();
+            /**
+             * Disable VM protection for all the subnets in the virtual network.
+             * @return the next stage of the update
+             */
+            Update withoutVmProtection();
+        }
     }
 
     /**
@@ -324,6 +368,7 @@ public interface Network extends
         UpdateStages.WithSubnet,
         UpdateStages.WithDnsServer,
         UpdateStages.WithAddressSpace,
-        UpdateStages.WithDdosProtectionPlan {
+        UpdateStages.WithDdosProtectionPlan,
+        UpdateStages.WithVmProtection {
     }
 }

@@ -623,6 +623,16 @@ public class AzureTests extends TestBase {
     }
 
     /**
+     * Tests virtual network with DDoS protection plan
+     * @throws Exception
+     */
+    @Test
+    public void testDdosAndVmProtection() throws Exception {
+        new TestNetwork.WithDDosProtectionPlanAndVmProtection()
+                .runTest(azure.networks(), azure.resourceGroups());
+    }
+
+    /**
      * Tests route tables.
      * @throws Exception
      */

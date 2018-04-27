@@ -35,7 +35,7 @@ public interface RouteTable extends
     Map<String, Route> routes();
 
     /**
-     * Gets or sets whether to disable the routes learned by BGP on that route
+     * @return whether to disable the routes learned by BGP on that route
      * table. True means disable.
      */
     @Beta(Beta.SinceVersion.V1_10_0)

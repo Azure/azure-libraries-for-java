@@ -18,6 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.implementa
 
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -279,12 +280,12 @@ class NetworkImpl
 
     @Override
     public boolean isDdosProtectionEnabled() {
-        return inner().enableDdosProtection();
+        return Utils.toPrimitiveBoolean(inner().enableDdosProtection());
     }
 
     @Override
     public boolean isVmProtectionEnabled() {
-        return inner().enableVmProtection();
+        return Utils.toPrimitiveBoolean(inner().enableVmProtection());
     }
 
     @Override

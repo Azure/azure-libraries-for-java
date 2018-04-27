@@ -282,6 +282,8 @@ public class TestNetwork {
             // Verify local peering
             Assert.assertNotNull(localNetwork.peerings());
             Assert.assertEquals(1,  localNetwork.peerings().list().size());
+            Assert.assertEquals(1, localPeering.remoteAddressSpaces().size());
+            Assert.assertEquals("10.1.0.0/27", localPeering.remoteAddressSpaces().get(0));
             localPeering = localNetwork.peerings().list().get(0);
             Assert.assertNotNull(localPeering);
             Assert.assertTrue(localPeering.name().equalsIgnoreCase("peer0"));

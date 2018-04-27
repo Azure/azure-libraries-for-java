@@ -3,13 +3,13 @@
     "Method" : "GET",
     "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/routeTables?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:21 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:27 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "4590",
+      "content-length" : "2460",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
@@ -18,23 +18,23 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "832f12c9-7c64-4b75-9cd7-e703e227343f",
+      "x-ms-correlation-request-id" : "5fe32b26-17d6-4a29-aced-06390c0cb80b",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181022Z:832f12c9-7c64-4b75-9cd7-e703e227343f",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160928Z:5fe32b26-17d6-4a29-aced-06390c0cb80b",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "9df0ce32-2589-41b5-afcc-ef6df780ee5e",
-      "Body" : "{\r\n  \"value\": [\r\n    {\r\n      \"name\": \"rt24677b\",\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg24677b/providers/Microsoft.Network/routeTables/rt24677b\",\r\n      \"etag\": \"W/\\\"9690ceed-9585-4e56-8aa0-93da50d351c9\\\"\",\r\n      \"type\": \"Microsoft.Network/routeTables\",\r\n      \"location\": \"westus\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"resourceGuid\": \"ca43a1f9-29e4-45e5-aa3d-84fd085a5454\",\r\n        \"disableBgpRoutePropagation\": false,\r\n        \"routes\": [\r\n          {\r\n            \"name\": \"route1\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg24677b/providers/Microsoft.Network/routeTables/rt24677b/routes/route1\",\r\n            \"etag\": \"W/\\\"9690ceed-9585-4e56-8aa0-93da50d351c9\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.1.0/29\",\r\n              \"nextHopType\": \"VirtualAppliance\",\r\n              \"nextHopIpAddress\": \"10.1.1.1\"\r\n            }\r\n          },\r\n          {\r\n            \"name\": \"route2\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg24677b/providers/Microsoft.Network/routeTables/rt24677b/routes/route2\",\r\n            \"etag\": \"W/\\\"9690ceed-9585-4e56-8aa0-93da50d351c9\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.0.0/29\",\r\n              \"nextHopType\": \"VnetLocal\"\r\n            }\r\n          },\r\n          {\r\n            \"name\": \"route_rt24677b1523359824621\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg24677b/providers/Microsoft.Network/routeTables/rt24677b/routes/route_rt24677b1523359824621\",\r\n            \"etag\": \"W/\\\"9690ceed-9585-4e56-8aa0-93da50d351c9\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.3.0/29\",\r\n              \"nextHopType\": \"VnetLocal\"\r\n            }\r\n          }\r\n        ],\r\n        \"subnets\": [\r\n          {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg24677b/providers/Microsoft.Network/virtualNetworks/net24677b/subnets/subnet1\"\r\n          }\r\n        ]\r\n      }\r\n    },\r\n    {\r\n      \"name\": \"rt427488\",\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg427488/providers/Microsoft.Network/routeTables/rt427488\",\r\n      \"etag\": \"W/\\\"9f0d708b-5ff5-4954-88be-93b74c220cbe\\\"\",\r\n      \"type\": \"Microsoft.Network/routeTables\",\r\n      \"location\": \"westus\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"resourceGuid\": \"4336163b-8863-4940-94a6-bd530e745e20\",\r\n        \"disableBgpRoutePropagation\": false,\r\n        \"routes\": [\r\n          {\r\n            \"name\": \"route1\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg427488/providers/Microsoft.Network/routeTables/rt427488/routes/route1\",\r\n            \"etag\": \"W/\\\"9f0d708b-5ff5-4954-88be-93b74c220cbe\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.1.0/29\",\r\n              \"nextHopType\": \"VirtualAppliance\",\r\n              \"nextHopIpAddress\": \"10.1.1.1\"\r\n            }\r\n          },\r\n          {\r\n            \"name\": \"route2\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg427488/providers/Microsoft.Network/routeTables/rt427488/routes/route2\",\r\n            \"etag\": \"W/\\\"9f0d708b-5ff5-4954-88be-93b74c220cbe\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.0.0/29\",\r\n              \"nextHopType\": \"VnetLocal\"\r\n            }\r\n          },\r\n          {\r\n            \"name\": \"route_rt4274881523359770181\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg427488/providers/Microsoft.Network/routeTables/rt427488/routes/route_rt4274881523359770181\",\r\n            \"etag\": \"W/\\\"9f0d708b-5ff5-4954-88be-93b74c220cbe\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.3.0/29\",\r\n              \"nextHopType\": \"VnetLocal\"\r\n            }\r\n          }\r\n        ],\r\n        \"subnets\": [\r\n          {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg427488/providers/Microsoft.Network/virtualNetworks/net427488/subnets/subnet1\"\r\n          }\r\n        ]\r\n      }\r\n    }\r\n  ]\r\n}"
+      "x-ms-request-id" : "e56731c8-61c2-4cbb-a86f-91bee0227864",
+      "Body" : "{\r\n  \"value\": [\r\n    {\r\n      \"name\": \"k8s-master-9E4C5DEA-routetable\",\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacs71852148e/providers/Microsoft.Network/routeTables/k8s-master-9E4C5DEA-routetable\",\r\n      \"etag\": \"W/\\\"bda99e1f-1ad3-4393-9a3c-c4fa31fb6d81\\\"\",\r\n      \"type\": \"Microsoft.Network/routeTables\",\r\n      \"location\": \"eastus\",\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"resourceGuid\": \"3d1e38da-c35b-493a-aea0-f14ec86b29aa\",\r\n        \"disableBgpRoutePropagation\": false,\r\n        \"routes\": [],\r\n        \"subnets\": [\r\n          {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacs71852148e/providers/Microsoft.Network/virtualNetworks/k8s-vnet-9E4C5DEA/subnets/k8s-subnet\"\r\n          }\r\n        ]\r\n      }\r\n    },\r\n    {\r\n      \"name\": \"rtae914671\",\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgae914671/providers/Microsoft.Network/routeTables/rtae914671\",\r\n      \"etag\": \"W/\\\"09c95478-4deb-47ab-b71c-f34bbd0bb07e\\\"\",\r\n      \"type\": \"Microsoft.Network/routeTables\",\r\n      \"location\": \"eastus\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"resourceGuid\": \"54b60d53-a459-4516-8594-dbcf2147dfd9\",\r\n        \"disableBgpRoutePropagation\": false,\r\n        \"routes\": [\r\n          {\r\n            \"name\": \"route1\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgae914671/providers/Microsoft.Network/routeTables/rtae914671/routes/route1\",\r\n            \"etag\": \"W/\\\"09c95478-4deb-47ab-b71c-f34bbd0bb07e\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.0.0/24\",\r\n              \"nextHopType\": \"VirtualAppliance\",\r\n              \"nextHopIpAddress\": \"10.1.0.4\"\r\n            }\r\n          },\r\n          {\r\n            \"name\": \"route2\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgae914671/providers/Microsoft.Network/routeTables/rtae914671/routes/route2\",\r\n            \"etag\": \"W/\\\"09c95478-4deb-47ab-b71c-f34bbd0bb07e\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.1.0/24\",\r\n              \"nextHopType\": \"VirtualAppliance\",\r\n              \"nextHopIpAddress\": \"10.1.0.5\"\r\n            }\r\n          }\r\n        ]\r\n      }\r\n    }\r\n  ]\r\n}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg73128b?api-version=2017-05-10",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg546065?api-version=2017-05-10",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (ResourceManagementClient, 2017-05-10)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (ResourceManagementClient, 2017-05-10)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:23 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:29 GMT",
       "content-length" : "169",
       "expires" : "-1",
       "x-ms-ratelimit-remaining-subscription-writes" : "1199",
@@ -42,24 +42,24 @@
       "StatusCode" : "201",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "db8e2e7a-aee6-4142-a903-7c93de21fa48",
+      "x-ms-correlation-request-id" : "5d8d4116-fda8-4331-ab6a-0da473087196",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181023Z:db8e2e7a-aee6-4142-a903-7c93de21fa48",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160930Z:5d8d4116-fda8-4331-ab6a-0da473087196",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "db8e2e7a-aee6-4142-a903-7c93de21fa48",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b\",\"name\":\"rg73128b\",\"location\":\"westus\",\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+      "x-ms-request-id" : "5d8d4116-fda8-4331-ab6a-0da473087196",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065\",\"name\":\"rg546065\",\"location\":\"westus\",\"properties\":{\"provisioningState\":\"Succeeded\"}}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:24 GMT",
-      "content-length" : "1866",
+      "date" : "Fri, 27 Apr 2018 16:09:31 GMT",
+      "content-length" : "1865",
       "server" : "Microsoft-HTTPAPI/2.0",
       "expires" : "-1",
       "x-ms-ratelimit-remaining-subscription-writes" : "1198",
@@ -67,25 +67,25 @@
       "StatusCode" : "201",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "f4eac6ba-188b-4ea1-b279-d299eaf64eae",
+      "x-ms-correlation-request-id" : "5b6e4a4f-b33f-4793-a7a0-9ba1ef248006",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181024Z:f4eac6ba-188b-4ea1-b279-d299eaf64eae",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160932Z:5b6e4a4f-b33f-4793-a7a0-9ba1ef248006",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "c1e25849-2c97-4ca5-9258-403b3cf9b4f0",
-      "Body" : "{\r\n  \"name\": \"rt73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b\",\r\n  \"etag\": \"W/\\\"4d3907a7-2f7e-4fbd-8b7e-04d041ce2505\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"3c34d08e-fc60-4a73-b121-9a1b2527c9ba\",\r\n    \"disableBgpRoutePropagation\": false,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route1\",\r\n        \"etag\": \"W/\\\"4d3907a7-2f7e-4fbd-8b7e-04d041ce2505\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.1.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route2\",\r\n        \"etag\": \"W/\\\"4d3907a7-2f7e-4fbd-8b7e-04d041ce2505\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.0.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt73128b1523383822666\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route_rt73128b1523383822666\",\r\n        \"etag\": \"W/\\\"4d3907a7-2f7e-4fbd-8b7e-04d041ce2505\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/c1e25849-2c97-4ca5-9258-403b3cf9b4f0?api-version=2018-02-01"
+      "x-ms-request-id" : "35b06622-bfc4-447d-a754-62f51a782b2f",
+      "Body" : "{\r\n  \"name\": \"rt546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065\",\r\n  \"etag\": \"W/\\\"770c3f18-9b3a-4c9b-9a24-40d153c24733\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"31460e9f-9f18-4c80-8ab2-6e619ce8ecc9\",\r\n    \"disableBgpRoutePropagation\": true,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route1\",\r\n        \"etag\": \"W/\\\"770c3f18-9b3a-4c9b-9a24-40d153c24733\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.1.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route2\",\r\n        \"etag\": \"W/\\\"770c3f18-9b3a-4c9b-9a24-40d153c24733\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.0.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt5460651524845368934\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route_rt5460651524845368934\",\r\n        \"etag\": \"W/\\\"770c3f18-9b3a-4c9b-9a24-40d153c24733\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}",
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/35b06622-bfc4-447d-a754-62f51a782b2f?api-version=2018-02-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/c1e25849-2c97-4ca5-9258-403b3cf9b4f0?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/35b06622-bfc4-447d-a754-62f51a782b2f?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:24 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:31 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "30",
+      "content-length" : "29",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
@@ -94,24 +94,24 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "366ee6c9-90c8-464b-be9e-aeae89321e0f",
+      "x-ms-correlation-request-id" : "be18a7b7-307e-4b1e-8851-1ce755a8c565",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181024Z:366ee6c9-90c8-464b-be9e-aeae89321e0f",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160932Z:be18a7b7-307e-4b1e-8851-1ce755a8c565",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "6e6588f4-bedf-42a4-ba43-bf36d81a61d4",
-      "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
+      "x-ms-request-id" : "9ddd1362-e44b-4af5-a513-046263893d79",
+      "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/c1e25849-2c97-4ca5-9258-403b3cf9b4f0?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:35 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:31 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "29",
+      "content-length" : "1869",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
@@ -120,50 +120,24 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "dd8e8a0b-b508-4103-9424-11954e0bc82d",
+      "x-ms-correlation-request-id" : "e141b2b8-d678-47a5-a2ec-39a6a8deb27b",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181035Z:dd8e8a0b-b508-4103-9424-11954e0bc82d",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160932Z:e141b2b8-d678-47a5-a2ec-39a6a8deb27b",
       "content-type" : "application/json; charset=utf-8",
+      "etag" : "W/\"8118c6a6-2178-4e5f-8a55-2f99dd653120\"",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "bcc936bf-813e-4764-9af1-4a6e6df67eb1",
-      "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
-    }
-  }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b?api-version=2018-02-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)"
-    },
-    "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:35 GMT",
-      "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "1870",
-      "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
-      "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14996",
-      "StatusCode" : "200",
-      "pragma" : "no-cache",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "31620dea-8586-458e-989b-e6248b07a820",
-      "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181035Z:31620dea-8586-458e-989b-e6248b07a820",
-      "content-type" : "application/json; charset=utf-8",
-      "etag" : "W/\"f0b32709-c681-49bd-9ea5-32ffa42ac8d5\"",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "a386598d-f07b-4e60-9622-8f5ea47927a7",
-      "Body" : "{\r\n  \"name\": \"rt73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b\",\r\n  \"etag\": \"W/\\\"f0b32709-c681-49bd-9ea5-32ffa42ac8d5\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3c34d08e-fc60-4a73-b121-9a1b2527c9ba\",\r\n    \"disableBgpRoutePropagation\": false,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route1\",\r\n        \"etag\": \"W/\\\"f0b32709-c681-49bd-9ea5-32ffa42ac8d5\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.1.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route2\",\r\n        \"etag\": \"W/\\\"f0b32709-c681-49bd-9ea5-32ffa42ac8d5\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt73128b1523383822666\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route_rt73128b1523383822666\",\r\n        \"etag\": \"W/\\\"f0b32709-c681-49bd-9ea5-32ffa42ac8d5\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}"
+      "x-ms-request-id" : "0df901ef-30d9-4250-b80a-6376a6376dd8",
+      "Body" : "{\r\n  \"name\": \"rt546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065\",\r\n  \"etag\": \"W/\\\"8118c6a6-2178-4e5f-8a55-2f99dd653120\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"31460e9f-9f18-4c80-8ab2-6e619ce8ecc9\",\r\n    \"disableBgpRoutePropagation\": true,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route1\",\r\n        \"etag\": \"W/\\\"8118c6a6-2178-4e5f-8a55-2f99dd653120\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.1.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route2\",\r\n        \"etag\": \"W/\\\"8118c6a6-2178-4e5f-8a55-2f99dd653120\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt5460651524845368934\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route_rt5460651524845368934\",\r\n        \"etag\": \"W/\\\"8118c6a6-2178-4e5f-8a55-2f99dd653120\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:35 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:32 GMT",
       "content-length" : "1295",
       "server" : "Microsoft-HTTPAPI/2.0",
       "expires" : "-1",
@@ -172,23 +146,49 @@
       "StatusCode" : "201",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "ba837b3e-dc2a-45ad-8f5a-715e734ce738",
+      "x-ms-correlation-request-id" : "521434dd-d259-4db3-b05e-6ba8dfe619b6",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181035Z:ba837b3e-dc2a-45ad-8f5a-715e734ce738",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160933Z:521434dd-d259-4db3-b05e-6ba8dfe619b6",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "fd81b794-5f80-4905-8e78-c451e66e8e67",
-      "Body" : "{\r\n  \"name\": \"net73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b\",\r\n  \"etag\": \"W/\\\"ad44c49f-3ff4-4657-9597-2ce55896e694\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"90af37f3-e9c4-45f6-8654-c404d2e7fff7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"ad44c49f-3ff4-4657-9597-2ce55896e694\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.0.0/22\",\r\n          \"routeTable\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b\"\r\n          }\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/fd81b794-5f80-4905-8e78-c451e66e8e67?api-version=2018-02-01"
+      "x-ms-request-id" : "b1ee82ed-f167-4588-ae70-02901420ce22",
+      "Body" : "{\r\n  \"name\": \"net546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065\",\r\n  \"etag\": \"W/\\\"b97c9669-5974-4ccf-baf5-a34e50a42ec8\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"3e2a37ba-26b3-42eb-952d-c3dd429c4731\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"b97c9669-5974-4ccf-baf5-a34e50a42ec8\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.0.0/22\",\r\n          \"routeTable\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065\"\r\n          }\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}",
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/b1ee82ed-f167-4588-ae70-02901420ce22?api-version=2018-02-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/fd81b794-5f80-4905-8e78-c451e66e8e67?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/b1ee82ed-f167-4588-ae70-02901420ce22?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:35 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:32 GMT",
+      "server" : "Microsoft-HTTPAPI/2.0",
+      "content-length" : "30",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "14996",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "c9262c55-3717-42ed-a29f-f76f6befe682",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160933Z:c9262c55-3717-42ed-a29f-f76f6befe682",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "3cb89573-85d8-4a69-af48-6542c7b59d12",
+      "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/b1ee82ed-f167-4588-ae70-02901420ce22?api-version=2018-02-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)"
+    },
+    "Response" : {
+      "date" : "Fri, 27 Apr 2018 16:09:43 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "30",
       "expires" : "-1",
@@ -199,24 +199,24 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "57a0c612-bcde-4d5d-8993-9df0c58fb797",
+      "x-ms-correlation-request-id" : "4534606d-99c4-48f5-b75e-84f1e2752d5e",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181035Z:57a0c612-bcde-4d5d-8993-9df0c58fb797",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160943Z:4534606d-99c4-48f5-b75e-84f1e2752d5e",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "b7d89b29-a175-4a15-be71-c145e61fc897",
+      "x-ms-request-id" : "06b6871e-3bd5-45c8-8e71-d827c1640b1c",
       "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/fd81b794-5f80-4905-8e78-c451e66e8e67?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/b1ee82ed-f167-4588-ae70-02901420ce22?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:45 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:53 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "30",
+      "content-length" : "29",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
@@ -225,24 +225,24 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "f380e3e3-63f4-4197-9ede-fddfe2b51ea6",
+      "x-ms-correlation-request-id" : "fdbf26f4-2644-4778-bac7-cb0fd9048df7",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181046Z:f380e3e3-63f4-4197-9ede-fddfe2b51ea6",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160953Z:fdbf26f4-2644-4778-bac7-cb0fd9048df7",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "bb51aa34-8eee-4c51-86a3-1d10c1a95e47",
-      "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
+      "x-ms-request-id" : "9f36059f-e2f2-468b-8dc0-5de3eb75a20d",
+      "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/fd81b794-5f80-4905-8e78-c451e66e8e67?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:55 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:53 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "29",
+      "content-length" : "1297",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
@@ -251,24 +251,26 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "304da756-a813-4c46-9e27-0e9657d14aff",
+      "x-ms-correlation-request-id" : "370e2d0c-ba67-4342-8936-366f0f763272",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181056Z:304da756-a813-4c46-9e27-0e9657d14aff",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160953Z:370e2d0c-ba67-4342-8936-366f0f763272",
       "content-type" : "application/json; charset=utf-8",
+      "etag" : "W/\"e3b07f46-d2fe-45e9-86ec-b50915e3d589\"",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "fa280d0c-fe85-450e-878d-237ef8ccd924",
-      "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
+      "x-ms-request-id" : "34eec100-65b8-4131-935c-b6f4425f4843",
+      "Body" : "{\r\n  \"name\": \"net546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065\",\r\n  \"etag\": \"W/\\\"e3b07f46-d2fe-45e9-86ec-b50915e3d589\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3e2a37ba-26b3-42eb-952d-c3dd429c4731\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"e3b07f46-d2fe-45e9-86ec-b50915e3d589\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/22\",\r\n          \"routeTable\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065\"\r\n          }\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)",
+      "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:55 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:53 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "1297",
+      "content-length" : "2076",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
@@ -277,26 +279,26 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "b0fbb063-0aba-4049-9cdf-60b2d2dc8ffe",
+      "x-ms-correlation-request-id" : "dab8950e-e0f2-4c99-bc23-c5b9fac33b61",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181056Z:b0fbb063-0aba-4049-9cdf-60b2d2dc8ffe",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160953Z:dab8950e-e0f2-4c99-bc23-c5b9fac33b61",
       "content-type" : "application/json; charset=utf-8",
-      "etag" : "W/\"7e2066fe-58ea-4734-bba1-eb3abeececa6\"",
+      "etag" : "W/\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\"",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "66925227-2894-4ad4-9dcd-916a8b1cb3ec",
-      "Body" : "{\r\n  \"name\": \"net73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b\",\r\n  \"etag\": \"W/\\\"7e2066fe-58ea-4734-bba1-eb3abeececa6\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"90af37f3-e9c4-45f6-8654-c404d2e7fff7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"7e2066fe-58ea-4734-bba1-eb3abeececa6\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/22\",\r\n          \"routeTable\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b\"\r\n          }\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}"
+      "x-ms-request-id" : "323a74df-142a-4e15-b00f-bb76ffe0c383",
+      "Body" : "{\r\n  \"name\": \"rt546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065\",\r\n  \"etag\": \"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"31460e9f-9f18-4c80-8ab2-6e619ce8ecc9\",\r\n    \"disableBgpRoutePropagation\": true,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route1\",\r\n        \"etag\": \"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.1.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route2\",\r\n        \"etag\": \"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt5460651524845368934\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route_rt5460651524845368934\",\r\n        \"etag\": \"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      }\r\n    ],\r\n    \"subnets\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065/subnets/subnet1\"\r\n      }\r\n    ]\r\n  }\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:55 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:53 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "2077",
+      "content-length" : "1297",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
@@ -305,24 +307,24 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "6b1a8f70-e53d-4a73-84f0-38a0d3d3d8be",
+      "x-ms-correlation-request-id" : "cd26a73c-7093-459d-9c37-eab9292f6c07",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181056Z:6b1a8f70-e53d-4a73-84f0-38a0d3d3d8be",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160953Z:cd26a73c-7093-459d-9c37-eab9292f6c07",
       "content-type" : "application/json; charset=utf-8",
-      "etag" : "W/\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\"",
+      "etag" : "W/\"e3b07f46-d2fe-45e9-86ec-b50915e3d589\"",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "d4374560-4a83-4bda-8e03-93e60ab27cb7",
-      "Body" : "{\r\n  \"name\": \"rt73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b\",\r\n  \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3c34d08e-fc60-4a73-b121-9a1b2527c9ba\",\r\n    \"disableBgpRoutePropagation\": false,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route1\",\r\n        \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.1.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route2\",\r\n        \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt73128b1523383822666\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route_rt73128b1523383822666\",\r\n        \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      }\r\n    ],\r\n    \"subnets\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b/subnets/subnet1\"\r\n      }\r\n    ]\r\n  }\r\n}"
+      "x-ms-request-id" : "01d56893-00aa-4985-b89f-166e5d82a259",
+      "Body" : "{\r\n  \"name\": \"net546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065\",\r\n  \"etag\": \"W/\\\"e3b07f46-d2fe-45e9-86ec-b50915e3d589\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3e2a37ba-26b3-42eb-952d-c3dd429c4731\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"e3b07f46-d2fe-45e9-86ec-b50915e3d589\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/22\",\r\n          \"routeTable\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065\"\r\n          }\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:56 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:53 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "1297",
       "expires" : "-1",
@@ -333,54 +335,52 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "df9f4050-493d-4573-8508-89ed280543c7",
+      "x-ms-correlation-request-id" : "d600132d-ba1f-4432-a8f6-352d42374c14",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181056Z:df9f4050-493d-4573-8508-89ed280543c7",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160953Z:d600132d-ba1f-4432-a8f6-352d42374c14",
       "content-type" : "application/json; charset=utf-8",
-      "etag" : "W/\"7e2066fe-58ea-4734-bba1-eb3abeececa6\"",
+      "etag" : "W/\"e3b07f46-d2fe-45e9-86ec-b50915e3d589\"",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "55fdcb52-9456-4d46-a192-b543a69da8e3",
-      "Body" : "{\r\n  \"name\": \"net73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b\",\r\n  \"etag\": \"W/\\\"7e2066fe-58ea-4734-bba1-eb3abeececa6\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"90af37f3-e9c4-45f6-8654-c404d2e7fff7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"7e2066fe-58ea-4734-bba1-eb3abeececa6\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/22\",\r\n          \"routeTable\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b\"\r\n          }\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}"
-    }
-  }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b?api-version=2018-02-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
-    "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:56 GMT",
-      "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "1297",
-      "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
-      "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14989",
-      "StatusCode" : "200",
-      "pragma" : "no-cache",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "93bce97b-101a-4631-8401-d73e8ca75188",
-      "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181056Z:93bce97b-101a-4631-8401-d73e8ca75188",
-      "content-type" : "application/json; charset=utf-8",
-      "etag" : "W/\"7e2066fe-58ea-4734-bba1-eb3abeececa6\"",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "3860c469-1516-4780-85f3-2dbcf33b1d9d",
-      "Body" : "{\r\n  \"name\": \"net73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b\",\r\n  \"etag\": \"W/\\\"7e2066fe-58ea-4734-bba1-eb3abeececa6\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"90af37f3-e9c4-45f6-8654-c404d2e7fff7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"7e2066fe-58ea-4734-bba1-eb3abeececa6\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/22\",\r\n          \"routeTable\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b\"\r\n          }\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}"
+      "x-ms-request-id" : "7c2289ca-880b-4cbe-b001-5aa091c89452",
+      "Body" : "{\r\n  \"name\": \"net546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065\",\r\n  \"etag\": \"W/\\\"e3b07f46-d2fe-45e9-86ec-b50915e3d589\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3e2a37ba-26b3-42eb-952d-c3dd429c4731\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"e3b07f46-d2fe-45e9-86ec-b50915e3d589\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/22\",\r\n          \"routeTable\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065\"\r\n          }\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}"
     }
   }, {
     "Method" : "GET",
     "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/routeTables?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:56 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:53 GMT",
+      "content-length" : "3424",
+      "expires" : "-1",
+      "vary" : "Accept-Encoding",
+      "x-ms-original-request-ids" : "6bfc0292-05de-48e6-9880-8ba261b0e5ed",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "14989",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "71c79080-ae7e-4022-94cc-6bbe6cb84a11",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160954Z:71c79080-ae7e-4022-94cc-6bbe6cb84a11",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "71c79080-ae7e-4022-94cc-6bbe6cb84a11",
+      "Body" : "{\"value\":[{\"name\":\"rt546065\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065\",\"etag\":\"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\"type\":\"Microsoft.Network/routeTables\",\"location\":\"westus\",\"tags\":{},\"properties\":{\"provisioningState\":\"Succeeded\",\"resourceGuid\":\"31460e9f-9f18-4c80-8ab2-6e619ce8ecc9\",\"disableBgpRoutePropagation\":true,\"routes\":[{\"name\":\"route1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route1\",\"etag\":\"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"addressPrefix\":\"10.0.1.0/29\",\"nextHopType\":\"VirtualAppliance\",\"nextHopIpAddress\":\"10.1.1.1\"}},{\"name\":\"route2\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route2\",\"etag\":\"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"addressPrefix\":\"10.0.0.0/29\",\"nextHopType\":\"VnetLocal\"}},{\"name\":\"route_rt5460651524845368934\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route_rt5460651524845368934\",\"etag\":\"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"addressPrefix\":\"10.0.3.0/29\",\"nextHopType\":\"VnetLocal\"}}],\"subnets\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065/subnets/subnet1\"}]}},{\"name\":\"k8s-master-9E4C5DEA-routetable\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacs71852148e/providers/Microsoft.Network/routeTables/k8s-master-9E4C5DEA-routetable\",\"etag\":\"W/\\\"bda99e1f-1ad3-4393-9a3c-c4fa31fb6d81\\\"\",\"type\":\"Microsoft.Network/routeTables\",\"location\":\"eastus\",\"properties\":{\"provisioningState\":\"Succeeded\",\"resourceGuid\":\"3d1e38da-c35b-493a-aea0-f14ec86b29aa\",\"disableBgpRoutePropagation\":false,\"routes\":[],\"subnets\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacs71852148e/providers/Microsoft.Network/virtualNetworks/k8s-vnet-9E4C5DEA/subnets/k8s-subnet\"}]}},{\"name\":\"rtae914671\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgae914671/providers/Microsoft.Network/routeTables/rtae914671\",\"etag\":\"W/\\\"09c95478-4deb-47ab-b71c-f34bbd0bb07e\\\"\",\"type\":\"Microsoft.Network/routeTables\",\"location\":\"eastus\",\"tags\":{},\"properties\":{\"provisioningState\":\"Succeeded\",\"resourceGuid\":\"54b60d53-a459-4516-8594-dbcf2147dfd9\",\"disableBgpRoutePropagation\":false,\"routes\":[{\"name\":\"route1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgae914671/providers/Microsoft.Network/routeTables/rtae914671/routes/route1\",\"etag\":\"W/\\\"09c95478-4deb-47ab-b71c-f34bbd0bb07e\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"addressPrefix\":\"10.0.0.0/24\",\"nextHopType\":\"VirtualAppliance\",\"nextHopIpAddress\":\"10.1.0.4\"}},{\"name\":\"route2\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgae914671/providers/Microsoft.Network/routeTables/rtae914671/routes/route2\",\"etag\":\"W/\\\"09c95478-4deb-47ab-b71c-f34bbd0bb07e\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"addressPrefix\":\"10.0.1.0/24\",\"nextHopType\":\"VirtualAppliance\",\"nextHopIpAddress\":\"10.1.0.5\"}}]}}]}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065?api-version=2018-02-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Fri, 27 Apr 2018 16:09:53 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "6874",
+      "content-length" : "2076",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
@@ -389,25 +389,26 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "64add271-c6df-439a-814d-af9046fcc878",
+      "x-ms-correlation-request-id" : "79d182fc-4e1c-4e26-9051-e4186a1f56f7",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181056Z:64add271-c6df-439a-814d-af9046fcc878",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160954Z:79d182fc-4e1c-4e26-9051-e4186a1f56f7",
       "content-type" : "application/json; charset=utf-8",
+      "etag" : "W/\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\"",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "52cd7e92-a2b1-4ef6-a484-bcea2c87e7e2",
-      "Body" : "{\r\n  \"value\": [\r\n    {\r\n      \"name\": \"rt24677b\",\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg24677b/providers/Microsoft.Network/routeTables/rt24677b\",\r\n      \"etag\": \"W/\\\"9690ceed-9585-4e56-8aa0-93da50d351c9\\\"\",\r\n      \"type\": \"Microsoft.Network/routeTables\",\r\n      \"location\": \"westus\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"resourceGuid\": \"ca43a1f9-29e4-45e5-aa3d-84fd085a5454\",\r\n        \"disableBgpRoutePropagation\": false,\r\n        \"routes\": [\r\n          {\r\n            \"name\": \"route1\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg24677b/providers/Microsoft.Network/routeTables/rt24677b/routes/route1\",\r\n            \"etag\": \"W/\\\"9690ceed-9585-4e56-8aa0-93da50d351c9\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.1.0/29\",\r\n              \"nextHopType\": \"VirtualAppliance\",\r\n              \"nextHopIpAddress\": \"10.1.1.1\"\r\n            }\r\n          },\r\n          {\r\n            \"name\": \"route2\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg24677b/providers/Microsoft.Network/routeTables/rt24677b/routes/route2\",\r\n            \"etag\": \"W/\\\"9690ceed-9585-4e56-8aa0-93da50d351c9\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.0.0/29\",\r\n              \"nextHopType\": \"VnetLocal\"\r\n            }\r\n          },\r\n          {\r\n            \"name\": \"route_rt24677b1523359824621\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg24677b/providers/Microsoft.Network/routeTables/rt24677b/routes/route_rt24677b1523359824621\",\r\n            \"etag\": \"W/\\\"9690ceed-9585-4e56-8aa0-93da50d351c9\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.3.0/29\",\r\n              \"nextHopType\": \"VnetLocal\"\r\n            }\r\n          }\r\n        ],\r\n        \"subnets\": [\r\n          {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg24677b/providers/Microsoft.Network/virtualNetworks/net24677b/subnets/subnet1\"\r\n          }\r\n        ]\r\n      }\r\n    },\r\n    {\r\n      \"name\": \"rt427488\",\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg427488/providers/Microsoft.Network/routeTables/rt427488\",\r\n      \"etag\": \"W/\\\"9f0d708b-5ff5-4954-88be-93b74c220cbe\\\"\",\r\n      \"type\": \"Microsoft.Network/routeTables\",\r\n      \"location\": \"westus\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"resourceGuid\": \"4336163b-8863-4940-94a6-bd530e745e20\",\r\n        \"disableBgpRoutePropagation\": false,\r\n        \"routes\": [\r\n          {\r\n            \"name\": \"route1\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg427488/providers/Microsoft.Network/routeTables/rt427488/routes/route1\",\r\n            \"etag\": \"W/\\\"9f0d708b-5ff5-4954-88be-93b74c220cbe\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.1.0/29\",\r\n              \"nextHopType\": \"VirtualAppliance\",\r\n              \"nextHopIpAddress\": \"10.1.1.1\"\r\n            }\r\n          },\r\n          {\r\n            \"name\": \"route2\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg427488/providers/Microsoft.Network/routeTables/rt427488/routes/route2\",\r\n            \"etag\": \"W/\\\"9f0d708b-5ff5-4954-88be-93b74c220cbe\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.0.0/29\",\r\n              \"nextHopType\": \"VnetLocal\"\r\n            }\r\n          },\r\n          {\r\n            \"name\": \"route_rt4274881523359770181\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg427488/providers/Microsoft.Network/routeTables/rt427488/routes/route_rt4274881523359770181\",\r\n            \"etag\": \"W/\\\"9f0d708b-5ff5-4954-88be-93b74c220cbe\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.3.0/29\",\r\n              \"nextHopType\": \"VnetLocal\"\r\n            }\r\n          }\r\n        ],\r\n        \"subnets\": [\r\n          {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg427488/providers/Microsoft.Network/virtualNetworks/net427488/subnets/subnet1\"\r\n          }\r\n        ]\r\n      }\r\n    },\r\n    {\r\n      \"name\": \"rt73128b\",\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b\",\r\n      \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n      \"type\": \"Microsoft.Network/routeTables\",\r\n      \"location\": \"westus\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"resourceGuid\": \"3c34d08e-fc60-4a73-b121-9a1b2527c9ba\",\r\n        \"disableBgpRoutePropagation\": false,\r\n        \"routes\": [\r\n          {\r\n            \"name\": \"route1\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route1\",\r\n            \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.1.0/29\",\r\n              \"nextHopType\": \"VirtualAppliance\",\r\n              \"nextHopIpAddress\": \"10.1.1.1\"\r\n            }\r\n          },\r\n          {\r\n            \"name\": \"route2\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route2\",\r\n            \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.0.0/29\",\r\n              \"nextHopType\": \"VnetLocal\"\r\n            }\r\n          },\r\n          {\r\n            \"name\": \"route_rt73128b1523383822666\",\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route_rt73128b1523383822666\",\r\n            \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"addressPrefix\": \"10.0.3.0/29\",\r\n              \"nextHopType\": \"VnetLocal\"\r\n            }\r\n          }\r\n        ],\r\n        \"subnets\": [\r\n          {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b/subnets/subnet1\"\r\n          }\r\n        ]\r\n      }\r\n    }\r\n  ]\r\n}"
+      "x-ms-request-id" : "757df56a-bec4-4891-921c-db69ca190528",
+      "Body" : "{\r\n  \"name\": \"rt546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065\",\r\n  \"etag\": \"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"31460e9f-9f18-4c80-8ab2-6e619ce8ecc9\",\r\n    \"disableBgpRoutePropagation\": true,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route1\",\r\n        \"etag\": \"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.1.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route2\",\r\n        \"etag\": \"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt5460651524845368934\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route_rt5460651524845368934\",\r\n        \"etag\": \"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      }\r\n    ],\r\n    \"subnets\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065/subnets/subnet1\"\r\n      }\r\n    ]\r\n  }\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:56 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:53 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "2077",
+      "content-length" : "2076",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
@@ -416,26 +417,26 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "8eae4885-99d7-4df6-8bd2-71d331a059ae",
+      "x-ms-correlation-request-id" : "138425a8-f38f-4a85-8b56-7d35c6b60c58",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181056Z:8eae4885-99d7-4df6-8bd2-71d331a059ae",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160954Z:138425a8-f38f-4a85-8b56-7d35c6b60c58",
       "content-type" : "application/json; charset=utf-8",
-      "etag" : "W/\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\"",
+      "etag" : "W/\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\"",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "d2c75b04-2244-44e0-ae27-6feae055cfa7",
-      "Body" : "{\r\n  \"name\": \"rt73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b\",\r\n  \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3c34d08e-fc60-4a73-b121-9a1b2527c9ba\",\r\n    \"disableBgpRoutePropagation\": false,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route1\",\r\n        \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.1.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route2\",\r\n        \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt73128b1523383822666\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route_rt73128b1523383822666\",\r\n        \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      }\r\n    ],\r\n    \"subnets\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b/subnets/subnet1\"\r\n      }\r\n    ]\r\n  }\r\n}"
+      "x-ms-request-id" : "8ecde691-58ae-4651-889a-2e473867da1c",
+      "Body" : "{\r\n  \"name\": \"rt546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065\",\r\n  \"etag\": \"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"31460e9f-9f18-4c80-8ab2-6e619ce8ecc9\",\r\n    \"disableBgpRoutePropagation\": true,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route1\",\r\n        \"etag\": \"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.1.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route2\",\r\n        \"etag\": \"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt5460651524845368934\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route_rt5460651524845368934\",\r\n        \"etag\": \"W/\\\"f6093a78-e85b-4a2a-8e64-ab12dd2e7f59\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      }\r\n    ],\r\n    \"subnets\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065/subnets/subnet1\"\r\n      }\r\n    ]\r\n  }\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:56 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:54 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "2077",
+      "content-length" : "1297",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
@@ -444,52 +445,24 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "14fac762-9f92-4fa9-9618-3e0a1c2db938",
+      "x-ms-correlation-request-id" : "2517e231-94b6-4ecc-9046-3c9d6143ba83",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181056Z:14fac762-9f92-4fa9-9618-3e0a1c2db938",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160954Z:2517e231-94b6-4ecc-9046-3c9d6143ba83",
       "content-type" : "application/json; charset=utf-8",
-      "etag" : "W/\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\"",
+      "etag" : "W/\"e3b07f46-d2fe-45e9-86ec-b50915e3d589\"",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "87f390b2-2ef3-4eef-8e3c-fe9406fe6cc3",
-      "Body" : "{\r\n  \"name\": \"rt73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b\",\r\n  \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3c34d08e-fc60-4a73-b121-9a1b2527c9ba\",\r\n    \"disableBgpRoutePropagation\": false,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route1\",\r\n        \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.1.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route2\",\r\n        \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt73128b1523383822666\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route_rt73128b1523383822666\",\r\n        \"etag\": \"W/\\\"9ad6ebde-9b82-4cf6-a414-7f6bef8aa0fc\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      }\r\n    ],\r\n    \"subnets\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b/subnets/subnet1\"\r\n      }\r\n    ]\r\n  }\r\n}"
-    }
-  }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b?api-version=2018-02-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
-    "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:56 GMT",
-      "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "1297",
-      "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
-      "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14985",
-      "StatusCode" : "200",
-      "pragma" : "no-cache",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "bf0e456c-bd2f-4fb1-8e82-c91b9ab1fadc",
-      "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181056Z:bf0e456c-bd2f-4fb1-8e82-c91b9ab1fadc",
-      "content-type" : "application/json; charset=utf-8",
-      "etag" : "W/\"7e2066fe-58ea-4734-bba1-eb3abeececa6\"",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "3ee37079-cfb9-4b72-8061-a1c729d2aa53",
-      "Body" : "{\r\n  \"name\": \"net73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b\",\r\n  \"etag\": \"W/\\\"7e2066fe-58ea-4734-bba1-eb3abeececa6\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"90af37f3-e9c4-45f6-8654-c404d2e7fff7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"7e2066fe-58ea-4734-bba1-eb3abeececa6\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/22\",\r\n          \"routeTable\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b\"\r\n          }\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}"
+      "x-ms-request-id" : "b4a336d3-746e-4d42-ab33-0f6c05cba9d9",
+      "Body" : "{\r\n  \"name\": \"net546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065\",\r\n  \"etag\": \"W/\\\"e3b07f46-d2fe-45e9-86ec-b50915e3d589\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3e2a37ba-26b3-42eb-952d-c3dd429c4731\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"e3b07f46-d2fe-45e9-86ec-b50915e3d589\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/22\",\r\n          \"routeTable\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065\"\r\n          }\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:56 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:54 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "2588",
       "expires" : "-1",
@@ -500,25 +473,51 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "3e5e83c6-9dd0-430f-8463-34ef5651b5d4",
+      "x-ms-correlation-request-id" : "8a69f707-4795-47fe-a34d-a0a56a570b2e",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181057Z:3e5e83c6-9dd0-430f-8463-34ef5651b5d4",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160954Z:8a69f707-4795-47fe-a34d-a0a56a570b2e",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "374b4e08-5b87-4050-8b5c-8be7764558da",
-      "Body" : "{\r\n  \"name\": \"rt73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b\",\r\n  \"etag\": \"W/\\\"919dfee0-9625-41dd-bbbd-a34358c4dbc5\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\",\r\n    \"tag2\": \"value2\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"3c34d08e-fc60-4a73-b121-9a1b2527c9ba\",\r\n    \"disableBgpRoutePropagation\": false,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route2\",\r\n        \"etag\": \"W/\\\"919dfee0-9625-41dd-bbbd-a34358c4dbc5\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"50.46.112.0/29\",\r\n          \"nextHopType\": \"Internet\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route3\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route3\",\r\n        \"etag\": \"W/\\\"919dfee0-9625-41dd-bbbd-a34358c4dbc5\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.2.0/29\",\r\n          \"nextHopType\": \"None\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt73128b1523383822666\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route_rt73128b1523383822666\",\r\n        \"etag\": \"W/\\\"919dfee0-9625-41dd-bbbd-a34358c4dbc5\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt73128b1523383856699\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route_rt73128b1523383856699\",\r\n        \"etag\": \"W/\\\"919dfee0-9625-41dd-bbbd-a34358c4dbc5\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.5.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      }\r\n    ],\r\n    \"subnets\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b/subnets/subnet1\"\r\n      }\r\n    ]\r\n  }\r\n}",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/374b4e08-5b87-4050-8b5c-8be7764558da?api-version=2018-02-01"
+      "x-ms-request-id" : "d5682e65-4e9b-4522-b8fe-f8a675fef817",
+      "Body" : "{\r\n  \"name\": \"rt546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065\",\r\n  \"etag\": \"W/\\\"5b6c85e1-c51c-4d4f-b0ae-fcc11e89132a\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\",\r\n    \"tag2\": \"value2\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"31460e9f-9f18-4c80-8ab2-6e619ce8ecc9\",\r\n    \"disableBgpRoutePropagation\": false,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route2\",\r\n        \"etag\": \"W/\\\"5b6c85e1-c51c-4d4f-b0ae-fcc11e89132a\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"50.46.112.0/29\",\r\n          \"nextHopType\": \"Internet\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route3\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route3\",\r\n        \"etag\": \"W/\\\"5b6c85e1-c51c-4d4f-b0ae-fcc11e89132a\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.2.0/29\",\r\n          \"nextHopType\": \"None\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt5460651524845368934\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route_rt5460651524845368934\",\r\n        \"etag\": \"W/\\\"5b6c85e1-c51c-4d4f-b0ae-fcc11e89132a\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt5460651524845394337\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route_rt5460651524845394337\",\r\n        \"etag\": \"W/\\\"5b6c85e1-c51c-4d4f-b0ae-fcc11e89132a\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.5.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      }\r\n    ],\r\n    \"subnets\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065/subnets/subnet1\"\r\n      }\r\n    ]\r\n  }\r\n}",
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/d5682e65-4e9b-4522-b8fe-f8a675fef817?api-version=2018-02-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/374b4e08-5b87-4050-8b5c-8be7764558da?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/d5682e65-4e9b-4522-b8fe-f8a675fef817?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:56 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:54 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "29",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "14985",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "dcd76738-abf5-4262-a21b-a4a9dd7510bb",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160955Z:dcd76738-abf5-4262-a21b-a4a9dd7510bb",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "1337f28e-2be7-4d2c-8586-52e4b1648781",
+      "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065?api-version=2018-02-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)"
+    },
+    "Response" : {
+      "date" : "Fri, 27 Apr 2018 16:09:54 GMT",
+      "server" : "Microsoft-HTTPAPI/2.0",
+      "content-length" : "2593",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
@@ -527,24 +526,26 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "a9ff9e3c-b54f-4311-ac9c-86f97b9198f4",
+      "x-ms-correlation-request-id" : "b310ac5e-2f3d-48b6-a1de-7bb96a411a25",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181057Z:a9ff9e3c-b54f-4311-ac9c-86f97b9198f4",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160955Z:b310ac5e-2f3d-48b6-a1de-7bb96a411a25",
       "content-type" : "application/json; charset=utf-8",
+      "etag" : "W/\"3d4222ad-1374-4528-ab01-a8296d30b7dd\"",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "703d251c-327b-45ef-839e-ba8663a542b5",
-      "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
+      "x-ms-request-id" : "070517b4-c44a-42e8-b7db-522ddaaddb8c",
+      "Body" : "{\r\n  \"name\": \"rt546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065\",\r\n  \"etag\": \"W/\\\"3d4222ad-1374-4528-ab01-a8296d30b7dd\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\",\r\n    \"tag2\": \"value2\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"31460e9f-9f18-4c80-8ab2-6e619ce8ecc9\",\r\n    \"disableBgpRoutePropagation\": false,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route2\",\r\n        \"etag\": \"W/\\\"3d4222ad-1374-4528-ab01-a8296d30b7dd\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"50.46.112.0/29\",\r\n          \"nextHopType\": \"Internet\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route3\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route3\",\r\n        \"etag\": \"W/\\\"3d4222ad-1374-4528-ab01-a8296d30b7dd\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.2.0/29\",\r\n          \"nextHopType\": \"None\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt5460651524845368934\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route_rt5460651524845368934\",\r\n        \"etag\": \"W/\\\"3d4222ad-1374-4528-ab01-a8296d30b7dd\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt5460651524845394337\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route_rt5460651524845394337\",\r\n        \"etag\": \"W/\\\"3d4222ad-1374-4528-ab01-a8296d30b7dd\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.5.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      }\r\n    ],\r\n    \"subnets\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065/subnets/subnet1\"\r\n      }\r\n    ]\r\n  }\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)",
+      "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:57 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:54 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "2593",
+      "content-length" : "1297",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
@@ -553,52 +554,24 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "b0f498eb-9596-4f57-88db-f773157081a3",
+      "x-ms-correlation-request-id" : "e58e58a6-b8f3-4847-a94d-e9fde9ecdcf7",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181057Z:b0f498eb-9596-4f57-88db-f773157081a3",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160955Z:e58e58a6-b8f3-4847-a94d-e9fde9ecdcf7",
       "content-type" : "application/json; charset=utf-8",
-      "etag" : "W/\"5c94f633-b379-409e-9e50-33638fd1de99\"",
+      "etag" : "W/\"e3b07f46-d2fe-45e9-86ec-b50915e3d589\"",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "7dc7f0f0-10d2-47aa-9e4a-d1d5a6cea950",
-      "Body" : "{\r\n  \"name\": \"rt73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b\",\r\n  \"etag\": \"W/\\\"5c94f633-b379-409e-9e50-33638fd1de99\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\",\r\n    \"tag2\": \"value2\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3c34d08e-fc60-4a73-b121-9a1b2527c9ba\",\r\n    \"disableBgpRoutePropagation\": false,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route2\",\r\n        \"etag\": \"W/\\\"5c94f633-b379-409e-9e50-33638fd1de99\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"50.46.112.0/29\",\r\n          \"nextHopType\": \"Internet\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route3\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route3\",\r\n        \"etag\": \"W/\\\"5c94f633-b379-409e-9e50-33638fd1de99\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.2.0/29\",\r\n          \"nextHopType\": \"None\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt73128b1523383822666\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route_rt73128b1523383822666\",\r\n        \"etag\": \"W/\\\"5c94f633-b379-409e-9e50-33638fd1de99\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt73128b1523383856699\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route_rt73128b1523383856699\",\r\n        \"etag\": \"W/\\\"5c94f633-b379-409e-9e50-33638fd1de99\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.5.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      }\r\n    ],\r\n    \"subnets\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b/subnets/subnet1\"\r\n      }\r\n    ]\r\n  }\r\n}"
-    }
-  }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b?api-version=2018-02-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
-    "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:57 GMT",
-      "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "1297",
-      "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
-      "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14982",
-      "StatusCode" : "200",
-      "pragma" : "no-cache",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "ee195008-cf84-407c-99cc-1d41c27923a3",
-      "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181057Z:ee195008-cf84-407c-99cc-1d41c27923a3",
-      "content-type" : "application/json; charset=utf-8",
-      "etag" : "W/\"7e2066fe-58ea-4734-bba1-eb3abeececa6\"",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "aee3fffd-d136-45b8-a485-620d3330140f",
-      "Body" : "{\r\n  \"name\": \"net73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b\",\r\n  \"etag\": \"W/\\\"7e2066fe-58ea-4734-bba1-eb3abeececa6\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"90af37f3-e9c4-45f6-8654-c404d2e7fff7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"7e2066fe-58ea-4734-bba1-eb3abeececa6\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/22\",\r\n          \"routeTable\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b\"\r\n          }\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}"
+      "x-ms-request-id" : "0b8b131d-8fd7-4e9c-aa22-622bac7cae1f",
+      "Body" : "{\r\n  \"name\": \"net546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065\",\r\n  \"etag\": \"W/\\\"e3b07f46-d2fe-45e9-86ec-b50915e3d589\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3e2a37ba-26b3-42eb-952d-c3dd429c4731\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"e3b07f46-d2fe-45e9-86ec-b50915e3d589\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/22\",\r\n          \"routeTable\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065\"\r\n          }\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:57 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:55 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "1108",
       "expires" : "-1",
@@ -609,25 +582,51 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "19d29620-a191-403e-9950-494f83d6e22b",
+      "x-ms-correlation-request-id" : "5d2829b3-0bd4-4976-8428-1a1fe31e35c1",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181057Z:19d29620-a191-403e-9950-494f83d6e22b",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160955Z:5d2829b3-0bd4-4976-8428-1a1fe31e35c1",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "5ed02cd1-cabc-4c7c-bdfb-4b7400da58b8",
-      "Body" : "{\r\n  \"name\": \"net73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b\",\r\n  \"etag\": \"W/\\\"5f2c59ce-e76e-4cd5-87a9-76a7e953aeeb\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"90af37f3-e9c4-45f6-8654-c404d2e7fff7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"5f2c59ce-e76e-4cd5-87a9-76a7e953aeeb\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.0.0/22\"\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/5ed02cd1-cabc-4c7c-bdfb-4b7400da58b8?api-version=2018-02-01"
+      "x-ms-request-id" : "718674b1-8386-4e72-97ee-68cb4a7aa43b",
+      "Body" : "{\r\n  \"name\": \"net546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065\",\r\n  \"etag\": \"W/\\\"9b930f8c-3774-4c80-871f-463ad5b2da55\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"3e2a37ba-26b3-42eb-952d-c3dd429c4731\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"9b930f8c-3774-4c80-871f-463ad5b2da55\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\": \"10.0.0.0/22\"\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}",
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/718674b1-8386-4e72-97ee-68cb4a7aa43b?api-version=2018-02-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/5ed02cd1-cabc-4c7c-bdfb-4b7400da58b8?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/718674b1-8386-4e72-97ee-68cb4a7aa43b?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:10:57 GMT",
+      "date" : "Fri, 27 Apr 2018 16:09:55 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "30",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "14982",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "d750bd59-339d-4767-a295-c3637ab26ef5",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T160955Z:d750bd59-339d-4767-a295-c3637ab26ef5",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "31e1b5f3-a9c9-4996-b930-59afb9754aaf",
+      "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/718674b1-8386-4e72-97ee-68cb4a7aa43b?api-version=2018-02-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)"
+    },
+    "Response" : {
+      "date" : "Fri, 27 Apr 2018 16:10:04 GMT",
+      "server" : "Microsoft-HTTPAPI/2.0",
+      "content-length" : "29",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
@@ -636,24 +635,24 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "3615aa08-f989-4c0e-9bdd-ec4e388bdbf8",
+      "x-ms-correlation-request-id" : "8614a98f-37ca-425d-82d7-d259dd639029",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181057Z:3615aa08-f989-4c0e-9bdd-ec4e388bdbf8",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T161005Z:8614a98f-37ca-425d-82d7-d259dd639029",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "72f1495e-1026-4f14-b6e0-42124926da08",
-      "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
+      "x-ms-request-id" : "c348f02d-6967-4565-a2d1-ffffa9c865a6",
+      "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/5ed02cd1-cabc-4c7c-bdfb-4b7400da58b8?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:11:07 GMT",
+      "date" : "Fri, 27 Apr 2018 16:10:05 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "29",
+      "content-length" : "1110",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
@@ -662,24 +661,26 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "4ceed24d-b0c8-40eb-9ea1-9c6ed5de76ff",
+      "x-ms-correlation-request-id" : "fefc6aba-f7bc-45de-a8c7-e1218b2ffe59",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181107Z:4ceed24d-b0c8-40eb-9ea1-9c6ed5de76ff",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T161005Z:fefc6aba-f7bc-45de-a8c7-e1218b2ffe59",
       "content-type" : "application/json; charset=utf-8",
+      "etag" : "W/\"2ac179fe-476b-4f42-a5b2-58092f9af087\"",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "1bf961ef-8c24-4af4-b366-5a676d16c841",
-      "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
+      "x-ms-request-id" : "b5d4c7d3-19d2-419f-8acd-b92329a41c8b",
+      "Body" : "{\r\n  \"name\": \"net546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065\",\r\n  \"etag\": \"W/\\\"2ac179fe-476b-4f42-a5b2-58092f9af087\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3e2a37ba-26b3-42eb-952d-c3dd429c4731\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/virtualNetworks/net546065/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"2ac179fe-476b-4f42-a5b2-58092f9af087\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/22\"\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)",
+      "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:11:07 GMT",
+      "date" : "Fri, 27 Apr 2018 16:10:05 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "1110",
+      "content-length" : "2386",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
@@ -688,52 +689,24 @@
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "e68fabb1-3f81-4b3b-a85c-5e7961a825fa",
+      "x-ms-correlation-request-id" : "fe0515a0-4ab2-4300-8827-628990278407",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181107Z:e68fabb1-3f81-4b3b-a85c-5e7961a825fa",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T161005Z:fe0515a0-4ab2-4300-8827-628990278407",
       "content-type" : "application/json; charset=utf-8",
-      "etag" : "W/\"05e7a7d2-b154-412c-bd9c-299a194da53c\"",
+      "etag" : "W/\"2381aa0d-a1ac-41ba-b126-d749abfb4116\"",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "de8cfee1-ce06-4843-b209-348c6b9b2b1a",
-      "Body" : "{\r\n  \"name\": \"net73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b\",\r\n  \"etag\": \"W/\\\"05e7a7d2-b154-412c-bd9c-299a194da53c\\\"\",\r\n  \"type\": \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"90af37f3-e9c4-45f6-8654-c404d2e7fff7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/22\"\r\n      ]\r\n    },\r\n    \"dhcpOptions\": {\r\n      \"dnsServers\": []\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"subnet1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/virtualNetworks/net73128b/subnets/subnet1\",\r\n        \"etag\": \"W/\\\"05e7a7d2-b154-412c-bd9c-299a194da53c\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.0.0/22\"\r\n        }\r\n      }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false,\r\n    \"enableVmProtection\": false\r\n  }\r\n}"
-    }
-  }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b?api-version=2018-02-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
-    "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:11:07 GMT",
-      "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "2386",
-      "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
-      "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14978",
-      "StatusCode" : "200",
-      "pragma" : "no-cache",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "a9af1c8e-bc7b-4625-b108-cb234e20481b",
-      "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181107Z:a9af1c8e-bc7b-4625-b108-cb234e20481b",
-      "content-type" : "application/json; charset=utf-8",
-      "etag" : "W/\"0abd19f6-c24a-49ea-823d-bbb7407810c6\"",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "48078119-e375-41cc-b4eb-f7a396e2abbe",
-      "Body" : "{\r\n  \"name\": \"rt73128b\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b\",\r\n  \"etag\": \"W/\\\"0abd19f6-c24a-49ea-823d-bbb7407810c6\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\",\r\n    \"tag2\": \"value2\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3c34d08e-fc60-4a73-b121-9a1b2527c9ba\",\r\n    \"disableBgpRoutePropagation\": false,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route2\",\r\n        \"etag\": \"W/\\\"0abd19f6-c24a-49ea-823d-bbb7407810c6\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"50.46.112.0/29\",\r\n          \"nextHopType\": \"Internet\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route3\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route3\",\r\n        \"etag\": \"W/\\\"0abd19f6-c24a-49ea-823d-bbb7407810c6\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.2.0/29\",\r\n          \"nextHopType\": \"None\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt73128b1523383822666\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route_rt73128b1523383822666\",\r\n        \"etag\": \"W/\\\"0abd19f6-c24a-49ea-823d-bbb7407810c6\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt73128b1523383856699\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b/routes/route_rt73128b1523383856699\",\r\n        \"etag\": \"W/\\\"0abd19f6-c24a-49ea-823d-bbb7407810c6\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.5.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}"
+      "x-ms-request-id" : "537d30a7-1b83-4e83-9f2e-bf342fd80a41",
+      "Body" : "{\r\n  \"name\": \"rt546065\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065\",\r\n  \"etag\": \"W/\\\"2381aa0d-a1ac-41ba-b126-d749abfb4116\\\"\",\r\n  \"type\": \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\",\r\n    \"tag2\": \"value2\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"31460e9f-9f18-4c80-8ab2-6e619ce8ecc9\",\r\n    \"disableBgpRoutePropagation\": false,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"route2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route2\",\r\n        \"etag\": \"W/\\\"2381aa0d-a1ac-41ba-b126-d749abfb4116\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"50.46.112.0/29\",\r\n          \"nextHopType\": \"Internet\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route3\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route3\",\r\n        \"etag\": \"W/\\\"2381aa0d-a1ac-41ba-b126-d749abfb4116\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.2.0/29\",\r\n          \"nextHopType\": \"None\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt5460651524845368934\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route_rt5460651524845368934\",\r\n        \"etag\": \"W/\\\"2381aa0d-a1ac-41ba-b126-d749abfb4116\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.3.0/29\",\r\n          \"nextHopType\": \"VnetLocal\"\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"route_rt5460651524845394337\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065/routes/route_rt5460651524845394337\",\r\n        \"etag\": \"W/\\\"2381aa0d-a1ac-41ba-b126-d749abfb4116\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\": \"10.0.5.0/29\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\": \"10.1.1.1\"\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg73128b/providers/Microsoft.Network/routeTables/rt73128b?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg546065/providers/Microsoft.Network/routeTables/rt546065?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:11:07 GMT",
+      "date" : "Fri, 27 Apr 2018 16:10:05 GMT",
       "content-length" : "0",
       "server" : "Microsoft-HTTPAPI/2.0",
       "expires" : "-1",
@@ -742,50 +715,50 @@
       "StatusCode" : "202",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "73db60ac-96e0-4193-92ee-3e6126a8b206",
+      "x-ms-correlation-request-id" : "cc7b2508-832d-4df5-9103-7bdf27c8c831",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181108Z:73db60ac-96e0-4193-92ee-3e6126a8b206",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operationResults/1756fd88-5021-42cf-9ada-70a4be81ad3b?api-version=2018-02-01",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T161006Z:cc7b2508-832d-4df5-9103-7bdf27c8c831",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operationResults/29da3dd6-63ce-44c6-bae7-d0e675986d19?api-version=2018-02-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "1756fd88-5021-42cf-9ada-70a4be81ad3b",
+      "x-ms-request-id" : "29da3dd6-63ce-44c6-bae7-d0e675986d19",
       "Body" : "",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/1756fd88-5021-42cf-9ada-70a4be81ad3b?api-version=2018-02-01"
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/29da3dd6-63ce-44c6-bae7-d0e675986d19?api-version=2018-02-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/1756fd88-5021-42cf-9ada-70a4be81ad3b?api-version=2018-02-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/29da3dd6-63ce-44c6-bae7-d0e675986d19?api-version=2018-02-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:11:07 GMT",
+      "date" : "Fri, 27 Apr 2018 16:10:05 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "29",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14977",
+      "x-ms-ratelimit-remaining-subscription-reads" : "14978",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "102c703a-d016-4cf0-9deb-cb6d1b5beb24",
+      "x-ms-correlation-request-id" : "f4f1a865-1ccd-4524-8728-d921d400d1f8",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181108Z:102c703a-d016-4cf0-9deb-cb6d1b5beb24",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T161006Z:f4f1a865-1ccd-4524-8728-d921d400d1f8",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "3ccab5f0-d14d-46e1-bd51-f8df9afb55e2",
+      "x-ms-request-id" : "0cb4e18a-12b3-41f6-bbf8-776b22daea01",
       "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg73128b?api-version=2017-05-10",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg546065?api-version=2017-05-10",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:b7257d88363fa26cf3bbdf35945f1b78aa8842fd06a9351c60502eaefb96a3f2 Java:1.8.0_161 (ResourceManagementClient, 2017-05-10)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_161 (ResourceManagementClient, 2017-05-10)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 10 Apr 2018 18:11:08 GMT",
+      "date" : "Fri, 27 Apr 2018 16:10:06 GMT",
       "content-length" : "0",
       "expires" : "-1",
       "x-ms-ratelimit-remaining-subscription-writes" : "1193",
@@ -793,14 +766,14 @@
       "StatusCode" : "202",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "8b0dd33a-3b24-4b9d-988b-697341dc8437",
+      "x-ms-correlation-request-id" : "ee5e5b91-04d4-4e4a-9118-ef6994685406",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180410T181108Z:8b0dd33a-3b24-4b9d-988b-697341dc8437",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1SRzczMTI4Qi1XRVNUVVMiLCJqb2JMb2NhdGlvbiI6Indlc3R1cyJ9?api-version=2017-05-10",
+      "x-ms-routing-request-id" : "WESTUS2:20180427T161006Z:ee5e5b91-04d4-4e4a-9118-ef6994685406",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1SRzU0NjA2NS1XRVNUVVMiLCJqb2JMb2NhdGlvbiI6Indlc3R1cyJ9?api-version=2017-05-10",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "8b0dd33a-3b24-4b9d-988b-697341dc8437",
+      "x-ms-request-id" : "ee5e5b91-04d4-4e4a-9118-ef6994685406",
       "Body" : ""
     }
   } ],
-  "variables" : [ "73128b", "e915dd4c-65d9-46f1-98d1-6a8415aaf7ef", "2739929a-ab68-4d20-97de-756b3a48bf5e", "7abb5eac-e413-44f6-8f83-f7488e6fc938", "c4a5c237-f827-4f21-8df1-caa51eb89f00", "a16c8cff-58e0-4252-b85f-0bc91e8f9dde", "f4cd0a2a-6c8c-4979-8b51-3b4f027e2b71", "70b49e84-932f-4283-9468-2f2e905988ee", "9849fd18-38ce-4eed-b956-9366ac75ee2c", "1cc1ea98-5318-437f-9c59-b419ab4cd773", "db443d68-6c3b-4da1-b9d1-f42d48eeb249", "512a670a-cbf1-4e75-99eb-a2d89a8bb66c", "d6d58c6d-db0a-46c4-9ec1-f63095355b21", "7f3e9329-1a11-44b0-86b2-d4db709088ef", "1e5c0c7b-7b98-4067-b2cf-17c40881e5e8" ]
+  "variables" : [ "546065", "d6cf6adf-0839-49d5-b978-e9ae2cffab19", "e182ba76-7fd9-43dd-8c77-676141d00d37", "36b363bf-1591-4ed0-bb3b-e7fdc010e9b9", "372ec1ca-376a-4d47-816f-2def7e871a08", "9af65985-9c3b-433b-af89-666d57dce799", "aa5f0765-2c86-40cc-b981-316d156987a9", "c0554aab-62f8-4f3a-9e45-e4c905d96da1", "9ba3b82e-20c7-4ad9-8951-8bb2cf2378d8", "e5b96255-90e9-4c4e-b28f-e0d6f33005d3", "8ad0f654-3921-492a-a7d1-d35a5c913d82", "e7c77a93-e1b6-4c32-b35d-de7c78327480", "b99511e2-64cd-4751-9b3e-0329eed5aa84", "b79dcd4d-5ccb-4eb9-9333-8b2344aaf058", "d0bebe3f-367c-4b64-9fb0-080e443c5ce7" ]
 }

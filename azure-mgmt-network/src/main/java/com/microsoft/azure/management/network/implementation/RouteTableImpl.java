@@ -16,6 +16,7 @@ import com.microsoft.azure.management.network.RouteNextHopType;
 import com.microsoft.azure.management.network.RouteTable;
 import com.microsoft.azure.management.network.Subnet;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -142,5 +143,22 @@ class RouteTableImpl
     @Override
     public Map<String, Route> routes() {
         return Collections.unmodifiableMap(this.routes);
+    }
+
+    @Override
+    public boolean isBgpRoutePropagationDisabled() {
+        return Utils.toPrimitiveBoolean(inner().disableBgpRoutePropagation());
+    }
+
+    @Override
+    public RouteTableImpl withDisableBgpRoutePropagation() {
+        inner().withDisableBgpRoutePropagation(true);
+        return this;
+    }
+
+    @Override
+    public RouteTableImpl withEnableBgpRoutePropagation() {
+        inner().withDisableBgpRoutePropagation(false);
+        return this;
     }
 }

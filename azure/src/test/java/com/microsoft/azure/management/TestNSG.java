@@ -122,6 +122,13 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
                     .parent()
                 .apply();
         Assert.assertTrue(resource.tags().containsKey("tag1"));
+
+        resource.updateTags()
+                .withTag("tag3", "value3")
+                .withoutTag("tag1")
+                .applyTags();
+        Assert.assertEquals("value3", resource.tags().get("tag3"));
+        Assert.assertFalse(resource.tags().containsKey("tag1"));
         return resource;
     }
 

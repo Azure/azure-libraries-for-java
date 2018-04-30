@@ -9,7 +9,10 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.FlowLogSettings;
 import com.microsoft.azure.management.network.NetworkWatcher;
 import com.microsoft.azure.management.network.SecurityGroupView;
+import com.microsoft.azure.management.network.model.AppliableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -26,7 +29,8 @@ class NetworkWatcherImpl
         implements
         NetworkWatcher,
         NetworkWatcher.Definition,
-        NetworkWatcher.Update {
+        NetworkWatcher.Update,
+        AppliableWithTags<NetworkWatcher> {
 
     private PacketCapturesImpl packetCaptures;
     private ConnectionMonitorsImpl connectionMonitors;
@@ -131,5 +135,31 @@ class NetworkWatcherImpl
     @Override
     protected Observable<NetworkWatcherInner> getInnerAsync() {
         return this.manager().inner().networkWatchers().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    }
+
+    @Override
+    public NetworkWatcherImpl updateTags() {
+        return this;
+    }
+
+    @Override
+    public NetworkWatcher applyTags() {
+        return applyTagsAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<NetworkWatcher> applyTagsAsync() {
+        return this.manager().inner().networkWatchers().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
+                .flatMap(new Func1<NetworkWatcherInner, Observable<NetworkWatcher>>() {
+                    @Override
+                    public Observable<NetworkWatcher> call(NetworkWatcherInner inner) {
+                        setInner(inner);
+                        return Observable.just((NetworkWatcher) NetworkWatcherImpl.this);                    }
+                });
+    }
+
+    @Override
+    public ServiceFuture<NetworkWatcher> applyTagsAsync(ServiceCallback<NetworkWatcher> callback) {
+        return ServiceFuture.fromBody(applyTagsAsync(), callback);
     }
 }

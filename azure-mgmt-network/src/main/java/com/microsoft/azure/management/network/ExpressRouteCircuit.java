@@ -9,6 +9,7 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.network.implementation.ExpressRouteCircuitInner;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -26,7 +27,8 @@ import java.util.Map;
 public interface ExpressRouteCircuit extends
         GroupableResource<NetworkManager, ExpressRouteCircuitInner>,
         Refreshable<ExpressRouteCircuit>,
-        Updatable<ExpressRouteCircuit.Update> {
+        Updatable<ExpressRouteCircuit.Update>,
+        UpdatableWithTags<ExpressRouteCircuit> {
 
     // Actions
 

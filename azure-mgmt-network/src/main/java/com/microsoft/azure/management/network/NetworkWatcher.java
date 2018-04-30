@@ -11,6 +11,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.network.implementation.NetworkWatcherInner;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -27,7 +28,8 @@ import rx.Observable;
 public interface NetworkWatcher extends
         GroupableResource<NetworkManager, NetworkWatcherInner>,
         Refreshable<NetworkWatcher>,
-        Updatable<NetworkWatcher.Update> {
+        Updatable<NetworkWatcher.Update>,
+        UpdatableWithTags<NetworkWatcher> {
 
     /**
      * @return entry point to manage packet captures associated with network watcher

@@ -21,7 +21,9 @@ import rx.functions.Func1;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -82,6 +84,15 @@ public class TestVirtualNetworkGateway {
             resource.refresh();
             Assert.assertTrue(resource.tags().containsKey("tag2"));
             Assert.assertTrue(!resource.tags().containsKey("tag1"));
+
+            Map<String, String> tagsMap = new HashMap<>();
+            tagsMap.put("tag3", "value3");
+            tagsMap.put("tag4", "value4");
+            resource.updateTags()
+                    .withTags(tagsMap)
+                    .applyTags();
+            Assert.assertEquals(2, resource.tags().size());
+            Assert.assertEquals("value4", resource.tags().get("tag4"));
             return resource;
         }
     }

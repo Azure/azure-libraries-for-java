@@ -9,6 +9,7 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.network.implementation.PublicIPAddressInner;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
@@ -26,7 +27,8 @@ import java.util.Set;
 public interface PublicIPAddress extends
         GroupableResource<NetworkManager, PublicIPAddressInner>,
         Refreshable<PublicIPAddress>,
-        Updatable<PublicIPAddress.Update> {
+        Updatable<PublicIPAddress.Update>,
+        UpdatableWithTags<PublicIPAddress> {
 
     // Getters
 

@@ -99,6 +99,13 @@ public class TestNetworkInterface extends TestTemplate<NetworkInterface, Network
         Assert.assertTrue(resource.tags().containsKey("tag1"));
 
         Assert.assertEquals(1,  resource.ipConfigurations().size());
+
+        resource.updateTags()
+                .withoutTag("tag1")
+                .withTag("tag3", "value3")
+                .applyTags();
+        Assert.assertFalse(resource.tags().containsKey("tag1"));
+        Assert.assertEquals("value3", resource.tags().get("tag3"));
         return resource;
     }
 

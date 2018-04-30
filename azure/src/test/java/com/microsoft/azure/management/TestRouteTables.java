@@ -121,6 +121,12 @@ public class TestRouteTables {
             List<Subnet> subnets = routeTable.refresh().listAssociatedSubnets();
             Assert.assertTrue(subnets.size() == 0);
 
+            routeTable.updateTags()
+                    .withoutTag("tag1")
+                    .withTag("tag3", "value3")
+                    .applyTags();
+            Assert.assertFalse(routeTable.tags().containsKey("tag1"));
+            Assert.assertEquals("value3", routeTable.tags().get("tag3"));
             return routeTable;
         }
 

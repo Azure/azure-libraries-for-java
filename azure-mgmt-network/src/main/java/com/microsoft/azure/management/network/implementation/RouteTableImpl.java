@@ -15,6 +15,7 @@ import com.microsoft.azure.management.network.Route;
 import com.microsoft.azure.management.network.RouteNextHopType;
 import com.microsoft.azure.management.network.RouteTable;
 import com.microsoft.azure.management.network.Subnet;
+import com.microsoft.azure.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
@@ -25,7 +26,7 @@ import rx.functions.Func1;
  */
 @LangDefinition
 class RouteTableImpl
-    extends GroupableParentResourceImpl<
+    extends GroupableParentResourceWithTagsImpl<
         RouteTable,
         RouteTableInner,
         RouteTableImpl,
@@ -41,6 +42,11 @@ class RouteTableImpl
             final RouteTableInner innerModel,
             final NetworkManager networkManager) {
         super(name, innerModel, networkManager);
+    }
+
+    @Override
+    protected Observable<RouteTableInner> applyTagsToInnerAsync() {
+        return this.manager().inner().routeTables().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
     @Override

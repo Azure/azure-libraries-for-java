@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.network.implementation.RouteTableInner;
 import com.microsoft.azure.management.network.model.HasAssociatedSubnets;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -27,6 +28,7 @@ public interface RouteTable extends
         GroupableResource<NetworkManager, RouteTableInner>,
         Refreshable<RouteTable>,
         Updatable<RouteTable.Update>,
+        UpdatableWithTags<RouteTable>,
         HasAssociatedSubnets {
 
     /**

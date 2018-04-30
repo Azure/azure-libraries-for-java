@@ -633,6 +633,15 @@ public class AzureTests extends TestBase {
     }
 
     /**
+     * Tests updateTags for virtual network.
+     * @throws Exception
+     */
+    @Test
+    public void testNetworkUpdateTags() throws Exception {
+        new TestNetwork.WithUpdateTags().runTest(azure.networks(), azure.resourceGroups());
+    }
+
+    /**
      * Tests route tables.
      * @throws Exception
      */

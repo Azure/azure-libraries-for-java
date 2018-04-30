@@ -398,6 +398,43 @@ public class TestNetwork {
     }
 
     /**
+     * Test of network updateTags functionality.
+     */
+    public static class WithUpdateTags extends TestTemplate<Network, Networks> {
+        @Override
+        public Network createResource(Networks networks) throws Exception {
+            Region region = Region.US_SOUTH_CENTRAL;
+            String groupName = "rg" + this.testId;
+
+            String networkName = SdkContext.randomResourceName("net", 15);
+
+            Network network = networks.define(networkName)
+                    .withRegion(region)
+                    .withNewResourceGroup(groupName)
+                    .withTag("tag1", "value1")
+                    .create();
+            Assert.assertEquals("value1", network.tags().get("tag1"));
+            return network;
+        }
+
+        @Override
+        public Network updateResource(Network network) throws Exception {
+            network.updateTags()
+                    .withoutTag("tag1")
+                    .withTag("tag2", "value2")
+                    .applyTags();
+            Assert.assertFalse(network.tags().containsKey("tag1"));
+            Assert.assertEquals("value2", network.tags().get("tag2"));
+            return network;
+        }
+
+        @Override
+        public void print(Network resource) {
+            printNetwork(resource);
+        }
+    }
+
+    /**
      * Outputs info about a network.
      * @param resource a network
      */

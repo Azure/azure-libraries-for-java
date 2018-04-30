@@ -13,6 +13,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.network.implementation.VirtualNetworkInner;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -27,7 +28,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 public interface Network extends
         GroupableResource<NetworkManager, VirtualNetworkInner>,
         Refreshable<Network>,
-        Updatable<Network.Update> {
+        Updatable<Network.Update>,
+        UpdatableWithTags<Network> {
 
     /**
      * Checks if the specified private IP address is available in this network.

@@ -14,7 +14,7 @@ import com.microsoft.azure.management.network.DhcpOptions;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkPeerings;
 import com.microsoft.azure.management.network.Subnet;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
+import com.microsoft.azure.management.network.model.GroupableParentResourceWithTagsImpl;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
@@ -34,7 +34,7 @@ import java.util.TreeMap;
  */
 @LangDefinition
 class NetworkImpl
-    extends GroupableParentResourceImpl<
+    extends GroupableParentResourceWithTagsImpl<
         Network,
         VirtualNetworkInner,
         NetworkImpl,
@@ -86,6 +86,11 @@ class NetworkImpl
     @Override
     protected Observable<VirtualNetworkInner> getInnerAsync() {
         return this.manager().inner().virtualNetworks().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    }
+
+    @Override
+    protected Observable<VirtualNetworkInner> applyTagsToInnerAsync() {
+        return this.manager().inner().virtualNetworks().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
     @Override

@@ -48,6 +48,7 @@ public final class ManageBatchAI {
         final String rgName = SdkContext.randomResourceName("rg", 20);
         final String saName = SdkContext.randomResourceName("sa", 20);
         final String shareName = SdkContext.randomResourceName("fs", 20);
+        final String jobShareName = SdkContext.randomResourceName("fs", 20);
         final String clusterName = SdkContext.randomResourceName("cluster", 15);
         final String userName = "tirekicker";
         final String sharePath = "mnistcntksample";
@@ -84,6 +85,14 @@ public final class ManageBatchAI {
             sampleDir.getFileReference("ConvNet_MNIST.py").uploadFromFile(sampleDataPath + "/ConvNet_MNIST.py");
 
             //=============================================================
+            // Create another fileshare to be mounted directly to the job
+            CloudFileShare jobFileShare = CloudStorageAccount.parse(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net",
+                    saName, storageAccountKey.value()))
+                    .createCloudFileClient()
+                    .getShareReference(jobShareName);
+            jobFileShare.create();
+
+            //=============================================================
             // Create Batch AI cluster that uses Azure file share to host the training data and scripts for the learning job
             System.out.println("Creating Batch AI cluster...");
             BatchAICluster cluster = azure.batchAIClusters().define(clusterName)
@@ -117,6 +126,12 @@ public final class ManageBatchAI {
                     .withInputDirectory("SAMPLE", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/" + sharePath)
                     .withOutputDirectory("MODEL", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/model")
                     .withContainerImage("microsoft/cntk:2.1-gpu-python3.5-cuda8.0-cudnn6.0")
+                    .defineAzureFileShare()
+                        .withStorageAccountName(saName)
+                        .withAzureFileUrl(jobFileShare.getUri().toString())
+                        .withRelativeMountPath("jobfileshare")
+                        .withAccountKey(storageAccountKey.value())
+                        .attach()
                     .create();
             System.out.println("Created Batch AI job.");
             Utils.print(job);

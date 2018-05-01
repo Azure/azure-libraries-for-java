@@ -420,7 +420,7 @@ public interface BatchAIJob extends
                 WithExperimentName,
                 WithEnvironmentVariable,
                 WithEnvironmentVariableSecretValue,
-                HasMountVolumes.DefinitionStages.WithMountVolumes {
+                HasMountVolumes.DefinitionStages.WithMountVolumes<WithCreate> {
         }
     }
 }

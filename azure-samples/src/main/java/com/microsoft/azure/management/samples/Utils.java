@@ -24,6 +24,7 @@ import com.microsoft.azure.management.batch.Application;
 import com.microsoft.azure.management.batch.ApplicationPackage;
 import com.microsoft.azure.management.batch.BatchAccount;
 import com.microsoft.azure.management.batch.BatchAccountKeys;
+import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIJob;
 import com.microsoft.azure.management.compute.AvailabilitySet;
@@ -2842,6 +2843,19 @@ public final class Utils {
                 .append("\n\tExecution state transition time: ").append(resource.executionStateTransitionTime())
                 .append("\n\tTool type: ").append(resource.toolType())
                 .append("\n\tExperiment name: ").append(resource.experimentName());
+        if (resource.mountVolumes() != null) {
+            info.append("\n\tMount volumes:");
+            if (resource.mountVolumes().azureFileShares() != null) {
+                info.append("\n\t\tAzure fileshares:");
+                for (AzureFileShareReference share : resource.mountVolumes().azureFileShares()) {
+                    info.append("\n\t\t\tAccount name:").append(share.accountName())
+                            .append("\n\t\t\tFile Url:").append(share.azureFileUrl())
+                            .append("\n\t\t\tDirectory mode:").append(share.directoryMode())
+                            .append("\n\t\t\tFile mode:").append(share.fileMode())
+                            .append("\n\t\t\tRelative mount path:").append(share.relativeMountPath());
+                }
+            }
+        }
         System.out.println(info.toString());
     }
 

@@ -198,6 +198,7 @@ public interface ConnectionMonitor extends
              * Disable auto start.
              * @return next definition stage
              */
+            @Method
             WithCreate withoutAutoStart();
         }
 

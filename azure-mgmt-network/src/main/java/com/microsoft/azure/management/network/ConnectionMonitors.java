@@ -18,7 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  * Entry point to connection monitors management API in Azure.
  */
 @Fluent
-@Beta
+@Beta(Beta.SinceVersion.V1_10_0)
 public interface ConnectionMonitors extends
         SupportsCreating<ConnectionMonitor.DefinitionStages.WithSource>,
         SupportsListing<ConnectionMonitor>,

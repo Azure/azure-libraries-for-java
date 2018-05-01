@@ -11,6 +11,7 @@ import java.util.Map;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.network.implementation.VirtualNetworkInner;
 import com.microsoft.azure.management.network.model.UpdatableWithTags;
@@ -159,6 +160,7 @@ public interface Network extends
              * The internal name the DDoS protection plan will be derived from the resource's name.
              * @return the next stage of the definition
              */
+            @Method
             WithCreateAndSubnet withNewDdosProtectionPlan();
 
             /**
@@ -177,6 +179,7 @@ public interface Network extends
              * Enable VM protection for all the subnets in the virtual network.
              * @return the next stage of the definition
              */
+            @Method
             WithCreateAndSubnet withVmProtection();
         }
 
@@ -327,6 +330,7 @@ public interface Network extends
              * The internal name the DDoS protection plan will be derived from the resource's name.
              * @return the next stage of the update
              */
+            @Method
             Update withNewDdosProtectionPlan();
 
             /**
@@ -351,11 +355,13 @@ public interface Network extends
              * Enable VM protection for all the subnets in the virtual network.
              * @return the next stage of the update
              */
+            @Method
             Update withVmProtection();
             /**
              * Disable VM protection for all the subnets in the virtual network.
              * @return the next stage of the update
              */
+            @Method
             Update withoutVmProtection();
         }
     }

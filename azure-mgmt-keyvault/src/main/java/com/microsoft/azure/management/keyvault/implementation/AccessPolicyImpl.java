@@ -17,6 +17,7 @@ import com.microsoft.azure.management.keyvault.CertificatePermissions;
 import com.microsoft.azure.management.keyvault.KeyPermissions;
 import com.microsoft.azure.management.keyvault.Permissions;
 import com.microsoft.azure.management.keyvault.SecretPermissions;
+import com.microsoft.azure.management.keyvault.StoragePermissions;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
@@ -115,6 +116,15 @@ class AccessPolicyImpl
             inner().permissions().withCertificates(new ArrayList<CertificatePermissions>());
         }
     }
+    
+    private void initializeStoragePermissions() {
+        if (inner().permissions() == null) {
+            inner().withPermissions(new Permissions());
+        }
+        if (inner().permissions().storage() == null) {
+            inner().permissions().withStorage(new ArrayList<StoragePermissions>());
+        }
+    }
 
     @Override
     public AccessPolicyImpl allowKeyPermissions(KeyPermissions... permissions) {
@@ -190,6 +200,37 @@ class AccessPolicyImpl
         return this;
     }
 
+
+    @Override
+    public AccessPolicyImpl allowStorageAllPermissions() {
+        for (StoragePermissions permission : StoragePermissions.values()) {
+            allowStoragePermissions(permission);
+        }
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl allowStoragePermissions(StoragePermissions... permissions) {
+        initializeStoragePermissions();
+        for (StoragePermissions permission : permissions) {
+            if (!inner().permissions().storage().contains(permission)) {
+                inner().permissions().storage().add(permission);
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl allowStoragePermissions(List<StoragePermissions> permissions) {
+        initializeStoragePermissions();
+        for (StoragePermissions permission : permissions) {
+            if (!inner().permissions().storage().contains(permission)) {
+                inner().permissions().storage().add(permission);
+            }
+        }
+        return this;
+    }
+    
     @Override
     public AccessPolicyImpl disallowCertificateAllPermissions() {
         initializeCertificatePermissions();
@@ -320,6 +361,28 @@ class AccessPolicyImpl
     public AccessPolicyImpl disallowSecretPermissions(List<SecretPermissions> permissions) {
         initializeSecretPermissions();
         inner().permissions().secrets().removeAll(permissions);
+        return this;
+    }
+
+
+    @Override
+    public AccessPolicyImpl disallowStorageAllPermissions() {
+        initializeStoragePermissions();
+        inner().permissions().storage().clear();
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl disallowStoragePermissions(StoragePermissions... permissions) {
+        initializeStoragePermissions();
+        inner().permissions().storage().removeAll(Arrays.asList(permissions));
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl disallowStoragePermissions(List<StoragePermissions> permissions) {
+        initializeStoragePermissions();
+        inner().permissions().storage().removeAll(permissions);
         return this;
     }
 

@@ -131,11 +131,12 @@ public class TestVirtualNetworkGateway {
                     .withAddressSpace("192.168.3.0/24")
                     .withBgp(65050, "10.51.255.254")
                     .create();
-            vngw.connections()
+            VirtualNetworkGatewayConnection connection = vngw.connections()
                     .define(CONNECTION_NAME)
                     .withSiteToSite()
                     .withLocalNetworkGateway(lngw)
                     .withSharedKey("MySecretKey")
+                    .withTag("tag1", "value1")
                     .create();
 
             Assert.assertEquals(1, vngw.ipConfigurations().size());
@@ -154,6 +155,8 @@ public class TestVirtualNetworkGateway {
             Assert.assertEquals(1, connections.size());
             Assert.assertEquals(vngw.id(), connections.get(0).virtualNetworkGateway1Id());
             Assert.assertEquals(lngw.id(), connections.get(0).localNetworkGateway2Id());
+            Assert.assertEquals("value1", connection.tags().get("tag1"));
+
             return vngw;
         }
 
@@ -169,6 +172,14 @@ public class TestVirtualNetworkGateway {
             resource.connections().deleteByName(CONNECTION_NAME);
             List<VirtualNetworkGatewayConnection> connections = resource.listConnections();
             Assert.assertEquals(0, connections.size());
+
+            resource.updateTags()
+                    .withTag("tag3", "value3")
+                    .withoutTag("tag1")
+                    .applyTags();
+            Assert.assertEquals("value3", resource.tags().get("tag3"));
+            Assert.assertFalse(resource.tags().containsKey("tag1"));
+
             return resource;
         }
     }

@@ -8,6 +8,7 @@ package com.microsoft.azure.management.network.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.IPAllocationMethod;
 import com.microsoft.azure.management.network.IPVersion;
+import com.microsoft.azure.management.network.IpTag;
 import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.NicIPConfiguration;
@@ -28,6 +29,7 @@ import rx.functions.Func1;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -243,6 +245,11 @@ class PublicIPAddressImpl
     }
 
     @Override
+    public List<IpTag> ipTags() {
+        return Collections.unmodifiableList(inner().ipTags() == null ? new ArrayList<IpTag>() : inner().ipTags());
+    }
+
+    @Override
     public NicIPConfiguration getAssignedNetworkInterfaceIPConfiguration() {
         if (this.hasAssignedNetworkInterface()) {
             final String refId = this.inner().ipConfiguration().id();
@@ -279,5 +286,36 @@ class PublicIPAddressImpl
     @Override
     public ServiceFuture<PublicIPAddress> applyTagsAsync(ServiceCallback<PublicIPAddress> callback) {
         return ServiceFuture.fromBody(applyTagsAsync(), callback);
+    }
+
+    @Override
+    public PublicIPAddressImpl withIpTag(String tag) {
+        if (inner().ipTags() == null) {
+            inner().withIpTags(new ArrayList<IpTag>());
+        }
+        ipTags().add(new IpTag().withTag(tag));
+        return this;
+    }
+
+    @Override
+    public PublicIPAddressImpl withIpTag(String tag, String ipTagType) {
+        if (inner().ipTags() == null) {
+            inner().withIpTags(new ArrayList<IpTag>());
+        }
+        inner().ipTags().add(new IpTag().withTag(tag).withIpTagType(ipTagType));
+        return this;
+    }
+
+    @Override
+    public PublicIPAddressImpl withoutIpTag(String tag) {
+        if (tag != null && inner().ipTags() != null) {
+            for (IpTag ipTag : inner().ipTags()) {
+                if (tag.equals(ipTag.tag())) {
+                    inner().ipTags().remove(ipTag);
+                    return this;
+                }
+            }
+        }
+        return this;
     }
 }

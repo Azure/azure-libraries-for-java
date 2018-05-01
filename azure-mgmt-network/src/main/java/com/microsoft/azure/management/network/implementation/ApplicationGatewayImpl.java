@@ -28,6 +28,7 @@ import com.microsoft.azure.management.network.IPAllocationMethod;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.Subnet;
+import com.microsoft.azure.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
@@ -60,7 +61,7 @@ import rx.functions.Func1;
  */
 @LangDefinition
 class ApplicationGatewayImpl
-    extends GroupableParentResourceImpl<
+    extends GroupableParentResourceWithTagsImpl<
         ApplicationGateway,
         ApplicationGatewayInner,
         ApplicationGatewayImpl,
@@ -111,6 +112,11 @@ class ApplicationGatewayImpl
     @Override
     protected Observable<ApplicationGatewayInner> getInnerAsync() {
         return this.manager().inner().applicationGateways().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    }
+
+    @Override
+    protected Observable<ApplicationGatewayInner> applyTagsToInnerAsync() {
+        return this.manager().inner().applicationGateways().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
     // Helpers

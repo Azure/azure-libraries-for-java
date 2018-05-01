@@ -12,6 +12,7 @@ import com.microsoft.azure.management.network.ConnectivityDestination;
 import com.microsoft.azure.management.network.ConnectivityHop;
 import com.microsoft.azure.management.network.ConnectivityParameters;
 import com.microsoft.azure.management.network.ConnectivitySource;
+import com.microsoft.azure.management.network.Protocol;
 import com.microsoft.azure.management.network.model.HasNetworkInterfaces;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
@@ -66,8 +67,14 @@ public class ConnectivityCheckImpl extends ExecutableImpl<ConnectivityCheck>
     }
 
     @Override
-    public DefinitionStages.WithExecute fromSourcePort(int port) {
+    public ConnectivityCheckImpl fromSourcePort(int port) {
         ensureConnectivitySource().withPort(port);
+        return this;
+    }
+
+    @Override
+    public ConnectivityCheckImpl withProtocol(Protocol protocol) {
+        parameters.withProtocol(protocol);
         return this;
     }
 

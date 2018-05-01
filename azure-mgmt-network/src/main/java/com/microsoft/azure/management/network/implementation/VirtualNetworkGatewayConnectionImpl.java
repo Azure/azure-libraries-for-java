@@ -15,9 +15,13 @@ import com.microsoft.azure.management.network.VirtualNetworkGateway;
 import com.microsoft.azure.management.network.VirtualNetworkGatewayConnection;
 import com.microsoft.azure.management.network.VirtualNetworkGatewayConnectionStatus;
 import com.microsoft.azure.management.network.VirtualNetworkGatewayConnectionType;
+import com.microsoft.azure.management.network.model.AppliableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -31,7 +35,8 @@ public class VirtualNetworkGatewayConnectionImpl
         extends GroupableResourceImpl<VirtualNetworkGatewayConnection, VirtualNetworkGatewayConnectionInner, VirtualNetworkGatewayConnectionImpl, NetworkManager>
         implements VirtualNetworkGatewayConnection,
             VirtualNetworkGatewayConnection.Definition,
-            VirtualNetworkGatewayConnection.Update {
+            VirtualNetworkGatewayConnection.Update,
+            AppliableWithTags<VirtualNetworkGatewayConnection> {
     private final VirtualNetworkGateway parent;
 
     VirtualNetworkGatewayConnectionImpl(String name,
@@ -210,5 +215,31 @@ public class VirtualNetworkGatewayConnectionImpl
 
     private void beforeCreating() {
         inner().withVirtualNetworkGateway1(parent.inner());
+    }
+
+    @Override
+    public VirtualNetworkGatewayConnectionImpl updateTags() {
+        return this;
+    }
+
+    @Override
+    public VirtualNetworkGatewayConnection applyTags() {
+        return applyTagsAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<VirtualNetworkGatewayConnection> applyTagsAsync() {
+        return this.manager().inner().virtualNetworkGatewayConnections().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
+                .flatMap(new Func1<VirtualNetworkGatewayConnectionListEntityInner, Observable<VirtualNetworkGatewayConnection>>() {
+                    @Override
+                    public Observable<VirtualNetworkGatewayConnection> call(VirtualNetworkGatewayConnectionListEntityInner inner) {
+                        return refreshAsync();
+                    }
+                });
+    }
+
+    @Override
+    public ServiceFuture<VirtualNetworkGatewayConnection> applyTagsAsync(ServiceCallback<VirtualNetworkGatewayConnection> callback) {
+        return ServiceFuture.fromBody(applyTagsAsync(), callback);
     }
 }

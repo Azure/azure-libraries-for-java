@@ -5,10 +5,12 @@
  */
 package com.microsoft.azure.management.network;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.network.implementation.RouteTableInner;
 import com.microsoft.azure.management.network.model.HasAssociatedSubnets;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -26,12 +28,20 @@ public interface RouteTable extends
         GroupableResource<NetworkManager, RouteTableInner>,
         Refreshable<RouteTable>,
         Updatable<RouteTable.Update>,
+        UpdatableWithTags<RouteTable>,
         HasAssociatedSubnets {
 
     /**
      * @return the routes of this route table
      */
     Map<String, Route> routes();
+
+    /**
+     * @return whether to disable the routes learned by BGP on that route
+     * table. True means disable.
+     */
+    @Beta(Beta.SinceVersion.V1_10_0)
+    boolean isBgpRoutePropagationDisabled();
 
     /**
      * The entirety of a route table definition.
@@ -93,6 +103,18 @@ public interface RouteTable extends
         }
 
         /**
+         * The stage of the route table definition allowing to specify whether to disable the routes learned by BGP on that route table.
+         */
+        @Beta(Beta.SinceVersion.V1_10_0)
+        interface WithBgpRoutePropagation {
+            /**
+             * Disable the routes learned by BGP on that route table.
+             * @return the next stage of the definition
+             */
+            WithCreate withDisableBgpRoutePropagation();
+        }
+
+        /**
          * The stage of a route table definition which contains all the minimum required inputs for
          * the resource to be created (via {@link WithCreate#create()}), but also allows
          * for any other optional settings to be specified.
@@ -100,7 +122,8 @@ public interface RouteTable extends
         interface WithCreate extends
             Creatable<RouteTable>,
             Resource.DefinitionWithTags<WithCreate>,
-            DefinitionStages.WithRoute {
+            DefinitionStages.WithRoute,
+            DefinitionStages.WithBgpRoutePropagation {
         }
     }
 
@@ -153,6 +176,23 @@ public interface RouteTable extends
              */
             Route.Update updateRoute(String name);
         }
+
+        /**
+         * The stage of the route table update allowing to specify whether to disable the routes learned by BGP on that route table.
+         */
+        @Beta(Beta.SinceVersion.V1_10_0)
+        interface WithBgpRoutePropagation {
+            /**
+             * Disable the routes learned by BGP on that route table.
+             * @return the next stage of the update
+             */
+            Update withDisableBgpRoutePropagation();
+            /**
+             * Enable the routes learned by BGP on that route table.
+             * @return the next stage of the update
+             */
+            Update withEnableBgpRoutePropagation();
+        }
     }
 
     /**
@@ -163,6 +203,7 @@ public interface RouteTable extends
     interface Update extends
         Appliable<RouteTable>,
         Resource.UpdateWithTags<Update>,
-        UpdateStages.WithRoute {
+        UpdateStages.WithRoute,
+        UpdateStages.WithBgpRoutePropagation {
     }
 }

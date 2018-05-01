@@ -6,14 +6,19 @@
 package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.CloudException;
+import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.AddressSpace;
+import com.microsoft.azure.management.network.DdosProtectionPlan;
 import com.microsoft.azure.management.network.DhcpOptions;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkPeerings;
 import com.microsoft.azure.management.network.Subnet;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
+import com.microsoft.azure.management.network.model.GroupableParentResourceWithTagsImpl;
 
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -29,7 +34,7 @@ import java.util.TreeMap;
  */
 @LangDefinition
 class NetworkImpl
-    extends GroupableParentResourceImpl<
+    extends GroupableParentResourceWithTagsImpl<
         Network,
         VirtualNetworkInner,
         NetworkImpl,
@@ -41,6 +46,7 @@ class NetworkImpl
 
     private Map<String, Subnet> subnets;
     private NetworkPeeringsImpl peerings;
+    private Creatable<DdosProtectionPlan> ddosProtectionPlanCreatable;
 
     NetworkImpl(String name,
             final VirtualNetworkInner innerModel,
@@ -80,6 +86,11 @@ class NetworkImpl
     @Override
     protected Observable<VirtualNetworkInner> getInnerAsync() {
         return this.manager().inner().virtualNetworks().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    }
+
+    @Override
+    protected Observable<VirtualNetworkInner> applyTagsToInnerAsync() {
+        return this.manager().inner().virtualNetworks().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
     @Override
@@ -253,11 +264,76 @@ class NetworkImpl
 
     @Override
     protected Observable<VirtualNetworkInner> createInner() {
-        return this.manager().inner().virtualNetworks().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner());
+        if (ddosProtectionPlanCreatable != null && this.taskResult(ddosProtectionPlanCreatable.key()) != null) {
+            DdosProtectionPlan ddosProtectionPlan = this.<DdosProtectionPlan>taskResult(ddosProtectionPlanCreatable.key());
+            withExistingDdosProtectionPlan(ddosProtectionPlan.id());
+        }
+        return this.manager().inner().virtualNetworks().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
+                .map(new Func1<VirtualNetworkInner, VirtualNetworkInner>() {
+                    @Override
+                    public VirtualNetworkInner call(VirtualNetworkInner virtualNetworkInner) {
+                        NetworkImpl.this.ddosProtectionPlanCreatable = null;
+                        return virtualNetworkInner;
+                    }
+                });
     }
 
     @Override
     public NetworkPeerings peerings() {
         return this.peerings;
+    }
+
+    @Override
+    public boolean isDdosProtectionEnabled() {
+        return Utils.toPrimitiveBoolean(inner().enableDdosProtection());
+    }
+
+    @Override
+    public boolean isVmProtectionEnabled() {
+        return Utils.toPrimitiveBoolean(inner().enableVmProtection());
+    }
+
+    @Override
+    public String ddosProtectionPlanId() {
+        return inner().ddosProtectionPlan() == null ? null : inner().ddosProtectionPlan().id();
+    }
+
+    @Override
+    public NetworkImpl withNewDdosProtectionPlan() {
+        inner().withEnableDdosProtection(true);
+        DdosProtectionPlan.DefinitionStages.WithGroup ddosProtectionPlanWithGroup = manager().ddosProtectionPlans()
+                .define(SdkContext.randomResourceName(name(), 20))
+                .withRegion(region());
+        if (super.creatableGroup != null && isInCreateMode()) {
+            ddosProtectionPlanCreatable = ddosProtectionPlanWithGroup.withNewResourceGroup(super.creatableGroup);
+        } else {
+            ddosProtectionPlanCreatable = ddosProtectionPlanWithGroup.withExistingResourceGroup(resourceGroupName());
+        }
+        this.addDependency(ddosProtectionPlanCreatable);
+        return this;
+    }
+
+    @Override
+    public NetworkImpl withExistingDdosProtectionPlan(String planId) {
+        inner().withEnableDdosProtection(true).withDdosProtectionPlan(new SubResource().withId(planId));
+        return this;
+    }
+
+    @Override
+    public NetworkImpl withoutDdosProtectionPlan() {
+        inner().withEnableDdosProtection(false).withDdosProtectionPlan(null);
+        return this;
+    }
+
+    @Override
+    public NetworkImpl withVmProtection() {
+        inner().withEnableVmProtection(true);
+        return this;
+    }
+
+    @Override
+    public NetworkImpl withoutVmProtection() {
+        inner().withEnableVmProtection(false);
+        return this;
     }
 }

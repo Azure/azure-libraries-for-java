@@ -18,6 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -98,6 +99,12 @@ public interface PublicIPAddress extends
      */
     @Beta(Beta.SinceVersion.V1_3_0)
     PublicIPSkuType sku();
+
+    /**
+     * @return read-only list of ipTags assosiated with public ip address
+     */
+    @Beta(Beta.SinceVersion.V1_10_0)
+    List<IpTag> ipTags();
 
     /**
      * Container interface for all the definitions.
@@ -234,6 +241,27 @@ public interface PublicIPAddress extends
         }
 
         /**
+         * The stage of the definition allowing to specify ipTags associated with the public IP address.
+         */
+        @Beta(Beta.SinceVersion.V1_10_0)
+        interface WithIpTag {
+            /**
+             * Sets an ipTag associated with the public IP address.
+             * @param tag ip tag value
+             * @return the next stage of the definition
+             */
+            WithCreate withIpTag(String tag);
+
+            /**
+             * Sets an ipTag associated with the public IP address.
+             * @param tag ip tag value
+             * @param ipTagType ipTagType
+             * @return the next stage of the definition
+             */
+            WithCreate withIpTag(String tag, String ipTagType);
+        }
+
+        /**
          * The stage of the public IP definition which contains all the minimum required inputs for
          * the resource to be created (via {@link WithCreate#create()}), but also allows
          * for any other optional settings to be specified.
@@ -246,6 +274,7 @@ public interface PublicIPAddress extends
             DefinitionStages.WithIdleTimeout,
             DefinitionStages.WithAvailabilityZone,
             DefinitionStages.WithSku,
+            DefinitionStages.WithIpTag,
             Resource.DefinitionWithTags<WithCreate> {
         }
     }
@@ -261,6 +290,7 @@ public interface PublicIPAddress extends
         UpdateStages.WithLeafDomainLabel,
         UpdateStages.WithReverseFQDN,
         UpdateStages.WithIdleTimout,
+        UpdateStages.WithIpTag,
         Resource.UpdateWithTags<Update> {
     }
 
@@ -344,6 +374,34 @@ public interface PublicIPAddress extends
              * @return the next stage of the resource update
              */
             Update withIdleTimeoutInMinutes(int minutes);
+        }
+
+        /**
+         * The stage of the update allowing to specify ipTags associated with the public IP address.
+         */
+        @Beta(Beta.SinceVersion.V1_10_0)
+        interface WithIpTag {
+            /**
+             * Sets an ipTag associated with the public IP address.
+             * @param tag ip tag value
+             * @return the next stage of the update
+             */
+            Update withIpTag(String tag);
+
+            /**
+             * Sets an ipTag associated with the public IP address.
+             * @param tag ip tag value
+             * @param ipTagType ipTagType
+             * @return the next stage of the update
+             */
+            Update withIpTag(String tag, String ipTagType);
+
+            /**
+             * Removes an ipTag associated with the public IP address.
+             * @param tag ip tag value
+             * @return the next stage of the update
+             */
+            Update withoutIpTag(String tag);
         }
     }
 }

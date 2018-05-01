@@ -104,19 +104,15 @@ class VaultsImpl
 	
 	@Override
 	public PagedList<DeletedVault> listDeleted() {
-		return wrapPage(this.inner().listDeleted());
-	}
-
-	//Hacky method to convert from DeletedVaultInner to DeletedVault
-	private PagedList<DeletedVault> wrapPage(PagedList<DeletedVaultInner> listDeleted) {
-		PagedListConverter<DeletedVaultInner, DeletedVault> converter =  
-				new PagedListConverter<DeletedVaultInner, DeletedVault> () {
-					@Override
-					public Observable<DeletedVault> typeConvertAsync(DeletedVaultInner inner) {
-						return Observable.just((DeletedVault) new DeletedVaultImpl(inner));
-					}
-		};
-		return converter.convert(listDeleted);
+	    PagedList<DeletedVaultInner> listDeleted = this.inner().listDeleted();
+	    PagedListConverter<DeletedVaultInner, DeletedVault> converter =  
+	            new PagedListConverter<DeletedVaultInner, DeletedVault> () {
+	                @Override
+                    public Observable<DeletedVault> typeConvertAsync(DeletedVaultInner inner) {
+                        return Observable.just((DeletedVault) new DeletedVaultImpl(inner));
+                    }
+        };
+        return converter.convert(listDeleted);
 	}
 
 	@Override

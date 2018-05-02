@@ -272,14 +272,27 @@ public interface BatchAIJob extends
         interface Blank extends WithCluster {
         }
 
+        /**
+         * The stage of the Batch AI job definition allowing to specify cluster for the job.
+         */
         interface WithCluster {
-            WithNodeCount withBatchAICluster(BatchAICluster cluster);
+            /**
+             * Sets Batch AI cluster for the job.
+             * @param cluster Batch AI cluster to run the job
+             * @return the next stage of the definition
+             */
+            WithNodeCount withExistingCluster(BatchAICluster cluster);
 
-            WithNodeCount withBatchAIClusterId(String clusterId);
+            /**
+             * Sets Batch AI cluster id for the job.
+             * @param clusterId Batch AI cluster id
+             * @return the next stage of the definition
+             */
+            WithNodeCount withExistingClusterId(String clusterId);
         }
 
         /**
-         * The stage of the setup task definition allowing to specify where Batch AI will upload stdout and stderr of the job.
+         * The stage of the job definition allowing to specify where Batch AI will upload stdout and stderr of the job.
          */
         interface WithStdOutErrPathPrefix {
             /**

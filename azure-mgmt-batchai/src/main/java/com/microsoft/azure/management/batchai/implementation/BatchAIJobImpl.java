@@ -225,13 +225,13 @@ class BatchAIJobImpl
     }
 
     @Override
-    public BatchAIJobImpl withBatchAICluster(BatchAICluster cluster) {
+    public BatchAIJobImpl withExistingCluster(BatchAICluster cluster) {
         parent = cluster;
         return this;
     }
 
     @Override
-    public BatchAIJobImpl withBatchAIClusterId(String clusterId) {
+    public BatchAIJobImpl withExistingClusterId(String clusterId) {
         createParameters.withCluster(new ResourceId().withId(clusterId));
         return this;
     }

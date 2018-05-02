@@ -116,7 +116,7 @@ public final class ManageBatchAI {
             // Create Microsoft Cognitive Toolkit job to run on the cluster
             System.out.println("Creating Batch AI job...");
             BatchAIJob job = azure.batchAIJobs().define("myJob")
-                    .withBatchAIClusterId(cluster.id())
+                    .withExistingClusterId(cluster.id())
                     .withNodeCount(1)
                     .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
                     .defineCognitiveToolkit()

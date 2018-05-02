@@ -16,6 +16,7 @@ import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.batchai.BatchAIClusters;
 import com.microsoft.azure.management.batchai.BatchAIFileServers;
 import com.microsoft.azure.management.batchai.BatchAIJobs;
+import com.microsoft.azure.management.batchai.BatchAIUsages;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -31,6 +32,7 @@ public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagem
     private BatchAIClusters batchAIClusters;
     private BatchAIJobs batchAIJobs;
     private BatchAIFileServers batchAIFileServers;
+    private BatchAIUsages batchAIUsages;
 
     /**
     * Get a Configurable instance that can be used to create BatchAIManager with optional configuration.
@@ -104,6 +106,9 @@ public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagem
         return batchAIClusters;
     }
 
+    /**
+     * @return the batch AI jobs management API entry point
+     */
     public BatchAIJobs jobs() {
         if (batchAIJobs == null) {
             batchAIJobs = new BatchAIJobsImpl(this);
@@ -119,5 +124,15 @@ public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagem
             batchAIFileServers = new BatchAIFileServersImpl(this);
         }
         return batchAIFileServers;
+    }
+
+    /**
+     * @return the batch AI usages management API entry point
+     */
+    public BatchAIUsages usages() {
+        if (batchAIUsages == null) {
+            batchAIUsages = new BatchAIUsagesImpl(super.innerManagementClient);
+        }
+        return batchAIUsages;
     }
 }

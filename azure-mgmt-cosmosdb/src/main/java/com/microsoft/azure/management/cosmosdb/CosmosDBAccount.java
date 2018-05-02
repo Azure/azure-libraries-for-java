@@ -8,6 +8,7 @@ package com.microsoft.azure.management.cosmosdb;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.cosmosdb.implementation.CosmosDBManager;
 import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
@@ -102,6 +103,13 @@ public interface CosmosDBAccount extends
     Observable<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync();
 
     /**
+     * @return a list that contains the Cosmos DB capabilities
+     */
+    @Beta(SinceVersion.V1_10_0)
+    List<Capability> capabilities();
+
+
+    /**
      * @param keyKind the key kind
      */
     void regenerateKey(KeyKind keyKind);
@@ -154,6 +162,61 @@ public interface CosmosDBAccount extends
              * @return the next stage of the definition
              */
             WithConsistencyPolicy withKind(DatabaseAccountKind kind);
+
+            /**
+             * The database account kind for the CosmosDB account.
+             *
+             * @param kind the account kind
+             * @param capabilities the list of Cosmos DB capabilities for the account
+             * @return the next stage of the definition
+             */
+            @Beta(SinceVersion.V1_10_0)
+            WithConsistencyPolicy withKind(DatabaseAccountKind kind, Capability... capabilities);
+
+            /**
+             * Creates a SQL CosmosDB account.
+             *
+             * @return the next stage of the definition
+             */
+            @Method
+            @Beta(SinceVersion.V1_10_0)
+            WithConsistencyPolicy withDataModelSql();
+
+            /**
+             * Creates a MongoDB CosmosDB account.
+             *
+             * @return the next stage of the definition
+             */
+            @Method
+            @Beta(SinceVersion.V1_10_0)
+            WithConsistencyPolicy withDataModelMongoDB();
+
+            /**
+             * Creates a Cassandra CosmosDB account.
+             *
+             * @return the next stage of the definition
+             */
+            @Method
+            @Beta(SinceVersion.V1_10_0)
+            WithConsistencyPolicy withDataModelCassandra();
+
+            /**
+             * Creates an Azure Table CosmosDB account.
+             *
+             * @return the next stage of the definition
+             */
+            @Method
+            @Beta(SinceVersion.V1_10_0)
+            WithConsistencyPolicy withDataModelAzureTable();
+
+            /**
+             * Creates a Gremlin CosmosDB account.
+             *
+             * @return the next stage of the definition
+             */
+            @Method
+            @Beta(SinceVersion.V1_10_0)
+            WithConsistencyPolicy withDataModelGremlin();
         }
 
         /**
@@ -234,7 +297,8 @@ public interface CosmosDBAccount extends
                 Creatable<CosmosDBAccount>,
                 WithConsistencyPolicy,
                 WithReadReplication,
-                WithIpRangeFilter {
+                WithIpRangeFilter,
+                DefinitionWithTags<WithCreate> {
         }
     }
 

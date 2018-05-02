@@ -15,6 +15,7 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.batchai.BatchAIClusters;
 import com.microsoft.azure.management.batchai.BatchAIFileServers;
+import com.microsoft.azure.management.batchai.BatchAIJobs;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -28,6 +29,7 @@ import com.microsoft.rest.RestClient;
 @Beta(SinceVersion.V1_6_0)
 public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagementClientImpl> {
     private BatchAIClusters batchAIClusters;
+    private BatchAIJobs batchAIJobs;
     private BatchAIFileServers batchAIFileServers;
 
     /**
@@ -100,6 +102,13 @@ public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagem
             batchAIClusters = new BatchAIClustersImpl(this);
         }
         return batchAIClusters;
+    }
+
+    public BatchAIJobs jobs() {
+        if (batchAIJobs == null) {
+            batchAIJobs = new BatchAIJobsImpl(this);
+        }
+        return batchAIJobs;
     }
 
     /**

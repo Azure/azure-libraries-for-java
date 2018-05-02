@@ -86,7 +86,7 @@ public class TestBatchAI {
             BatchAICluster cluster = clusters.define(clusterName)
                     .withRegion(region)
                     .withNewResourceGroup(groupName)
-                    .withVMSize(VirtualMachineSizeTypes.STANDARD_NC6.toString())
+                    .withVMSize(VirtualMachineSizeTypes.STANDARD_D1_V2.toString())
                     .withUserName(userName)
                     .withPassword("MyPassword")
                     .withAutoScale(1, 1)
@@ -154,15 +154,15 @@ public class TestBatchAI {
             BatchAICluster cluster = clusters.define(clusterName)
                     .withRegion(region)
                     .withNewResourceGroup(groupName)
-                    .withVMSize(VirtualMachineSizeTypes.STANDARD_NC6.toString())
+                    .withVMSize(VirtualMachineSizeTypes.STANDARD_D1_V2.toString())
                     .withUserName(userName)
                     .withPassword("MyPassword")
                     .withAutoScale(1, 1)
                     .create();
             Assert.assertEquals("steady", cluster.allocationState().toString());
             Assert.assertEquals(userName, cluster.adminUserName());
-            BatchAIJob job = cluster.jobs().define("myJob")
-                    .withRegion(region)
+            BatchAIJob job = clusters.manager().jobs().define("myJob")
+                    .withBatchAIClusterId(cluster.id())
                     .withNodeCount(1)
                     .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
                     .defineCognitiveToolkit()
@@ -187,6 +187,12 @@ public class TestBatchAI {
             }
             Assert.assertNotNull(outputDirectory);
             Assert.assertEquals("suffix", outputDirectory.pathSuffix().toLowerCase());
+
+            cluster.manager().jobs().list();
+
+            BatchAIJob job2 = cluster.manager().jobs().getById(job.id());
+            Assert.assertEquals(cluster.id(), job2.cluster().id());
+
             return cluster;
         }
 

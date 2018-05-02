@@ -269,7 +269,13 @@ public interface BatchAIJob extends
         /**
          * The first stage of Batch AI job definition.
          */
-        interface Blank extends DefinitionWithRegion<WithNodeCount> {
+        interface Blank extends WithCluster {
+        }
+
+        interface WithCluster {
+            WithNodeCount withBatchAICluster(BatchAICluster cluster);
+
+            WithNodeCount withBatchAIClusterId(String clusterId);
         }
 
         /**

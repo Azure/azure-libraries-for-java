@@ -5,7 +5,7 @@ Steps to migrate code that uses Azure Management Libraries for Java from 1.9 to 
 > If this note missed any breaking changes, please open a pull request.
 
 
-V1.9 is backwards compatible with V1.8 in the APIs intended for public use that reached the general availability (stable) stage in V1.x with a few exceptions in the ==XXXX== management library (though these changes will have minimal impact on the developer). 
+V1.10 is backwards compatible with V1.9 in the APIs intended for public use that reached the general availability (stable) stage in V1.x with a few exceptions in the ==XXXX== management library (though these changes will have minimal impact on the developer). 
 
 Some breaking changes were introduced in APIs that were still in Beta in V1.9, as indicated by the `@Beta` annotation.
 

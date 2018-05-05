@@ -257,9 +257,6 @@ public class KubernetesClusterImpl extends
                                 return sbVer2.toString().compareTo(sbVer1.toString());
                             }
                         }));
-                        for (String item : kubernetesVersions) {
-                            System.out.println("\t ++++ FOUND VERSION " + item);
-                        }
                         self.inner().withKubernetesVersion(kubernetesVersions.get(0));
                         return self.manager().inner().managedClusters().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner())
                             .map(new Func1<ManagedClusterInner, KubernetesCluster>() {

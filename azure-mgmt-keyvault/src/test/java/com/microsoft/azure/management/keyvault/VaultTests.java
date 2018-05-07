@@ -106,6 +106,94 @@ public class VaultTests extends KeyVaultManagementTest {
     }
     
     @Test
+    public void canCRUDVaultAsync() throws Exception {
+        // Create user service principal
+        String sp = SdkContext.randomResourceName("sp", 20);
+        String us = SdkContext.randomResourceName("us", 20);
+        ServicePrincipal servicePrincipal = graphRbacManager.servicePrincipals()
+                .define(sp)
+                .withNewApplication("http://" + sp)
+                .create();
+
+        ActiveDirectoryUser user = graphRbacManager.users()
+                .define(us)
+                .withEmailAlias(us)
+                .withPassword("P@$$w0rd")
+                .create();
+
+        try {
+            // CREATE
+            Vault vault = keyVaultManager.vaults().define(VAULT_NAME)
+                    .withRegion(Region.US_WEST)
+                    .withNewResourceGroup(RG_NAME)
+                    .defineAccessPolicy()
+                    .forServicePrincipal("http://" + sp)
+                        .allowKeyPermissions(KeyPermissions.LIST)
+                        .allowSecretAllPermissions()
+                        .allowCertificatePermissions(CertificatePermissions.GET)
+                        .attach()
+                    .defineAccessPolicy()
+                    .forUser(us)
+                        .allowKeyAllPermissions()
+                        .allowSecretAllPermissions()
+                        .allowCertificatePermissions(CertificatePermissions.GET, CertificatePermissions.LIST, CertificatePermissions.CREATE)
+                        .attach()
+                    .create();
+            Assert.assertNotNull(vault);
+            Assert.assertFalse(vault.softDeleteEnabled());
+            // GET
+            vault = keyVaultManager.vaults().getByResourceGroupAsync(RG_NAME, VAULT_NAME).toBlocking().single();
+            Assert.assertNotNull(vault);
+            for (AccessPolicy policy : vault.accessPolicies()) {
+                if (policy.objectId().equals(servicePrincipal.id())) {
+                    Assert.assertArrayEquals(new KeyPermissions[] { KeyPermissions.LIST }, policy.permissions().keys().toArray());
+                    Assert.assertEquals(SecretPermissions.values().size(), policy.permissions().secrets().size());
+                    Assert.assertArrayEquals(new CertificatePermissions[] { CertificatePermissions.GET }, policy.permissions().certificates().toArray());
+                }
+                if (policy.objectId().equals(user.id())) {
+                    Assert.assertEquals(KeyPermissions.values().size(), policy.permissions().keys().size());
+                    Assert.assertEquals(SecretPermissions.values().size(), policy.permissions().secrets().size());
+                    Assert.assertEquals(3, policy.permissions().certificates().size());
+                }
+            }
+            // LIST
+            List<Vault> vaults = keyVaultManager.vaults().listByResourceGroupAsync(RG_NAME).toList().toBlocking().single();
+            for (Vault v : vaults) {
+                if (VAULT_NAME.equals(v.name())) {
+                    vault = v;
+                    break;
+                }
+            }
+            Assert.assertNotNull(vault);
+            // UPDATE
+            vault.update()
+                    .updateAccessPolicy(servicePrincipal.id())
+                        .allowKeyAllPermissions()
+                        .disallowSecretAllPermissions()
+                        .allowCertificateAllPermissions()
+                        .parent()
+                    .withTag("foo", "bar")
+                    .apply();
+            for (AccessPolicy policy : vault.accessPolicies()) {
+                if (policy.objectId().equals(servicePrincipal.id())) {
+                    Assert.assertEquals(KeyPermissions.values().size(), policy.permissions().keys().size());
+                    Assert.assertEquals(0, policy.permissions().secrets().size());
+                    Assert.assertEquals(CertificatePermissions.values().size(), policy.permissions().certificates().size());
+                }
+            }
+            
+            // DELETE
+            keyVaultManager.vaults().deleteByIdAsync(vault.id()).get();
+            SdkContext.sleep(20000);
+            Assert.assertNull(keyVaultManager.vaults().getDeleted(VAULT_NAME, Region.US_WEST.toString()));
+            
+        } finally {
+            graphRbacManager.servicePrincipals().deleteByIdAsync(servicePrincipal.id()).get();
+//            graphRbacManager.users().deleteById(user.id());
+        }
+    }
+    
+    @Test
     public void canEnableSoftDeleteAndPurge() throws InterruptedException {
     	String otherVaultName = VAULT_NAME + "other";
         String sp = SdkContext.randomResourceName("sp", 20);

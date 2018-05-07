@@ -298,6 +298,12 @@ public class KubernetesClusterImpl extends
     }
 
     @Override
+    public KubernetesClusterImpl withVersion(String kubernetesVersion) {
+        this.inner().withKubernetesVersion(kubernetesVersion);
+        return this;
+    }
+
+    @Override
     public KubernetesClusterImpl withLatestVersion() {
         this.useLatestVersion = true;
         return this;

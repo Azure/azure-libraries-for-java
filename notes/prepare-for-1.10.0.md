@@ -24,9 +24,9 @@ The following methods and/or types have been changed in V1.10 compared to the pr
   </tr>
   <tr>
     <td><code>BatchAICluster</code></td>
-    <td><code>.jobs()</code></td>
+    <td><code>BatchAICluster.jobs()</code></td>
     <td><code>Azure.batchAIJobs()</code></td>
-    <td>Changed entry point for Batch AI jobs management</td>
+    <td>Changed entry point for Batch AI jobs management from <code>BatchAICluster.jobs()</code> to <code>Azure.batchAIJobs()</code></td>
     <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/434">PR #434</a></td>
   </tr>             
 </table>

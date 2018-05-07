@@ -23,74 +23,11 @@ The following methods and/or types have been changed in V1.10 compared to the pr
     <th align=left>Ref</th>
   </tr>
   <tr>
-    <td><code>NetworkWatcher</code></td>
-    <td><code>.getTopology(String targetResourceGroup)</code></td>
-    <td><code>.topology().withTargetResourceGroup(String resourceGroupName).withTargetNetwork(String networkId).withTargetSubnet(String subnetName).execute()</code> where <code>withTargetNetwork()</code> and <code>withTargetSubnet()</code> are optional</td>
-    <td></td>
-    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/394">PR #394 </a></td>
-  </tr>
-  <tr>
-    <td><code>NetworkWatcher</code></td>
-    <td><code>.getTopologyAsync(String targetResourceGroup)</code></td>
-    <td><code>.topology().withTargetResourceGroup(String resourceGroupName).withTargetNetwork(String networkId).withTargetSubnet(String subnetName).executeAsync()</code> where <code>withTargetNetwork()</code> and <code>withTargetSubnet()</code> are optional</td>
-    <td></td>
-    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/394">PR #394 </a></td>
-  </tr>
-  <tr>
-    <td><code>VerificationIPFlow</code></td>
-    <td><code>.withProtocol(Protocol protocol)</code></td>
-    <td><code>.withProtocol(IpFlowProtocol)</code></td>
-    <td>Updated to the latest swagger specs</td>
-    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/394">PR #394 </a></td>
-  </tr>
-  <tr>
-    <td><code>ExpressRouteCircuit</code></td>
-    <td><code>ExpressRouteCircuitPeeringType peeringType();</code></td>
-    <td><code>ExpressRoutePeeringType peeringType();</code></td>
-    <td>Return type changed.</td>
-    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/394">PR #394 </a></td>
-  </tr>
-  <tr>
-    <td><code>ExpressRouteCircuit</code></td>
-    <td><code>ExpressRouteCircuitPeeringState state();</code></td>
-    <td><code>ExpressRoutePeeringState state();</code></td>
-    <td>Return type changed.</td>
-    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/394">PR #394 </a></td>
-  </tr>
-  <tr>
-    <td><code>ExpressRouteCircuit</code></td>
-    <td><code>int peerAsn();</code></td>
-    <td><code>long peerAsn();</code></td>
-    <td>Return type changed.</td>
-    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/394">PR #394 </a></td>
-  </tr>                
-</table>
-
-
-## Deprecated API's ##
-
-<table>
-  <tr>
-    <th align=left>Area/Model</th>
-    <th align=left>In V1.9</th>
-    <th align=left>In V1.10</th>
-    <th align=left>Remarks</th>
-    <th align=left>Ref</th>
-  </tr>
-
-  <tr>
-    <td><code>Redis Cache</code></td>
-    <td><code>Update.withSubnet(HasId networkResource, String subnetName)</code></td>
-    <td><i>Deprecated</i></td>
-    <td>Subnet configuration cannot be changed on existing Redis Cache instance.</td>
-    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/391">PR #391 </a></td>
-  </tr>
-  <tr>
-    <td><code>Redis Cache</code></td>
-    <td><code>Update.withStaticIP(String staticIP)</code></td>
-    <td><i>Deprecated</i></td>
-    <td>Static IP configuration cannot be changed on existing Redis Cache instance.</td>
-    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/391">PR #391 </a></td>
-  </tr>
+    <td><code>BatchAICluster</code></td>
+    <td><code>.jobs()</code></td>
+    <td><code>Azure.batchAIJobs()</code></td>
+    <td>Changed entry point for Batch AI jobs management</td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/434">PR #434</a></td>
+  </tr>             
 </table>
 

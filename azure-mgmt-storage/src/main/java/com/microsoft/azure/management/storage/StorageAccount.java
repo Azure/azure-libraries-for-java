@@ -187,6 +187,7 @@ public interface StorageAccount extends
      *
      * @return the access keys for this storage account
      */
+    @Method
     List<StorageAccountKey> getKeys();
 
     /**
@@ -194,6 +195,7 @@ public interface StorageAccount extends
      *
      * @return a representation of the deferred computation of this call, returning the access keys
      */
+    @Method
     Observable<List<StorageAccountKey>> getKeysAsync();
 
     /**
@@ -289,6 +291,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
+            @Method
             WithCreateAndAccessTier withBlobStorageAccountKind();
         }
 
@@ -302,6 +305,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
+            @Method
             WithCreate withGeneralPurposeAccountKind();
 
             /**
@@ -310,6 +314,7 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
+            @Method
             WithCreate withGeneralPurposeAccountKindV2();
         }
 
@@ -324,6 +329,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             @Deprecated
+            @Method
             WithCreate withEncryption();
 
             /**
@@ -332,6 +338,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             WithCreate withBlobEncryption();
 
             /**
@@ -340,6 +347,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             WithCreate withoutBlobEncryption();
 
             /**
@@ -348,6 +356,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             WithCreate withFileEncryption();
 
             /**
@@ -356,6 +365,7 @@ public interface StorageAccount extends
              * @return he next stage of storage account definition
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             WithCreate withoutFileEncryption();
 
             /**
@@ -410,6 +420,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             WithCreate withSystemAssignedManagedServiceIdentity();
         }
 
@@ -424,6 +435,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             WithCreate withOnlyHttpsTraffic();
         }
 
@@ -438,6 +450,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             WithCreate withAccessFromAllNetworks();
 
             /**
@@ -450,6 +463,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             WithCreate withAccessFromSelectedNetworks();
 
             /**
@@ -485,6 +499,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             WithCreate withReadAccessToLogEntriesFromAnyNetwork();
 
             /**
@@ -493,6 +508,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             WithCreate withReadAccessToMetricsFromAnyNetwork();
 
             /**
@@ -502,6 +518,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             WithCreate withAccessFromAzureServices();
         }
 
@@ -611,6 +628,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account update
              */
             @Deprecated
+            @Method
             Update withEncryption();
 
             /**
@@ -619,6 +637,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account update
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             Update withBlobEncryption();
 
             /**
@@ -627,6 +646,7 @@ public interface StorageAccount extends
              * @return he next stage of storage account update
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             Update withFileEncryption();
 
             /**
@@ -636,6 +656,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account update
              */
             @Deprecated
+            @Method
             Update withoutEncryption();
 
             /**
@@ -644,6 +665,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account update
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             Update withoutBlobEncryption();
 
             /**
@@ -652,6 +674,7 @@ public interface StorageAccount extends
              * @return he next stage of storage account update
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             Update withoutFileEncryption();
 
             /**
@@ -693,6 +716,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account update
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             Update withSystemAssignedManagedServiceIdentity();
         }
 
@@ -707,6 +731,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account update
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             Update withOnlyHttpsTraffic();
 
             /**
@@ -715,6 +740,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account update
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             Update withHttpAndHttpsTraffic();
         }
 
@@ -731,6 +757,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account update
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             Update withAccessFromAllNetworks();
 
             /**
@@ -743,6 +770,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account update
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             Update withAccessFromSelectedNetworks();
 
             /**
@@ -779,6 +807,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             Update withReadAccessToLogEntriesFromAnyNetwork();
 
             /**
@@ -787,6 +816,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             Update withReadAccessToMetricsFromAnyNetwork();
 
             /**
@@ -796,6 +826,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             Update withAccessFromAzureServices();
 
             /**
@@ -832,6 +863,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account update
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             Update withoutReadAccessToLoggingFromAnyNetwork();
 
             /**
@@ -841,6 +873,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account update
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             Update withoutReadAccessToMetricsFromAnyNetwork();
 
             /**
@@ -850,6 +883,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account update
              */
             @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             Update withoutAccessFromAzureServices();
         }
 

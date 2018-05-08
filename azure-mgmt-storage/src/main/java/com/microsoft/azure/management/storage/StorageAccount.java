@@ -8,6 +8,7 @@ package com.microsoft.azure.management.storage;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -860,6 +861,7 @@ public interface StorageAccount extends
              * @return the next stage of storage account update
              */
             @Beta(Beta.SinceVersion.V1_5_1)
+            @Method
             Update upgradeToGeneralPurposeAccountKindV2();
         }
     }

@@ -160,9 +160,35 @@ public interface ContainerGroup extends
      */
     Observable<String> getLogContentAsync(String containerName, int tailLineCount);
 
+    /**
+     * Starts the exec command for a specific container instance.
+     *
+     * @param containerName the container instance name
+     * @param command the command to be executed
+     * @param row the row size of the terminal
+     * @param column the column size of the terminal
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the log lines from the end, up to the number specified
+     */
+    @Beta(Beta.SinceVersion.V1_11_0)
+    ContainerExecResponse executeCommand(String containerName, String command, int row, int column);
 
     /**
-     * The entirety of the Azure Container Instance service container group definition.
+     * Starts the exec command for a specific container instance within the container group.
+     *
+     * @param containerName the container instance name
+     * @param command the command to be executed
+     * @param row the row size of the terminal
+     * @param column the column size of the terminal
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return a representation of the future computation of this call
+     */
+    @Beta(Beta.SinceVersion.V1_11_0)
+    Observable<ContainerExecResponse> executeCommandAsync(String containerName, String command, int row, int column);
+
+
+    /**
+     * Starts the exec command for a specific container instance within the current group asynchronously.
      */
     interface Definition extends
         DefinitionStages.Blank,
@@ -720,10 +746,12 @@ public interface ContainerGroup extends
                 /**
                  * Specifies the starting command lines.
                  *
-                 * @param commandLines the starting command lines the container will execute after it gets initialized
+                 * @param executable the executable which the container will call after it gets initialized
+                 * @param parameters the parameter list for the executable to be called
                  * @return the next stage of the definition
                  */
-                WithContainerInstanceAttach<ParentT> withStartingCommandLines(String... commandLines);
+                @Beta(Beta.SinceVersion.V1_11_0)
+                WithContainerInstanceAttach<ParentT> withStartingCommandLine(String executable, String... parameters);
 
                 /**
                  * Specifies the starting command line.

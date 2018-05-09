@@ -746,7 +746,7 @@ public interface ContainerGroup extends
                 /**
                  * Specifies the starting command lines.
                  *
-                 * @param executable the executable which the container will call after it gets initialized
+                 * @param executable the executable which it will call after initializing the container
                  * @param parameters the parameter list for the executable to be called
                  * @return the next stage of the definition
                  */
@@ -756,10 +756,10 @@ public interface ContainerGroup extends
                 /**
                  * Specifies the starting command line.
                  *
-                 * @param commandLine the starting command line the container will execute after it gets initialized
+                 * @param executable the executable or path to the executable that will be called after initializing the container
                  * @return the next stage of the definition
                  */
-                WithContainerInstanceAttach<ParentT> withStartingCommandLine(String commandLine);
+                WithContainerInstanceAttach<ParentT> withStartingCommandLine(String executable);
             }
 
             /**

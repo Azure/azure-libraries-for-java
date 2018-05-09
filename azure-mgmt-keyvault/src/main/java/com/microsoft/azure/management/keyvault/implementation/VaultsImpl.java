@@ -14,18 +14,12 @@ import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.Resource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
-import com.microsoft.azure.management.keyvault.AccessPolicyUpdateKind;
 import com.microsoft.azure.management.keyvault.CheckNameAvailabilityResult;
 import com.microsoft.azure.management.keyvault.DeletedVault;
 import com.microsoft.azure.management.keyvault.SkuName;
 import com.microsoft.azure.management.keyvault.Vault;
-import com.microsoft.azure.management.keyvault.VaultAccessPolicyParameters;
-import com.microsoft.azure.management.keyvault.VaultAccessPolicyProperties;
-import com.microsoft.azure.management.keyvault.VaultCreateOrUpdateParameters;
-import com.microsoft.azure.management.keyvault.VaultPatchParameters;
 import com.microsoft.azure.management.keyvault.VaultProperties;
 import com.microsoft.azure.management.keyvault.Vaults;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
@@ -52,7 +46,6 @@ class VaultsImpl
         implements Vaults {
     private final GraphRbacManager graphRbacManager;
     private final String tenantId;
-    private final KeyVaultManager keyVaultManager;
 
     VaultsImpl(
             final KeyVaultManager keyVaultManager,
@@ -61,7 +54,6 @@ class VaultsImpl
         super(keyVaultManager.inner().vaults(), keyVaultManager);
         this.graphRbacManager = graphRbacManager;
         this.tenantId = tenantId;
-        this.keyVaultManager = keyVaultManager;
     }
 
     
@@ -274,280 +266,6 @@ class VaultsImpl
 
 
     @Override
-    public ServiceFuture<Vault> createOrUpdateAsync(String resourceGroupName, String vaultName,
-            VaultCreateOrUpdateParameters parameters, ServiceCallback<Vault> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, vaultName, parameters), serviceCallback);
-    }
-
-
-    @Override
-    public Observable<Vault> createOrUpdateAsync(String resourceGroupName, String vaultName,
-            VaultCreateOrUpdateParameters parameters) {
-        VaultsInner client = this.inner();
-        final String VAULT_NAME = vaultName;
-        return client.createOrUpdateAsync(resourceGroupName, vaultName, parameters).map(new Func1<VaultInner, Vault>() {
-            @Override
-            public Vault call(VaultInner inner) {
-                return new VaultImpl(VAULT_NAME, inner, keyVaultManager, graphRbacManager);
-            }
-        });
-    }
-
-
-    @Override
-    public Observable<ServiceResponse<Vault>> createOrUpdateWithServiceResponseAsync(String resourceGroupName,
-            String vaultName, VaultCreateOrUpdateParameters parameters) {
-        VaultsInner client = this.inner();
-        final String VAULT_NAME = vaultName;
-        return client.createOrUpdateWithServiceResponseAsync(resourceGroupName, vaultName, parameters).map(new Func1<ServiceResponse<VaultInner>, ServiceResponse<Vault>>() {
-            @Override
-            public ServiceResponse<Vault> call(ServiceResponse<VaultInner> inner) {
-                return new ServiceResponse<Vault>(new VaultImpl(VAULT_NAME, inner.body(), keyVaultManager, graphRbacManager), inner.response());
-            }
-        });
-    }
-
-
-    @Override
-    public ServiceFuture<Vault> updateAsync(String resourceGroupName, String vaultName, VaultPatchParameters parameters,
-            ServiceCallback<Vault> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, vaultName, parameters), serviceCallback);
-    }
-
-
-    @Override
-    public Observable<Vault> updateAsync(String resourceGroupName, String vaultName, VaultPatchParameters parameters) {
-        VaultsInner client = this.inner();
-        final String VAULT_NAME = vaultName;
-        return client.updateAsync(resourceGroupName, vaultName, parameters).map(new Func1<VaultInner, Vault>() {
-            @Override
-            public Vault call(VaultInner inner) {
-                return new VaultImpl(VAULT_NAME, inner, keyVaultManager, graphRbacManager);
-            }
-        });
-    }
-
-
-    @Override
-    public Observable<ServiceResponse<Vault>> updateWithServiceResponseAsync(String resourceGroupName, String vaultName,
-            VaultPatchParameters parameters) {
-        VaultsInner client = this.inner();
-        final String VAULT_NAME = vaultName;
-        return client.updateWithServiceResponseAsync(resourceGroupName, vaultName, parameters).map(new Func1<ServiceResponse<VaultInner>, ServiceResponse<Vault>> () {
-            @Override
-            public ServiceResponse<Vault> call(ServiceResponse<VaultInner> inner) {
-                return new ServiceResponse<Vault>(new VaultImpl(VAULT_NAME, inner.body(), keyVaultManager, graphRbacManager), inner.response());
-            }
-        });
-    }
-
-
-    @Override
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String vaultName,
-            ServiceCallback<Void> serviceCallback) {
-        return inner().deleteAsync(resourceGroupName, vaultName, serviceCallback);
-    }
-
-
-    @Override
-    public Observable<Void> deleteAsync(String resourceGroupName, String vaultName) {
-        return inner().deleteAsync(resourceGroupName, vaultName);
-    }
-
-
-    @Override
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName,
-            String vaultName) {
-        return inner().deleteWithServiceResponseAsync(resourceGroupName, vaultName);
-    }
-    
-    @Override
-    public ServiceFuture<Vault> getByResourceGroupAsync(String resourceGroupName, String vaultName, final ServiceCallback<Vault> serviceCallback) {
-        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, vaultName), serviceCallback);
-    }
-    
-    @Override
-    public Observable<Vault> getByResourceGroupAsync(String resourceGroupName, String vaultName) {
-        VaultsInner client = this.inner();
-        final String VAULT_NAME = vaultName;
-        return client.getByResourceGroupAsync(resourceGroupName, vaultName).map(new Func1<VaultInner, Vault>() {
-            @Override
-            public Vault call(VaultInner inner) {
-                return new VaultImpl(VAULT_NAME, inner, keyVaultManager, graphRbacManager);
-            }
-        });
-    }
-
-    @Override
-    public Observable<ServiceResponse<Vault>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName,
-            String vaultName) {
-        VaultsInner client = this.inner();
-        final String VAULT_NAME = vaultName;
-        return client.getByResourceGroupWithServiceResponseAsync(resourceGroupName, vaultName).map(new Func1<ServiceResponse<VaultInner>, ServiceResponse<Vault>> () {
-            @Override
-            public ServiceResponse<Vault> call(ServiceResponse<VaultInner> inner) {
-                return new ServiceResponse<Vault>(new VaultImpl(VAULT_NAME, inner.body(), keyVaultManager, graphRbacManager), inner.response());
-            }
-        });
-    }
-    
-    @Override
-    public ServiceFuture<VaultAccessPolicyParameters> updateAccessPolicyAsync(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyProperties properties, final ServiceCallback<VaultAccessPolicyParameters> serviceCallback) {
-        return ServiceFuture.fromResponse(updateAccessPolicyWithServiceResponseAsync(resourceGroupName, vaultName, operationKind, properties), serviceCallback);
-    }
-    
-    @Override
-    public Observable<VaultAccessPolicyParameters> updateAccessPolicyAsync(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyProperties properties) {
-        VaultsInner client = this.inner();
-        return client.updateAccessPolicyAsync(resourceGroupName, vaultName, operationKind, properties).map(new Func1<VaultAccessPolicyParametersInner, VaultAccessPolicyParameters>() {
-            @Override
-            public VaultAccessPolicyParameters call(VaultAccessPolicyParametersInner inner) {
-                return new VaultAccessPolicyParametersImpl(inner);
-            }
-        });
-    }
-
-    @Override
-    public Observable<ServiceResponse<VaultAccessPolicyParameters>> updateAccessPolicyWithServiceResponseAsync(String resourceGroupName,
-            String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyProperties properties) {
-        VaultsInner client = this.inner();
-        return client.updateAccessPolicyWithServiceResponseAsync(resourceGroupName, vaultName, operationKind, properties).map(new Func1<ServiceResponse<VaultAccessPolicyParametersInner>, ServiceResponse<VaultAccessPolicyParameters>> () {
-            @Override
-            public ServiceResponse<VaultAccessPolicyParameters> call(ServiceResponse<VaultAccessPolicyParametersInner> inner) {
-                return new ServiceResponse<VaultAccessPolicyParameters>(new VaultAccessPolicyParametersImpl(inner.body()), inner.response());
-            }
-        });
-    }
-
-
-    @Override
-    public ServiceFuture<List<Vault>> listByResourceGroupAsync(String resourceGroupName,
-            ListOperationCallback<Vault> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(listByResourceGroupSinglePageAsync(resourceGroupName), 
-                new Func1<String, Observable<ServiceResponse<Page<Vault>>>>() {
-                    @Override
-                    public Observable<ServiceResponse<Page<Vault>>> call(String nextPageLink) {
-                        return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                    }
-        },
-                serviceCallback);
-    }
-
-
-    @Override
-    public Observable<ServiceResponse<Page<Vault>>> listByResourceGroupWithServiceResponseAsync(
-            String resourceGroupName) {
-        VaultsInner client = this.inner();
-        return client.listByResourceGroupWithServiceResponseAsync(resourceGroupName).map(new Func1<ServiceResponse<Page<VaultInner>>, ServiceResponse<Page<Vault>>>() {
-            @Override
-            public ServiceResponse<Page<Vault>> call(ServiceResponse<Page<VaultInner>> inner) {
-                return new ServiceResponse<Page<Vault>>(convertPageVaultInner(inner.body()), inner.response());
-            }
-        });
-    }
-
-
-    @Override
-    public Observable<ServiceResponse<Page<Vault>>> listByResourceGroupSinglePageAsync(String resourceGroupName) {
-        VaultsInner client = this.inner();
-        return client.listByResourceGroupSinglePageAsync(resourceGroupName).map(new Func1<ServiceResponse<Page<VaultInner>>, ServiceResponse<Page<Vault>>>() {
-            @Override
-            public ServiceResponse<Page<Vault>> call(ServiceResponse<Page<VaultInner>> inner) {
-                return new ServiceResponse<Page<Vault>>(convertPageVaultInner(inner.body()), inner.response());
-            }
-           
-        });
-    }
-    
-    private Page<Vault> convertPageVaultInner(Page<VaultInner> inner) {
-        List<Vault> items = new ArrayList<>();
-        for (VaultInner item : inner.items()) {
-           items.add(new VaultImpl(item.name(), item, keyVaultManager, graphRbacManager));
-        }
-        PageImpl<Vault> vaultPage = new PageImpl<Vault>();
-        vaultPage.setItems(items);
-        return vaultPage;
-    }
-
-
-    @Override
-    public ServiceFuture<List<Vault>> listAsync(ListOperationCallback<Vault> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(listSinglePageAsync(),
-                new Func1<String, Observable<ServiceResponse<Page<Vault>>>>() {
-            @Override
-            public Observable<ServiceResponse<Page<Vault>>> call(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink);
-            }
-        }, serviceCallback);
-    }
-
-    @Override
-    public Observable<Vault> listAsync() {
-        return convertObservableResourceToVaultAsync(this.inner().listAsync());
-    }
-
-
-    @Override
-    public Observable<ServiceResponse<Page<Vault>>> listWithServiceResponseAsync() {
-        VaultsInner client = this.inner();
-        return client.listWithServiceResponseAsync().map(new Func1<ServiceResponse<Page<Resource>>, ServiceResponse<Page<Vault>>>() {
-            @Override
-            public ServiceResponse<Page<Vault>> call(ServiceResponse<Page<Resource>> resource) {
-                PageImpl<Vault> page = new PageImpl<>();
-                return new ServiceResponse<Page<Vault>>(page.setItems(convertResourceListToVaultList(resource.body().items())), resource.response());
-            }
-        });
-    }
-    
-    @Override
-    public Observable<ServiceResponse<Page<Vault>>> listSinglePageAsync() {
-        VaultsInner client = this.inner();
-        return client.listSinglePageAsync().map(new Func1<ServiceResponse<Page<Resource>>, ServiceResponse<Page<Vault>>>() {
-            @Override
-            public ServiceResponse<Page<Vault>> call(ServiceResponse<Page<Resource>> resource) {
-                PageImpl<Vault> page = new PageImpl<>();
-                return new ServiceResponse<Page<Vault>>(page.setItems(convertResourceListToVaultList(resource.body().items())), resource.response());
-            }
-        });
-    }
-
-    @Override
-    public PagedList<Vault> list() {
-        return convertToPagedListVault(inner().list());
-    }
-    
-    private static Observable<Vault> convertObservableResourceToVaultAsync(Observable<Page<Resource>> vaultList) {
-        return vaultList.flatMap(new Func1<Page<Resource>, Observable<Vault>>() {
-            @Override
-            public Observable<Vault> call(Page<Resource> pageResource) {
-                return Observable.from(convertResourceListToVaultList(pageResource.items()));
-            }
-        });
-    }
-    
-    private static List<Vault> convertResourceListToVaultList(List<Resource> resources) {
-        List<Vault> vaults = new ArrayList<>();
-        for (Resource item : resources) {
-            vaults.add((Vault) item);
-        }
-        return vaults;
-    }
-    
-    private static PagedList<Vault> convertToPagedListVault(PagedList<Resource> vaultList) {
-        final PageImpl<Vault> page = new PageImpl<>();
-        List<Vault> vaults = convertResourceListToVaultList(vaultList.currentPage().items());
-        page.setItems(vaults);
-        page.setNextPageLink(vaultList.currentPage().nextPageLink());
-        return new PagedList<Vault>(page) {
-            @Override
-            public Page<Vault> nextPage(String nextPageLink) {
-                return page.setNextPageLink(nextPageLink);
-            }
-        };
-    }
-
-
-    @Override
     public CheckNameAvailabilityResult checkNameAvailability(String name) {
         return new CheckNameAvailabilityResultImpl(inner().checkNameAvailability(name));
     }
@@ -580,56 +298,6 @@ class VaultsImpl
             @Override
             public ServiceResponse<CheckNameAvailabilityResult> call(ServiceResponse<CheckNameAvailabilityResultInner> inner) {
                 return new ServiceResponse<CheckNameAvailabilityResult>(new CheckNameAvailabilityResultImpl(inner.body()), inner.response());
-            }
-        });
-    }
-
-
-    @Override
-    public PagedList<Vault> listByResourceGroupNext(String nextPageLink) {
-        return wrapList(this.inner().listByResourceGroupNext(nextPageLink));
-    }
-
-
-    @Override
-    public ServiceFuture<List<Vault>> listByResourceGroupNextAsync(String nextPageLink,
-            ServiceFuture<List<Vault>> serviceFuture, ListOperationCallback<Vault> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(listByResourceGroupNextSinglePageAsync(nextPageLink), 
-                new Func1<String, Observable<ServiceResponse<Page<Vault>>>>() {
-            @Override
-            public Observable<ServiceResponse<Page<Vault>>> call(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink);
-            }
-        }, serviceCallback);
-    }
-
-
-    @Override
-    public Observable<Vault> listByResourceGroupNextAsync(String nextPageLink) {
-        return wrapPageAsync(this.inner().listByResourceGroupNextAsync(nextPageLink));
-    }
-
-
-    @Override
-    public Observable<ServiceResponse<Page<Vault>>> listByResourceGroupNextWithServiceResponseAsync(
-            String nextPageLink) {
-        VaultsInner client = this.inner();
-        return client.listByResourceGroupNextWithServiceResponseAsync(nextPageLink).map(new Func1<ServiceResponse<Page<VaultInner>>, ServiceResponse<Page<Vault>>>() {
-            @Override
-            public ServiceResponse<Page<Vault>> call(ServiceResponse<Page<VaultInner>> inner) {
-                return new ServiceResponse<Page<Vault>>(convertPageVaultInner(inner.body()), inner.response());
-            }
-        });
-    }
-
-
-    @Override
-    public Observable<ServiceResponse<Page<Vault>>> listByResourceGroupNextSinglePageAsync(String nextPageLink) {
-        VaultsInner client = this.inner();
-        return client.listByResourceGroupNextSinglePageAsync(nextPageLink).map(new Func1<ServiceResponse<Page<VaultInner>>, ServiceResponse<Page<Vault>>>() {
-            @Override
-            public ServiceResponse<Page<Vault>> call(ServiceResponse<Page<VaultInner>> inner) {
-                return new ServiceResponse<Page<Vault>>(convertPageVaultInner(inner.body()), inner.response());
             }
         });
     }
@@ -687,79 +355,5 @@ class VaultsImpl
         });
     }
 
-
-    @Override
-    public PagedList<Vault> listNext(String nextPageLink) {
-        return convertToPagedListVault(inner().listNext(nextPageLink));
-    }
-
-
-    @Override
-    public ServiceFuture<List<Vault>> listNextAsync(String nextPageLink, ServiceFuture<List<Vault>> serviceFuture,
-            ListOperationCallback<Vault> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-                listNextSinglePageAsync(nextPageLink),
-                new Func1<String, Observable<ServiceResponse<Page<Vault>>>>() {
-                    @Override
-                    public Observable<ServiceResponse<Page<Vault>>> call(String nextPageLink) {
-                        return listNextSinglePageAsync(nextPageLink);
-                    }
-                },
-                serviceCallback);
-    }
-
-    private Page<Vault> convertPageResource(Page<Resource> inner) {
-        List<Vault> items = new ArrayList<>();
-        for (Resource item : inner.items()) {
-           items.add((Vault) item);
-        }
-        PageImpl<Vault> vaultPage = new PageImpl<Vault>();
-        vaultPage.setItems(items);
-        return vaultPage;
-    }
-    
-    @Override
-    public Observable<Vault> listNextAsync(String nextPageLink) {
-        VaultsInner client = this.inner();
-        Observable<Page<Vault>> page = client.listNextAsync(nextPageLink).map(new Func1<Page<Resource>, Page<Vault>>() {
-            @Override
-            public Page<Vault> call(Page<Resource> inner) {
-                return convertPageResource(inner);
-            }
-        });
-        return page.flatMap(new Func1<Page<Vault>, Observable<Vault>> () {
-            @Override
-            public Observable<Vault> call(Page<Vault> inner) {
-                return Observable.from(inner.items());
-            }
-        });
-    }
-
-
-    @Override
-    public Observable<ServiceResponse<Page<Vault>>> listNextWithServiceResponseAsync(String nextPageLink) {
-        VaultsInner client = this.inner();
-        return client.listNextWithServiceResponseAsync(nextPageLink).map(new Func1<ServiceResponse<Page<Resource>>, ServiceResponse<Page<Vault>>>() {
-            @Override
-            public ServiceResponse<Page<Vault>> call(ServiceResponse<Page<Resource>> resource) {
-                PageImpl<Vault> page = new PageImpl<>();
-                return new ServiceResponse<Page<Vault>>(page.setItems(convertResourceListToVaultList(resource.body().items())), resource.response());
-            }
-        });
-    }
-
-
-    @Override
-    public Observable<ServiceResponse<Page<Vault>>> listNextSinglePageAsync(String nextPageLink) {
-        VaultsInner client = this.inner();
-        return client.listNextSinglePageAsync(nextPageLink).map(new Func1<ServiceResponse<Page<Resource>>, ServiceResponse<Page<Vault>>>() {
-            @Override
-            public ServiceResponse<Page<Vault>> call(ServiceResponse<Page<Resource>> resource) {
-                PageImpl<Vault> page = new PageImpl<>();
-                return new ServiceResponse<Page<Vault>>(page.setItems(convertResourceListToVaultList(resource.body().items())), resource.response());
-            }
-        });
-    }
-    
 
 }

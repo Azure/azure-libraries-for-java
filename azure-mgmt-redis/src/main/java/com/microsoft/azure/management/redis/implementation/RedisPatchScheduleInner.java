@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.redis.implementation;
 
 import java.util.List;
+import com.microsoft.azure.management.redis.ScheduleEntry;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -21,14 +22,14 @@ public class RedisPatchScheduleInner extends ProxyResourceInner {
      * List of patch schedules for a Redis cache.
      */
     @JsonProperty(value = "properties.scheduleEntries", required = true)
-    private List<ScheduleEntryInner> scheduleEntries;
+    private List<ScheduleEntry> scheduleEntries;
 
     /**
      * Get the scheduleEntries value.
      *
      * @return the scheduleEntries value
      */
-    public List<ScheduleEntryInner> scheduleEntries() {
+    public List<ScheduleEntry> scheduleEntries() {
         return this.scheduleEntries;
     }
 
@@ -38,7 +39,7 @@ public class RedisPatchScheduleInner extends ProxyResourceInner {
      * @param scheduleEntries the scheduleEntries value to set
      * @return the RedisPatchScheduleInner object itself.
      */
-    public RedisPatchScheduleInner withScheduleEntries(List<ScheduleEntryInner> scheduleEntries) {
+    public RedisPatchScheduleInner withScheduleEntries(List<ScheduleEntry> scheduleEntries) {
         this.scheduleEntries = scheduleEntries;
         return this;
     }

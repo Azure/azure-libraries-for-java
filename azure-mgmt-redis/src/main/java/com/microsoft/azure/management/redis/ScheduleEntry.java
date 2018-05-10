@@ -8,30 +8,32 @@
 
 package com.microsoft.azure.management.redis;
 
-import com.microsoft.azure.management.redis.implementation.ScheduleEntryInner;
 import org.joda.time.Period;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Patch schedule entry for a Premium Redis Cache.
  */
 public class ScheduleEntry {
-    private ScheduleEntryInner inner;
+    /**
+     * Day of the week when a cache can be patched. Possible values include:
+     * 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
+     * 'Sunday', 'Everyday', 'Weekend'.
+     */
+    @JsonProperty(value = "dayOfWeek", required = true)
+    private DayOfWeek dayOfWeek;
 
     /**
-     * Creates an instance of the Patch schedule entry object.
-     *
-     * @param inner the inner object
+     * Start hour after which cache patching can start.
      */
-    public ScheduleEntry(ScheduleEntryInner inner) {
-        this.inner = inner;
-    }
+    @JsonProperty(value = "startHourUtc", required = true)
+    private int startHourUtc;
 
     /**
-     * Creates an instance of the Patch schedule entry object.
+     * ISO8601 timespan specifying how much time cache patching can take.
      */
-    public ScheduleEntry() {
-        this.inner = new ScheduleEntryInner();
-    }
+    @JsonProperty(value = "maintenanceWindow")
+    private Period maintenanceWindow;
 
     /**
      * Get the dayOfWeek value.
@@ -39,17 +41,17 @@ public class ScheduleEntry {
      * @return the dayOfWeek value
      */
     public DayOfWeek dayOfWeek() {
-        return this.inner.dayOfWeek();
+        return this.dayOfWeek;
     }
 
     /**
      * Set the dayOfWeek value.
      *
      * @param dayOfWeek the dayOfWeek value to set
-     * @return the ScheduleEntryInner object itself.
+     * @return the ScheduleEntry object itself.
      */
     public ScheduleEntry withDayOfWeek(DayOfWeek dayOfWeek) {
-        this.inner.withDayOfWeek(dayOfWeek);
+        this.dayOfWeek = dayOfWeek;
         return this;
     }
 
@@ -59,17 +61,17 @@ public class ScheduleEntry {
      * @return the startHourUtc value
      */
     public int startHourUtc() {
-        return this.inner.startHourUtc();
+        return this.startHourUtc;
     }
 
     /**
      * Set the startHourUtc value.
      *
      * @param startHourUtc the startHourUtc value to set
-     * @return the ScheduleEntryInner object itself.
+     * @return the ScheduleEntry object itself.
      */
     public ScheduleEntry withStartHourUtc(int startHourUtc) {
-        this.inner.withStartHourUtc(startHourUtc);
+        this.startHourUtc = startHourUtc;
         return this;
     }
 
@@ -79,17 +81,17 @@ public class ScheduleEntry {
      * @return the maintenanceWindow value
      */
     public Period maintenanceWindow() {
-        return this.inner.maintenanceWindow();
+        return this.maintenanceWindow;
     }
 
     /**
      * Set the maintenanceWindow value.
      *
      * @param maintenanceWindow the maintenanceWindow value to set
-     * @return the ScheduleEntryInner object itself.
+     * @return the ScheduleEntry object itself.
      */
     public ScheduleEntry withMaintenanceWindow(Period maintenanceWindow) {
-        this.inner.withMaintenanceWindow(maintenanceWindow);
+        this.maintenanceWindow = maintenanceWindow;
         return this;
     }
 

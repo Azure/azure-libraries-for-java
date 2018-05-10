@@ -104,7 +104,7 @@ public interface Vault extends
      * 
      * @return the createMode value
      */
-    public CreateMode createMode();
+    CreateMode createMode();
 
     /**************************************************************
      * Fluent interfaces to provision a Vault

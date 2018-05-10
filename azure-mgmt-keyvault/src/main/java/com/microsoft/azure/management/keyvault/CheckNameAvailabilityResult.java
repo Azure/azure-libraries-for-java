@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ *
+ */
+
 package com.microsoft.azure.management.keyvault;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
@@ -9,28 +16,27 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  *
  */
 @Fluent(ContainerName = "/Microsoft.Azure.Management.Fluent.KeyVault")
-public interface CheckNameAvailabilityResult extends
-    HasInner<CheckNameAvailabilityResultInner>{
-    
+public interface CheckNameAvailabilityResult extends HasInner<CheckNameAvailabilityResultInner> {
+
     /**
      * Get the nameAvailable value.
      *
      * @return the nameAvailable value
      */
-    public Boolean nameAvailable();
-    
+    Boolean nameAvailable();
+
     /**
      * Get the reason value.
      *
      * @return the reason value
      */
-    public Reason reason();
-    
+    Reason reason();
+
     /**
      * Get the message value.
      *
      * @return the message value
      */
-    public String message();
+    String message();
 
 }

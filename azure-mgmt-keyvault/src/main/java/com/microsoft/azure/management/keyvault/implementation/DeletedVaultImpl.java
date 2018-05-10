@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ *
+ */
+
 package com.microsoft.azure.management.keyvault.implementation;
 
 import java.util.Map;
@@ -7,6 +14,9 @@ import org.joda.time.DateTime;
 import com.microsoft.azure.management.keyvault.DeletedVault;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
+/**
+ * Deleted vault information with extended details.
+ */
 public class DeletedVaultImpl extends WrapperImpl<DeletedVaultInner> implements DeletedVault {
 
     DeletedVaultImpl(DeletedVaultInner inner) {

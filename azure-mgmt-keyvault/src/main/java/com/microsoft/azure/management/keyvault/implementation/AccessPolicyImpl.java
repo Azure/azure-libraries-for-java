@@ -6,12 +6,16 @@
 
 package com.microsoft.azure.management.keyvault.implementation;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryGroup;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryUser;
 import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.keyvault.AccessPolicy;
-import com.microsoft.azure.management.keyvault.AccessPolicy.UpdateDefinitionStages.WithAttach;
 import com.microsoft.azure.management.keyvault.AccessPolicyEntry;
 import com.microsoft.azure.management.keyvault.CertificatePermissions;
 import com.microsoft.azure.management.keyvault.KeyPermissions;
@@ -21,25 +25,13 @@ import com.microsoft.azure.management.keyvault.StoragePermissions;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
 /**
  * Implementation for AccessPolicy and its parent interfaces.
  */
 @LangDefinition
-class AccessPolicyImpl
-        extends ChildResourceImpl<
-                AccessPolicyEntry,
-                VaultImpl,
-                Vault>
-        implements
-            AccessPolicy,
-            AccessPolicy.Definition<Vault.DefinitionStages.WithCreate>,
-            AccessPolicy.UpdateDefinition<Vault.Update>,
-            AccessPolicy.Update {
+class AccessPolicyImpl extends ChildResourceImpl<AccessPolicyEntry, VaultImpl, Vault>
+        implements AccessPolicy, AccessPolicy.Definition<Vault.DefinitionStages.WithCreate>,
+        AccessPolicy.UpdateDefinition<Vault.Update>, AccessPolicy.Update {
     private String userPrincipalName;
     private String servicePrincipalName;
 
@@ -116,7 +108,7 @@ class AccessPolicyImpl
             inner().permissions().withCertificates(new ArrayList<CertificatePermissions>());
         }
     }
-    
+
     private void initializeStoragePermissions() {
         if (inner().permissions() == null) {
             inner().withPermissions(new Permissions());
@@ -200,7 +192,6 @@ class AccessPolicyImpl
         return this;
     }
 
-
     @Override
     public AccessPolicyImpl allowStorageAllPermissions() {
         for (StoragePermissions permission : StoragePermissions.values()) {
@@ -230,7 +221,7 @@ class AccessPolicyImpl
         }
         return this;
     }
-    
+
     @Override
     public AccessPolicyImpl disallowCertificateAllPermissions() {
         initializeCertificatePermissions();
@@ -275,18 +266,18 @@ class AccessPolicyImpl
         this.userPrincipalName = userPrincipalName;
         return this;
     }
-    
-	@Override
-	public AccessPolicyImpl forApplicationId(String applicationId) {
-		inner().withApplicationId(UUID.fromString(applicationId));
-		return this;
-	}
 
-	@Override
-	public AccessPolicyImpl forTenantId(String tenantId) {
-		inner().withTenantId(UUID.fromString(tenantId));
-		return this;
-	}
+    @Override
+    public AccessPolicyImpl forApplicationId(String applicationId) {
+        inner().withApplicationId(UUID.fromString(applicationId));
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl forTenantId(String tenantId) {
+        inner().withTenantId(UUID.fromString(tenantId));
+        return this;
+    }
 
     @Override
     public AccessPolicyImpl forGroup(ActiveDirectoryGroup activeDirectoryGroup) {
@@ -363,7 +354,6 @@ class AccessPolicyImpl
         inner().permissions().secrets().removeAll(permissions);
         return this;
     }
-
 
     @Override
     public AccessPolicyImpl disallowStorageAllPermissions() {

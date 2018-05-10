@@ -41,16 +41,8 @@ import java.util.NoSuchElementException;
  * Implementation for Vault and its parent interfaces.
  */
 @LangDefinition
-class VaultImpl
-        extends GroupableResourceImpl<
-            Vault,
-            VaultInner,
-            VaultImpl,
-            KeyVaultManager>
-        implements
-        Vault,
-        Vault.Definition,
-        Vault.Update {
+class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyVaultManager>
+        implements Vault, Vault.Definition, Vault.Update {
     private GraphRbacManager graphRbacManager;
     private List<AccessPolicyImpl> accessPolicies;
 
@@ -62,13 +54,14 @@ class VaultImpl
         super(key, innerObject, manager);
         this.graphRbacManager = graphRbacManager;
         this.accessPolicies = new ArrayList<>();
-        if (innerObject != null && innerObject.properties() != null && innerObject.properties().accessPolicies() != null) {
+        if (innerObject != null && innerObject.properties() != null
+                && innerObject.properties().accessPolicies() != null) {
             for (AccessPolicyEntry entry : innerObject.properties().accessPolicies()) {
                 this.accessPolicies.add(new AccessPolicyImpl(entry, this));
             }
         }
-        this.client = new KeyVaultClient(manager.inner().restClient().newBuilder()
-            .withBaseUrl("https://{vaultBaseUrl}").build());
+        this.client = new KeyVaultClient(
+                manager.inner().restClient().newBuilder().withBaseUrl("https://{vaultBaseUrl}").build());
     }
 
     @Override
@@ -148,22 +141,22 @@ class VaultImpl
         }
         return Utils.toPrimitiveBoolean(inner().properties().enabledForTemplateDeployment());
     }
-    
-	@Override
-	public boolean softDeleteEnabled() {
-		if (inner().properties() == null) {
-			return false;
-		}
-		return Utils.toPrimitiveBoolean(inner().properties().enableSoftDelete());
-	}
 
-	@Override
-	public boolean purgeProtectionEnabled() {
-		if (inner().properties() == null) {
-			return false;
-		}
-		return Utils.toPrimitiveBoolean(inner().properties().enablePurgeProtection());
-	}
+    @Override
+    public boolean softDeleteEnabled() {
+        if (inner().properties() == null) {
+            return false;
+        }
+        return Utils.toPrimitiveBoolean(inner().properties().enableSoftDelete());
+    }
+
+    @Override
+    public boolean purgeProtectionEnabled() {
+        if (inner().properties() == null) {
+            return false;
+        }
+        return Utils.toPrimitiveBoolean(inner().properties().enablePurgeProtection());
+    }
 
     @Override
     public VaultImpl withEmptyAccessPolicy() {
@@ -221,19 +214,18 @@ class VaultImpl
         return this;
     }
 
+    @Override
+    public VaultImpl withSoftDeleteEnabled() {
+        inner().properties().withEnableSoftDelete(true);
+        return this;
+    }
 
-	@Override
-	public VaultImpl withSoftDeleteEnabled() {
-		inner().properties().withEnableSoftDelete(true);
-		return this;
-	}
+    @Override
+    public VaultImpl withPurgeProtectionEnabled() {
+        inner().properties().withEnablePurgeProtection(true);
+        return this;
+    }
 
-	@Override
-	public VaultImpl withPurgeProtectionEnabled() {
-		inner().properties().withEnablePurgeProtection(true);
-		return this;
-	}
-	
     @Override
     public VaultImpl withDeploymentDisabled() {
         inner().properties().withEnabledForDeployment(false);
@@ -262,35 +254,38 @@ class VaultImpl
     }
 
     private Observable<List<AccessPolicy>> populateAccessPolicies() {
-        List<Observable<?>>observables = new ArrayList<>();
+        List<Observable<?>> observables = new ArrayList<>();
         for (final AccessPolicyImpl accessPolicy : accessPolicies) {
             if (accessPolicy.objectId() == null) {
                 if (accessPolicy.userPrincipalName() != null) {
                     observables.add(graphRbacManager.users().getByNameAsync(accessPolicy.userPrincipalName())
-                            .subscribeOn(SdkContext.getRxScheduler())
-                            .doOnNext(new Action1<ActiveDirectoryUser>() {
+                            .subscribeOn(SdkContext.getRxScheduler()).doOnNext(new Action1<ActiveDirectoryUser>() {
                                 @Override
                                 public void call(ActiveDirectoryUser user) {
                                     if (user == null) {
-                                        throw new CloudException(String.format("User principal name %s is not found in tenant %s",
-                                                accessPolicy.userPrincipalName(), graphRbacManager.tenantId()), null);
+                                        throw new CloudException(
+                                                String.format("User principal name %s is not found in tenant %s",
+                                                        accessPolicy.userPrincipalName(), graphRbacManager.tenantId()),
+                                                null);
                                     }
                                     accessPolicy.forObjectId(user.id());
                                 }
                             }));
                 } else if (accessPolicy.servicePrincipalName() != null) {
-                    observables.add(graphRbacManager.servicePrincipals().getByNameAsync(accessPolicy.servicePrincipalName())
-                            .subscribeOn(SdkContext.getRxScheduler())
-                            .doOnNext(new Action1<ServicePrincipal>() {
-                                @Override
-                                public void call(ServicePrincipal sp) {
-                                    if (sp == null) {
-                                        throw new CloudException(String.format("User principal name %s is not found in tenant %s",
-                                                accessPolicy.userPrincipalName(), graphRbacManager.tenantId()), null);
-                                    }
-                                    accessPolicy.forObjectId(sp.id());
-                                }
-                            }));
+                    observables.add(
+                            graphRbacManager.servicePrincipals().getByNameAsync(accessPolicy.servicePrincipalName())
+                                    .subscribeOn(SdkContext.getRxScheduler()).doOnNext(new Action1<ServicePrincipal>() {
+                                        @Override
+                                        public void call(ServicePrincipal sp) {
+                                            if (sp == null) {
+                                                throw new CloudException(String.format(
+                                                        "User principal name %s is not found in tenant %s",
+                                                        accessPolicy.userPrincipalName(), graphRbacManager.tenantId()),
+                                                        null);
+                                            }
+                                            accessPolicy.forObjectId(sp.id());
+                                        }
+                                    }));
                 } else {
                     throw new IllegalArgumentException("Access policy must specify object ID.");
                 }
@@ -311,22 +306,20 @@ class VaultImpl
     @Override
     public Observable<Vault> createResourceAsync() {
         final VaultsInner client = this.manager().inner().vaults();
-        return populateAccessPolicies()
-                .flatMap(new Func1<Object, Observable<VaultInner>>() {
-                    @Override
-                    public Observable<VaultInner> call(Object o) {
-                        VaultCreateOrUpdateParameters parameters = new VaultCreateOrUpdateParameters();
-                        parameters.withLocation(regionName());
-                        parameters.withProperties(inner().properties());
-                        parameters.withTags(inner().getTags());
-                        parameters.properties().withAccessPolicies(new ArrayList<AccessPolicyEntry>());
-                        for (AccessPolicy accessPolicy : accessPolicies) {
-                            parameters.properties().accessPolicies().add(accessPolicy.inner());
-                        }
-                        return client.createOrUpdateAsync(resourceGroupName(), name(), parameters);
-                    }
-                })
-                .map(innerToFluentMap(this));
+        return populateAccessPolicies().flatMap(new Func1<Object, Observable<VaultInner>>() {
+            @Override
+            public Observable<VaultInner> call(Object o) {
+                VaultCreateOrUpdateParameters parameters = new VaultCreateOrUpdateParameters();
+                parameters.withLocation(regionName());
+                parameters.withProperties(inner().properties());
+                parameters.withTags(inner().getTags());
+                parameters.properties().withAccessPolicies(new ArrayList<AccessPolicyEntry>());
+                for (AccessPolicy accessPolicy : accessPolicies) {
+                    parameters.properties().accessPolicies().add(accessPolicy.inner());
+                }
+                return client.createOrUpdateAsync(resourceGroupName(), name(), parameters);
+            }
+        }).map(innerToFluentMap(this));
     }
 
     @Override
@@ -334,14 +327,14 @@ class VaultImpl
         return this.manager().inner().vaults().getByResourceGroupAsync(resourceGroupName(), name());
     }
 
-	@Override
-	public CreateMode createMode() {
-		return inner().properties().createMode();
-	}
+    @Override
+    public CreateMode createMode() {
+        return inner().properties().createMode();
+    }
 
-	@Override
-	public WithCreate withCreateMode(CreateMode createMode) {
-		inner().properties().withCreateMode(createMode);
-		return this;
-	}
+    @Override
+    public WithCreate withCreateMode(CreateMode createMode) {
+        inner().properties().withCreateMode(createMode);
+        return this;
+    }
 }

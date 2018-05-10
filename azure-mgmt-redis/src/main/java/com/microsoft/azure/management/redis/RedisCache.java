@@ -243,31 +243,6 @@ public interface RedisCache extends
               * @return the next stage of Redis Cache definition.
               */
              WithCreate withRedisConfiguration(String key, String value);
-
-             /**
-              * Assigns the specified subnet to this instance of Redis Cache.
-              *
-              * @param network instance of Network object.
-              * @param subnetName the name of the subnet.
-              * @return the next stage of Redis Cache definition.
-              */
-             WithCreate withSubnet(HasId network, String subnetName);
-
-             /**
-              * Assigns the specified subnet to this instance of Redis Cache.
-              *
-              * @param subnetId resource id of subnet.
-              * @return the next stage of Redis Cache definition.
-              */
-             WithCreate withSubnet(String subnetId);
-
-             /**
-              * Sets Redis Cache static IP. Required when deploying a Redis Cache inside an existing Azure Virtual Network.
-              *
-              * @param staticIP the static IP value to set.
-              * @return the next stage of Redis Cache definition.
-              */
-             WithCreate withStaticIP(String staticIP);
         }
 
         /**
@@ -317,6 +292,31 @@ public interface RedisCache extends
              * @return the next stage of Redis Cache with Premium SKU definition.
              */
             WithPremiumSkuCreate withPatchSchedule(List<ScheduleEntry> scheduleEntry);
+
+            /**
+             * Assigns the specified subnet to this instance of Redis Cache.
+             *
+             * @param network instance of Network object.
+             * @param subnetName the name of the subnet.
+             * @return the next stage of Redis Cache definition.
+             */
+            WithCreate withSubnet(HasId network, String subnetName);
+
+            /**
+             * Assigns the specified subnet to this instance of Redis Cache.
+             *
+             * @param subnetId resource id of subnet.
+             * @return the next stage of Redis Cache definition.
+             */
+            WithCreate withSubnet(String subnetId);
+
+            /**
+             * Sets Redis Cache static IP. Required when deploying a Redis Cache inside an existing Azure Virtual Network.
+             *
+             * @param staticIP the static IP value to set.
+             * @return the next stage of Redis Cache definition.
+             */
+            WithCreate withStaticIP(String staticIP);
         }
     }
 

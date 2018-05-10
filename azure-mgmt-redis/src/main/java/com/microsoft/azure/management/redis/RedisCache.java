@@ -254,6 +254,14 @@ public interface RedisCache extends
              WithCreate withSubnet(HasId network, String subnetName);
 
              /**
+              * Assigns the specified subnet to this instance of Redis Cache.
+              *
+              * @param subnetId resource id of subnet.
+              * @return the next stage of Redis Cache definition.
+              */
+             WithCreate withSubnet(String subnetId);
+
+             /**
               * Sets Redis Cache static IP. Required when deploying a Redis Cache inside an existing Azure Virtual Network.
               *
               * @param staticIP the static IP value to set.

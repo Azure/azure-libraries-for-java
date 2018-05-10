@@ -285,6 +285,16 @@ class RedisCacheImpl
     public RedisCacheImpl withSubnet(HasId networkResource, String subnetName) {
         if (networkResource != null) {
             String subnetId = networkResource.id() + "/subnets/" + subnetName;
+            return withSubnet(subnetId);
+        } else {
+            createParameters.withSubnetId(null);
+        }
+        return this;
+    }
+
+    @Override
+    public RedisCacheImpl withSubnet(String subnetId) {
+        if (subnetId != null) {
             if (isInCreateMode()) {
                 createParameters.withSubnetId(subnetId);
             } else {

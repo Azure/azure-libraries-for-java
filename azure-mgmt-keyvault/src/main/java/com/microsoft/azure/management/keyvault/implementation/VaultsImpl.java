@@ -119,7 +119,8 @@ class VaultsImpl
 	            new PagedListConverter<DeletedVaultInner, DeletedVault> () {
 	                @Override
                     public Observable<DeletedVault> typeConvertAsync(DeletedVaultInner inner) {
-                        return Observable.just((DeletedVault) new DeletedVaultImpl(inner));
+	                    DeletedVault deletedVault = new DeletedVaultImpl(inner);
+                        return Observable.just(deletedVault);
                     }
         };
         return converter.convert(listDeleted);
@@ -169,21 +170,8 @@ class VaultsImpl
 
 
     @Override
-    public ServiceFuture<Void> purgeDeletedAsync(String vaultName, String location,
-            ServiceCallback<Void> serviceCallback) {
-        return this.inner().purgeDeletedAsync(vaultName, location, serviceCallback);
-    }
-
-
-    @Override
     public Observable<Void> purgeDeletedAsync(String vaultName, String location) {
         return this.inner().purgeDeletedAsync(vaultName, location);
-    }
-
-
-    @Override
-    public Observable<ServiceResponse<Void>> purgeDeletedWithServiceResponseAsync(String vaultName, String location) {
-        return this.inner().purgeDeletedWithServiceResponseAsync(vaultName, location);
     }
 
 
@@ -272,85 +260,12 @@ class VaultsImpl
 
 
     @Override
-    public ServiceFuture<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name,
-            ServiceCallback<CheckNameAvailabilityResult> serviceCallback) {
-        return ServiceFuture.fromResponse(checkNameAvailabilityWithServiceResponseAsync(name), serviceCallback);
-    }
-
-
-    @Override
     public Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name) {
         VaultsInner client = this.inner();
         return client.checkNameAvailabilityAsync(name).map(new Func1<CheckNameAvailabilityResultInner, CheckNameAvailabilityResult> () {
             @Override
             public CheckNameAvailabilityResult call(CheckNameAvailabilityResultInner inner) {
                 return new CheckNameAvailabilityResultImpl(inner);
-            }
-        });
-    }
-
-
-    @Override
-    public Observable<ServiceResponse<CheckNameAvailabilityResult>> checkNameAvailabilityWithServiceResponseAsync(
-            String name) {
-        VaultsInner client = this.inner();        
-        return client.checkNameAvailabilityWithServiceResponseAsync(name).map(new Func1<ServiceResponse<CheckNameAvailabilityResultInner>, ServiceResponse<CheckNameAvailabilityResult>>() {
-            @Override
-            public ServiceResponse<CheckNameAvailabilityResult> call(ServiceResponse<CheckNameAvailabilityResultInner> inner) {
-                return new ServiceResponse<CheckNameAvailabilityResult>(new CheckNameAvailabilityResultImpl(inner.body()), inner.response());
-            }
-        });
-    }
-
-
-    @Override
-    public PagedList<DeletedVault> listDeletedNext(String nextPageLink) {
-        PagedList<DeletedVaultInner> listDeleted = this.inner().listDeletedNext(nextPageLink);
-        PagedListConverter<DeletedVaultInner, DeletedVault> converter =  
-                new PagedListConverter<DeletedVaultInner, DeletedVault> () {
-                    @Override
-                    public Observable<DeletedVault> typeConvertAsync(DeletedVaultInner inner) {
-                        return Observable.just((DeletedVault) new DeletedVaultImpl(inner));
-                    }
-        };
-        return converter.convert(listDeleted);
-    }
-
-
-    @Override
-    public ServiceFuture<List<DeletedVault>> listDeletedNextAsync(String nextPageLink,
-            ServiceFuture<List<DeletedVault>> serviceFuture, ListOperationCallback<DeletedVault> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(listDeletedNextSinglePageAsync(nextPageLink), 
-                new Func1<String, Observable<ServiceResponse<Page<DeletedVault>>>>() {
-            @Override
-            public Observable<ServiceResponse<Page<DeletedVault>>> call(String nextPageLink) {
-                return listDeletedNextSinglePageAsync(nextPageLink);
-            }
-        }, serviceCallback);
-    }
-
-
-    @Override
-    public Observable<DeletedVault> listDeletedNextAsync(String nextPageLink) {
-        VaultsInner client = this.inner();
-        Observable<Page<DeletedVault>> page = client.listDeletedNextAsync(nextPageLink).map(new Func1<Page<DeletedVaultInner>, Page<DeletedVault>>() {
-            @Override
-            public Page<DeletedVault> call(Page<DeletedVaultInner> inner) {
-                return convertPageDeletedVaultInner(inner);
-            }
-        });
-        return convertPageDeletedVaultToDeletedVaultAsync(page);
-    }
-
-
-    @Override
-    public Observable<ServiceResponse<Page<DeletedVault>>> listDeletedNextWithServiceResponseAsync(
-            String nextPageLink) {
-        VaultsInner client = this.inner();
-        return client.listDeletedNextWithServiceResponseAsync(nextPageLink).map(new Func1<ServiceResponse<Page<DeletedVaultInner>>, ServiceResponse<Page<DeletedVault>>>() {
-            @Override
-            public ServiceResponse<Page<DeletedVault>> call (ServiceResponse<Page<DeletedVaultInner>> inner) {
-                return new ServiceResponse<Page<DeletedVault>>(convertPageDeletedVaultInner(inner.body()), inner.response());
             }
         });
     }

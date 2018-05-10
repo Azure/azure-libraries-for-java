@@ -8,4 +8,24 @@ public class VaultAccessPolicyParametersImpl extends WrapperImpl<VaultAccessPoli
         super(inner);
     }
 
+    @Override
+    public String id() {
+        return inner().id();
+    }
+
+    @Override
+    public String name() {
+        return inner().name();
+    }
+
+    @Override
+    public String type() {
+        return inner().type();
+    }
+
+    @Override
+    public String location() {
+        return inner().location();
+    }
+
 }

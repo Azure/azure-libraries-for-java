@@ -21,6 +21,7 @@ import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDe
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.rest.ServiceFuture;
 
+import rx.Completable;
 import rx.Observable;
 
 /**
@@ -115,7 +116,7 @@ public interface Vaults extends SupportsCreating<Vault.DefinitionStages.Blank>, 
      *             thrown if parameters fail the validation
      * @return the observable for the request
      */
-    Observable<Void> purgeDeletedAsync(String vaultName, String location);
+    Completable purgeDeletedAsync(String vaultName, String location);
 
     /**
      * Checks that the vault name is valid and is not already in use.

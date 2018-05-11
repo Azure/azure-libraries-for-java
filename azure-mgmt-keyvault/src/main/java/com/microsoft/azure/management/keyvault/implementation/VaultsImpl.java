@@ -133,8 +133,8 @@ class VaultsImpl extends GroupableResourcesImpl<Vault, VaultImpl, VaultInner, Va
     }
 
     @Override
-    public Observable<Void> purgeDeletedAsync(String vaultName, String location) {
-        return this.inner().purgeDeletedAsync(vaultName, location);
+    public Completable purgeDeletedAsync(String vaultName, String location) {
+        return this.inner().purgeDeletedAsync(vaultName, location).toCompletable();
     }
 
     private Observable<DeletedVault> convertPageDeletedVaultToDeletedVaultAsync(Observable<Page<DeletedVault>> page) {

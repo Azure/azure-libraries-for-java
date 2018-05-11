@@ -91,12 +91,14 @@ public interface Vault extends
     /**
      * @return whether soft delete is enabled for this key vault.
      */
+    @Beta(SinceVersion.V1_11_0)
     boolean softDeleteEnabled();
     
     /**
      * @return whether purge protection is enabled for this key vault.
      * Purge protection can only be enabled if soft delete is enabled.
      */
+    @Beta(SinceVersion.V1_11_0)
     boolean purgeProtectionEnabled();
     
     /**
@@ -104,6 +106,7 @@ public interface Vault extends
      * 
      * @return the createMode value
      */
+    @Beta(SinceVersion.V1_11_0)
     CreateMode createMode();
 
     /**************************************************************
@@ -207,6 +210,7 @@ public interface Vault extends
              * 
              * @return the next stage of key vault definition
              */
+            @Beta(SinceVersion.V1_11_0)
             WithCreate withSoftDeleteEnabled();
             
             /**
@@ -214,6 +218,7 @@ public interface Vault extends
              * 
              * @return the next stage of key vault definition.
              */
+            @Beta(SinceVersion.V1_11_0)
             WithCreate withPurgeProtectionEnabled();
 
             /**
@@ -323,6 +328,7 @@ public interface Vault extends
              * 
              * @return the next stage of key vault definition
              */
+            @Beta(SinceVersion.V1_11_0)
             Update withSoftDeleteEnabled();
             
             /**
@@ -330,6 +336,7 @@ public interface Vault extends
              * 
              * @return the next stage of key vault definition.
              */
+            @Beta(SinceVersion.V1_11_0)
             Update withPurgeProtectionEnabled();
 
             /**

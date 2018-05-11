@@ -15,8 +15,6 @@ import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
-import com.microsoft.azure.management.keyvault.AccessPolicy;
-import com.microsoft.azure.management.keyvault.AccessPolicyEntry;
 import com.microsoft.azure.management.keyvault.CheckNameAvailabilityResult;
 import com.microsoft.azure.management.keyvault.CreateMode;
 import com.microsoft.azure.management.keyvault.DeletedVault;

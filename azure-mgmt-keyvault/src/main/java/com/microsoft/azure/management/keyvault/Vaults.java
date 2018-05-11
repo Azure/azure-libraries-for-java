@@ -8,6 +8,8 @@ package com.microsoft.azure.management.keyvault;
 
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
 import com.microsoft.azure.management.keyvault.implementation.VaultsInner;
@@ -44,6 +46,7 @@ public interface Vaults extends SupportsCreating<Vault.DefinitionStages.Blank>, 
      *             sent
      * @return the PagedList&lt;DeletedVault&gt; object if successful.
      */
+    @Beta(SinceVersion.V1_11_0)
     PagedList<DeletedVault> listDeleted();
 
     /**
@@ -53,6 +56,7 @@ public interface Vaults extends SupportsCreating<Vault.DefinitionStages.Blank>, 
      *             thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DeletedVault&gt; object
      */
+    @Beta(SinceVersion.V1_11_0)
     Observable<DeletedVault> listDeletedAsync();
 
     /**
@@ -71,6 +75,7 @@ public interface Vaults extends SupportsCreating<Vault.DefinitionStages.Blank>, 
      *             sent
      * @return the DeletedVault object if successful.
      */
+    @Beta(SinceVersion.V1_11_0)
     DeletedVault getDeleted(String vaultName, String location);
 
     /**
@@ -84,6 +89,7 @@ public interface Vaults extends SupportsCreating<Vault.DefinitionStages.Blank>, 
      *             thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
+    @Beta(SinceVersion.V1_11_0)
     Observable<DeletedVault> getDeletedAsync(String vaultName, String location);
 
     /**
@@ -102,6 +108,7 @@ public interface Vaults extends SupportsCreating<Vault.DefinitionStages.Blank>, 
      *             all other wrapped checked exceptions if the request fails to be
      *             sent
      */
+    @Beta(SinceVersion.V1_11_0)
     void purgeDeleted(String vaultName, String location);
 
     /**
@@ -116,6 +123,7 @@ public interface Vaults extends SupportsCreating<Vault.DefinitionStages.Blank>, 
      *             thrown if parameters fail the validation
      * @return the observable for the request
      */
+    @Beta(SinceVersion.V1_11_0)
     Completable purgeDeletedAsync(String vaultName, String location);
 
     /**
@@ -132,6 +140,7 @@ public interface Vaults extends SupportsCreating<Vault.DefinitionStages.Blank>, 
      *             sent
      * @return the CheckNameAvailabilityResult object if successful.
      */
+    @Beta(SinceVersion.V1_11_0)
     CheckNameAvailabilityResult checkNameAvailability(String name);
 
     /**
@@ -143,6 +152,7 @@ public interface Vaults extends SupportsCreating<Vault.DefinitionStages.Blank>, 
      *             thrown if parameters fail the validation
      * @return the observable to the CheckNameAvailabilityResult object
      */
+    @Beta(SinceVersion.V1_11_0)
     Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name);
     
     /**
@@ -153,6 +163,7 @@ public interface Vaults extends SupportsCreating<Vault.DefinitionStages.Blank>, 
      * @param location The location of the deleted vault.
      * @return the recovered Vault object if successful
      */
+    @Beta(SinceVersion.V1_11_0)
     Vault recoverSoftDeletedVault(String resourceGroupName, String vaultName, String location);
 
     /**
@@ -163,6 +174,7 @@ public interface Vaults extends SupportsCreating<Vault.DefinitionStages.Blank>, 
      * @param location The location of the deleted vault.
      * @return the recovered Vault object if successful
      */
+    @Beta(SinceVersion.V1_11_0)
     Observable<Vault> recoverSoftDeletedVaultAsync(String resourceGroupName, String vaultName, String location);
 
 }

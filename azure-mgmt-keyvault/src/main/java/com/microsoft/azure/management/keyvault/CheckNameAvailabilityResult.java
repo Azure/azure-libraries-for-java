@@ -7,7 +7,9 @@
 
 package com.microsoft.azure.management.keyvault;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.keyvault.implementation.CheckNameAvailabilityResultInner;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
@@ -16,6 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  *
  */
 @Fluent(ContainerName = "/Microsoft.Azure.Management.Fluent.KeyVault")
+@Beta(SinceVersion.V1_11_0)
 public interface CheckNameAvailabilityResult extends HasInner<CheckNameAvailabilityResultInner> {
 
     /**

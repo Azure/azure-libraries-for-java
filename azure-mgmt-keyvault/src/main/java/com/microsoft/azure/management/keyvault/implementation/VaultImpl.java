@@ -6,6 +6,11 @@
 
 package com.microsoft.azure.management.keyvault.implementation;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.keyvault.KeyVaultClient;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
@@ -20,7 +25,6 @@ import com.microsoft.azure.management.keyvault.Secrets;
 import com.microsoft.azure.management.keyvault.Sku;
 import com.microsoft.azure.management.keyvault.SkuName;
 import com.microsoft.azure.management.keyvault.Vault;
-import com.microsoft.azure.management.keyvault.Vault.DefinitionStages.WithCreate;
 import com.microsoft.azure.management.keyvault.VaultCreateOrUpdateParameters;
 import com.microsoft.azure.management.keyvault.VaultProperties;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
@@ -31,11 +35,6 @@ import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.FuncN;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
  * Implementation for Vault and its parent interfaces.

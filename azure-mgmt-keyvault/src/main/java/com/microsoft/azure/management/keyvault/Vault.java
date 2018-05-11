@@ -236,13 +236,6 @@ public interface Vault extends
              * @return the next stage of key vault definition
              */
             WithCreate withTemplateDeploymentDisabled();
-            
-            /**
-             * Set the createMode value. 
-             * 
-             * @return the next stage of key vault definition
-             */
-            WithCreate withCreateMode(CreateMode createMode);
         }
 
         /**

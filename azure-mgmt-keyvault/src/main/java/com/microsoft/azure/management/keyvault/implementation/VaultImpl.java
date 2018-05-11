@@ -332,9 +332,4 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
         return inner().properties().createMode();
     }
 
-    @Override
-    public WithCreate withCreateMode(CreateMode createMode) {
-        inner().properties().withCreateMode(createMode);
-        return this;
-    }
 }

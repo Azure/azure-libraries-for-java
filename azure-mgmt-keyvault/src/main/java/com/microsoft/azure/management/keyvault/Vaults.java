@@ -143,5 +143,25 @@ public interface Vaults extends SupportsCreating<Vault.DefinitionStages.Blank>, 
      * @return the observable to the CheckNameAvailabilityResult object
      */
     Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name);
+    
+    /**
+     * Recovers a soft deleted vault.
+     * 
+     * @param resourceGroupName The name of the Resource Group to which the server belongs.
+     * @param vaultName Name of the vault
+     * @param location The location of the deleted vault.
+     * @return the recovered Vault object if successful
+     */
+    Vault recoverSoftDeletedVault(String resourceGroupName, String vaultName, String location);
+
+    /**
+     * Recovers a soft deleted vault.
+     * 
+     * @param resourceGroupName The name of the Resource Group to which the server belongs.
+     * @param vaultName Name of the vault
+     * @param location The location of the deleted vault.
+     * @return the recovered Vault object if successful
+     */
+    Observable<Vault> recoverSoftDeletedVaultAsync(String resourceGroupName, String vaultName, String location);
 
 }

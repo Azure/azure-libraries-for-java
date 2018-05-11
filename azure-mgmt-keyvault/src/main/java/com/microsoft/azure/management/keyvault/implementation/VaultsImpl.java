@@ -15,10 +15,15 @@ import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.microsoft.azure.management.keyvault.AccessPolicy;
+import com.microsoft.azure.management.keyvault.AccessPolicyEntry;
 import com.microsoft.azure.management.keyvault.CheckNameAvailabilityResult;
+import com.microsoft.azure.management.keyvault.CreateMode;
 import com.microsoft.azure.management.keyvault.DeletedVault;
+import com.microsoft.azure.management.keyvault.Sku;
 import com.microsoft.azure.management.keyvault.SkuName;
 import com.microsoft.azure.management.keyvault.Vault;
+import com.microsoft.azure.management.keyvault.VaultCreateOrUpdateParameters;
 import com.microsoft.azure.management.keyvault.VaultProperties;
 import com.microsoft.azure.management.keyvault.Vaults;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
@@ -36,6 +41,7 @@ class VaultsImpl extends GroupableResourcesImpl<Vault, VaultImpl, VaultInner, Va
         implements Vaults {
     private final GraphRbacManager graphRbacManager;
     private final String tenantId;
+    
 
     VaultsImpl(final KeyVaultManager keyVaultManager, final GraphRbacManager graphRbacManager, final String tenantId) {
         super(keyVaultManager.inner().vaults(), keyVaultManager);
@@ -178,6 +184,36 @@ class VaultsImpl extends GroupableResourcesImpl<Vault, VaultImpl, VaultInner, Va
                         return new CheckNameAvailabilityResultImpl(inner);
                     }
                 });
+    }
+
+    @Override
+    public Vault recoverSoftDeletedVault(String resourceGroupName, String vaultName, String location) {
+        return recoverSoftDeletedVaultAsync(resourceGroupName, vaultName, location).toBlocking().last();
+    }
+    
+    @Override
+    public Observable<Vault> recoverSoftDeletedVaultAsync(final String resourceGroupName, final String vaultName, String location) {
+        final KeyVaultManager manager = this.manager();
+        return getDeletedAsync(vaultName, location).flatMap(new Func1<DeletedVault, Observable<Vault>>() {
+            @Override
+            public Observable<Vault> call(DeletedVault deletedVault) {
+                VaultCreateOrUpdateParameters parameters = new VaultCreateOrUpdateParameters();
+                parameters.withLocation(deletedVault.location());
+                parameters.withTags(deletedVault.inner().properties().tags());
+                parameters.withProperties(new VaultProperties()
+                        .withCreateMode(CreateMode.RECOVER)
+                        .withSku(new Sku().withName(SkuName.STANDARD))
+                        .withTenantId(UUID.fromString(tenantId))
+                        );
+                return inner().createOrUpdateAsync(resourceGroupName, vaultName, parameters).map(new Func1<VaultInner, Vault>() {
+                    @Override
+                    public Vault call(VaultInner inner) {
+                        return new VaultImpl(inner.id(), inner, manager, graphRbacManager);
+                    }
+                });
+            }
+            
+        });
     }
 
 }

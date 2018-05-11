@@ -14,6 +14,12 @@ import com.microsoft.azure.management.network.SecurityRuleProtocol;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 /**
  *  Implementation for {@link NetworkSecurityRule} and its create and update interfaces.
  */
@@ -25,9 +31,21 @@ class NetworkSecurityRuleImpl
         NetworkSecurityRule.Definition<NetworkSecurityGroup.DefinitionStages.WithCreate>,
         NetworkSecurityRule.UpdateDefinition<NetworkSecurityGroup.Update>,
         NetworkSecurityRule.Update {
+    private Map<String, ApplicationSecurityGroupInner> sourceAsgs = new HashMap<>();
+    private Map<String, ApplicationSecurityGroupInner> destinationAsgs = new HashMap<>();
 
     NetworkSecurityRuleImpl(SecurityRuleInner inner, NetworkSecurityGroupImpl parent) {
         super(inner, parent);
+        if (inner.sourceApplicationSecurityGroups() != null) {
+            for (ApplicationSecurityGroupInner asg : inner.sourceApplicationSecurityGroups()) {
+                sourceAsgs.put(asg.id(), asg);
+            }
+        }
+        if (inner.destinationApplicationSecurityGroups() != null) {
+            for (ApplicationSecurityGroupInner asg : inner.destinationApplicationSecurityGroups()) {
+                destinationAsgs.put(asg.id(), asg);
+            }
+        }
     }
 
     // Getters
@@ -77,6 +95,16 @@ class NetworkSecurityRuleImpl
         return Utils.toPrimitiveInt(this.inner().priority());
     }
 
+    @Override
+    public Set<String> sourceApplicationSecurityGroupIds() {
+        return Collections.unmodifiableSet(sourceAsgs.keySet());
+    }
+
+    @Override
+    public Set<String> destinationApplicationSecurityGroupIds() {
+        return Collections.unmodifiableSet(destinationAsgs.keySet());
+    }
+
     // Fluent setters
 
     @Override
@@ -121,12 +149,16 @@ class NetworkSecurityRuleImpl
     @Override
     public NetworkSecurityRuleImpl fromAddress(String cidr) {
         this.inner().withSourceAddressPrefix(cidr);
+        this.inner().withSourceAddressPrefixes(null);
+        this.inner().withSourceApplicationSecurityGroups(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl fromAnyAddress() {
         this.inner().withSourceAddressPrefix("*");
+        this.inner().withSourceAddressPrefixes(null);
+        this.inner().withSourceApplicationSecurityGroups(null);
         return this;
     }
 
@@ -151,12 +183,16 @@ class NetworkSecurityRuleImpl
     @Override
     public NetworkSecurityRuleImpl toAddress(String cidr) {
         this.inner().withDestinationAddressPrefix(cidr);
+        this.inner().withDestinationAddressPrefixes(null);
+        this.inner().withDestinationApplicationSecurityGroups(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl toAnyAddress() {
         this.inner().withDestinationAddressPrefix("*");
+        this.inner().withDestinationAddressPrefixes(null);
+        this.inner().withDestinationApplicationSecurityGroups(null);
         return this;
     }
 
@@ -194,6 +230,22 @@ class NetworkSecurityRuleImpl
         return this;
     }
 
+    @Override
+    public NetworkSecurityRuleImpl withSourceApplicationSecurityGroup(String id) {
+        sourceAsgs.put(id, new ApplicationSecurityGroupInner().withId(id));
+        inner().withSourceAddressPrefix(null);
+        inner().withSourceAddressPrefixes(null);
+        return this;
+    }
+
+    @Override
+    public NetworkSecurityRuleImpl withDestinationApplicationSecurityGroup(String id) {
+        destinationAsgs.put(id, new ApplicationSecurityGroupInner().withId(id));
+        inner().withDestinationAddressPrefix(null);
+        inner().withDestinationAddressPrefixes(null);
+        return this;
+    }
+
     // Helpers
 
     private NetworkSecurityRuleImpl withDirection(SecurityRuleDirection direction) {
@@ -211,6 +263,8 @@ class NetworkSecurityRuleImpl
 
     @Override
     public NetworkSecurityGroupImpl attach() {
+        inner().withSourceApplicationSecurityGroups(new ArrayList<>(sourceAsgs.values()));
+        inner().withDestinationApplicationSecurityGroups(new ArrayList<>(destinationAsgs.values()));
         return this.parent().withRule(this);
     }
 

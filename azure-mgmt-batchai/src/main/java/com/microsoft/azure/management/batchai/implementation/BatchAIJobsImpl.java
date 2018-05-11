@@ -42,12 +42,15 @@ class BatchAIJobsImpl
         this.parent = parent;
     }
 
+    BatchAIJobsImpl(final BatchAIManager manager) {
+        super(manager.inner().jobs(), manager);
+        parent = null;
+    }
+
 
     @Override
     protected BatchAIJobImpl wrapModel(String name) {
-        return new BatchAIJobImpl(name, parent, new JobInner())
-                .withRegion(parent.regionName())
-                .withExistingResourceGroup(parent.resourceGroupName());
+        return new BatchAIJobImpl(name, new JobInner(), manager());
     }
 
     @Override
@@ -55,7 +58,7 @@ class BatchAIJobsImpl
         if (inner == null) {
             return null;
         }
-        return new BatchAIJobImpl(inner.name(), parent, inner);
+        return new BatchAIJobImpl(inner.name(), inner, manager());
     }
 
     @Override
@@ -92,7 +95,7 @@ class BatchAIJobsImpl
     public BatchAIJob getByName(String name) {
         JobInner inner = this.manager().inner().jobs()
                 .getByResourceGroup(this.parent().resourceGroupName(), name);
-        return new BatchAIJobImpl(name, parent, inner);
+        return new BatchAIJobImpl(name, inner, manager());
     }
 
     @Override

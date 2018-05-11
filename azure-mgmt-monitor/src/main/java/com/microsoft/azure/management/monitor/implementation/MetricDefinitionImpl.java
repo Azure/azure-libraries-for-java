@@ -49,6 +49,7 @@ class MetricDefinitionImpl
     private ResultType resultType;
     private Integer top;
     private String orderBy;
+    private String namespaceFilter;
 
     MetricDefinitionImpl(final MetricDefinitionInner innerModel, final MonitorManager monitorManager) {
         super(innerModel);
@@ -127,6 +128,7 @@ class MetricDefinitionImpl
         this.resultType = null;
         this.top = null;
         this.orderBy = null;
+        this.namespaceFilter = null;
         return this;
     }
 
@@ -179,6 +181,12 @@ class MetricDefinitionImpl
     }
 
     @Override
+    public MetricsQueryDefinitionStages.WithMetricsQueryExecute filterByNamespace(String namespaceName) {
+        this.namespaceFilter = namespaceName;
+        return this;
+    }
+
+    @Override
     public MetricCollection execute() {
         return this.executeAsync().toBlocking().last();
     }
@@ -196,7 +204,7 @@ class MetricDefinitionImpl
                 this.orderBy,
                 this.odataFilter,
                 this.resultType,
-                this.inner.namespace()).map(new Func1<ResponseInner, MetricCollection>() {
+                this.namespaceFilter).map(new Func1<ResponseInner, MetricCollection>() {
                     @Override
                     public MetricCollection call(ResponseInner responseInner) {
                         return new MetricCollectionImpl(responseInner);

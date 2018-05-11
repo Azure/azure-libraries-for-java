@@ -9,6 +9,8 @@ package com.microsoft.azure.management.containerinstance.implementation;
 import com.microsoft.azure.Resource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerinstance.Container;
+import com.microsoft.azure.management.containerinstance.ContainerExecRequestTerminalSize;
+import com.microsoft.azure.management.containerinstance.ContainerExecResponse;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
 import com.microsoft.azure.management.containerinstance.ContainerGroupNetworkProtocol;
 import com.microsoft.azure.management.containerinstance.ContainerGroupRestartPolicy;
@@ -487,5 +489,33 @@ public class ContainerGroupImpl
     @Override
     public Observable<String> getLogContentAsync(String containerName, int tailLineCount) {
         return this.manager().containerGroups().getLogContentAsync(this.resourceGroupName(), this.name(), containerName, tailLineCount);
+    }
+
+    @Override
+    public ContainerExecResponse executeCommand(String containerName, String command, int row, int column) {
+        return new ContainerExecResponseImpl(this.manager().inner().startContainers()
+            .launchExec(this.resourceGroupName(), this.name(), containerName,
+            new ContainerExecRequestInner()
+                .withCommand(command)
+                .withTerminalSize(new ContainerExecRequestTerminalSize()
+                    .withRow(row)
+                    .withColumn(column))));
+    }
+
+    @Override
+    public Observable<ContainerExecResponse> executeCommandAsync(String containerName, String command, int row, int column) {
+        return this.manager().inner().startContainers()
+            .launchExecAsync(this.resourceGroupName(), this.name(), containerName,
+                new ContainerExecRequestInner()
+                    .withCommand(command)
+                    .withTerminalSize(new ContainerExecRequestTerminalSize()
+                        .withRow(row)
+                        .withColumn(column)))
+            .map(new Func1<ContainerExecResponseInner, ContainerExecResponse>() {
+                @Override
+                public ContainerExecResponse call(ContainerExecResponseInner containerExecResponseInner) {
+                    return new ContainerExecResponseImpl(containerExecResponseInner);
+                }
+            });
     }
 }

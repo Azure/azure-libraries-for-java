@@ -14,6 +14,8 @@ import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayBackend;
 import com.microsoft.azure.management.network.ApplicationGateways;
+import com.microsoft.azure.management.network.ApplicationSecurityGroups;
+import com.microsoft.azure.management.network.DdosProtectionPlans;
 import com.microsoft.azure.management.network.ExpressRouteCircuits;
 import com.microsoft.azure.management.network.LoadBalancers;
 import com.microsoft.azure.management.network.LocalNetworkGateways;
@@ -23,6 +25,7 @@ import com.microsoft.azure.management.network.NetworkSecurityGroups;
 import com.microsoft.azure.management.network.NetworkUsages;
 import com.microsoft.azure.management.network.Networks;
 import com.microsoft.azure.management.network.PublicIPAddresses;
+import com.microsoft.azure.management.network.RouteFilters;
 import com.microsoft.azure.management.network.RouteTables;
 import com.microsoft.azure.management.network.Subnet;
 import com.microsoft.azure.management.network.NetworkWatchers;
@@ -61,6 +64,9 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     private VirtualNetworkGateways virtualNetworkGateways;
     private LocalNetworkGateways localNetworkGateways;
     private ExpressRouteCircuits expressRouteCircuits;
+    private ApplicationSecurityGroups applicationSecurityGroups;
+    private RouteFilters routeFilters;
+    private DdosProtectionPlans ddosProtectionPlans;
 
     /**
      * Get a Configurable instance that can be used to create {@link NetworkManager}
@@ -256,6 +262,39 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
             this.expressRouteCircuits = new ExpressRouteCircuitsImpl(this);
         }
         return this.expressRouteCircuits;
+    }
+
+    /**
+     * @return entry point to application security groups management
+     */
+    @Beta(SinceVersion.V1_10_0)
+    public ApplicationSecurityGroups applicationSecurityGroups() {
+        if (this.applicationSecurityGroups == null) {
+            this.applicationSecurityGroups = new ApplicationSecurityGroupsImpl(this);
+        }
+        return this.applicationSecurityGroups;
+    }
+
+    /**
+     * @return entry point to application security groups management
+     */
+    @Beta(SinceVersion.V1_10_0)
+    public RouteFilters routeFilters() {
+        if (this.routeFilters == null) {
+            this.routeFilters = new RouteFiltersImpl(this);
+        }
+        return this.routeFilters;
+    }
+
+    /**
+     * @return entry point to DDoS protection plans management
+     */
+    @Beta(SinceVersion.V1_10_0)
+    public DdosProtectionPlans ddosProtectionPlans() {
+        if (this.ddosProtectionPlans == null) {
+            this.ddosProtectionPlans = new DdosProtectionPlansImpl(this);
+        }
+        return this.ddosProtectionPlans;
     }
 
     // Internal utility function

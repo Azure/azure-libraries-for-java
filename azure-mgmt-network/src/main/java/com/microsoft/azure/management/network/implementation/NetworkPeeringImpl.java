@@ -23,6 +23,9 @@ import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  *  Implementation for network peering.
  */
@@ -84,6 +87,14 @@ class NetworkPeeringImpl
     @Override
     public String networkId() {
         return this.parent.id();
+    }
+
+    @Override
+    public List<String> remoteAddressSpaces() {
+        if (inner().remoteAddressSpace() == null || inner().remoteAddressSpace().addressPrefixes() == null) {
+            return null;
+        }
+        return Collections.unmodifiableList(inner().remoteAddressSpace().addressPrefixes());
     }
 
     @Override

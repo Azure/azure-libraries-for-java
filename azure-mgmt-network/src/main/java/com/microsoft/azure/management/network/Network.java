@@ -11,8 +11,10 @@ import java.util.Map;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.network.implementation.VirtualNetworkInner;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -27,7 +29,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 public interface Network extends
         GroupableResource<NetworkManager, VirtualNetworkInner>,
         Refreshable<Network>,
-        Updatable<Network.Update> {
+        Updatable<Network.Update>,
+        UpdatableWithTags<Network> {
 
     /**
      * Checks if the specified private IP address is available in this network.
@@ -68,6 +71,22 @@ public interface Network extends
      */
     @Beta(SinceVersion.V1_3_0)
     NetworkPeerings peerings();
+
+    /**
+     * @return whether DDoS protection is enabled for all the protected resources
+     * in the virtual network. It requires a DDoS protection plan associated with the resource.
+     */
+    boolean isDdosProtectionEnabled();
+
+    /**
+     * @return whether VM protection is enabled for all the subnets in the virtual network
+     */
+    boolean isVmProtectionEnabled();
+
+    /**
+     * @return the DDoS protection plan id associated with the virtual network
+     */
+    String ddosProtectionPlanId();
 
     /**
      * The entirety of the virtual network definition.
@@ -133,6 +152,38 @@ public interface Network extends
         }
 
         /**
+         * The stage of the virtual network definition allowing to specify DDoS protection plan.
+         */
+        interface WithDdosProtectionPlan {
+            /**
+             * Creates a new DDoS protection plan in the same region and group as the virtual network and associates it with the resource.
+             * The internal name the DDoS protection plan will be derived from the resource's name.
+             * @return the next stage of the definition
+             */
+            @Method
+            WithCreateAndSubnet withNewDdosProtectionPlan();
+
+            /**
+             * Associates existing DDoS protection plan with the virtual network.
+             * @param planId DDoS protection plan resource id
+             * @return the next stage of the definition
+             */
+            WithCreateAndSubnet withExistingDdosProtectionPlan(String planId);
+        }
+
+        /**
+         * The stage of the virtual network definition allowing to enable VM protection for all the subnets in the virtual network.
+         */
+        interface WithVmProtection {
+            /**
+             * Enable VM protection for all the subnets in the virtual network.
+             * @return the next stage of the definition
+             */
+            @Method
+            WithCreateAndSubnet withVmProtection();
+        }
+
+        /**
          * The stage of the virtual network definition which contains all the minimum required inputs for
          * the resource to be created, but also allows
          * for any other optional settings to be specified, except for adding subnets.
@@ -141,7 +192,9 @@ public interface Network extends
          */
         interface WithCreate extends
             Creatable<Network>,
-            Resource.DefinitionWithTags<WithCreate> {
+            Resource.DefinitionWithTags<WithCreate>,
+            DefinitionStages.WithDdosProtectionPlan,
+            DefinitionStages.WithVmProtection {
 
             /**
              * Specifies the IP address of an existing DNS server to associate with the virtual network.
@@ -267,6 +320,50 @@ public interface Network extends
             @Beta(SinceVersion.V1_4_0)
             Update withoutAddressSpace(String cidr);
         }
+
+        /**
+         * The stage of the virtual network update allowing to specify DDoS protection plan.
+         */
+        interface WithDdosProtectionPlan {
+            /**
+             * Creates a new DDoS protection plan in the same region and group as the virtual network and associates it with the resource.
+             * The internal name the DDoS protection plan will be derived from the resource's name.
+             * @return the next stage of the update
+             */
+            @Method
+            Update withNewDdosProtectionPlan();
+
+            /**
+             * Associates existing DDoS protection plan with the virtual network.
+             * @param planId DDoS protection plan resource id
+             * @return the next stage of the update
+             */
+            Update withExistingDdosProtectionPlan(String planId);
+
+            /**
+             * Disassociates DDoS protection plan and disables Standard DDoS protection for this virtual network. Note: Plan resource is not deleted from Azure.
+             * @return the next stage of the update
+             */
+            Update withoutDdosProtectionPlan();
+        }
+
+        /**
+         * The stage of the virtual network update allowing to enable/disable VM protection for all the subnets in the virtual network.
+         */
+        interface WithVmProtection {
+            /**
+             * Enable VM protection for all the subnets in the virtual network.
+             * @return the next stage of the update
+             */
+            @Method
+            Update withVmProtection();
+            /**
+             * Disable VM protection for all the subnets in the virtual network.
+             * @return the next stage of the update
+             */
+            @Method
+            Update withoutVmProtection();
+        }
     }
 
     /**
@@ -278,6 +375,8 @@ public interface Network extends
         Resource.UpdateWithTags<Update>,
         UpdateStages.WithSubnet,
         UpdateStages.WithDnsServer,
-        UpdateStages.WithAddressSpace {
+        UpdateStages.WithAddressSpace,
+        UpdateStages.WithDdosProtectionPlan,
+        UpdateStages.WithVmProtection {
     }
 }

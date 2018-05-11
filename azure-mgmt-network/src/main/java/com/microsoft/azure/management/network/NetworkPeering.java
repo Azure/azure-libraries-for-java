@@ -20,6 +20,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 
 import rx.Observable;
 
+import java.util.List;
+
 /**
  * An client-side representation of a network peering.
  */
@@ -35,6 +37,12 @@ public interface NetworkPeering extends
      * @return the local virtual network's ID
      */
     String networkId();
+
+    /**
+     * @return the reference of the remote virtual network address space
+     */
+    @Beta(SinceVersion.V1_10_0)
+    List<String> remoteAddressSpaces();
 
     /**
      * @return true if the peering enables IP addresses within the peered networks to be accessible from both networks, otherwise false

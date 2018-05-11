@@ -9,6 +9,7 @@ package com.microsoft.azure.management.network;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.network.implementation.NetworkInterfaceInner;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -25,7 +26,8 @@ public interface NetworkInterface extends
         NetworkInterfaceBase,
         GroupableResource<NetworkManager, NetworkInterfaceInner>,
         Refreshable<NetworkInterface>,
-        Updatable<NetworkInterface.Update> {
+        Updatable<NetworkInterface.Update>,
+        UpdatableWithTags<NetworkInterface> {
     /**
      * @return the IP configurations of this network interface, indexed by their names.
      */

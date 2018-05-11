@@ -15,6 +15,8 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.batchai.BatchAIClusters;
 import com.microsoft.azure.management.batchai.BatchAIFileServers;
+import com.microsoft.azure.management.batchai.BatchAIJobs;
+import com.microsoft.azure.management.batchai.BatchAIUsages;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -28,7 +30,9 @@ import com.microsoft.rest.RestClient;
 @Beta(SinceVersion.V1_6_0)
 public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagementClientImpl> {
     private BatchAIClusters batchAIClusters;
+    private BatchAIJobs batchAIJobs;
     private BatchAIFileServers batchAIFileServers;
+    private BatchAIUsages batchAIUsages;
 
     /**
     * Get a Configurable instance that can be used to create BatchAIManager with optional configuration.
@@ -103,6 +107,16 @@ public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagem
     }
 
     /**
+     * @return the batch AI jobs management API entry point
+     */
+    public BatchAIJobs jobs() {
+        if (batchAIJobs == null) {
+            batchAIJobs = new BatchAIJobsImpl(this);
+        }
+        return batchAIJobs;
+    }
+
+    /**
      * @return the batch AI file servers management API entry point
      */
     public BatchAIFileServers fileServers() {
@@ -110,5 +124,15 @@ public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagem
             batchAIFileServers = new BatchAIFileServersImpl(this);
         }
         return batchAIFileServers;
+    }
+
+    /**
+     * @return the batch AI usages management API entry point
+     */
+    public BatchAIUsages usages() {
+        if (batchAIUsages == null) {
+            batchAIUsages = new BatchAIUsagesImpl(super.innerManagementClient);
+        }
+        return batchAIUsages;
     }
 }

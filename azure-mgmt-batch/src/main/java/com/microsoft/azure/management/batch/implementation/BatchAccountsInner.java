@@ -17,7 +17,11 @@ import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.batch.AccountKeyType;
+import com.microsoft.azure.management.batch.BatchAccountCreateHeaders;
+import com.microsoft.azure.management.batch.BatchAccountCreateParameters;
+import com.microsoft.azure.management.batch.BatchAccountDeleteHeaders;
 import com.microsoft.azure.management.batch.BatchAccountRegenerateKeyParameters;
+import com.microsoft.azure.management.batch.BatchAccountUpdateParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -71,15 +75,15 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
     interface BatchAccountsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.BatchAccounts create" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}")
-        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body BatchAccountCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body BatchAccountCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.BatchAccounts beginCreate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}")
-        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body BatchAccountCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body BatchAccountCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.BatchAccounts update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body BatchAccountUpdateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body BatchAccountUpdateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.BatchAccounts delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}", method = "DELETE", hasBody = true)
@@ -134,7 +138,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the BatchAccountInner object if successful.
      */
-    public BatchAccountInner create(String resourceGroupName, String accountName, BatchAccountCreateParametersInner parameters) {
+    public BatchAccountInner create(String resourceGroupName, String accountName, BatchAccountCreateParameters parameters) {
         return createWithServiceResponseAsync(resourceGroupName, accountName, parameters).toBlocking().last().body();
     }
 
@@ -148,7 +152,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<BatchAccountInner> createAsync(String resourceGroupName, String accountName, BatchAccountCreateParametersInner parameters, final ServiceCallback<BatchAccountInner> serviceCallback) {
+    public ServiceFuture<BatchAccountInner> createAsync(String resourceGroupName, String accountName, BatchAccountCreateParameters parameters, final ServiceCallback<BatchAccountInner> serviceCallback) {
         return ServiceFuture.fromHeaderResponse(createWithServiceResponseAsync(resourceGroupName, accountName, parameters), serviceCallback);
     }
 
@@ -161,10 +165,10 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<BatchAccountInner> createAsync(String resourceGroupName, String accountName, BatchAccountCreateParametersInner parameters) {
-        return createWithServiceResponseAsync(resourceGroupName, accountName, parameters).map(new Func1<ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeadersInner>, BatchAccountInner>() {
+    public Observable<BatchAccountInner> createAsync(String resourceGroupName, String accountName, BatchAccountCreateParameters parameters) {
+        return createWithServiceResponseAsync(resourceGroupName, accountName, parameters).map(new Func1<ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeaders>, BatchAccountInner>() {
             @Override
-            public BatchAccountInner call(ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeadersInner> response) {
+            public BatchAccountInner call(ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeaders> response) {
                 return response.body();
             }
         });
@@ -179,7 +183,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeadersInner>> createWithServiceResponseAsync(String resourceGroupName, String accountName, BatchAccountCreateParametersInner parameters) {
+    public Observable<ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeaders>> createWithServiceResponseAsync(String resourceGroupName, String accountName, BatchAccountCreateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -197,7 +201,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
         }
         Validator.validate(parameters);
         Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, accountName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultWithHeadersAsync(observable, new TypeToken<BatchAccountInner>() { }.getType(), BatchAccountCreateHeadersInner.class);
+        return client.getAzureClient().getPutOrPatchResultWithHeadersAsync(observable, new TypeToken<BatchAccountInner>() { }.getType(), BatchAccountCreateHeaders.class);
     }
 
     /**
@@ -211,7 +215,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the BatchAccountInner object if successful.
      */
-    public BatchAccountInner beginCreate(String resourceGroupName, String accountName, BatchAccountCreateParametersInner parameters) {
+    public BatchAccountInner beginCreate(String resourceGroupName, String accountName, BatchAccountCreateParameters parameters) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, parameters).toBlocking().single().body();
     }
 
@@ -225,7 +229,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<BatchAccountInner> beginCreateAsync(String resourceGroupName, String accountName, BatchAccountCreateParametersInner parameters, final ServiceCallback<BatchAccountInner> serviceCallback) {
+    public ServiceFuture<BatchAccountInner> beginCreateAsync(String resourceGroupName, String accountName, BatchAccountCreateParameters parameters, final ServiceCallback<BatchAccountInner> serviceCallback) {
         return ServiceFuture.fromHeaderResponse(beginCreateWithServiceResponseAsync(resourceGroupName, accountName, parameters), serviceCallback);
     }
 
@@ -238,10 +242,10 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the BatchAccountInner object
      */
-    public Observable<BatchAccountInner> beginCreateAsync(String resourceGroupName, String accountName, BatchAccountCreateParametersInner parameters) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, parameters).map(new Func1<ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeadersInner>, BatchAccountInner>() {
+    public Observable<BatchAccountInner> beginCreateAsync(String resourceGroupName, String accountName, BatchAccountCreateParameters parameters) {
+        return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, parameters).map(new Func1<ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeaders>, BatchAccountInner>() {
             @Override
-            public BatchAccountInner call(ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeadersInner> response) {
+            public BatchAccountInner call(ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeaders> response) {
                 return response.body();
             }
         });
@@ -256,7 +260,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the BatchAccountInner object
      */
-    public Observable<ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeadersInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String accountName, BatchAccountCreateParametersInner parameters) {
+    public Observable<ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeaders>> beginCreateWithServiceResponseAsync(String resourceGroupName, String accountName, BatchAccountCreateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -274,11 +278,11 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
         }
         Validator.validate(parameters);
         return service.beginCreate(resourceGroupName, accountName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeadersInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeaders>>>() {
                 @Override
-                public Observable<ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeadersInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeaders>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeadersInner> clientResponse = beginCreateDelegate(response);
+                        ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeaders> clientResponse = beginCreateDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -287,12 +291,12 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
             });
     }
 
-    private ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeadersInner> beginCreateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponseWithHeaders<BatchAccountInner, BatchAccountCreateHeaders> beginCreateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<BatchAccountInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<BatchAccountInner>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
-                .buildWithHeaders(response, BatchAccountCreateHeadersInner.class);
+                .buildWithHeaders(response, BatchAccountCreateHeaders.class);
     }
 
     /**
@@ -306,7 +310,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the BatchAccountInner object if successful.
      */
-    public BatchAccountInner update(String resourceGroupName, String accountName, BatchAccountUpdateParametersInner parameters) {
+    public BatchAccountInner update(String resourceGroupName, String accountName, BatchAccountUpdateParameters parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, accountName, parameters).toBlocking().single().body();
     }
 
@@ -320,7 +324,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<BatchAccountInner> updateAsync(String resourceGroupName, String accountName, BatchAccountUpdateParametersInner parameters, final ServiceCallback<BatchAccountInner> serviceCallback) {
+    public ServiceFuture<BatchAccountInner> updateAsync(String resourceGroupName, String accountName, BatchAccountUpdateParameters parameters, final ServiceCallback<BatchAccountInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, accountName, parameters), serviceCallback);
     }
 
@@ -333,7 +337,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the BatchAccountInner object
      */
-    public Observable<BatchAccountInner> updateAsync(String resourceGroupName, String accountName, BatchAccountUpdateParametersInner parameters) {
+    public Observable<BatchAccountInner> updateAsync(String resourceGroupName, String accountName, BatchAccountUpdateParameters parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, accountName, parameters).map(new Func1<ServiceResponse<BatchAccountInner>, BatchAccountInner>() {
             @Override
             public BatchAccountInner call(ServiceResponse<BatchAccountInner> response) {
@@ -351,7 +355,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the BatchAccountInner object
      */
-    public Observable<ServiceResponse<BatchAccountInner>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, BatchAccountUpdateParametersInner parameters) {
+    public Observable<ServiceResponse<BatchAccountInner>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, BatchAccountUpdateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -424,9 +428,9 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @return the observable for the request
      */
     public Observable<Void> deleteAsync(String resourceGroupName, String accountName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, accountName).map(new Func1<ServiceResponseWithHeaders<Void, BatchAccountDeleteHeadersInner>, Void>() {
+        return deleteWithServiceResponseAsync(resourceGroupName, accountName).map(new Func1<ServiceResponseWithHeaders<Void, BatchAccountDeleteHeaders>, Void>() {
             @Override
-            public Void call(ServiceResponseWithHeaders<Void, BatchAccountDeleteHeadersInner> response) {
+            public Void call(ServiceResponseWithHeaders<Void, BatchAccountDeleteHeaders> response) {
                 return response.body();
             }
         });
@@ -440,7 +444,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponseWithHeaders<Void, BatchAccountDeleteHeadersInner>> deleteWithServiceResponseAsync(String resourceGroupName, String accountName) {
+    public Observable<ServiceResponseWithHeaders<Void, BatchAccountDeleteHeaders>> deleteWithServiceResponseAsync(String resourceGroupName, String accountName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -454,7 +458,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, accountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultWithHeadersAsync(observable, new TypeToken<Void>() { }.getType(), BatchAccountDeleteHeadersInner.class);
+        return client.getAzureClient().getPostOrDeleteResultWithHeadersAsync(observable, new TypeToken<Void>() { }.getType(), BatchAccountDeleteHeaders.class);
     }
 
     /**
@@ -492,9 +496,9 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @return the {@link ServiceResponseWithHeaders} object if successful.
      */
     public Observable<Void> beginDeleteAsync(String resourceGroupName, String accountName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, accountName).map(new Func1<ServiceResponseWithHeaders<Void, BatchAccountDeleteHeadersInner>, Void>() {
+        return beginDeleteWithServiceResponseAsync(resourceGroupName, accountName).map(new Func1<ServiceResponseWithHeaders<Void, BatchAccountDeleteHeaders>, Void>() {
             @Override
-            public Void call(ServiceResponseWithHeaders<Void, BatchAccountDeleteHeadersInner> response) {
+            public Void call(ServiceResponseWithHeaders<Void, BatchAccountDeleteHeaders> response) {
                 return response.body();
             }
         });
@@ -508,7 +512,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponseWithHeaders} object if successful.
      */
-    public Observable<ServiceResponseWithHeaders<Void, BatchAccountDeleteHeadersInner>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String accountName) {
+    public Observable<ServiceResponseWithHeaders<Void, BatchAccountDeleteHeaders>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String accountName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -522,11 +526,11 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.beginDelete(resourceGroupName, accountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<Void, BatchAccountDeleteHeadersInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<Void, BatchAccountDeleteHeaders>>>() {
                 @Override
-                public Observable<ServiceResponseWithHeaders<Void, BatchAccountDeleteHeadersInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponseWithHeaders<Void, BatchAccountDeleteHeaders>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponseWithHeaders<Void, BatchAccountDeleteHeadersInner> clientResponse = beginDeleteDelegate(response);
+                        ServiceResponseWithHeaders<Void, BatchAccountDeleteHeaders> clientResponse = beginDeleteDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -535,13 +539,13 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
             });
     }
 
-    private ServiceResponseWithHeaders<Void, BatchAccountDeleteHeadersInner> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponseWithHeaders<Void, BatchAccountDeleteHeaders> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
-                .buildWithHeaders(response, BatchAccountDeleteHeadersInner.class);
+                .buildWithHeaders(response, BatchAccountDeleteHeaders.class);
     }
 
     /**

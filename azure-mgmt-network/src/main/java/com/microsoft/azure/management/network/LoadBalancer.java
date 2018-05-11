@@ -14,6 +14,7 @@ import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.network.implementation.LoadBalancerInner;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.network.model.HasLoadBalancingRules;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -29,6 +30,7 @@ public interface LoadBalancer extends
         GroupableResource<NetworkManager, LoadBalancerInner>,
         Refreshable<LoadBalancer>,
         Updatable<LoadBalancer.Update>,
+        UpdatableWithTags<LoadBalancer>,
         HasLoadBalancingRules {
 
     // Getters

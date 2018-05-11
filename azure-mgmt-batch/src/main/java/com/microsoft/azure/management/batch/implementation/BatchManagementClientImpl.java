@@ -198,6 +198,32 @@ public class BatchManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The CertificatesInner object to access its operations.
+     */
+    private CertificatesInner certificates;
+
+    /**
+     * Gets the CertificatesInner object to access its operations.
+     * @return the CertificatesInner object.
+     */
+    public CertificatesInner certificates() {
+        return this.certificates;
+    }
+
+    /**
+     * The PoolsInner object to access its operations.
+     */
+    private PoolsInner pools;
+
+    /**
+     * Gets the PoolsInner object to access its operations.
+     * @return the PoolsInner object.
+     */
+    public PoolsInner pools() {
+        return this.pools;
+    }
+
+    /**
      * Initializes an instance of BatchManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -228,7 +254,7 @@ public class BatchManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2017-05-01";
+        this.apiVersion = "2017-09-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
@@ -237,6 +263,8 @@ public class BatchManagementClientImpl extends AzureServiceClient {
         this.applications = new ApplicationsInner(restClient().retrofit(), this);
         this.locations = new LocationsInner(restClient().retrofit(), this);
         this.operations = new OperationsInner(restClient().retrofit(), this);
+        this.certificates = new CertificatesInner(restClient().retrofit(), this);
+        this.pools = new PoolsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 
@@ -247,6 +275,6 @@ public class BatchManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "BatchManagementClient", "2017-05-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "BatchManagementClient", "2017-09-01");
     }
 }

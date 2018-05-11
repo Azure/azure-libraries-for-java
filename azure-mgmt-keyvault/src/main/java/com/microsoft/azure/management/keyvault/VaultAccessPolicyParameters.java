@@ -6,6 +6,8 @@
  */
 
 package com.microsoft.azure.management.keyvault;
+import java.util.List;
+
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.keyvault.implementation.VaultAccessPolicyParametersInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
@@ -34,4 +36,11 @@ public interface VaultAccessPolicyParameters extends
      * @return the location value
      */
     String location();
+    
+    /**
+     * Get the accessPolicies value.
+     *
+     * @return the accessPolicies value
+     */
+    public List<AccessPolicyEntry> accessPolicies();
 }

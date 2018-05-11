@@ -7,6 +7,9 @@
 
 package com.microsoft.azure.management.keyvault.implementation;
 
+import java.util.List;
+
+import com.microsoft.azure.management.keyvault.AccessPolicyEntry;
 import com.microsoft.azure.management.keyvault.VaultAccessPolicyParameters;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
@@ -36,6 +39,11 @@ public class VaultAccessPolicyParametersImpl extends WrapperImpl<VaultAccessPoli
     @Override
     public String location() {
         return inner().location();
+    }
+
+    @Override
+    public List<AccessPolicyEntry> accessPolicies() {
+        return inner().properties().accessPolicies();
     }
 
 }

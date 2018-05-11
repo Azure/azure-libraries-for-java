@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.cosmosdb.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.cosmosdb.Capability;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountListConnectionStringsResult;
@@ -23,6 +24,7 @@ import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -146,6 +148,15 @@ class CosmosDBAccountImpl
     }
 
     @Override
+    public List<Capability> capabilities() {
+        List<Capability> capabilities = this.inner().capabilities();
+        if (capabilities == null) {
+            capabilities = new ArrayList<>();
+        }
+        return Collections.unmodifiableList(capabilities);
+    }
+
+    @Override
     public void regenerateKey(KeyKind keyKind) {
         this.regenerateKeyAsync(keyKind).toBlocking().last();
     }
@@ -160,6 +171,52 @@ class CosmosDBAccountImpl
     public CosmosDBAccountImpl withKind(DatabaseAccountKind kind) {
         this.inner().withKind(kind);
         return this;        
+    }
+
+    @Override
+    public CosmosDBAccountImpl withKind(DatabaseAccountKind kind, Capability... capabilities) {
+        this.inner().withKind(kind);
+        this.inner().withCapabilities(Arrays.asList(capabilities));
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withDataModelSql() {
+        this.inner().withKind(DatabaseAccountKind.GLOBAL_DOCUMENT_DB);
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withDataModelMongoDB() {
+        this.inner().withKind(DatabaseAccountKind.MONGO_DB);
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withDataModelCassandra() {
+        this.inner().withKind(DatabaseAccountKind.PARSE);
+        List<Capability> capabilities = new ArrayList<Capability>();
+        capabilities.add(new Capability().withName("EnableCassandra"));
+        this.inner().withCapabilities(capabilities);
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withDataModelAzureTable() {
+        this.inner().withKind(DatabaseAccountKind.PARSE);
+        List<Capability> capabilities = new ArrayList<Capability>();
+        capabilities.add(new Capability().withName("EnableTable"));
+        this.inner().withCapabilities(capabilities);
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withDataModelGremlin() {
+        this.inner().withKind(DatabaseAccountKind.PARSE);
+        List<Capability> capabilities = new ArrayList<Capability>();
+        capabilities.add(new Capability().withName("EnableGremlin"));
+        this.inner().withCapabilities(capabilities);
+        return this;
     }
 
 
@@ -251,6 +308,7 @@ class CosmosDBAccountImpl
                 DatabaseAccountOfferType.STANDARD.toString());
         createUpdateParametersInner.withIpRangeFilter(inner.ipRangeFilter());
         createUpdateParametersInner.withKind(inner.kind());
+        createUpdateParametersInner.withCapabilities(inner.capabilities());
         createUpdateParametersInner.withTags(inner.getTags());
         this.addLocationsForCreateUpdateParameters(createUpdateParametersInner, this.failoverPolicies);
         return createUpdateParametersInner;

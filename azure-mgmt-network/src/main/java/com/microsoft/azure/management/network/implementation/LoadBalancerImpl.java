@@ -23,9 +23,9 @@ import com.microsoft.azure.management.network.ProbeProtocol;
 import com.microsoft.azure.management.network.LoadBalancerPublicFrontend;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.LoadBalancerTcpProbe;
+import com.microsoft.azure.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.management.network.model.HasNetworkInterfaces;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 
@@ -46,7 +46,7 @@ import java.util.TreeMap;
  */
 @LangDefinition
 class LoadBalancerImpl
-    extends GroupableParentResourceImpl<
+    extends GroupableParentResourceWithTagsImpl<
         LoadBalancer,
         LoadBalancerInner,
         LoadBalancerImpl,
@@ -90,6 +90,11 @@ class LoadBalancerImpl
     @Override
     protected Observable<LoadBalancerInner> getInnerAsync() {
         return this.manager().inner().loadBalancers().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    }
+
+    @Override
+    protected Observable<LoadBalancerInner> applyTagsToInnerAsync() {
+        return this.manager().inner().loadBalancers().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
     // Helpers

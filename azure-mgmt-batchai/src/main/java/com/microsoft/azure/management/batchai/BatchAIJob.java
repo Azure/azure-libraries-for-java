@@ -269,11 +269,30 @@ public interface BatchAIJob extends
         /**
          * The first stage of Batch AI job definition.
          */
-        interface Blank extends DefinitionWithRegion<WithNodeCount> {
+        interface Blank extends WithCluster {
         }
 
         /**
-         * The stage of the setup task definition allowing to specify where Batch AI will upload stdout and stderr of the job.
+         * The stage of the Batch AI job definition allowing to specify cluster for the job.
+         */
+        interface WithCluster {
+            /**
+             * Sets Batch AI cluster for the job.
+             * @param cluster Batch AI cluster to run the job
+             * @return the next stage of the definition
+             */
+            WithNodeCount withExistingCluster(BatchAICluster cluster);
+
+            /**
+             * Sets Batch AI cluster id for the job.
+             * @param clusterId Batch AI cluster id
+             * @return the next stage of the definition
+             */
+            WithNodeCount withExistingClusterId(String clusterId);
+        }
+
+        /**
+         * The stage of the job definition allowing to specify where Batch AI will upload stdout and stderr of the job.
          */
         interface WithStdOutErrPathPrefix {
             /**
@@ -420,7 +439,7 @@ public interface BatchAIJob extends
                 WithExperimentName,
                 WithEnvironmentVariable,
                 WithEnvironmentVariableSecretValue,
-                HasMountVolumes.DefinitionStages.WithMountVolumes {
+                HasMountVolumes.DefinitionStages.WithMountVolumes<WithCreate> {
         }
     }
 }

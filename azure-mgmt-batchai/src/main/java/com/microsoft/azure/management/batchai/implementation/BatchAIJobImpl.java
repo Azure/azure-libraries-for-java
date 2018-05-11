@@ -65,14 +65,13 @@ class BatchAIJobImpl
         implements BatchAIJob,
         BatchAIJob.Definition,
         HasMountVolumes {
-    private final BatchAICluster parent;
+    private BatchAICluster parent;
     private JobCreateParametersInner createParameters = new JobCreateParametersInner();
 
     BatchAIJobImpl(String name,
-                   BatchAIClusterImpl parent,
-                   JobInner inner) {
-        super(name, inner, parent.manager());
-        this.parent = parent;
+                   JobInner inner,
+                   BatchAIManager manager) {
+        super(name, inner, manager);
     }
 
     @Override
@@ -87,8 +86,11 @@ class BatchAIJobImpl
 
     @Override
     public Observable<BatchAIJob> createResourceAsync() {
-        ResourceId resourceId = new ResourceId().withId(parent.id());
-        createParameters.withCluster(resourceId).withLocation(inner().location());
+        if (parent == null) {
+            parent = manager().clusters().getById(createParameters.cluster().id());
+        }
+        withExistingResourceGroup(parent.resourceGroupName());
+        createParameters.withLocation(parent.regionName());
         return myManager.inner().jobs().createAsync(
                 this.resourceGroupName(), this.name(), createParameters)
                 .map(innerToFluentMap(this));
@@ -219,6 +221,18 @@ class BatchAIJobImpl
         KeyVaultSecretReference secretReference = new KeyVaultSecretReference()
                 .withSourceVault(new ResourceId().withId(keyVaultId)).withSecretUrl(secretUrl);
         ensureEnvironmentVariablesWithSecrets().add(new EnvironmentVariableWithSecretValue().withName(name).withValueSecretReference(secretReference));
+        return this;
+    }
+
+    @Override
+    public BatchAIJobImpl withExistingCluster(BatchAICluster cluster) {
+        parent = cluster;
+        return this;
+    }
+
+    @Override
+    public BatchAIJobImpl withExistingClusterId(String clusterId) {
+        createParameters.withCluster(new ResourceId().withId(clusterId));
         return this;
     }
 

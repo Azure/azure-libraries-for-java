@@ -46,6 +46,14 @@ public class TestPublicIPAddress extends TestTemplate<PublicIPAddress, PublicIPA
                 .apply();
         Assert.assertTrue(resource.leafDomainLabel().equalsIgnoreCase(updatedDnsName));
         Assert.assertTrue(resource.idleTimeoutInMinutes() == updatedIdleTimeout);
+        Assert.assertEquals("value2", resource.tags().get("tag2"));
+
+        resource.updateTags()
+                .withoutTag("tag1")
+                .withTag("tag3", "value3")
+                .applyTags();
+        Assert.assertFalse(resource.tags().containsKey("tag1"));
+        Assert.assertEquals("value3", resource.tags().get("tag3"));
         return resource;
     }
 

@@ -6,6 +6,7 @@
 package com.microsoft.azure.management;
 
 import com.google.common.util.concurrent.SettableFuture;
+import com.microsoft.azure.management.network.ApplicationSecurityGroup;
 import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.NetworkSecurityGroups;
@@ -14,6 +15,7 @@ import com.microsoft.azure.management.network.SecurityRuleProtocol;
 import com.microsoft.azure.management.network.Subnet;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 
 import java.util.List;
@@ -31,12 +33,18 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
         final String newName = "nsg" + this.testId;
         final String resourceGroupName = "rg" + this.testId;
         final String nicName = "nic" + this.testId;
+        final String asgName = SdkContext.randomResourceName("asg", 8);
         final Region region = Region.US_WEST;
         final SettableFuture<NetworkSecurityGroup> nsgFuture = SettableFuture.create();
+
+        ApplicationSecurityGroup asg = nsgs.manager().applicationSecurityGroups().define(asgName)
+                .withRegion(region)
+                .withNewResourceGroup(resourceGroupName)
+                .create();
         // Create
         Observable<Indexable> resourceStream = nsgs.define(newName)
                 .withRegion(region)
-                .withNewResourceGroup(resourceGroupName)
+                .withExistingResourceGroup(resourceGroupName)
                 .defineRule("rule1")
                     .allowOutbound()
                     .fromAnyAddress()
@@ -47,7 +55,7 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
                     .attach()
                 .defineRule("rule2")
                     .allowInbound()
-                    .fromAnyAddress()
+                    .withSourceApplicationSecurityGroup(asg.id())
                     .fromAnyPort()
                     .toAnyAddress()
                     .toPortRange(22, 25)
@@ -95,6 +103,9 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
         Assert.assertEquals(1,  nsg.networkInterfaceIds().size());
         Assert.assertTrue(nsg.networkInterfaceIds().contains(nic.id()));
 
+        Assert.assertEquals(1, nsg.securityRules().get("rule2").sourceApplicationSecurityGroupIds().size());
+        Assert.assertEquals(asg.id(), nsg.securityRules().get("rule2").sourceApplicationSecurityGroupIds().iterator().next());
+
         return nsg;
     }
 
@@ -122,6 +133,15 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
                     .parent()
                 .apply();
         Assert.assertTrue(resource.tags().containsKey("tag1"));
+        Assert.assertTrue(resource.securityRules().get("rule2").sourceApplicationSecurityGroupIds().isEmpty());
+        Assert.assertEquals("100.0.0.0/29", resource.securityRules().get("rule2").sourceAddressPrefix());
+
+        resource.updateTags()
+                .withTag("tag3", "value3")
+                .withoutTag("tag1")
+                .applyTags();
+        Assert.assertEquals("value3", resource.tags().get("tag3"));
+        Assert.assertFalse(resource.tags().containsKey("tag1"));
         return resource;
     }
 

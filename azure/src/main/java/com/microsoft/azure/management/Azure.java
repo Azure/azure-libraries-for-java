@@ -20,6 +20,7 @@ import com.microsoft.azure.management.batch.BatchAccounts;
 import com.microsoft.azure.management.batch.implementation.BatchManager;
 import com.microsoft.azure.management.batchai.BatchAIClusters;
 import com.microsoft.azure.management.batchai.BatchAIFileServers;
+import com.microsoft.azure.management.batchai.BatchAIJobs;
 import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.cdn.CdnProfiles;
 import com.microsoft.azure.management.cdn.implementation.CdnManager;
@@ -67,6 +68,8 @@ import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.msi.Identities;
 import com.microsoft.azure.management.msi.implementation.MSIManager;
 import com.microsoft.azure.management.network.ApplicationGateways;
+import com.microsoft.azure.management.network.ApplicationSecurityGroups;
+import com.microsoft.azure.management.network.DdosProtectionPlans;
 import com.microsoft.azure.management.network.ExpressRouteCircuits;
 import com.microsoft.azure.management.network.LoadBalancers;
 import com.microsoft.azure.management.network.LocalNetworkGateways;
@@ -76,6 +79,7 @@ import com.microsoft.azure.management.network.NetworkUsages;
 import com.microsoft.azure.management.network.Networks;
 import com.microsoft.azure.management.network.NetworkWatchers;
 import com.microsoft.azure.management.network.PublicIPAddresses;
+import com.microsoft.azure.management.network.RouteFilters;
 import com.microsoft.azure.management.network.RouteTables;
 import com.microsoft.azure.management.network.VirtualNetworkGateways;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
@@ -601,6 +605,30 @@ public final class Azure {
     }
 
     /**
+     * @return entry point to managing express route circuits
+     */
+    @Beta(SinceVersion.V1_10_0)
+    public ApplicationSecurityGroups applicationSecurityGroups() {
+        return networkManager.applicationSecurityGroups();
+    }
+
+    /**
+     * @return entry point to managing route filters
+     */
+    @Beta(SinceVersion.V1_10_0)
+    public RouteFilters routeFilters() {
+        return networkManager.routeFilters();
+    }
+
+    /**
+     * @return entry point to managing DDoS protection plans
+     */
+    @Beta(SinceVersion.V1_10_0)
+    public DdosProtectionPlans ddosProtectionPlans() {
+        return networkManager.ddosProtectionPlans();
+    }
+
+    /**
      * @return entry point to managing virtual machines
      */
     public VirtualMachines virtualMachines() {
@@ -689,6 +717,13 @@ public final class Azure {
      */
     public BatchAIClusters batchAIClusters() {
         return batchAIManager.clusters();
+    }
+
+    /**
+     * @return entry point to managing batch AI clusters.
+     */
+    public BatchAIJobs batchAIJobs() {
+        return batchAIManager.jobs();
     }
 
     /**

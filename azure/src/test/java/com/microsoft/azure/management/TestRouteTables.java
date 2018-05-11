@@ -53,6 +53,7 @@ public class TestRouteTables {
                         .withDestinationAddressPrefix(route2AddressPrefix)
                         .withNextHop(hopType)
                         .attach()
+                    .withDisableBgpRoutePropagation()
                     .create();
 
             Assert.assertTrue(routeTable.routes().containsKey(ROUTE1_NAME));
@@ -66,6 +67,8 @@ public class TestRouteTables {
             Assert.assertTrue(route2.destinationAddressPrefix().equalsIgnoreCase(route2AddressPrefix));
             Assert.assertTrue(route2.nextHopIPAddress() == null);
             Assert.assertTrue(route2.nextHopType().equals(hopType));
+
+            Assert.assertTrue(routeTable.isBgpRoutePropagationDisabled());
 
             // Create a subnet that references the route table
             routeTables.manager().networks().define("net" + this.testId)
@@ -99,6 +102,7 @@ public class TestRouteTables {
                         .withNextHop(RouteNextHopType.INTERNET)
                         .parent()
                     .withRouteViaVirtualAppliance("10.0.5.0/29", VIRTUAL_APPLIANCE_IP)
+                    .withEnableBgpRoutePropagation()
                     .apply();
 
             Assert.assertTrue(routeTable.tags().containsKey("tag1"));
@@ -106,6 +110,7 @@ public class TestRouteTables {
             Assert.assertTrue(!routeTable.routes().containsKey(ROUTE1_NAME));
             Assert.assertTrue(routeTable.routes().containsKey(ROUTE2_NAME));
             Assert.assertTrue(routeTable.routes().containsKey(ROUTE_ADDED_NAME));
+            Assert.assertFalse(routeTable.isBgpRoutePropagationDisabled());
 
             routeTable.manager().networks().getByResourceGroup(routeTable.resourceGroupName(), "net" + this.testId).update()
                 .updateSubnet("subnet1")
@@ -116,6 +121,12 @@ public class TestRouteTables {
             List<Subnet> subnets = routeTable.refresh().listAssociatedSubnets();
             Assert.assertTrue(subnets.size() == 0);
 
+            routeTable.updateTags()
+                    .withoutTag("tag1")
+                    .withTag("tag3", "value3")
+                    .applyTags();
+            Assert.assertFalse(routeTable.tags().containsKey("tag1"));
+            Assert.assertEquals("value3", routeTable.tags().get("tag3"));
             return routeTable;
         }
 
@@ -156,7 +167,7 @@ public class TestRouteTables {
                 .append("\n\t\tSubnet name: ").append(subnet.name())
                 .append("\n\tSubnet's route table ID: ").append(subnet.routeTableId());
         }
-
+        info.append("\n\tDisable BGP route propagation: ").append(resource.isBgpRoutePropagationDisabled());
         System.out.println(info.toString());
     }
 }

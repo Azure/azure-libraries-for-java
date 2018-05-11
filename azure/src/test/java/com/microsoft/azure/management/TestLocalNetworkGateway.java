@@ -14,7 +14,7 @@ import org.junit.Assert;
 /**
  * Tests Local Network Gateway.
  */
-public class TestLocalNetworkGateway  extends TestTemplate<LocalNetworkGateway, LocalNetworkGateways> {
+public class TestLocalNetworkGateway extends TestTemplate<LocalNetworkGateway, LocalNetworkGateways> {
     private static String TEST_ID = "";
     private static Region REGION = Region.US_NORTH_CENTRAL;
     private String groupName;
@@ -54,6 +54,12 @@ public class TestLocalNetworkGateway  extends TestTemplate<LocalNetworkGateway, 
         Assert.assertEquals("40.71.184.216", gateway.ipAddress());
         Assert.assertTrue(gateway.tags().containsKey("tag2"));
         Assert.assertTrue(!gateway.tags().containsKey("tag1"));
+        gateway.updateTags()
+                .withoutTag("tag2")
+                .withTag("tag3", "value3")
+                .applyTags();
+        Assert.assertFalse(gateway.tags().containsKey("tag2"));
+        Assert.assertEquals("value3", gateway.tags().get("tag3"));
         return gateway;
     }
 

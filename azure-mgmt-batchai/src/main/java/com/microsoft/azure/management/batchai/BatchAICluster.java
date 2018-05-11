@@ -117,11 +117,6 @@ public interface BatchAICluster extends
     NodeStateCounts nodeStateCounts();
 
     /**
-     * @return the entry point to Batch AI jobs management API for this cluster
-     */
-    BatchAIJobs jobs();
-
-    /**
      * The entirety of a Batch AI cluster definition.
      */
     interface Definition extends

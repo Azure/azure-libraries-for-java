@@ -24,9 +24,10 @@ import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 
 /**
  * The implementation for KubernetesCluster and its create and update interfaces.
@@ -219,14 +220,14 @@ public class KubernetesClusterImpl extends
 
         if (useLatestVersion) {
             return this.manager().inner().containerServices().listOrchestratorsAsync(self.inner().location())
-                .collect(new Func0<TreeSet<String>>() {
+                .collect(new Func0<List<String>>() {
                     @Override
-                    public TreeSet<String> call() {
-                        return new TreeSet<String>();
+                    public List<String> call() {
+                        return new ArrayList<String>();
                     }
-                }, new Action2<TreeSet<String>, OrchestratorVersionProfileListResultInner>() {
+                }, new Action2<List<String>, OrchestratorVersionProfileListResultInner>() {
                     @Override
-                    public void call(TreeSet<String> kubernetesVersions, OrchestratorVersionProfileListResultInner inner) {
+                    public void call(List<String> kubernetesVersions, OrchestratorVersionProfileListResultInner inner) {
                         if (inner != null && inner.orchestrators() != null && inner.orchestrators().size() > 0) {
                             for (OrchestratorVersionProfile orchestrator : inner.orchestrators()) {
                                 if (orchestrator.orchestratorType().equals("Kubernetes")) {
@@ -236,10 +237,27 @@ public class KubernetesClusterImpl extends
                         }
                     }
                 }).last()
-                .flatMap(new Func1<TreeSet<String>, Observable<KubernetesCluster>>() {
+                .flatMap(new Func1<List<String>, Observable<KubernetesCluster>>() {
                     @Override
-                    public Observable<KubernetesCluster> call(TreeSet<String> kubernetesVersions) {
-                        self.inner().withKubernetesVersion(kubernetesVersions.last());
+                    public Observable<KubernetesCluster> call(List<String> kubernetesVersions) {
+                        Collections.sort(kubernetesVersions, (new Comparator<String>() {
+                            @Override
+                            public int compare(String ver1, String ver2) {
+                                int maxLength = ver1.length() > ver2.length() ? ver1.length() : ver2.length();
+                                String[] splitVer1 = ver1.split("\\.");
+                                String[] splitVer2 = ver2.split("\\.");
+                                StringBuilder sbVer1 = new StringBuilder();
+                                StringBuilder sbVer2 = new StringBuilder();
+                                for (String item : splitVer1) {
+                                    sbVer1.append(String.format("%" + maxLength + "s", item));
+                                }
+                                for (String item : splitVer2) {
+                                    sbVer2.append(String.format("%" + maxLength + "s", item));
+                                }
+                                return sbVer2.toString().compareTo(sbVer1.toString());
+                            }
+                        }));
+                        self.inner().withKubernetesVersion(kubernetesVersions.get(0));
                         return self.manager().inner().managedClusters().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner())
                             .map(new Func1<ManagedClusterInner, KubernetesCluster>() {
                                 @Override
@@ -276,6 +294,12 @@ public class KubernetesClusterImpl extends
     @Override
     public KubernetesClusterImpl withVersion(KubernetesVersion kubernetesVersion) {
         this.inner().withKubernetesVersion(kubernetesVersion.toString());
+        return this;
+    }
+
+    @Override
+    public KubernetesClusterImpl withVersion(String kubernetesVersion) {
+        this.inner().withKubernetesVersion(kubernetesVersion);
         return this;
     }
 

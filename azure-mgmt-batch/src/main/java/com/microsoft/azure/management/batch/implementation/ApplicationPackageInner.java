@@ -31,7 +31,7 @@ public class ApplicationPackageInner {
 
     /**
      * The current state of the application package. Possible values include:
-     * 'pending', 'active', 'unmapped'.
+     * 'Pending', 'Active', 'Unmapped'.
      */
     @JsonProperty(value = "state", access = JsonProperty.Access.WRITE_ONLY)
     private PackageState state;

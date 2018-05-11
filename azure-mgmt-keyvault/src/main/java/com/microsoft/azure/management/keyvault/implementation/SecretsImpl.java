@@ -27,7 +27,7 @@ import rx.Observable;
 import java.io.IOException;
 
 /**
- * The implementation of Vaults and its parent interfaces.
+ * The implementation of Secrets and its parent interfaces.
  */
 @LangDefinition
 class SecretsImpl

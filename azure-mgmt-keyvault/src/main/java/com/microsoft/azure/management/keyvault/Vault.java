@@ -87,6 +87,27 @@ public interface Vault extends
      * retrieve secrets from the key vault.
      */
     boolean enabledForTemplateDeployment();
+    
+    /**
+     * @return whether soft delete is enabled for this key vault.
+     */
+    @Beta(SinceVersion.V1_11_0)
+    boolean softDeleteEnabled();
+    
+    /**
+     * @return whether purge protection is enabled for this key vault.
+     * Purge protection can only be enabled if soft delete is enabled.
+     */
+    @Beta(SinceVersion.V1_11_0)
+    boolean purgeProtectionEnabled();
+    
+    /**
+     * Get the createMode value.
+     * 
+     * @return the createMode value
+     */
+    @Beta(SinceVersion.V1_11_0)
+    CreateMode createMode();
 
     /**************************************************************
      * Fluent interfaces to provision a Vault
@@ -183,6 +204,22 @@ public interface Vault extends
              * @return the next stage of key vault definition
              */
             WithCreate withTemplateDeploymentEnabled();
+            
+            /**
+             * Enable soft delete for the key vault.
+             * 
+             * @return the next stage of key vault definition
+             */
+            @Beta(SinceVersion.V1_11_0)
+            WithCreate withSoftDeleteEnabled();
+            
+            /**
+             * Enable purge protection for the key vault; valid only if soft delete is also enabled.
+             * 
+             * @return the next stage of key vault definition.
+             */
+            @Beta(SinceVersion.V1_11_0)
+            WithCreate withPurgeProtectionEnabled();
 
             /**
              * Disable Azure Virtual Machines to retrieve certificates stored as secrets from the key vault.
@@ -285,6 +322,22 @@ public interface Vault extends
              * @return the key vault update stage
              */
             Update withTemplateDeploymentEnabled();
+            
+            /**
+             * Enable soft delete for the key vault.
+             * 
+             * @return the next stage of key vault definition
+             */
+            @Beta(SinceVersion.V1_11_0)
+            Update withSoftDeleteEnabled();
+            
+            /**
+             * Enable purge protection for the key vault; valid only if soft delete is also enabled.
+             * 
+             * @return the next stage of key vault definition.
+             */
+            @Beta(SinceVersion.V1_11_0)
+            Update withPurgeProtectionEnabled();
 
             /**
              * Disable Azure Virtual Machines to retrieve certificates stored as secrets from the key vault.

@@ -14,10 +14,10 @@ import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.NicIPConfiguration;
 import com.microsoft.azure.management.network.PublicIPAddress;
+import com.microsoft.azure.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.ResourceNamer;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
@@ -36,7 +36,7 @@ import java.util.TreeMap;
  */
 @LangDefinition
 class NetworkInterfaceImpl
-        extends GroupableParentResourceImpl<
+        extends GroupableParentResourceWithTagsImpl<
             NetworkInterface,
             NetworkInterfaceInner,
             NetworkInterfaceImpl,
@@ -97,6 +97,11 @@ class NetworkInterfaceImpl
     @Override
     protected Observable<NetworkInterfaceInner> getInnerAsync() {
         return this.manager().inner().networkInterfaces().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    }
+
+    @Override
+    protected Observable<NetworkInterfaceInner> applyTagsToInnerAsync() {
+        return this.manager().inner().networkInterfaces().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
     // Setters (fluent)

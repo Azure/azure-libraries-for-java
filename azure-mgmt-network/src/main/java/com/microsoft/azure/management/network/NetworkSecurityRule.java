@@ -13,6 +13,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
+import java.util.Set;
+
 /**
  * A network security rule in a network security group.
  */
@@ -70,6 +72,16 @@ public interface NetworkSecurityRule extends
     int priority();
 
     /**
+     * @return list of application security group ids specified as source
+     */
+    Set<String> sourceApplicationSecurityGroupIds();
+
+    /**
+     * @return list of application security group ids specified as destination
+     */
+    Set<String> destinationApplicationSecurityGroupIds();
+
+    /**
      * The entirety of a network security rule definition.
      * @param <ParentT> the return type of the final {@link Attachable#attach()}
      */
@@ -77,9 +89,9 @@ public interface NetworkSecurityRule extends
         DefinitionStages.Blank<ParentT>,
         DefinitionStages.WithAttach<ParentT>,
         DefinitionStages.WithDirectionAccess<ParentT>,
-        DefinitionStages.WithSourceAddress<ParentT>,
+        DefinitionStages.WithSourceAddressOrSecurityGroup<ParentT>,
         DefinitionStages.WithSourcePort<ParentT>,
-        DefinitionStages.WithDestinationAddress<ParentT>,
+        DefinitionStages.WithDestinationAddressOrSecurityGroup<ParentT>,
         DefinitionStages.WithDestinationPort<ParentT>,
         DefinitionStages.WithProtocol<ParentT> {
     }
@@ -144,9 +156,11 @@ public interface NetworkSecurityRule extends
 
         /**
          * The stage of the network rule definition allowing the destination address to be specified.
+         * Note: network security rule must specify a non empty value for exactly one of:
+         * DestinationAddressPrefixes, DestinationAddressPrefix, DestinationApplicationSecurityGroups.
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        interface WithDestinationAddress<ParentT> {
+        interface WithDestinationAddressOrSecurityGroup<ParentT> {
             /**
              * Specifies the traffic destination address range to which this rule applies.
              * @param cidr an IP address range expressed in the CIDR notation
@@ -160,6 +174,13 @@ public interface NetworkSecurityRule extends
              */
             @Method
             WithDestinationPort<ParentT> toAnyAddress();
+
+            /**
+             * Sets the application security group specified as destination.
+             * @param id  application security group id
+             * @return the next stage of the definition
+             */
+            WithDestinationPort<ParentT> withDestinationApplicationSecurityGroup(String id);
         }
 
         /**
@@ -172,14 +193,14 @@ public interface NetworkSecurityRule extends
              * @param port the source port number
              * @return the next stage of the definition
              */
-            WithDestinationAddress<ParentT> fromPort(int port);
+            WithDestinationAddressOrSecurityGroup<ParentT> fromPort(int port);
 
             /**
              * Makes this rule apply to any source port.
              * @return the next stage of the definition
              */
             @Method
-            WithDestinationAddress<ParentT> fromAnyPort();
+            WithDestinationAddressOrSecurityGroup<ParentT> fromAnyPort();
 
             /**
              * Specifies the source port range to which this rule applies.
@@ -187,14 +208,16 @@ public interface NetworkSecurityRule extends
              * @param to the ending port number
              * @return the next stage of the definition
              */
-            WithDestinationAddress<ParentT> fromPortRange(int from, int to);
+            WithDestinationAddressOrSecurityGroup<ParentT> fromPortRange(int from, int to);
         }
 
         /**
          * The stage of the network rule definition allowing the source address to be specified.
+         * Note: network security rule must specify a non empty value for exactly one of:
+         * SourceAddressPrefixes, SourceAddressPrefix, SourceApplicationSecurityGroups.
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        interface WithSourceAddress<ParentT> {
+        interface WithSourceAddressOrSecurityGroup<ParentT> {
             /**
              * Specifies the traffic source address prefix to which this rule applies.
              * @param cidr an IP address prefix expressed in the CIDR notation
@@ -209,6 +232,13 @@ public interface NetworkSecurityRule extends
              */
             @Method
             WithSourcePort<ParentT> fromAnyAddress();
+
+            /**
+             * Sets the application security group specified as source.
+             * @param id  application security group id
+             * @return the next stage of the definition
+             */
+            WithSourcePort<ParentT> withSourceApplicationSecurityGroup(String id);
         }
 
         /**
@@ -221,28 +251,28 @@ public interface NetworkSecurityRule extends
              * @return the next stage of the definition
              */
             @Method
-            WithSourceAddress<ParentT> allowInbound();
+            WithSourceAddressOrSecurityGroup<ParentT> allowInbound();
 
             /**
              * Allows outbound traffic.
              * @return the next stage of the definition
              */
             @Method
-            WithSourceAddress<ParentT> allowOutbound();
+            WithSourceAddressOrSecurityGroup<ParentT> allowOutbound();
 
             /**
              * Blocks inbound traffic.
              * @return the next stage of the definition
              */
             @Method
-            WithSourceAddress<ParentT> denyInbound();
+            WithSourceAddressOrSecurityGroup<ParentT> denyInbound();
 
             /**
              * Blocks outbound traffic.
              * @return the next stage of the definition
              */
             @Method
-            WithSourceAddress<ParentT> denyOutbound();
+            WithSourceAddressOrSecurityGroup<ParentT> denyOutbound();
         }
 
         /**
@@ -292,9 +322,9 @@ public interface NetworkSecurityRule extends
     interface UpdateDefinition<ParentT> extends
         UpdateDefinitionStages.Blank<ParentT>,
         UpdateDefinitionStages.WithDirectionAccess<ParentT>,
-        UpdateDefinitionStages.WithSourceAddress<ParentT>,
+        UpdateDefinitionStages.WithSourceAddressOrSecurityGroup<ParentT>,
         UpdateDefinitionStages.WithSourcePort<ParentT>,
-        UpdateDefinitionStages.WithDestinationAddress<ParentT>,
+        UpdateDefinitionStages.WithDestinationAddressOrSecurityGroup<ParentT>,
         UpdateDefinitionStages.WithDestinationPort<ParentT>,
         UpdateDefinitionStages.WithProtocol<ParentT>,
         UpdateDefinitionStages.WithAttach<ParentT> {
@@ -321,35 +351,37 @@ public interface NetworkSecurityRule extends
              * @return the next stage of the definition
              */
             @Method
-            WithSourceAddress<ParentT> allowInbound();
+            WithSourceAddressOrSecurityGroup<ParentT> allowInbound();
 
             /**
              * Allows outbound traffic.
              * @return the next stage of the definition
              */
             @Method
-            WithSourceAddress<ParentT> allowOutbound();
+            WithSourceAddressOrSecurityGroup<ParentT> allowOutbound();
 
             /**
              * Blocks inbound traffic.
              * @return the next stage of the definition
              */
             @Method
-            WithSourceAddress<ParentT> denyInbound();
+            WithSourceAddressOrSecurityGroup<ParentT> denyInbound();
 
             /**
              * Blocks outbound traffic.
              * @return the next stage of the definition
              */
             @Method
-            WithSourceAddress<ParentT> denyOutbound();
+            WithSourceAddressOrSecurityGroup<ParentT> denyOutbound();
         }
 
         /**
          * The stage of the network rule definition allowing the source address to be specified.
+         * Note: network security rule must specify a non empty value for exactly one of:
+         * SourceAddressPrefixes, SourceAddressPrefix, SourceApplicationSecurityGroups.
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        interface WithSourceAddress<ParentT> {
+        interface WithSourceAddressOrSecurityGroup<ParentT> {
             /**
              * Specifies the traffic source address prefix to which this rule applies.
              * @param cidr an IP address prefix expressed in the CIDR notation
@@ -364,6 +396,13 @@ public interface NetworkSecurityRule extends
              */
             @Method
             WithSourcePort<ParentT> fromAnyAddress();
+
+            /**
+             * Sets the application security group specified as source.
+             * @param id  application security group id
+             * @return the next stage of the update
+             */
+            WithSourcePort<ParentT> withSourceApplicationSecurityGroup(String id);
         }
 
         /**
@@ -376,14 +415,14 @@ public interface NetworkSecurityRule extends
              * @param port the source port number
              * @return the next stage of the definition
              */
-            WithDestinationAddress<ParentT> fromPort(int port);
+            WithDestinationAddressOrSecurityGroup<ParentT> fromPort(int port);
 
             /**
              * Makes this rule apply to any source port.
              * @return the next stage of the definition
              */
             @Method
-            WithDestinationAddress<ParentT> fromAnyPort();
+            WithDestinationAddressOrSecurityGroup<ParentT> fromAnyPort();
 
             /**
              * Specifies the source port range to which this rule applies.
@@ -391,14 +430,16 @@ public interface NetworkSecurityRule extends
              * @param to the ending port number
              * @return the next stage of the definition
              */
-            WithDestinationAddress<ParentT> fromPortRange(int from, int to);
+            WithDestinationAddressOrSecurityGroup<ParentT> fromPortRange(int from, int to);
         }
 
         /**
          * The stage of the network rule definition allowing the destination address to be specified.
+         * Note: network security rule must specify a non empty value for exactly one of:
+         * DestinationAddressPrefixes, DestinationAddressPrefix, DestinationApplicationSecurityGroups.
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        interface WithDestinationAddress<ParentT> {
+        interface WithDestinationAddressOrSecurityGroup<ParentT> {
             /**
              * Specifies the traffic destination address range to which this rule applies.
              * @param cidr an IP address range expressed in the CIDR notation
@@ -412,6 +453,13 @@ public interface NetworkSecurityRule extends
              */
             @Method
             WithDestinationPort<ParentT> toAnyAddress();
+
+            /**
+             * Sets the application security group specified as destination.
+             * @param id  application security group id
+             * @return the next stage of the definition
+             */
+            WithDestinationPort<ParentT> withDestinationApplicationSecurityGroup(String id);
         }
 
         /**
@@ -492,9 +540,9 @@ public interface NetworkSecurityRule extends
      */
     interface Update extends
         UpdateStages.WithDirectionAccess,
-        UpdateStages.WithSourceAddress,
+        UpdateStages.WithSourceAddressOrSecurityGroup,
         UpdateStages.WithSourcePort,
-        UpdateStages.WithDestinationAddress,
+        UpdateStages.WithDestinationAddressOrSecurityGroup,
         UpdateStages.WithDestinationPort,
         UpdateStages.WithProtocol,
         Settable<NetworkSecurityGroup.Update> {
@@ -554,8 +602,10 @@ public interface NetworkSecurityRule extends
 
         /**
          * The stage of the network rule description allowing the source address to be specified.
+         * Note: network security rule must specify a non empty value for exactly one of:
+         * SourceAddressPrefixes, SourceAddressPrefix, SourceApplicationSecurityGroups.
          */
-        interface WithSourceAddress {
+        interface WithSourceAddressOrSecurityGroup {
             /**
              * Specifies the traffic source address prefix to which this rule applies.
              * @param cidr an IP address prefix expressed in the CIDR notation
@@ -570,6 +620,13 @@ public interface NetworkSecurityRule extends
              */
             @Method
             Update fromAnyAddress();
+
+            /**
+             * Sets the application security group specified as source.
+             * @param id  application security group id
+             * @return the next stage of the update
+             */
+            Update withSourceApplicationSecurityGroup(String id);
         }
 
         /**
@@ -601,21 +658,30 @@ public interface NetworkSecurityRule extends
 
         /**
          * The stage of the network rule description allowing the destination address to be specified.
+         * Note: network security rule must specify a non empty value for exactly one of:
+         * DestinationAddressPrefixes, DestinationAddressPrefix, DestinationApplicationSecurityGroups.
          */
-        interface WithDestinationAddress {
+        interface WithDestinationAddressOrSecurityGroup {
             /**
              * Specifies the traffic destination address range to which this rule applies.
              * @param cidr an IP address range expressed in the CIDR notation
-             * @return the next stage of the definition
+             * @return the next stage of the update
              */
             Update toAddress(String cidr);
 
             /**
              * Makes the rule apply to any traffic destination address.
-             * @return the next stage of the definition
+             * @return the next stage of the update
              */
             @Method
             Update toAnyAddress();
+
+            /**
+             * Sets the application security group specified as destination.
+             * @param id  application security group id
+             * @return the next stage of the update
+             */
+            Update withDestinationApplicationSecurityGroup(String id);
         }
 
         /**

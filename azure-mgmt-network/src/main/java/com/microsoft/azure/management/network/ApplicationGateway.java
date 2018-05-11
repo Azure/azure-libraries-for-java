@@ -17,6 +17,7 @@ import com.microsoft.azure.management.network.implementation.ApplicationGatewayI
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.network.model.HasPrivateIPAddress;
 import com.microsoft.azure.management.network.model.HasPublicIPAddress;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasSubnet;
@@ -37,6 +38,7 @@ public interface ApplicationGateway extends
         GroupableResource<NetworkManager, ApplicationGatewayInner>,
         Refreshable<ApplicationGateway>,
         Updatable<ApplicationGateway.Update>,
+        UpdatableWithTags<ApplicationGateway>,
         HasSubnet,
         HasPrivateIPAddress {
 

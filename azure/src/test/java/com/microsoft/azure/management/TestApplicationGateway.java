@@ -234,6 +234,12 @@ public class TestApplicationGateway {
             Assert.assertTrue(rule.backend() != null);
             Assert.assertTrue("backend2".equalsIgnoreCase(rule.backend().name()));
 
+            resource.updateTags()
+                    .withTag("tag3", "value3")
+                    .withoutTag("tag1")
+                    .applyTags();
+            Assert.assertEquals("value3", resource.tags().get("tag3"));
+            Assert.assertFalse(resource.tags().containsKey("tag1"));
             return resource;
         }
     }

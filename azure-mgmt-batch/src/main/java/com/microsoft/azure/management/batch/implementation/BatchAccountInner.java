@@ -14,12 +14,14 @@ import com.microsoft.azure.management.batch.KeyVaultReference;
 import com.microsoft.azure.management.batch.AutoStorageProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * Contains information about an Azure Batch account.
  */
 @JsonFlatten
+@SkipParentValidation
 public class BatchAccountInner extends Resource {
     /**
      * The account endpoint used to interact with the Batch service.

@@ -282,6 +282,8 @@ public class TestNetwork {
             // Verify local peering
             Assert.assertNotNull(localNetwork.peerings());
             Assert.assertEquals(1,  localNetwork.peerings().list().size());
+            Assert.assertEquals(1, localPeering.remoteAddressSpaces().size());
+            Assert.assertEquals("10.1.0.0/27", localPeering.remoteAddressSpaces().get(0));
             localPeering = localNetwork.peerings().list().get(0);
             Assert.assertNotNull(localPeering);
             Assert.assertTrue(localPeering.name().equalsIgnoreCase("peer0"));
@@ -345,6 +347,85 @@ public class TestNetwork {
             Assert.assertEquals(0, remoteNetwork.peerings().list().size());
 
             return resource;
+        }
+
+        @Override
+        public void print(Network resource) {
+            printNetwork(resource);
+        }
+    }
+
+    /**
+     * Test of network with DDoS protection plan.
+     */
+    public static class WithDDosProtectionPlanAndVmProtection extends TestTemplate<Network, Networks> {
+        @Override
+        public Network createResource(Networks networks) throws Exception {
+            Region region = Region.US_EAST2;
+            String groupName = "rg" + this.testId;
+
+            String networkName = SdkContext.randomResourceName("net", 15);
+
+            Network network = networks.define(networkName)
+                    .withRegion(region)
+                    .withNewResourceGroup(groupName)
+                    .withNewDdosProtectionPlan()
+                    .withVmProtection()
+                    .create();
+            Assert.assertTrue(network.isDdosProtectionEnabled());
+            Assert.assertNotNull(network.ddosProtectionPlanId());
+            Assert.assertTrue(network.isVmProtectionEnabled());
+
+            return network;
+        }
+
+        @Override
+        public Network updateResource(Network network) throws Exception {
+            network.update()
+                    .withoutDdosProtectionPlan()
+                    .withoutVmProtection()
+                    .apply();
+            Assert.assertFalse(network.isDdosProtectionEnabled());
+            Assert.assertNull(network.ddosProtectionPlanId());
+            Assert.assertFalse(network.isVmProtectionEnabled());
+            return network;
+        }
+
+        @Override
+        public void print(Network resource) {
+            printNetwork(resource);
+        }
+    }
+
+    /**
+     * Test of network updateTags functionality.
+     */
+    public static class WithUpdateTags extends TestTemplate<Network, Networks> {
+        @Override
+        public Network createResource(Networks networks) throws Exception {
+            Region region = Region.US_SOUTH_CENTRAL;
+            String groupName = "rg" + this.testId;
+
+            String networkName = SdkContext.randomResourceName("net", 15);
+
+            Network network = networks.define(networkName)
+                    .withRegion(region)
+                    .withNewResourceGroup(groupName)
+                    .withTag("tag1", "value1")
+                    .create();
+            Assert.assertEquals("value1", network.tags().get("tag1"));
+            return network;
+        }
+
+        @Override
+        public Network updateResource(Network network) throws Exception {
+            network.updateTags()
+                    .withoutTag("tag1")
+                    .withTag("tag2", "value2")
+                    .applyTags();
+            Assert.assertFalse(network.tags().containsKey("tag1"));
+            Assert.assertEquals("value2", network.tags().get("tag2"));
+            return network;
         }
 
         @Override

@@ -12,7 +12,7 @@ import com.microsoft.azure.management.network.ExpressRouteCircuitPeerings;
 import com.microsoft.azure.management.network.ExpressRouteCircuitServiceProviderProperties;
 import com.microsoft.azure.management.network.ExpressRouteCircuitSkuType;
 import com.microsoft.azure.management.network.ServiceProviderProvisioningState;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
+import com.microsoft.azure.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
 import rx.functions.Func1;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @LangDefinition
-class ExpressRouteCircuitImpl extends GroupableParentResourceImpl<
+class ExpressRouteCircuitImpl extends GroupableParentResourceWithTagsImpl<
         ExpressRouteCircuit,
         ExpressRouteCircuitInner,
         ExpressRouteCircuitImpl,
@@ -136,6 +136,11 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceImpl<
                 return impl;
             }
         });
+    }
+
+    @Override
+    protected Observable<ExpressRouteCircuitInner> applyTagsToInnerAsync() {
+        return this.manager().inner().expressRouteCircuits().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
     // Getters

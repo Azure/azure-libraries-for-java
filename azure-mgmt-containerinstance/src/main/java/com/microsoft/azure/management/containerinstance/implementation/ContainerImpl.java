@@ -166,9 +166,12 @@ class ContainerImpl implements
     }
 
     @Override
-    public ContainerImpl withStartingCommandLines(String... commandLines) {
-        for (String command : commandLines) {
-            this.withStartingCommandLine(command);
+    public ContainerImpl withStartingCommandLine(String executable, String... parameters) {
+        this.withStartingCommandLine(executable);
+        if (parameters != null) {
+            for (String parameter : parameters) {
+                this.withStartingCommandLine(parameter);
+            }
         }
 
         return this;

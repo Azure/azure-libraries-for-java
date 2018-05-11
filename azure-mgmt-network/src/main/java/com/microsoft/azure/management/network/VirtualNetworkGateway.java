@@ -14,6 +14,7 @@ import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.network.implementation.VirtualNetworkGatewayInner;
 import com.microsoft.azure.management.network.model.HasPublicIPAddress;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -33,7 +34,8 @@ import java.util.Collection;
 public interface VirtualNetworkGateway extends
         GroupableResource<NetworkManager, VirtualNetworkGatewayInner>,
         Refreshable<VirtualNetworkGateway>,
-        Updatable<VirtualNetworkGateway.Update> {
+        Updatable<VirtualNetworkGateway.Update>,
+        UpdatableWithTags<VirtualNetworkGateway> {
 
     // Actions
 

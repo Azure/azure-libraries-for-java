@@ -229,6 +229,14 @@ public interface MetricDefinition extends
             WithMetricsQueryExecute orderBy(String orderBy);
 
             /**
+             * Filters Metrics for a given namespace.
+             *
+             * @param namespaceName Metric namespace to query metric definitions for.
+             * @return the stage of optional query parameter definition and query execution.
+             */
+            WithMetricsQueryExecute filterByNamespace(String namespaceName);
+
+            /**
              * Executes the query.
              *
              * @return Metric collection received after query execution.

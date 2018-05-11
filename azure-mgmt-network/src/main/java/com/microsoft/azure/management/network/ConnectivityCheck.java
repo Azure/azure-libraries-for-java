@@ -9,6 +9,7 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.network.model.HasNetworkInterfaces;
+import com.microsoft.azure.management.network.model.HasProtocol;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 
@@ -133,7 +134,8 @@ public interface ConnectivityCheck extends
          */
         interface WithExecute extends
                 Executable<ConnectivityCheck>,
-                FromSourcePort {
+                FromSourcePort,
+                HasProtocol.DefinitionStages.WithProtocol<WithExecute, Protocol> {
         }
     }
 }

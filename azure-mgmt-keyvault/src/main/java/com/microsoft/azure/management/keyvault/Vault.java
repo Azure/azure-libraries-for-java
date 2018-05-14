@@ -108,6 +108,14 @@ public interface Vault extends
      */
     @Beta(SinceVersion.V1_11_0)
     CreateMode createMode();
+    
+    /**
+     * Get the networkAcls value.
+     * 
+     * @return the networkAcls value
+     */
+    @Beta(SinceVersion.V1_11_0)
+    NetworkRuleSet networkAcls();
 
     /**************************************************************
      * Fluent interfaces to provision a Vault
@@ -178,6 +186,20 @@ public interface Vault extends
              */
             @Method
             AccessPolicy.DefinitionStages.Blank<WithCreate> defineAccessPolicy();
+        }
+        
+        /**
+         * A key vault definition allowing the networkAcl to be set.
+         */
+        interface WithNetworkAcls {
+            
+            /**
+             * Set the networkAcls value.
+             *
+             * @param networkAcls the networkAcls value to set
+             * @return the next stage of key vault definition
+             */
+            WithCreate withNetworkAcls(NetworkRuleSet networkAcls);
         }
 
         /**
@@ -252,6 +274,7 @@ public interface Vault extends
             Creatable<Vault>,
             GroupableResource.DefinitionWithTags<WithCreate>,
             DefinitionStages.WithSku,
+            DefinitionStages.WithNetworkAcls,
             DefinitionStages.WithConfigurations,
             DefinitionStages.WithAccessPolicy {
         }
@@ -298,6 +321,20 @@ public interface Vault extends
             AccessPolicy.Update updateAccessPolicy(String objectId);
         }
 
+        /**
+         * A key vault update allowing the networkAcl to be set.
+         */
+        interface WithNetworkAcls {
+            
+            /**
+             * Set the networkAcls value.
+             *
+             * @param networkAcls the networkAcls value to set
+             * @return the next stage of key vault definition
+             */
+            Update withNetworkAcls(NetworkRuleSet networkAcls);
+        }
+        
         /**
          * A key vault update allowing various configurations to be set.
          */
@@ -369,6 +406,7 @@ public interface Vault extends
             GroupableResource.UpdateWithTags<Update>,
             Appliable<Vault>,
             UpdateStages.WithAccessPolicy,
+            UpdateStages.WithNetworkAcls,
             UpdateStages.WithConfigurations {
     }
 }

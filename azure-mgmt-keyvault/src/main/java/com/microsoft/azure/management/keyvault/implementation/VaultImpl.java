@@ -21,6 +21,7 @@ import com.microsoft.azure.management.keyvault.AccessPolicy;
 import com.microsoft.azure.management.keyvault.AccessPolicyEntry;
 import com.microsoft.azure.management.keyvault.CreateMode;
 import com.microsoft.azure.management.keyvault.Keys;
+import com.microsoft.azure.management.keyvault.NetworkRuleSet;
 import com.microsoft.azure.management.keyvault.Secrets;
 import com.microsoft.azure.management.keyvault.Sku;
 import com.microsoft.azure.management.keyvault.SkuName;
@@ -329,6 +330,20 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
     @Override
     public CreateMode createMode() {
         return inner().properties().createMode();
+    }
+
+    @Override
+    public VaultImpl withNetworkAcls(NetworkRuleSet networkAcls) {
+        if (inner().properties() == null) {
+            inner().withProperties(new VaultProperties());
+        }
+        inner().properties().withNetworkAcls(networkAcls);
+        return this;
+    }
+
+    @Override
+    public NetworkRuleSet networkAcls() {
+        return inner().properties().networkAcls();
     }
 
 }

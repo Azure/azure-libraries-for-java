@@ -6,8 +6,6 @@
 
 package com.microsoft.azure.management.redis.implementation;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.apigeneration.Method;

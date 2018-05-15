@@ -402,4 +402,15 @@ class ApplicationGatewayRequestRoutingRuleImpl
         this.inner().withRedirectConfiguration(null);
         return this;
     }
+
+    @Override
+    public DefinitionStages.WithAttach<ApplicationGateway.DefinitionStages.WithRequestRoutingRuleOrCreate> withUrlPathMap(String urlPathMapName) {
+        if (urlPathMapName == null) {
+            this.inner().withUrlPathMap(null);
+        } else {
+            SubResource ref = new SubResource().withId(this.parent().futureResourceId() + "/urlPathMaps/" + urlPathMapName);
+            this.inner().withUrlPathMap(ref);
+        }
+        return this;
+    }
 }

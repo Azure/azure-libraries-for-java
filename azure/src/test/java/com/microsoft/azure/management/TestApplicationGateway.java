@@ -245,6 +245,153 @@ public class TestApplicationGateway {
     }
 
     /**
+     * Minimalistic internal (private) app gateway test.
+     */
+    public static class UrlPathBased extends TestTemplate<ApplicationGateway, ApplicationGateways> {
+        UrlPathBased() {
+            initializeResourceNames();
+        }
+
+        @Override
+        public void print(ApplicationGateway resource) {
+            TestApplicationGateway.printAppGateway(resource);
+        }
+
+        @Override
+        public ApplicationGateway createResource(final ApplicationGateways resources) throws Exception {
+            // Prepare a separate thread for resource creation
+            Thread creationThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // Create an application gateway
+                    resources.define(TestApplicationGateway.APP_GATEWAY_NAME)
+                            .withRegion(REGION)
+                            .withNewResourceGroup(GROUP_NAME)
+                            // Request routing rules
+                            .definePathBasedRoutingRule("rule1")
+                                .fromPublicFrontend()
+                                .fromFrontendHttpPort(80)
+                                .toBackendHttpPort(8080)
+                                .toBackendIPAddress("11.1.1.1")
+                                .toBackendIPAddress("11.1.1.2")
+                                .withUrlPathMap("pathMap")
+                                .attach()
+                            .defineUrlPathMap("pathMap")
+                                .toBackendHttpConfiguration("config1")
+                                .toBackend("backendPool")
+                                .definePathRule("pathRule")
+                                    .withPath("/images/*")
+                                    .toBackendHttpConfiguration("config1")
+                                    .toBackend("backendPool")
+                                    .attach()
+                                .attach()
+                            .defineBackend("backendPool")
+                                .attach()
+                            .defineBackendHttpConfiguration("config1")
+                                .withCookieBasedAffinity()
+                                .withPort(8081)
+                                .withRequestTimeout(33)
+                                .attach()
+                            .create();
+                }
+            });
+
+            // Start the creation...
+            creationThread.start();
+
+            //...But bail out after 30 sec, as it is enough to test the results
+            SdkContext.sleep(30 * 1000);
+
+            // Get the resource as created so far
+            String resourceId = createResourceId(resources.manager().subscriptionId());
+            ApplicationGateway appGateway = resources.manager().applicationGateways().getById(resourceId);
+            Assert.assertTrue(appGateway != null);
+            Assert.assertTrue(ApplicationGatewayTier.STANDARD.equals(appGateway.tier()));
+            Assert.assertTrue(ApplicationGatewaySkuName.STANDARD_SMALL.equals(appGateway.size()));
+            Assert.assertTrue(appGateway.instanceCount() == 1);
+
+            // Verify frontend ports
+            Assert.assertTrue(appGateway.frontendPorts().size() == 1);
+            Assert.assertTrue(appGateway.frontendPortNameFromNumber(80) != null);
+
+            // Verify frontends
+            Assert.assertTrue(appGateway.isPublic());
+            Assert.assertTrue(appGateway.frontends().size() == 1);
+
+            // Verify listeners
+            Assert.assertTrue(appGateway.listeners().size() == 1);
+            Assert.assertTrue(appGateway.listenerByPortNumber(80) != null);
+
+            // Verify backends
+//            Assert.assertTrue(appGateway.backends().size() == 1);
+
+            // Verify backend HTTP configs
+//            Assert.assertTrue(appGateway.backendHttpConfigurations().size() == 1);
+
+            // Verify rules
+            Assert.assertTrue(appGateway.requestRoutingRules().size() == 1);
+            ApplicationGatewayRequestRoutingRule rule = appGateway.requestRoutingRules().get("rule1");
+            Assert.assertTrue(rule != null);
+            Assert.assertTrue(rule.frontendPort() == 80);
+            Assert.assertTrue(ApplicationGatewayProtocol.HTTP.equals(rule.frontendProtocol()));
+            Assert.assertTrue(rule.listener() != null);
+            Assert.assertTrue(rule.listener().frontend() != null);
+            Assert.assertTrue(rule.listener().frontend().isPublic());
+            Assert.assertTrue(!rule.listener().frontend().isPrivate());
+//            Assert.assertTrue(rule.backendAddresses().size() == 2);
+//            Assert.assertTrue(rule.backend() != null);
+//            Assert.assertTrue(rule.backend().containsIPAddress("11.1.1.1"));
+//            Assert.assertTrue(rule.backend().containsIPAddress("11.1.1.2"));
+//            Assert.assertTrue(rule.backendPort() == 8080);
+
+            creationThread.join();
+            return appGateway;
+        }
+
+        @Override
+        public ApplicationGateway updateResource(final ApplicationGateway resource) throws Exception {
+            resource.update()
+                    .withInstanceCount(2)
+                    .withSize(ApplicationGatewaySkuName.STANDARD_MEDIUM)
+                    .withFrontendPort(81, "port81")         // Add a new port
+                    .withoutBackendIPAddress("11.1.1.1")    // Remove from all existing backends
+                    .defineListener("listener2")
+                    .withPrivateFrontend()
+                    .withFrontendPort(81)
+                    .withHttps()
+                    .withSslCertificateFromPfxFile(new File(getClass().getClassLoader().getResource("myTest.pfx").getFile()))
+                    .withSslCertificatePassword("Abc123")
+                    .attach()
+                    .defineBackend("backend2")
+                    .withIPAddress("11.1.1.3")
+                    .attach()
+                    .defineBackendHttpConfiguration("config2")
+                    .withCookieBasedAffinity()
+                    .withPort(8081)
+                    .withRequestTimeout(33)
+                    .attach()
+                    .defineRequestRoutingRule("rule2")
+                    .fromListener("listener2")
+                    .toBackendHttpConfiguration("config2")
+                    .toBackend("backend2")
+                    .attach()
+                    .withTag("tag1", "value1")
+                    .withTag("tag2", "value2")
+                    .apply();
+
+            resource.refresh();
+
+            Assert.assertTrue(resource.tags().containsKey("tag1"));
+            Assert.assertTrue(resource.tags().containsKey("tag2"));
+            Assert.assertTrue(ApplicationGatewaySkuName.STANDARD_MEDIUM.equals(resource.size()));
+            Assert.assertTrue(resource.instanceCount() == 2);
+
+
+            return resource;
+        }
+    }
+
+    /**
      * Complex internal (private) app gateway test.
      */
     public static class PrivateComplex extends TestTemplate<ApplicationGateway, ApplicationGateways> {

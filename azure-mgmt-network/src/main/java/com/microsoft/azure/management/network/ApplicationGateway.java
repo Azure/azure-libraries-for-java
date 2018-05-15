@@ -200,6 +200,12 @@ public interface ApplicationGateway extends
     Map<String, ApplicationGatewayRedirectConfiguration> redirectConfigurations();
 
     /**
+     * @return URL path maps, indexed by name (case sensitive)
+     */
+    @Beta(SinceVersion.V1_5_0)
+    Map<String, ApplicationGatewayUrlPathMap> urlPathMaps();
+
+    /**
      * @return request routing rules, indexed by name
      */
     Map<String, ApplicationGatewayRequestRoutingRule> requestRoutingRules();
@@ -319,6 +325,19 @@ public interface ApplicationGateway extends
         }
 
         /**
+         * The stage of an application gateway definition allowing to add a URL path map.
+         */
+        interface WithUrlPathMap {
+            /**
+             * Begins the definition of a new application gateway URL path map to be attached to the gateway.
+             * @param name a unique name for the URL path map
+             * @return the first stage of the URL path map definition
+             */
+            @Beta(SinceVersion.V1_5_0)
+            ApplicationGatewayUrlPathMap.DefinitionStages.Blank<WithCreate> defineUrlPathMap(String name);
+        }
+
+        /**
          * The stage of an application gateway definition allowing to add a probe.
          */
         interface WithProbe {
@@ -409,6 +428,13 @@ public interface ApplicationGateway extends
              * @return the first stage of the request routing rule
              */
             ApplicationGatewayRequestRoutingRule.DefinitionStages.Blank<WithRequestRoutingRuleOrCreate> defineRequestRoutingRule(String name);
+
+            /**
+             * Begins the definition of a request routing rule for this application gateway.
+             * @param name a unique name for the request routing rule
+             * @return the first stage of the request routing rule
+             */
+            ApplicationGatewayRequestRoutingRule.DefinitionStages.Blank<WithRequestRoutingRuleOrCreate> definePathBasedRoutingRule(String name);
         }
 
         /**
@@ -552,7 +578,8 @@ public interface ApplicationGateway extends
             WithDisabledSslProtocol,
             WithAuthenticationCertificate,
             WithRedirectConfiguration,
-            WithAvailabilityZone {
+            WithAvailabilityZone,
+            WithUrlPathMap {
         }
     }
 
@@ -982,6 +1009,37 @@ public interface ApplicationGateway extends
         }
 
         /**
+         * The stage of an application gateway definition allowing to modify URL path maps.
+         */
+        interface WithUrlPathMap {
+            /**
+             * Begins the definition of a new application gateway URL path map to be attached to the gateway.
+             * @param name a unique name for the URL path map (case sensitive)
+             * @return the first stage of the URL path map definition
+             */
+            @Beta(SinceVersion.V1_5_0)
+            ApplicationGatewayUrlPathMap.UpdateDefinitionStages.Blank<Update> defineUrlPathMap(String name);
+
+            /**
+             * Removes a URL path map from the application gateway.
+             * <p>
+             * Note that removing a URL path map referenced by other settings may break the application gateway.
+             * @param name the name of the URL path map to remove (case sensitive)
+             * @return the next stage of the update
+             */
+            @Beta(SinceVersion.V1_5_0)
+            Update withoutUrlPathMap(String name);
+
+            /**
+             * Begins the update of a URL path map.
+             * @param name the name of an existing redirect configuration to update (case sensitive)
+             * @return the next stage of the definition or null if the requested URL path map does not exist
+             */
+            @Beta(SinceVersion.V1_5_0)
+            ApplicationGatewayUrlPathMap.Update updateUrlPathMap(String name);
+        }
+
+        /**
          * The stage of an application gateway update allowing to modify backend HTTP configurations.
          */
         interface WithBackendHttpConfig {
@@ -1103,6 +1161,7 @@ public interface ApplicationGateway extends
         UpdateStages.WithProbe,
         UpdateStages.WithDisabledSslProtocol,
         UpdateStages.WithAuthenticationCertificate,
-        UpdateStages.WithRedirectConfiguration {
+        UpdateStages.WithRedirectConfiguration,
+        UpdateStages.WithUrlPathMap {
     }
 }

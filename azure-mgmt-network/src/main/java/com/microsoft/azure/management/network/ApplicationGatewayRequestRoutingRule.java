@@ -97,7 +97,8 @@ public interface ApplicationGatewayRequestRoutingRule extends
         interface WithAttach<ParentT> extends
             Attachable.InDefinition<ParentT>,
             WithHostName<ParentT>,
-            WithCookieBasedAffinity<ParentT> {
+            WithCookieBasedAffinity<ParentT>,
+            WithUrlPathMap<ParentT> {
         }
 
         /**
@@ -352,6 +353,11 @@ public interface ApplicationGatewayRequestRoutingRule extends
             @Beta(SinceVersion.V1_4_0)
             WithAttach<ParentT> withRedirectConfiguration(String name);
         }
+
+        interface WithUrlPathMap<ParentT> {
+            @Beta(SinceVersion.V1_10_0)
+            WithAttach<ParentT> withUrlPathMap(String urlPathMapName);
+        }
     }
 
     /**
@@ -374,7 +380,8 @@ public interface ApplicationGatewayRequestRoutingRule extends
         DefinitionStages.WithBackendHttpConfigurationOrSni<ParentT>,
         DefinitionStages.WithSslCertificate<ParentT>,
         DefinitionStages.WithBackendHttpConfigOrSniOrRedirect<ParentT>,
-        DefinitionStages.WithSslPassword<DefinitionStages.WithBackendHttpConfigOrSniOrRedirect<ParentT>> {
+        DefinitionStages.WithSslPassword<DefinitionStages.WithBackendHttpConfigOrSniOrRedirect<ParentT>>,
+        DefinitionStages.WithUrlPathMap<ParentT> {
     }
 
     /**

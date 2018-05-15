@@ -6,10 +6,14 @@
 
 package com.microsoft.azure.management.redis.implementation;
 
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.redis.RedisCache;
 import com.microsoft.azure.management.redis.RedisCaches;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * The implementation of RedisCaches and its parent interfaces.
@@ -50,5 +54,20 @@ class RedisCachesImpl
                 redisResourceInner.name(),
                 redisResourceInner,
                 this.manager());
+    }
+
+    @Override
+    public PagedList<OperationInner> listOperations() {
+        return this.manager().inner().operations().list();
+    }
+
+    @Override
+    public Observable<OperationInner> listOperationsAsync() {
+        return this.manager().inner().operations().listAsync().flatMap(new Func1<Page<OperationInner>, Observable<OperationInner>>() {
+            @Override
+            public Observable<OperationInner> call(Page<OperationInner> pageInner) {
+                return Observable.from(pageInner.items());
+            }
+        });
     }
 }

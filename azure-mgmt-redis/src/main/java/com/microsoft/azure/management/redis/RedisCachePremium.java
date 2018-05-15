@@ -6,7 +6,9 @@
 package com.microsoft.azure.management.redis;
 
 import java.util.List;
+import java.util.TreeMap;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 
@@ -74,5 +76,19 @@ public interface RedisCachePremium extends RedisCache {
     /**
      * Deletes the patching schedule for Redis Cache.
      */
+    @Method
     void deletePatchSchedule();
+
+    @Beta(Beta.SinceVersion.V1_11_0)
+    void addLinkedServer(String name, ReplicationRole role);
+
+    @Beta(Beta.SinceVersion.V1_11_0)
+    void removeLinkedServer(String name);
+
+    @Beta(Beta.SinceVersion.V1_11_0)
+    ReplicationRole getLinkedServerRole(String name);
+
+    @Method
+    @Beta(Beta.SinceVersion.V1_11_0)
+    TreeMap<String, ReplicationRole> listLinkedServers();
 }

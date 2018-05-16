@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.keyvault;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
@@ -50,9 +51,14 @@ public class VaultTests extends KeyVaultManagementTest {
                         .allowSecretAllPermissions()
                         .allowCertificatePermissions(CertificatePermissions.GET, CertificatePermissions.LIST, CertificatePermissions.CREATE)
                         .attach()
+                    .withAccessFromAzureServices()
+                    .withAccessFromIpAddress("0.0.0.0/0")
                     .create();
             Assert.assertNotNull(vault);
             Assert.assertFalse(vault.softDeleteEnabled());
+            Assert.assertEquals(vault.networkRuleSet().bypass(), NetworkRuleBypassOptions.AZURE_SERVICES);
+            Assert.assertEquals(vault.networkRuleSet().ipRules(), Arrays.asList(new IPRule().withValue("0.0.0.0/0")));
+            
             // GET
             vault = keyVaultManager.vaults().getByResourceGroup(RG_NAME, VAULT_NAME);
             Assert.assertNotNull(vault);

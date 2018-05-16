@@ -20,7 +20,10 @@ import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.keyvault.AccessPolicy;
 import com.microsoft.azure.management.keyvault.AccessPolicyEntry;
 import com.microsoft.azure.management.keyvault.CreateMode;
+import com.microsoft.azure.management.keyvault.IPRule;
 import com.microsoft.azure.management.keyvault.Keys;
+import com.microsoft.azure.management.keyvault.NetworkRuleAction;
+import com.microsoft.azure.management.keyvault.NetworkRuleBypassOptions;
 import com.microsoft.azure.management.keyvault.NetworkRuleSet;
 import com.microsoft.azure.management.keyvault.Secrets;
 import com.microsoft.azure.management.keyvault.Sku;
@@ -28,6 +31,7 @@ import com.microsoft.azure.management.keyvault.SkuName;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.keyvault.VaultCreateOrUpdateParameters;
 import com.microsoft.azure.management.keyvault.VaultProperties;
+import com.microsoft.azure.management.keyvault.VirtualNetworkRule;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
@@ -332,18 +336,99 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
         return inner().properties().createMode();
     }
 
+
     @Override
-    public VaultImpl withNetworkAcls(NetworkRuleSet networkAcls) {
-        if (inner().properties() == null) {
-            inner().withProperties(new VaultProperties());
+    public NetworkRuleSet networkRuleSet() {
+        return inner().properties().networkAcls();
+    }
+
+    @Override
+    public VaultImpl withAccessFromAllNetworks() {
+        if (inner().properties().networkAcls() == null) {
+            inner().properties().withNetworkAcls(new NetworkRuleSet());
         }
-        inner().properties().withNetworkAcls(networkAcls);
+        inner().properties().networkAcls().withDefaultAction(NetworkRuleAction.ALLOW);
         return this;
     }
 
     @Override
-    public NetworkRuleSet networkAcls() {
-        return inner().properties().networkAcls();
+    public VaultImpl withAccessFromSelectedNetworks() {
+        if (inner().properties().networkAcls() == null) {
+            inner().properties().withNetworkAcls(new NetworkRuleSet());
+        }
+        inner().properties().networkAcls().withDefaultAction(NetworkRuleAction.DENY);
+        return this;
+    }
+
+    /**
+     * Specifies that access to the storage account should be allowed from the given ip address or ip address range.
+     *
+     * @param ipAddressOrRange the ip address or ip address range in cidr format
+     * @return VaultImpl
+     */
+    private VaultImpl withAccessAllowedFromIpAddressOrRange(String ipAddressOrRange) {
+        NetworkRuleSet networkRuleSet = inner().properties().networkAcls();
+        if (networkRuleSet.ipRules() == null) {
+            networkRuleSet.withIpRules(new ArrayList<IPRule>());
+        }
+        boolean found = false;
+        for (IPRule rule: networkRuleSet.ipRules()) {
+            if (rule.value().equalsIgnoreCase(ipAddressOrRange)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            networkRuleSet.ipRules().add(new IPRule()
+                    .withValue(ipAddressOrRange));
+        }
+        return this;
+    }
+    
+    @Override
+    public VaultImpl withAccessFromIpAddress(String ipAddress) {
+        return withAccessAllowedFromIpAddressOrRange(ipAddress);
+    }
+
+    @Override
+    public VaultImpl withAccessFromIpAddressRange(String ipAddressCidr) {
+        return withAccessAllowedFromIpAddressOrRange(ipAddressCidr);
+    }
+
+    @Override
+    public VaultImpl withAccessFromAzureServices() {
+        if (inner().properties().networkAcls() == null) {
+            inner().properties().withNetworkAcls(new NetworkRuleSet());
+        }
+        inner().properties().networkAcls().withBypass(NetworkRuleBypassOptions.AZURE_SERVICES);
+        return this;
+    }
+
+    @Override
+    public VaultImpl withBypass(NetworkRuleBypassOptions bypass) {
+        if (inner().properties().networkAcls() == null) {
+            inner().properties().withNetworkAcls(new NetworkRuleSet());
+        }
+        inner().properties().networkAcls().withBypass(bypass);
+        return this;
+    }
+
+    @Override
+    public VaultImpl withDefaultAction(NetworkRuleAction defaultAction) {
+        if (inner().properties().networkAcls() == null) {
+            inner().properties().withNetworkAcls(new NetworkRuleSet());
+        }
+        inner().properties().networkAcls().withDefaultAction(defaultAction);
+        return this;
+    }
+
+    @Override
+    public VaultImpl withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules) {
+        if (inner().properties().networkAcls() == null) {
+            inner().properties().withNetworkAcls(new NetworkRuleSet());
+        }
+        inner().properties().networkAcls().withVirtualNetworkRules(virtualNetworkRules);
+        return this;
     }
 
 }

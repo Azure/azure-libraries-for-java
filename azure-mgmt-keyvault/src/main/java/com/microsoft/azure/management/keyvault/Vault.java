@@ -115,7 +115,7 @@ public interface Vault extends
      * @return the networkAcls value
      */
     @Beta(SinceVersion.V1_11_0)
-    NetworkRuleSet networkAcls();
+    NetworkRuleSet networkRuleSet();
 
     /**************************************************************
      * Fluent interfaces to provision a Vault
@@ -191,15 +191,73 @@ public interface Vault extends
         /**
          * A key vault definition allowing the networkAcl to be set.
          */
-        interface WithNetworkAcls {
+        interface WithNetworkRuleSet {
             
+            WithCreate withNetworkRuleSet();
+        
             /**
-             * Set the networkAcls value.
+             * Specifies that by default access to key vault should be allowed from all networks.
              *
-             * @param networkAcls the networkAcls value to set
              * @return the next stage of key vault definition
              */
-            WithCreate withNetworkAcls(NetworkRuleSet networkAcls);
+            WithCreate withAccessFromAllNetworks();
+            
+            /**
+             * Specifies that by default access to key vault should be denied from all networks.
+             * except from those networks specified via 
+             * {@link WithNetworkRuleSet#withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules)}
+             * {@link WithNetworkRuleSet#withAccessFromIpAddressRange(String)}
+             * {@link WithNetworkRuleSet#withAccessFromIpAddress(String)}
+             * @return the next stage of key vault definition
+             */
+            WithCreate withAccessFromSelectedNetworks();
+            
+            /**
+             * Specifies that access to the key vault from the specific ip address should be allowed.
+             * 
+             * @param ipAddress the ip address
+             * @return the next stage of key vault definition
+             */
+            WithCreate withAccessFromIpAddress(String ipAddress);
+            
+            /**
+             * Specifies that access to the key vault from the specific ip range should be allowed.
+             * @param ipAddressCidr
+             * @return the next stage of key vault definition
+             */
+            WithCreate withAccessFromIpAddressRange(String ipAddressCidr);
+            
+            /**
+             * Specifies that access to the key vault should be allowed from applications running on 
+             * Microsoft azure services.
+             * 
+             * @return the next stage of key vault definition.
+             */
+            WithCreate withAccessFromAzureServices();
+            
+            /**
+             * Set the bypass value.
+             *
+             * @param bypass the bypass value to set
+             * @return the next stage of key vault definition.
+             */
+            WithCreate withBypass(NetworkRuleBypassOptions bypass);
+            
+            /**
+             * Set the defaultAction value.
+             *
+             * @param defaultAction the defaultAction value to set
+             * @return the next stage of key vault definition.
+             */
+            WithCreate withDefaultAction(NetworkRuleAction defaultAction);
+            
+            /**
+             * Get the virtualNetworkRules value.
+             *
+             * @return the next stage of key vault definition.
+             */
+            WithCreate withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules);
+        
         }
 
         /**
@@ -274,7 +332,7 @@ public interface Vault extends
             Creatable<Vault>,
             GroupableResource.DefinitionWithTags<WithCreate>,
             DefinitionStages.WithSku,
-            DefinitionStages.WithNetworkAcls,
+            DefinitionStages.WithNetworkRuleSet,
             DefinitionStages.WithConfigurations,
             DefinitionStages.WithAccessPolicy {
         }
@@ -322,17 +380,72 @@ public interface Vault extends
         }
 
         /**
-         * A key vault update allowing the networkAcl to be set.
+         * A key vault update allowing the NetworkRuleSet to be set.
          */
-        interface WithNetworkAcls {
+        interface WithNetworkRuleSet {
             
             /**
-             * Set the networkAcls value.
+             * Specifies that by default access to key vault should be allowed from all networks.
              *
-             * @param networkAcls the networkAcls value to set
              * @return the next stage of key vault definition
              */
-            Update withNetworkAcls(NetworkRuleSet networkAcls);
+            Update withAccessFromAllNetworks();
+            
+            /**
+             * Specifies that by default access to key vault should be denied from all networks.
+             * except from those networks specified via 
+             * {@link WithNetworkRuleSet#withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules)}
+             * {@link WithNetworkRuleSet#withAccessFromIpAddressRange(String)}
+             * {@link WithNetworkRuleSet#withAccessFromIpAddress(String)}
+             * @return the update stage of key vault definition
+             */
+            Update withAccessFromSelectedNetworks();
+            
+            /**
+             * Specifies that access to the key vault from the specific ip address should be allowed.
+             * 
+             * @param ipAddress the ip address
+             * @return the update stage of key vault definition
+             */
+            Update withAccessFromIpAddress(String ipAddress);
+            
+            /**
+             * Specifies that access to the key vault from the specific ip range should be allowed.
+             * @param ipAddressCidr
+             * @return the update stage of key vault definition
+             */
+            Update withAccessFromIpAddressRange(String ipAddressCidr);
+            
+            /**
+             * Specifies that access to the key vault should be allowed from applications running on 
+             * Microsoft azure services.
+             * 
+             * @return the update stage of key vault definition.
+             */
+            Update withAccessFromAzureServices();
+            
+            /**
+             * Set the bypass value.
+             *
+             * @param bypass the bypass value to set
+             * @return the update stage of key vault definition.
+             */
+            Update withBypass(NetworkRuleBypassOptions bypass);
+            
+            /**
+             * Set the defaultAction value.
+             *
+             * @param defaultAction the defaultAction value to set
+             * @return the update stage of key vault definition.
+             */
+            Update withDefaultAction(NetworkRuleAction defaultAction);
+            
+            /**
+             * Get the virtualNetworkRules value.
+             *
+             * @return the update stage of key vault definition.
+             */
+            Update withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules);
         }
         
         /**
@@ -406,7 +519,7 @@ public interface Vault extends
             GroupableResource.UpdateWithTags<Update>,
             Appliable<Vault>,
             UpdateStages.WithAccessPolicy,
-            UpdateStages.WithNetworkAcls,
+            UpdateStages.WithNetworkRuleSet,
             UpdateStages.WithConfigurations {
     }
 }

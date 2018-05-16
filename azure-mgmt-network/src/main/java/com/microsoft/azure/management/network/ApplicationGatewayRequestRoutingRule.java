@@ -75,7 +75,10 @@ public interface ApplicationGatewayRequestRoutingRule extends
      */
     Collection<ApplicationGatewayBackendAddress> backendAddresses();
 
-    // TODO urlPathMap()
+    /**
+     * @return the associated URL path map
+     */
+    ApplicationGatewayUrlPathMap urlPathMap();
 
     /**
      * Grouping of application gateway request routing rule definition stages.

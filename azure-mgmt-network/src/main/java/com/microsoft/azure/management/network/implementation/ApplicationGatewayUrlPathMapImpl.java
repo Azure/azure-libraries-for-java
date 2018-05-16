@@ -113,4 +113,26 @@ class ApplicationGatewayUrlPathMapImpl
         }
         return this;
     }
+
+    @Override
+    public DefinitionStages.WithBackendHttpConfigOrRedirect<ApplicationGateway.DefinitionStages.WithCreate> fromListener(String name) {
+        SubResource listenerRef = new SubResource().withId(this.parent().futureResourceId() + "/HTTPListeners/" + name);
+        parent().requestRoutingRules().get(this.name()).inner().withHttpListener(listenerRef);
+        return this;
+    }
+
+    @Override
+    public DefinitionStages.WithFrontendPort<ApplicationGateway.DefinitionStages.WithCreate> fromPublicFrontend() {
+        return null;
+    }
+
+    @Override
+    public DefinitionStages.WithFrontendPort<ApplicationGateway.DefinitionStages.WithCreate> fromPrivateFrontend() {
+        return null;
+    }
+
+    @Override
+    public DefinitionStages.WithBackendHttpConfigOrRedirect<ApplicationGateway.DefinitionStages.WithCreate> fromFrontendHttpPort(int portNumber) {
+        return null;
+    }
 }

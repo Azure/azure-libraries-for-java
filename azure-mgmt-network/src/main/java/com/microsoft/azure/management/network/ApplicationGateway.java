@@ -435,6 +435,14 @@ public interface ApplicationGateway extends
              * @return the first stage of the request routing rule
              */
             ApplicationGatewayRequestRoutingRule.DefinitionStages.Blank<WithRequestRoutingRuleOrCreate> definePathBasedRoutingRule(String name);
+
+            /**
+             * Begins the definition of a new application gateway URL path map to be attached to the gateway.
+             * @param name a unique name for the URL path map
+             * @return the first stage of the URL path map definition
+             */
+            @Beta(SinceVersion.V1_10_0)
+            ApplicationGatewayUrlPathMap.DefinitionStages.Blank<WithCreate> defineUrlPathMap(String name);
         }
 
         /**

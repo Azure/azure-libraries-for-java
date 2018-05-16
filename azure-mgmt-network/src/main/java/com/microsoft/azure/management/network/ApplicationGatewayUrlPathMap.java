@@ -8,6 +8,7 @@ package com.microsoft.azure.management.network;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.network.implementation.ApplicationGatewayUrlPathMapInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
@@ -46,7 +47,87 @@ public interface ApplicationGatewayUrlPathMap extends
          * The first stage of an application gateway URL path map definition.
          * @param <ReturnT> the stage of the parent application gateway definition to return to after attaching this definition
          */
-        interface Blank<ReturnT> extends WithBackendHttpConfiguration<ReturnT> {
+        interface Blank<ReturnT> extends WithListenerOrFrontend<ReturnT> {
+        }
+
+        /**
+         * The stage of an application gateway request routing rule definition allowing to specify an existing listener to
+         * associate the routing rule with.
+         * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
+         */
+        interface WithListener<ParentT> {
+            /**
+             * Associates the request routing rule with a frontend listener.
+             * <p>
+             * If the listener with the specified name does not yet exist, it must be defined separately in the optional stages
+             * of the application gateway definition. This only adds a reference to the listener by its name.
+             * <p>
+             * Also, note that a given listener can be used by no more than one request routing rule at a time.
+             * @param name the name of a listener to reference
+             * @return the next stage of the definition
+             */
+            WithBackendHttpConfigOrRedirect<ParentT> fromListener(String name);
+        }
+
+        /**
+         * The stage of an application gateway request routing rule definition allowing to associate an existing listener
+         * with the rule, or create a new one implicitly by specifying the frontend to listen to.
+         * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
+         */
+        interface WithListenerOrFrontend<ParentT> extends
+                WithListener<ParentT>,
+                WithFrontend<ParentT> {
+        }
+
+        /**
+         * The stage of an application gateway request routing rule definition allowing to specify the frontend for the rule to apply to.
+         * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
+         */
+        interface WithFrontend<ParentT> {
+            /**
+             * Enables the rule to apply to the application gateway's public (Internet-facing) frontend.
+             * <p>
+             * If the public frontend IP configuration does not yet exist, it will be created under an auto-generated name.
+             * <p>
+             * If the application gateway does not have a public IP address specified for its public frontend, one will be created
+             * automatically, unless a specific public IP address is specified in the application gateway definition's optional settings.
+             * @return the next stage of the definition
+             */
+            @Method
+            WithFrontendPort<ParentT> fromPublicFrontend();
+
+            /**
+             * Enables the rule to apply to the application gateway's private (internal) frontend.
+             * <p>
+             * If the private frontend IP configuration does not yet exist, it will be created under an auto-generated name.
+             * <p>
+             * If the application gateway does not have a subnet specified for its private frontend, one will be created automatically,
+             * unless a specific subnet is specified in the application gateway definition's optional settings.
+             * @return the next stage of the definition
+             */
+            @Method
+            WithFrontendPort<ParentT> fromPrivateFrontend();
+        }
+
+        /**
+         * The stage of an application gateway request routing rule definition allowing to create an associate listener and frontend
+         * for a specific port number and protocol.
+         * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
+         */
+        interface WithFrontendPort<ParentT> {
+            /**
+             * Associates a new listener for the specified port number and the HTTP protocol with this rule.
+             * @param portNumber the port number to listen to
+             * @return the next stage of the definition, or null if the specified port number is already used for a different protocol
+             */
+            WithBackendHttpConfigOrRedirect<ParentT> fromFrontendHttpPort(int portNumber);
+
+            /**
+             * Associates a new listener for the specified port number and the HTTPS protocol with this rule.
+             * @param portNumber the port number to listen to
+             * @return the next stage of the definition, or null if the specified port number is already used for a different protocol
+             */
+//            WithSslCertificate<ParentT> fromFrontendHttpsPort(int portNumber);
         }
 
         /**
@@ -113,7 +194,7 @@ public interface ApplicationGatewayUrlPathMap extends
         }
 
         interface WithPathRule<ParentT> {
-             ApplicationGatewayPathRule.DefinitionStages.Blank<WithAttach<ParentT>> definePathRule(String name);
+            ApplicationGatewayPathRule.DefinitionStages.Blank<WithAttach<ParentT>> definePathRule(String name);
         }
 
         /**
@@ -134,6 +215,7 @@ public interface ApplicationGatewayUrlPathMap extends
      */
     interface Definition<ReturnT> extends
         DefinitionStages.Blank<ReturnT>,
+        DefinitionStages.WithFrontendPort<ReturnT>,
         DefinitionStages.WithBackendHttpConfigOrRedirect<ReturnT>,
         DefinitionStages.WithBackend<ReturnT>,
         DefinitionStages.WithAttach<ReturnT> {

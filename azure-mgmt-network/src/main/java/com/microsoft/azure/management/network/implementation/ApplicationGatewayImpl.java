@@ -823,7 +823,15 @@ class ApplicationGatewayImpl
 
     @Override
     public ApplicationGatewayUrlPathMapImpl defineUrlPathMap(String name) {
-        return defineChild(name, this.urlPathMaps, ApplicationGatewayUrlPathMapInner.class, ApplicationGatewayUrlPathMapImpl.class);
+        ApplicationGatewayUrlPathMapImpl urlPathMap = defineChild(name, this.urlPathMaps, ApplicationGatewayUrlPathMapInner.class, ApplicationGatewayUrlPathMapImpl.class);
+        SubResource ref = new SubResource().withId(futureResourceId() + "/urlPathMaps/" + name);
+        // create corresponding request routing rule
+        ApplicationGatewayRequestRoutingRuleInner inner = new ApplicationGatewayRequestRoutingRuleInner()
+                .withName(name)
+                .withRuleType(ApplicationGatewayRequestRoutingRuleType.PATH_BASED_ROUTING)
+                .withUrlPathMap(ref);
+        rules.put(name, new ApplicationGatewayRequestRoutingRuleImpl(inner, this));
+        return urlPathMap;
     }
 
     @Override
@@ -1101,6 +1109,13 @@ class ApplicationGatewayImpl
     @Override
     public ApplicationGatewayImpl withoutUrlPathMap(String name) {
         this.urlPathMaps.remove(name);
+        // Remove associated request routing rule
+        for (ApplicationGatewayRequestRoutingRule rule : rules.values()) {
+            if (rule.urlPathMap() != null && name.equals(rule.urlPathMap().name())) {
+                rules.remove(rule.name());
+                break;
+            }
+        }
         return this;
     }
 

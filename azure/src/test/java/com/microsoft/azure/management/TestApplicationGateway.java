@@ -268,15 +268,16 @@ public class TestApplicationGateway {
                             .withRegion(REGION)
                             .withNewResourceGroup(GROUP_NAME)
                             // Request routing rules
-                            .definePathBasedRoutingRule("rule1")
-                                .fromPublicFrontend()
-                                .fromFrontendHttpPort(80)
-                                .toBackendHttpPort(8080)
-                                .toBackendIPAddress("11.1.1.1")
-                                .toBackendIPAddress("11.1.1.2")
-                                .withUrlPathMap("pathMap")
-                                .attach()
+//                            .definePathBasedRoutingRule("rule1")
+//                                .fromPublicFrontend()
+//                                .fromFrontendHttpPort(80)
+//                                .toBackendHttpPort(8080)
+//                                .toBackendIPAddress("11.1.1.1")
+//                                .toBackendIPAddress("11.1.1.2")
+//                                .withUrlPathMap("pathMap")
+//                                .attach()
                             .defineUrlPathMap("pathMap")
+                                .fromListener("myListener")
                                 .toBackendHttpConfiguration("config1")
                                 .toBackend("backendPool")
                                 .definePathRule("pathRule")
@@ -284,6 +285,10 @@ public class TestApplicationGateway {
                                     .toBackendHttpConfiguration("config1")
                                     .toBackend("backendPool")
                                     .attach()
+                                .attach()
+                            .defineListener("myListener")
+                                .withPublicFrontend()
+                                .withFrontendPort(80)
                                 .attach()
                             .defineBackend("backendPool")
                                 .attach()
@@ -323,14 +328,14 @@ public class TestApplicationGateway {
             Assert.assertTrue(appGateway.listenerByPortNumber(80) != null);
 
             // Verify backends
-//            Assert.assertTrue(appGateway.backends().size() == 1);
+            Assert.assertTrue(appGateway.backends().size() == 1);
 
             // Verify backend HTTP configs
-//            Assert.assertTrue(appGateway.backendHttpConfigurations().size() == 1);
+            Assert.assertTrue(appGateway.backendHttpConfigurations().size() == 1);
 
             // Verify rules
             Assert.assertTrue(appGateway.requestRoutingRules().size() == 1);
-            ApplicationGatewayRequestRoutingRule rule = appGateway.requestRoutingRules().get("rule1");
+            ApplicationGatewayRequestRoutingRule rule = appGateway.requestRoutingRules().get("pathMap");
             Assert.assertTrue(rule != null);
             Assert.assertTrue(rule.frontendPort() == 80);
             Assert.assertTrue(ApplicationGatewayProtocol.HTTP.equals(rule.frontendProtocol()));
@@ -351,8 +356,7 @@ public class TestApplicationGateway {
         @Override
         public ApplicationGateway updateResource(final ApplicationGateway resource) throws Exception {
             resource.update()
-                    .withInstanceCount(2)
-                    .withSize(ApplicationGatewaySkuName.STANDARD_MEDIUM)
+                    .withoutUrlPathMap("pathMap")
                     .withFrontendPort(81, "port81")         // Add a new port
                     .withoutBackendIPAddress("11.1.1.1")    // Remove from all existing backends
                     .defineListener("listener2")
@@ -385,8 +389,9 @@ public class TestApplicationGateway {
             Assert.assertTrue(resource.tags().containsKey("tag2"));
             Assert.assertTrue(ApplicationGatewaySkuName.STANDARD_MEDIUM.equals(resource.size()));
             Assert.assertTrue(resource.instanceCount() == 2);
-
-
+            Assert.assertTrue(resource.urlPathMaps().isEmpty());
+            Assert.assertFalse(resource.requestRoutingRules().containsKey("pathMap"));
+            Assert.assertTrue(resource.requestRoutingRules().containsKey("rule2"));
             return resource;
         }
     }

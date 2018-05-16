@@ -13,13 +13,14 @@ import com.microsoft.azure.management.network.ApplicationGatewayBackendHttpConfi
 import com.microsoft.azure.management.network.ApplicationGatewayPathRule;
 import com.microsoft.azure.management.network.ApplicationGatewayRedirectConfiguration;
 import com.microsoft.azure.management.network.ApplicationGatewayUrlPathMap;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Implementation for application gateway URL path map.
+ * Implementation for application gateway path rule.
  */
 @LangDefinition
 class ApplicationGatewayPathRuleImpl
@@ -56,12 +57,6 @@ class ApplicationGatewayPathRuleImpl
     }
 
     @Override
-    public ApplicationGatewayPathRuleImpl toBackendHttpPort(int portNumber) {
-        // todo
-        return this;
-    }
-
-    @Override
     public ApplicationGatewayPathRuleImpl toBackend(String name) {
         this.inner().withBackendAddressPool(this.parent().parent().ensureBackendRef(name));
         return this;
@@ -69,23 +64,45 @@ class ApplicationGatewayPathRuleImpl
 
     @Override
     public ApplicationGatewayPathRuleImpl withRedirectConfiguration(String name) {
-        // todo
-        return null;
+        if (name == null) {
+            this.inner().withRedirectConfiguration(null);
+        } else {
+            SubResource ref = new SubResource().withId(this.parent().parent().futureResourceId() + "/redirectConfigurations/" + name);
+            this.inner().withRedirectConfiguration(ref);
+        }
+        return this;
     }
 
     @Override
     public ApplicationGatewayBackend backend() {
-        return null;
+        SubResource backendRef = this.inner().backendAddressPool();
+        if (backendRef != null) {
+            String backendName = ResourceUtils.nameFromResourceId(backendRef.id());
+            return this.parent().parent().backends().get(backendName);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public ApplicationGatewayBackendHttpConfiguration backendHttpConfiguration() {
-        return null;
+        SubResource configRef = this.inner().backendHttpSettings();
+        if (configRef != null) {
+            String configName = ResourceUtils.nameFromResourceId(configRef.id());
+            return this.parent().parent().backendHttpConfigurations().get(configName);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public ApplicationGatewayRedirectConfiguration redirectConfiguration() {
-        return null;
+        SubResource ref = this.inner().redirectConfiguration();
+        if (ref == null) {
+            return null;
+        } else {
+            return this.parent().parent().redirectConfigurations().get(ResourceUtils.nameFromResourceId(ref.id()));
+        }
     }
 
     @Override

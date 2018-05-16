@@ -10,13 +10,17 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayBackend;
 import com.microsoft.azure.management.network.ApplicationGatewayBackendHttpConfiguration;
+import com.microsoft.azure.management.network.ApplicationGatewayPathRule;
 import com.microsoft.azure.management.network.ApplicationGatewayRedirectConfiguration;
 import com.microsoft.azure.management.network.ApplicationGatewayUrlPathMap;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation for application gateway URL path map.
@@ -26,18 +30,32 @@ class ApplicationGatewayUrlPathMapImpl
     extends ChildResourceImpl<ApplicationGatewayUrlPathMapInner, ApplicationGatewayImpl, ApplicationGateway>
     implements
         ApplicationGatewayUrlPathMap,
-        ApplicationGatewayUrlPathMap.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
+        ApplicationGatewayUrlPathMap.Definition<ApplicationGateway.DefinitionStages.WithRequestRoutingRuleOrCreate>,
         ApplicationGatewayUrlPathMap.UpdateDefinition<ApplicationGateway.Update>,
         ApplicationGatewayUrlPathMap.Update {
+    private Map<String, ApplicationGatewayPathRule> pathRules;
 
     ApplicationGatewayUrlPathMapImpl(ApplicationGatewayUrlPathMapInner inner, ApplicationGatewayImpl parent) {
         super(inner, parent);
+        initializePathRules();
+    }
+
+    private void initializePathRules() {
+        pathRules = new HashMap<>();
+        for (ApplicationGatewayPathRuleInner inner : inner().pathRules()) {
+            pathRules.put(inner.name(), new ApplicationGatewayPathRuleImpl(inner, this));
+        }
     }
 
     // Getters
     @Override
     public String name() {
         return this.inner().name();
+    }
+
+    @Override
+    public Map<String, ApplicationGatewayPathRule> pathRules() {
+        return Collections.unmodifiableMap(pathRules);
     }
 
     @Override
@@ -106,7 +124,6 @@ class ApplicationGatewayUrlPathMapImpl
 
     ApplicationGatewayUrlPathMapImpl withPathRule(ApplicationGatewayPathRuleImpl pathRule) {
         if (pathRule != null) {
-//            this.urlPathMaps.put(urlPathMap.name(), urlPathMap);
             List<ApplicationGatewayPathRuleInner> rules = new ArrayList<>();
             rules.add(pathRule.inner());
             this.inner().withPathRules(rules);
@@ -115,24 +132,24 @@ class ApplicationGatewayUrlPathMapImpl
     }
 
     @Override
-    public DefinitionStages.WithBackendHttpConfigOrRedirect<ApplicationGateway.DefinitionStages.WithCreate> fromListener(String name) {
+    public ApplicationGatewayUrlPathMapImpl fromListener(String name) {
         SubResource listenerRef = new SubResource().withId(this.parent().futureResourceId() + "/HTTPListeners/" + name);
         parent().requestRoutingRules().get(this.name()).inner().withHttpListener(listenerRef);
         return this;
     }
 
     @Override
-    public DefinitionStages.WithFrontendPort<ApplicationGateway.DefinitionStages.WithCreate> fromPublicFrontend() {
+    public ApplicationGatewayUrlPathMapImpl fromPublicFrontend() {
         return null;
     }
 
     @Override
-    public DefinitionStages.WithFrontendPort<ApplicationGateway.DefinitionStages.WithCreate> fromPrivateFrontend() {
+    public ApplicationGatewayUrlPathMapImpl fromPrivateFrontend() {
         return null;
     }
 
     @Override
-    public DefinitionStages.WithBackendHttpConfigOrRedirect<ApplicationGateway.DefinitionStages.WithCreate> fromFrontendHttpPort(int portNumber) {
+    public ApplicationGatewayUrlPathMapImpl fromFrontendHttpPort(int portNumber) {
         return null;
     }
 }

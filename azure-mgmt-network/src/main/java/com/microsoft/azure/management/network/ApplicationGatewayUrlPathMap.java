@@ -15,6 +15,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
+import java.util.Map;
+
 /**
  * A client-side representation of an application gateway's URL path map.
  */
@@ -38,6 +40,11 @@ public interface ApplicationGatewayUrlPathMap extends
      * @return default redirect configuration
      */
     ApplicationGatewayRedirectConfiguration defaultRedirectConfiguration();
+
+    /**
+     * @return path rules of URL path map resource
+     */
+    Map<String, ApplicationGatewayPathRule> pathRules();
 
     /**
      * Grouping of application gateway URL path map definition stages.

@@ -46,20 +46,13 @@ public interface ApplicationGatewayPathRule extends
          * The first stage of an application gateway URL path map definition.
          * @param <ReturnT> the stage of the parent application gateway definition to return to after attaching this definition
          */
-        interface Blank<ReturnT> extends WithPath<ReturnT> {//extends WithBackendHttpConfiguration<ReturnT> {
+        interface Blank<ReturnT> extends WithBackendHttpConfiguration<ReturnT> {//extends WithBackendHttpConfiguration<ReturnT> {
         }
 
         interface WithPath<ReturnT> {
-            WithBackendHttpConfiguration<ReturnT> withPath(String path);
+            WithAttach<ReturnT> withPath(String path);
 
-            WithBackendHttpConfiguration<ReturnT> withPaths(String... paths);
-        }
-
-        /**
-         * The stage of an application gateway request routing rule definition allowing to select either a backend or a redirect configuration.
-         * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
-         */
-        interface WithBackendHttpConfigOrRedirect<ParentT> extends WithBackendHttpConfiguration<ParentT>, WithRedirectConfig<ParentT> {
+            WithAttach<ReturnT> withPaths(String... paths);
         }
 
         /**
@@ -69,7 +62,7 @@ public interface ApplicationGatewayPathRule extends
          */
         interface WithBackendHttpConfiguration<ParentT> {
             /**
-             * Associates the specified backend HTTP settings configuration with this request routing rule.
+             * Associates the specified backend HTTP settings configuration with this path rule.
              * <p>
              * If the backend configuration does not exist yet, it must be defined in the optional part of the application gateway
              * definition. The request routing rule references it only by name.
@@ -77,16 +70,6 @@ public interface ApplicationGatewayPathRule extends
              * @return the next stage of the definition
              */
             WithBackend<ParentT> toBackendHttpConfiguration(String name);
-
-            /**
-             * Creates a backend HTTP settings configuration for the specified backend port and the HTTP protocol, and associates it with this
-             * request routing rule.
-             * <p>
-             * An auto-generated name will be used for this newly created configuration.
-             * @param portNumber the port number for a new backend HTTP settings configuration
-             * @return the next stage of the definition
-             */
-            WithBackend<ParentT> toBackendHttpPort(int portNumber);
         }
 
 
@@ -96,7 +79,7 @@ public interface ApplicationGatewayPathRule extends
          */
         interface WithBackend<ParentT> {
             /**
-             * Associates the request routing rule with a backend on this application gateway.
+             * Associates the path rule with a backend on this application gateway.
              * <p>
              * If the backend does not yet exist, it will be automatically created.
              * @param name the name of an existing backend
@@ -115,7 +98,6 @@ public interface ApplicationGatewayPathRule extends
              * @param name the name of a redirect configuration on this application gateway
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
             WithAttach<ParentT> withRedirectConfiguration(String name);
         }
 
@@ -127,7 +109,9 @@ public interface ApplicationGatewayPathRule extends
          * @param <ReturnT> the stage of the parent application gateway definition to return to after attaching this definition
          */
         interface WithAttach<ReturnT> extends
-                Attachable.InDefinition<ReturnT> {
+                Attachable.InDefinition<ReturnT>,
+                WithPath<ReturnT>,
+                WithRedirectConfig<ReturnT> {
         }
     }
 
@@ -136,7 +120,7 @@ public interface ApplicationGatewayPathRule extends
      */
     interface Definition<ReturnT> extends
             DefinitionStages.Blank<ReturnT>,
-            DefinitionStages.WithBackendHttpConfigOrRedirect<ReturnT>,
+            DefinitionStages.WithBackendHttpConfiguration<ReturnT>,
             DefinitionStages.WithBackend<ReturnT>,
             DefinitionStages.WithAttach<ReturnT> {
     }
@@ -187,16 +171,6 @@ public interface ApplicationGatewayPathRule extends
              * @return the next stage of the definition
              */
             WithBackend<ParentT> toBackendHttpConfiguration(String name);
-
-            /**
-             * Creates a backend HTTP settings configuration for the specified backend port and the HTTP protocol, and associates it with this
-             * request routing rule.
-             * <p>
-             * An auto-generated name will be used for this newly created configuration.
-             * @param portNumber the port number for a new backend HTTP settings configuration
-             * @return the next stage of the definition
-             */
-            WithBackend<ParentT> toBackendHttpPort(int portNumber);
         }
 
 

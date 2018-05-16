@@ -822,7 +822,7 @@ class ApplicationGatewayImpl
     }
 
     @Override
-    public ApplicationGatewayUrlPathMapImpl defineUrlPathMap(String name) {
+    public ApplicationGatewayUrlPathMapImpl definePathBasedRoutingRule(String name) {
         ApplicationGatewayUrlPathMapImpl urlPathMap = defineChild(name, this.urlPathMaps, ApplicationGatewayUrlPathMapInner.class, ApplicationGatewayUrlPathMapImpl.class);
         SubResource ref = new SubResource().withId(futureResourceId() + "/urlPathMaps/" + name);
         // create corresponding request routing rule
@@ -846,19 +846,6 @@ class ApplicationGatewayImpl
             return config.withPort(80); // Default port
         } else {
             return config;
-        }
-    }
-
-    @Override
-    public ApplicationGatewayRequestRoutingRule.DefinitionStages.Blank<ApplicationGateway.DefinitionStages.WithRequestRoutingRuleOrCreate> definePathBasedRoutingRule(String name) {
-        ApplicationGatewayRequestRoutingRule rule = this.rules.get(name);
-        if (rule == null) {
-            ApplicationGatewayRequestRoutingRuleInner inner = new ApplicationGatewayRequestRoutingRuleInner()
-                    .withName(name)
-                    .withRuleType(ApplicationGatewayRequestRoutingRuleType.PATH_BASED_ROUTING);
-            return new ApplicationGatewayRequestRoutingRuleImpl(inner, this);
-        } else {
-            return (ApplicationGatewayRequestRoutingRuleImpl) rule;
         }
     }
 

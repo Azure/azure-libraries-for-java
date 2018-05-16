@@ -202,10 +202,9 @@ public interface Vault extends
             
             /**
              * Specifies that by default access to key vault should be denied from all networks.
-             * except from those networks specified via 
-             * {@link WithNetworkRuleSet#withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules)}
-             * {@link WithNetworkRuleSet#withAccessFromIpAddressRange(String)}
-             * {@link WithNetworkRuleSet#withAccessFromIpAddress(String)}
+             * except from those networks specified via withVirtualNetworkRules, 
+             * withAccessFromIpAddressRange, withAccessFromIpAddress
+             * 
              * @return the next stage of key vault definition
              */
             WithCreate withAccessFromSelectedNetworks();
@@ -391,10 +390,9 @@ public interface Vault extends
             
             /**
              * Specifies that by default access to key vault should be denied from all networks.
-             * except from those networks specified via 
-             * {@link WithNetworkRuleSet#withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules)}
-             * {@link WithNetworkRuleSet#withAccessFromIpAddressRange(String)}
-             * {@link WithNetworkRuleSet#withAccessFromIpAddress(String)}
+             * except from those networks specified via withVirtualNetworkRules, withAccessFromIpAddressRange
+             * withAccesFromIpAddress
+             * 
              * @return the update stage of key vault definition
              */
             Update withAccessFromSelectedNetworks();
@@ -409,7 +407,7 @@ public interface Vault extends
             
             /**
              * Specifies that access to the key vault from the specific ip range should be allowed.
-             * @param ipAddressCidr
+             * @param ipAddressCidr the idAddress range in Cidr format
              * @return the update stage of key vault definition
              */
             Update withAccessFromIpAddressRange(String ipAddressCidr);
@@ -440,7 +438,8 @@ public interface Vault extends
             
             /**
              * Get the virtualNetworkRules value.
-             *
+             * 
+             * @param virtualNetworkRules virtual network rules
              * @return the update stage of key vault definition.
              */
             Update withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules);

@@ -192,8 +192,6 @@ public interface Vault extends
          * A key vault definition allowing the networkAcl to be set.
          */
         interface WithNetworkRuleSet {
-            
-            WithCreate withNetworkRuleSet();
         
             /**
              * Specifies that by default access to key vault should be allowed from all networks.

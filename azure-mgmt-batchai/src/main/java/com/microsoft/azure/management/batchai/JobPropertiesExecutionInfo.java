@@ -24,28 +24,28 @@ public class JobPropertiesExecutionInfo {
      * started running. This property is present only for job that are in the
      * running or completed state.
      */
-    @JsonProperty(value = "startTime", required = true)
+    @JsonProperty(value = "startTime", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime startTime;
 
     /**
      * The time at which the job completed.
      * This property is only returned if the job is in completed state.
      */
-    @JsonProperty(value = "endTime")
+    @JsonProperty(value = "endTime", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime endTime;
 
     /**
      * The exit code of the job.
      * This property is only returned if the job is in completed state.
      */
-    @JsonProperty(value = "exitCode")
+    @JsonProperty(value = "exitCode", access = JsonProperty.Access.WRITE_ONLY)
     private Integer exitCode;
 
     /**
      * Contains details of various errors encountered by the service during job
      * execution.
      */
-    @JsonProperty(value = "errors")
+    @JsonProperty(value = "errors", access = JsonProperty.Access.WRITE_ONLY)
     private List<BatchAIError> errors;
 
     /**
@@ -58,34 +58,12 @@ public class JobPropertiesExecutionInfo {
     }
 
     /**
-     * Set the startTime value.
-     *
-     * @param startTime the startTime value to set
-     * @return the JobPropertiesExecutionInfo object itself.
-     */
-    public JobPropertiesExecutionInfo withStartTime(DateTime startTime) {
-        this.startTime = startTime;
-        return this;
-    }
-
-    /**
      * Get the endTime value.
      *
      * @return the endTime value
      */
     public DateTime endTime() {
         return this.endTime;
-    }
-
-    /**
-     * Set the endTime value.
-     *
-     * @param endTime the endTime value to set
-     * @return the JobPropertiesExecutionInfo object itself.
-     */
-    public JobPropertiesExecutionInfo withEndTime(DateTime endTime) {
-        this.endTime = endTime;
-        return this;
     }
 
     /**
@@ -98,34 +76,12 @@ public class JobPropertiesExecutionInfo {
     }
 
     /**
-     * Set the exitCode value.
-     *
-     * @param exitCode the exitCode value to set
-     * @return the JobPropertiesExecutionInfo object itself.
-     */
-    public JobPropertiesExecutionInfo withExitCode(Integer exitCode) {
-        this.exitCode = exitCode;
-        return this;
-    }
-
-    /**
      * Get the errors value.
      *
      * @return the errors value
      */
     public List<BatchAIError> errors() {
         return this.errors;
-    }
-
-    /**
-     * Set the errors value.
-     *
-     * @param errors the errors value to set
-     * @return the JobPropertiesExecutionInfo object itself.
-     */
-    public JobPropertiesExecutionInfo withErrors(List<BatchAIError> errors) {
-        this.errors = errors;
-        return this;
     }
 
 }

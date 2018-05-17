@@ -19,20 +19,20 @@ public class BatchAIError {
      * An identifier for the error. Codes are invariant and are intended to be
      * consumed programmatically.
      */
-    @JsonProperty(value = "code")
+    @JsonProperty(value = "code", access = JsonProperty.Access.WRITE_ONLY)
     private String code;
 
     /**
      * A message describing the error, intended to be suitable for display in a
      * user interface.
      */
-    @JsonProperty(value = "message")
+    @JsonProperty(value = "message", access = JsonProperty.Access.WRITE_ONLY)
     private String message;
 
     /**
      * A list of additional details about the error.
      */
-    @JsonProperty(value = "details")
+    @JsonProperty(value = "details", access = JsonProperty.Access.WRITE_ONLY)
     private List<NameValuePair> details;
 
     /**
@@ -45,17 +45,6 @@ public class BatchAIError {
     }
 
     /**
-     * Set the code value.
-     *
-     * @param code the code value to set
-     * @return the BatchAIError object itself.
-     */
-    public BatchAIError withCode(String code) {
-        this.code = code;
-        return this;
-    }
-
-    /**
      * Get the message value.
      *
      * @return the message value
@@ -65,34 +54,12 @@ public class BatchAIError {
     }
 
     /**
-     * Set the message value.
-     *
-     * @param message the message value to set
-     * @return the BatchAIError object itself.
-     */
-    public BatchAIError withMessage(String message) {
-        this.message = message;
-        return this;
-    }
-
-    /**
      * Get the details value.
      *
      * @return the details value
      */
     public List<NameValuePair> details() {
         return this.details;
-    }
-
-    /**
-     * Set the details value.
-     *
-     * @param details the details value to set
-     * @return the BatchAIError object itself.
-     */
-    public BatchAIError withDetails(List<NameValuePair> details) {
-        this.details = details;
-        return this;
     }
 
 }

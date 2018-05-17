@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.batchai.implementation;
 
+import com.microsoft.azure.management.batchai.UsageUnit;
 import com.microsoft.azure.management.batchai.UsageName;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -16,54 +17,37 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class UsageInner {
     /**
-     * An enum describing the unit of usage measurement.
+     * An enum describing the unit of usage measurement. Possible values
+     * include: 'Count'.
      */
-    @JsonProperty(value = "unit", required = true)
-    private String unit;
+    @JsonProperty(value = "unit", access = JsonProperty.Access.WRITE_ONLY)
+    private UsageUnit unit;
 
     /**
      * The current usage of the resource.
      */
-    @JsonProperty(value = "currentValue", required = true)
-    private int currentValue;
+    @JsonProperty(value = "currentValue", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer currentValue;
 
     /**
      * The maximum permitted usage of the resource.
      */
-    @JsonProperty(value = "limit", required = true)
-    private long limit;
+    @JsonProperty(value = "limit", access = JsonProperty.Access.WRITE_ONLY)
+    private Long limit;
 
     /**
      * The name of the type of usage.
      */
-    @JsonProperty(value = "name", required = true)
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private UsageName name;
-
-    /**
-     * Creates an instance of UsageInner class.
-     */
-    public UsageInner() {
-        unit = "Count";
-    }
 
     /**
      * Get the unit value.
      *
      * @return the unit value
      */
-    public String unit() {
+    public UsageUnit unit() {
         return this.unit;
-    }
-
-    /**
-     * Set the unit value.
-     *
-     * @param unit the unit value to set
-     * @return the UsageInner object itself.
-     */
-    public UsageInner withUnit(String unit) {
-        this.unit = unit;
-        return this;
     }
 
     /**
@@ -71,19 +55,8 @@ public class UsageInner {
      *
      * @return the currentValue value
      */
-    public int currentValue() {
+    public Integer currentValue() {
         return this.currentValue;
-    }
-
-    /**
-     * Set the currentValue value.
-     *
-     * @param currentValue the currentValue value to set
-     * @return the UsageInner object itself.
-     */
-    public UsageInner withCurrentValue(int currentValue) {
-        this.currentValue = currentValue;
-        return this;
     }
 
     /**
@@ -91,19 +64,8 @@ public class UsageInner {
      *
      * @return the limit value
      */
-    public long limit() {
+    public Long limit() {
         return this.limit;
-    }
-
-    /**
-     * Set the limit value.
-     *
-     * @param limit the limit value to set
-     * @return the UsageInner object itself.
-     */
-    public UsageInner withLimit(long limit) {
-        this.limit = limit;
-        return this;
     }
 
     /**
@@ -113,17 +75,6 @@ public class UsageInner {
      */
     public UsageName name() {
         return this.name;
-    }
-
-    /**
-     * Set the name value.
-     *
-     * @param name the name value to set
-     * @return the UsageInner object itself.
-     */
-    public UsageInner withName(UsageName name) {
-        this.name = name;
-        return this;
     }
 
 }

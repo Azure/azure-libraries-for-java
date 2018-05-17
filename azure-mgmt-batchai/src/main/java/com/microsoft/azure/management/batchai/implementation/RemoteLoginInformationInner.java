@@ -17,20 +17,20 @@ public class RemoteLoginInformationInner {
     /**
      * Id of the compute node.
      */
-    @JsonProperty(value = "nodeId", required = true)
+    @JsonProperty(value = "nodeId", access = JsonProperty.Access.WRITE_ONLY)
     private String nodeId;
 
     /**
      * ip address.
      */
-    @JsonProperty(value = "ipAddress", required = true)
+    @JsonProperty(value = "ipAddress", access = JsonProperty.Access.WRITE_ONLY)
     private String ipAddress;
 
     /**
      * port number.
      */
-    @JsonProperty(value = "port", required = true)
-    private double port;
+    @JsonProperty(value = "port", access = JsonProperty.Access.WRITE_ONLY)
+    private Double port;
 
     /**
      * Get the nodeId value.
@@ -39,17 +39,6 @@ public class RemoteLoginInformationInner {
      */
     public String nodeId() {
         return this.nodeId;
-    }
-
-    /**
-     * Set the nodeId value.
-     *
-     * @param nodeId the nodeId value to set
-     * @return the RemoteLoginInformationInner object itself.
-     */
-    public RemoteLoginInformationInner withNodeId(String nodeId) {
-        this.nodeId = nodeId;
-        return this;
     }
 
     /**
@@ -62,34 +51,12 @@ public class RemoteLoginInformationInner {
     }
 
     /**
-     * Set the ipAddress value.
-     *
-     * @param ipAddress the ipAddress value to set
-     * @return the RemoteLoginInformationInner object itself.
-     */
-    public RemoteLoginInformationInner withIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-        return this;
-    }
-
-    /**
      * Get the port value.
      *
      * @return the port value
      */
-    public double port() {
+    public Double port() {
         return this.port;
-    }
-
-    /**
-     * Set the port value.
-     *
-     * @param port the port value to set
-     * @return the RemoteLoginInformationInner object itself.
-     */
-    public RemoteLoginInformationInner withPort(double port) {
-        this.port = port;
-        return this;
     }
 
 }

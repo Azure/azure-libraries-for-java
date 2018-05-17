@@ -17,13 +17,13 @@ public class UsageName {
     /**
      * The name of the resource.
      */
-    @JsonProperty(value = "value")
+    @JsonProperty(value = "value", access = JsonProperty.Access.WRITE_ONLY)
     private String value;
 
     /**
      * The localized name of the resource.
      */
-    @JsonProperty(value = "localizedValue")
+    @JsonProperty(value = "localizedValue", access = JsonProperty.Access.WRITE_ONLY)
     private String localizedValue;
 
     /**
@@ -36,34 +36,12 @@ public class UsageName {
     }
 
     /**
-     * Set the value value.
-     *
-     * @param value the value value to set
-     * @return the UsageName object itself.
-     */
-    public UsageName withValue(String value) {
-        this.value = value;
-        return this;
-    }
-
-    /**
      * Get the localizedValue value.
      *
      * @return the localizedValue value
      */
     public String localizedValue() {
         return this.localizedValue;
-    }
-
-    /**
-     * Set the localizedValue value.
-     *
-     * @param localizedValue the localizedValue value to set
-     * @return the UsageName object itself.
-     */
-    public UsageName withLocalizedValue(String localizedValue) {
-        this.localizedValue = localizedValue;
-        return this;
     }
 
 }

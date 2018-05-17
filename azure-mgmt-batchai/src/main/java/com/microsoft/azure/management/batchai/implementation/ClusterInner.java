@@ -130,7 +130,7 @@ public class ClusterInner extends Resource {
      * This element contains all the errors encountered by various compute
      * nodes during node setup.
      */
-    @JsonProperty(value = "properties.errors")
+    @JsonProperty(value = "properties.errors", access = JsonProperty.Access.WRITE_ONLY)
     private List<BatchAIError> errors;
 
     /**
@@ -337,17 +337,6 @@ public class ClusterInner extends Resource {
      */
     public List<BatchAIError> errors() {
         return this.errors;
-    }
-
-    /**
-     * Set the errors value.
-     *
-     * @param errors the errors value to set
-     * @return the ClusterInner object itself.
-     */
-    public ClusterInner withErrors(List<BatchAIError> errors) {
-        this.errors = errors;
-        return this;
     }
 
     /**

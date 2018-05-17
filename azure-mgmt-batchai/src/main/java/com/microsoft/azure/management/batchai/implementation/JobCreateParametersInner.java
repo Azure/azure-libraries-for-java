@@ -8,7 +8,7 @@
 
 package com.microsoft.azure.management.batchai.implementation;
 
-import java.util.Map;
+import com.microsoft.azure.management.batchai.JobPriority;
 import com.microsoft.azure.management.batchai.ResourceId;
 import com.microsoft.azure.management.batchai.MountVolumes;
 import com.microsoft.azure.management.batchai.ContainerSettings;
@@ -19,6 +19,8 @@ import com.microsoft.azure.management.batchai.CaffeSettings;
 import com.microsoft.azure.management.batchai.Caffe2Settings;
 import com.microsoft.azure.management.batchai.ChainerSettings;
 import com.microsoft.azure.management.batchai.CustomToolkitSettings;
+import com.microsoft.azure.management.batchai.CustomMpiSettings;
+import com.microsoft.azure.management.batchai.HorovodSettings;
 import com.microsoft.azure.management.batchai.JobPreparation;
 import java.util.List;
 import com.microsoft.azure.management.batchai.InputDirectory;
@@ -35,31 +37,12 @@ import com.microsoft.rest.serializer.JsonFlatten;
 @JsonFlatten
 public class JobCreateParametersInner {
     /**
-     * The region in which to create the job.
+     * Scheduling priority associated with the job.
+     * Scheduling priority associated with the job. Possible values include:
+     * 'low', 'normal', 'high'.
      */
-    @JsonProperty(value = "location", required = true)
-    private String location;
-
-    /**
-     * The user specified tags associated with the job.
-     */
-    @JsonProperty(value = "tags")
-    private Map<String, String> tags;
-
-    /**
-     * Describe the experiment information of the job.
-     */
-    @JsonProperty(value = "properties.experimentName")
-    private String experimentName;
-
-    /**
-     * Priority associated with the job.
-     * Priority associated with the job. Priority values can range from -1000
-     * to 1000, with -1000 being the lowest priority and 1000 being the highest
-     * priority. The default value is 0.
-     */
-    @JsonProperty(value = "properties.priority")
-    private Integer priority;
+    @JsonProperty(value = "properties.schedulingPriority")
+    private JobPriority schedulingPriority;
 
     /**
      * Specifies the Id of the cluster on which this job will run.
@@ -135,6 +118,18 @@ public class JobCreateParametersInner {
     private CustomToolkitSettings customToolkitSettings;
 
     /**
+     * Specifies the settings for custom MPI job.
+     */
+    @JsonProperty(value = "properties.customMpiSettings")
+    private CustomMpiSettings customMpiSettings;
+
+    /**
+     * Specifies the settings for Horovod job.
+     */
+    @JsonProperty(value = "properties.horovodSettings")
+    private HorovodSettings horovodSettings;
+
+    /**
      * Specifies the command line to be executed before tool kit is launched.
      * The specified actions will run on all the nodes that are part of the
      * job.
@@ -183,82 +178,22 @@ public class JobCreateParametersInner {
     private JobBasePropertiesConstraints constraints;
 
     /**
-     * Get the location value.
+     * Get the schedulingPriority value.
      *
-     * @return the location value
+     * @return the schedulingPriority value
      */
-    public String location() {
-        return this.location;
+    public JobPriority schedulingPriority() {
+        return this.schedulingPriority;
     }
 
     /**
-     * Set the location value.
+     * Set the schedulingPriority value.
      *
-     * @param location the location value to set
+     * @param schedulingPriority the schedulingPriority value to set
      * @return the JobCreateParametersInner object itself.
      */
-    public JobCreateParametersInner withLocation(String location) {
-        this.location = location;
-        return this;
-    }
-
-    /**
-     * Get the tags value.
-     *
-     * @return the tags value
-     */
-    public Map<String, String> tags() {
-        return this.tags;
-    }
-
-    /**
-     * Set the tags value.
-     *
-     * @param tags the tags value to set
-     * @return the JobCreateParametersInner object itself.
-     */
-    public JobCreateParametersInner withTags(Map<String, String> tags) {
-        this.tags = tags;
-        return this;
-    }
-
-    /**
-     * Get the experimentName value.
-     *
-     * @return the experimentName value
-     */
-    public String experimentName() {
-        return this.experimentName;
-    }
-
-    /**
-     * Set the experimentName value.
-     *
-     * @param experimentName the experimentName value to set
-     * @return the JobCreateParametersInner object itself.
-     */
-    public JobCreateParametersInner withExperimentName(String experimentName) {
-        this.experimentName = experimentName;
-        return this;
-    }
-
-    /**
-     * Get the priority value.
-     *
-     * @return the priority value
-     */
-    public Integer priority() {
-        return this.priority;
-    }
-
-    /**
-     * Set the priority value.
-     *
-     * @param priority the priority value to set
-     * @return the JobCreateParametersInner object itself.
-     */
-    public JobCreateParametersInner withPriority(Integer priority) {
-        this.priority = priority;
+    public JobCreateParametersInner withSchedulingPriority(JobPriority schedulingPriority) {
+        this.schedulingPriority = schedulingPriority;
         return this;
     }
 
@@ -479,6 +414,46 @@ public class JobCreateParametersInner {
      */
     public JobCreateParametersInner withCustomToolkitSettings(CustomToolkitSettings customToolkitSettings) {
         this.customToolkitSettings = customToolkitSettings;
+        return this;
+    }
+
+    /**
+     * Get the customMpiSettings value.
+     *
+     * @return the customMpiSettings value
+     */
+    public CustomMpiSettings customMpiSettings() {
+        return this.customMpiSettings;
+    }
+
+    /**
+     * Set the customMpiSettings value.
+     *
+     * @param customMpiSettings the customMpiSettings value to set
+     * @return the JobCreateParametersInner object itself.
+     */
+    public JobCreateParametersInner withCustomMpiSettings(CustomMpiSettings customMpiSettings) {
+        this.customMpiSettings = customMpiSettings;
+        return this;
+    }
+
+    /**
+     * Get the horovodSettings value.
+     *
+     * @return the horovodSettings value
+     */
+    public HorovodSettings horovodSettings() {
+        return this.horovodSettings;
+    }
+
+    /**
+     * Set the horovodSettings value.
+     *
+     * @param horovodSettings the horovodSettings value to set
+     * @return the JobCreateParametersInner object itself.
+     */
+    public JobCreateParametersInner withHorovodSettings(HorovodSettings horovodSettings) {
+        this.horovodSettings = horovodSettings;
         return this;
     }
 

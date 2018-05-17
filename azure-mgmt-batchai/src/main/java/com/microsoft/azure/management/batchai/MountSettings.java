@@ -34,13 +34,6 @@ public class MountSettings {
     private String fileServerInternalIP;
 
     /**
-     * Type of the fileserver e.g. nfs, glusterfs etc.
-     * Possible values include: 'nfs', 'glusterfs'.
-     */
-    @JsonProperty(value = "fileServerType")
-    private FileServerType fileServerType;
-
-    /**
      * Get the mountPoint value.
      *
      * @return the mountPoint value
@@ -97,26 +90,6 @@ public class MountSettings {
      */
     public MountSettings withFileServerInternalIP(String fileServerInternalIP) {
         this.fileServerInternalIP = fileServerInternalIP;
-        return this;
-    }
-
-    /**
-     * Get the fileServerType value.
-     *
-     * @return the fileServerType value
-     */
-    public FileServerType fileServerType() {
-        return this.fileServerType;
-    }
-
-    /**
-     * Set the fileServerType value.
-     *
-     * @param fileServerType the fileServerType value to set
-     * @return the MountSettings object itself.
-     */
-    public MountSettings withFileServerType(FileServerType fileServerType) {
-        this.fileServerType = fileServerType;
         return this;
     }
 

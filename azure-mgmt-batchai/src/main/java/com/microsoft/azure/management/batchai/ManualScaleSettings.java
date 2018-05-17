@@ -26,7 +26,7 @@ public class ManualScaleSettings {
      * Determines what to do with the job(s) running on compute node if the
      * Cluster size is decreasing.
      * The default value is requeue. Possible values include: 'requeue',
-     * 'terminate', 'waitforjobcompletion', 'unknown'.
+     * 'terminate', 'waitforjobcompletion'.
      */
     @JsonProperty(value = "nodeDeallocationOption")
     private DeallocationOption nodeDeallocationOption;

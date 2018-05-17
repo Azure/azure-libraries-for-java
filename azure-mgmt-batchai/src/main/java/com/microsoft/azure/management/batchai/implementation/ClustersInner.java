@@ -8,9 +8,6 @@
 
 package com.microsoft.azure.management.batchai.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
@@ -44,7 +41,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in Clusters.
  */
-public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSupportsDelete<Void>, InnerSupportsListing<ClusterInner> {
+public class ClustersInner {
     /** The Retrofit service to perform REST calls. */
     private ClustersService service;
     /** The service client containing this operation class. */
@@ -67,95 +64,90 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
      */
     interface ClustersService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Clusters create" })
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/clusters/{clusterName}")
-        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("clusterName") String clusterName, @Path("subscriptionId") String subscriptionId, @Body ClusterCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}")
+        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("clusterName") String clusterName, @Path("subscriptionId") String subscriptionId, @Body ClusterCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Clusters beginCreate" })
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/clusters/{clusterName}")
-        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("clusterName") String clusterName, @Path("subscriptionId") String subscriptionId, @Body ClusterCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}")
+        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("clusterName") String clusterName, @Path("subscriptionId") String subscriptionId, @Body ClusterCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Clusters update" })
-        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/clusters/{clusterName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("clusterName") String clusterName, @Path("subscriptionId") String subscriptionId, @Body ClusterUpdateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}")
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("clusterName") String clusterName, @Path("subscriptionId") String subscriptionId, @Body ClusterUpdateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Clusters delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/clusters/{clusterName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("clusterName") String clusterName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("clusterName") String clusterName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Clusters beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/clusters/{clusterName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("clusterName") String clusterName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("clusterName") String clusterName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Clusters getByResourceGroup" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/clusters/{clusterName}")
-        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("clusterName") String clusterName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Clusters get" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}")
+        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("clusterName") String clusterName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Clusters listRemoteLoginInformation" })
-        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/clusters/{clusterName}/listRemoteLoginInformation")
-        Observable<Response<ResponseBody>> listRemoteLoginInformation(@Path("resourceGroupName") String resourceGroupName, @Path("clusterName") String clusterName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}/listRemoteLoginInformation")
+        Observable<Response<ResponseBody>> listRemoteLoginInformation(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("clusterName") String clusterName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Clusters list" })
-        @GET("subscriptions/{subscriptionId}/providers/Microsoft.BatchAI/clusters")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Query("$filter") String filter, @Query("$select") String select, @Query("maxresults") Integer maxResults, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Clusters listByResourceGroup" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/clusters")
-        Observable<Response<ResponseBody>> listByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Query("$filter") String filter, @Query("$select") String select, @Query("maxresults") Integer maxResults, @Header("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Clusters listByWorkspace" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters")
+        Observable<Response<ResponseBody>> listByWorkspace(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Query("maxresults") Integer maxResults, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Clusters listRemoteLoginInformationNext" })
         @GET
         Observable<Response<ResponseBody>> listRemoteLoginInformationNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Clusters listNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Clusters listByWorkspaceNext" })
         @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Clusters listByResourceGroupNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listByWorkspaceNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
     /**
-     * Adds a cluster. A cluster is a collection of compute nodes. Multiple jobs can be run on the same cluster.
+     * Creates a Cluster in the given Workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for cluster creation.
+     * @param parameters The parameters to provide for the Cluster creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ClusterInner object if successful.
      */
-    public ClusterInner create(String resourceGroupName, String clusterName, ClusterCreateParametersInner parameters) {
-        return createWithServiceResponseAsync(resourceGroupName, clusterName, parameters).toBlocking().last().body();
+    public ClusterInner create(String resourceGroupName, String workspaceName, String clusterName, ClusterCreateParametersInner parameters) {
+        return createWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName, parameters).toBlocking().last().body();
     }
 
     /**
-     * Adds a cluster. A cluster is a collection of compute nodes. Multiple jobs can be run on the same cluster.
+     * Creates a Cluster in the given Workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for cluster creation.
+     * @param parameters The parameters to provide for the Cluster creation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ClusterInner> createAsync(String resourceGroupName, String clusterName, ClusterCreateParametersInner parameters, final ServiceCallback<ClusterInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, clusterName, parameters), serviceCallback);
+    public ServiceFuture<ClusterInner> createAsync(String resourceGroupName, String workspaceName, String clusterName, ClusterCreateParametersInner parameters, final ServiceCallback<ClusterInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName, parameters), serviceCallback);
     }
 
     /**
-     * Adds a cluster. A cluster is a collection of compute nodes. Multiple jobs can be run on the same cluster.
+     * Creates a Cluster in the given Workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for cluster creation.
+     * @param parameters The parameters to provide for the Cluster creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ClusterInner> createAsync(String resourceGroupName, String clusterName, ClusterCreateParametersInner parameters) {
-        return createWithServiceResponseAsync(resourceGroupName, clusterName, parameters).map(new Func1<ServiceResponse<ClusterInner>, ClusterInner>() {
+    public Observable<ClusterInner> createAsync(String resourceGroupName, String workspaceName, String clusterName, ClusterCreateParametersInner parameters) {
+        return createWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName, parameters).map(new Func1<ServiceResponse<ClusterInner>, ClusterInner>() {
             @Override
             public ClusterInner call(ServiceResponse<ClusterInner> response) {
                 return response.body();
@@ -164,17 +156,21 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Adds a cluster. A cluster is a collection of compute nodes. Multiple jobs can be run on the same cluster.
+     * Creates a Cluster in the given Workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for cluster creation.
+     * @param parameters The parameters to provide for the Cluster creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<ClusterInner>> createWithServiceResponseAsync(String resourceGroupName, String clusterName, ClusterCreateParametersInner parameters) {
+    public Observable<ServiceResponse<ClusterInner>> createWithServiceResponseAsync(String resourceGroupName, String workspaceName, String clusterName, ClusterCreateParametersInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
         }
         if (clusterName == null) {
             throw new IllegalArgumentException("Parameter clusterName is required and cannot be null.");
@@ -189,50 +185,53 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, clusterName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, workspaceName, clusterName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ClusterInner>() { }.getType());
     }
 
     /**
-     * Adds a cluster. A cluster is a collection of compute nodes. Multiple jobs can be run on the same cluster.
+     * Creates a Cluster in the given Workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for cluster creation.
+     * @param parameters The parameters to provide for the Cluster creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ClusterInner object if successful.
      */
-    public ClusterInner beginCreate(String resourceGroupName, String clusterName, ClusterCreateParametersInner parameters) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, clusterName, parameters).toBlocking().single().body();
+    public ClusterInner beginCreate(String resourceGroupName, String workspaceName, String clusterName, ClusterCreateParametersInner parameters) {
+        return beginCreateWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName, parameters).toBlocking().single().body();
     }
 
     /**
-     * Adds a cluster. A cluster is a collection of compute nodes. Multiple jobs can be run on the same cluster.
+     * Creates a Cluster in the given Workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for cluster creation.
+     * @param parameters The parameters to provide for the Cluster creation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ClusterInner> beginCreateAsync(String resourceGroupName, String clusterName, ClusterCreateParametersInner parameters, final ServiceCallback<ClusterInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, clusterName, parameters), serviceCallback);
+    public ServiceFuture<ClusterInner> beginCreateAsync(String resourceGroupName, String workspaceName, String clusterName, ClusterCreateParametersInner parameters, final ServiceCallback<ClusterInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName, parameters), serviceCallback);
     }
 
     /**
-     * Adds a cluster. A cluster is a collection of compute nodes. Multiple jobs can be run on the same cluster.
+     * Creates a Cluster in the given Workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for cluster creation.
+     * @param parameters The parameters to provide for the Cluster creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ClusterInner object
      */
-    public Observable<ClusterInner> beginCreateAsync(String resourceGroupName, String clusterName, ClusterCreateParametersInner parameters) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, clusterName, parameters).map(new Func1<ServiceResponse<ClusterInner>, ClusterInner>() {
+    public Observable<ClusterInner> beginCreateAsync(String resourceGroupName, String workspaceName, String clusterName, ClusterCreateParametersInner parameters) {
+        return beginCreateWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName, parameters).map(new Func1<ServiceResponse<ClusterInner>, ClusterInner>() {
             @Override
             public ClusterInner call(ServiceResponse<ClusterInner> response) {
                 return response.body();
@@ -241,17 +240,21 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Adds a cluster. A cluster is a collection of compute nodes. Multiple jobs can be run on the same cluster.
+     * Creates a Cluster in the given Workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for cluster creation.
+     * @param parameters The parameters to provide for the Cluster creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ClusterInner object
      */
-    public Observable<ServiceResponse<ClusterInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String clusterName, ClusterCreateParametersInner parameters) {
+    public Observable<ServiceResponse<ClusterInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String workspaceName, String clusterName, ClusterCreateParametersInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
         }
         if (clusterName == null) {
             throw new IllegalArgumentException("Parameter clusterName is required and cannot be null.");
@@ -266,7 +269,7 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        return service.beginCreate(resourceGroupName, clusterName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginCreate(resourceGroupName, workspaceName, clusterName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ClusterInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ClusterInner>> call(Response<ResponseBody> response) {
@@ -289,9 +292,10 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Update the properties of a given cluster.
+     * Updates properties of a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param parameters Additional parameters for cluster update.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -299,35 +303,37 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ClusterInner object if successful.
      */
-    public ClusterInner update(String resourceGroupName, String clusterName, ClusterUpdateParametersInner parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, clusterName, parameters).toBlocking().single().body();
+    public ClusterInner update(String resourceGroupName, String workspaceName, String clusterName, ClusterUpdateParametersInner parameters) {
+        return updateWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName, parameters).toBlocking().single().body();
     }
 
     /**
-     * Update the properties of a given cluster.
+     * Updates properties of a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param parameters Additional parameters for cluster update.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ClusterInner> updateAsync(String resourceGroupName, String clusterName, ClusterUpdateParametersInner parameters, final ServiceCallback<ClusterInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, clusterName, parameters), serviceCallback);
+    public ServiceFuture<ClusterInner> updateAsync(String resourceGroupName, String workspaceName, String clusterName, ClusterUpdateParametersInner parameters, final ServiceCallback<ClusterInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName, parameters), serviceCallback);
     }
 
     /**
-     * Update the properties of a given cluster.
+     * Updates properties of a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param parameters Additional parameters for cluster update.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ClusterInner object
      */
-    public Observable<ClusterInner> updateAsync(String resourceGroupName, String clusterName, ClusterUpdateParametersInner parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, clusterName, parameters).map(new Func1<ServiceResponse<ClusterInner>, ClusterInner>() {
+    public Observable<ClusterInner> updateAsync(String resourceGroupName, String workspaceName, String clusterName, ClusterUpdateParametersInner parameters) {
+        return updateWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName, parameters).map(new Func1<ServiceResponse<ClusterInner>, ClusterInner>() {
             @Override
             public ClusterInner call(ServiceResponse<ClusterInner> response) {
                 return response.body();
@@ -336,17 +342,21 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Update the properties of a given cluster.
+     * Updates properties of a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param parameters Additional parameters for cluster update.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ClusterInner object
      */
-    public Observable<ServiceResponse<ClusterInner>> updateWithServiceResponseAsync(String resourceGroupName, String clusterName, ClusterUpdateParametersInner parameters) {
+    public Observable<ServiceResponse<ClusterInner>> updateWithServiceResponseAsync(String resourceGroupName, String workspaceName, String clusterName, ClusterUpdateParametersInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
         }
         if (clusterName == null) {
             throw new IllegalArgumentException("Parameter clusterName is required and cannot be null.");
@@ -361,7 +371,7 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        return service.update(resourceGroupName, clusterName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.update(resourceGroupName, workspaceName, clusterName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ClusterInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ClusterInner>> call(Response<ResponseBody> response) {
@@ -386,38 +396,41 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
      * Deletes a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void delete(String resourceGroupName, String clusterName) {
-        deleteWithServiceResponseAsync(resourceGroupName, clusterName).toBlocking().last().body();
+    public void delete(String resourceGroupName, String workspaceName, String clusterName) {
+        deleteWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName).toBlocking().last().body();
     }
 
     /**
      * Deletes a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String clusterName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, clusterName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String workspaceName, String clusterName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName), serviceCallback);
     }
 
     /**
      * Deletes a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String clusterName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, clusterName).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> deleteAsync(String resourceGroupName, String workspaceName, String clusterName) {
+        return deleteWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -429,13 +442,17 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
      * Deletes a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String clusterName) {
+    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String workspaceName, String clusterName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
         }
         if (clusterName == null) {
             throw new IllegalArgumentException("Parameter clusterName is required and cannot be null.");
@@ -446,7 +463,7 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, clusterName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, workspaceName, clusterName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
@@ -454,38 +471,41 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
      * Deletes a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void beginDelete(String resourceGroupName, String clusterName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, clusterName).toBlocking().single().body();
+    public void beginDelete(String resourceGroupName, String workspaceName, String clusterName) {
+        beginDeleteWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName).toBlocking().single().body();
     }
 
     /**
      * Deletes a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String clusterName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, clusterName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String workspaceName, String clusterName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName), serviceCallback);
     }
 
     /**
      * Deletes a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String clusterName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, clusterName).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> beginDeleteAsync(String resourceGroupName, String workspaceName, String clusterName) {
+        return beginDeleteWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -497,13 +517,17 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
      * Deletes a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String clusterName) {
+    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String workspaceName, String clusterName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
         }
         if (clusterName == null) {
             throw new IllegalArgumentException("Parameter clusterName is required and cannot be null.");
@@ -514,7 +538,7 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.beginDelete(resourceGroupName, clusterName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginDelete(resourceGroupName, workspaceName, clusterName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -538,42 +562,45 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Gets information about the specified Cluster.
+     * Gets information about a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ClusterInner object if successful.
      */
-    public ClusterInner getByResourceGroup(String resourceGroupName, String clusterName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, clusterName).toBlocking().single().body();
+    public ClusterInner get(String resourceGroupName, String workspaceName, String clusterName) {
+        return getWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName).toBlocking().single().body();
     }
 
     /**
-     * Gets information about the specified Cluster.
+     * Gets information about a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ClusterInner> getByResourceGroupAsync(String resourceGroupName, String clusterName, final ServiceCallback<ClusterInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, clusterName), serviceCallback);
+    public ServiceFuture<ClusterInner> getAsync(String resourceGroupName, String workspaceName, String clusterName, final ServiceCallback<ClusterInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName), serviceCallback);
     }
 
     /**
-     * Gets information about the specified Cluster.
+     * Gets information about a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ClusterInner object
      */
-    public Observable<ClusterInner> getByResourceGroupAsync(String resourceGroupName, String clusterName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, clusterName).map(new Func1<ServiceResponse<ClusterInner>, ClusterInner>() {
+    public Observable<ClusterInner> getAsync(String resourceGroupName, String workspaceName, String clusterName) {
+        return getWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName).map(new Func1<ServiceResponse<ClusterInner>, ClusterInner>() {
             @Override
             public ClusterInner call(ServiceResponse<ClusterInner> response) {
                 return response.body();
@@ -582,16 +609,20 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Gets information about the specified Cluster.
+     * Gets information about a Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ClusterInner object
      */
-    public Observable<ServiceResponse<ClusterInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String clusterName) {
+    public Observable<ServiceResponse<ClusterInner>> getWithServiceResponseAsync(String resourceGroupName, String workspaceName, String clusterName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
         }
         if (clusterName == null) {
             throw new IllegalArgumentException("Parameter clusterName is required and cannot be null.");
@@ -602,12 +633,12 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.getByResourceGroup(resourceGroupName, clusterName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.get(resourceGroupName, workspaceName, clusterName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ClusterInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ClusterInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<ClusterInner> clientResponse = getByResourceGroupDelegate(response);
+                        ServiceResponse<ClusterInner> clientResponse = getDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -616,7 +647,7 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
             });
     }
 
-    private ServiceResponse<ClusterInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<ClusterInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ClusterInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<ClusterInner>() { }.getType())
                 .registerError(CloudException.class)
@@ -624,17 +655,18 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Get the IP address, port of all the compute nodes in the cluster.
+     * Get the IP address, port of all the compute nodes in the Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;RemoteLoginInformationInner&gt; object if successful.
      */
-    public PagedList<RemoteLoginInformationInner> listRemoteLoginInformation(final String resourceGroupName, final String clusterName) {
-        ServiceResponse<Page<RemoteLoginInformationInner>> response = listRemoteLoginInformationSinglePageAsync(resourceGroupName, clusterName).toBlocking().single();
+    public PagedList<RemoteLoginInformationInner> listRemoteLoginInformation(final String resourceGroupName, final String workspaceName, final String clusterName) {
+        ServiceResponse<Page<RemoteLoginInformationInner>> response = listRemoteLoginInformationSinglePageAsync(resourceGroupName, workspaceName, clusterName).toBlocking().single();
         return new PagedList<RemoteLoginInformationInner>(response.body()) {
             @Override
             public Page<RemoteLoginInformationInner> nextPage(String nextPageLink) {
@@ -644,17 +676,18 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Get the IP address, port of all the compute nodes in the cluster.
+     * Get the IP address, port of all the compute nodes in the Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<RemoteLoginInformationInner>> listRemoteLoginInformationAsync(final String resourceGroupName, final String clusterName, final ListOperationCallback<RemoteLoginInformationInner> serviceCallback) {
+    public ServiceFuture<List<RemoteLoginInformationInner>> listRemoteLoginInformationAsync(final String resourceGroupName, final String workspaceName, final String clusterName, final ListOperationCallback<RemoteLoginInformationInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listRemoteLoginInformationSinglePageAsync(resourceGroupName, clusterName),
+            listRemoteLoginInformationSinglePageAsync(resourceGroupName, workspaceName, clusterName),
             new Func1<String, Observable<ServiceResponse<Page<RemoteLoginInformationInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> call(String nextPageLink) {
@@ -665,15 +698,16 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Get the IP address, port of all the compute nodes in the cluster.
+     * Get the IP address, port of all the compute nodes in the Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;RemoteLoginInformationInner&gt; object
      */
-    public Observable<Page<RemoteLoginInformationInner>> listRemoteLoginInformationAsync(final String resourceGroupName, final String clusterName) {
-        return listRemoteLoginInformationWithServiceResponseAsync(resourceGroupName, clusterName)
+    public Observable<Page<RemoteLoginInformationInner>> listRemoteLoginInformationAsync(final String resourceGroupName, final String workspaceName, final String clusterName) {
+        return listRemoteLoginInformationWithServiceResponseAsync(resourceGroupName, workspaceName, clusterName)
             .map(new Func1<ServiceResponse<Page<RemoteLoginInformationInner>>, Page<RemoteLoginInformationInner>>() {
                 @Override
                 public Page<RemoteLoginInformationInner> call(ServiceResponse<Page<RemoteLoginInformationInner>> response) {
@@ -683,15 +717,16 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Get the IP address, port of all the compute nodes in the cluster.
+     * Get the IP address, port of all the compute nodes in the Cluster.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;RemoteLoginInformationInner&gt; object
      */
-    public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> listRemoteLoginInformationWithServiceResponseAsync(final String resourceGroupName, final String clusterName) {
-        return listRemoteLoginInformationSinglePageAsync(resourceGroupName, clusterName)
+    public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> listRemoteLoginInformationWithServiceResponseAsync(final String resourceGroupName, final String workspaceName, final String clusterName) {
+        return listRemoteLoginInformationSinglePageAsync(resourceGroupName, workspaceName, clusterName)
             .concatMap(new Func1<ServiceResponse<Page<RemoteLoginInformationInner>>, Observable<ServiceResponse<Page<RemoteLoginInformationInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> call(ServiceResponse<Page<RemoteLoginInformationInner>> page) {
@@ -705,16 +740,20 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Get the IP address, port of all the compute nodes in the cluster.
+     * Get the IP address, port of all the compute nodes in the Cluster.
      *
     ServiceResponse<PageImpl<RemoteLoginInformationInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<RemoteLoginInformationInner>> * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
     ServiceResponse<PageImpl<RemoteLoginInformationInner>> * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;RemoteLoginInformationInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> listRemoteLoginInformationSinglePageAsync(final String resourceGroupName, final String clusterName) {
+    public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> listRemoteLoginInformationSinglePageAsync(final String resourceGroupName, final String workspaceName, final String clusterName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
         }
         if (clusterName == null) {
             throw new IllegalArgumentException("Parameter clusterName is required and cannot be null.");
@@ -725,7 +764,7 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listRemoteLoginInformation(resourceGroupName, clusterName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.listRemoteLoginInformation(resourceGroupName, workspaceName, clusterName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RemoteLoginInformationInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> call(Response<ResponseBody> response) {
@@ -747,50 +786,56 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Gets information about the Clusters associated with the subscription.
+     * Gets information about Clusters associated with the given Workspace.
      *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ClusterInner&gt; object if successful.
      */
-    public PagedList<ClusterInner> list() {
-        ServiceResponse<Page<ClusterInner>> response = listSinglePageAsync().toBlocking().single();
+    public PagedList<ClusterInner> listByWorkspace(final String resourceGroupName, final String workspaceName) {
+        ServiceResponse<Page<ClusterInner>> response = listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName).toBlocking().single();
         return new PagedList<ClusterInner>(response.body()) {
             @Override
             public Page<ClusterInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByWorkspaceNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
 
     /**
-     * Gets information about the Clusters associated with the subscription.
+     * Gets information about Clusters associated with the given Workspace.
      *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ClusterInner>> listAsync(final ListOperationCallback<ClusterInner> serviceCallback) {
+    public ServiceFuture<List<ClusterInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName, final ListOperationCallback<ClusterInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(),
+            listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName),
             new Func1<String, Observable<ServiceResponse<Page<ClusterInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ClusterInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
+                    return listByWorkspaceNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
     }
 
     /**
-     * Gets information about the Clusters associated with the subscription.
+     * Gets information about Clusters associated with the given Workspace.
      *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ClusterInner&gt; object
      */
-    public Observable<Page<ClusterInner>> listAsync() {
-        return listWithServiceResponseAsync()
+    public Observable<Page<ClusterInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName) {
+        return listByWorkspaceWithServiceResponseAsync(resourceGroupName, workspaceName)
             .map(new Func1<ServiceResponse<Page<ClusterInner>>, Page<ClusterInner>>() {
                 @Override
                 public Page<ClusterInner> call(ServiceResponse<Page<ClusterInner>> response) {
@@ -800,13 +845,15 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Gets information about the Clusters associated with the subscription.
+     * Gets information about Clusters associated with the given Workspace.
      *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ClusterInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ClusterInner>>> listWithServiceResponseAsync() {
-        return listSinglePageAsync()
+    public Observable<ServiceResponse<Page<ClusterInner>>> listByWorkspaceWithServiceResponseAsync(final String resourceGroupName, final String workspaceName) {
+        return listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName)
             .concatMap(new Func1<ServiceResponse<Page<ClusterInner>>, Observable<ServiceResponse<Page<ClusterInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ClusterInner>>> call(ServiceResponse<Page<ClusterInner>> page) {
@@ -814,271 +861,40 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listByWorkspaceNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
 
     /**
-     * Gets information about the Clusters associated with the subscription.
+     * Gets information about Clusters associated with the given Workspace.
      *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ClusterInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ClusterInner>>> listSinglePageAsync() {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        final ClustersListOptionsInner clustersListOptions = null;
-        String filter = null;
-        String select = null;
-        Integer maxResults = null;
-        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), filter, select, maxResults, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ClusterInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ClusterInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ClusterInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ClusterInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    /**
-     * Gets information about the Clusters associated with the subscription.
-     *
-     * @param clustersListOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ClusterInner&gt; object if successful.
-     */
-    public PagedList<ClusterInner> list(final ClustersListOptionsInner clustersListOptions) {
-        ServiceResponse<Page<ClusterInner>> response = listSinglePageAsync(clustersListOptions).toBlocking().single();
-        return new PagedList<ClusterInner>(response.body()) {
-            @Override
-            public Page<ClusterInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets information about the Clusters associated with the subscription.
-     *
-     * @param clustersListOptions Additional parameters for the operation
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ClusterInner>> listAsync(final ClustersListOptionsInner clustersListOptions, final ListOperationCallback<ClusterInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(clustersListOptions),
-            new Func1<String, Observable<ServiceResponse<Page<ClusterInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ClusterInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets information about the Clusters associated with the subscription.
-     *
-     * @param clustersListOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ClusterInner&gt; object
-     */
-    public Observable<Page<ClusterInner>> listAsync(final ClustersListOptionsInner clustersListOptions) {
-        return listWithServiceResponseAsync(clustersListOptions)
-            .map(new Func1<ServiceResponse<Page<ClusterInner>>, Page<ClusterInner>>() {
-                @Override
-                public Page<ClusterInner> call(ServiceResponse<Page<ClusterInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets information about the Clusters associated with the subscription.
-     *
-     * @param clustersListOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ClusterInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ClusterInner>>> listWithServiceResponseAsync(final ClustersListOptionsInner clustersListOptions) {
-        return listSinglePageAsync(clustersListOptions)
-            .concatMap(new Func1<ServiceResponse<Page<ClusterInner>>, Observable<ServiceResponse<Page<ClusterInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ClusterInner>>> call(ServiceResponse<Page<ClusterInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets information about the Clusters associated with the subscription.
-     *
-    ServiceResponse<PageImpl<ClusterInner>> * @param clustersListOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ClusterInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ClusterInner>>> listSinglePageAsync(final ClustersListOptionsInner clustersListOptions) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        Validator.validate(clustersListOptions);
-        String filter = null;
-        if (clustersListOptions != null) {
-            filter = clustersListOptions.filter();
-        }
-        String select = null;
-        if (clustersListOptions != null) {
-            select = clustersListOptions.select();
-        }
-        Integer maxResults = null;
-        if (clustersListOptions != null) {
-            maxResults = clustersListOptions.maxResults();
-        }
-        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), filter, select, maxResults, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ClusterInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ClusterInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ClusterInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ClusterInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ClusterInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ClusterInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ClusterInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets information about the Clusters associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ClusterInner&gt; object if successful.
-     */
-    public PagedList<ClusterInner> listByResourceGroup(final String resourceGroupName) {
-        ServiceResponse<Page<ClusterInner>> response = listByResourceGroupSinglePageAsync(resourceGroupName).toBlocking().single();
-        return new PagedList<ClusterInner>(response.body()) {
-            @Override
-            public Page<ClusterInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets information about the Clusters associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ClusterInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<ClusterInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupSinglePageAsync(resourceGroupName),
-            new Func1<String, Observable<ServiceResponse<Page<ClusterInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ClusterInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets information about the Clusters associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ClusterInner&gt; object
-     */
-    public Observable<Page<ClusterInner>> listByResourceGroupAsync(final String resourceGroupName) {
-        return listByResourceGroupWithServiceResponseAsync(resourceGroupName)
-            .map(new Func1<ServiceResponse<Page<ClusterInner>>, Page<ClusterInner>>() {
-                @Override
-                public Page<ClusterInner> call(ServiceResponse<Page<ClusterInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets information about the Clusters associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ClusterInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ClusterInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName) {
-        return listByResourceGroupSinglePageAsync(resourceGroupName)
-            .concatMap(new Func1<ServiceResponse<Page<ClusterInner>>, Observable<ServiceResponse<Page<ClusterInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ClusterInner>>> call(ServiceResponse<Page<ClusterInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets information about the Clusters associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ClusterInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ClusterInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName) {
+    public Observable<ServiceResponse<Page<ClusterInner>>> listByWorkspaceSinglePageAsync(final String resourceGroupName, final String workspaceName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
+        }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        final ClustersListByResourceGroupOptionsInner clustersListByResourceGroupOptions = null;
-        String filter = null;
-        String select = null;
+        final ClustersListByWorkspaceOptionsInner clustersListByWorkspaceOptions = null;
         Integer maxResults = null;
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), filter, select, maxResults, this.client.userAgent())
+        return service.listByWorkspace(resourceGroupName, workspaceName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), maxResults, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ClusterInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ClusterInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ClusterInner>> result = listByResourceGroupDelegate(response);
+                        ServiceResponse<PageImpl<ClusterInner>> result = listByWorkspaceDelegate(response);
                         return Observable.just(new ServiceResponse<Page<ClusterInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1088,56 +904,59 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Gets information about the Clusters associated within the specified resource group.
+     * Gets information about Clusters associated with the given Workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param clustersListByResourceGroupOptions Additional parameters for the operation
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param clustersListByWorkspaceOptions Additional parameters for the operation
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ClusterInner&gt; object if successful.
      */
-    public PagedList<ClusterInner> listByResourceGroup(final String resourceGroupName, final ClustersListByResourceGroupOptionsInner clustersListByResourceGroupOptions) {
-        ServiceResponse<Page<ClusterInner>> response = listByResourceGroupSinglePageAsync(resourceGroupName, clustersListByResourceGroupOptions).toBlocking().single();
+    public PagedList<ClusterInner> listByWorkspace(final String resourceGroupName, final String workspaceName, final ClustersListByWorkspaceOptionsInner clustersListByWorkspaceOptions) {
+        ServiceResponse<Page<ClusterInner>> response = listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName, clustersListByWorkspaceOptions).toBlocking().single();
         return new PagedList<ClusterInner>(response.body()) {
             @Override
             public Page<ClusterInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByWorkspaceNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
 
     /**
-     * Gets information about the Clusters associated within the specified resource group.
+     * Gets information about Clusters associated with the given Workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param clustersListByResourceGroupOptions Additional parameters for the operation
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param clustersListByWorkspaceOptions Additional parameters for the operation
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ClusterInner>> listByResourceGroupAsync(final String resourceGroupName, final ClustersListByResourceGroupOptionsInner clustersListByResourceGroupOptions, final ListOperationCallback<ClusterInner> serviceCallback) {
+    public ServiceFuture<List<ClusterInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName, final ClustersListByWorkspaceOptionsInner clustersListByWorkspaceOptions, final ListOperationCallback<ClusterInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupSinglePageAsync(resourceGroupName, clustersListByResourceGroupOptions),
+            listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName, clustersListByWorkspaceOptions),
             new Func1<String, Observable<ServiceResponse<Page<ClusterInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ClusterInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
+                    return listByWorkspaceNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
     }
 
     /**
-     * Gets information about the Clusters associated within the specified resource group.
+     * Gets information about Clusters associated with the given Workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param clustersListByResourceGroupOptions Additional parameters for the operation
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param clustersListByWorkspaceOptions Additional parameters for the operation
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ClusterInner&gt; object
      */
-    public Observable<Page<ClusterInner>> listByResourceGroupAsync(final String resourceGroupName, final ClustersListByResourceGroupOptionsInner clustersListByResourceGroupOptions) {
-        return listByResourceGroupWithServiceResponseAsync(resourceGroupName, clustersListByResourceGroupOptions)
+    public Observable<Page<ClusterInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName, final ClustersListByWorkspaceOptionsInner clustersListByWorkspaceOptions) {
+        return listByWorkspaceWithServiceResponseAsync(resourceGroupName, workspaceName, clustersListByWorkspaceOptions)
             .map(new Func1<ServiceResponse<Page<ClusterInner>>, Page<ClusterInner>>() {
                 @Override
                 public Page<ClusterInner> call(ServiceResponse<Page<ClusterInner>> response) {
@@ -1147,15 +966,16 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Gets information about the Clusters associated within the specified resource group.
+     * Gets information about Clusters associated with the given Workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param clustersListByResourceGroupOptions Additional parameters for the operation
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param clustersListByWorkspaceOptions Additional parameters for the operation
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ClusterInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ClusterInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName, final ClustersListByResourceGroupOptionsInner clustersListByResourceGroupOptions) {
-        return listByResourceGroupSinglePageAsync(resourceGroupName, clustersListByResourceGroupOptions)
+    public Observable<ServiceResponse<Page<ClusterInner>>> listByWorkspaceWithServiceResponseAsync(final String resourceGroupName, final String workspaceName, final ClustersListByWorkspaceOptionsInner clustersListByWorkspaceOptions) {
+        return listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName, clustersListByWorkspaceOptions)
             .concatMap(new Func1<ServiceResponse<Page<ClusterInner>>, Observable<ServiceResponse<Page<ClusterInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ClusterInner>>> call(ServiceResponse<Page<ClusterInner>> page) {
@@ -1163,22 +983,26 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listByWorkspaceNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
 
     /**
-     * Gets information about the Clusters associated within the specified resource group.
+     * Gets information about Clusters associated with the given Workspace.
      *
     ServiceResponse<PageImpl<ClusterInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-    ServiceResponse<PageImpl<ClusterInner>> * @param clustersListByResourceGroupOptions Additional parameters for the operation
+    ServiceResponse<PageImpl<ClusterInner>> * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+    ServiceResponse<PageImpl<ClusterInner>> * @param clustersListByWorkspaceOptions Additional parameters for the operation
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ClusterInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ClusterInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName, final ClustersListByResourceGroupOptionsInner clustersListByResourceGroupOptions) {
+    public Observable<ServiceResponse<Page<ClusterInner>>> listByWorkspaceSinglePageAsync(final String resourceGroupName, final String workspaceName, final ClustersListByWorkspaceOptionsInner clustersListByWorkspaceOptions) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
         }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
@@ -1186,25 +1010,17 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        Validator.validate(clustersListByResourceGroupOptions);
-        String filter = null;
-        if (clustersListByResourceGroupOptions != null) {
-            filter = clustersListByResourceGroupOptions.filter();
-        }
-        String select = null;
-        if (clustersListByResourceGroupOptions != null) {
-            select = clustersListByResourceGroupOptions.select();
-        }
+        Validator.validate(clustersListByWorkspaceOptions);
         Integer maxResults = null;
-        if (clustersListByResourceGroupOptions != null) {
-            maxResults = clustersListByResourceGroupOptions.maxResults();
+        if (clustersListByWorkspaceOptions != null) {
+            maxResults = clustersListByWorkspaceOptions.maxResults();
         }
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), filter, select, maxResults, this.client.userAgent())
+        return service.listByWorkspace(resourceGroupName, workspaceName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), maxResults, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ClusterInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ClusterInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ClusterInner>> result = listByResourceGroupDelegate(response);
+                        ServiceResponse<PageImpl<ClusterInner>> result = listByWorkspaceDelegate(response);
                         return Observable.just(new ServiceResponse<Page<ClusterInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1213,7 +1029,7 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
             });
     }
 
-    private ServiceResponse<PageImpl<ClusterInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<PageImpl<ClusterInner>> listByWorkspaceDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ClusterInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ClusterInner>>() { }.getType())
                 .registerError(CloudException.class)
@@ -1221,7 +1037,7 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Get the IP address, port of all the compute nodes in the cluster.
+     * Get the IP address, port of all the compute nodes in the Cluster.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1240,7 +1056,7 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Get the IP address, port of all the compute nodes in the cluster.
+     * Get the IP address, port of all the compute nodes in the Cluster.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -1261,7 +1077,7 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Get the IP address, port of all the compute nodes in the cluster.
+     * Get the IP address, port of all the compute nodes in the Cluster.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1278,7 +1094,7 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Get the IP address, port of all the compute nodes in the cluster.
+     * Get the IP address, port of all the compute nodes in the Cluster.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1299,7 +1115,7 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Get the IP address, port of all the compute nodes in the cluster.
+     * Get the IP address, port of all the compute nodes in the Cluster.
      *
     ServiceResponse<PageImpl<RemoteLoginInformationInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1332,7 +1148,7 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Gets information about the Clusters associated with the subscription.
+     * Gets information about Clusters associated with the given Workspace.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1340,18 +1156,18 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ClusterInner&gt; object if successful.
      */
-    public PagedList<ClusterInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<ClusterInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
+    public PagedList<ClusterInner> listByWorkspaceNext(final String nextPageLink) {
+        ServiceResponse<Page<ClusterInner>> response = listByWorkspaceNextSinglePageAsync(nextPageLink).toBlocking().single();
         return new PagedList<ClusterInner>(response.body()) {
             @Override
             public Page<ClusterInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByWorkspaceNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
 
     /**
-     * Gets information about the Clusters associated with the subscription.
+     * Gets information about Clusters associated with the given Workspace.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -1359,27 +1175,27 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ClusterInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<ClusterInner>> serviceFuture, final ListOperationCallback<ClusterInner> serviceCallback) {
+    public ServiceFuture<List<ClusterInner>> listByWorkspaceNextAsync(final String nextPageLink, final ServiceFuture<List<ClusterInner>> serviceFuture, final ListOperationCallback<ClusterInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
+            listByWorkspaceNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<ClusterInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ClusterInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
+                    return listByWorkspaceNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
     }
 
     /**
-     * Gets information about the Clusters associated with the subscription.
+     * Gets information about Clusters associated with the given Workspace.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ClusterInner&gt; object
      */
-    public Observable<Page<ClusterInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
+    public Observable<Page<ClusterInner>> listByWorkspaceNextAsync(final String nextPageLink) {
+        return listByWorkspaceNextWithServiceResponseAsync(nextPageLink)
             .map(new Func1<ServiceResponse<Page<ClusterInner>>, Page<ClusterInner>>() {
                 @Override
                 public Page<ClusterInner> call(ServiceResponse<Page<ClusterInner>> response) {
@@ -1389,14 +1205,14 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
     }
 
     /**
-     * Gets information about the Clusters associated with the subscription.
+     * Gets information about Clusters associated with the given Workspace.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ClusterInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ClusterInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
-        return listNextSinglePageAsync(nextPageLink)
+    public Observable<ServiceResponse<Page<ClusterInner>>> listByWorkspaceNextWithServiceResponseAsync(final String nextPageLink) {
+        return listByWorkspaceNextSinglePageAsync(nextPageLink)
             .concatMap(new Func1<ServiceResponse<Page<ClusterInner>>, Observable<ServiceResponse<Page<ClusterInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ClusterInner>>> call(ServiceResponse<Page<ClusterInner>> page) {
@@ -1404,29 +1220,29 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listByWorkspaceNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
 
     /**
-     * Gets information about the Clusters associated with the subscription.
+     * Gets information about Clusters associated with the given Workspace.
      *
     ServiceResponse<PageImpl<ClusterInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ClusterInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ClusterInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<ClusterInner>>> listByWorkspaceNextSinglePageAsync(final String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listByWorkspaceNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ClusterInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ClusterInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ClusterInner>> result = listNextDelegate(response);
+                        ServiceResponse<PageImpl<ClusterInner>> result = listByWorkspaceNextDelegate(response);
                         return Observable.just(new ServiceResponse<Page<ClusterInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1435,118 +1251,7 @@ public class ClustersInner implements InnerSupportsGet<ClusterInner>, InnerSuppo
             });
     }
 
-    private ServiceResponse<PageImpl<ClusterInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ClusterInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ClusterInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets information about the Clusters associated within the specified resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ClusterInner&gt; object if successful.
-     */
-    public PagedList<ClusterInner> listByResourceGroupNext(final String nextPageLink) {
-        ServiceResponse<Page<ClusterInner>> response = listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ClusterInner>(response.body()) {
-            @Override
-            public Page<ClusterInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets information about the Clusters associated within the specified resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ClusterInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<ClusterInner>> serviceFuture, final ListOperationCallback<ClusterInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ClusterInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ClusterInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets information about the Clusters associated within the specified resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ClusterInner&gt; object
-     */
-    public Observable<Page<ClusterInner>> listByResourceGroupNextAsync(final String nextPageLink) {
-        return listByResourceGroupNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ClusterInner>>, Page<ClusterInner>>() {
-                @Override
-                public Page<ClusterInner> call(ServiceResponse<Page<ClusterInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets information about the Clusters associated within the specified resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ClusterInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ClusterInner>>> listByResourceGroupNextWithServiceResponseAsync(final String nextPageLink) {
-        return listByResourceGroupNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ClusterInner>>, Observable<ServiceResponse<Page<ClusterInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ClusterInner>>> call(ServiceResponse<Page<ClusterInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets information about the Clusters associated within the specified resource group.
-     *
-    ServiceResponse<PageImpl<ClusterInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ClusterInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ClusterInner>>> listByResourceGroupNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listByResourceGroupNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ClusterInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ClusterInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ClusterInner>> result = listByResourceGroupNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ClusterInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ClusterInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<PageImpl<ClusterInner>> listByWorkspaceNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ClusterInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ClusterInner>>() { }.getType())
                 .registerError(CloudException.class)

@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.batchai.implementation;
 
+import com.microsoft.azure.management.batchai.JobPriority;
 import com.microsoft.azure.management.batchai.ResourceId;
 import com.microsoft.azure.management.batchai.MountVolumes;
 import com.microsoft.azure.management.batchai.ContainerSettings;
@@ -18,6 +19,8 @@ import com.microsoft.azure.management.batchai.TensorFlowSettings;
 import com.microsoft.azure.management.batchai.CaffeSettings;
 import com.microsoft.azure.management.batchai.ChainerSettings;
 import com.microsoft.azure.management.batchai.CustomToolkitSettings;
+import com.microsoft.azure.management.batchai.CustomMpiSettings;
+import com.microsoft.azure.management.batchai.HorovodSettings;
 import com.microsoft.azure.management.batchai.JobPreparation;
 import java.util.List;
 import com.microsoft.azure.management.batchai.InputDirectory;
@@ -31,27 +34,20 @@ import com.microsoft.azure.management.batchai.ExecutionState;
 import com.microsoft.azure.management.batchai.JobPropertiesExecutionInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.batchai.ProxyResource;
 
 /**
- * Contains information about the job.
+ * Contains information about a Job.
  */
 @JsonFlatten
-public class JobInner extends Resource {
-    /**
-     * Describe the experiment information of the job.
-     */
-    @JsonProperty(value = "properties.experimentName")
-    private String experimentName;
-
+public class JobInner extends ProxyResource {
     /**
      * Priority associated with the job.
-     * Priority associated with the job. Priority values can range from -1000
-     * to 1000, with -1000 being the lowest priority and 1000 being the highest
-     * priority. The default value is 0.
+     * Priority associated with the job. Possible values include: 'low',
+     * 'normal', 'high'.
      */
     @JsonProperty(value = "properties.priority")
-    private Integer priority;
+    private JobPriority priority;
 
     /**
      * Specifies the Id of the cluster on which this job will run.
@@ -75,7 +71,7 @@ public class JobInner extends Resource {
      * Batch AI to make the path unique and can be used to find the output
      * directory on the node or mounted filesystem.
      */
-    @JsonProperty(value = "properties.jobOutputDirectoryPathSegment")
+    @JsonProperty(value = "properties.jobOutputDirectoryPathSegment", access = JsonProperty.Access.WRITE_ONLY)
     private String jobOutputDirectoryPathSegment;
 
     /**
@@ -97,8 +93,8 @@ public class JobInner extends Resource {
     /**
      * The toolkit type of this job.
      * Possible values are: cntk, tensorflow, caffe, caffe2, chainer, pytorch,
-     * custom. Possible values include: 'cntk', 'tensorflow', 'caffe',
-     * 'caffe2', 'chainer', 'custom'.
+     * custom, mpi, horovod. Possible values include: 'cntk', 'tensorflow',
+     * 'caffe', 'caffe2', 'chainer', 'horovod', 'mpi', 'custom'.
      */
     @JsonProperty(value = "properties.toolType")
     private ToolType toolType;
@@ -138,6 +134,18 @@ public class JobInner extends Resource {
      */
     @JsonProperty(value = "properties.customToolkitSettings")
     private CustomToolkitSettings customToolkitSettings;
+
+    /**
+     * Specifies the settings for custom MPI job.
+     */
+    @JsonProperty(value = "properties.customMpiSettings")
+    private CustomMpiSettings customMpiSettings;
+
+    /**
+     * Specifies the settings for Horovod job.
+     */
+    @JsonProperty(value = "properties.horovodSettings")
+    private HorovodSettings horovodSettings;
 
     /**
      * Specifies the actions to be performed before tool kit is launched.
@@ -225,7 +233,7 @@ public class JobInner extends Resource {
      * occurred launching the job. Possible values include: 'queued',
      * 'running', 'terminating', 'succeeded', 'failed'.
      */
-    @JsonProperty(value = "properties.executionState")
+    @JsonProperty(value = "properties.executionState", access = JsonProperty.Access.WRITE_ONLY)
     private ExecutionState executionState;
 
     /**
@@ -243,31 +251,11 @@ public class JobInner extends Resource {
     private JobPropertiesExecutionInfo executionInfo;
 
     /**
-     * Get the experimentName value.
-     *
-     * @return the experimentName value
-     */
-    public String experimentName() {
-        return this.experimentName;
-    }
-
-    /**
-     * Set the experimentName value.
-     *
-     * @param experimentName the experimentName value to set
-     * @return the JobInner object itself.
-     */
-    public JobInner withExperimentName(String experimentName) {
-        this.experimentName = experimentName;
-        return this;
-    }
-
-    /**
      * Get the priority value.
      *
      * @return the priority value
      */
-    public Integer priority() {
+    public JobPriority priority() {
         return this.priority;
     }
 
@@ -277,7 +265,7 @@ public class JobInner extends Resource {
      * @param priority the priority value to set
      * @return the JobInner object itself.
      */
-    public JobInner withPriority(Integer priority) {
+    public JobInner withPriority(JobPriority priority) {
         this.priority = priority;
         return this;
     }
@@ -329,17 +317,6 @@ public class JobInner extends Resource {
      */
     public String jobOutputDirectoryPathSegment() {
         return this.jobOutputDirectoryPathSegment;
-    }
-
-    /**
-     * Set the jobOutputDirectoryPathSegment value.
-     *
-     * @param jobOutputDirectoryPathSegment the jobOutputDirectoryPathSegment value to set
-     * @return the JobInner object itself.
-     */
-    public JobInner withJobOutputDirectoryPathSegment(String jobOutputDirectoryPathSegment) {
-        this.jobOutputDirectoryPathSegment = jobOutputDirectoryPathSegment;
-        return this;
     }
 
     /**
@@ -523,6 +500,46 @@ public class JobInner extends Resource {
     }
 
     /**
+     * Get the customMpiSettings value.
+     *
+     * @return the customMpiSettings value
+     */
+    public CustomMpiSettings customMpiSettings() {
+        return this.customMpiSettings;
+    }
+
+    /**
+     * Set the customMpiSettings value.
+     *
+     * @param customMpiSettings the customMpiSettings value to set
+     * @return the JobInner object itself.
+     */
+    public JobInner withCustomMpiSettings(CustomMpiSettings customMpiSettings) {
+        this.customMpiSettings = customMpiSettings;
+        return this;
+    }
+
+    /**
+     * Get the horovodSettings value.
+     *
+     * @return the horovodSettings value
+     */
+    public HorovodSettings horovodSettings() {
+        return this.horovodSettings;
+    }
+
+    /**
+     * Set the horovodSettings value.
+     *
+     * @param horovodSettings the horovodSettings value to set
+     * @return the JobInner object itself.
+     */
+    public JobInner withHorovodSettings(HorovodSettings horovodSettings) {
+        this.horovodSettings = horovodSettings;
+        return this;
+    }
+
+    /**
      * Get the jobPreparation value.
      *
      * @return the jobPreparation value
@@ -696,17 +713,6 @@ public class JobInner extends Resource {
      */
     public ExecutionState executionState() {
         return this.executionState;
-    }
-
-    /**
-     * Set the executionState value.
-     *
-     * @param executionState the executionState value to set
-     * @return the JobInner object itself.
-     */
-    public JobInner withExecutionState(ExecutionState executionState) {
-        this.executionState = executionState;
-        return this;
     }
 
     /**

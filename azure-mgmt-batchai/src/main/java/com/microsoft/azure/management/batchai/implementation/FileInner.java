@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.batchai.implementation;
 
+import com.microsoft.azure.management.batchai.FileType;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -20,34 +21,35 @@ public class FileInner {
     /**
      * Name of the file.
      */
-    @JsonProperty(value = "name", required = true)
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
-     * Indicates if the file is a directory.
+     * Contains information about file type. Possible values include: 'file',
+     * 'directory'.
      */
-    @JsonProperty(value = "isDirectory", required = true)
-    private boolean isDirectory;
+    @JsonProperty(value = "fileType", access = JsonProperty.Access.WRITE_ONLY)
+    private FileType fileType;
 
     /**
      * Will contain an URL to download the corresponding file. The downloadUrl
      * is not returned for directories.
      */
-    @JsonProperty(value = "downloadUrl")
+    @JsonProperty(value = "downloadUrl", access = JsonProperty.Access.WRITE_ONLY)
     private String downloadUrl;
 
     /**
      * The time at which the file was last modified.
      * The time at which the file was last modified.
      */
-    @JsonProperty(value = "properties.lastModified")
+    @JsonProperty(value = "properties.lastModified", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime lastModified;
 
     /**
      * The file size.
      * The file size.
      */
-    @JsonProperty(value = "properties.contentLength")
+    @JsonProperty(value = "properties.contentLength", access = JsonProperty.Access.WRITE_ONLY)
     private Long contentLength;
 
     /**
@@ -60,34 +62,12 @@ public class FileInner {
     }
 
     /**
-     * Set the name value.
+     * Get the fileType value.
      *
-     * @param name the name value to set
-     * @return the FileInner object itself.
+     * @return the fileType value
      */
-    public FileInner withName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    /**
-     * Get the isDirectory value.
-     *
-     * @return the isDirectory value
-     */
-    public boolean isDirectory() {
-        return this.isDirectory;
-    }
-
-    /**
-     * Set the isDirectory value.
-     *
-     * @param isDirectory the isDirectory value to set
-     * @return the FileInner object itself.
-     */
-    public FileInner withIsDirectory(boolean isDirectory) {
-        this.isDirectory = isDirectory;
-        return this;
+    public FileType fileType() {
+        return this.fileType;
     }
 
     /**
@@ -100,17 +80,6 @@ public class FileInner {
     }
 
     /**
-     * Set the downloadUrl value.
-     *
-     * @param downloadUrl the downloadUrl value to set
-     * @return the FileInner object itself.
-     */
-    public FileInner withDownloadUrl(String downloadUrl) {
-        this.downloadUrl = downloadUrl;
-        return this;
-    }
-
-    /**
      * Get the lastModified value.
      *
      * @return the lastModified value
@@ -120,34 +89,12 @@ public class FileInner {
     }
 
     /**
-     * Set the lastModified value.
-     *
-     * @param lastModified the lastModified value to set
-     * @return the FileInner object itself.
-     */
-    public FileInner withLastModified(DateTime lastModified) {
-        this.lastModified = lastModified;
-        return this;
-    }
-
-    /**
      * Get the contentLength value.
      *
      * @return the contentLength value
      */
     public Long contentLength() {
         return this.contentLength;
-    }
-
-    /**
-     * Set the contentLength value.
-     *
-     * @param contentLength the contentLength value to set
-     * @return the FileInner object itself.
-     */
-    public FileInner withContentLength(Long contentLength) {
-        this.contentLength = contentLength;
-        return this;
     }
 
 }

@@ -17,7 +17,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SetupTask {
     /**
-     * Command Line to start Setup process.
+     * Command line to be executed on each cluster's node after it being
+     * allocated or rebooted.
+     * Command line to be executed on each cluster's node after it being
+     * allocated or rebooted. The command is executed in a bash subshell as a
+     * root.
      */
     @JsonProperty(value = "commandLine", required = true)
     private String commandLine;
@@ -35,15 +39,6 @@ public class SetupTask {
      */
     @JsonProperty(value = "secrets")
     private List<EnvironmentVariableWithSecretValue> secrets;
-
-    /**
-     * Specifies whether to run the setup task under root account. The default
-     * value is false.
-     * Note. Non-elevated tasks are run under an account added into sudoer list
-     * and can perform sudo when required.
-     */
-    @JsonProperty(value = "runElevated")
-    private Boolean runElevated;
 
     /**
      * The prefix of a path where the Batch AI service will upload the stdout
@@ -120,26 +115,6 @@ public class SetupTask {
      */
     public SetupTask withSecrets(List<EnvironmentVariableWithSecretValue> secrets) {
         this.secrets = secrets;
-        return this;
-    }
-
-    /**
-     * Get the runElevated value.
-     *
-     * @return the runElevated value
-     */
-    public Boolean runElevated() {
-        return this.runElevated;
-    }
-
-    /**
-     * Set the runElevated value.
-     *
-     * @param runElevated the runElevated value to set
-     * @return the SetupTask object itself.
-     */
-    public SetupTask withRunElevated(Boolean runElevated) {
-        this.runElevated = runElevated;
         return this;
     }
 

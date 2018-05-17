@@ -8,9 +8,6 @@
 
 package com.microsoft.azure.management.batchai.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
@@ -42,7 +39,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in FileServers.
  */
-public class FileServersInner implements InnerSupportsGet<FileServerInner>, InnerSupportsDelete<Void>, InnerSupportsListing<FileServerInner> {
+public class FileServersInner {
     /** The Retrofit service to perform REST calls. */
     private FileServersService service;
     /** The service client containing this operation class. */
@@ -65,83 +62,78 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
      */
     interface FileServersService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.FileServers create" })
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/fileServers/{fileServerName}")
-        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("fileServerName") String fileServerName, @Path("subscriptionId") String subscriptionId, @Body FileServerCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}")
+        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("fileServerName") String fileServerName, @Path("subscriptionId") String subscriptionId, @Body FileServerCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.FileServers beginCreate" })
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/fileServers/{fileServerName}")
-        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("fileServerName") String fileServerName, @Path("subscriptionId") String subscriptionId, @Body FileServerCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}")
+        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("fileServerName") String fileServerName, @Path("subscriptionId") String subscriptionId, @Body FileServerCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.FileServers delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/fileServers/{fileServerName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("fileServerName") String fileServerName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("fileServerName") String fileServerName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.FileServers beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/fileServers/{fileServerName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("fileServerName") String fileServerName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("fileServerName") String fileServerName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.FileServers getByResourceGroup" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/fileServers/{fileServerName}")
-        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("fileServerName") String fileServerName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.FileServers get" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}")
+        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("fileServerName") String fileServerName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.FileServers list" })
-        @GET("subscriptions/{subscriptionId}/providers/Microsoft.BatchAI/fileServers")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Query("$filter") String filter, @Query("$select") String select, @Query("maxresults") Integer maxResults, @Header("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.FileServers listByWorkspace" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers")
+        Observable<Response<ResponseBody>> listByWorkspace(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Query("maxresults") Integer maxResults, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.FileServers listByResourceGroup" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/fileServers")
-        Observable<Response<ResponseBody>> listByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Query("$filter") String filter, @Query("$select") String select, @Query("maxresults") Integer maxResults, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.FileServers listNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.FileServers listByWorkspaceNext" })
         @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.FileServers listByResourceGroupNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listByWorkspaceNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
     /**
-     * Creates a file server.
+     * Creates a File Server in the given workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for file server creation.
+     * @param parameters The parameters to provide for File Server creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the FileServerInner object if successful.
      */
-    public FileServerInner create(String resourceGroupName, String fileServerName, FileServerCreateParametersInner parameters) {
-        return createWithServiceResponseAsync(resourceGroupName, fileServerName, parameters).toBlocking().last().body();
+    public FileServerInner create(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters) {
+        return createWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName, parameters).toBlocking().last().body();
     }
 
     /**
-     * Creates a file server.
+     * Creates a File Server in the given workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for file server creation.
+     * @param parameters The parameters to provide for File Server creation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<FileServerInner> createAsync(String resourceGroupName, String fileServerName, FileServerCreateParametersInner parameters, final ServiceCallback<FileServerInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, fileServerName, parameters), serviceCallback);
+    public ServiceFuture<FileServerInner> createAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters, final ServiceCallback<FileServerInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName, parameters), serviceCallback);
     }
 
     /**
-     * Creates a file server.
+     * Creates a File Server in the given workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for file server creation.
+     * @param parameters The parameters to provide for File Server creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<FileServerInner> createAsync(String resourceGroupName, String fileServerName, FileServerCreateParametersInner parameters) {
-        return createWithServiceResponseAsync(resourceGroupName, fileServerName, parameters).map(new Func1<ServiceResponse<FileServerInner>, FileServerInner>() {
+    public Observable<FileServerInner> createAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters) {
+        return createWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName, parameters).map(new Func1<ServiceResponse<FileServerInner>, FileServerInner>() {
             @Override
             public FileServerInner call(ServiceResponse<FileServerInner> response) {
                 return response.body();
@@ -150,17 +142,21 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
     }
 
     /**
-     * Creates a file server.
+     * Creates a File Server in the given workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for file server creation.
+     * @param parameters The parameters to provide for File Server creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<FileServerInner>> createWithServiceResponseAsync(String resourceGroupName, String fileServerName, FileServerCreateParametersInner parameters) {
+    public Observable<ServiceResponse<FileServerInner>> createWithServiceResponseAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
         }
         if (fileServerName == null) {
             throw new IllegalArgumentException("Parameter fileServerName is required and cannot be null.");
@@ -175,50 +171,53 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, fileServerName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, workspaceName, fileServerName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<FileServerInner>() { }.getType());
     }
 
     /**
-     * Creates a file server.
+     * Creates a File Server in the given workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for file server creation.
+     * @param parameters The parameters to provide for File Server creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the FileServerInner object if successful.
      */
-    public FileServerInner beginCreate(String resourceGroupName, String fileServerName, FileServerCreateParametersInner parameters) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, fileServerName, parameters).toBlocking().single().body();
+    public FileServerInner beginCreate(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters) {
+        return beginCreateWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName, parameters).toBlocking().single().body();
     }
 
     /**
-     * Creates a file server.
+     * Creates a File Server in the given workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for file server creation.
+     * @param parameters The parameters to provide for File Server creation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<FileServerInner> beginCreateAsync(String resourceGroupName, String fileServerName, FileServerCreateParametersInner parameters, final ServiceCallback<FileServerInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, fileServerName, parameters), serviceCallback);
+    public ServiceFuture<FileServerInner> beginCreateAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters, final ServiceCallback<FileServerInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName, parameters), serviceCallback);
     }
 
     /**
-     * Creates a file server.
+     * Creates a File Server in the given workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for file server creation.
+     * @param parameters The parameters to provide for File Server creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FileServerInner object
      */
-    public Observable<FileServerInner> beginCreateAsync(String resourceGroupName, String fileServerName, FileServerCreateParametersInner parameters) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, fileServerName, parameters).map(new Func1<ServiceResponse<FileServerInner>, FileServerInner>() {
+    public Observable<FileServerInner> beginCreateAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters) {
+        return beginCreateWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName, parameters).map(new Func1<ServiceResponse<FileServerInner>, FileServerInner>() {
             @Override
             public FileServerInner call(ServiceResponse<FileServerInner> response) {
                 return response.body();
@@ -227,17 +226,21 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
     }
 
     /**
-     * Creates a file server.
+     * Creates a File Server in the given workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param parameters The parameters to provide for file server creation.
+     * @param parameters The parameters to provide for File Server creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FileServerInner object
      */
-    public Observable<ServiceResponse<FileServerInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String fileServerName, FileServerCreateParametersInner parameters) {
+    public Observable<ServiceResponse<FileServerInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
         }
         if (fileServerName == null) {
             throw new IllegalArgumentException("Parameter fileServerName is required and cannot be null.");
@@ -252,7 +255,7 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        return service.beginCreate(resourceGroupName, fileServerName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginCreate(resourceGroupName, workspaceName, fileServerName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FileServerInner>>>() {
                 @Override
                 public Observable<ServiceResponse<FileServerInner>> call(Response<ResponseBody> response) {
@@ -275,41 +278,44 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
     }
 
     /**
-     * Delete a file Server.
+     * Deletes a File Server.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void delete(String resourceGroupName, String fileServerName) {
-        deleteWithServiceResponseAsync(resourceGroupName, fileServerName).toBlocking().last().body();
+    public void delete(String resourceGroupName, String workspaceName, String fileServerName) {
+        deleteWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName).toBlocking().last().body();
     }
 
     /**
-     * Delete a file Server.
+     * Deletes a File Server.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String fileServerName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, fileServerName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String workspaceName, String fileServerName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName), serviceCallback);
     }
 
     /**
-     * Delete a file Server.
+     * Deletes a File Server.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String fileServerName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, fileServerName).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> deleteAsync(String resourceGroupName, String workspaceName, String fileServerName) {
+        return deleteWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -318,16 +324,20 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
     }
 
     /**
-     * Delete a file Server.
+     * Deletes a File Server.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String fileServerName) {
+    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String workspaceName, String fileServerName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
         }
         if (fileServerName == null) {
             throw new IllegalArgumentException("Parameter fileServerName is required and cannot be null.");
@@ -338,46 +348,49 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, fileServerName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, workspaceName, fileServerName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
     /**
-     * Delete a file Server.
+     * Deletes a File Server.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void beginDelete(String resourceGroupName, String fileServerName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, fileServerName).toBlocking().single().body();
+    public void beginDelete(String resourceGroupName, String workspaceName, String fileServerName) {
+        beginDeleteWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName).toBlocking().single().body();
     }
 
     /**
-     * Delete a file Server.
+     * Deletes a File Server.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String fileServerName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, fileServerName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String workspaceName, String fileServerName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName), serviceCallback);
     }
 
     /**
-     * Delete a file Server.
+     * Deletes a File Server.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String fileServerName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, fileServerName).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> beginDeleteAsync(String resourceGroupName, String workspaceName, String fileServerName) {
+        return beginDeleteWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -386,16 +399,20 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
     }
 
     /**
-     * Delete a file Server.
+     * Deletes a File Server.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String fileServerName) {
+    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String workspaceName, String fileServerName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
         }
         if (fileServerName == null) {
             throw new IllegalArgumentException("Parameter fileServerName is required and cannot be null.");
@@ -406,7 +423,7 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.beginDelete(resourceGroupName, fileServerName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginDelete(resourceGroupName, workspaceName, fileServerName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -430,42 +447,45 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
     }
 
     /**
-     * Gets information about the specified Cluster.
+     * Gets information about a File Server.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the FileServerInner object if successful.
      */
-    public FileServerInner getByResourceGroup(String resourceGroupName, String fileServerName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, fileServerName).toBlocking().single().body();
+    public FileServerInner get(String resourceGroupName, String workspaceName, String fileServerName) {
+        return getWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName).toBlocking().single().body();
     }
 
     /**
-     * Gets information about the specified Cluster.
+     * Gets information about a File Server.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<FileServerInner> getByResourceGroupAsync(String resourceGroupName, String fileServerName, final ServiceCallback<FileServerInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, fileServerName), serviceCallback);
+    public ServiceFuture<FileServerInner> getAsync(String resourceGroupName, String workspaceName, String fileServerName, final ServiceCallback<FileServerInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName), serviceCallback);
     }
 
     /**
-     * Gets information about the specified Cluster.
+     * Gets information about a File Server.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FileServerInner object
      */
-    public Observable<FileServerInner> getByResourceGroupAsync(String resourceGroupName, String fileServerName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, fileServerName).map(new Func1<ServiceResponse<FileServerInner>, FileServerInner>() {
+    public Observable<FileServerInner> getAsync(String resourceGroupName, String workspaceName, String fileServerName) {
+        return getWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName).map(new Func1<ServiceResponse<FileServerInner>, FileServerInner>() {
             @Override
             public FileServerInner call(ServiceResponse<FileServerInner> response) {
                 return response.body();
@@ -474,16 +494,20 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
     }
 
     /**
-     * Gets information about the specified Cluster.
+     * Gets information about a File Server.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param fileServerName The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FileServerInner object
      */
-    public Observable<ServiceResponse<FileServerInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String fileServerName) {
+    public Observable<ServiceResponse<FileServerInner>> getWithServiceResponseAsync(String resourceGroupName, String workspaceName, String fileServerName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
         }
         if (fileServerName == null) {
             throw new IllegalArgumentException("Parameter fileServerName is required and cannot be null.");
@@ -494,12 +518,12 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.getByResourceGroup(resourceGroupName, fileServerName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.get(resourceGroupName, workspaceName, fileServerName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FileServerInner>>>() {
                 @Override
                 public Observable<ServiceResponse<FileServerInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<FileServerInner> clientResponse = getByResourceGroupDelegate(response);
+                        ServiceResponse<FileServerInner> clientResponse = getDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -508,7 +532,7 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
             });
     }
 
-    private ServiceResponse<FileServerInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<FileServerInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<FileServerInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<FileServerInner>() { }.getType())
                 .registerError(CloudException.class)
@@ -516,50 +540,56 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
     }
 
     /**
-     * To list all the file servers available under the given subscription (and across all resource groups within that subscription).
+     * Gets a list of File Servers associated with the specified workspace.
      *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;FileServerInner&gt; object if successful.
      */
-    public PagedList<FileServerInner> list() {
-        ServiceResponse<Page<FileServerInner>> response = listSinglePageAsync().toBlocking().single();
+    public PagedList<FileServerInner> listByWorkspace(final String resourceGroupName, final String workspaceName) {
+        ServiceResponse<Page<FileServerInner>> response = listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName).toBlocking().single();
         return new PagedList<FileServerInner>(response.body()) {
             @Override
             public Page<FileServerInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByWorkspaceNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
 
     /**
-     * To list all the file servers available under the given subscription (and across all resource groups within that subscription).
+     * Gets a list of File Servers associated with the specified workspace.
      *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<FileServerInner>> listAsync(final ListOperationCallback<FileServerInner> serviceCallback) {
+    public ServiceFuture<List<FileServerInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName, final ListOperationCallback<FileServerInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(),
+            listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName),
             new Func1<String, Observable<ServiceResponse<Page<FileServerInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<FileServerInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
+                    return listByWorkspaceNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
     }
 
     /**
-     * To list all the file servers available under the given subscription (and across all resource groups within that subscription).
+     * Gets a list of File Servers associated with the specified workspace.
      *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FileServerInner&gt; object
      */
-    public Observable<Page<FileServerInner>> listAsync() {
-        return listWithServiceResponseAsync()
+    public Observable<Page<FileServerInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName) {
+        return listByWorkspaceWithServiceResponseAsync(resourceGroupName, workspaceName)
             .map(new Func1<ServiceResponse<Page<FileServerInner>>, Page<FileServerInner>>() {
                 @Override
                 public Page<FileServerInner> call(ServiceResponse<Page<FileServerInner>> response) {
@@ -569,13 +599,15 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
     }
 
     /**
-     * To list all the file servers available under the given subscription (and across all resource groups within that subscription).
+     * Gets a list of File Servers associated with the specified workspace.
      *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FileServerInner&gt; object
      */
-    public Observable<ServiceResponse<Page<FileServerInner>>> listWithServiceResponseAsync() {
-        return listSinglePageAsync()
+    public Observable<ServiceResponse<Page<FileServerInner>>> listByWorkspaceWithServiceResponseAsync(final String resourceGroupName, final String workspaceName) {
+        return listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName)
             .concatMap(new Func1<ServiceResponse<Page<FileServerInner>>, Observable<ServiceResponse<Page<FileServerInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<FileServerInner>>> call(ServiceResponse<Page<FileServerInner>> page) {
@@ -583,271 +615,40 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listByWorkspaceNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
 
     /**
-     * To list all the file servers available under the given subscription (and across all resource groups within that subscription).
+     * Gets a list of File Servers associated with the specified workspace.
      *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;FileServerInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<FileServerInner>>> listSinglePageAsync() {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        final FileServersListOptionsInner fileServersListOptions = null;
-        String filter = null;
-        String select = null;
-        Integer maxResults = null;
-        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), filter, select, maxResults, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<FileServerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FileServerInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<FileServerInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<FileServerInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    /**
-     * To list all the file servers available under the given subscription (and across all resource groups within that subscription).
-     *
-     * @param fileServersListOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;FileServerInner&gt; object if successful.
-     */
-    public PagedList<FileServerInner> list(final FileServersListOptionsInner fileServersListOptions) {
-        ServiceResponse<Page<FileServerInner>> response = listSinglePageAsync(fileServersListOptions).toBlocking().single();
-        return new PagedList<FileServerInner>(response.body()) {
-            @Override
-            public Page<FileServerInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * To list all the file servers available under the given subscription (and across all resource groups within that subscription).
-     *
-     * @param fileServersListOptions Additional parameters for the operation
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<FileServerInner>> listAsync(final FileServersListOptionsInner fileServersListOptions, final ListOperationCallback<FileServerInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(fileServersListOptions),
-            new Func1<String, Observable<ServiceResponse<Page<FileServerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FileServerInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * To list all the file servers available under the given subscription (and across all resource groups within that subscription).
-     *
-     * @param fileServersListOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;FileServerInner&gt; object
-     */
-    public Observable<Page<FileServerInner>> listAsync(final FileServersListOptionsInner fileServersListOptions) {
-        return listWithServiceResponseAsync(fileServersListOptions)
-            .map(new Func1<ServiceResponse<Page<FileServerInner>>, Page<FileServerInner>>() {
-                @Override
-                public Page<FileServerInner> call(ServiceResponse<Page<FileServerInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * To list all the file servers available under the given subscription (and across all resource groups within that subscription).
-     *
-     * @param fileServersListOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;FileServerInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<FileServerInner>>> listWithServiceResponseAsync(final FileServersListOptionsInner fileServersListOptions) {
-        return listSinglePageAsync(fileServersListOptions)
-            .concatMap(new Func1<ServiceResponse<Page<FileServerInner>>, Observable<ServiceResponse<Page<FileServerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FileServerInner>>> call(ServiceResponse<Page<FileServerInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * To list all the file servers available under the given subscription (and across all resource groups within that subscription).
-     *
-    ServiceResponse<PageImpl<FileServerInner>> * @param fileServersListOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;FileServerInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<FileServerInner>>> listSinglePageAsync(final FileServersListOptionsInner fileServersListOptions) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        Validator.validate(fileServersListOptions);
-        String filter = null;
-        if (fileServersListOptions != null) {
-            filter = fileServersListOptions.filter();
-        }
-        String select = null;
-        if (fileServersListOptions != null) {
-            select = fileServersListOptions.select();
-        }
-        Integer maxResults = null;
-        if (fileServersListOptions != null) {
-            maxResults = fileServersListOptions.maxResults();
-        }
-        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), filter, select, maxResults, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<FileServerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FileServerInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<FileServerInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<FileServerInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<FileServerInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<FileServerInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<FileServerInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets a formatted list of file servers and their properties associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;FileServerInner&gt; object if successful.
-     */
-    public PagedList<FileServerInner> listByResourceGroup(final String resourceGroupName) {
-        ServiceResponse<Page<FileServerInner>> response = listByResourceGroupSinglePageAsync(resourceGroupName).toBlocking().single();
-        return new PagedList<FileServerInner>(response.body()) {
-            @Override
-            public Page<FileServerInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets a formatted list of file servers and their properties associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<FileServerInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<FileServerInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupSinglePageAsync(resourceGroupName),
-            new Func1<String, Observable<ServiceResponse<Page<FileServerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FileServerInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a formatted list of file servers and their properties associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;FileServerInner&gt; object
-     */
-    public Observable<Page<FileServerInner>> listByResourceGroupAsync(final String resourceGroupName) {
-        return listByResourceGroupWithServiceResponseAsync(resourceGroupName)
-            .map(new Func1<ServiceResponse<Page<FileServerInner>>, Page<FileServerInner>>() {
-                @Override
-                public Page<FileServerInner> call(ServiceResponse<Page<FileServerInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a formatted list of file servers and their properties associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;FileServerInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<FileServerInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName) {
-        return listByResourceGroupSinglePageAsync(resourceGroupName)
-            .concatMap(new Func1<ServiceResponse<Page<FileServerInner>>, Observable<ServiceResponse<Page<FileServerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FileServerInner>>> call(ServiceResponse<Page<FileServerInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets a formatted list of file servers and their properties associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;FileServerInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<FileServerInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName) {
+    public Observable<ServiceResponse<Page<FileServerInner>>> listByWorkspaceSinglePageAsync(final String resourceGroupName, final String workspaceName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
+        }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        final FileServersListByResourceGroupOptionsInner fileServersListByResourceGroupOptions = null;
-        String filter = null;
-        String select = null;
+        final FileServersListByWorkspaceOptionsInner fileServersListByWorkspaceOptions = null;
         Integer maxResults = null;
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), filter, select, maxResults, this.client.userAgent())
+        return service.listByWorkspace(resourceGroupName, workspaceName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), maxResults, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<FileServerInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<FileServerInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<FileServerInner>> result = listByResourceGroupDelegate(response);
+                        ServiceResponse<PageImpl<FileServerInner>> result = listByWorkspaceDelegate(response);
                         return Observable.just(new ServiceResponse<Page<FileServerInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -857,56 +658,59 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
     }
 
     /**
-     * Gets a formatted list of file servers and their properties associated within the specified resource group.
+     * Gets a list of File Servers associated with the specified workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param fileServersListByResourceGroupOptions Additional parameters for the operation
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param fileServersListByWorkspaceOptions Additional parameters for the operation
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;FileServerInner&gt; object if successful.
      */
-    public PagedList<FileServerInner> listByResourceGroup(final String resourceGroupName, final FileServersListByResourceGroupOptionsInner fileServersListByResourceGroupOptions) {
-        ServiceResponse<Page<FileServerInner>> response = listByResourceGroupSinglePageAsync(resourceGroupName, fileServersListByResourceGroupOptions).toBlocking().single();
+    public PagedList<FileServerInner> listByWorkspace(final String resourceGroupName, final String workspaceName, final FileServersListByWorkspaceOptionsInner fileServersListByWorkspaceOptions) {
+        ServiceResponse<Page<FileServerInner>> response = listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName, fileServersListByWorkspaceOptions).toBlocking().single();
         return new PagedList<FileServerInner>(response.body()) {
             @Override
             public Page<FileServerInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByWorkspaceNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
 
     /**
-     * Gets a formatted list of file servers and their properties associated within the specified resource group.
+     * Gets a list of File Servers associated with the specified workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param fileServersListByResourceGroupOptions Additional parameters for the operation
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param fileServersListByWorkspaceOptions Additional parameters for the operation
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<FileServerInner>> listByResourceGroupAsync(final String resourceGroupName, final FileServersListByResourceGroupOptionsInner fileServersListByResourceGroupOptions, final ListOperationCallback<FileServerInner> serviceCallback) {
+    public ServiceFuture<List<FileServerInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName, final FileServersListByWorkspaceOptionsInner fileServersListByWorkspaceOptions, final ListOperationCallback<FileServerInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupSinglePageAsync(resourceGroupName, fileServersListByResourceGroupOptions),
+            listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName, fileServersListByWorkspaceOptions),
             new Func1<String, Observable<ServiceResponse<Page<FileServerInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<FileServerInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
+                    return listByWorkspaceNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
     }
 
     /**
-     * Gets a formatted list of file servers and their properties associated within the specified resource group.
+     * Gets a list of File Servers associated with the specified workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param fileServersListByResourceGroupOptions Additional parameters for the operation
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param fileServersListByWorkspaceOptions Additional parameters for the operation
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FileServerInner&gt; object
      */
-    public Observable<Page<FileServerInner>> listByResourceGroupAsync(final String resourceGroupName, final FileServersListByResourceGroupOptionsInner fileServersListByResourceGroupOptions) {
-        return listByResourceGroupWithServiceResponseAsync(resourceGroupName, fileServersListByResourceGroupOptions)
+    public Observable<Page<FileServerInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName, final FileServersListByWorkspaceOptionsInner fileServersListByWorkspaceOptions) {
+        return listByWorkspaceWithServiceResponseAsync(resourceGroupName, workspaceName, fileServersListByWorkspaceOptions)
             .map(new Func1<ServiceResponse<Page<FileServerInner>>, Page<FileServerInner>>() {
                 @Override
                 public Page<FileServerInner> call(ServiceResponse<Page<FileServerInner>> response) {
@@ -916,15 +720,16 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
     }
 
     /**
-     * Gets a formatted list of file servers and their properties associated within the specified resource group.
+     * Gets a list of File Servers associated with the specified workspace.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param fileServersListByResourceGroupOptions Additional parameters for the operation
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param fileServersListByWorkspaceOptions Additional parameters for the operation
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FileServerInner&gt; object
      */
-    public Observable<ServiceResponse<Page<FileServerInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName, final FileServersListByResourceGroupOptionsInner fileServersListByResourceGroupOptions) {
-        return listByResourceGroupSinglePageAsync(resourceGroupName, fileServersListByResourceGroupOptions)
+    public Observable<ServiceResponse<Page<FileServerInner>>> listByWorkspaceWithServiceResponseAsync(final String resourceGroupName, final String workspaceName, final FileServersListByWorkspaceOptionsInner fileServersListByWorkspaceOptions) {
+        return listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName, fileServersListByWorkspaceOptions)
             .concatMap(new Func1<ServiceResponse<Page<FileServerInner>>, Observable<ServiceResponse<Page<FileServerInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<FileServerInner>>> call(ServiceResponse<Page<FileServerInner>> page) {
@@ -932,22 +737,26 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listByWorkspaceNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
 
     /**
-     * Gets a formatted list of file servers and their properties associated within the specified resource group.
+     * Gets a list of File Servers associated with the specified workspace.
      *
     ServiceResponse<PageImpl<FileServerInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-    ServiceResponse<PageImpl<FileServerInner>> * @param fileServersListByResourceGroupOptions Additional parameters for the operation
+    ServiceResponse<PageImpl<FileServerInner>> * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+    ServiceResponse<PageImpl<FileServerInner>> * @param fileServersListByWorkspaceOptions Additional parameters for the operation
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;FileServerInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<FileServerInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName, final FileServersListByResourceGroupOptionsInner fileServersListByResourceGroupOptions) {
+    public Observable<ServiceResponse<Page<FileServerInner>>> listByWorkspaceSinglePageAsync(final String resourceGroupName, final String workspaceName, final FileServersListByWorkspaceOptionsInner fileServersListByWorkspaceOptions) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
         }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
@@ -955,25 +764,17 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        Validator.validate(fileServersListByResourceGroupOptions);
-        String filter = null;
-        if (fileServersListByResourceGroupOptions != null) {
-            filter = fileServersListByResourceGroupOptions.filter();
-        }
-        String select = null;
-        if (fileServersListByResourceGroupOptions != null) {
-            select = fileServersListByResourceGroupOptions.select();
-        }
+        Validator.validate(fileServersListByWorkspaceOptions);
         Integer maxResults = null;
-        if (fileServersListByResourceGroupOptions != null) {
-            maxResults = fileServersListByResourceGroupOptions.maxResults();
+        if (fileServersListByWorkspaceOptions != null) {
+            maxResults = fileServersListByWorkspaceOptions.maxResults();
         }
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), filter, select, maxResults, this.client.userAgent())
+        return service.listByWorkspace(resourceGroupName, workspaceName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), maxResults, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<FileServerInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<FileServerInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<FileServerInner>> result = listByResourceGroupDelegate(response);
+                        ServiceResponse<PageImpl<FileServerInner>> result = listByWorkspaceDelegate(response);
                         return Observable.just(new ServiceResponse<Page<FileServerInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -982,7 +783,7 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
             });
     }
 
-    private ServiceResponse<PageImpl<FileServerInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<PageImpl<FileServerInner>> listByWorkspaceDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<FileServerInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<FileServerInner>>() { }.getType())
                 .registerError(CloudException.class)
@@ -990,7 +791,7 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
     }
 
     /**
-     * To list all the file servers available under the given subscription (and across all resource groups within that subscription).
+     * Gets a list of File Servers associated with the specified workspace.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -998,18 +799,18 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;FileServerInner&gt; object if successful.
      */
-    public PagedList<FileServerInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<FileServerInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
+    public PagedList<FileServerInner> listByWorkspaceNext(final String nextPageLink) {
+        ServiceResponse<Page<FileServerInner>> response = listByWorkspaceNextSinglePageAsync(nextPageLink).toBlocking().single();
         return new PagedList<FileServerInner>(response.body()) {
             @Override
             public Page<FileServerInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByWorkspaceNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
 
     /**
-     * To list all the file servers available under the given subscription (and across all resource groups within that subscription).
+     * Gets a list of File Servers associated with the specified workspace.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -1017,27 +818,27 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<FileServerInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<FileServerInner>> serviceFuture, final ListOperationCallback<FileServerInner> serviceCallback) {
+    public ServiceFuture<List<FileServerInner>> listByWorkspaceNextAsync(final String nextPageLink, final ServiceFuture<List<FileServerInner>> serviceFuture, final ListOperationCallback<FileServerInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
+            listByWorkspaceNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<FileServerInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<FileServerInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
+                    return listByWorkspaceNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
     }
 
     /**
-     * To list all the file servers available under the given subscription (and across all resource groups within that subscription).
+     * Gets a list of File Servers associated with the specified workspace.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FileServerInner&gt; object
      */
-    public Observable<Page<FileServerInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
+    public Observable<Page<FileServerInner>> listByWorkspaceNextAsync(final String nextPageLink) {
+        return listByWorkspaceNextWithServiceResponseAsync(nextPageLink)
             .map(new Func1<ServiceResponse<Page<FileServerInner>>, Page<FileServerInner>>() {
                 @Override
                 public Page<FileServerInner> call(ServiceResponse<Page<FileServerInner>> response) {
@@ -1047,14 +848,14 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
     }
 
     /**
-     * To list all the file servers available under the given subscription (and across all resource groups within that subscription).
+     * Gets a list of File Servers associated with the specified workspace.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FileServerInner&gt; object
      */
-    public Observable<ServiceResponse<Page<FileServerInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
-        return listNextSinglePageAsync(nextPageLink)
+    public Observable<ServiceResponse<Page<FileServerInner>>> listByWorkspaceNextWithServiceResponseAsync(final String nextPageLink) {
+        return listByWorkspaceNextSinglePageAsync(nextPageLink)
             .concatMap(new Func1<ServiceResponse<Page<FileServerInner>>, Observable<ServiceResponse<Page<FileServerInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<FileServerInner>>> call(ServiceResponse<Page<FileServerInner>> page) {
@@ -1062,29 +863,29 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listByWorkspaceNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
 
     /**
-     * To list all the file servers available under the given subscription (and across all resource groups within that subscription).
+     * Gets a list of File Servers associated with the specified workspace.
      *
     ServiceResponse<PageImpl<FileServerInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;FileServerInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<FileServerInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<FileServerInner>>> listByWorkspaceNextSinglePageAsync(final String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listByWorkspaceNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<FileServerInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<FileServerInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<FileServerInner>> result = listNextDelegate(response);
+                        ServiceResponse<PageImpl<FileServerInner>> result = listByWorkspaceNextDelegate(response);
                         return Observable.just(new ServiceResponse<Page<FileServerInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1093,118 +894,7 @@ public class FileServersInner implements InnerSupportsGet<FileServerInner>, Inne
             });
     }
 
-    private ServiceResponse<PageImpl<FileServerInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<FileServerInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<FileServerInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets a formatted list of file servers and their properties associated within the specified resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;FileServerInner&gt; object if successful.
-     */
-    public PagedList<FileServerInner> listByResourceGroupNext(final String nextPageLink) {
-        ServiceResponse<Page<FileServerInner>> response = listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<FileServerInner>(response.body()) {
-            @Override
-            public Page<FileServerInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets a formatted list of file servers and their properties associated within the specified resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<FileServerInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<FileServerInner>> serviceFuture, final ListOperationCallback<FileServerInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<FileServerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FileServerInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a formatted list of file servers and their properties associated within the specified resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;FileServerInner&gt; object
-     */
-    public Observable<Page<FileServerInner>> listByResourceGroupNextAsync(final String nextPageLink) {
-        return listByResourceGroupNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<FileServerInner>>, Page<FileServerInner>>() {
-                @Override
-                public Page<FileServerInner> call(ServiceResponse<Page<FileServerInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a formatted list of file servers and their properties associated within the specified resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;FileServerInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<FileServerInner>>> listByResourceGroupNextWithServiceResponseAsync(final String nextPageLink) {
-        return listByResourceGroupNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<FileServerInner>>, Observable<ServiceResponse<Page<FileServerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FileServerInner>>> call(ServiceResponse<Page<FileServerInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets a formatted list of file servers and their properties associated within the specified resource group.
-     *
-    ServiceResponse<PageImpl<FileServerInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;FileServerInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<FileServerInner>>> listByResourceGroupNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listByResourceGroupNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<FileServerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FileServerInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<FileServerInner>> result = listByResourceGroupNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<FileServerInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<FileServerInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<PageImpl<FileServerInner>> listByWorkspaceNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<FileServerInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<FileServerInner>>() { }.getType())
                 .registerError(CloudException.class)

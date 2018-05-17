@@ -44,24 +44,6 @@ public class OutputDirectory {
     private String pathSuffix;
 
     /**
-     * An enumeration, which specifies the type of job output directory.
-     * Default value is Custom. The possible values are Model, Logs, Summary,
-     * and Custom. Users can use multiple enums for a single directory. Eg.
-     * outPutType='Model,Logs, Summary'. Possible values include: 'model',
-     * 'logs', 'summary', 'custom'.
-     */
-    @JsonProperty(value = "type")
-    private OutputType type;
-
-    /**
-     * True to create new directory.
-     * Default is true. If false, then the directory is not created and can be
-     * any directory path that the user specifies.
-     */
-    @JsonProperty(value = "createNew")
-    private Boolean createNew;
-
-    /**
      * Get the id value.
      *
      * @return the id value
@@ -118,46 +100,6 @@ public class OutputDirectory {
      */
     public OutputDirectory withPathSuffix(String pathSuffix) {
         this.pathSuffix = pathSuffix;
-        return this;
-    }
-
-    /**
-     * Get the type value.
-     *
-     * @return the type value
-     */
-    public OutputType type() {
-        return this.type;
-    }
-
-    /**
-     * Set the type value.
-     *
-     * @param type the type value to set
-     * @return the OutputDirectory object itself.
-     */
-    public OutputDirectory withType(OutputType type) {
-        this.type = type;
-        return this;
-    }
-
-    /**
-     * Get the createNew value.
-     *
-     * @return the createNew value
-     */
-    public Boolean createNew() {
-        return this.createNew;
-    }
-
-    /**
-     * Set the createNew value.
-     *
-     * @param createNew the createNew value to set
-     * @return the OutputDirectory object itself.
-     */
-    public OutputDirectory withCreateNew(Boolean createNew) {
-        this.createNew = createNew;
         return this;
     }
 

@@ -20,7 +20,7 @@ public class OperationInner {
      * The operation name.
      * This is of the format {provider}/{resource}/{operation}.
      */
-    @JsonProperty(value = "name")
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
@@ -32,7 +32,7 @@ public class OperationInner {
     /**
      * The intended executor of the operation.
      */
-    @JsonProperty(value = "origin")
+    @JsonProperty(value = "origin", access = JsonProperty.Access.WRITE_ONLY)
     private String origin;
 
     /**
@@ -48,17 +48,6 @@ public class OperationInner {
      */
     public String name() {
         return this.name;
-    }
-
-    /**
-     * Set the name value.
-     *
-     * @param name the name value to set
-     * @return the OperationInner object itself.
-     */
-    public OperationInner withName(String name) {
-        this.name = name;
-        return this;
     }
 
     /**
@@ -88,17 +77,6 @@ public class OperationInner {
      */
     public String origin() {
         return this.origin;
-    }
-
-    /**
-     * Set the origin value.
-     *
-     * @param origin the origin value to set
-     * @return the OperationInner object itself.
-     */
-    public OperationInner withOrigin(String origin) {
-        this.origin = origin;
-        return this;
     }
 
     /**

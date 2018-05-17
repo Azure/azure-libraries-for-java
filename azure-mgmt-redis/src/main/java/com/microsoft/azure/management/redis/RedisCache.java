@@ -97,6 +97,11 @@ public interface RedisCache extends
     String staticIP();
 
     /**
+     * @return Firewall Rules in the Redis Cache, indexed by name
+     */
+    Map<String, RedisFirewallRule> firewallRules();
+
+    /**
      * @return a Redis Cache's access keys. This operation requires write permission to the Cache resource.
      */
     @Method
@@ -163,6 +168,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache definition.
              */
+            @Method
             WithCreate withBasicSku();
 
             /**
@@ -178,6 +184,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache definition.
              */
+            @Method
             WithCreate withStandardSku();
 
             /**
@@ -193,6 +200,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache definition.
              */
+            @Method
             WithPremiumSkuCreate withPremiumSku();
 
             /**
@@ -217,6 +225,7 @@ public interface RedisCache extends
               *
               * @return the next stage of Redis Cache definition.
               */
+             @Method
              WithCreate withNonSslPort();
 
              /**
@@ -243,6 +252,10 @@ public interface RedisCache extends
               * @return the next stage of Redis Cache definition.
               */
              WithCreate withRedisConfiguration(String key, String value);
+
+             WithCreate withFirewallRule(String name, String lowestIp, String highestIp);
+
+             WithCreate withFirewallRule(RedisFirewallRule rule);
         }
 
         /**
@@ -342,6 +355,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache update.
              */
+            @Method
             Update withStandardSku();
 
             /**
@@ -357,6 +371,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache update.
              */
+            @Method
             Update withPremiumSku();
 
             /**
@@ -377,6 +392,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache update.
              */
+            @Method
             Update withNonSslPort();
 
             /**
@@ -384,6 +400,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache update.
              */
+            @Method
             Update withoutNonSslPort();
         }
 
@@ -421,6 +438,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache update.
              */
+            @Method
             Update withoutRedisConfiguration();
 
             /**
@@ -484,6 +502,12 @@ public interface RedisCache extends
          * @return the next stage of Redis Cache with Premium SKU definition.
          */
         Update withPatchSchedule(List<ScheduleEntry> scheduleEntry);
+
+        Update withFirewallRule(String name, String lowestIp, String highestIp);
+
+        Update withFirewallRule(RedisFirewallRule rule);
+
+        Update withoutFirewallRule(String name);
     }
 }
 

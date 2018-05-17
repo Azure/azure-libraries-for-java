@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.redis;
 
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import com.microsoft.azure.management.apigeneration.Beta;
@@ -90,5 +91,5 @@ public interface RedisCachePremium extends RedisCache {
 
     @Method
     @Beta(Beta.SinceVersion.V1_11_0)
-    TreeMap<String, ReplicationRole> listLinkedServers();
+    Map<String, ReplicationRole> listLinkedServers();
 }

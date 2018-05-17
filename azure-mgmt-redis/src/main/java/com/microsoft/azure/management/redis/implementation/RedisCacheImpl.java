@@ -17,6 +17,7 @@ import com.microsoft.azure.management.redis.RedisAccessKeys;
 import com.microsoft.azure.management.redis.RedisCache;
 import com.microsoft.azure.management.redis.RedisCachePremium;
 import com.microsoft.azure.management.redis.RedisCreateParameters;
+import com.microsoft.azure.management.redis.RedisFirewallRule;
 import com.microsoft.azure.management.redis.RedisKeyType;
 import com.microsoft.azure.management.redis.RedisLinkedServerCreateParameters;
 import com.microsoft.azure.management.redis.RedisRebootParameters;
@@ -59,6 +60,7 @@ class RedisCacheImpl
     private RedisCreateParameters createParameters;
     private RedisUpdateParameters updateParameters;
     private Map<DayOfWeek, ScheduleEntry> scheduleEntries;
+    private RedisFirewallRulesImpl firewallRules;
 
     RedisCacheImpl(String name,
                    RedisResourceInner innerModel,
@@ -66,6 +68,12 @@ class RedisCacheImpl
         super(name, innerModel, redisManager);
         this.createParameters = new RedisCreateParameters();
         this.scheduleEntries = new TreeMap<>();
+        this.firewallRules = new RedisFirewallRulesImpl(this);
+    }
+
+    @Override
+    public Map<String, RedisFirewallRule> firewallRules() {
+        return this.firewallRules.endpointsAsMap();
     }
 
     @Override
@@ -264,6 +272,21 @@ class RedisCacheImpl
             updateParameters.redisConfiguration().put(key, value);
         }
         return this;
+    }
+
+    @Override
+    public RedisCacheImpl withFirewallRule(String name, String lowestIp, String highestIp) {
+        return null;
+    }
+
+    @Override
+    public RedisCacheImpl withFirewallRule(RedisFirewallRule rule) {
+        return null;
+    }
+
+    @Override
+    public RedisCacheImpl withoutFirewallRule(String name) {
+        return null;
     }
 
     @Override
@@ -550,8 +573,8 @@ class RedisCacheImpl
     }
 
     @Override
-    public TreeMap<String, ReplicationRole> listLinkedServers() {
-        TreeMap<String, ReplicationRole> result = new TreeMap<>();
+    public Map<String, ReplicationRole> listLinkedServers() {
+        Map<String, ReplicationRole> result = new TreeMap<>();
         PagedList<RedisLinkedServerWithPropertiesInner> paginatedResponse = this.manager().inner().linkedServers().list(
                 this.resourceGroupName(),
                 this.name());
@@ -559,7 +582,6 @@ class RedisCacheImpl
         for (RedisLinkedServerWithPropertiesInner linkedServer :  paginatedResponse) {
             result.put(linkedServer.name(), linkedServer.serverRole());
         }
-
         return result;
     }
 }

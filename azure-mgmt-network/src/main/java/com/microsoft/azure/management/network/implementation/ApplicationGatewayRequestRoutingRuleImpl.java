@@ -23,6 +23,7 @@ import com.microsoft.azure.management.network.ApplicationGatewayRedirectConfigur
 import com.microsoft.azure.management.network.ApplicationGatewayRequestRoutingRule;
 import com.microsoft.azure.management.network.ApplicationGatewayRequestRoutingRuleType;
 import com.microsoft.azure.management.network.ApplicationGatewaySslCertificate;
+import com.microsoft.azure.management.network.ApplicationGatewayUrlPathMap;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
@@ -56,6 +57,17 @@ class ApplicationGatewayRequestRoutingRuleImpl
             addresses = backend.addresses();
         }
         return Collections.unmodifiableCollection(addresses);
+    }
+
+    @Override
+    public ApplicationGatewayUrlPathMap urlPathMap() {
+        SubResource urlMapRef = this.inner().urlPathMap();
+        if (urlMapRef != null) {
+            String urlMapName = ResourceUtils.nameFromResourceId(urlMapRef.id());
+            return this.parent().urlPathMaps().get(urlMapName);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -400,6 +412,17 @@ class ApplicationGatewayRequestRoutingRuleImpl
     @Override
     public ApplicationGatewayRequestRoutingRuleImpl withoutRedirectConfiguration() {
         this.inner().withRedirectConfiguration(null);
+        return this;
+    }
+
+    @Override
+    public DefinitionStages.WithAttach<ApplicationGateway.DefinitionStages.WithRequestRoutingRuleOrCreate> withUrlPathMap(String urlPathMapName) {
+        if (urlPathMapName == null) {
+            this.inner().withUrlPathMap(null);
+        } else {
+            SubResource ref = new SubResource().withId(this.parent().futureResourceId() + "/urlPathMaps/" + urlPathMapName);
+            this.inner().withUrlPathMap(ref);
+        }
         return this;
     }
 }

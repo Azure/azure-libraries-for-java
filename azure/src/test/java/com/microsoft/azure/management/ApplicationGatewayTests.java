@@ -54,6 +54,16 @@ public class ApplicationGatewayTests extends TestBase {
                 .runTest(azure.applicationGateways(),  azure.resourceGroups());
     }
 
+    /**
+     * Tests application gateway with path-based routing rule.
+     * @throws Exception
+     */
+    @Test
+    public void testAppGatewaysPublicUrlPathBased() throws Exception {
+        new TestApplicationGateway.UrlPathBased()
+                .runTest(azure.applicationGateways(),  azure.resourceGroups());
+    }
+
     @Test
     public void testAppGatewayBackendHealthCheck() throws Exception {
         String testId = SdkContext.randomResourceName("", 15);

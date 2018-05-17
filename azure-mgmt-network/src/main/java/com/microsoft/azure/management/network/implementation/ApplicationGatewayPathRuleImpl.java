@@ -18,6 +18,8 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.implementa
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Implementation for application gateway path rule.
@@ -27,8 +29,8 @@ class ApplicationGatewayPathRuleImpl
         extends ChildResourceImpl<ApplicationGatewayPathRuleInner, ApplicationGatewayUrlPathMapImpl, ApplicationGatewayUrlPathMap>
         implements
         ApplicationGatewayPathRule,
-        ApplicationGatewayPathRule.Definition<ApplicationGatewayUrlPathMap.DefinitionStages.WithAttach<ApplicationGateway.DefinitionStages.WithCreate>>,
-        ApplicationGatewayPathRule.UpdateDefinition<ApplicationGatewayUrlPathMap.Update>,
+        ApplicationGatewayPathRule.Definition<ApplicationGatewayUrlPathMap.DefinitionStages.WithAttach<ApplicationGateway.DefinitionStages.WithRequestRoutingRuleOrCreate>>,
+        ApplicationGatewayPathRule.UpdateDefinition<ApplicationGatewayUrlPathMap.UpdateDefinitionStages.WithAttach<ApplicationGateway.Update>>,
         ApplicationGatewayPathRule.Update {
 
     ApplicationGatewayPathRuleImpl(ApplicationGatewayPathRuleInner inner, ApplicationGatewayUrlPathMapImpl parent) {
@@ -103,6 +105,11 @@ class ApplicationGatewayPathRuleImpl
         } else {
             return this.parent().parent().redirectConfigurations().get(ResourceUtils.nameFromResourceId(ref.id()));
         }
+    }
+
+    @Override
+    public List<String> paths() {
+        return Collections.unmodifiableList(inner().paths());
     }
 
     @Override

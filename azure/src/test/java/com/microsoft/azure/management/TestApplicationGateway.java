@@ -267,23 +267,14 @@ public class TestApplicationGateway {
                     resources.define(TestApplicationGateway.APP_GATEWAY_NAME)
                             .withRegion(REGION)
                             .withNewResourceGroup(GROUP_NAME)
-                            // Request routing rules
-//                            .definePathBasedRoutingRule("rule1")
-//                                .fromPublicFrontend()
-//                                .fromFrontendHttpPort(80)
-//                                .toBackendHttpPort(8080)
-//                                .toBackendIPAddress("11.1.1.1")
-//                                .toBackendIPAddress("11.1.1.2")
-//                                .withUrlPathMap("pathMap")
-//                                .attach()
-                            .defineUrlPathMap("pathMap")
+                            .definePathBasedRoutingRule("pathMap")
                                 .fromListener("myListener")
                                 .toBackendHttpConfiguration("config1")
                                 .toBackend("backendPool")
                                 .definePathRule("pathRule")
-                                    .withPath("/images/*")
                                     .toBackendHttpConfiguration("config1")
                                     .toBackend("backendPool")
+                                    .withPath("/images/*")
                                     .attach()
                                 .attach()
                             .defineListener("myListener")
@@ -343,12 +334,6 @@ public class TestApplicationGateway {
             Assert.assertTrue(rule.listener().frontend() != null);
             Assert.assertTrue(rule.listener().frontend().isPublic());
             Assert.assertTrue(!rule.listener().frontend().isPrivate());
-//            Assert.assertTrue(rule.backendAddresses().size() == 2);
-//            Assert.assertTrue(rule.backend() != null);
-//            Assert.assertTrue(rule.backend().containsIPAddress("11.1.1.1"));
-//            Assert.assertTrue(rule.backend().containsIPAddress("11.1.1.2"));
-//            Assert.assertTrue(rule.backendPort() == 8080);
-
             creationThread.join();
             return appGateway;
         }
@@ -357,41 +342,41 @@ public class TestApplicationGateway {
         public ApplicationGateway updateResource(final ApplicationGateway resource) throws Exception {
             resource.update()
                     .withoutUrlPathMap("pathMap")
-                    .withFrontendPort(81, "port81")         // Add a new port
-                    .withoutBackendIPAddress("11.1.1.1")    // Remove from all existing backends
-                    .defineListener("listener2")
-                    .withPrivateFrontend()
-                    .withFrontendPort(81)
-                    .withHttps()
-                    .withSslCertificateFromPfxFile(new File(getClass().getClassLoader().getResource("myTest.pfx").getFile()))
-                    .withSslCertificatePassword("Abc123")
-                    .attach()
-                    .defineBackend("backend2")
-                    .withIPAddress("11.1.1.3")
-                    .attach()
-                    .defineBackendHttpConfiguration("config2")
-                    .withCookieBasedAffinity()
-                    .withPort(8081)
-                    .withRequestTimeout(33)
-                    .attach()
-                    .defineRequestRoutingRule("rule2")
-                    .fromListener("listener2")
-                    .toBackendHttpConfiguration("config2")
-                    .toBackend("backend2")
-                    .attach()
-                    .withTag("tag1", "value1")
-                    .withTag("tag2", "value2")
+                    // Request routing rules
+                    .definePathBasedRoutingRule("rule2")
+                        .fromListener("myListener")
+                        .toBackendHttpPort(8080)
+                        .toBackendIPAddress("11.1.1.1")
+                        .toBackendIPAddress("11.1.1.2")
+                        .definePathRule("newRule")
+                            .toBackendHttpConfiguration("config1")
+                            .toBackend("backendPool")
+                            .withPath("/pictures/*")
+                            .attach()
+                        .definePathRule("newRule2")
+                            .toBackendHttpConfiguration("config1")
+                            .toBackend("backendPool2")
+                            .withPath("/video/*")
+                            .attach()
+                        .attach()
+                        .defineBackend("backendPool2")
+                            .attach()
                     .apply();
-
             resource.refresh();
-
-            Assert.assertTrue(resource.tags().containsKey("tag1"));
-            Assert.assertTrue(resource.tags().containsKey("tag2"));
-            Assert.assertTrue(ApplicationGatewaySkuName.STANDARD_MEDIUM.equals(resource.size()));
-            Assert.assertTrue(resource.instanceCount() == 2);
-            Assert.assertTrue(resource.urlPathMaps().isEmpty());
+            Assert.assertEquals(ApplicationGatewaySkuName.STANDARD_MEDIUM, resource.size());
+            Assert.assertEquals(2, resource.instanceCount());
+            ApplicationGatewayRequestRoutingRule rule = resource.requestRoutingRules().get("rule2");
+            Assert.assertNotNull(rule);
+            Assert.assertEquals(2, rule.backendAddresses().size());
+            Assert.assertNotNull(rule.backend());
+            Assert.assertTrue(rule.backend().containsIPAddress("11.1.1.1"));
+            Assert.assertTrue(rule.backend().containsIPAddress("11.1.1.2"));
+            Assert.assertEquals(8080, rule.backendPort());
+            Assert.assertEquals(1, resource.urlPathMaps().size());
             Assert.assertFalse(resource.requestRoutingRules().containsKey("pathMap"));
             Assert.assertTrue(resource.requestRoutingRules().containsKey("rule2"));
+            Assert.assertEquals(2, resource.urlPathMaps().get("pathMap").pathRules().size());
+            Assert.assertEquals("/pictures/*", resource.urlPathMaps().get("pathMap").pathRules().get("newRule").paths().get(0));
             return resource;
         }
     }

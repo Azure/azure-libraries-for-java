@@ -15,6 +15,7 @@ import com.microsoft.azure.management.network.ApplicationGatewayRedirectConfigur
 import com.microsoft.azure.management.network.ApplicationGatewayUrlPathMap;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,8 +43,10 @@ class ApplicationGatewayUrlPathMapImpl
 
     private void initializePathRules() {
         pathRules = new HashMap<>();
-        for (ApplicationGatewayPathRuleInner inner : inner().pathRules()) {
-            pathRules.put(inner.name(), new ApplicationGatewayPathRuleImpl(inner, this));
+        if (inner().pathRules() != null) {
+            for (ApplicationGatewayPathRuleInner inner : inner().pathRules()) {
+                pathRules.put(inner.name(), new ApplicationGatewayPathRuleImpl(inner, this));
+            }
         }
     }
 
@@ -93,8 +96,11 @@ class ApplicationGatewayUrlPathMapImpl
 
     @Override
     public ApplicationGatewayUrlPathMapImpl toBackendHttpPort(int portNumber) {
-        // todo
-        return null;
+        String name = SdkContext.randomResourceName("backcfg", 12);
+        this.parent().defineBackendHttpConfiguration(name)
+                .withPort(portNumber)
+                .attach();
+        return this.toBackendHttpConfiguration(name);
     }
 
     @Override
@@ -139,17 +145,33 @@ class ApplicationGatewayUrlPathMapImpl
     }
 
     @Override
-    public ApplicationGatewayUrlPathMapImpl fromPublicFrontend() {
-        return null;
+    public ApplicationGatewayUrlPathMapImpl toBackendIPAddress(String ipAddress) {
+        this.parent().updateBackend(ensureBackend().name()).withIPAddress(ipAddress);
+        return this;
     }
 
     @Override
-    public ApplicationGatewayUrlPathMapImpl fromPrivateFrontend() {
-        return null;
+    public ApplicationGatewayUrlPathMapImpl toBackendIPAddresses(String... ipAddresses) {
+        if (ipAddresses != null) {
+            for (String ipAddress : ipAddresses) {
+                this.toBackendIPAddress(ipAddress);
+            }
+        }
+        return this;
     }
 
     @Override
-    public ApplicationGatewayUrlPathMapImpl fromFrontendHttpPort(int portNumber) {
-        return null;
+    public ApplicationGatewayUrlPathMapImpl toBackendFqdn(String fqdn) {
+        this.parent().updateBackend(ensureBackend().name()).withFqdn(fqdn);
+        return this;
+    }
+
+    private ApplicationGatewayBackendImpl ensureBackend() {
+        ApplicationGatewayBackendImpl backend = (ApplicationGatewayBackendImpl) this.defaultBackend();
+        if (backend == null) {
+            backend = this.parent().ensureUniqueBackend();
+            this.toBackend(backend.name());
+        }
+        return backend;
     }
 }

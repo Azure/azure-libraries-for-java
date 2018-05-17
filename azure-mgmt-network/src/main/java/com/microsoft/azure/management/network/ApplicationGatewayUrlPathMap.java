@@ -54,7 +54,7 @@ public interface ApplicationGatewayUrlPathMap extends
          * The first stage of an application gateway URL path map definition.
          * @param <ReturnT> the stage of the parent application gateway definition to return to after attaching this definition
          */
-        interface Blank<ReturnT> extends WithListenerOrFrontend<ReturnT> {
+        interface Blank<ReturnT> extends WithListener<ReturnT> {
         }
 
         /**
@@ -73,75 +73,7 @@ public interface ApplicationGatewayUrlPathMap extends
              * @param name the name of a listener to reference
              * @return the next stage of the definition
              */
-            WithBackendHttpConfigOrRedirect<ParentT> fromListener(String name);
-        }
-
-        /**
-         * The stage of an application gateway request routing rule definition allowing to associate an existing listener
-         * with the rule, or create a new one implicitly by specifying the frontend to listen to.
-         * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
-         */
-        interface WithListenerOrFrontend<ParentT> extends
-                WithListener<ParentT>,
-                WithFrontend<ParentT> {
-        }
-
-        /**
-         * The stage of an application gateway request routing rule definition allowing to specify the frontend for the rule to apply to.
-         * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
-         */
-        interface WithFrontend<ParentT> {
-            /**
-             * Enables the rule to apply to the application gateway's public (Internet-facing) frontend.
-             * <p>
-             * If the public frontend IP configuration does not yet exist, it will be created under an auto-generated name.
-             * <p>
-             * If the application gateway does not have a public IP address specified for its public frontend, one will be created
-             * automatically, unless a specific public IP address is specified in the application gateway definition's optional settings.
-             * @return the next stage of the definition
-             */
-            @Method
-            WithFrontendPort<ParentT> fromPublicFrontend();
-
-            /**
-             * Enables the rule to apply to the application gateway's private (internal) frontend.
-             * <p>
-             * If the private frontend IP configuration does not yet exist, it will be created under an auto-generated name.
-             * <p>
-             * If the application gateway does not have a subnet specified for its private frontend, one will be created automatically,
-             * unless a specific subnet is specified in the application gateway definition's optional settings.
-             * @return the next stage of the definition
-             */
-            @Method
-            WithFrontendPort<ParentT> fromPrivateFrontend();
-        }
-
-        /**
-         * The stage of an application gateway request routing rule definition allowing to create an associate listener and frontend
-         * for a specific port number and protocol.
-         * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
-         */
-        interface WithFrontendPort<ParentT> {
-            /**
-             * Associates a new listener for the specified port number and the HTTP protocol with this rule.
-             * @param portNumber the port number to listen to
-             * @return the next stage of the definition, or null if the specified port number is already used for a different protocol
-             */
-            WithBackendHttpConfigOrRedirect<ParentT> fromFrontendHttpPort(int portNumber);
-
-            /**
-             * Associates a new listener for the specified port number and the HTTPS protocol with this rule.
-             * @param portNumber the port number to listen to
-             * @return the next stage of the definition, or null if the specified port number is already used for a different protocol
-             */
-//            WithSslCertificate<ParentT> fromFrontendHttpsPort(int portNumber);
-        }
-
-        /**
-         * The stage of an application gateway request routing rule definition allowing to select either a backend or a redirect configuration.
-         * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
-         */
-        interface WithBackendHttpConfigOrRedirect<ParentT> extends WithBackendHttpConfiguration<ParentT>, WithRedirectConfig<ParentT> {
+            WithBackendHttpConfiguration<ParentT> fromListener(String name);
         }
 
         /**
@@ -213,7 +145,8 @@ public interface ApplicationGatewayUrlPathMap extends
          */
         interface WithAttach<ReturnT> extends
             Attachable.InDefinition<ReturnT>,
-            WithPathRule<ReturnT> {
+            WithPathRule<ReturnT>,
+            WithRedirectConfig<ReturnT> {
         }
     }
 
@@ -222,9 +155,9 @@ public interface ApplicationGatewayUrlPathMap extends
      */
     interface Definition<ReturnT> extends
         DefinitionStages.Blank<ReturnT>,
-        DefinitionStages.WithFrontendPort<ReturnT>,
-        DefinitionStages.WithBackendHttpConfigOrRedirect<ReturnT>,
+        DefinitionStages.WithBackendHttpConfiguration<ReturnT>,
         DefinitionStages.WithBackend<ReturnT>,
+        DefinitionStages.WithPathRule<ReturnT>,
         DefinitionStages.WithAttach<ReturnT> {
     }
 
@@ -249,14 +182,26 @@ public interface ApplicationGatewayUrlPathMap extends
          * The first stage of an application gateway URL path map  definition.
          * @param <ReturnT> the stage of the parent application gateway definition to return to after attaching this definition
          */
-        interface Blank<ReturnT> extends WithBackendHttpConfiguration<ReturnT> {
+        interface Blank<ReturnT> extends WithListener<ReturnT> {
         }
 
         /**
-         * The stage of an application gateway request routing rule definition allowing to select either a backend or a redirect configuration.
+         * The stage of an application gateway request routing rule definition allowing to specify an existing listener to
+         * associate the routing rule with.
          * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
          */
-        interface WithBackendHttpConfigOrRedirect<ParentT> extends WithBackendHttpConfiguration<ParentT>, WithRedirectConfig<ParentT> {
+        interface WithListener<ParentT> {
+            /**
+             * Associates the request routing rule with a frontend listener.
+             * <p>
+             * If the listener with the specified name does not yet exist, it must be defined separately in the optional stages
+             * of the application gateway definition. This only adds a reference to the listener by its name.
+             * <p>
+             * Also, note that a given listener can be used by no more than one request routing rule at a time.
+             * @param name the name of a listener to reference
+             * @return the next stage of the definition
+             */
+            WithBackendHttpConfiguration<ParentT> fromListener(String name);
         }
 
         /**
@@ -283,9 +228,61 @@ public interface ApplicationGatewayUrlPathMap extends
              * @param portNumber the port number for a new backend HTTP settings configuration
              * @return the next stage of the definition
              */
-            WithBackend<ParentT> toBackendHttpPort(int portNumber);
+            WithBackendOrAddress<ParentT> toBackendHttpPort(int portNumber);
         }
 
+        /**
+         * The stage of an application gateway request routing rule definition allowing to add an address to specify an existing
+         * backend to associate with this request routing rule or create a new backend with an auto-generated name and addresses to it.
+         * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
+         */
+        interface WithBackendOrAddress<ParentT> extends WithBackend<ParentT>, WithBackendAddress<ParentT> {
+        }
+
+        /**
+         * The stage of an application gateway request routing rule definition allowing to add an address to the backend used by this request routing rule.
+         * <p>
+         * A new backend will be created if none is associated with this rule yet.
+         * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
+         */
+        interface WithBackendAddress<ParentT> {
+            /**
+             * Adds an IP address to the backend associated with this rule.
+             * <p>
+             * If no backend has been associated with this rule yet, a new one will be created with an auto-generated name.
+             * <p>
+             * This call can be used in a sequence to add multiple IP addresses.
+             * @param ipAddress an IP address
+             * @return the next stage of the definition
+             */
+            WithBackendAddressOrPath<ParentT> toBackendIPAddress(String ipAddress);
+
+            /**
+             * Adds the specified IP addresses to the backend associated with this rule.
+             * @param ipAddresses IP addresses to add
+             * @return the next stage of the definition
+             */
+            WithBackendAddressOrPath<ParentT> toBackendIPAddresses(String...ipAddresses);
+
+            /**
+             * Adds an FQDN (fully qualified domain name) to the backend associated with this rule.
+             * <p>
+             * If no backend has been associated with this rule yet, a new one will be created with an auto-generated name.
+             * <p>
+             * This call can be used in a sequence to add multiple FQDNs.
+             * @param fqdn a fully qualified domain name
+             * @return the next stage of the definition
+             */
+            WithBackendAddressOrPath<ParentT> toBackendFqdn(String fqdn);
+        }
+
+        /**
+         * The stage of an application gateway request routing rule definition allowing to add more backend addresses,
+         * start specifying optional settings, or finish the definition by attaching it to the parent application gateway.
+         * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
+         */
+        interface WithBackendAddressOrPath<ParentT> extends WithBackendAddress<ParentT>, WithPathRule<ParentT> {
+        }
 
         /**
          * The stage of an application gateway request routing rule definition allowing to specify the backend to associate the routing rule with.
@@ -299,7 +296,11 @@ public interface ApplicationGatewayUrlPathMap extends
              * @param name the name of an existing backend
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> toBackend(String name);
+            WithPathRule<ParentT> toBackend(String name);
+        }
+
+        interface WithPathRule<ParentT> {
+            ApplicationGatewayPathRule.UpdateDefinitionStages.Blank<WithAttach<ParentT>> definePathRule(String name);
         }
 
         /**
@@ -312,7 +313,6 @@ public interface ApplicationGatewayUrlPathMap extends
              * @param name the name of a redirect configuration on this application gateway
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
             WithAttach<ParentT> withRedirectConfiguration(String name);
         }
 
@@ -324,7 +324,9 @@ public interface ApplicationGatewayUrlPathMap extends
          * @param <ReturnT> the stage of the parent application gateway definition to return to after attaching this definition
          */
         interface WithAttach<ReturnT> extends
-            Attachable.InUpdate<ReturnT> {
+            Attachable.InDefinitionAlt<ReturnT>,
+            WithPathRule<ReturnT>,
+            WithRedirectConfig<ReturnT> {
         }
     }
 
@@ -333,8 +335,10 @@ public interface ApplicationGatewayUrlPathMap extends
      */
     interface UpdateDefinition<ReturnT> extends
         UpdateDefinitionStages.Blank<ReturnT>,
-        UpdateDefinitionStages.WithBackendHttpConfigOrRedirect<ReturnT>,
-        UpdateDefinitionStages.WithBackend<ReturnT>,
+        UpdateDefinitionStages.WithBackendOrAddress<ReturnT>,
+        UpdateDefinitionStages.WithBackendHttpConfiguration<ReturnT>,
+        UpdateDefinitionStages.WithBackendAddressOrPath<ReturnT>,
+        UpdateDefinitionStages.WithPathRule<ReturnT>,
         UpdateDefinitionStages.WithAttach<ReturnT> {
     }
 }

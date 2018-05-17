@@ -14,6 +14,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
+import java.util.List;
+
 /**
  * A client-side representation of an application gateway's URL path map.
  */
@@ -37,6 +39,11 @@ public interface ApplicationGatewayPathRule extends
      * @return default redirect configuration
      */
     ApplicationGatewayRedirectConfiguration redirectConfiguration();
+
+    /**
+     * @return paths for URL path map rule.
+     */
+    List<String> paths();
 
     /**
      * Grouping of application gateway URL path map definition stages.
@@ -85,7 +92,7 @@ public interface ApplicationGatewayPathRule extends
              * @param name the name of an existing backend
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> toBackend(String name);
+            WithPath<ParentT> toBackend(String name);
         }
 
         /**
@@ -173,10 +180,9 @@ public interface ApplicationGatewayPathRule extends
             WithBackend<ParentT> toBackendHttpConfiguration(String name);
         }
 
-
         /**
-         * The stage of an application gateway request routing rule definition allowing to specify the backend to associate the routing rule with.
-         * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
+         * The stage of an application gateway path rule definition allowing to specify the the paths to associate with URL path map.
+         * @param <ParentT> the stage of the application gateway URL path map definition to return to after attaching this definition
          */
         interface WithBackend<ParentT> {
             /**
@@ -186,7 +192,13 @@ public interface ApplicationGatewayPathRule extends
              * @param name the name of an existing backend
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> toBackend(String name);
+            WithPath<ParentT> toBackend(String name);
+        }
+
+        interface WithPath<ReturnT> {
+            WithAttach<ReturnT> withPath(String path);
+
+            WithAttach<ReturnT> withPaths(String... paths);
         }
 
         /**
@@ -211,7 +223,8 @@ public interface ApplicationGatewayPathRule extends
          * @param <ReturnT> the stage of the parent application gateway definition to return to after attaching this definition
          */
         interface WithAttach<ReturnT> extends
-                Attachable.InUpdate<ReturnT> {
+                Attachable.InUpdate<ReturnT>,
+                UpdateDefinitionStages.WithRedirectConfig<ReturnT> {
         }
     }
 
@@ -220,8 +233,9 @@ public interface ApplicationGatewayPathRule extends
      */
     interface UpdateDefinition<ReturnT> extends
             UpdateDefinitionStages.Blank<ReturnT>,
-            UpdateDefinitionStages.WithBackendHttpConfigOrRedirect<ReturnT>,
+            UpdateDefinitionStages.WithBackendHttpConfiguration<ReturnT>,
             UpdateDefinitionStages.WithBackend<ReturnT>,
+            UpdateDefinitionStages.WithPath<ReturnT>,
             UpdateDefinitionStages.WithAttach<ReturnT> {
     }
 }

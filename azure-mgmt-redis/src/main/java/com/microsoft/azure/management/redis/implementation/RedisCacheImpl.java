@@ -73,7 +73,7 @@ class RedisCacheImpl
 
     @Override
     public Map<String, RedisFirewallRule> firewallRules() {
-        return this.firewallRules.endpointsAsMap();
+        return this.firewallRules.rulesAsMap();
     }
 
     @Override
@@ -276,17 +276,22 @@ class RedisCacheImpl
 
     @Override
     public RedisCacheImpl withFirewallRule(String name, String lowestIp, String highestIp) {
-        return null;
+        RedisFirewallRuleImpl rule = this.firewallRules.newChildResource(name);
+        rule.inner().withStartIP(lowestIp);
+        rule.inner().withEndIP(highestIp);
+        return this.withFirewallRule(rule);
     }
 
     @Override
     public RedisCacheImpl withFirewallRule(RedisFirewallRule rule) {
-        return null;
+        this.firewallRules.addRule((RedisFirewallRuleImpl)rule);
+        return this;
     }
 
     @Override
     public RedisCacheImpl withoutFirewallRule(String name) {
-        return null;
+        this.firewallRules.removeRule(name);
+        return this;
     }
 
     @Override
@@ -567,7 +572,7 @@ class RedisCacheImpl
                 this.name(),
                 name);
         if (linkedServer == null) {
-            throw new IllegalArgumentException("Server returned `null` value for Linked Server '" + name + "' for Redis Cache '" + this.name() + "' in Resource Group '" + this.resourceGroupName() +"'.");
+            throw new IllegalArgumentException("Server returned `null` value for Linked Server '" + name + "' for Redis Cache '" + this.name() + "' in Resource Group '" + this.resourceGroupName() + "'.");
         }
         return linkedServer.serverRole();
     }

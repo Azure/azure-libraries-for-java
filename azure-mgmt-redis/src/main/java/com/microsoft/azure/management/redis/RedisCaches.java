@@ -42,9 +42,19 @@ public interface RedisCaches extends
         HasManager<RedisManager>,
         HasInner<RedisInner> {
 
+    /**
+     * Lists all of the available Redis REST API operations.
+     *
+     * @return list of available Redis REST operations.
+     */
     @Beta(Beta.SinceVersion.V1_11_0)
     PagedList<OperationInner> listOperations();
 
+    /**
+     * Lists all of the available Redis REST API operations.
+     *
+     * @return a representation of the future computation of this call
+     */
     @Beta(Beta.SinceVersion.V1_11_0)
     Observable<OperationInner> listOperationsAsync();
 }

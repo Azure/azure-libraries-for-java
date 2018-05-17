@@ -46,7 +46,9 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
                 .withNewResourceGroup(resourceGroups)
                 .withPremiumSku(2)
                 .withRedisConfiguration("maxclients", "2")
-                .withNonSslPort();
+                .withNonSslPort()
+                .withFirewallRule("rule1", "192.168.0.1", "192.168.0.4")
+                .withFirewallRule("rule2", "192.168.0.10", "192.168.0.40");
 
         CreatedResources<RedisCache> batchRedisCaches = redisManager.redisCaches()
                 .create(redisCacheDefinition1, redisCacheDefinition2, redisCacheDefinition3);
@@ -138,6 +140,8 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
         // Redis configuration update
         premiumCache.update()
                 .withRedisConfiguration("maxclients", "3")
+                .withoutFirewallRule("rule1")
+                .withFirewallRule("rule3", "192.168.0.10", "192.168.0.104")
                 .apply();
 
         premiumCache.update()

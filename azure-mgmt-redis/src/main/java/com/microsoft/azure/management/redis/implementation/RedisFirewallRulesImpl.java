@@ -35,7 +35,7 @@ class RedisFirewallRulesImpl extends
         }
     }
 
-    Map<String, RedisFirewallRule> endpointsAsMap() {
+    Map<String, RedisFirewallRule> rulesAsMap() {
         Map<String, RedisFirewallRule> result = new HashMap<>();
         for (Map.Entry<String, RedisFirewallRuleImpl> entry : this.collection().entrySet()) {
             RedisFirewallRuleImpl endpoint = entry.getValue();
@@ -44,13 +44,21 @@ class RedisFirewallRulesImpl extends
         return Collections.unmodifiableMap(result);
     }
 
+    public void addRule(RedisFirewallRuleImpl rule) {
+        this.addChildResource(rule);
+    }
+
+    public void removeRule(String name) {
+        this.prepareInlineRemove(name);
+    }
+
     @Override
     protected List<RedisFirewallRuleImpl> listChildResources() {
         List<RedisFirewallRuleImpl> childResources = new ArrayList<>();
-        for(RedisFirewallRuleInner firewallRule :this.parent().manager().inner().firewallRules().listByRedisResource(
+        for (RedisFirewallRuleInner firewallRule :this.parent().manager().inner().firewallRules().listByRedisResource(
                 this.parent().resourceGroupName(),
                 this.parent().name())) {
-            childResources.add( new RedisFirewallRuleImpl(firewallRule.name(), this.parent(), firewallRule));
+            childResources.add(new RedisFirewallRuleImpl(firewallRule.name(), this.parent(), firewallRule));
         }
         return Collections.unmodifiableList(childResources);
     }

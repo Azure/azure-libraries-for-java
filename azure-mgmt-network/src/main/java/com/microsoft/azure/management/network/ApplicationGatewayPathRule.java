@@ -53,7 +53,7 @@ public interface ApplicationGatewayPathRule extends
          * The first stage of an application gateway URL path map definition.
          * @param <ReturnT> the stage of the parent application gateway definition to return to after attaching this definition
          */
-        interface Blank<ReturnT> extends WithBackendHttpConfiguration<ReturnT> {//extends WithBackendHttpConfiguration<ReturnT> {
+        interface Blank<ReturnT> extends WithBackendHttpConfiguration<ReturnT> {
         }
 
         interface WithPath<ReturnT> {

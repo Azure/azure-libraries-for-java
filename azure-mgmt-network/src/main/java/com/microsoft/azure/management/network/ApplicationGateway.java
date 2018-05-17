@@ -202,7 +202,7 @@ public interface ApplicationGateway extends
     /**
      * @return URL path maps, indexed by name (case sensitive)
      */
-    @Beta(SinceVersion.V1_5_0)
+    @Beta(SinceVersion.V1_10_0)
     Map<String, ApplicationGatewayUrlPathMap> urlPathMaps();
 
     /**

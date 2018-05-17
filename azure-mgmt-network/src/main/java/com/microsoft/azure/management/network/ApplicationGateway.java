@@ -202,7 +202,7 @@ public interface ApplicationGateway extends
     /**
      * @return URL path maps, indexed by name (case sensitive)
      */
-    @Beta(SinceVersion.V1_10_0)
+    @Beta(SinceVersion.V1_11_0)
     Map<String, ApplicationGatewayUrlPathMap> urlPathMaps();
 
     /**
@@ -422,7 +422,7 @@ public interface ApplicationGateway extends
              * @param name a unique name for the URL path map
              * @return the first stage of the URL path map definition
              */
-            @Beta(SinceVersion.V1_10_0)
+            @Beta(SinceVersion.V1_11_0)
             ApplicationGatewayUrlPathMap.DefinitionStages.Blank<WithRequestRoutingRuleOrCreate> definePathBasedRoutingRule(String name);
         }
 
@@ -1007,7 +1007,7 @@ public interface ApplicationGateway extends
              * @param name the name of the URL path map to remove (case sensitive)
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_10_0)
+            @Beta(SinceVersion.V1_11_0)
             Update withoutUrlPathMap(String name);
 
             /**
@@ -1015,7 +1015,7 @@ public interface ApplicationGateway extends
              * @param name the name of an existing redirect configuration to update (case sensitive)
              * @return the next stage of the definition or null if the requested URL path map does not exist
              */
-            @Beta(SinceVersion.V1_10_0)
+            @Beta(SinceVersion.V1_11_0)
             ApplicationGatewayUrlPathMap.Update updateUrlPathMap(String name);
         }
 
@@ -1078,7 +1078,7 @@ public interface ApplicationGateway extends
              * @param name a unique name for the URL path map
              * @return the first stage of the URL path map definition
              */
-            @Beta(SinceVersion.V1_10_0)
+            @Beta(SinceVersion.V1_11_0)
             ApplicationGatewayUrlPathMap.UpdateDefinitionStages.Blank<Update> definePathBasedRoutingRule(String name);
         }
 

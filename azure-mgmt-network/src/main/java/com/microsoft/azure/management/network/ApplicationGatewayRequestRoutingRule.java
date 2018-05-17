@@ -358,7 +358,7 @@ public interface ApplicationGatewayRequestRoutingRule extends
         }
 
         interface WithUrlPathMap<ParentT> {
-            @Beta(SinceVersion.V1_10_0)
+            @Beta(SinceVersion.V1_11_0)
             WithAttach<ParentT> withUrlPathMap(String urlPathMapName);
         }
     }

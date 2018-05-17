@@ -19,8 +19,8 @@ import java.util.List;
 /**
  * A client-side representation of an application gateway's URL path map.
  */
-@Fluent()
-@Beta(SinceVersion.V1_10_0)
+@Fluent
+@Beta(SinceVersion.V1_11_0)
 public interface ApplicationGatewayPathRule extends
         HasInner<ApplicationGatewayPathRuleInner>,
         ChildResource<ApplicationGatewayUrlPathMap> {

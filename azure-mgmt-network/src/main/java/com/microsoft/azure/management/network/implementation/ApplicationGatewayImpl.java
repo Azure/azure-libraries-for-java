@@ -1095,7 +1095,6 @@ class ApplicationGatewayImpl
 
     @Override
     public ApplicationGatewayImpl withoutUrlPathMap(String name) {
-        this.urlPathMaps.remove(name);
         // Remove associated request routing rule
         for (ApplicationGatewayRequestRoutingRule rule : rules.values()) {
             if (rule.urlPathMap() != null && name.equals(rule.urlPathMap().name())) {
@@ -1103,6 +1102,7 @@ class ApplicationGatewayImpl
                 break;
             }
         }
+        this.urlPathMaps.remove(name);
         return this;
     }
 

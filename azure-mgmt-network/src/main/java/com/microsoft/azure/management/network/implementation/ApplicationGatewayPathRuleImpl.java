@@ -37,13 +37,10 @@ class ApplicationGatewayPathRuleImpl
         super(inner, parent);
     }
 
-    // Getters
     @Override
     public String name() {
         return this.inner().name();
     }
-
-    // Verbs
 
     @Override
     public ApplicationGatewayUrlPathMapImpl attach() {

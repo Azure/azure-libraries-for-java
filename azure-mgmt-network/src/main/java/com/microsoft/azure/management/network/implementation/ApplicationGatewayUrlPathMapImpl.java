@@ -130,9 +130,10 @@ class ApplicationGatewayUrlPathMapImpl
 
     ApplicationGatewayUrlPathMapImpl withPathRule(ApplicationGatewayPathRuleImpl pathRule) {
         if (pathRule != null) {
-            List<ApplicationGatewayPathRuleInner> rules = new ArrayList<>();
-            rules.add(pathRule.inner());
-            this.inner().withPathRules(rules);
+            if (inner().pathRules() == null) {
+                inner().withPathRules(new ArrayList<ApplicationGatewayPathRuleInner>());
+            }
+            inner().pathRules().add(pathRule.inner());
         }
         return this;
     }

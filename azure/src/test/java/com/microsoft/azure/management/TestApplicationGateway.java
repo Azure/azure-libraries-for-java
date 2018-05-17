@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import com.microsoft.azure.management.network.ApplicationGatewayUrlPathMap;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 
@@ -296,42 +297,42 @@ public class TestApplicationGateway {
             creationThread.start();
 
             //...But bail out after 30 sec, as it is enough to test the results
-            SdkContext.sleep(30 * 1000);
+            SdkContext.sleep(60 * 1000);
 
             // Get the resource as created so far
             String resourceId = createResourceId(resources.manager().subscriptionId());
             ApplicationGateway appGateway = resources.manager().applicationGateways().getById(resourceId);
-            Assert.assertTrue(appGateway != null);
-            Assert.assertTrue(ApplicationGatewayTier.STANDARD.equals(appGateway.tier()));
-            Assert.assertTrue(ApplicationGatewaySkuName.STANDARD_SMALL.equals(appGateway.size()));
-            Assert.assertTrue(appGateway.instanceCount() == 1);
+            Assert.assertNotNull(appGateway);
+            Assert.assertEquals(ApplicationGatewayTier.STANDARD, appGateway.tier());
+            Assert.assertEquals(ApplicationGatewaySkuName.STANDARD_SMALL, appGateway.size());
+            Assert.assertEquals(1, appGateway.instanceCount());
 
             // Verify frontend ports
-            Assert.assertTrue(appGateway.frontendPorts().size() == 1);
-            Assert.assertTrue(appGateway.frontendPortNameFromNumber(80) != null);
+            Assert.assertEquals(1, appGateway.frontendPorts().size());
+            Assert.assertNotNull(appGateway.frontendPortNameFromNumber(80));
 
             // Verify frontends
             Assert.assertTrue(appGateway.isPublic());
-            Assert.assertTrue(appGateway.frontends().size() == 1);
+            Assert.assertEquals(1, appGateway.frontends().size());
 
             // Verify listeners
-            Assert.assertTrue(appGateway.listeners().size() == 1);
-            Assert.assertTrue(appGateway.listenerByPortNumber(80) != null);
+            Assert.assertEquals(1, appGateway.listeners().size());
+            Assert.assertNotNull(appGateway.listenerByPortNumber(80));
 
             // Verify backends
-            Assert.assertTrue(appGateway.backends().size() == 1);
+            Assert.assertEquals(1, appGateway.backends().size());
 
             // Verify backend HTTP configs
-            Assert.assertTrue(appGateway.backendHttpConfigurations().size() == 1);
+            Assert.assertEquals(1, appGateway.backendHttpConfigurations().size());
 
             // Verify rules
-            Assert.assertTrue(appGateway.requestRoutingRules().size() == 1);
+            Assert.assertEquals(1, appGateway.requestRoutingRules().size());
             ApplicationGatewayRequestRoutingRule rule = appGateway.requestRoutingRules().get("pathMap");
-            Assert.assertTrue(rule != null);
-            Assert.assertTrue(rule.frontendPort() == 80);
-            Assert.assertTrue(ApplicationGatewayProtocol.HTTP.equals(rule.frontendProtocol()));
-            Assert.assertTrue(rule.listener() != null);
-            Assert.assertTrue(rule.listener().frontend() != null);
+            Assert.assertNotNull(rule);
+            Assert.assertEquals(80, rule.frontendPort());
+            Assert.assertEquals(ApplicationGatewayProtocol.HTTP, rule.frontendProtocol());
+            Assert.assertNotNull(rule.listener());
+            Assert.assertNotNull(rule.listener().frontend());
             Assert.assertTrue(rule.listener().frontend().isPublic());
             Assert.assertTrue(!rule.listener().frontend().isPrivate());
             creationThread.join();
@@ -363,20 +364,20 @@ public class TestApplicationGateway {
                             .attach()
                     .apply();
             resource.refresh();
-            Assert.assertEquals(ApplicationGatewaySkuName.STANDARD_MEDIUM, resource.size());
-            Assert.assertEquals(2, resource.instanceCount());
             ApplicationGatewayRequestRoutingRule rule = resource.requestRoutingRules().get("rule2");
             Assert.assertNotNull(rule);
-            Assert.assertEquals(2, rule.backendAddresses().size());
-            Assert.assertNotNull(rule.backend());
-            Assert.assertTrue(rule.backend().containsIPAddress("11.1.1.1"));
-            Assert.assertTrue(rule.backend().containsIPAddress("11.1.1.2"));
-            Assert.assertEquals(8080, rule.backendPort());
+            Assert.assertEquals(0, rule.backendAddresses().size());
+            ApplicationGatewayUrlPathMap pathMap = resource.urlPathMaps().get("rule2");
+            Assert.assertNotNull(pathMap.defaultBackend());
+            Assert.assertEquals(2, pathMap.defaultBackend().addresses().size());
+            Assert.assertTrue(pathMap.defaultBackend().containsIPAddress("11.1.1.1"));
+            Assert.assertTrue(pathMap.defaultBackend().containsIPAddress("11.1.1.2"));
+            Assert.assertEquals(8080, pathMap.defaultBackendHttpConfiguration().port());
             Assert.assertEquals(1, resource.urlPathMaps().size());
             Assert.assertFalse(resource.requestRoutingRules().containsKey("pathMap"));
             Assert.assertTrue(resource.requestRoutingRules().containsKey("rule2"));
-            Assert.assertEquals(2, resource.urlPathMaps().get("pathMap").pathRules().size());
-            Assert.assertEquals("/pictures/*", resource.urlPathMaps().get("pathMap").pathRules().get("newRule").paths().get(0));
+            Assert.assertEquals(2, pathMap.pathRules().size());
+            Assert.assertEquals("/pictures/*", pathMap.pathRules().get("newRule").paths().get(0));
             return resource;
         }
     }

@@ -30,8 +30,6 @@ import com.microsoft.azure.management.redis.SkuName;
 import com.microsoft.azure.management.redis.TlsVersion;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.Period;
@@ -294,7 +292,7 @@ class RedisCacheImpl
 
     @Override
     public RedisCacheImpl withFirewallRule(RedisFirewallRule rule) {
-        this.firewallRules.addRule((RedisFirewallRuleImpl)rule);
+        this.firewallRules.addRule((RedisFirewallRuleImpl) rule);
         return this;
     }
 

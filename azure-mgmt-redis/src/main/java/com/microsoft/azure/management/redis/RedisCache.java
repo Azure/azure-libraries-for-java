@@ -277,7 +277,7 @@ public interface RedisCache extends
              WithCreate withFirewallRule(RedisFirewallRule rule);
 
              /**
-              * Requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2')
+              * Requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2').
               *
               * @param tlsVersion minimum TLS version.
               * @return the next stage of Redis Cache definition.
@@ -557,7 +557,7 @@ public interface RedisCache extends
         Update withoutFirewallRule(String name);
 
         /**
-         * Requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2')
+         * Requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2').
          *
          * @param tlsVersion minimum TLS version.
          * @return the next stage of Redis Cache definition.
@@ -565,7 +565,7 @@ public interface RedisCache extends
         Update withMinimumTlsVersion(TlsVersion tlsVersion);
 
         /**
-         * Rrmoves the requirement for clients minimum TLS version.
+         * Removes the requirement for clients minimum TLS version.
          *
          * @return the next stage of Redis Cache definition.
          */

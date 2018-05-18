@@ -49,6 +49,8 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
                 .withNonSslPort()
                 .withFirewallRule("rule1", "192.168.0.1", "192.168.0.4")
                 .withFirewallRule("rule2", "192.168.0.10", "192.168.0.40");
+                // Server throws "The 'minimumTlsVersion' property is not yet supported." exception. Uncomment when fixed.
+                //.withMinimumTlsVersion(TlsVersion.ONE_FULL_STOP_ONE);
 
         CreatedResources<RedisCache> batchRedisCaches = redisManager.redisCaches()
                 .create(redisCacheDefinition1, redisCacheDefinition2, redisCacheDefinition3);
@@ -142,6 +144,7 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
                 .withRedisConfiguration("maxclients", "3")
                 .withoutFirewallRule("rule1")
                 .withFirewallRule("rule3", "192.168.0.10", "192.168.0.104")
+                .withoutMinimumTlsVersion()
                 .apply();
 
         premiumCache.update()

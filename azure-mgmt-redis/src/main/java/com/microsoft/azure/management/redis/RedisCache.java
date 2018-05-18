@@ -97,6 +97,11 @@ public interface RedisCache extends
     String staticIP();
 
     /**
+     * @return the minimum TLS version (or higher) that clients require to use.
+     */
+    TlsVersion minimumTlsVersion();
+
+    /**
      * @return Firewall Rules in the Redis Cache, indexed by name
      */
     Map<String, RedisFirewallRule> firewallRules();
@@ -253,9 +258,31 @@ public interface RedisCache extends
               */
              WithCreate withRedisConfiguration(String key, String value);
 
+             /**
+              * Creates Redis cache firewall rule with range of IP addresses permitted to connect to the cache.
+              *
+              * @param name name of the rule.
+              * @param lowestIp lowest IP address included in the range.
+              * @param highestIp highest IP address included in the range.
+              * @return the next stage of Redis Cache definition.
+              */
              WithCreate withFirewallRule(String name, String lowestIp, String highestIp);
 
+             /**
+              * Creates Redis cache firewall rule with range of IP addresses permitted to connect to the cache.
+              *
+              * @param rule firewall rule that specifies name, lowest and highest IP address included in the range of permitted IP addresses.
+              * @return the next stage of Redis Cache definition.
+              */
              WithCreate withFirewallRule(RedisFirewallRule rule);
+
+             /**
+              * Requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2')
+              *
+              * @param tlsVersion minimum TLS version.
+              * @return the next stage of Redis Cache definition.
+              */
+             WithCreate withMinimumTlsVersion(TlsVersion tlsVersion);
         }
 
         /**
@@ -503,11 +530,47 @@ public interface RedisCache extends
          */
         Update withPatchSchedule(List<ScheduleEntry> scheduleEntry);
 
+        /**
+         * Creates or updates Redis cache firewall rule with range of IP addresses permitted to connect to the cache.
+         *
+         * @param name name of the rule.
+         * @param lowestIp lowest IP address included in the range.
+         * @param highestIp highest IP address included in the range.
+         * @return the next stage of Redis Cache update.
+         */
         Update withFirewallRule(String name, String lowestIp, String highestIp);
 
+        /**
+         * Creates or updates Redis cache firewall rule with range of IP addresses permitted to connect to the cache.
+         *
+         * @param rule firewall rule that specifies name, lowest and highest IP address included in the range of permitted IP addresses.
+         * @return the next stage of Redis Cache update.
+         */
         Update withFirewallRule(RedisFirewallRule rule);
 
+        /**
+         * Deletes a single firewall rule in the current Redis cache instance.
+         *
+         * @param name name of the rule.
+         * @return the next stage of Redis Cache update.
+         */
         Update withoutFirewallRule(String name);
+
+        /**
+         * Requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2')
+         *
+         * @param tlsVersion minimum TLS version.
+         * @return the next stage of Redis Cache definition.
+         */
+        Update withMinimumTlsVersion(TlsVersion tlsVersion);
+
+        /**
+         * Rrmoves the requirement for clients minimum TLS version.
+         *
+         * @return the next stage of Redis Cache definition.
+         */
+        @Method
+        Update withoutMinimumTlsVersion();
     }
 }
 

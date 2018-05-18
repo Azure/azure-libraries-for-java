@@ -27,13 +27,18 @@ import com.microsoft.azure.management.redis.Sku;
 import com.microsoft.azure.management.redis.ScheduleEntry;
 import com.microsoft.azure.management.redis.SkuFamily;
 import com.microsoft.azure.management.redis.SkuName;
+import com.microsoft.azure.management.redis.TlsVersion;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.Period;
+import rx.Completable;
 import rx.Observable;
 import rx.functions.Action1;
+import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -124,6 +129,11 @@ class RedisCacheImpl
     @Override
     public String staticIP() {
         return this.inner().staticIP();
+    }
+
+    @Override
+    public TlsVersion minimumTlsVersion() {
+        return this.inner().minimumTlsVersion();
     }
 
     @Override
@@ -285,6 +295,22 @@ class RedisCacheImpl
     @Override
     public RedisCacheImpl withFirewallRule(RedisFirewallRule rule) {
         this.firewallRules.addRule((RedisFirewallRuleImpl)rule);
+        return this;
+    }
+
+    @Override
+    public RedisCacheImpl withMinimumTlsVersion(TlsVersion tlsVersion) {
+        if (isInCreateMode()) {
+            createParameters.withMinimumTlsVersion(tlsVersion);
+        } else {
+            updateParameters.withMinimumTlsVersion(tlsVersion);
+        }
+        return this;
+    }
+
+    @Override
+    public RedisCacheImpl withoutMinimumTlsVersion() {
+        updateParameters.withMinimumTlsVersion(null);
         return this;
     }
 
@@ -504,10 +530,33 @@ class RedisCacheImpl
     }
 
     @Override
+    public Completable afterPostRunAsync(final boolean isGroupFaulted) {
+        this.firewallRules.clear();
+        if (isGroupFaulted) {
+            return Completable.complete();
+        } else {
+            return this.refreshAsync().toCompletable();
+        }
+    }
+
+    @Override
     public RedisCacheImpl update() {
         this.updateParameters = new RedisUpdateParameters();
         this.scheduleEntries = new TreeMap<>();
+        this.firewallRules.enableCommitMode();
         return super.update();
+    }
+
+    @Override
+    public Observable<RedisCache> refreshAsync() {
+        return super.refreshAsync().map(new Func1<RedisCache, RedisCache>() {
+            @Override
+            public RedisCache call(RedisCache redisCache) {
+                RedisCacheImpl impl = (RedisCacheImpl) redisCache;
+                impl.firewallRules.refresh();
+                return impl;
+            }
+        });
     }
 
     @Override
@@ -526,6 +575,18 @@ class RedisCacheImpl
                             self.setInner(innerResource);
                         }
                         updatePatchSchedules();
+                    }
+                })
+                .flatMap(new Func1<RedisCache, Observable<RedisCache>>() {
+                    @Override
+                    public Observable<RedisCache> call(RedisCache redisCache) {
+                        return self.firewallRules.commitAndGetAllAsync()
+                                .map(new Func1<List<RedisFirewallRuleImpl>, RedisCache>() {
+                                    @Override
+                                    public RedisCache call(List<RedisFirewallRuleImpl> redisFirewallRules) {
+                                        return self;
+                                    }
+                                });
                     }
                 });
     }

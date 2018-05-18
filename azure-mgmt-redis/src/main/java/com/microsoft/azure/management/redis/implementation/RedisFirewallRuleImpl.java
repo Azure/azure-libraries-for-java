@@ -35,11 +35,6 @@ class RedisFirewallRuleImpl extends
     }
 
     @Override
-    public String name() {
-        return this.inner().name();
-    }
-
-    @Override
     public String startIP() {
         return this.inner().startIP();
     }

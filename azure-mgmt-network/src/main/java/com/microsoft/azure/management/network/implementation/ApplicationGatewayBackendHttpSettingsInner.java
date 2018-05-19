@@ -22,13 +22,14 @@ import com.microsoft.rest.serializer.JsonFlatten;
 @JsonFlatten
 public class ApplicationGatewayBackendHttpSettingsInner extends SubResource {
     /**
-     * Port.
+     * The destination port on the backend.
      */
     @JsonProperty(value = "properties.port")
     private Integer port;
 
     /**
-     * Protocol. Possible values include: 'Http', 'Https'.
+     * The protocol used to communicate with the backend. Possible values are
+     * 'Http' and 'Https'. Possible values include: 'Http', 'Https'.
      */
     @JsonProperty(value = "properties.protocol")
     private ApplicationGatewayProtocol protocol;
@@ -105,8 +106,8 @@ public class ApplicationGatewayBackendHttpSettingsInner extends SubResource {
     private String provisioningState;
 
     /**
-     * Name of the resource that is unique within a resource group. This name
-     * can be used to access the resource.
+     * Name of the backend http settings that is unique within an Application
+     * Gateway.
      */
     @JsonProperty(value = "name")
     private String name;

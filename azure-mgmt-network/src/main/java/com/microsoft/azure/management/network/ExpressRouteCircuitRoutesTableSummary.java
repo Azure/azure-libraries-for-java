@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ExpressRouteCircuitRoutesTableSummary {
     /**
-     * Neighbor.
+     * IP address of the neighbor.
      */
     @JsonProperty(value = "neighbor")
     private String neighbor;

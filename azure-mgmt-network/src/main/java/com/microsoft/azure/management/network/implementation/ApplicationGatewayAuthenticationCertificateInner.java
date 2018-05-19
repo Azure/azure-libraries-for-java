@@ -31,8 +31,8 @@ public class ApplicationGatewayAuthenticationCertificateInner extends SubResourc
     private String provisioningState;
 
     /**
-     * Name of the resource that is unique within a resource group. This name
-     * can be used to access the resource.
+     * Name of the authentication certificate that is unique within an
+     * Application Gateway.
      */
     @JsonProperty(value = "name")
     private String name;

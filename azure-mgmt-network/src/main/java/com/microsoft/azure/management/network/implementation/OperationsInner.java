@@ -145,7 +145,7 @@ public class OperationsInner {
      * @return the PagedList&lt;OperationInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<OperationInner>>> listSinglePageAsync() {
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-05-01";
         return service.list(apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<OperationInner>>>>() {
                 @Override

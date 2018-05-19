@@ -836,7 +836,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         if (domainNameLabel == null) {
             throw new IllegalArgumentException("Parameter domainNameLabel is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-05-01";
         return service.checkDnsNameAvailability(location, this.subscriptionId(), domainNameLabel, apiVersion, this.acceptLanguage(), this.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DnsNameAvailabilityResultInner>>>() {
                 @Override

@@ -174,7 +174,7 @@ public class RouteTablesInner implements InnerSupportsGet<RouteTableInner>, Inne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-05-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, routeTableName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -240,7 +240,7 @@ public class RouteTablesInner implements InnerSupportsGet<RouteTableInner>, Inne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-05-01";
         return service.beginDelete(resourceGroupName, routeTableName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -326,7 +326,7 @@ public class RouteTablesInner implements InnerSupportsGet<RouteTableInner>, Inne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-05-01";
         final String expand = null;
         return service.getByResourceGroup(resourceGroupName, routeTableName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RouteTableInner>>>() {
@@ -408,7 +408,7 @@ public class RouteTablesInner implements InnerSupportsGet<RouteTableInner>, Inne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-05-01";
         return service.getByResourceGroup(resourceGroupName, routeTableName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RouteTableInner>>>() {
                 @Override
@@ -500,7 +500,7 @@ public class RouteTablesInner implements InnerSupportsGet<RouteTableInner>, Inne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-05-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, routeTableName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<RouteTableInner>() { }.getType());
     }
@@ -575,7 +575,7 @@ public class RouteTablesInner implements InnerSupportsGet<RouteTableInner>, Inne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-05-01";
         return service.beginCreateOrUpdate(resourceGroupName, routeTableName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RouteTableInner>>>() {
                 @Override
@@ -660,7 +660,7 @@ public class RouteTablesInner implements InnerSupportsGet<RouteTableInner>, Inne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-05-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -734,7 +734,7 @@ public class RouteTablesInner implements InnerSupportsGet<RouteTableInner>, Inne
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-05-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, routeTableName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
@@ -803,7 +803,7 @@ public class RouteTablesInner implements InnerSupportsGet<RouteTableInner>, Inne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-05-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -888,7 +888,7 @@ public class RouteTablesInner implements InnerSupportsGet<RouteTableInner>, Inne
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-05-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         return service.beginUpdateTags(resourceGroupName, routeTableName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -1003,7 +1003,7 @@ public class RouteTablesInner implements InnerSupportsGet<RouteTableInner>, Inne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-05-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RouteTableInner>>>>() {
                 @Override
@@ -1108,7 +1108,7 @@ public class RouteTablesInner implements InnerSupportsGet<RouteTableInner>, Inne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-05-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RouteTableInner>>>>() {
                 @Override

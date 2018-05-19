@@ -15,31 +15,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ExpressRouteCircuitRoutesTable {
     /**
-     * network.
+     * IP address of a network entity.
      */
     @JsonProperty(value = "network")
     private String network;
 
     /**
-     * nextHop.
+     * NextHop address.
      */
     @JsonProperty(value = "nextHop")
     private String nextHop;
 
     /**
-     * locPrf.
+     * Local preference value as set with the set local-preference route-map
+     * configuration command.
      */
     @JsonProperty(value = "locPrf")
     private String locPrf;
 
     /**
-     * weight.
+     * Route Weight.
      */
     @JsonProperty(value = "weight")
     private Integer weight;
 
     /**
-     * path.
+     * Autonomous system paths to the destination network.
      */
     @JsonProperty(value = "path")
     private String path;

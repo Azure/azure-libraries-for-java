@@ -31,6 +31,18 @@ public class FirewallRule extends SubResource {
     private String endIpAddress;
 
     /**
+     * The resource name.
+     */
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
+    private String name;
+
+    /**
+     * The resource type.
+     */
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
+    private String type;
+
+    /**
      * Get the startIpAddress value.
      *
      * @return the startIpAddress value
@@ -46,6 +58,24 @@ public class FirewallRule extends SubResource {
      */
     public String endIpAddress() {
         return this.endIpAddress;
+    }
+
+    /**
+     * Get the name value.
+     *
+     * @return the name value
+     */
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Get the type value.
+     *
+     * @return the type value
+     */
+    public String type() {
+        return this.type;
     }
 
 }

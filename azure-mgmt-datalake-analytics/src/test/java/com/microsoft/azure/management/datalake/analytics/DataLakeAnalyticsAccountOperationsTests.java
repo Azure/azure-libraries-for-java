@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.datalake.analytics;
 
+import com.microsoft.azure.datalake.analytics.DataLakeAnalyticsManagementTestBase;
 import com.microsoft.azure.management.datalake.analytics.models.AddDataLakeStoreWithAccountParameters;
 import com.microsoft.azure.management.datalake.analytics.models.CapabilityInformation;
 import com.microsoft.azure.management.datalake.analytics.models.CreateDataLakeAnalyticsAccountParameters;

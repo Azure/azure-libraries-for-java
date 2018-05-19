@@ -8,18 +8,19 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
-import com.microsoft.rest.serializer.JsonFlatten;
-import org.joda.time.DateTime;
-
 import java.util.UUID;
+import org.joda.time.DateTime;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
+import com.microsoft.azure.Resource;
 
 /**
  * A Data Lake Analytics account object, containing all information associated
  * with the named Data Lake Analytics account.
  */
 @JsonFlatten
+@SkipParentValidation
 public class DataLakeAnalyticsAccountBasic extends Resource {
     /**
      * The unique identifier associated with this Data Lake Analytics account.

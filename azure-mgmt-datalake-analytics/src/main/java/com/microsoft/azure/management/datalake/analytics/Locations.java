@@ -13,6 +13,7 @@ import com.microsoft.azure.management.datalake.analytics.models.CapabilityInform
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
+
 import rx.Observable;
 
 /**

@@ -332,6 +332,7 @@ public interface CosmosDBAccount extends
         /**
          * The stage of the cosmos db definition allowing the definition of a Virtual Network ACL Rule.
          */
+        @Beta(SinceVersion.V1_11_0)
         interface WithVirtualNetworkRule {
             /**
              * Specifies a Virtual Network ACL Rule for the CosmosDB account.
@@ -341,6 +342,7 @@ public interface CosmosDBAccount extends
              *                   endpoints enabled for 'Microsoft.AzureCosmosDB'.
              * @return the next stage
              */
+            @Beta(SinceVersion.V1_11_0)
             WithCreate withVirtualNetwork(String virtualNetworkId, String subnetName);
 
             /**
@@ -349,6 +351,7 @@ public interface CosmosDBAccount extends
              * @param virtualNetworkRules the list of Virtual Network ACL Rules.
              * @return the next stage
              */
+            @Beta(SinceVersion.V1_11_0)
             WithCreate withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules);
         }
 
@@ -458,6 +461,7 @@ public interface CosmosDBAccount extends
         /**
          * The stage of the Cosmos DB update definition allowing the definition of a Virtual Network ACL Rule.
          */
+        @Beta(SinceVersion.V1_11_0)
         interface WithVirtualNetworkRule {
             /**
              * Specifies a new Virtual Network ACL Rule for the CosmosDB account.
@@ -467,6 +471,7 @@ public interface CosmosDBAccount extends
              *                   endpoints enabled for 'Microsoft.AzureCosmosDB'.
              * @return the next stage of the update definition
              */
+            @Beta(SinceVersion.V1_11_0)
             WithOptionals withVirtualNetwork(String virtualNetworkId, String subnetName);
 
             /**
@@ -477,6 +482,7 @@ public interface CosmosDBAccount extends
              *                   endpoints enabled for 'Microsoft.AzureCosmosDB'.
              * @return the next stage of the update definition
              */
+            @Beta(SinceVersion.V1_11_0)
             WithOptionals withoutVirtualNetwork(String virtualNetworkId, String subnetName);
 
             /**
@@ -486,6 +492,7 @@ public interface CosmosDBAccount extends
              *                            will remove all the rules)
              * @return the next stage of the update definition
              */
+            @Beta(SinceVersion.V1_11_0)
             WithOptionals withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules);
         }
 

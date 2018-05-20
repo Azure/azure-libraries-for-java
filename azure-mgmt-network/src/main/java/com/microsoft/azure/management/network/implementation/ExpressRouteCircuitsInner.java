@@ -207,7 +207,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -273,7 +273,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.beginDelete(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -359,7 +359,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.getByResourceGroup(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitInner>>>() {
                 @Override
@@ -451,7 +451,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, circuitName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ExpressRouteCircuitInner>() { }.getType());
     }
@@ -526,7 +526,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.beginCreateOrUpdate(resourceGroupName, circuitName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitInner>>>() {
                 @Override
@@ -611,7 +611,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -685,7 +685,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
@@ -754,7 +754,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -839,7 +839,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         return service.beginUpdateTags(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -939,7 +939,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         Observable<Response<ResponseBody>> observable = service.listArpTable(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ExpressRouteCircuitsArpTableListResultInner>() { }.getType());
     }
@@ -1020,7 +1020,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.beginListArpTable(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitsArpTableListResultInner>>>() {
                 @Override
@@ -1119,7 +1119,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         Observable<Response<ResponseBody>> observable = service.listRoutesTable(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ExpressRouteCircuitsRoutesTableListResultInner>() { }.getType());
     }
@@ -1200,7 +1200,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.beginListRoutesTable(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner>>>() {
                 @Override
@@ -1299,7 +1299,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         Observable<Response<ResponseBody>> observable = service.listRoutesTableSummary(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ExpressRouteCircuitsRoutesTableSummaryListResultInner>() { }.getType());
     }
@@ -1380,7 +1380,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.beginListRoutesTableSummary(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner>>>() {
                 @Override
@@ -1465,7 +1465,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.getStats(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitStatsInner>>>() {
                 @Override
@@ -1556,7 +1556,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.getPeeringStats(resourceGroupName, circuitName, peeringName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitStatsInner>>>() {
                 @Override
@@ -1669,7 +1669,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>>>() {
                 @Override
@@ -1774,7 +1774,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>>>() {
                 @Override

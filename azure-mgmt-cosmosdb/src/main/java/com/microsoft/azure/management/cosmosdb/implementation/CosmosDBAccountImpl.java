@@ -501,10 +501,10 @@ class CosmosDBAccountImpl
     private Map<String, VirtualNetworkRule> ensureVirtualNetworkRules() {
         if (this.virtualNetworkRulesMap == null) {
             this.virtualNetworkRulesMap = new HashMap<>();
-        }
-        if (this.inner() != null && this.inner().virtualNetworkRules() != null) {
-            for (VirtualNetworkRule virtualNetworkRule : this.inner().virtualNetworkRules()) {
-                this.virtualNetworkRulesMap.put(virtualNetworkRule.id(), virtualNetworkRule);
+            if (this.inner() != null && this.inner().virtualNetworkRules() != null) {
+                for (VirtualNetworkRule virtualNetworkRule : this.inner().virtualNetworkRules()) {
+                    this.virtualNetworkRulesMap.put(virtualNetworkRule.id(), virtualNetworkRule);
+                }
             }
         }
 

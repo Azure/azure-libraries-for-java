@@ -71,6 +71,7 @@ import com.microsoft.azure.management.network.ApplicationGateways;
 import com.microsoft.azure.management.network.ApplicationSecurityGroups;
 import com.microsoft.azure.management.network.DdosProtectionPlans;
 import com.microsoft.azure.management.network.ExpressRouteCircuits;
+import com.microsoft.azure.management.network.ExpressRouteCrossConnections;
 import com.microsoft.azure.management.network.LoadBalancers;
 import com.microsoft.azure.management.network.LocalNetworkGateways;
 import com.microsoft.azure.management.network.NetworkInterfaces;
@@ -602,6 +603,14 @@ public final class Azure {
     @Beta(SinceVersion.V1_4_0)
     public ExpressRouteCircuits expressRouteCircuits() {
         return networkManager.expressRouteCircuits();
+    }
+
+    /**
+     * @return entry point to managing express route cross connections
+     */
+    @Beta(SinceVersion.V1_11_0)
+    public ExpressRouteCrossConnections expressRouteCrossConnections() {
+        return networkManager.expressRouteCrossConnections();
     }
 
     /**

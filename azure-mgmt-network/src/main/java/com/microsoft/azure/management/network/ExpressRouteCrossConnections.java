@@ -9,14 +9,10 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.network.implementation.ExpressRouteCrossConnectionsInner;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
@@ -26,14 +22,10 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 @Fluent
 @Beta(Beta.SinceVersion.V1_11_0)
 public interface ExpressRouteCrossConnections extends
-        SupportsCreating<ExpressRouteCrossConnection.DefinitionStages.Blank>,
         SupportsListing<ExpressRouteCrossConnection>,
         SupportsListingByResourceGroup<ExpressRouteCrossConnection>,
         SupportsGettingByResourceGroup<ExpressRouteCrossConnection>,
         SupportsGettingById<ExpressRouteCrossConnection>,
-//        SupportsDeletingById,
-//        SupportsDeletingByResourceGroup,
-        SupportsBatchCreation<ExpressRouteCrossConnection>,
         HasManager<NetworkManager>,
         HasInner<ExpressRouteCrossConnectionsInner> {
 }

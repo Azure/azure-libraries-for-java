@@ -7,6 +7,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.network.ExpressRouteCircuitReference;
 import com.microsoft.azure.management.network.ExpressRouteCrossConnection;
+import com.microsoft.azure.management.network.ExpressRouteCrossConnectionPeerings;
 import com.microsoft.azure.management.network.ServiceProviderProvisioningState;
 import com.microsoft.azure.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
@@ -22,9 +23,8 @@ public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWith
         NetworkManager>
         implements
         ExpressRouteCrossConnection,
-        ExpressRouteCrossConnection.Definition,
         ExpressRouteCrossConnection.Update {
-//    private ExpressRouteCrossConnectionPeeringsImpl peerings;
+    private ExpressRouteCrossConnectionPeeringsImpl peerings;
 //    private Map<String, ExpressRouteCrossConnectionPeering> ExpressRouteCrossConnectionPeerings;
 
     ExpressRouteCrossConnectionImpl(String name, ExpressRouteCrossConnectionInner innerObject, NetworkManager manager) {
@@ -79,6 +79,14 @@ public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWith
     }
 
     @Override
+    public ExpressRouteCrossConnectionPeerings peerings() {
+        if (peerings == null) {
+            peerings = new ExpressRouteCrossConnectionPeeringsImpl(this);
+        }
+        return peerings;
+    }
+
+    @Override
     public String primaryAzurePort() {
         return inner().primaryAzurePort();
     }
@@ -123,13 +131,15 @@ public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWith
         return inner().provisioningState();
     }
 
-    // Getters
+    @Override
+    public Update withServiceProviderProvisioningState(ServiceProviderProvisioningState state) {
+        inner().withServiceProviderProvisioningState(state);
+        return this;
+    }
 
-//    @Override
-//    public ExpressRouteCrossConnectionPeerings peerings() {
-//        if (peerings == null) {
-//            peerings = new ExpressRouteCrossConnectionPeeringsImpl(this);
-//        }
-//        return peerings;
-//    }
+    @Override
+    public Update withServiceProviderNotes(String notes) {
+        inner().withServiceProviderNotes(notes);
+        return this;
+    }
 }

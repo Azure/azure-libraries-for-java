@@ -29,6 +29,11 @@ public interface ExpressRouteCrossConnection extends
         Refreshable<ExpressRouteCrossConnection>,
         Updatable<ExpressRouteCrossConnection.Update>,
         UpdatableWithTags<ExpressRouteCrossConnection> {
+
+    /**
+     * @return entry point to manage express route peerings associated with express route circuit
+     */
+    ExpressRouteCrossConnectionPeerings peerings();
     /**
      * @return the name of the primary  port
      */
@@ -76,54 +81,22 @@ public interface ExpressRouteCrossConnection extends
     String provisioningState();
 
     /**
-     * @return the peerings associated with this express route cross connection, indexed by name
-     */
-//    Map<String, ExpressRouteCrossConnectionPeering> peeringsMap();
-
-    /**
-     * The entirety of the express route circuit definition.
-     */
-    interface Definition extends
-            DefinitionStages.Blank,
-            DefinitionStages.WithGroup,
-//            DefinitionStages.WithServiceProvider,
-//            DefinitionStages.WithPeeringLocation,
-//            DefinitionStages.WithBandwidth,
-//            DefinitionStages.WithSku,
-            DefinitionStages.WithCreate {
-    }
-
-    /**
-     * Grouping of express route cross connection definition stages.
-     */
-    interface DefinitionStages {
-        /**
-         * The first stage of express route circuit definition.
-         */
-        interface Blank extends GroupableResource.DefinitionWithRegion<WithGroup> {
-        }
-
-        /**
-         * The stage of express route cross connection definition allowing to specify the resource group.
-         */
-        interface WithGroup
-                extends GroupableResource.DefinitionStages.WithGroup<DefinitionStages.WithCreate> {
-        }
-
-        /**
-         * The stage of the express route cross connection definition which contains all the minimum required inputs for
-         * the resource to be created, but also allows for any other optional settings to be specified.
-         */
-        interface WithCreate extends
-                Creatable<ExpressRouteCrossConnection>,
-                Resource.DefinitionWithTags<WithCreate> {
-        }
-    }
-
-    /**
      * Grouping of express route cross connection update stages.
      */
     interface UpdateStages {
+        /**
+         * The stage of express route cross connection update allowing to specify service provider provisioning state.
+         */
+        interface WithServiceProviderProviosioningState {
+            Update withServiceProviderProvisioningState(ServiceProviderProvisioningState state);
+        }
+
+        /**
+         * The stage of express route cross connection update allowing to specify service provider notes.
+         */
+        interface WithServiceProviderNotes {
+            Update withServiceProviderNotes(String notes);
+        }
     }
 
     /**
@@ -132,6 +105,8 @@ public interface ExpressRouteCrossConnection extends
      */
     interface Update extends
             Appliable<ExpressRouteCrossConnection>,
-            Resource.UpdateWithTags<Update> {
+            Resource.UpdateWithTags<Update>,
+            UpdateStages.WithServiceProviderProviosioningState,
+            UpdateStages.WithServiceProviderNotes{
     }
 }

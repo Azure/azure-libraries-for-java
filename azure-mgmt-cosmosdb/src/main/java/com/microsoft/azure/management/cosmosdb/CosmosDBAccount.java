@@ -18,6 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import rx.Completable;
 import rx.Observable;
 
 import java.util.List;
@@ -108,6 +109,45 @@ public interface CosmosDBAccount extends
     @Beta(SinceVersion.V1_10_0)
     List<Capability> capabilities();
 
+    /**
+     * @return a list that contains the Cosmos DB Virtual Network ACL Rules (empty list if none is set)
+     */
+    @Beta(SinceVersion.V1_10_0)
+    List<VirtualNetworkRule> virtualNetworkRules();
+
+    /**
+     * It takes offline the specified region for the current Azure Cosmos DB database account.
+     *
+     * @param region Cosmos DB region
+     */
+    @Beta(SinceVersion.V1_11_0)
+    void offlineRegion(Region region);
+
+    /**
+     * Asynchronously it takes offline the specified region for the current Azure Cosmos DB database account.
+     *
+     * @param region Cosmos DB region
+     * @return a representation of the deferred computation of this call
+     */
+    @Beta(SinceVersion.V1_11_0)
+    Completable offlineRegionAsync(Region region);
+
+    /**
+     * It brings online the specified region for the current Azure Cosmos DB database account.
+     *
+     * @param region Cosmos DB region
+     */
+    @Beta(SinceVersion.V1_11_0)
+    void onlineRegion(Region region);
+
+    /**
+     * Asynchronously it brings online the specified region for the current Azure Cosmos DB database account.
+     *
+     * @param region Cosmos DB region
+     * @return a representation of the deferred computation of this call
+     */
+    @Beta(SinceVersion.V1_11_0)
+    Completable onlineRegionAsync(Region region);
 
     /**
      * @param keyKind the key kind
@@ -116,9 +156,10 @@ public interface CosmosDBAccount extends
 
     /**
      * @param keyKind the key kind
-     * @return the ServiceResponse object if successful.
+     * @return a representation of the deferred computation of this call
      */
-    Observable<Void> regenerateKeyAsync(KeyKind keyKind);
+    @Beta(SinceVersion.V1_11_0)
+    Completable regenerateKeyAsync(KeyKind keyKind);
 
     /**
      * Grouping of cosmos db definition stages.
@@ -241,7 +282,7 @@ public interface CosmosDBAccount extends
              * @param maxIntervalInSeconds the max interval in seconds
              * @return the next stage of the definition
              */
-            WithWriteReplication withBoundedStalenessConsistency(int maxStalenessPrefix, int maxIntervalInSeconds);
+            WithWriteReplication withBoundedStalenessConsistency(long maxStalenessPrefix, int maxIntervalInSeconds);
 
             /**
              * The strong consistency policy for the CosmosDB account.
@@ -289,6 +330,32 @@ public interface CosmosDBAccount extends
         }
 
         /**
+         * The stage of the cosmos db definition allowing the definition of a Virtual Network ACL Rule.
+         */
+        @Beta(SinceVersion.V1_11_0)
+        interface WithVirtualNetworkRule {
+            /**
+             * Specifies a Virtual Network ACL Rule for the CosmosDB account.
+             *
+             * @param virtualNetworkId the ID of a virtual network
+             * @param subnetName the name of the subnet within the virtual network; the subnet must have the service
+             *                   endpoints enabled for 'Microsoft.AzureCosmosDB'.
+             * @return the next stage
+             */
+            @Beta(SinceVersion.V1_11_0)
+            WithCreate withVirtualNetwork(String virtualNetworkId, String subnetName);
+
+            /**
+             * Specifies the list of Virtual Network ACL Rules for the CosmosDB account.
+             *
+             * @param virtualNetworkRules the list of Virtual Network ACL Rules.
+             * @return the next stage
+             */
+            @Beta(SinceVersion.V1_11_0)
+            WithCreate withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules);
+        }
+
+        /**
          * The stage of the definition which contains all the minimum required inputs for
          * the resource to be created, but also allows
          * for any other optional settings to be specified.
@@ -298,6 +365,7 @@ public interface CosmosDBAccount extends
                 WithConsistencyPolicy,
                 WithReadReplication,
                 WithIpRangeFilter,
+                WithVirtualNetworkRule,
                 DefinitionWithTags<WithCreate> {
         }
     }
@@ -321,6 +389,7 @@ public interface CosmosDBAccount extends
             Resource.UpdateWithTags<WithOptionals>,
             Appliable<CosmosDBAccount>,
             UpdateStages.WithConsistencyPolicy,
+            UpdateStages.WithVirtualNetworkRule,
             UpdateStages.WithIpRangeFilter {
         }
 
@@ -366,7 +435,7 @@ public interface CosmosDBAccount extends
              * @param maxIntervalInSeconds the max interval in seconds
              * @return the next stage of the definition
              */
-            WithOptionals withBoundedStalenessConsistency(int maxStalenessPrefix, int maxIntervalInSeconds);
+            WithOptionals withBoundedStalenessConsistency(long maxStalenessPrefix, int maxIntervalInSeconds);
 
             /**
              * The consistency policy for the CosmosDB account.
@@ -384,9 +453,48 @@ public interface CosmosDBAccount extends
              * form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges
              * must be comma separated and must not contain any spaces.
              * @param ipRangeFilter specifies the set of IP addresses or IP address ranges
-             * @return the next stage of the definition
+             * @return the next stage of the update definition
              */
             WithOptionals withIpRangeFilter(String ipRangeFilter);
         }
+
+        /**
+         * The stage of the Cosmos DB update definition allowing the definition of a Virtual Network ACL Rule.
+         */
+        @Beta(SinceVersion.V1_11_0)
+        interface WithVirtualNetworkRule {
+            /**
+             * Specifies a new Virtual Network ACL Rule for the CosmosDB account.
+             *
+             * @param virtualNetworkId the ID of a virtual network
+             * @param subnetName the name of the subnet within the virtual network; the subnet must have the service
+             *                   endpoints enabled for 'Microsoft.AzureCosmosDB'.
+             * @return the next stage of the update definition
+             */
+            @Beta(SinceVersion.V1_11_0)
+            WithOptionals withVirtualNetwork(String virtualNetworkId, String subnetName);
+
+            /**
+             * Removes a Virtual Network ACL Rule for the CosmosDB account.
+             *
+             * @param virtualNetworkId the ID of a virtual network
+             * @param subnetName the name of the subnet within the virtual network; the subnet must have the service
+             *                   endpoints enabled for 'Microsoft.AzureCosmosDB'.
+             * @return the next stage of the update definition
+             */
+            @Beta(SinceVersion.V1_11_0)
+            WithOptionals withoutVirtualNetwork(String virtualNetworkId, String subnetName);
+
+            /**
+             * A Virtual Network ACL Rule for the CosmosDB account.
+             *
+             * @param virtualNetworkRules the list of Virtual Network ACL Rules (an empty list value
+             *                            will remove all the rules)
+             * @return the next stage of the update definition
+             */
+            @Beta(SinceVersion.V1_11_0)
+            WithOptionals withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules);
+        }
+
     }
 }

@@ -13,6 +13,7 @@ import com.microsoft.azure.management.cosmosdb.ConsistencyPolicy;
 import java.util.List;
 import com.microsoft.azure.management.cosmosdb.Location;
 import com.microsoft.azure.management.cosmosdb.Capability;
+import com.microsoft.azure.management.cosmosdb.VirtualNetworkRule;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -59,6 +60,12 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     private String ipRangeFilter;
 
     /**
+     * Flag to indicate whether to enable/disable Virtual Network ACL rules.
+     */
+    @JsonProperty(value = "properties.isVirtualNetworkFilterEnabled")
+    private Boolean isVirtualNetworkFilterEnabled;
+
+    /**
      * Enables automatic failover of the write region in the rare event that
      * the region is unavailable due to an outage. Automatic failover will
      * result in a new write region for the account and is chosen based on the
@@ -72,6 +79,12 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
      */
     @JsonProperty(value = "properties.capabilities")
     private List<Capability> capabilities;
+
+    /**
+     * List of Virtual Network ACL rules configured for the Cosmos DB account.
+     */
+    @JsonProperty(value = "properties.virtualNetworkRules")
+    private List<VirtualNetworkRule> virtualNetworkRules;
 
     /**
      * Creates an instance of DatabaseAccountCreateUpdateParametersInner class.
@@ -181,6 +194,26 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
+     * Get the isVirtualNetworkFilterEnabled value.
+     *
+     * @return the isVirtualNetworkFilterEnabled value
+     */
+    public Boolean isVirtualNetworkFilterEnabled() {
+        return this.isVirtualNetworkFilterEnabled;
+    }
+
+    /**
+     * Set the isVirtualNetworkFilterEnabled value.
+     *
+     * @param isVirtualNetworkFilterEnabled the isVirtualNetworkFilterEnabled value to set
+     * @return the DatabaseAccountCreateUpdateParametersInner object itself.
+     */
+    public DatabaseAccountCreateUpdateParametersInner withIsVirtualNetworkFilterEnabled(Boolean isVirtualNetworkFilterEnabled) {
+        this.isVirtualNetworkFilterEnabled = isVirtualNetworkFilterEnabled;
+        return this;
+    }
+
+    /**
      * Get the enableAutomaticFailover value.
      *
      * @return the enableAutomaticFailover value
@@ -217,6 +250,26 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
      */
     public DatabaseAccountCreateUpdateParametersInner withCapabilities(List<Capability> capabilities) {
         this.capabilities = capabilities;
+        return this;
+    }
+
+    /**
+     * Get the virtualNetworkRules value.
+     *
+     * @return the virtualNetworkRules value
+     */
+    public List<VirtualNetworkRule> virtualNetworkRules() {
+        return this.virtualNetworkRules;
+    }
+
+    /**
+     * Set the virtualNetworkRules value.
+     *
+     * @param virtualNetworkRules the virtualNetworkRules value to set
+     * @return the DatabaseAccountCreateUpdateParametersInner object itself.
+     */
+    public DatabaseAccountCreateUpdateParametersInner withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules) {
+        this.virtualNetworkRules = virtualNetworkRules;
         return this;
     }
 

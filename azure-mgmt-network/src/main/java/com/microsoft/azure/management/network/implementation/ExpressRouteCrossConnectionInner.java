@@ -43,19 +43,19 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * The peering location of the ExpressRoute circuit.
      */
-    @JsonProperty(value = "properties.peeringLocation", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.peeringLocation")
     private String peeringLocation;
 
     /**
      * The circuit bandwidth In Mbps.
      */
-    @JsonProperty(value = "properties.bandwidthInMbps", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.bandwidthInMbps")
     private Integer bandwidthInMbps;
 
     /**
      * The ExpressRouteCircuit.
      */
-    @JsonProperty(value = "properties.expressRouteCircuit", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.expressRouteCircuit")
     private ExpressRouteCircuitReference expressRouteCircuit;
 
     /**
@@ -136,6 +136,17 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
+     * Set the peeringLocation value.
+     *
+     * @param peeringLocation the peeringLocation value to set
+     * @return the ExpressRouteCrossConnectionInner object itself.
+     */
+    public ExpressRouteCrossConnectionInner withPeeringLocation(String peeringLocation) {
+        this.peeringLocation = peeringLocation;
+        return this;
+    }
+
+    /**
      * Get the bandwidthInMbps value.
      *
      * @return the bandwidthInMbps value
@@ -145,12 +156,34 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
+     * Set the bandwidthInMbps value.
+     *
+     * @param bandwidthInMbps the bandwidthInMbps value to set
+     * @return the ExpressRouteCrossConnectionInner object itself.
+     */
+    public ExpressRouteCrossConnectionInner withBandwidthInMbps(Integer bandwidthInMbps) {
+        this.bandwidthInMbps = bandwidthInMbps;
+        return this;
+    }
+
+    /**
      * Get the expressRouteCircuit value.
      *
      * @return the expressRouteCircuit value
      */
     public ExpressRouteCircuitReference expressRouteCircuit() {
         return this.expressRouteCircuit;
+    }
+
+    /**
+     * Set the expressRouteCircuit value.
+     *
+     * @param expressRouteCircuit the expressRouteCircuit value to set
+     * @return the ExpressRouteCrossConnectionInner object itself.
+     */
+    public ExpressRouteCrossConnectionInner withExpressRouteCircuit(ExpressRouteCircuitReference expressRouteCircuit) {
+        this.expressRouteCircuit = expressRouteCircuit;
+        return this;
     }
 
     /**

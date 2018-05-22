@@ -68,6 +68,18 @@ class Ipv6PeeringConfigImpl
     }
 
     @Override
+    public Ipv6PeeringConfigImpl withRouteFilter(String routeFilterId) {
+        inner().withRouteFilter(new RouteFilterInner().withId(routeFilterId));
+        return this;
+    }
+
+    @Override
+    public Ipv6PeeringConfigImpl withoutRouteFilter() {
+        inner().withRouteFilter(null);
+        return this;
+    }
+
+    @Override
     public Ipv6PeeringConfigImpl withRoutingRegistryName(String routingRegistryName) {
         ensureMicrosoftPeeringConfig().withRoutingRegistryName(routingRegistryName);
         return this;

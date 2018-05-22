@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
@@ -102,6 +103,25 @@ public interface Ipv6PeeringConfig extends
         }
 
         /**
+         * The stage of Cross Connection Peering IPv6 configuration definition allowing to specify route filter.
+         */
+        interface WithRouteFilter<ParentT> {
+            /**
+             * Sets route filter id.
+             * @param routeFilterId route filter id
+             * @return the next stage of the definition
+             */
+            WithAttach<ParentT> withRouteFilter(String routeFilterId);
+
+            /**
+             * remove route filter from IPv6 configuration
+             * @return the next stage of the definition
+             */
+            @Method
+            WithAttach<ParentT> withoutRouteFilter();
+        }
+
+        /**
          * The final stage of a public frontend definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the frontend definition
@@ -109,7 +129,8 @@ public interface Ipv6PeeringConfig extends
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAttach<ParentT> extends
-                Attachable.InDefinition<ParentT> {
+                Attachable.InDefinition<ParentT>,
+                WithRouteFilter<ParentT> {
         }
     }
 
@@ -153,7 +174,7 @@ public interface Ipv6PeeringConfig extends
         }
 
         /**
-         * The stage of Cross Connection Peering IPv6 configuration definition allowing to specify primary address prefix.
+         * The stage of Cross Connection Peering IPv6 configuration update allowing to specify primary address prefix.
          */
         interface WithPrimaryPeerAddressPrefix {
             /**
@@ -164,7 +185,7 @@ public interface Ipv6PeeringConfig extends
         }
 
         /**
-         * The stage of Cross Connection Peering IPv6 configuration definition allowing to specify secondary address prefix.
+         * The stage of Cross Connection Peering IPv6 configuration update allowing to specify secondary address prefix.
          */
         interface WithSecondaryPeerAddressPrefix {
             /**
@@ -175,7 +196,7 @@ public interface Ipv6PeeringConfig extends
         }
 
         /**
-         * The stage of Cross Connection Peering IPv6 configuration definition allowing to specify secondary customer ASN.
+         * The stage of Cross Connection Peering IPv6 configuration update allowing to specify secondary customer ASN.
          */
         interface WithCustomerASN {
             /**
@@ -187,7 +208,7 @@ public interface Ipv6PeeringConfig extends
         }
 
         /**
-         * The stage of Cross Connection Peering IPv6 configuration definition allowing to specify routing registry name.
+         * The stage of Cross Connection Peering IPv6 configuration update allowing to specify routing registry name.
          */
         interface WithRoutingRegistryName {
             /**
@@ -198,6 +219,24 @@ public interface Ipv6PeeringConfig extends
             Update withRoutingRegistryName(String routingRegistryName);
         }
 
+        /**
+         * The stage of Cross Connection Peering IPv6 configuration update allowing to specify route filter.
+         */
+        interface WithRouteFilter {
+            /**
+             * Sets route filter id.
+             * @param routeFilterId route filter id
+             * @return the next stage of the definition
+             */
+            Update withRouteFilter(String routeFilterId);
+
+            /**
+             * remove route filter from IPv6 configuration
+             * @return the next stage of the definition
+             */
+            @Method
+            Update withoutRouteFilter();
+        }
     }
 
     /**
@@ -209,7 +248,8 @@ public interface Ipv6PeeringConfig extends
             UpdateStages.WithPrimaryPeerAddressPrefix,
             UpdateStages.WithSecondaryPeerAddressPrefix,
             UpdateStages.WithCustomerASN,
-            UpdateStages.WithRoutingRegistryName {
+            UpdateStages.WithRoutingRegistryName,
+            UpdateStages.WithRouteFilter {
     }
 
     /**
@@ -289,6 +329,25 @@ public interface Ipv6PeeringConfig extends
             WithAttach<ParentT> withRoutingRegistryName(String routingRegistryName);
         }
 
+        /**
+         * The stage of Cross Connection Peering IPv6 configuration definition allowing to specify route filter.
+         */
+        interface WithRouteFilter<ParentT> {
+            /**
+             * Sets route filter id.
+             * @param routeFilterId route filter id
+             * @return the next stage of the definition
+             */
+            WithAttach<ParentT> withRouteFilter(String routeFilterId);
+
+            /**
+             * remove route filter from IPv6 configuration
+             * @return the next stage of the definition
+             */
+            @Method
+            WithAttach<ParentT> withoutRouteFilter();
+        }
+
 
         /** The final stage of peering IPv6 configuration definition.
          * <p>
@@ -297,7 +356,8 @@ public interface Ipv6PeeringConfig extends
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAttach<ParentT> extends
-                Attachable.InUpdate<ParentT> {
+                Attachable.InUpdate<ParentT>,
+                WithRouteFilter<ParentT> {
         }
     }
 

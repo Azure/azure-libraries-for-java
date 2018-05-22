@@ -375,17 +375,22 @@ class CosmosDBAccountImpl
             DatabaseAccountCreateUpdateParametersInner createUpdateParametersInner,
             List<FailoverPolicyInner> failoverPolicies) {
         List<Location> locations = new ArrayList<Location>();
-        for (int i = 0; i < failoverPolicies.size(); i++) {
-            FailoverPolicyInner policyInner = failoverPolicies.get(i);
+
+        if (failoverPolicies.size() > 0) {
+            for (int i = 0; i < failoverPolicies.size(); i++) {
+                FailoverPolicyInner policyInner = failoverPolicies.get(i);
+                Location location = new Location();
+                location.withFailoverPriority(i);
+                location.withLocationName(policyInner.locationName());
+                locations.add(location);
+            }
+        } else {
             Location location = new Location();
-            location.withFailoverPriority(i);
-            location.withLocationName(policyInner.locationName());
+            location.withFailoverPriority(0);
+            location.withLocationName(createUpdateParametersInner.location());
             locations.add(location);
         }
-
-        if (locations.size() > 0) {
-            createUpdateParametersInner.withLocations(locations);
-        }
+        createUpdateParametersInner.withLocations(locations);
     }
 
     private Observable<CosmosDBAccount> updateFailoverPriorityAsync() {

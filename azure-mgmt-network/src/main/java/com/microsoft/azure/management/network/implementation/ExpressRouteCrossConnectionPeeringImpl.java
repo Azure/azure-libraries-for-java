@@ -80,6 +80,35 @@ class ExpressRouteCrossConnectionPeeringImpl extends
         return this;
     }
 
+
+    @Override
+    public Ipv6PeeringConfigImpl defineIpv6Config() {
+        return new Ipv6PeeringConfigImpl(new Ipv6ExpressRouteCircuitPeeringConfig(), this);
+    }
+
+    @Override
+    public ExpressRouteCrossConnectionPeeringImpl withoutIpv6Config() {
+        inner().withIpv6PeeringConfig(null);
+        return this;
+    }
+
+    ExpressRouteCrossConnectionPeeringImpl attachIpv6Config(Ipv6PeeringConfigImpl ipv6PeeringConfig) {
+        inner().withIpv6PeeringConfig(ipv6PeeringConfig.inner());
+        return this;
+    }
+
+    @Override
+    public ExpressRouteCrossConnectionPeeringImpl withCustomerASN(int customerASN) {
+        ensureMicrosoftPeeringConfig().withCustomerASN(customerASN);
+        return this;
+    }
+
+    @Override
+    public ExpressRouteCrossConnectionPeeringImpl withRoutingRegistryName(String routingRegistryName) {
+        ensureMicrosoftPeeringConfig().withRoutingRegistryName(routingRegistryName);
+        return this;
+    }
+
     @Override
     protected Observable<ExpressRouteCrossConnectionPeeringInner> getInnerAsync() {
         return this.client.getAsync(parent.resourceGroupName(), parent.name(), name());
@@ -193,15 +222,5 @@ class ExpressRouteCrossConnectionPeeringImpl extends
     @Override
     public Ipv6ExpressRouteCircuitPeeringConfig ipv6PeeringConfig() {
         return inner().ipv6PeeringConfig();
-    }
-
-    @Override
-    public Ipv6PeeringConfig.DefinitionStages.Blank<DefinitionStages.WithCreate> defineIpv6Config() {
-        return new Ipv6PeeringConfigImpl(new Ipv6ExpressRouteCircuitPeeringConfig(), this);
-    }
-
-    ExpressRouteCrossConnectionPeeringImpl attachIpv6Config(Ipv6PeeringConfigImpl ipv6PeeringConfig) {
-        inner().withIpv6PeeringConfig(ipv6PeeringConfig.inner());
-        return this;
     }
 }

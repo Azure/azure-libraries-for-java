@@ -7,7 +7,6 @@ package com.microsoft.azure.management.network.samples;
 
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.network.ExpressRouteCrossConnection;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.LogLevel;
 
 import java.io.File;
@@ -15,9 +14,12 @@ import java.util.List;
 
 /**
  * Azure Network sample for managing express route cross connections.
- *  - List Express Route circuit
+ *  - List Express Route Cross Connections
+ *  - Get Express Route Cross Connection by id
  *  - Create private peering
  *  - Create Microsoft peering
+ *  - Update Microsoft peering
+ *  - Delete peerings
  */
 public final class ManageExpressRouteCrossConnection {
 
@@ -27,28 +29,34 @@ public final class ManageExpressRouteCrossConnection {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String rgName = SdkContext.randomResourceName("rg", 20);
         final String connectionId = "/subscriptions/8030cec9-2c0c-4361-9949-1655c6e4b0fa/resourceGroups/CrossConnection-DenverTest/providers/Microsoft.Network/expressRouteCrossConnections/d7cf20fb-4050-45c3-aacf-9ea23a5b47f4";
         try {
             //============================================================
-            // create Express Route Circuit
+            // list Express Route Cross Connections
             List<ExpressRouteCrossConnection> connections = azure.expressRouteCrossConnections().list();
 
+            //============================================================
+            // get Express Route Cross Connection by id
             ExpressRouteCrossConnection crossConnection = azure.expressRouteCrossConnections().getById(connectionId);
 
-//            crossConnection.peerings()
-//                    .defineAzurePrivatePeering()
-//                    .withPrimaryPeerAddressPrefix("10.0.0.0/30")
-//                    .withSecondaryPeerAddressPrefix("10.0.0.4/30")
-//                    .withVlanId(100)
-//                    .withPeerAsn(500)
-//                    .withSharedKey("A1B2C3D4")
-//                    .create();
-            crossConnection.peerings().deleteByName("MicrosoftPeering");
+            //============================================================
+            // create Express Route Cross Connection private peering
+            crossConnection.peerings()
+                    .defineAzurePrivatePeering()
+                    .withPrimaryPeerAddressPrefix("10.0.0.0/30")
+                    .withSecondaryPeerAddressPrefix("10.0.0.4/30")
+                    .withVlanId(100)
+                    .withPeerAsn(500)
+                    .withSharedKey("A1B2C3D4")
+                    .create();
 
+            //============================================================
+            // create Express Route Cross Connection Microsoft peering
             crossConnection.peerings()
                     .defineMicrosoftPeering()
                     .withAdvertisedPublicPrefixes("123.1.0.0/24")
+                    .withCustomerASN(45)
+                    .withRoutingRegistryName("ARIN")
                     .withPrimaryPeerAddressPrefix("10.0.0.0/30")
                     .withSecondaryPeerAddressPrefix("10.0.0.4/30")
                     .withVlanId(600)
@@ -62,12 +70,21 @@ public final class ManageExpressRouteCrossConnection {
                         .withRoutingRegistryName("ARIN")
                         .attach()
                     .create();
-//
-//            crossConnection.peerings()
-//                    .getByName("AzurePrivatePeering")
-//                    .update()
-//                    .withPrimaryPeerAddressPrefix("10.0.0.1/30")
-//                    .apply();
+
+            //============================================================
+            // update Microsoft peering
+            crossConnection.peerings()
+                    .getByName("MicrosoftPeering")
+                    .update()
+                    .withoutIpv6Config()
+                    .withAdvertisedPublicPrefixes("123.1.0.0/30")
+                    .apply();
+
+            //============================================================
+            // delete peerings
+            crossConnection.peerings().deleteByName("AzurePrivatePeering");
+            crossConnection.peerings().deleteByName("MicrosoftPeering");
+
             return true;
         } catch (Exception e) {
             System.err.println(e.getMessage());

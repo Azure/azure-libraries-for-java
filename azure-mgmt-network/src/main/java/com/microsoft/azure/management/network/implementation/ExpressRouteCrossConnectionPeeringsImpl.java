@@ -77,11 +77,6 @@ class ExpressRouteCrossConnectionPeeringsImpl extends IndependentChildrenImpl<
     }
 
     @Override
-    public ExpressRouteCrossConnectionPeeringImpl defineAzurePublicPeering() {
-        return new ExpressRouteCrossConnectionPeeringImpl(parent, new ExpressRouteCrossConnectionPeeringInner(), ExpressRoutePeeringType.AZURE_PUBLIC_PEERING);
-    }
-
-    @Override
     public ExpressRouteCrossConnectionPeeringImpl defineMicrosoftPeering() {
         return new ExpressRouteCrossConnectionPeeringImpl(parent, new ExpressRouteCrossConnectionPeeringInner(), ExpressRoutePeeringType.MICROSOFT_PEERING);
     }

@@ -41,13 +41,6 @@ public interface ExpressRouteCrossConnectionPeerings extends
     ExpressRouteCrossConnectionPeering.DefinitionStages.Blank defineAzurePrivatePeering();
 
     /**
-     * Begins definition of Azure public peering.
-     * @return next peering definition stage
-     */
-    @Method
-    ExpressRouteCrossConnectionPeering.DefinitionStages.Blank defineAzurePublicPeering();
-
-    /**
      * Begins definition of Microsoft peering.
      * @return next peering definition stage
      */

@@ -7,6 +7,7 @@ package com.microsoft.azure.management.network;
 
 import java.util.List;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
@@ -15,7 +16,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 /**
  * An client-side representation of a load balancer frontend.
  */
-@Fluent()
+@Fluent
+@Beta(Beta.SinceVersion.V1_11_0)
 public interface Ipv6PeeringConfig extends
         HasInner<Ipv6ExpressRouteCircuitPeeringConfig> {
 
@@ -53,7 +55,7 @@ public interface Ipv6PeeringConfig extends
         }
 
         /**
-         * The stage of Cross Connection Peering IPv6 configuration definition allowing to specify secondary customer ASN.
+         * The stage of Cross Connection Peering IPv6 configuration definition allowing to specify customer ASN.
          */
         interface WithCustomerASN<ParentT> {
             /**

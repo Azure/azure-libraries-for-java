@@ -12,6 +12,7 @@ import com.microsoft.azure.management.network.ExpressRouteCrossConnectionPeering
 import com.microsoft.azure.management.network.ExpressRoutePeeringState;
 import com.microsoft.azure.management.network.ExpressRoutePeeringType;
 import com.microsoft.azure.management.network.Ipv6ExpressRouteCircuitPeeringConfig;
+import com.microsoft.azure.management.network.Ipv6PeeringConfig;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
@@ -29,10 +30,9 @@ class ExpressRouteCrossConnectionPeeringImpl extends
     private final ExpressRouteCrossConnectionPeeringsInner client;
     private final ExpressRouteCrossConnection parent;
 
-    ExpressRouteCrossConnectionPeeringImpl(ExpressRouteCrossConnectionImpl parent, ExpressRouteCrossConnectionPeeringInner innerObject,
-                                   ExpressRouteCrossConnectionPeeringsInner client, ExpressRoutePeeringType type) {
+    ExpressRouteCrossConnectionPeeringImpl(ExpressRouteCrossConnectionImpl parent, ExpressRouteCrossConnectionPeeringInner innerObject, ExpressRoutePeeringType type) {
         super(type.toString(), innerObject);
-        this.client = client;
+        this.client = parent.manager().inner().expressRouteCrossConnectionPeerings();
         this.parent = parent;
         inner().withPeeringType(type);
     }
@@ -193,5 +193,15 @@ class ExpressRouteCrossConnectionPeeringImpl extends
     @Override
     public Ipv6ExpressRouteCircuitPeeringConfig ipv6PeeringConfig() {
         return inner().ipv6PeeringConfig();
+    }
+
+    @Override
+    public Ipv6PeeringConfig.DefinitionStages.Blank<DefinitionStages.WithCreate> defineIpv6Config() {
+        return new Ipv6PeeringConfigImpl(new Ipv6ExpressRouteCircuitPeeringConfig(), this);
+    }
+
+    ExpressRouteCrossConnectionPeeringImpl attachIpv6Config(Ipv6PeeringConfigImpl ipv6PeeringConfig) {
+        inner().withIpv6PeeringConfig(ipv6PeeringConfig.inner());
+        return this;
     }
 }

@@ -36,33 +36,38 @@ public final class ManageExpressRouteCrossConnection {
 
             ExpressRouteCrossConnection crossConnection = azure.expressRouteCrossConnections().getById(connectionId);
 
-            azure.expressRouteCircuits()
-                    .getById(crossConnection.expressRouteCircuit().id())
-                    .update()
-                    .apply();
-            crossConnection.update()
-                    .apply();
-
-            crossConnection.peerings()
-                    .defineAzurePrivatePeering()
-                    .withPrimaryPeerAddressPrefix("10.0.0.0/30")
-                    .withSecondaryPeerAddressPrefix("10.0.0.4/30")
-                    .withVlanId(100)
-                    .withPeerAsn(500)
-                    .withSharedKey("A1B2C3D4")
-                    .create();
-
 //            crossConnection.peerings()
-//                    .defineMicrosoftPeering()
-//                    .withAdvertisedPublicPrefixes("123.1.0.0/24")
+//                    .defineAzurePrivatePeering()
 //                    .withPrimaryPeerAddressPrefix("10.0.0.0/30")
 //                    .withSecondaryPeerAddressPrefix("10.0.0.4/30")
-//                    .withVlanId(300)
+//                    .withVlanId(100)
 //                    .withPeerAsn(500)
 //                    .withSharedKey("A1B2C3D4")
 //                    .create();
-//
+            crossConnection.peerings().deleteByName("MicrosoftPeering");
 
+            crossConnection.peerings()
+                    .defineMicrosoftPeering()
+                    .withAdvertisedPublicPrefixes("123.1.0.0/24")
+                    .withPrimaryPeerAddressPrefix("10.0.0.0/30")
+                    .withSecondaryPeerAddressPrefix("10.0.0.4/30")
+                    .withVlanId(600)
+                    .withPeerAsn(500)
+                    .withSharedKey("A1B2C3D4")
+                    .defineIpv6Config()
+                        .withAdvertisedPublicPrefix("3FFE:FFFF:0:CD31::/120")
+                        .withPrimaryPeerAddressPrefix("3FFE:FFFF:0:CD30::/126")
+                        .withSecondaryPeerAddressPrefix("3FFE:FFFF:0:CD30::4/126")
+                        .withCustomerASN(23)
+                        .withRoutingRegistryName("ARIN")
+                        .attach()
+                    .create();
+//
+//            crossConnection.peerings()
+//                    .getByName("AzurePrivatePeering")
+//                    .update()
+//                    .withPrimaryPeerAddressPrefix("10.0.0.1/30")
+//                    .apply();
             return true;
         } catch (Exception e) {
             System.err.println(e.getMessage());

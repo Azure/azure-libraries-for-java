@@ -178,7 +178,7 @@ public interface ExpressRouteCrossConnectionPeering extends
         }
 
         interface WithIpv6PeeringConfig {
-
+            Ipv6PeeringConfig.DefinitionStages.Blank<WithCreate> defineIpv6Config();
         }
 
         interface WithCreate extends

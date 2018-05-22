@@ -64,26 +64,26 @@ class ExpressRouteCrossConnectionPeeringsImpl extends IndependentChildrenImpl<
 
     @Override
     protected ExpressRouteCrossConnectionPeeringImpl wrapModel(String name) {
-        return new ExpressRouteCrossConnectionPeeringImpl(parent, new ExpressRouteCrossConnectionPeeringInner(), inner(), ExpressRoutePeeringType.fromString(name));
+        return new ExpressRouteCrossConnectionPeeringImpl(parent, new ExpressRouteCrossConnectionPeeringInner(), ExpressRoutePeeringType.fromString(name));
     }
 
     protected ExpressRouteCrossConnectionPeeringImpl wrapModel(ExpressRouteCrossConnectionPeeringInner inner) {
-        return (inner == null) ? null : new ExpressRouteCrossConnectionPeeringImpl(parent, inner, inner(), inner.peeringType());
+        return (inner == null) ? null : new ExpressRouteCrossConnectionPeeringImpl(parent, inner, inner.peeringType());
     }
 
     @Override
     public ExpressRouteCrossConnectionPeeringImpl defineAzurePrivatePeering() {
-        return new ExpressRouteCrossConnectionPeeringImpl(parent, new ExpressRouteCrossConnectionPeeringInner(), inner(), ExpressRoutePeeringType.AZURE_PRIVATE_PEERING);
+        return new ExpressRouteCrossConnectionPeeringImpl(parent, new ExpressRouteCrossConnectionPeeringInner(), ExpressRoutePeeringType.AZURE_PRIVATE_PEERING);
     }
 
     @Override
     public ExpressRouteCrossConnectionPeeringImpl defineAzurePublicPeering() {
-        return new ExpressRouteCrossConnectionPeeringImpl(parent, new ExpressRouteCrossConnectionPeeringInner(), inner(), ExpressRoutePeeringType.AZURE_PUBLIC_PEERING);
+        return new ExpressRouteCrossConnectionPeeringImpl(parent, new ExpressRouteCrossConnectionPeeringInner(), ExpressRoutePeeringType.AZURE_PUBLIC_PEERING);
     }
 
     @Override
     public ExpressRouteCrossConnectionPeeringImpl defineMicrosoftPeering() {
-        return new ExpressRouteCrossConnectionPeeringImpl(parent, new ExpressRouteCrossConnectionPeeringInner(), inner(), ExpressRoutePeeringType.MICROSOFT_PEERING);
+        return new ExpressRouteCrossConnectionPeeringImpl(parent, new ExpressRouteCrossConnectionPeeringInner(), ExpressRoutePeeringType.MICROSOFT_PEERING);
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.microsoft.azure.management.network.ApplicationGateways;
 import com.microsoft.azure.management.network.ApplicationSecurityGroups;
 import com.microsoft.azure.management.network.DdosProtectionPlans;
 import com.microsoft.azure.management.network.ExpressRouteCircuits;
+import com.microsoft.azure.management.network.ExpressRouteCrossConnections;
 import com.microsoft.azure.management.network.LoadBalancers;
 import com.microsoft.azure.management.network.LocalNetworkGateways;
 import com.microsoft.azure.management.network.Network;
@@ -67,6 +68,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     private ApplicationSecurityGroups applicationSecurityGroups;
     private RouteFilters routeFilters;
     private DdosProtectionPlans ddosProtectionPlans;
+    private ExpressRouteCrossConnections expressRouteCrossConnections;
 
     /**
      * Get a Configurable instance that can be used to create {@link NetworkManager}
@@ -295,6 +297,17 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
             this.ddosProtectionPlans = new DdosProtectionPlansImpl(this);
         }
         return this.ddosProtectionPlans;
+    }
+
+    /**
+     * @return entry point to express route cross connections management
+     */
+    @Beta(SinceVersion.V1_11_0)
+    public ExpressRouteCrossConnections expressRouteCrossConnections() {
+        if (this.expressRouteCrossConnections == null) {
+            this.expressRouteCrossConnections = new ExpressRouteCrossConnectionsImpl(this);
+        }
+        return this.expressRouteCrossConnections;
     }
 
     // Internal utility function

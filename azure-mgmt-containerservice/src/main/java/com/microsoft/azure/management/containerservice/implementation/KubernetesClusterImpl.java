@@ -44,7 +44,6 @@ public class KubernetesClusterImpl extends
     KubernetesCluster.Definition,
     KubernetesCluster.Update {
 
-    private boolean useLatestVersion;
     private byte[] adminKubeConfigContent;
     private byte[] userKubeConfigContent;
 
@@ -54,7 +53,6 @@ public class KubernetesClusterImpl extends
             this.inner().withAgentPoolProfiles(new ArrayList<ContainerServiceAgentPoolProfile>());
         }
 
-        this.useLatestVersion = false;
         this.adminKubeConfigContent = null;
         this.userKubeConfigContent = null;
     }
@@ -218,63 +216,6 @@ public class KubernetesClusterImpl extends
                 }
             });
 
-        if (useLatestVersion) {
-            return this.manager().inner().containerServices().listOrchestratorsAsync(self.inner().location())
-                .collect(new Func0<List<String>>() {
-                    @Override
-                    public List<String> call() {
-                        return new ArrayList<String>();
-                    }
-                }, new Action2<List<String>, OrchestratorVersionProfileListResultInner>() {
-                    @Override
-                    public void call(List<String> kubernetesVersions, OrchestratorVersionProfileListResultInner inner) {
-                        if (inner != null && inner.orchestrators() != null && inner.orchestrators().size() > 0) {
-                            for (OrchestratorVersionProfile orchestrator : inner.orchestrators()) {
-                                if (orchestrator.orchestratorType().equals("Kubernetes")) {
-                                    kubernetesVersions.add(orchestrator.orchestratorVersion());
-                                }
-                            }
-                        }
-                    }
-                }).last()
-                .flatMap(new Func1<List<String>, Observable<KubernetesCluster>>() {
-                    @Override
-                    public Observable<KubernetesCluster> call(List<String> kubernetesVersions) {
-                        Collections.sort(kubernetesVersions, (new Comparator<String>() {
-                            @Override
-                            public int compare(String ver1, String ver2) {
-                                int maxLength = ver1.length() > ver2.length() ? ver1.length() : ver2.length();
-                                String[] splitVer1 = ver1.split("\\.");
-                                String[] splitVer2 = ver2.split("\\.");
-                                StringBuilder sbVer1 = new StringBuilder();
-                                StringBuilder sbVer2 = new StringBuilder();
-                                for (String item : splitVer1) {
-                                    sbVer1.append(String.format("%" + maxLength + "s", item));
-                                }
-                                for (String item : splitVer2) {
-                                    sbVer2.append(String.format("%" + maxLength + "s", item));
-                                }
-                                return sbVer2.toString().compareTo(sbVer1.toString());
-                            }
-                        }));
-                        self.inner().withKubernetesVersion(kubernetesVersions.get(0));
-                        return self.manager().inner().managedClusters().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner())
-                            .map(new Func1<ManagedClusterInner, KubernetesCluster>() {
-                                @Override
-                                public KubernetesCluster call(ManagedClusterInner inner) {
-                                    self.setInner(inner);
-                                    return self;
-                                }
-                            }).flatMap(new Func1<KubernetesCluster, Observable<KubernetesCluster>>() {
-                                @Override
-                                public Observable<KubernetesCluster> call(KubernetesCluster kubernetesCluster) {
-                                    return mergedConfigs;
-                                }
-                            });
-                    }
-                });
-
-        } else {
             return this.manager().inner().managedClusters().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner())
                 .map(new Func1<ManagedClusterInner, KubernetesCluster>() {
                     @Override
@@ -288,7 +229,6 @@ public class KubernetesClusterImpl extends
                         return mergedConfigs;
                     }
                 });
-        }
     }
 
     @Override
@@ -305,7 +245,7 @@ public class KubernetesClusterImpl extends
 
     @Override
     public KubernetesClusterImpl withLatestVersion() {
-        this.useLatestVersion = true;
+        this.inner().withKubernetesVersion("");
         return this;
     }
 

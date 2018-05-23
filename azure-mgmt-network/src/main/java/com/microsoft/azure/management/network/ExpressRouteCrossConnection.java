@@ -13,7 +13,6 @@ import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 
@@ -45,7 +44,7 @@ public interface ExpressRouteCrossConnection extends
     String secondaryAzurePort();
 
     /**
-     * The identifier of the circuit traffic.
+     * @return the identifier of the circuit traffic
      */
     Integer sTag();
 
@@ -55,12 +54,12 @@ public interface ExpressRouteCrossConnection extends
     String peeringLocation();
 
     /**
-     * The circuit bandwidth In Mbps.
+     * @return the circuit bandwidth In Mbps
      */
     int bandwidthInMbps();
 
     /**
-     * The ExpressRouteCircuit.
+     * @return the ExpressRouteCircuit
      */
     ExpressRouteCircuitReference expressRouteCircuit();
 
@@ -70,13 +69,12 @@ public interface ExpressRouteCrossConnection extends
     ServiceProviderProvisioningState serviceProviderProvisioningState();
 
     /**
-     * Additional read only notes set by the connectivity provider.
+     * @return additional read only notes set by the connectivity provider
      */
     String serviceProviderNotes();
 
     /**
-     * Gets the provisioning state of the express route cross connection resource. Possible values
-     * are: 'Updating', 'Deleting', and 'Failed'.
+     * @return the provisioning state of the express route cross connection resource
      */
     String provisioningState();
 
@@ -112,6 +110,6 @@ public interface ExpressRouteCrossConnection extends
             Appliable<ExpressRouteCrossConnection>,
             Resource.UpdateWithTags<Update>,
             UpdateStages.WithServiceProviderProviosioningState,
-            UpdateStages.WithServiceProviderNotes{
+            UpdateStages.WithServiceProviderNotes {
     }
 }

@@ -60,7 +60,7 @@ public interface Ipv6PeeringConfig extends
          */
         interface WithCustomerASN<ParentT> {
             /**
-             * Specifies customer ASN
+             * Specifies customer ASN.
              * @param customerASN customer ASN
              * @return the next satge of the definition
              */
@@ -114,7 +114,7 @@ public interface Ipv6PeeringConfig extends
             WithAttach<ParentT> withRouteFilter(String routeFilterId);
 
             /**
-             * remove route filter from IPv6 configuration
+             * Remove route filter from IPv6 configuration.
              * @return the next stage of the definition
              */
             @Method
@@ -200,7 +200,7 @@ public interface Ipv6PeeringConfig extends
          */
         interface WithCustomerASN {
             /**
-             * Specifies customer ASN
+             * Specifies customer ASN.
              * @param customerASN customer ASN
              * @return the next stage of the update
              */
@@ -231,7 +231,7 @@ public interface Ipv6PeeringConfig extends
             Update withRouteFilter(String routeFilterId);
 
             /**
-             * remove route filter from IPv6 configuration
+             * Remove route filter from IPv6 configuration.
              * @return the next stage of the definition
              */
             @Method
@@ -310,7 +310,7 @@ public interface Ipv6PeeringConfig extends
          */
         interface WithCustomerASN<ParentT> {
             /**
-             * Specifies customer ASN
+             * Specifies customer ASN.
              * @param customerASN customer ASN
              * @return the next satge of the definition
              */
@@ -341,7 +341,7 @@ public interface Ipv6PeeringConfig extends
             WithAttach<ParentT> withRouteFilter(String routeFilterId);
 
             /**
-             * remove route filter from IPv6 configuration
+             * Remove route filter from IPv6 configuration.
              * @return the next stage of the definition
              */
             @Method

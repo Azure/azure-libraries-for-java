@@ -53,7 +53,7 @@ public interface ExpressRouteCrossConnectionPeering extends
     String primaryPeerAddressPrefix();
 
     /**
-     * The secondary address prefix.
+     * @return the secondary address prefix
      */
     String secondaryPeerAddressPrefix();
 
@@ -144,7 +144,7 @@ public interface ExpressRouteCrossConnectionPeering extends
          */
         interface WithCustomerASN {
             /**
-             * Specifies customer ASN
+             * Specifies customer ASN.
              * @param customerASN customer ASN
              * @return the next satge of the definition
              */
@@ -248,7 +248,7 @@ public interface ExpressRouteCrossConnectionPeering extends
          */
         interface WithCustomerASN {
             /**
-             * Specifies customer ASN
+             * Specifies customer ASN.
              * @param customerASN customer ASN
              * @return the next stage of the definition
              */
@@ -302,7 +302,7 @@ public interface ExpressRouteCrossConnectionPeering extends
          */
         interface WithPeerAsn {
             /**
-             * Sets peer ASN
+             * Sets peer ASN.
              * @param peerAsn
              * @return the next stage of the update
              */

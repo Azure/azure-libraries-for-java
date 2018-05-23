@@ -12,7 +12,6 @@ import com.microsoft.azure.management.network.ExpressRouteCrossConnectionPeering
 import com.microsoft.azure.management.network.ExpressRoutePeeringState;
 import com.microsoft.azure.management.network.ExpressRoutePeeringType;
 import com.microsoft.azure.management.network.Ipv6ExpressRouteCircuitPeeringConfig;
-import com.microsoft.azure.management.network.Ipv6PeeringConfig;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;

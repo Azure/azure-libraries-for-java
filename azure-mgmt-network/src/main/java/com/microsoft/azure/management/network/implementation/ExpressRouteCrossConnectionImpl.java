@@ -19,6 +19,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Implementation for ExpressRouteCrossConnection.
+ */
 public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWithTagsImpl<
         ExpressRouteCrossConnection,
         ExpressRouteCrossConnectionInner,
@@ -68,8 +71,8 @@ public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWith
     public Observable<ExpressRouteCrossConnection> refreshAsync() {
         return super.refreshAsync().map(new Func1<ExpressRouteCrossConnection, ExpressRouteCrossConnection>() {
             @Override
-            public ExpressRouteCrossConnection call(ExpressRouteCrossConnection ExpressRouteCrossConnection) {
-                ExpressRouteCrossConnectionImpl impl = (ExpressRouteCrossConnectionImpl) ExpressRouteCrossConnection;
+            public ExpressRouteCrossConnection call(ExpressRouteCrossConnection expressRouteCrossConnection) {
+                ExpressRouteCrossConnectionImpl impl = (ExpressRouteCrossConnectionImpl) expressRouteCrossConnection;
                 impl.initializeChildrenFromInner();
                 return impl;
             }

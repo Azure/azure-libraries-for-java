@@ -7,6 +7,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.network.ExpressRouteCircuitReference;
 import com.microsoft.azure.management.network.ExpressRouteCrossConnection;
+import com.microsoft.azure.management.network.ExpressRouteCrossConnectionPeering;
 import com.microsoft.azure.management.network.ExpressRouteCrossConnectionPeerings;
 import com.microsoft.azure.management.network.ServiceProviderProvisioningState;
 import com.microsoft.azure.management.network.model.GroupableParentResourceWithTagsImpl;
@@ -14,7 +15,9 @@ import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
 import rx.functions.Func1;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWithTagsImpl<
         ExpressRouteCrossConnection,
@@ -25,7 +28,7 @@ public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWith
         ExpressRouteCrossConnection,
         ExpressRouteCrossConnection.Update {
     private ExpressRouteCrossConnectionPeeringsImpl peerings;
-//    private Map<String, ExpressRouteCrossConnectionPeering> ExpressRouteCrossConnectionPeerings;
+    private Map<String, ExpressRouteCrossConnectionPeering> crossConnectionPeerings;
 
     ExpressRouteCrossConnectionImpl(String name, ExpressRouteCrossConnectionInner innerObject, NetworkManager manager) {
         super(name, innerObject, manager);
@@ -47,13 +50,13 @@ public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWith
 
     @Override
     protected void initializeChildrenFromInner() {
-//        ExpressRouteCrossConnectionPeerings = new HashMap<>();
-//        if (inner().peerings() != null) {
-//            for (ExpressRouteCrossConnectionPeeringInner peering : inner().peerings()) {
-//                ExpressRouteCrossConnectionPeerings.put(peering.name(),
-//                        new ExpressRouteCrossConnectionPeeringImpl(this, peering, manager().inner().ExpressRouteCrossConnectionPeerings(), peering.peeringType()));
-//            }
-//        }
+        crossConnectionPeerings = new HashMap<>();
+        if (inner().peerings() != null) {
+            for (ExpressRouteCrossConnectionPeeringInner peering : inner().peerings()) {
+                crossConnectionPeerings.put(peering.name(),
+                        new ExpressRouteCrossConnectionPeeringImpl(this, peering, peering.peeringType()));
+            }
+        }
     }
 
     @Override
@@ -129,6 +132,11 @@ public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWith
     @Override
     public String provisioningState() {
         return inner().provisioningState();
+    }
+
+    @Override
+    public Map<String, ExpressRouteCrossConnectionPeering> peeringsMap() {
+        return Collections.unmodifiableMap(crossConnectionPeerings);
     }
 
     @Override

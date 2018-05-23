@@ -52,7 +52,7 @@ public interface Ipv6PeeringConfig extends
              * @param addressPrefix secondary peer address prefix
              * @return the next stage of the definition
              */
-            WithCustomerASN<ParentT> withSecondaryPeerAddressPrefix(String addressPrefix);
+            WithAttach<ParentT> withSecondaryPeerAddressPrefix(String addressPrefix);
         }
 
         /**
@@ -76,7 +76,7 @@ public interface Ipv6PeeringConfig extends
              * @param routingRegistryName routing registry name
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withRoutingRegistryName(String routingRegistryName);
+            WithPrimaryPeerAddressPrefix<ParentT> withRoutingRegistryName(String routingRegistryName);
         }
 
         /**
@@ -90,7 +90,7 @@ public interface Ipv6PeeringConfig extends
              * @param publicPrefixes advertised prefixes
              * @return next stage of definition
              */
-            WithPrimaryPeerAddressPrefix<ParentT> withAdvertisedPublicPrefixes(List<String> publicPrefixes);
+            WithCustomerASN<ParentT> withAdvertisedPublicPrefixes(List<String> publicPrefixes);
 
             /**
              * Specify advertised prefix: sets a prefix that is planned to advertise over the BGP session. Method will add a prefix to existing list.
@@ -99,7 +99,7 @@ public interface Ipv6PeeringConfig extends
              * @param publicPrefix advertised prefix
              * @return next stage of definition
              */
-            WithPrimaryPeerAddressPrefix<ParentT> withAdvertisedPublicPrefix(String publicPrefix);
+            WithCustomerASN<ParentT> withAdvertisedPublicPrefix(String publicPrefix);
         }
 
         /**
@@ -271,7 +271,7 @@ public interface Ipv6PeeringConfig extends
              * @param publicPrefixes advertised prefixes
              * @return next stage of definition
              */
-            WithPrimaryPeerAddressPrefix<ParentT> withAdvertisedPublicPrefixes(List<String> publicPrefixes);
+            WithCustomerASN<ParentT> withAdvertisedPublicPrefixes(List<String> publicPrefixes);
 
             /**
              * Specify advertised prefix: sets a prefix that is planned to advertise over the BGP session. Method will add a prefix to existing list.
@@ -280,7 +280,7 @@ public interface Ipv6PeeringConfig extends
              * @param publicPrefix advertised prefix
              * @return next stage of definition
              */
-            WithPrimaryPeerAddressPrefix<ParentT> withAdvertisedPublicPrefix(String publicPrefix);
+            WithCustomerASN<ParentT> withAdvertisedPublicPrefix(String publicPrefix);
         }
 
         /**
@@ -302,7 +302,7 @@ public interface Ipv6PeeringConfig extends
              * @param addressPrefix secondary peer address prefix
              * @return the next stage of the definition
              */
-            WithCustomerASN<ParentT> withSecondaryPeerAddressPrefix(String addressPrefix);
+            WithAttach<ParentT> withSecondaryPeerAddressPrefix(String addressPrefix);
         }
 
         /**
@@ -326,7 +326,7 @@ public interface Ipv6PeeringConfig extends
              * @param routingRegistryName routing registry name
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withRoutingRegistryName(String routingRegistryName);
+            WithPrimaryPeerAddressPrefix<ParentT> withRoutingRegistryName(String routingRegistryName);
         }
 
         /**

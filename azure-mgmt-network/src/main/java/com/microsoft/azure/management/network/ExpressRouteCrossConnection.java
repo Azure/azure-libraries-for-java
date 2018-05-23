@@ -81,6 +81,11 @@ public interface ExpressRouteCrossConnection extends
     String provisioningState();
 
     /**
+     * @return the peerings associated with this express route cross connection, indexed by name
+     */
+    Map<String, ExpressRouteCrossConnectionPeering> peeringsMap();
+
+    /**
      * Grouping of express route cross connection update stages.
      */
     interface UpdateStages {

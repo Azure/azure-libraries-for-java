@@ -29,7 +29,7 @@ public final class ManageExpressRouteCrossConnection {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String connectionId = "/subscriptions/8030cec9-2c0c-4361-9949-1655c6e4b0fa/resourceGroups/CrossConnection-DenverTest/providers/Microsoft.Network/expressRouteCrossConnections/d7cf20fb-4050-45c3-aacf-9ea23a5b47f4";
+        final String connectionId = "<crossconnection_id>";
         try {
             //============================================================
             // list Express Route Cross Connections
@@ -64,10 +64,10 @@ public final class ManageExpressRouteCrossConnection {
                     .withSharedKey("A1B2C3D4")
                     .defineIpv6Config()
                         .withAdvertisedPublicPrefix("3FFE:FFFF:0:CD31::/120")
-                        .withPrimaryPeerAddressPrefix("3FFE:FFFF:0:CD30::/126")
-                        .withSecondaryPeerAddressPrefix("3FFE:FFFF:0:CD30::4/126")
                         .withCustomerASN(23)
                         .withRoutingRegistryName("ARIN")
+                        .withPrimaryPeerAddressPrefix("3FFE:FFFF:0:CD30::/126")
+                        .withSecondaryPeerAddressPrefix("3FFE:FFFF:0:CD30::4/126")
                         .attach()
                     .create();
 
@@ -78,6 +78,13 @@ public final class ManageExpressRouteCrossConnection {
                     .update()
                     .withoutIpv6Config()
                     .withAdvertisedPublicPrefixes("123.1.0.0/30")
+                    .apply();
+
+            //============================================================
+            // update private peering from crossconnection resource
+            crossConnection.peeringsMap().get("AzurePrivatePeering")
+                    .update()
+                    .withPrimaryPeerAddressPrefix("10.1.0.0/30")
                     .apply();
 
             //============================================================

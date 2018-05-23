@@ -157,7 +157,7 @@ public class KubernetesClustersImpl extends
 
     @Override
     public byte[] getAdminKubeConfigContent(String resourceGroupName, String kubernetesClusterName) {
-        ManagedClusterAccessProfileInner profileInner = this.manager().inner().managedClusters().getAccessProfiles(resourceGroupName, kubernetesClusterName, KubernetesClusterAccessProfileRole.ADMIN.toString());
+        ManagedClusterAccessProfileInner profileInner = this.manager().inner().managedClusters().getAccessProfile(resourceGroupName, kubernetesClusterName, KubernetesClusterAccessProfileRole.ADMIN.toString());
         if (profileInner == null) {
             return new byte[0];
         } else {
@@ -168,7 +168,7 @@ public class KubernetesClustersImpl extends
     @Override
     public Observable<byte[]> getAdminKubeConfigContentAsync(String resourceGroupName, String kubernetesClusterName) {
         return this.manager().inner().managedClusters()
-            .getAccessProfilesAsync(resourceGroupName, kubernetesClusterName, KubernetesClusterAccessProfileRole.ADMIN.toString())
+            .getAccessProfileAsync(resourceGroupName, kubernetesClusterName, KubernetesClusterAccessProfileRole.ADMIN.toString())
             .map(new Func1<ManagedClusterAccessProfileInner, byte[]>() {
                 @Override
                 public byte[] call(ManagedClusterAccessProfileInner profileInner) {
@@ -183,7 +183,7 @@ public class KubernetesClustersImpl extends
 
     @Override
     public byte[] getUserKubeConfigContent(String resourceGroupName, String kubernetesClusterName) {
-        ManagedClusterAccessProfileInner profileInner = this.manager().inner().managedClusters().getAccessProfiles(resourceGroupName, kubernetesClusterName, KubernetesClusterAccessProfileRole.USER.toString());
+        ManagedClusterAccessProfileInner profileInner = this.manager().inner().managedClusters().getAccessProfile(resourceGroupName, kubernetesClusterName, KubernetesClusterAccessProfileRole.USER.toString());
         if (profileInner == null) {
             return new byte[0];
         } else {
@@ -194,7 +194,7 @@ public class KubernetesClustersImpl extends
     @Override
     public Observable<byte[]> getUserKubeConfigContentAsync(String resourceGroupName, String kubernetesClusterName) {
         return this.manager().inner().managedClusters()
-            .getAccessProfilesAsync(resourceGroupName, kubernetesClusterName, KubernetesClusterAccessProfileRole.USER.toString())
+            .getAccessProfileAsync(resourceGroupName, kubernetesClusterName, KubernetesClusterAccessProfileRole.USER.toString())
             .map(new Func1<ManagedClusterAccessProfileInner, byte[]>() {
                 @Override
                 public byte[] call(ManagedClusterAccessProfileInner profileInner) {

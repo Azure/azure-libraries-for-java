@@ -15,18 +15,13 @@ import com.microsoft.azure.management.containerservice.KeyVaultSecretRef;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusterAgentPool;
 import com.microsoft.azure.management.containerservice.KubernetesVersion;
-import com.microsoft.azure.management.containerservice.OrchestratorVersionProfile;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Observable;
-import rx.functions.Action2;
-import rx.functions.Func0;
 import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

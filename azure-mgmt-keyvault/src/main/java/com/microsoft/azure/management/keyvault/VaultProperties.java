@@ -65,11 +65,8 @@ public class VaultProperties {
     private Boolean enabledForTemplateDeployment;
 
     /**
-     * Property specifying whether recoverable deletion is enabled for this key
-     * vault. Setting this property to true activates the soft delete feature,
-     * whereby vaults or vault entities can be recovered after deletion.
-     * Enabling this functionality is irreversible - that is, the property does
-     * not accept false as its value.
+     * Property to specify whether the 'soft delete' functionality is enabled
+     * for this key vault. It does not accept false value.
      */
     @JsonProperty(value = "enableSoftDelete")
     private Boolean enableSoftDelete;
@@ -91,6 +88,13 @@ public class VaultProperties {
      */
     @JsonProperty(value = "enablePurgeProtection")
     private Boolean enablePurgeProtection;
+
+    /**
+     * A collection of rules governing the accessibility of the vault from
+     * specific network locations.
+     */
+    @JsonProperty(value = "networkAcls")
+    private NetworkRuleSet networkAcls;
 
     /**
      * Get the tenantId value.
@@ -289,6 +293,26 @@ public class VaultProperties {
      */
     public VaultProperties withEnablePurgeProtection(Boolean enablePurgeProtection) {
         this.enablePurgeProtection = enablePurgeProtection;
+        return this;
+    }
+
+    /**
+     * Get the networkAcls value.
+     *
+     * @return the networkAcls value
+     */
+    public NetworkRuleSet networkAcls() {
+        return this.networkAcls;
+    }
+
+    /**
+     * Set the networkAcls value.
+     *
+     * @param networkAcls the networkAcls value to set
+     * @return the VaultProperties object itself.
+     */
+    public VaultProperties withNetworkAcls(NetworkRuleSet networkAcls) {
+        this.networkAcls = networkAcls;
         return this;
     }
 

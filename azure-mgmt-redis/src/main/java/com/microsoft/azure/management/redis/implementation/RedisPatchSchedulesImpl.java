@@ -27,6 +27,8 @@ class RedisPatchSchedulesImpl extends
                 RedisPatchScheduleInner,
                 RedisCacheImpl,
                 RedisCache> {
+    // Currently Redis Cache has one PatchSchedule
+    private final String patchScheduleName = "default";
 
     RedisPatchSchedulesImpl(RedisCacheImpl parent) {
         super(parent, parent.taskGroup(), "PatchSchedule");
@@ -48,20 +50,20 @@ class RedisPatchSchedulesImpl extends
         this.addChildResource(patchSchedule);
     }
 
-    public RedisPatchScheduleImpl getPathSchedule() {
-        return this.collection().get("default");
+    public RedisPatchScheduleImpl getPatchSchedule() {
+        return this.collection().get(this.patchScheduleName);
     }
 
     public void removePatchSchedule() {
-        this.prepareInlineRemove("default");
+        this.prepareInlineRemove(this.patchScheduleName);
     }
 
     public RedisPatchScheduleImpl defineInlinePatchSchedule() {
-        return prepareInlineDefine("default");
+        return prepareInlineDefine(this.patchScheduleName);
     }
 
     public RedisPatchScheduleImpl updateInlinePatchSchedule() {
-        return prepareInlineUpdate("default");
+        return prepareInlineUpdate(this.patchScheduleName);
     }
 
     @Override

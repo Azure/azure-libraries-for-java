@@ -84,8 +84,8 @@ class RedisFirewallRuleImpl extends
     }
 
     private static String getChildName(String name, String parentName) {
-        if (name != null &&
-                name.indexOf("/") != -1) {
+        if (name != null
+                && name.indexOf("/") != -1) {
             // rule name consist of "parent/child" name syntax but delete/update/get should be called only on child name
             return name.substring(parentName.length() + 1);
         }

@@ -98,7 +98,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * The GatewayManager Etag.
      */
-    @JsonProperty(value = "properties.gatewayManagerEtag", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.gatewayManagerEtag")
     private String gatewayManagerEtag;
 
     /**
@@ -329,6 +329,17 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
      */
     public String gatewayManagerEtag() {
         return this.gatewayManagerEtag;
+    }
+
+    /**
+     * Set the gatewayManagerEtag value.
+     *
+     * @param gatewayManagerEtag the gatewayManagerEtag value to set
+     * @return the ExpressRouteCrossConnectionPeeringInner object itself.
+     */
+    public ExpressRouteCrossConnectionPeeringInner withGatewayManagerEtag(String gatewayManagerEtag) {
+        this.gatewayManagerEtag = gatewayManagerEtag;
+        return this;
     }
 
     /**

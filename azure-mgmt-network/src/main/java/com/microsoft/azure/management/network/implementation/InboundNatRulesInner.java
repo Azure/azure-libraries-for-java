@@ -190,7 +190,7 @@ public class InboundNatRulesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.list(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<InboundNatRuleInner>>>>() {
                 @Override
@@ -280,7 +280,7 @@ public class InboundNatRulesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -353,7 +353,7 @@ public class InboundNatRulesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.beginDelete(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -446,7 +446,7 @@ public class InboundNatRulesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         final String expand = null;
         return service.get(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<InboundNatRuleInner>>>() {
@@ -535,7 +535,7 @@ public class InboundNatRulesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.get(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<InboundNatRuleInner>>>() {
                 @Override
@@ -634,7 +634,7 @@ public class InboundNatRulesInner {
             throw new IllegalArgumentException("Parameter inboundNatRuleParameters is required and cannot be null.");
         }
         Validator.validate(inboundNatRuleParameters);
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), inboundNatRuleParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<InboundNatRuleInner>() { }.getType());
     }
@@ -716,7 +716,7 @@ public class InboundNatRulesInner {
             throw new IllegalArgumentException("Parameter inboundNatRuleParameters is required and cannot be null.");
         }
         Validator.validate(inboundNatRuleParameters);
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.beginCreateOrUpdate(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), inboundNatRuleParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<InboundNatRuleInner>>>() {
                 @Override

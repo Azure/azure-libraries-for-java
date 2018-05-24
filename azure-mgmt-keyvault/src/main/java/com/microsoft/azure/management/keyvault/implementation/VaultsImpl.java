@@ -2,42 +2,46 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
+ *
  */
 
 package com.microsoft.azure.management.keyvault.implementation;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.microsoft.azure.management.keyvault.CheckNameAvailabilityResult;
+import com.microsoft.azure.management.keyvault.CreateMode;
+import com.microsoft.azure.management.keyvault.DeletedVault;
+import com.microsoft.azure.management.keyvault.Sku;
 import com.microsoft.azure.management.keyvault.SkuName;
 import com.microsoft.azure.management.keyvault.Vault;
+import com.microsoft.azure.management.keyvault.VaultCreateOrUpdateParameters;
 import com.microsoft.azure.management.keyvault.VaultProperties;
 import com.microsoft.azure.management.keyvault.Vaults;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
+
 import rx.Completable;
 import rx.Observable;
-
-import java.util.UUID;
+import rx.functions.Func1;
 
 /**
  * The implementation of Vaults and its parent interfaces.
  */
 @LangDefinition
-class VaultsImpl
-        extends GroupableResourcesImpl<
-            Vault,
-            VaultImpl,
-            VaultInner,
-            VaultsInner,
-            KeyVaultManager>
+class VaultsImpl extends GroupableResourcesImpl<Vault, VaultImpl, VaultInner, VaultsInner, KeyVaultManager>
         implements Vaults {
     private final GraphRbacManager graphRbacManager;
     private final String tenantId;
+    
 
-    VaultsImpl(
-            final KeyVaultManager keyVaultManager,
-            final GraphRbacManager graphRbacManager,
-            final String tenantId) {
+    VaultsImpl(final KeyVaultManager keyVaultManager, final GraphRbacManager graphRbacManager, final String tenantId) {
         super(keyVaultManager.inner().vaults(), keyVaultManager);
         this.graphRbacManager = graphRbacManager;
         this.tenantId = tenantId;
@@ -46,6 +50,11 @@ class VaultsImpl
     @Override
     public PagedList<Vault> listByResourceGroup(String groupName) {
         return wrapList(this.inner().listByResourceGroup(groupName));
+    }
+
+    @Override
+    public Observable<Vault> listByResourceGroupAsync(String resourceGroupName) {
+        return wrapPageAsync(this.inner().listByResourceGroupAsync(resourceGroupName));
     }
 
     @Override
@@ -65,20 +74,14 @@ class VaultsImpl
 
     @Override
     public VaultImpl define(String name) {
-        return wrapModel(name)
-                .withSku(SkuName.STANDARD)
-                .withEmptyAccessPolicy();
+        return wrapModel(name).withSku(SkuName.STANDARD).withEmptyAccessPolicy();
     }
 
     @Override
     protected VaultImpl wrapModel(String name) {
         VaultInner inner = new VaultInner().withProperties(new VaultProperties());
         inner.properties().withTenantId(UUID.fromString(tenantId));
-        return new VaultImpl(
-                name,
-                inner,
-                this.manager(),
-                graphRbacManager);
+        return new VaultImpl(name, inner, this.manager(), graphRbacManager);
     }
 
     @Override
@@ -86,15 +89,129 @@ class VaultsImpl
         if (vaultInner == null) {
             return null;
         }
-        return new VaultImpl(
-                vaultInner.name(),
-                vaultInner,
-                super.manager(),
-                graphRbacManager);
+        return new VaultImpl(vaultInner.name(), vaultInner, super.manager(), graphRbacManager);
     }
 
     @Override
-    public Observable<Vault> listByResourceGroupAsync(String resourceGroupName) {
-        return wrapPageAsync(this.inner().listByResourceGroupAsync(resourceGroupName));
+    public PagedList<DeletedVault> listDeleted() {
+        PagedList<DeletedVaultInner> listDeleted = this.inner().listDeleted();
+        PagedListConverter<DeletedVaultInner, DeletedVault> converter = new PagedListConverter<DeletedVaultInner, DeletedVault>() {
+            @Override
+            public Observable<DeletedVault> typeConvertAsync(DeletedVaultInner inner) {
+                DeletedVault deletedVault = new DeletedVaultImpl(inner);
+                return Observable.just(deletedVault);
+            }
+        };
+        return converter.convert(listDeleted);
     }
+
+    @Override
+    public DeletedVault getDeleted(String vaultName, String location) {
+        Object deletedVault = inner().getDeleted(vaultName, location);
+        if (deletedVault == null) {
+            return null;
+        }
+        return new DeletedVaultImpl((DeletedVaultInner) deletedVault);
+    }
+
+    @Override
+    public void purgeDeleted(String vaultName, String location) {
+        inner().purgeDeleted(vaultName, location);
+    }
+
+    @Override
+    public Observable<DeletedVault> getDeletedAsync(String vaultName, String location) {
+        VaultsInner client = this.inner();
+        return client.getDeletedAsync(vaultName, location).map(new Func1<DeletedVaultInner, DeletedVault>() {
+            @Override
+            public DeletedVault call(DeletedVaultInner inner) {
+                return new DeletedVaultImpl(inner);
+            }
+        });
+    }
+
+    @Override
+    public Completable purgeDeletedAsync(String vaultName, String location) {
+        return this.inner().purgeDeletedAsync(vaultName, location).toCompletable();
+    }
+
+    private Observable<DeletedVault> convertPageDeletedVaultToDeletedVaultAsync(Observable<Page<DeletedVault>> page) {
+        return page.flatMap(new Func1<Page<DeletedVault>, Observable<DeletedVault>>() {
+            @Override
+            public Observable<DeletedVault> call(Page<DeletedVault> inner) {
+                return Observable.from(inner.items());
+            }
+        });
+    }
+
+    @Override
+    public Observable<DeletedVault> listDeletedAsync() {
+        VaultsInner client = this.inner();
+        Observable<Page<DeletedVault>> page = client.listDeletedAsync()
+                .map(new Func1<Page<DeletedVaultInner>, Page<DeletedVault>>() {
+                    @Override
+                    public Page<DeletedVault> call(Page<DeletedVaultInner> inner) {
+                        return convertPageDeletedVaultInner(inner);
+                    }
+                });
+        return convertPageDeletedVaultToDeletedVaultAsync(page);
+    }
+
+    private Page<DeletedVault> convertPageDeletedVaultInner(Page<DeletedVaultInner> inner) {
+        List<DeletedVault> items = new ArrayList<>();
+        for (DeletedVaultInner item : inner.items()) {
+            items.add(new DeletedVaultImpl(item));
+        }
+        PageImpl<DeletedVault> deletedVaultPage = new PageImpl<DeletedVault>();
+        deletedVaultPage.setItems(items);
+        return deletedVaultPage;
+    }
+
+    @Override
+    public CheckNameAvailabilityResult checkNameAvailability(String name) {
+        return new CheckNameAvailabilityResultImpl(inner().checkNameAvailability(name));
+    }
+
+    @Override
+    public Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name) {
+        VaultsInner client = this.inner();
+        return client.checkNameAvailabilityAsync(name)
+                .map(new Func1<CheckNameAvailabilityResultInner, CheckNameAvailabilityResult>() {
+                    @Override
+                    public CheckNameAvailabilityResult call(CheckNameAvailabilityResultInner inner) {
+                        return new CheckNameAvailabilityResultImpl(inner);
+                    }
+                });
+    }
+
+    @Override
+    public Vault recoverSoftDeletedVault(String resourceGroupName, String vaultName, String location) {
+        return recoverSoftDeletedVaultAsync(resourceGroupName, vaultName, location).toBlocking().last();
+    }
+    
+    @Override
+    public Observable<Vault> recoverSoftDeletedVaultAsync(final String resourceGroupName, final String vaultName, String location) {
+        final KeyVaultManager manager = this.manager();
+        return getDeletedAsync(vaultName, location).flatMap(new Func1<DeletedVault, Observable<Vault>>() {
+            @Override
+            public Observable<Vault> call(DeletedVault deletedVault) {
+                VaultCreateOrUpdateParameters parameters = new VaultCreateOrUpdateParameters();
+                parameters.withLocation(deletedVault.location());
+                parameters.withTags(deletedVault.inner().properties().tags());
+                parameters.withProperties(new VaultProperties()
+                        .withCreateMode(CreateMode.RECOVER)
+                        .withSku(new Sku().withName(SkuName.STANDARD))
+                        .withTenantId(UUID.fromString(tenantId))
+                        );
+                return inner().createOrUpdateAsync(resourceGroupName, vaultName, parameters).map(new Func1<VaultInner, Vault>() {
+                    @Override
+                    public Vault call(VaultInner inner) {
+                        return new VaultImpl(inner.id(), inner, manager, graphRbacManager);
+                    }
+                });
+            }
+            
+        });
+    }
+
 }

@@ -6,6 +6,11 @@
 
 package com.microsoft.azure.management.keyvault.implementation;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryGroup;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryUser;
@@ -16,28 +21,17 @@ import com.microsoft.azure.management.keyvault.CertificatePermissions;
 import com.microsoft.azure.management.keyvault.KeyPermissions;
 import com.microsoft.azure.management.keyvault.Permissions;
 import com.microsoft.azure.management.keyvault.SecretPermissions;
+import com.microsoft.azure.management.keyvault.StoragePermissions;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Implementation for AccessPolicy and its parent interfaces.
  */
 @LangDefinition
-class AccessPolicyImpl
-        extends ChildResourceImpl<
-                AccessPolicyEntry,
-                VaultImpl,
-                Vault>
-        implements
-            AccessPolicy,
-            AccessPolicy.Definition<Vault.DefinitionStages.WithCreate>,
-            AccessPolicy.UpdateDefinition<Vault.Update>,
-            AccessPolicy.Update {
+class AccessPolicyImpl extends ChildResourceImpl<AccessPolicyEntry, VaultImpl, Vault>
+        implements AccessPolicy, AccessPolicy.Definition<Vault.DefinitionStages.WithCreate>,
+        AccessPolicy.UpdateDefinition<Vault.Update>, AccessPolicy.Update {
     private String userPrincipalName;
     private String servicePrincipalName;
 
@@ -112,6 +106,15 @@ class AccessPolicyImpl
         }
         if (inner().permissions().certificates() == null) {
             inner().permissions().withCertificates(new ArrayList<CertificatePermissions>());
+        }
+    }
+
+    private void initializeStoragePermissions() {
+        if (inner().permissions() == null) {
+            inner().withPermissions(new Permissions());
+        }
+        if (inner().permissions().storage() == null) {
+            inner().permissions().withStorage(new ArrayList<StoragePermissions>());
         }
     }
 
@@ -190,6 +193,36 @@ class AccessPolicyImpl
     }
 
     @Override
+    public AccessPolicyImpl allowStorageAllPermissions() {
+        for (StoragePermissions permission : StoragePermissions.values()) {
+            allowStoragePermissions(permission);
+        }
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl allowStoragePermissions(StoragePermissions... permissions) {
+        initializeStoragePermissions();
+        for (StoragePermissions permission : permissions) {
+            if (!inner().permissions().storage().contains(permission)) {
+                inner().permissions().storage().add(permission);
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl allowStoragePermissions(List<StoragePermissions> permissions) {
+        initializeStoragePermissions();
+        for (StoragePermissions permission : permissions) {
+            if (!inner().permissions().storage().contains(permission)) {
+                inner().permissions().storage().add(permission);
+            }
+        }
+        return this;
+    }
+
+    @Override
     public AccessPolicyImpl disallowCertificateAllPermissions() {
         initializeCertificatePermissions();
         inner().permissions().secrets().clear();
@@ -231,6 +264,18 @@ class AccessPolicyImpl
     @Override
     public AccessPolicyImpl forUser(String userPrincipalName) {
         this.userPrincipalName = userPrincipalName;
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl forApplicationId(String applicationId) {
+        inner().withApplicationId(UUID.fromString(applicationId));
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl forTenantId(String tenantId) {
+        inner().withTenantId(UUID.fromString(tenantId));
         return this;
     }
 
@@ -309,4 +354,26 @@ class AccessPolicyImpl
         inner().permissions().secrets().removeAll(permissions);
         return this;
     }
+
+    @Override
+    public AccessPolicyImpl disallowStorageAllPermissions() {
+        initializeStoragePermissions();
+        inner().permissions().storage().clear();
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl disallowStoragePermissions(StoragePermissions... permissions) {
+        initializeStoragePermissions();
+        inner().permissions().storage().removeAll(Arrays.asList(permissions));
+        return this;
+    }
+
+    @Override
+    public AccessPolicyImpl disallowStoragePermissions(List<StoragePermissions> permissions) {
+        initializeStoragePermissions();
+        inner().permissions().storage().removeAll(permissions);
+        return this;
+    }
+
 }

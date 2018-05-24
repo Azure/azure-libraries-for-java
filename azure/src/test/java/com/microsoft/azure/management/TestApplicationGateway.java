@@ -241,8 +241,6 @@ public class TestApplicationGateway {
                     .applyTags();
             Assert.assertEquals("value3", resource.tags().get("tag3"));
             Assert.assertFalse(resource.tags().containsKey("tag1"));
-<<<<<<< HEAD
-=======
             return resource;
         }
     }
@@ -380,7 +378,6 @@ public class TestApplicationGateway {
             Assert.assertTrue(resource.requestRoutingRules().containsKey("rule2"));
             Assert.assertEquals(2, pathMap.pathRules().size());
             Assert.assertEquals("/pictures/*", pathMap.pathRules().get("newRule").paths().get(0));
->>>>>>> upstream/master
             return resource;
         }
     }

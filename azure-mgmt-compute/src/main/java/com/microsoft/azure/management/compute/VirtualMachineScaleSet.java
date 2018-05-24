@@ -292,6 +292,12 @@ public interface VirtualMachineScaleSet extends
     VirtualMachinePriorityTypes virtualMachinePriority();
 
     /**
+     * @return the eviction policy of the virtual machines in the scale set.
+     */
+    @Beta(Beta.SinceVersion.V1_11_0)
+    VirtualMachineEvictionPolicyTypes virtualMachineEvictionPolicy();
+
+    /**
      * Gets a network interface associated with a virtual machine scale set instance.
      *
      * @param instanceId the virtual machine scale set vm instance ID
@@ -1508,6 +1514,25 @@ public interface VirtualMachineScaleSet extends
              */
             @Beta(Beta.SinceVersion.V1_8_0)
             WithCreate withVirtualMachinePriority(VirtualMachinePriorityTypes priority);
+
+            /**
+             * Specify that virtual machines in the scale set should be low priority VMs.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_11_0)
+            WithCreate withLowPriorityVirtualMachine();
+
+            /**
+             * Specify that virtual machines in the scale set should be low priority VMs with
+             * provided eviction policy.
+             *
+             * @param policy eviction policy for the virtual machines in the scale set.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_11_0)
+            WithCreate withLowPriorityVirtualMachine(VirtualMachineEvictionPolicyTypes policy);
         }
 
         /**

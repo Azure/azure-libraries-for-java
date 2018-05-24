@@ -223,7 +223,7 @@ public interface AccessPolicy extends
             /**
              * Allow all permissions for the Ad identity to access storage.
              * 
-             * @param the next stage of access policy definition
+             * @return the next stage of access policy definition
              */
             @Method
             WithAttach<ParentT> allowStorageAllPermissions();

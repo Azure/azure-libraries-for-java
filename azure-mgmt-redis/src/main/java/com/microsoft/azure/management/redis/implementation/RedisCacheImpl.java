@@ -62,7 +62,7 @@ class RedisCacheImpl
     private RedisAccessKeys cachedAccessKeys;
     private RedisCreateParameters createParameters;
     private RedisUpdateParameters updateParameters;
-    private Map<DayOfWeek, ScheduleEntry> scheduleEntries;
+    private RedisPatchSchedulesImpl patchSchedules;
     private RedisFirewallRulesImpl firewallRules;
 
     RedisCacheImpl(String name,
@@ -70,13 +70,25 @@ class RedisCacheImpl
                    final RedisManager redisManager) {
         super(name, innerModel, redisManager);
         this.createParameters = new RedisCreateParameters();
-        this.scheduleEntries = new TreeMap<>();
+        this.patchSchedules = new RedisPatchSchedulesImpl(this);
         this.firewallRules = new RedisFirewallRulesImpl(this);
+        this.patchSchedules.enablePostRunMode();
+        this.firewallRules.enablePostRunMode();
     }
 
     @Override
     public Map<String, RedisFirewallRule> firewallRules() {
         return this.firewallRules.rulesAsMap();
+    }
+
+    @Override
+    public List<ScheduleEntry> patchSchedules() {
+        return this.patchSchedules.getPathSchedule().scheduleEntries();
+    }
+
+    @Override
+    public List<ScheduleEntry> listPatchSchedules() {
+        return this.patchSchedules();
     }
 
     @Override
@@ -234,11 +246,6 @@ class RedisCacheImpl
     }
 
     @Override
-    protected Observable<RedisResourceInner> getInnerAsync() {
-        return this.manager().inner().redis().getByResourceGroupAsync(this.resourceGroupName(), this.name());
-    }
-
-    @Override
     public RedisCacheImpl withNonSslPort() {
         if (isInCreateMode()) {
             createParameters.withEnableNonSslPort(true);
@@ -284,7 +291,7 @@ class RedisCacheImpl
 
     @Override
     public RedisCacheImpl withFirewallRule(String name, String lowestIp, String highestIp) {
-        RedisFirewallRuleImpl rule = this.firewallRules.newChildResource(name);
+        RedisFirewallRuleImpl rule = this.firewallRules.defineInlineFirewallRule(name);
         rule.inner().withStartIP(lowestIp);
         rule.inner().withEndIP(highestIp);
         return this.withFirewallRule(rule);
@@ -486,7 +493,7 @@ class RedisCacheImpl
 
     @Override
     public RedisCacheImpl withPatchSchedule(List<ScheduleEntry> scheduleEntries) {
-        this.scheduleEntries.clear();
+        this.patchSchedules.clear();
         for (ScheduleEntry entry : scheduleEntries) {
             this.withPatchSchedule(entry);
         }
@@ -495,41 +502,46 @@ class RedisCacheImpl
 
     @Override
     public RedisCacheImpl withPatchSchedule(ScheduleEntry scheduleEntry) {
-        this.scheduleEntries.put(scheduleEntry.dayOfWeek(), scheduleEntry);
+        RedisPatchScheduleImpl psch = null;
+        if (this.patchSchedules.patchSchedulesAsMap().isEmpty()) {
+            psch = this.patchSchedules.defineInlinePatchSchedule();
+            psch.inner().withScheduleEntries( new ArrayList<ScheduleEntry>());
+            this.patchSchedules.addPatchSchedule(psch);
+        } else {
+            psch = this.patchSchedules.updateInlinePatchSchedule();
+        }
+
+        psch.inner().scheduleEntries().add(scheduleEntry);
         return this;
     }
 
     @Override
-    public List<ScheduleEntry> listPatchSchedules() {
-        RedisPatchScheduleInner patchSchedules =  this.manager().inner().patchSchedules().get(resourceGroupName(), name());
-        if (patchSchedules != null) {
-            return patchSchedules.scheduleEntries();
-        }
-        return null;
+    public void deletePatchSchedule() {
+        this.patchSchedules.removePatchSchedule();
     }
 
     @Override
-    public void deletePatchSchedule() {
-        this.manager().inner().patchSchedules().delete(resourceGroupName(), name());
+    public Observable<RedisCache> refreshAsync() {
+        return super.refreshAsync().map(new Func1<RedisCache, RedisCache>() {
+            @Override
+            public RedisCache call(RedisCache redisCache) {
+                RedisCacheImpl impl = (RedisCacheImpl) redisCache;
+                impl.firewallRules.refresh();
+                impl.patchSchedules.refresh();
+                return impl;
+            }
+        });
     }
 
-    private void updatePatchSchedules() {
-        if (this.scheduleEntries != null && !this.scheduleEntries.isEmpty()) {
-            RedisPatchScheduleInner parameters = new RedisPatchScheduleInner()
-                    .withScheduleEntries(new ArrayList<ScheduleEntry>());
-            for (ScheduleEntry entry : this.scheduleEntries.values()) {
-                parameters.scheduleEntries().add(new ScheduleEntry()
-                        .withDayOfWeek(entry.dayOfWeek())
-                        .withMaintenanceWindow(entry.maintenanceWindow())
-                        .withStartHourUtc(entry.startHourUtc()));
-            }
-            this.manager().inner().patchSchedules().createOrUpdate(resourceGroupName(), name(), parameters.scheduleEntries());
-        }
+    @Override
+    protected Observable<RedisResourceInner> getInnerAsync() {
+        return this.manager().inner().redis().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
     public Completable afterPostRunAsync(final boolean isGroupFaulted) {
         this.firewallRules.clear();
+        this.patchSchedules.clear();
         if (isGroupFaulted) {
             return Completable.complete();
         } else {
@@ -540,21 +552,9 @@ class RedisCacheImpl
     @Override
     public RedisCacheImpl update() {
         this.updateParameters = new RedisUpdateParameters();
-        this.scheduleEntries = new TreeMap<>();
+        this.patchSchedules.enableCommitMode();
         this.firewallRules.enableCommitMode();
         return super.update();
-    }
-
-    @Override
-    public Observable<RedisCache> refreshAsync() {
-        return super.refreshAsync().map(new Func1<RedisCache, RedisCache>() {
-            @Override
-            public RedisCache call(RedisCache redisCache) {
-                RedisCacheImpl impl = (RedisCacheImpl) redisCache;
-                impl.firewallRules.refresh();
-                return impl;
-            }
-        });
     }
 
     @Override
@@ -572,7 +572,18 @@ class RedisCacheImpl
                             ((RedisCacheImpl) redisCache).setInner(innerResource);
                             self.setInner(innerResource);
                         }
-                        updatePatchSchedules();
+                    }
+                })
+                .flatMap(new Func1<RedisCache, Observable<RedisCache>>() {
+                    @Override
+                    public Observable<RedisCache> call(RedisCache redisCache) {
+                        return self.patchSchedules.commitAndGetAllAsync()
+                                .map(new Func1<List<RedisPatchScheduleImpl>, RedisCache>() {
+                                    @Override
+                                    public RedisCache call(List<RedisPatchScheduleImpl> redisPatchSchedules) {
+                                        return self;
+                                    }
+                                });
                     }
                 })
                 .flatMap(new Func1<RedisCache, Observable<RedisCache>>() {
@@ -591,16 +602,11 @@ class RedisCacheImpl
 
     @Override
     public Observable<RedisCache> createResourceAsync() {
+        final RedisCacheImpl self = this;
         createParameters.withLocation(this.regionName());
         createParameters.withTags(this.inner().getTags());
         return this.manager().inner().redis().createAsync(this.resourceGroupName(), this.name(), createParameters)
-                .map(innerToFluentMap(this))
-                .doOnNext(new Action1<RedisCache>() {
-                    @Override
-                    public void call(RedisCache redisCache) {
-                        updatePatchSchedules();
-                    }
-                });
+                .map(innerToFluentMap(this));
     }
 
     @Override

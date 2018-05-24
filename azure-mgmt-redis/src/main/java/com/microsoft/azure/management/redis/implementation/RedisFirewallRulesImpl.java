@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.redis.RedisCache;
 import com.microsoft.azure.management.redis.RedisFirewallRule;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesCachedImpl;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,10 +53,14 @@ class RedisFirewallRulesImpl extends
         this.prepareInlineRemove(name);
     }
 
+    public RedisFirewallRuleImpl defineInlineFirewallRule(String name) {
+        return prepareInlineDefine(name);
+    }
+
     @Override
     protected List<RedisFirewallRuleImpl> listChildResources() {
         List<RedisFirewallRuleImpl> childResources = new ArrayList<>();
-        for (RedisFirewallRuleInner firewallRule :this.parent().manager().inner().firewallRules().listByRedisResource(
+        for (RedisFirewallRuleInner firewallRule : this.parent().manager().inner().firewallRules().listByRedisResource(
                 this.parent().resourceGroupName(),
                 this.parent().name())) {
             childResources.add(new RedisFirewallRuleImpl(firewallRule.name(), this.parent(), firewallRule));

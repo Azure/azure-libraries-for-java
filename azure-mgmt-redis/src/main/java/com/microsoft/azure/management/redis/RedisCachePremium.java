@@ -74,6 +74,11 @@ public interface RedisCachePremium extends RedisCache {
     List<ScheduleEntry> listPatchSchedules();
 
     /**
+     * @return List of patch schedules for current Redis Cache.
+     */
+    List<ScheduleEntry> patchSchedules();
+
+    /**
      * Deletes the patching schedule for Redis Cache.
      */
     @Method

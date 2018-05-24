@@ -26,7 +26,7 @@ class RedisFirewallRuleImpl extends
         implements RedisFirewallRule {
 
     RedisFirewallRuleImpl(String name, RedisCacheImpl parent, RedisFirewallRuleInner innerObject) {
-        super(name, parent, innerObject);
+        super(getChildName(name, parent.name()), parent, innerObject);
     }
 
     @Override
@@ -81,5 +81,14 @@ class RedisFirewallRuleImpl extends
         return this.parent().manager().inner().firewallRules().getAsync(this.parent().resourceGroupName(),
                 this.parent().name(),
                 this.name());
+    }
+
+    private static String getChildName(String name, String parentName) {
+        if (name != null &&
+                name.indexOf("/") != -1) {
+            // rule name consist of "parent/child" name syntax but delete/update/get should be called only on child name
+            return name.substring(parentName.length() + 1);
+        }
+        return name;
     }
 }

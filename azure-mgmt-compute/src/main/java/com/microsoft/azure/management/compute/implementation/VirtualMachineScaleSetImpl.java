@@ -26,6 +26,7 @@ import com.microsoft.azure.management.compute.StorageAccountTypes;
 import com.microsoft.azure.management.compute.UpgradeMode;
 import com.microsoft.azure.management.compute.UpgradePolicy;
 import com.microsoft.azure.management.compute.VirtualHardDisk;
+import com.microsoft.azure.management.compute.VirtualMachineEvictionPolicyTypes;
 import com.microsoft.azure.management.compute.VirtualMachinePriorityTypes;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetDataDisk;
@@ -405,6 +406,15 @@ public class VirtualMachineScaleSetImpl
     public VirtualMachinePriorityTypes virtualMachinePriority() {
         if (this.inner().virtualMachineProfile() != null) {
             return this.inner().virtualMachineProfile().priority();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public VirtualMachineEvictionPolicyTypes virtualMachineEvictionPolicy() {
+        if (this.inner().virtualMachineProfile() != null) {
+            return this.inner().virtualMachineProfile().evictionPolicy();
         } else {
             return null;
         }
@@ -2162,6 +2172,19 @@ public class VirtualMachineScaleSetImpl
     @Override
     public VirtualMachineScaleSetImpl withVirtualMachinePriority(VirtualMachinePriorityTypes priority) {
         this.inner().virtualMachineProfile().withPriority(priority);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withLowPriorityVirtualMachine() {
+        this.withVirtualMachinePriority(VirtualMachinePriorityTypes.LOW);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withLowPriorityVirtualMachine(VirtualMachineEvictionPolicyTypes policy) {
+        this.withLowPriorityVirtualMachine();
+        this.inner().virtualMachineProfile().withEvictionPolicy(policy);
         return this;
     }
 

@@ -64,6 +64,7 @@ class RedisCacheImpl
     private RedisUpdateParameters updateParameters;
     private RedisPatchSchedulesImpl patchSchedules;
     private RedisFirewallRulesImpl firewallRules;
+    private boolean patchScheduleAdded;
 
     RedisCacheImpl(String name,
                    RedisResourceInner innerModel,
@@ -74,6 +75,7 @@ class RedisCacheImpl
         this.firewallRules = new RedisFirewallRulesImpl(this);
         this.patchSchedules.enablePostRunMode();
         this.firewallRules.enablePostRunMode();
+        this.patchScheduleAdded = false;
     }
 
     @Override
@@ -83,7 +85,11 @@ class RedisCacheImpl
 
     @Override
     public List<ScheduleEntry> patchSchedules() {
-        return this.patchSchedules.getPatchSchedule().scheduleEntries();
+        RedisPatchScheduleImpl patchSchedule = this.patchSchedules.getPatchSchedule();
+        if (patchSchedule == null) {
+            return new ArrayList<>();
+        }
+        return patchSchedule.scheduleEntries();
     }
 
     @Override
@@ -505,10 +511,13 @@ class RedisCacheImpl
         RedisPatchScheduleImpl psch = null;
         if (this.patchSchedules.patchSchedulesAsMap().isEmpty()) {
             psch = this.patchSchedules.defineInlinePatchSchedule();
+            this.patchScheduleAdded = true;
             psch.inner().withScheduleEntries(new ArrayList<ScheduleEntry>());
             this.patchSchedules.addPatchSchedule(psch);
-        } else {
+        } else if (this.patchScheduleAdded == false) {
             psch = this.patchSchedules.updateInlinePatchSchedule();
+        } else {
+            psch = this.patchSchedules.getPatchSchedule();
         }
 
         psch.inner().scheduleEntries().add(scheduleEntry);
@@ -516,8 +525,19 @@ class RedisCacheImpl
     }
 
     @Override
+    public RedisCacheImpl withoutPatchSchedule() {
+        if (this.patchSchedules.patchSchedulesAsMap().isEmpty()) {
+            return this;
+        } else {
+            this.patchSchedules.deleteInlinePatchSchedule();
+        }
+        return this;
+    }
+
+    @Override
     public void deletePatchSchedule() {
         this.patchSchedules.removePatchSchedule();
+        this.patchSchedules.refresh();
     }
 
     @Override
@@ -542,6 +562,7 @@ class RedisCacheImpl
     public Completable afterPostRunAsync(final boolean isGroupFaulted) {
         this.firewallRules.clear();
         this.patchSchedules.clear();
+        this.patchScheduleAdded = false;
         if (isGroupFaulted) {
             return Completable.complete();
         } else {
@@ -571,6 +592,7 @@ class RedisCacheImpl
                             RedisResourceInner innerResource = self.manager().inner().redis().getByResourceGroup(resourceGroupName(), name());
                             ((RedisCacheImpl) redisCache).setInner(innerResource);
                             self.setInner(innerResource);
+                            self.patchScheduleAdded = false;
                         }
                     }
                 })
@@ -602,15 +624,15 @@ class RedisCacheImpl
 
     @Override
     public Observable<RedisCache> createResourceAsync() {
-        final RedisCacheImpl self = this;
         createParameters.withLocation(this.regionName());
         createParameters.withTags(this.inner().getTags());
+        this.patchScheduleAdded = false;
         return this.manager().inner().redis().createAsync(this.resourceGroupName(), this.name(), createParameters)
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    public void addLinkedServer(String name, ReplicationRole role) {
+    public void addLinkedServer(ReplicationRole role) {
         RedisLinkedServerCreateParameters params = new RedisLinkedServerCreateParameters()
                 .withLinkedRedisCacheId(this.id())
                 .withLinkedRedisCacheLocation(this.inner().location())
@@ -618,39 +640,39 @@ class RedisCacheImpl
         this.manager().inner().linkedServers().create(
                 this.resourceGroupName(),
                 this.name(),
-                name,
+                this.name(),
                 params);
     }
 
     @Override
-    public void removeLinkedServer(String name) {
+    public void removeLinkedServer() {
         this.manager().inner().linkedServers().delete(
                 this.resourceGroupName(),
                 this.name(),
-                name);
+                this.name());
     }
 
     @Override
-    public ReplicationRole getLinkedServerRole(String name) {
+    public ReplicationRole getLinkedServerRole() {
         RedisLinkedServerWithPropertiesInner linkedServer = this.manager().inner().linkedServers().get(
                 this.resourceGroupName(),
                 this.name(),
-                name);
+                this.name());
         if (linkedServer == null) {
-            throw new IllegalArgumentException("Server returned `null` value for Linked Server '" + name + "' for Redis Cache '" + this.name() + "' in Resource Group '" + this.resourceGroupName() + "'.");
+            throw new IllegalArgumentException("Server returned `null` value for Linked Server '" + this.name() + "' for Redis Cache '" + this.name() + "' in Resource Group '" + this.resourceGroupName() + "'.");
         }
         return linkedServer.serverRole();
     }
 
     @Override
-    public Map<String, ReplicationRole> listLinkedServers() {
-        Map<String, ReplicationRole> result = new TreeMap<>();
+    public List<ReplicationRole> listLinkedServers() {
+        List<ReplicationRole> result = new ArrayList<>();
         PagedList<RedisLinkedServerWithPropertiesInner> paginatedResponse = this.manager().inner().linkedServers().list(
                 this.resourceGroupName(),
                 this.name());
 
         for (RedisLinkedServerWithPropertiesInner linkedServer :  paginatedResponse) {
-            result.put(linkedServer.name(), linkedServer.serverRole());
+            result.add(linkedServer.serverRole());
         }
         return result;
     }

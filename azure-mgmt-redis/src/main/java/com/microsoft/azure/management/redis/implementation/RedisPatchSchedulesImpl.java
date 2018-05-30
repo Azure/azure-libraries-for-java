@@ -55,8 +55,11 @@ class RedisPatchSchedulesImpl extends
     }
 
     public void removePatchSchedule() {
-        this.prepareInlineRemove(this.patchScheduleName);
-    }
+        RedisPatchScheduleImpl psch = this.getPatchSchedule();
+        if (psch != null) {
+            psch.deleteResourceAsync().toBlocking().last();
+        }
+}
 
     public RedisPatchScheduleImpl defineInlinePatchSchedule() {
         return prepareInlineDefine(this.patchScheduleName);
@@ -64,6 +67,10 @@ class RedisPatchSchedulesImpl extends
 
     public RedisPatchScheduleImpl updateInlinePatchSchedule() {
         return prepareInlineUpdate(this.patchScheduleName);
+    }
+
+    public void deleteInlinePatchSchedule() {
+        prepareInlineRemove(this.patchScheduleName);
     }
 
     @Override

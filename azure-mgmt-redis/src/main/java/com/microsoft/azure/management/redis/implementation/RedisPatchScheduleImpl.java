@@ -65,9 +65,8 @@ class RedisPatchScheduleImpl extends
 
     @Override
     public Observable<Void> deleteResourceAsync() {
-        return this.parent().manager().inner().firewallRules().deleteAsync(this.parent().resourceGroupName(),
-                this.parent().name(),
-                this.name());
+        return this.parent().manager().inner().patchSchedules().deleteAsync(this.parent().resourceGroupName(),
+                this.parent().name());
     }
 
     @Override

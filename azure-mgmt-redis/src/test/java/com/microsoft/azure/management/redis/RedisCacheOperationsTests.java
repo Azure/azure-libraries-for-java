@@ -17,6 +17,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.fail;
 
@@ -173,7 +174,8 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
                                     .getById(premiumCache.id())
                                     .asPremium()
                                     .listPatchSchedules();
-        Assert.assertNull(patchSchedule);
+        Assert.assertNotNull(patchSchedule);
+        Assert.assertEquals(0, patchSchedule.size());
 
         // currently throws because SAS url of the container should be provided as
         // {"error":{
@@ -185,5 +187,38 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
         /*premiumCache.exportData(storageAccount.name(),"snapshot1");
 
         premiumCache.importData(Arrays.asList("snapshot1"));*/
+    }
+
+    @Test
+    public void canCRUDLinkedServers() throws Exception {
+
+        RedisCache rgg = redisManager.redisCaches()
+                .define(RR_NAME_THIRD)
+                .withRegion(Region.US_CENTRAL)
+                .withNewResourceGroup(RG_NAME_SECOND)
+                .withPremiumSku(2)
+                .withPatchSchedule(DayOfWeek.SATURDAY, 5, Period.hours(5))
+                .withRedisConfiguration("maxclients", "2")
+                .withNonSslPort()
+                .withFirewallRule("rule1", "192.168.0.1", "192.168.0.4")
+                .withFirewallRule("rule2", "192.168.0.10", "192.168.0.40")
+                .create();
+
+        RedisCachePremium premiumRgg = rgg.asPremium();
+        premiumRgg.addLinkedServer(ReplicationRole.PRIMARY);
+        premiumRgg.addLinkedServer(ReplicationRole.SECONDARY);
+        List<ReplicationRole> linkedServers = premiumRgg.listLinkedServers();
+        ReplicationRole repRole = premiumRgg.getLinkedServerRole();
+        premiumRgg.removeLinkedServer();
+        linkedServers = premiumRgg.listLinkedServers();
+
+        premiumRgg.update()
+                .withPatchSchedule(DayOfWeek.MONDAY, 1)
+                .withPatchSchedule(DayOfWeek.TUESDAY, 5)
+                .apply();
+
+        premiumRgg.update()
+                .withoutPatchSchedule()
+                .apply();
     }
 }

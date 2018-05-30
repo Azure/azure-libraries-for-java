@@ -496,7 +496,7 @@ public interface RedisCache extends
         Update withShardCount(int shardCount);
 
         /**
-         * Patch schedule on a Premium Cluster Cache.
+         * Adds Patch schedule to the current Premium Cluster Cache.
          *
          * @param dayOfWeek day of week when cache can be patched.
          * @param startHourUtc start hour after which cache patching can start.
@@ -505,7 +505,7 @@ public interface RedisCache extends
         Update withPatchSchedule(DayOfWeek dayOfWeek, int startHourUtc);
 
         /**
-         * The number of shards to be created on a Premium Cluster Cache.
+         * Adds Patch schedule to the current Premium Cluster Cache.
          *
          * @param dayOfWeek day of week when cache can be patched.
          * @param startHourUtc start hour after which cache patching can start.
@@ -515,7 +515,7 @@ public interface RedisCache extends
         Update withPatchSchedule(DayOfWeek dayOfWeek, int startHourUtc, Period maintenanceWindow);
 
         /**
-         * Patch schedule on a Premium Cluster Cache.
+         * Adds Patch schedule to the current Premium Cluster Cache.
          *
          * @param scheduleEntry Patch schedule entry for Premium Redis Cache.
          * @return the next stage of Redis Cache with Premium SKU definition.
@@ -523,12 +523,21 @@ public interface RedisCache extends
         Update withPatchSchedule(ScheduleEntry scheduleEntry);
 
         /**
-         * Patch schedule on a Premium Cluster Cache.
+         * Adds Patch schedule to the current Premium Cluster Cache.
          *
          * @param scheduleEntry List of patch schedule entries for Premium Redis Cache.
          * @return the next stage of Redis Cache with Premium SKU definition.
          */
         Update withPatchSchedule(List<ScheduleEntry> scheduleEntry);
+
+
+        /**
+         * Removes all Patch schedules from the current Premium Cluster Cache.
+         *
+         * @return the next stage of Redis Cache with Premium SKU definition.
+         */
+        @Method
+        Update withoutPatchSchedule();
 
         /**
          * Creates or updates Redis cache firewall rule with range of IP addresses permitted to connect to the cache.

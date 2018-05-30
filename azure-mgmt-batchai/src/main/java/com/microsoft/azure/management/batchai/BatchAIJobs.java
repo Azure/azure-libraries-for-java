@@ -26,11 +26,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 public interface BatchAIJobs extends
         SupportsCreating<BatchAIJob.DefinitionStages.Blank>,
         SupportsListing<BatchAIJob>,
-        SupportsGettingByName<BatchAIJob>,
         SupportsGettingById<BatchAIJob>,
-        SupportsGettingByNameAsync<BatchAIJob>,
-        SupportsDeletingByName,
         SupportsDeletingById,
-        HasInner<JobsInner>,
-        HasParent<BatchAICluster> {
+        HasInner<JobsInner> {
 }

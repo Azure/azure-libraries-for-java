@@ -85,16 +85,21 @@ class RedisCacheImpl
 
     @Override
     public List<ScheduleEntry> patchSchedules() {
-        RedisPatchScheduleImpl patchSchedule = this.patchSchedules.getPatchSchedule();
-        if (patchSchedule == null) {
+        List<ScheduleEntry> patchSchedules = listPatchSchedules();
+        if (patchSchedules == null) {
             return new ArrayList<>();
         }
-        return patchSchedule.scheduleEntries();
+        return patchSchedules;
     }
 
     @Override
     public List<ScheduleEntry> listPatchSchedules() {
-        return this.patchSchedules();
+        // for backward compatibility this method should return Null when there is no records for Patch Schedule
+        RedisPatchScheduleImpl patchSchedule = this.patchSchedules.getPatchSchedule();
+        if (patchSchedule == null) {
+            return null;
+        }
+        return patchSchedule.scheduleEntries();
     }
 
     @Override
@@ -514,7 +519,7 @@ class RedisCacheImpl
             this.patchScheduleAdded = true;
             psch.inner().withScheduleEntries(new ArrayList<ScheduleEntry>());
             this.patchSchedules.addPatchSchedule(psch);
-        } else if (this.patchScheduleAdded == false) {
+        } else if (!this.patchScheduleAdded) {
             psch = this.patchSchedules.updateInlinePatchSchedule();
         } else {
             psch = this.patchSchedules.getPatchSchedule();

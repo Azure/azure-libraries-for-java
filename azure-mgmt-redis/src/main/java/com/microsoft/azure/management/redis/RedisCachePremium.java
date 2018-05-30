@@ -6,7 +6,6 @@
 package com.microsoft.azure.management.redis;
 
 import java.util.List;
-import java.util.Map;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;

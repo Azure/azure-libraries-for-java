@@ -174,8 +174,7 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
                                     .getById(premiumCache.id())
                                     .asPremium()
                                     .listPatchSchedules();
-        Assert.assertNotNull(patchSchedule);
-        Assert.assertEquals(0, patchSchedule.size());
+        Assert.assertNull(patchSchedule);
 
         // currently throws because SAS url of the container should be provided as
         // {"error":{

@@ -112,9 +112,7 @@ class ExpressRouteCrossConnectionPeeringsImpl extends IndependentChildrenImpl<
 
     @Override
     public Completable deleteByNameAsync(String name) {
-        return this.inner().deleteAsync(parent.resourceGroupName(),
-                parent.name(),
-                name).toCompletable();
+        return deleteByParentAsync(parent.resourceGroupName(), parent.name(), name);
     }
 
     @Override
@@ -124,7 +122,14 @@ class ExpressRouteCrossConnectionPeeringsImpl extends IndependentChildrenImpl<
 
     @Override
     public Completable deleteByParentAsync(String groupName, String parentName, String name) {
-        return this.inner().deleteAsync(groupName, parentName, name).toCompletable();
+        return this.inner().deleteAsync(groupName, parentName, name)
+                .map(new Func1<Void, Void>() {
+                    @Override
+                    public Void call(Void result) {
+                        parent.refresh();
+                        return result;
+                    }
+                }).toCompletable();
     }
 
     @Override

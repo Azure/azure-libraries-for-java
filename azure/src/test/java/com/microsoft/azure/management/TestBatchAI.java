@@ -162,7 +162,7 @@ public class TestBatchAI {
             Assert.assertEquals("steady", cluster.allocationState().toString());
             Assert.assertEquals(userName, cluster.adminUserName());
             BatchAIJob job = clusters.manager().jobs().define("myJob")
-                    .withExistingClusterId(cluster.id())
+                    .withExistingCluster(cluster)
                     .withNodeCount(1)
                     .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
                     .defineCognitiveToolkit()

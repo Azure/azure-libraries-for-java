@@ -36,7 +36,7 @@ public class BatchAIError {
     private List<NameValuePair> details;
 
     /**
-     * Get the code value.
+     * Get an identifier for the error. Codes are invariant and are intended to be consumed programmatically.
      *
      * @return the code value
      */
@@ -45,7 +45,7 @@ public class BatchAIError {
     }
 
     /**
-     * Get the message value.
+     * Get a message describing the error, intended to be suitable for display in a user interface.
      *
      * @return the message value
      */
@@ -54,7 +54,7 @@ public class BatchAIError {
     }
 
     /**
-     * Get the details value.
+     * Get a list of additional details about the error.
      *
      * @return the details value
      */

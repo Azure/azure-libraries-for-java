@@ -13,6 +13,8 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.batchai.FileServerCreateParameters;
+import com.microsoft.azure.management.batchai.FileServersListByWorkspaceOptions;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -63,11 +65,11 @@ public class FileServersInner {
     interface FileServersService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.FileServers create" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}")
-        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("fileServerName") String fileServerName, @Path("subscriptionId") String subscriptionId, @Body FileServerCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("fileServerName") String fileServerName, @Path("subscriptionId") String subscriptionId, @Body FileServerCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.FileServers beginCreate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}")
-        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("fileServerName") String fileServerName, @Path("subscriptionId") String subscriptionId, @Body FileServerCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("fileServerName") String fileServerName, @Path("subscriptionId") String subscriptionId, @Body FileServerCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.FileServers delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}", method = "DELETE", hasBody = true)
@@ -103,7 +105,7 @@ public class FileServersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the FileServerInner object if successful.
      */
-    public FileServerInner create(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters) {
+    public FileServerInner create(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParameters parameters) {
         return createWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName, parameters).toBlocking().last().body();
     }
 
@@ -118,7 +120,7 @@ public class FileServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<FileServerInner> createAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters, final ServiceCallback<FileServerInner> serviceCallback) {
+    public ServiceFuture<FileServerInner> createAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParameters parameters, final ServiceCallback<FileServerInner> serviceCallback) {
         return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName, parameters), serviceCallback);
     }
 
@@ -132,7 +134,7 @@ public class FileServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<FileServerInner> createAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters) {
+    public Observable<FileServerInner> createAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParameters parameters) {
         return createWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName, parameters).map(new Func1<ServiceResponse<FileServerInner>, FileServerInner>() {
             @Override
             public FileServerInner call(ServiceResponse<FileServerInner> response) {
@@ -151,7 +153,7 @@ public class FileServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<FileServerInner>> createWithServiceResponseAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters) {
+    public Observable<ServiceResponse<FileServerInner>> createWithServiceResponseAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -187,7 +189,7 @@ public class FileServersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the FileServerInner object if successful.
      */
-    public FileServerInner beginCreate(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters) {
+    public FileServerInner beginCreate(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParameters parameters) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName, parameters).toBlocking().single().body();
     }
 
@@ -202,7 +204,7 @@ public class FileServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<FileServerInner> beginCreateAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters, final ServiceCallback<FileServerInner> serviceCallback) {
+    public ServiceFuture<FileServerInner> beginCreateAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParameters parameters, final ServiceCallback<FileServerInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName, parameters), serviceCallback);
     }
 
@@ -216,7 +218,7 @@ public class FileServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FileServerInner object
      */
-    public Observable<FileServerInner> beginCreateAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters) {
+    public Observable<FileServerInner> beginCreateAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParameters parameters) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, workspaceName, fileServerName, parameters).map(new Func1<ServiceResponse<FileServerInner>, FileServerInner>() {
             @Override
             public FileServerInner call(ServiceResponse<FileServerInner> response) {
@@ -235,7 +237,7 @@ public class FileServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FileServerInner object
      */
-    public Observable<ServiceResponse<FileServerInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParametersInner parameters) {
+    public Observable<ServiceResponse<FileServerInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String workspaceName, String fileServerName, FileServerCreateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -641,7 +643,7 @@ public class FileServersInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        final FileServersListByWorkspaceOptionsInner fileServersListByWorkspaceOptions = null;
+        final FileServersListByWorkspaceOptions fileServersListByWorkspaceOptions = null;
         Integer maxResults = null;
         return service.listByWorkspace(resourceGroupName, workspaceName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), maxResults, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<FileServerInner>>>>() {
@@ -668,7 +670,7 @@ public class FileServersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;FileServerInner&gt; object if successful.
      */
-    public PagedList<FileServerInner> listByWorkspace(final String resourceGroupName, final String workspaceName, final FileServersListByWorkspaceOptionsInner fileServersListByWorkspaceOptions) {
+    public PagedList<FileServerInner> listByWorkspace(final String resourceGroupName, final String workspaceName, final FileServersListByWorkspaceOptions fileServersListByWorkspaceOptions) {
         ServiceResponse<Page<FileServerInner>> response = listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName, fileServersListByWorkspaceOptions).toBlocking().single();
         return new PagedList<FileServerInner>(response.body()) {
             @Override
@@ -688,7 +690,7 @@ public class FileServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<FileServerInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName, final FileServersListByWorkspaceOptionsInner fileServersListByWorkspaceOptions, final ListOperationCallback<FileServerInner> serviceCallback) {
+    public ServiceFuture<List<FileServerInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName, final FileServersListByWorkspaceOptions fileServersListByWorkspaceOptions, final ListOperationCallback<FileServerInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName, fileServersListByWorkspaceOptions),
             new Func1<String, Observable<ServiceResponse<Page<FileServerInner>>>>() {
@@ -709,7 +711,7 @@ public class FileServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FileServerInner&gt; object
      */
-    public Observable<Page<FileServerInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName, final FileServersListByWorkspaceOptionsInner fileServersListByWorkspaceOptions) {
+    public Observable<Page<FileServerInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName, final FileServersListByWorkspaceOptions fileServersListByWorkspaceOptions) {
         return listByWorkspaceWithServiceResponseAsync(resourceGroupName, workspaceName, fileServersListByWorkspaceOptions)
             .map(new Func1<ServiceResponse<Page<FileServerInner>>, Page<FileServerInner>>() {
                 @Override
@@ -728,7 +730,7 @@ public class FileServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FileServerInner&gt; object
      */
-    public Observable<ServiceResponse<Page<FileServerInner>>> listByWorkspaceWithServiceResponseAsync(final String resourceGroupName, final String workspaceName, final FileServersListByWorkspaceOptionsInner fileServersListByWorkspaceOptions) {
+    public Observable<ServiceResponse<Page<FileServerInner>>> listByWorkspaceWithServiceResponseAsync(final String resourceGroupName, final String workspaceName, final FileServersListByWorkspaceOptions fileServersListByWorkspaceOptions) {
         return listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName, fileServersListByWorkspaceOptions)
             .concatMap(new Func1<ServiceResponse<Page<FileServerInner>>, Observable<ServiceResponse<Page<FileServerInner>>>>() {
                 @Override
@@ -751,7 +753,7 @@ public class FileServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;FileServerInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<FileServerInner>>> listByWorkspaceSinglePageAsync(final String resourceGroupName, final String workspaceName, final FileServersListByWorkspaceOptionsInner fileServersListByWorkspaceOptions) {
+    public Observable<ServiceResponse<Page<FileServerInner>>> listByWorkspaceSinglePageAsync(final String resourceGroupName, final String workspaceName, final FileServersListByWorkspaceOptions fileServersListByWorkspaceOptions) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }

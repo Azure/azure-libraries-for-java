@@ -11,7 +11,7 @@ package com.microsoft.azure.management.batchai;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Specifies the settings for a custom tool kit job.
+ * Specifies the settings for a custom MPI job.
  */
 public class CustomMpiSettings {
     /**
@@ -49,7 +49,7 @@ public class CustomMpiSettings {
     }
 
     /**
-     * Get the processCount value.
+     * Get the default value for this property is equal to nodeCount property.
      *
      * @return the processCount value
      */
@@ -58,7 +58,7 @@ public class CustomMpiSettings {
     }
 
     /**
-     * Set the processCount value.
+     * Set the default value for this property is equal to nodeCount property.
      *
      * @param processCount the processCount value to set
      * @return the CustomMpiSettings object itself.

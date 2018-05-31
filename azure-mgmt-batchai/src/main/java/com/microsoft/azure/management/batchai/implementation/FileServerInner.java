@@ -16,13 +16,13 @@ import org.joda.time.DateTime;
 import com.microsoft.azure.management.batchai.FileServerProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Contains information about the File Server.
  */
 @JsonFlatten
-public class FileServerInner extends Resource {
+public class FileServerInner extends ProxyResource {
     /**
      * The size of the virtual machine of the File Server.
      * For information about available VM sizes for File Server from the
@@ -82,7 +82,7 @@ public class FileServerInner extends Resource {
     private FileServerProvisioningState provisioningState;
 
     /**
-     * Get the vmSize value.
+     * Get for information about available VM sizes for File Server from the Virtual Machines Marketplace, see Sizes for Virtual Machines (Linux).
      *
      * @return the vmSize value
      */
@@ -91,7 +91,7 @@ public class FileServerInner extends Resource {
     }
 
     /**
-     * Set the vmSize value.
+     * Set for information about available VM sizes for File Server from the Virtual Machines Marketplace, see Sizes for Virtual Machines (Linux).
      *
      * @param vmSize the vmSize value to set
      * @return the FileServerInner object itself.
@@ -189,7 +189,7 @@ public class FileServerInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get possible values: creating - The File Server is getting created. updating - The File Server creation has been accepted and it is getting updated. deleting - The user has requested that the File Server be deleted, and it is in the process of being deleted. failed - The File Server creation has failed with the specified errorCode. Details about the error code are specified in the message field. succeeded - The File Server creation has succeeded. Possible values include: 'creating', 'updating', 'deleting', 'succeeded', 'failed'.
      *
      * @return the provisioningState value
      */

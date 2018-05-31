@@ -12,7 +12,7 @@ import org.joda.time.DateTime;
 import com.microsoft.azure.management.batchai.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.management.batchai.ProxyResource;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Contains information about the experiment.
@@ -49,7 +49,7 @@ public class ExperimentInner extends ProxyResource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioned state of the experiment. Possible values include: 'creating', 'succeeded', 'failed', 'deleting'.
      *
      * @return the provisioningState value
      */
@@ -58,7 +58,7 @@ public class ExperimentInner extends ProxyResource {
     }
 
     /**
-     * Get the provisioningStateTransitionTime value.
+     * Get the time at which the experiment entered its current provisioning state.
      *
      * @return the provisioningStateTransitionTime value
      */

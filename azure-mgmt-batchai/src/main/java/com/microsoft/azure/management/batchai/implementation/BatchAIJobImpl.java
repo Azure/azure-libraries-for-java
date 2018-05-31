@@ -23,11 +23,14 @@ import com.microsoft.azure.management.batchai.CustomToolkitSettings;
 import com.microsoft.azure.management.batchai.EnvironmentVariable;
 import com.microsoft.azure.management.batchai.EnvironmentVariableWithSecretValue;
 import com.microsoft.azure.management.batchai.ExecutionState;
+import com.microsoft.azure.management.batchai.Experiment;
 import com.microsoft.azure.management.batchai.FileServer;
 import com.microsoft.azure.management.batchai.FileServerReference;
 import com.microsoft.azure.management.batchai.ImageSourceRegistry;
 import com.microsoft.azure.management.batchai.InputDirectory;
+import com.microsoft.azure.management.batchai.JobCreateParameters;
 import com.microsoft.azure.management.batchai.JobPreparation;
+import com.microsoft.azure.management.batchai.JobPriority;
 import com.microsoft.azure.management.batchai.JobPropertiesConstraints;
 import com.microsoft.azure.management.batchai.JobPropertiesExecutionInfo;
 import com.microsoft.azure.management.batchai.KeyVaultSecretReference;
@@ -43,7 +46,7 @@ import com.microsoft.azure.management.batchai.ToolType;
 import com.microsoft.azure.management.batchai.ToolTypeSettings;
 import com.microsoft.azure.management.batchai.UnmanagedFileSystemReference;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;
@@ -53,6 +56,7 @@ import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl.convertPageToInnerAsync;
 
@@ -61,39 +65,45 @@ import static com.microsoft.azure.management.resources.fluentcore.arm.collection
  */
 @LangDefinition
 class BatchAIJobImpl
-        extends GroupableResourceImpl<BatchAIJob, JobInner, BatchAIJobImpl, BatchAIManager>
+        extends ExternalChildResourceImpl<BatchAIJob, JobInner, ExperimentImpl, Experiment>
         implements BatchAIJob,
         BatchAIJob.Definition,
         HasMountVolumes {
-    private BatchAICluster parent;
-    private JobCreateParametersInner createParameters = new JobCreateParametersInner();
+    private JobCreateParameters createParameters = new JobCreateParameters();
 
     BatchAIJobImpl(String name,
-                   JobInner inner,
-                   BatchAIManager manager) {
-        super(name, inner, manager);
-    }
-
-    @Override
-    public BatchAICluster parent() {
-        return parent;
+                   ExperimentImpl parent,
+                   JobInner inner) {
+        super(name, parent, inner);
     }
 
     @Override
     protected Observable<JobInner> getInnerAsync() {
-        return myManager.inner().jobs().getByResourceGroupAsync(resourceGroupName(), name());
+        return null;
+//        return myManager.inner().jobs().getByResourceGroupAsync(resourceGroupName(), name());
     }
 
     @Override
     public Observable<BatchAIJob> createResourceAsync() {
-        if (parent == null) {
-            parent = manager().clusters().getById(createParameters.cluster().id());
-        }
-        withExistingResourceGroup(parent.resourceGroupName());
-        createParameters.withLocation(parent.regionName());
-        return myManager.inner().jobs().createAsync(
-                this.resourceGroupName(), this.name(), createParameters)
-                .map(innerToFluentMap(this));
+        return null;
+//        if (parent == null) {
+//            parent = manager().clusters().getById(createParameters.cluster().id());
+//        }
+//        withExistingResourceGroup(parent.resourceGroupName());
+//        createParameters.withLocation(parent.regionName());
+//        return myManager.inner().jobs().createAsync(
+//                this.resourceGroupName(), this.name(), createParameters)
+//                .map(innerToFluentMap(this));
+    }
+
+    @Override
+    public Observable<BatchAIJob> updateResourceAsync() {
+        return null;
+    }
+
+    @Override
+    public Observable<Void> deleteResourceAsync() {
+        return null;
     }
 
     @Override
@@ -164,7 +174,7 @@ class BatchAIJobImpl
 
     @Override
     public BatchAIJob.DefinitionStages.WithCreate withExperimentName(String experimentName) {
-        inner().withExperimentName(experimentName);
+//        inner().withExperimentName(experimentName);
         return this;
     }
 
@@ -226,7 +236,7 @@ class BatchAIJobImpl
 
     @Override
     public BatchAIJobImpl withExistingCluster(BatchAICluster cluster) {
-        parent = cluster;
+//        parent = cluster;
         return this;
     }
 
@@ -353,10 +363,11 @@ class BatchAIJobImpl
 
     @Override
     public Completable terminateAsync() {
-        Observable<Void> stopObservable = this.manager().inner().jobs().terminateAsync(this.resourceGroupName(), this.name());
-        Observable<BatchAIJob> refreshObservable = refreshAsync();
-        // Refresh after stop to ensure the job operational state is updated
-        return Observable.concat(stopObservable, refreshObservable).toCompletable();
+//        Observable<Void> stopObservable = this.manager().inner().jobs().terminateAsync(this.resourceGroupName(), this.name());
+//        Observable<BatchAIJob> refreshObservable = refreshAsync();
+//        // Refresh after stop to ensure the job operational state is updated
+//        return Observable.concat(stopObservable, refreshObservable).toCompletable();
+        return null;
     }
 
     @Override
@@ -367,58 +378,63 @@ class BatchAIJobImpl
                 return Observable.just((OutputFile) new OutputFileImpl(fileInner));
             }
         };
-        return converter.convert(this.manager().inner().jobs().listOutputFiles(resourceGroupName(), name(), new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId)));
+        return null;
+//        return converter.convert(this.manager().inner().jobs().listOutputFiles(resourceGroupName(), name(), new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId)));
     }
 
     @Override
     public Observable<OutputFile> listFilesAsync(String outputDirectoryId) {
-        return convertPageToInnerAsync(this.manager().inner().jobs().listOutputFilesAsync(resourceGroupName(), name(),
-                new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId))).map(new Func1<FileInner, OutputFile>() {
-            @Override
-            public OutputFile call(FileInner fileInner) {
-                return new OutputFileImpl(fileInner);
-            }
-        });
+        return null;
+//        return convertPageToInnerAsync(this.manager().inner().jobs().listOutputFilesAsync(resourceGroupName(), name(),
+//                new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId))).map(new Func1<FileInner, OutputFile>() {
+//            @Override
+//            public OutputFile call(FileInner fileInner) {
+//                return new OutputFileImpl(fileInner);
+//            }
+//        });
     }
 
     @Override
     public PagedList<OutputFile> listFiles(String outputDirectoryId, String directory, Integer linkExpiryMinutes, Integer maxResults) {
-        PagedListConverter<FileInner, OutputFile> converter = new PagedListConverter<FileInner, OutputFile>() {
-            @Override
-            public Observable<OutputFile> typeConvertAsync(FileInner fileInner) {
-                return Observable.just((OutputFile) new OutputFileImpl(fileInner));
-            }
-        };
-        return converter.convert(this.manager().inner().jobs().listOutputFiles(resourceGroupName(), name(),
-                new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId)
-                        .withDirectory(directory)
-                        .withLinkexpiryinminutes(linkExpiryMinutes)
-                        .withMaxResults(maxResults)));
+//        PagedListConverter<FileInner, OutputFile> converter = new PagedListConverter<FileInner, OutputFile>() {
+//            @Override
+//            public Observable<OutputFile> typeConvertAsync(FileInner fileInner) {
+//                return Observable.just((OutputFile) new OutputFileImpl(fileInner));
+//            }
+//        };
+//        return converter.convert(this.manager().inner().jobs().listOutputFiles(resourceGroupName(), name(),
+//                new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId)
+//                        .withDirectory(directory)
+//                        .withLinkexpiryinminutes(linkExpiryMinutes)
+//                        .withMaxResults(maxResults)));
+        return null;
 
     }
 
     @Override
     public Observable<OutputFile> listFilesAsync(String outputDirectoryId, String directory, Integer linkExpiryMinutes, Integer maxResults) {
-        return convertPageToInnerAsync(this.manager().inner().jobs().listOutputFilesAsync(resourceGroupName(), name(),
-                new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId)
-                        .withDirectory(directory)
-                        .withLinkexpiryinminutes(linkExpiryMinutes)
-                        .withMaxResults(maxResults)))
-                .map(new Func1<FileInner, OutputFile>() {
-                    @Override
-                    public OutputFile call(FileInner fileInner) {
-                        return new OutputFileImpl(fileInner);
-                    }
-                });
+//        return convertPageToInnerAsync(this.manager().inner().jobs().listOutputFilesAsync(resourceGroupName(), name(),
+//                new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId)
+//                        .withDirectory(directory)
+//                        .withLinkexpiryinminutes(linkExpiryMinutes)
+//                        .withMaxResults(maxResults)))
+//                .map(new Func1<FileInner, OutputFile>() {
+//                    @Override
+//                    public OutputFile call(FileInner fileInner) {
+//                        return new OutputFileImpl(fileInner);
+//                    }
+//                });
+        return null;
     }
 
     @Override
     public String experimentName() {
-        return inner().experimentName();
+        return null;
+//        return inner().experimentName();
     }
 
     @Override
-    public Integer priority() {
+    public JobPriority priority() {
         return inner().priority();
     }
 
@@ -545,5 +561,20 @@ class BatchAIJobImpl
     @Override
     public JobPropertiesExecutionInfo executionInfo() {
         return inner().executionInfo();
+    }
+
+    @Override
+    public BatchAIJob.DefinitionStages.WithCreate withTags(Map<String, String> tags) {
+        return null;
+    }
+
+    @Override
+    public BatchAIJob.DefinitionStages.WithCreate withTag(String key, String value) {
+        return null;
+    }
+
+    @Override
+    public String id() {
+        return null;
     }
 }

@@ -15,6 +15,8 @@ import com.microsoft.azure.management.batchai.AzureFileShare;
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIError;
+import com.microsoft.azure.management.batchai.ClusterCreateParameters;
+import com.microsoft.azure.management.batchai.ClusterUpdateParameters;
 import com.microsoft.azure.management.batchai.FileServer;
 import com.microsoft.azure.management.batchai.DeallocationOption;
 import com.microsoft.azure.management.batchai.FileServerReference;
@@ -57,31 +59,31 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         BatchAICluster.Definition,
         BatchAICluster.Update,
         HasMountVolumes {
-    private ClusterCreateParametersInner createParameters = new ClusterCreateParametersInner();
-    private ClusterUpdateParametersInner updateParameters = new ClusterUpdateParametersInner();
+    private final WorkspaceImpl workspace;
 
-    BatchAIClusterImpl(String name, ClusterInner innerObject, BatchAIManager manager) {
-        super(name, innerObject, manager);
+    private ClusterCreateParameters createParameters = new ClusterCreateParameters();
+    private ClusterUpdateParameters updateParameters = new ClusterUpdateParameters();
+
+    BatchAIClusterImpl(String name, WorkspaceImpl workspace, ClusterInner innerObject) {
+        super(name, innerObject, workspace.manager());
+        this.workspace = workspace;
     }
 
     @Override
     public Observable<BatchAICluster> createResourceAsync() {
-        createParameters.withLocation(this.regionName());
-        createParameters.withTags(this.inner().getTags());
-        return this.manager().inner().clusters().createAsync(resourceGroupName(), name(), createParameters)
+        return this.manager().inner().clusters().createAsync(resourceGroupName(), workspace.name(), name(), createParameters)
                 .map(innerToFluentMap(this));
     }
 
     @Override
     public Observable<BatchAICluster> updateResourceAsync() {
-        updateParameters.withTags(this.inner().getTags());
-        return this.manager().inner().clusters().updateAsync(resourceGroupName(), name(), updateParameters)
+        return this.manager().inner().clusters().updateAsync(resourceGroupName(), workspace.name(), name(), updateParameters)
                 .map(innerToFluentMap(this));
     }
 
     @Override
     protected Observable<ClusterInner> getInnerAsync() {
-        return this.manager().inner().clusters().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+        return this.manager().inner().clusters().getAsync(this.resourceGroupName(), workspace.name(), this.name());
     }
 
     @Override
@@ -389,5 +391,10 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
             createParameters.withVirtualMachineConfiguration(new VirtualMachineConfiguration());
         }
         return createParameters.virtualMachineConfiguration();
+    }
+
+    @Override
+    public DefinitionWithRegion<BatchAICluster.DefinitionStages.WithVMSize> withExistingWorkspace(String resourceGroupName, String workspaceName) {
+        return null;
     }
 }

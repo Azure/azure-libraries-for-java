@@ -13,6 +13,9 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.batchai.JobCreateParameters;
+import com.microsoft.azure.management.batchai.JobsListByExperimentOptions;
+import com.microsoft.azure.management.batchai.JobsListOutputFilesOptions;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -68,11 +71,11 @@ public class JobsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs create" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}")
-        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("experimentName") String experimentName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Body JobCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("experimentName") String experimentName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Body JobCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs beginCreate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}")
-        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("experimentName") String experimentName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Body JobCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("experimentName") String experimentName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Body JobCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}", method = "DELETE", hasBody = true)
@@ -226,7 +229,7 @@ public class JobsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        final JobsListByExperimentOptionsInner jobsListByExperimentOptions = null;
+        final JobsListByExperimentOptions jobsListByExperimentOptions = null;
         Integer maxResults = null;
         return service.listByExperiment(resourceGroupName, workspaceName, experimentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), maxResults, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobInner>>>>() {
@@ -254,7 +257,7 @@ public class JobsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;JobInner&gt; object if successful.
      */
-    public PagedList<JobInner> listByExperiment(final String resourceGroupName, final String workspaceName, final String experimentName, final JobsListByExperimentOptionsInner jobsListByExperimentOptions) {
+    public PagedList<JobInner> listByExperiment(final String resourceGroupName, final String workspaceName, final String experimentName, final JobsListByExperimentOptions jobsListByExperimentOptions) {
         ServiceResponse<Page<JobInner>> response = listByExperimentSinglePageAsync(resourceGroupName, workspaceName, experimentName, jobsListByExperimentOptions).toBlocking().single();
         return new PagedList<JobInner>(response.body()) {
             @Override
@@ -275,7 +278,7 @@ public class JobsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<JobInner>> listByExperimentAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final JobsListByExperimentOptionsInner jobsListByExperimentOptions, final ListOperationCallback<JobInner> serviceCallback) {
+    public ServiceFuture<List<JobInner>> listByExperimentAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final JobsListByExperimentOptions jobsListByExperimentOptions, final ListOperationCallback<JobInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listByExperimentSinglePageAsync(resourceGroupName, workspaceName, experimentName, jobsListByExperimentOptions),
             new Func1<String, Observable<ServiceResponse<Page<JobInner>>>>() {
@@ -297,7 +300,7 @@ public class JobsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobInner&gt; object
      */
-    public Observable<Page<JobInner>> listByExperimentAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final JobsListByExperimentOptionsInner jobsListByExperimentOptions) {
+    public Observable<Page<JobInner>> listByExperimentAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final JobsListByExperimentOptions jobsListByExperimentOptions) {
         return listByExperimentWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobsListByExperimentOptions)
             .map(new Func1<ServiceResponse<Page<JobInner>>, Page<JobInner>>() {
                 @Override
@@ -317,7 +320,7 @@ public class JobsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobInner&gt; object
      */
-    public Observable<ServiceResponse<Page<JobInner>>> listByExperimentWithServiceResponseAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final JobsListByExperimentOptionsInner jobsListByExperimentOptions) {
+    public Observable<ServiceResponse<Page<JobInner>>> listByExperimentWithServiceResponseAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final JobsListByExperimentOptions jobsListByExperimentOptions) {
         return listByExperimentSinglePageAsync(resourceGroupName, workspaceName, experimentName, jobsListByExperimentOptions)
             .concatMap(new Func1<ServiceResponse<Page<JobInner>>, Observable<ServiceResponse<Page<JobInner>>>>() {
                 @Override
@@ -341,7 +344,7 @@ public class JobsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;JobInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<JobInner>>> listByExperimentSinglePageAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final JobsListByExperimentOptionsInner jobsListByExperimentOptions) {
+    public Observable<ServiceResponse<Page<JobInner>>> listByExperimentSinglePageAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final JobsListByExperimentOptions jobsListByExperimentOptions) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -396,7 +399,7 @@ public class JobsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the JobInner object if successful.
      */
-    public JobInner create(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParametersInner parameters) {
+    public JobInner create(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters) {
         return createWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName, parameters).toBlocking().last().body();
     }
 
@@ -412,7 +415,7 @@ public class JobsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<JobInner> createAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParametersInner parameters, final ServiceCallback<JobInner> serviceCallback) {
+    public ServiceFuture<JobInner> createAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters, final ServiceCallback<JobInner> serviceCallback) {
         return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName, parameters), serviceCallback);
     }
 
@@ -427,7 +430,7 @@ public class JobsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<JobInner> createAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParametersInner parameters) {
+    public Observable<JobInner> createAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters) {
         return createWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName, parameters).map(new Func1<ServiceResponse<JobInner>, JobInner>() {
             @Override
             public JobInner call(ServiceResponse<JobInner> response) {
@@ -447,7 +450,7 @@ public class JobsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<JobInner>> createWithServiceResponseAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParametersInner parameters) {
+    public Observable<ServiceResponse<JobInner>> createWithServiceResponseAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -487,7 +490,7 @@ public class JobsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the JobInner object if successful.
      */
-    public JobInner beginCreate(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParametersInner parameters) {
+    public JobInner beginCreate(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName, parameters).toBlocking().single().body();
     }
 
@@ -503,7 +506,7 @@ public class JobsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<JobInner> beginCreateAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParametersInner parameters, final ServiceCallback<JobInner> serviceCallback) {
+    public ServiceFuture<JobInner> beginCreateAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters, final ServiceCallback<JobInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName, parameters), serviceCallback);
     }
 
@@ -518,7 +521,7 @@ public class JobsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the JobInner object
      */
-    public Observable<JobInner> beginCreateAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParametersInner parameters) {
+    public Observable<JobInner> beginCreateAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName, parameters).map(new Func1<ServiceResponse<JobInner>, JobInner>() {
             @Override
             public JobInner call(ServiceResponse<JobInner> response) {
@@ -538,7 +541,7 @@ public class JobsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the JobInner object
      */
-    public Observable<ServiceResponse<JobInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParametersInner parameters) {
+    public Observable<ServiceResponse<JobInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -879,7 +882,7 @@ public class JobsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;FileInner&gt; object if successful.
      */
-    public PagedList<FileInner> listOutputFiles(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final JobsListOutputFilesOptionsInner jobsListOutputFilesOptions) {
+    public PagedList<FileInner> listOutputFiles(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final JobsListOutputFilesOptions jobsListOutputFilesOptions) {
         ServiceResponse<Page<FileInner>> response = listOutputFilesSinglePageAsync(resourceGroupName, workspaceName, experimentName, jobName, jobsListOutputFilesOptions).toBlocking().single();
         return new PagedList<FileInner>(response.body()) {
             @Override
@@ -901,7 +904,7 @@ public class JobsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<FileInner>> listOutputFilesAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final JobsListOutputFilesOptionsInner jobsListOutputFilesOptions, final ListOperationCallback<FileInner> serviceCallback) {
+    public ServiceFuture<List<FileInner>> listOutputFilesAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final JobsListOutputFilesOptions jobsListOutputFilesOptions, final ListOperationCallback<FileInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listOutputFilesSinglePageAsync(resourceGroupName, workspaceName, experimentName, jobName, jobsListOutputFilesOptions),
             new Func1<String, Observable<ServiceResponse<Page<FileInner>>>>() {
@@ -924,7 +927,7 @@ public class JobsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FileInner&gt; object
      */
-    public Observable<Page<FileInner>> listOutputFilesAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final JobsListOutputFilesOptionsInner jobsListOutputFilesOptions) {
+    public Observable<Page<FileInner>> listOutputFilesAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final JobsListOutputFilesOptions jobsListOutputFilesOptions) {
         return listOutputFilesWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName, jobsListOutputFilesOptions)
             .map(new Func1<ServiceResponse<Page<FileInner>>, Page<FileInner>>() {
                 @Override
@@ -945,7 +948,7 @@ public class JobsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FileInner&gt; object
      */
-    public Observable<ServiceResponse<Page<FileInner>>> listOutputFilesWithServiceResponseAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final JobsListOutputFilesOptionsInner jobsListOutputFilesOptions) {
+    public Observable<ServiceResponse<Page<FileInner>>> listOutputFilesWithServiceResponseAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final JobsListOutputFilesOptions jobsListOutputFilesOptions) {
         return listOutputFilesSinglePageAsync(resourceGroupName, workspaceName, experimentName, jobName, jobsListOutputFilesOptions)
             .concatMap(new Func1<ServiceResponse<Page<FileInner>>, Observable<ServiceResponse<Page<FileInner>>>>() {
                 @Override
@@ -970,7 +973,7 @@ public class JobsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;FileInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<FileInner>>> listOutputFilesSinglePageAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final JobsListOutputFilesOptionsInner jobsListOutputFilesOptions) {
+    public Observable<ServiceResponse<Page<FileInner>>> listOutputFilesSinglePageAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final JobsListOutputFilesOptions jobsListOutputFilesOptions) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }

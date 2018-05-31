@@ -21,6 +21,13 @@ public class ContainerSettings {
     private ImageSourceRegistry imageSourceRegistry;
 
     /**
+     * Size of /dev/shm. Please refer to docker documentation for supported
+     * argument formats.
+     */
+    @JsonProperty(value = "shmSize")
+    private String shmSize;
+
+    /**
      * Get the imageSourceRegistry value.
      *
      * @return the imageSourceRegistry value
@@ -37,6 +44,26 @@ public class ContainerSettings {
      */
     public ContainerSettings withImageSourceRegistry(ImageSourceRegistry imageSourceRegistry) {
         this.imageSourceRegistry = imageSourceRegistry;
+        return this;
+    }
+
+    /**
+     * Get the shmSize value.
+     *
+     * @return the shmSize value
+     */
+    public String shmSize() {
+        return this.shmSize;
+    }
+
+    /**
+     * Set the shmSize value.
+     *
+     * @param shmSize the shmSize value to set
+     * @return the ContainerSettings object itself.
+     */
+    public ContainerSettings withShmSize(String shmSize) {
+        this.shmSize = shmSize;
         return this;
     }
 

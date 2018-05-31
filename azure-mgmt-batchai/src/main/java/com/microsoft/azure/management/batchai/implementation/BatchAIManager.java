@@ -99,22 +99,22 @@ public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagem
     /**
      * @return the batch AI clusters management API entry point
      */
-    public BatchAIClusters clusters() {
-        if (batchAIClusters == null) {
-            batchAIClusters = new BatchAIClustersImpl(this);
-        }
-        return batchAIClusters;
-    }
+//    public BatchAIClusters clusters() {
+//        if (batchAIClusters == null) {
+//            batchAIClusters = new BatchAIClustersImpl(this);
+//        }
+//        return batchAIClusters;
+//    }
 
     /**
      * @return the batch AI jobs management API entry point
      */
-    public BatchAIJobs jobs() {
-        if (batchAIJobs == null) {
-            batchAIJobs = new BatchAIJobsImpl(this);
-        }
-        return batchAIJobs;
-    }
+//    public BatchAIJobs jobs() {
+//        if (batchAIJobs == null) {
+//            batchAIJobs = new BatchAIJobsImpl(this);
+//        }
+//        return batchAIJobs;
+//    }
 
     /**
      * @return the batch AI file servers management API entry point

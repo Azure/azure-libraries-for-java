@@ -53,7 +53,7 @@ public class FileInner {
     private Long contentLength;
 
     /**
-     * Get the name value.
+     * Get name of the file.
      *
      * @return the name value
      */
@@ -62,7 +62,7 @@ public class FileInner {
     }
 
     /**
-     * Get the fileType value.
+     * Get contains information about file type. Possible values include: 'file', 'directory'.
      *
      * @return the fileType value
      */
@@ -80,7 +80,7 @@ public class FileInner {
     }
 
     /**
-     * Get the lastModified value.
+     * Get the time at which the file was last modified.
      *
      * @return the lastModified value
      */
@@ -89,7 +89,7 @@ public class FileInner {
     }
 
     /**
-     * Get the contentLength value.
+     * Get the file size.
      *
      * @return the contentLength value
      */

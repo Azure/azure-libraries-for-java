@@ -137,7 +137,20 @@ public interface BatchAICluster extends
         /**
          * The first stage of a Batch AI cluster definition.
          */
-        interface Blank extends DefinitionWithRegion<WithGroup> {
+        interface Blank extends WithWorkspace {//DefinitionWithRegion<WithGroup> {
+        }
+
+        /**
+         * The stage of the cluster definition allowing to specify Workspace.
+         */
+        interface WithWorkspace {
+            /**
+             * Specifies resourceGroupName, workspaceName.
+             * @param resourceGroupName resource group name
+             * @param workspaceName workspace name
+             * @return the next stage of the definition
+             */
+            DefinitionWithRegion<WithVMSize> withExistingWorkspace(String resourceGroupName, String workspaceName);
         }
 
         /**

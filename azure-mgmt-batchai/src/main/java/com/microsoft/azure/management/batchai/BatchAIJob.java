@@ -10,8 +10,8 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
-import com.microsoft.azure.management.batchai.implementation.JobInner;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
@@ -29,9 +29,8 @@ import java.util.List;
 @Fluent
 @Beta(Beta.SinceVersion.V1_6_0)
 public interface BatchAIJob extends
-        IndependentChildResource<BatchAIManager, JobInner>,
-        Refreshable<BatchAIJob>,
-        HasParent<BatchAICluster> {
+        ExternalChildResource<BatchAIJob, Experiment>,
+        Refreshable<BatchAIJob> {
 
     /**
      * Terminates a job.
@@ -96,7 +95,7 @@ public interface BatchAIJob extends
      * to 1000, with -1000 being the lowest priority and 1000 being the highest
      * priority. The default value is 0.
      */
-    Integer priority();
+    JobPriority priority();
 
     /**
      * @return  the Id of the cluster on which this job will run.

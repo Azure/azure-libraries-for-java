@@ -33,7 +33,7 @@ public class RemoteLoginInformationInner {
     private Double port;
 
     /**
-     * Get the nodeId value.
+     * Get id of the compute node.
      *
      * @return the nodeId value
      */
@@ -42,7 +42,7 @@ public class RemoteLoginInformationInner {
     }
 
     /**
-     * Get the ipAddress value.
+     * Get ip address.
      *
      * @return the ipAddress value
      */

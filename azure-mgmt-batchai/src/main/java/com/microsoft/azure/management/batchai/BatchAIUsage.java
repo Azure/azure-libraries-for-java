@@ -20,7 +20,7 @@ public interface BatchAIUsage extends HasInner<UsageInner> {
     /**
      * @return the unit of usage measurement
      */
-    String unit();
+    UsageUnit unit();
 
     /**
      * @return the current count of the allocated resources in the subscription

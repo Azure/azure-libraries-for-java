@@ -13,6 +13,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.batchai.ExperimentsListByWorkspaceOptions;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -192,7 +193,7 @@ public class ExperimentsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        final ExperimentsListByWorkspaceOptionsInner experimentsListByWorkspaceOptions = null;
+        final ExperimentsListByWorkspaceOptions experimentsListByWorkspaceOptions = null;
         Integer maxResults = null;
         return service.listByWorkspace(resourceGroupName, workspaceName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), maxResults, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExperimentInner>>>>() {
@@ -219,7 +220,7 @@ public class ExperimentsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ExperimentInner&gt; object if successful.
      */
-    public PagedList<ExperimentInner> listByWorkspace(final String resourceGroupName, final String workspaceName, final ExperimentsListByWorkspaceOptionsInner experimentsListByWorkspaceOptions) {
+    public PagedList<ExperimentInner> listByWorkspace(final String resourceGroupName, final String workspaceName, final ExperimentsListByWorkspaceOptions experimentsListByWorkspaceOptions) {
         ServiceResponse<Page<ExperimentInner>> response = listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName, experimentsListByWorkspaceOptions).toBlocking().single();
         return new PagedList<ExperimentInner>(response.body()) {
             @Override
@@ -239,7 +240,7 @@ public class ExperimentsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ExperimentInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName, final ExperimentsListByWorkspaceOptionsInner experimentsListByWorkspaceOptions, final ListOperationCallback<ExperimentInner> serviceCallback) {
+    public ServiceFuture<List<ExperimentInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName, final ExperimentsListByWorkspaceOptions experimentsListByWorkspaceOptions, final ListOperationCallback<ExperimentInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName, experimentsListByWorkspaceOptions),
             new Func1<String, Observable<ServiceResponse<Page<ExperimentInner>>>>() {
@@ -260,7 +261,7 @@ public class ExperimentsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ExperimentInner&gt; object
      */
-    public Observable<Page<ExperimentInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName, final ExperimentsListByWorkspaceOptionsInner experimentsListByWorkspaceOptions) {
+    public Observable<Page<ExperimentInner>> listByWorkspaceAsync(final String resourceGroupName, final String workspaceName, final ExperimentsListByWorkspaceOptions experimentsListByWorkspaceOptions) {
         return listByWorkspaceWithServiceResponseAsync(resourceGroupName, workspaceName, experimentsListByWorkspaceOptions)
             .map(new Func1<ServiceResponse<Page<ExperimentInner>>, Page<ExperimentInner>>() {
                 @Override
@@ -279,7 +280,7 @@ public class ExperimentsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ExperimentInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ExperimentInner>>> listByWorkspaceWithServiceResponseAsync(final String resourceGroupName, final String workspaceName, final ExperimentsListByWorkspaceOptionsInner experimentsListByWorkspaceOptions) {
+    public Observable<ServiceResponse<Page<ExperimentInner>>> listByWorkspaceWithServiceResponseAsync(final String resourceGroupName, final String workspaceName, final ExperimentsListByWorkspaceOptions experimentsListByWorkspaceOptions) {
         return listByWorkspaceSinglePageAsync(resourceGroupName, workspaceName, experimentsListByWorkspaceOptions)
             .concatMap(new Func1<ServiceResponse<Page<ExperimentInner>>, Observable<ServiceResponse<Page<ExperimentInner>>>>() {
                 @Override
@@ -302,7 +303,7 @@ public class ExperimentsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ExperimentInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ExperimentInner>>> listByWorkspaceSinglePageAsync(final String resourceGroupName, final String workspaceName, final ExperimentsListByWorkspaceOptionsInner experimentsListByWorkspaceOptions) {
+    public Observable<ServiceResponse<Page<ExperimentInner>>> listByWorkspaceSinglePageAsync(final String resourceGroupName, final String workspaceName, final ExperimentsListByWorkspaceOptions experimentsListByWorkspaceOptions) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }

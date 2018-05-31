@@ -11,7 +11,7 @@ package com.microsoft.azure.management.batchai;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Specifies the settings for Chainer job.
+ * Specifies the settings for Horovod job.
  */
 public class HorovodSettings {
     /**
@@ -100,7 +100,7 @@ public class HorovodSettings {
     }
 
     /**
-     * Get the processCount value.
+     * Get the default value for this property is equal to nodeCount property.
      *
      * @return the processCount value
      */
@@ -109,7 +109,7 @@ public class HorovodSettings {
     }
 
     /**
-     * Set the processCount value.
+     * Set the default value for this property is equal to nodeCount property.
      *
      * @param processCount the processCount value to set
      * @return the HorovodSettings object itself.

@@ -12,12 +12,14 @@ import org.joda.time.DateTime;
 import com.microsoft.azure.management.batchai.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * Describes Batch AI Workspace.
  */
 @JsonFlatten
+@SkipParentValidation
 public class WorkspaceInner extends Resource {
     /**
      * Time when the Workspace was created.
@@ -49,7 +51,7 @@ public class WorkspaceInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioned state of the workspace. Possible values include: 'creating', 'succeeded', 'failed', 'deleting'.
      *
      * @return the provisioningState value
      */
@@ -58,7 +60,7 @@ public class WorkspaceInner extends Resource {
     }
 
     /**
-     * Get the provisioningStateTransitionTime value.
+     * Get the time at which the workspace entered its current provisioning state.
      *
      * @return the provisioningStateTransitionTime value
      */

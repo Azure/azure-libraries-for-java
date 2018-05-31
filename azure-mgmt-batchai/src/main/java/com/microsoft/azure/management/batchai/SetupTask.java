@@ -59,7 +59,7 @@ public class SetupTask {
     private String stdOutErrPathSuffix;
 
     /**
-     * Get the commandLine value.
+     * Get command line to be executed on each cluster's node after it being allocated or rebooted. The command is executed in a bash subshell as a root.
      *
      * @return the commandLine value
      */
@@ -68,7 +68,7 @@ public class SetupTask {
     }
 
     /**
-     * Set the commandLine value.
+     * Set command line to be executed on each cluster's node after it being allocated or rebooted. The command is executed in a bash subshell as a root.
      *
      * @param commandLine the commandLine value to set
      * @return the SetupTask object itself.
@@ -99,7 +99,7 @@ public class SetupTask {
     }
 
     /**
-     * Get the secrets value.
+     * Get server will never report values of these variables back.
      *
      * @return the secrets value
      */
@@ -108,7 +108,7 @@ public class SetupTask {
     }
 
     /**
-     * Set the secrets value.
+     * Set server will never report values of these variables back.
      *
      * @param secrets the secrets value to set
      * @return the SetupTask object itself.
@@ -119,7 +119,7 @@ public class SetupTask {
     }
 
     /**
-     * Get the stdOutErrPathPrefix value.
+     * Get the prefix of a path where the Batch AI service will upload the stdout and stderr of the setup task.
      *
      * @return the stdOutErrPathPrefix value
      */
@@ -128,7 +128,7 @@ public class SetupTask {
     }
 
     /**
-     * Set the stdOutErrPathPrefix value.
+     * Set the prefix of a path where the Batch AI service will upload the stdout and stderr of the setup task.
      *
      * @param stdOutErrPathPrefix the stdOutErrPathPrefix value to set
      * @return the SetupTask object itself.
@@ -139,7 +139,7 @@ public class SetupTask {
     }
 
     /**
-     * Get the stdOutErrPathSuffix value.
+     * Get batch AI creates the setup task output directories under an unique path to avoid conflicts between different clusters. You can concatinate stdOutErrPathPrefix and stdOutErrPathSuffix to get the full path to the output directory.
      *
      * @return the stdOutErrPathSuffix value
      */

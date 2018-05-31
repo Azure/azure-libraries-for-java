@@ -34,8 +34,6 @@ public interface BatchAIFileServers extends
         SupportsGettingById<BatchAIFileServer>,
         SupportsDeletingById,
         SupportsDeletingByResourceGroup,
-        SupportsBatchCreation<BatchAIFileServer>,
-        SupportsBatchDeletion,
         HasManager<BatchAIManager>,
         HasInner<FileServersInner> {
 }

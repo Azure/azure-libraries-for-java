@@ -11,6 +11,9 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalCh
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 
+/**
+ * Entry point for Batch AI Experiment management API in Azure.
+ */
 @Fluent
 @Beta(Beta.SinceVersion.V1_11_0)
 public interface Experiment extends ExternalChildResource<Experiment, Workspace>,

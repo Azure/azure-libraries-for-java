@@ -46,12 +46,6 @@ class NodeSetupTaskImpl
     }
 
     @Override
-    public NodeSetupTaskImpl withRunElevated() {
-        inner().withRunElevated(true);
-        return this;
-    }
-
-    @Override
     public NodeSetupTaskImpl withStdOutErrPath(String stdOutErrPathPrefix) {
         inner().withStdOutErrPathPrefix(stdOutErrPathPrefix);
         return this;

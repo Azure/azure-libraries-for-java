@@ -34,12 +34,6 @@ class OutputDirectorySettingsImpl extends IndexableWrapperImpl<OutputDirectory>
     }
 
     @Override
-    public OutputDirectorySettingsImpl withCreateNew(boolean createNew) {
-        inner().withCreateNew(createNew);
-        return this;
-    }
-
-    @Override
     public BatchAIJobImpl attach() {
         this.parent.attachOutputDirectory(this);
         return parent;

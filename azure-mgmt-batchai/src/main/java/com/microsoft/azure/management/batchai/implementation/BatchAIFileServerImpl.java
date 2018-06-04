@@ -16,14 +16,10 @@ import com.microsoft.azure.management.batchai.ResourceId;
 import com.microsoft.azure.management.batchai.SshConfiguration;
 import com.microsoft.azure.management.batchai.StorageAccountType;
 import com.microsoft.azure.management.batchai.UserAccountSettings;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.batchai.Workspace;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import org.joda.time.DateTime;
 import rx.Observable;
-
-import java.util.Map;
 
 /**
  * Implementation for BatchAIFileServer and its create and update interfaces.
@@ -46,18 +42,18 @@ class BatchAIFileServerImpl extends CreatableUpdatableImpl<
 
     @Override
     public boolean isInCreateMode() {
-        return false;
+        return true;
     }
 
     @Override
     public Observable<BatchAIFileServer> createResourceAsync() {
-        return this.manager().inner().fileServers().createAsync(resourceGroupName(), workspace.name(), name(), createParameters)
+        return this.manager().inner().fileServers().createAsync(workspace.resourceGroupName(), workspace.name(), name(), createParameters)
                 .map(innerToFluentMap(this));
     }
 
     @Override
     protected Observable<FileServerInner> getInnerAsync() {
-        return this.manager().inner().fileServers().getAsync(this.resourceGroupName(), workspace.name(), this.name());
+        return this.manager().inner().fileServers().getAsync(workspace.resourceGroupName(), workspace.name(), this.name());
     }
 
 
@@ -176,82 +172,17 @@ class BatchAIFileServerImpl extends CreatableUpdatableImpl<
     }
 
     @Override
-    public DefinitionStages.WithDataDisks withNewResourceGroup(String name) {
-        return null;
-    }
-
-    @Override
-    public DefinitionStages.WithDataDisks withNewResourceGroup() {
-        return null;
-    }
-
-    @Override
-    public DefinitionStages.WithDataDisks withNewResourceGroup(Creatable<ResourceGroup> groupDefinition) {
-        return null;
-    }
-
-    @Override
-    public DefinitionStages.WithDataDisks withExistingResourceGroup(String groupName) {
-        return null;
-    }
-
-    @Override
-    public DefinitionStages.WithDataDisks withExistingResourceGroup(ResourceGroup group) {
-        return null;
+    public Workspace workspace() {
+        return workspace;
     }
 
     @Override
     public BatchAIManager manager() {
-        return null;
-    }
-
-    @Override
-    public String resourceGroupName() {
-        return null;
-    }
-
-    @Override
-    public String type() {
-        return null;
-    }
-
-    @Override
-    public String regionName() {
-        return null;
-    }
-
-    @Override
-    public Region region() {
-        return null;
-    }
-
-    @Override
-    public Map<String, String> tags() {
-        return null;
+        return workspace.manager();
     }
 
     @Override
     public String id() {
-        return null;
-    }
-
-    @Override
-    public DefinitionStages.WithGroup withRegion(String regionName) {
-        return null;
-    }
-
-    @Override
-    public DefinitionStages.WithGroup withRegion(Region region) {
-        return null;
-    }
-
-    @Override
-    public DefinitionStages.WithCreate withTags(Map<String, String> tags) {
-        return null;
-    }
-
-    @Override
-    public DefinitionStages.WithCreate withTag(String key, String value) {
-        return null;
+        return inner().id();
     }
 }

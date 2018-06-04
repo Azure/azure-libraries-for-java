@@ -11,11 +11,8 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIJob;
 import com.microsoft.azure.management.batchai.BatchAIJobs;
-import com.microsoft.azure.management.batchai.Experiment;
-import com.microsoft.azure.management.batchai.Workspace;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesNonCachedImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
+import com.microsoft.azure.management.batchai.JobsListByExperimentOptions;
+import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
@@ -23,38 +20,23 @@ import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
-import java.util.List;
 
 /**
  * The implementation of Jobs.
  */
 @LangDefinition
 class BatchAIJobsImpl
-        extends ExternalChildResourcesNonCachedImpl<
-                BatchAIJobImpl,
-                BatchAIJob,
-                ExperimentImpl,
-                Experiment,
-        Experiment>
+        extends CreatableResourcesImpl<
+                        BatchAIJob,
+                        BatchAIJobImpl,
+                        JobInner>
         implements BatchAIJobs {
+    private final WorkspaceImpl workspace;
+    private final ExperimentImpl experiment;
 
-
-//    WebhookImpl,
-//    Webhook,
-//    WebhookInner,
-//    RegistryImpl,
-//    Registry
-
-
-    /**
-     * Creates a new ExternalNonInlineChildResourcesImpl.
-     *
-     * @param parent            the parent Azure resource
-     * @param parentTaskGroup   the TaskGroup the parent Azure resource belongs to
-     * @param childResourceName the child resource name
-     */
-    protected BatchAIJobsImpl(Experiment parent, TaskGroup parentTaskGroup, String childResourceName) {
-        super(parent, parentTaskGroup, childResourceName);
+    protected BatchAIJobsImpl(ExperimentImpl experiment, TaskGroup parentTaskGroup, String childResourceName) {
+        this.workspace = experiment.parent();
+        this.experiment = experiment;
     }
 
 //    BatchAIJobsImpl(final ExperimentImpl parent) {
@@ -94,52 +76,56 @@ class BatchAIJobsImpl
 
     @Override
     public ServiceFuture<Void> deleteByNameAsync(String name, ServiceCallback<Void> callback) {
-        Workspace workspace = parent().parent();
-        return this.inner().deleteAsync(p.resourceGroupName(), name, callback);
+        return this.inner().deleteAsync(workspace.resourceGroupName(), workspace.name(), experiment.name(), name, callback);
     }
 
     @Override
     public Completable deleteByNameAsync(String name) {
-        Workspace workspace = parent().parent();
         return this.inner().deleteAsync(workspace.resourceGroupName(), workspace.name(), parent().name(), name).toCompletable();
     }
 
     @Override
     public PagedList<BatchAIJob> list() {
-        return new GroupPagedList<BatchAIJob>(this.manager().resourceManager().resourceGroups().list()) {
-            @Override
-            public List<BatchAIJob> listNextGroup(String resourceGroupName) {
-                return wrapList(BatchAIJobsImpl.this.inner().listByResourceGroup(resourceGroupName));
-            }
-        };
+        return wrapList(workspace.manager().inner().jobs().listByExperiment(workspace.resourceGroupName(), workspace.name(), experiment.name()));
+//        return new GroupPagedList<BatchAIJob>(workspace.manager().inner().experiments().resourceManager().resourceGroups().list()) {
+//            @Override
+//            public List<BatchAIJob> listNextGroup(String resourceGroupName) {
+//                return wrapList(BatchAIJobsImpl.this.inner().listByExperiment(resourceGroupName));
+//            }
+//        };
+    }
+
+    @Override
+    public PagedList<BatchAIJob> list(int maxResults) {
+        return wrapList(workspace.manager().inner().jobs()
+                .listByExperiment(workspace.resourceGroupName(), workspace.name(), experiment.name(), new JobsListByExperimentOptions().withMaxResults(maxResults)));
+//        return new GroupPagedList<BatchAIJob>(workspace.manager().inner().experiments().resourceManager().resourceGroups().list()) {
+//            @Override
+//            public List<BatchAIJob> listNextGroup(String resourceGroupName) {
+//                return wrapList(BatchAIJobsImpl.this.inner().listByExperiment(resourceGroupName));
+//            }
+//        };
     }
 
     @Override
     public BatchAIJob getByName(String name) {
-        JobInner inner = this.manager().inner().jobs()
-                .getByResourceGroup(this.parent().parent().resourceGroupName(), name);
-        return new BatchAIJobImpl(name, inner, manager());
+        JobInner inner = workspace.manager().inner().jobs()
+                .get(workspace.resourceGroupName(), workspace.name(), experiment.name(), name);
+        return new BatchAIJobImpl(name, experiment, inner);
     }
 
     @Override
     public Observable<BatchAIJob> listAsync() {
-        return this.parent().parent().manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<BatchAIJob>>() {
-                    @Override
-                    public Observable<BatchAIJob> call(ResourceGroup resourceGroup) {
-                        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
-                    }
-                });
+        return wrapPageAsync(inner().listByExperimentAsync(workspace.resourceGroupName(), workspace.name(), experiment.name()));
     }
 
-    @Override
-    protected Completable deleteInnerAsync(String resourceGroupName, String name) {
-        return inner().deleteAsync(resourceGroupName, name).toCompletable();
-    }
+//    @Override
+//    protected Completable deleteInnerAsync(String resourceGroupName, String name) {
+//        return inner().deleteAsync(resourceGroupName, name).toCompletable();
+//    }
 
     @Override
     public Observable<BatchAIJob> getByNameAsync(String name) {
-        Workspace workspace = parent().parent();
         return inner().getAsync(workspace.resourceGroupName(), workspace.name(), parent().name(), name)
                 .map(new Func1<JobInner, BatchAIJob>() {
                     @Override
@@ -165,12 +151,7 @@ class BatchAIJobsImpl
     }
 
     @Override
-    public void deleteById(String id) {
-
-    }
-
-    @Override
-    public ServiceFuture<Void> deleteByIdAsync(String id, ServiceCallback<Void> callback) {
+    protected BatchAIJobImpl wrapModel(String name) {
         return null;
     }
 
@@ -181,6 +162,16 @@ class BatchAIJobsImpl
 
     @Override
     public JobsInner inner() {
+        return null;
+    }
+
+    @Override
+    protected BatchAIJobImpl wrapModel(JobInner inner) {
+        return null;
+    }
+
+    @Override
+    public BatchAICluster parent() {
         return null;
     }
 }

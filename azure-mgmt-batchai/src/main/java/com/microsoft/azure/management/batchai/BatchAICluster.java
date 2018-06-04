@@ -137,7 +137,7 @@ public interface BatchAICluster extends
         /**
          * The first stage of a Batch AI cluster definition.
          */
-        interface Blank extends WithWorkspace {//DefinitionWithRegion<WithGroup> {
+        interface Blank extends WithWorkspace {
         }
 
         /**

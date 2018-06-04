@@ -16,7 +16,6 @@ import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIError;
 import com.microsoft.azure.management.batchai.ClusterCreateParameters;
-import com.microsoft.azure.management.batchai.ClusterUpdateParameters;
 import com.microsoft.azure.management.batchai.FileServer;
 import com.microsoft.azure.management.batchai.DeallocationOption;
 import com.microsoft.azure.management.batchai.FileServerReference;
@@ -37,23 +36,26 @@ import com.microsoft.azure.management.batchai.UserAccountSettings;
 import com.microsoft.azure.management.batchai.VirtualMachineConfiguration;
 import com.microsoft.azure.management.batchai.VmPriority;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.microsoft.azure.management.resources.ResourceGroup;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;
 import rx.Observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation for Cluster and its create and update interfaces.
  */
 @LangDefinition
-class BatchAIClusterImpl extends GroupableResourceImpl<
+class BatchAIClusterImpl extends CreatableUpdatableImpl<
         BatchAICluster,
         ClusterInner,
-        BatchAIClusterImpl,
-        BatchAIManager>
+        BatchAIClusterImpl>
         implements
         BatchAICluster,
         BatchAICluster.Definition,
@@ -62,11 +64,16 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
     private final WorkspaceImpl workspace;
 
     private ClusterCreateParameters createParameters = new ClusterCreateParameters();
-    private ClusterUpdateParameters updateParameters = new ClusterUpdateParameters();
+    private ScaleSettings scaleSettings = new ScaleSettings();
 
     BatchAIClusterImpl(String name, WorkspaceImpl workspace, ClusterInner innerObject) {
-        super(name, innerObject, workspace.manager());
+        super(name, innerObject);
         this.workspace = workspace;
+    }
+
+    @Override
+    public boolean isInCreateMode() {
+        return false;
     }
 
     @Override
@@ -77,7 +84,7 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
 
     @Override
     public Observable<BatchAICluster> updateResourceAsync() {
-        return this.manager().inner().clusters().updateAsync(resourceGroupName(), workspace.name(), name(), updateParameters)
+        return this.manager().inner().clusters().updateAsync(resourceGroupName(), workspace.name(), name(), scaleSettings)
                 .map(innerToFluentMap(this));
     }
 
@@ -123,7 +130,7 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         if (isInCreateMode()) {
             ensureScaleSettings().withAutoScale(autoScaleSettings);
         } else {
-            updateParameters.withScaleSettings(new ScaleSettings().withAutoScale(autoScaleSettings));
+            scaleSettings = new ScaleSettings().withAutoScale(autoScaleSettings);
         }
         return this;
     }
@@ -137,7 +144,7 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         if (isInCreateMode()) {
             ensureScaleSettings().withAutoScale(autoScaleSettings);
         } else {
-            updateParameters.withScaleSettings(new ScaleSettings().withAutoScale(autoScaleSettings));
+            scaleSettings = new ScaleSettings().withAutoScale(autoScaleSettings);
         }
         return this;
     }
@@ -148,7 +155,7 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         if (isInCreateMode()) {
             ensureScaleSettings().withManual(manualScaleSettings);
         } else {
-            updateParameters.withScaleSettings(new ScaleSettings().withManual(manualScaleSettings));
+            scaleSettings = new ScaleSettings().withManual(manualScaleSettings);
         }
         return this;
     }
@@ -159,7 +166,7 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         if (isInCreateMode()) {
             ensureScaleSettings().withManual(manualScaleSettings);
         } else {
-            updateParameters.withScaleSettings(new ScaleSettings().withManual(manualScaleSettings));
+            scaleSettings = new ScaleSettings().withManual(manualScaleSettings);
         }
         return this;
     }
@@ -395,6 +402,81 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
 
     @Override
     public DefinitionWithRegion<BatchAICluster.DefinitionStages.WithVMSize> withExistingWorkspace(String resourceGroupName, String workspaceName) {
+        return null;
+    }
+
+    @Override
+    public BatchAICluster.DefinitionStages.WithVMSize withNewResourceGroup(String name) {
+        return null;
+    }
+
+    @Override
+    public BatchAICluster.DefinitionStages.WithVMSize withNewResourceGroup() {
+        return null;
+    }
+
+    @Override
+    public BatchAICluster.DefinitionStages.WithVMSize withNewResourceGroup(Creatable<ResourceGroup> groupDefinition) {
+        return null;
+    }
+
+    @Override
+    public BatchAICluster.DefinitionStages.WithVMSize withExistingResourceGroup(String groupName) {
+        return null;
+    }
+
+    @Override
+    public BatchAICluster.DefinitionStages.WithVMSize withExistingResourceGroup(ResourceGroup group) {
+        return null;
+    }
+
+    @Override
+    public BatchAIManager manager() {
+        return null;
+    }
+
+    @Override
+    public String resourceGroupName() {
+        return null;
+    }
+
+    @Override
+    public String type() {
+        return null;
+    }
+
+    @Override
+    public String regionName() {
+        return null;
+    }
+
+    @Override
+    public Region region() {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> tags() {
+        return null;
+    }
+
+    @Override
+    public String id() {
+        return null;
+    }
+
+    @Override
+    public BatchAIClusterImpl withTags(Map<String, String> tags) {
+        return null;
+    }
+
+    @Override
+    public BatchAIClusterImpl withTag(String key, String value) {
+        return null;
+    }
+
+    @Override
+    public BatchAIClusterImpl withoutTag(String key) {
         return null;
     }
 }

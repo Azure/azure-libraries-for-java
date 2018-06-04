@@ -52,13 +52,10 @@ import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
-import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl.convertPageToInnerAsync;
 
 /**
  * Implementation for BatchAIJob and its create interface.
@@ -434,8 +431,8 @@ class BatchAIJobImpl
     }
 
     @Override
-    public JobPriority priority() {
-        return inner().priority();
+    public JobPriority schedulingPriority() {
+        return inner().schedulingPriority();
     }
 
     @Override

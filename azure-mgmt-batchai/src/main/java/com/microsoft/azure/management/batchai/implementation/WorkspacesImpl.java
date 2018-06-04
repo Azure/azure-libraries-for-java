@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.Workspace;
 import com.microsoft.azure.management.batchai.Workspaces;
 import com.microsoft.azure.management.resources.ResourceGroup;
@@ -17,6 +18,10 @@ import rx.functions.Func1;
 
 import java.util.List;
 
+/**
+ * Implementation for Workspaces.
+ */
+@LangDefinition
 public class WorkspacesImpl extends GroupableResourcesImpl<
         Workspace,
         WorkspaceImpl,

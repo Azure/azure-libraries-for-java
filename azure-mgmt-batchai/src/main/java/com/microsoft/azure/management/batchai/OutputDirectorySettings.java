@@ -44,8 +44,7 @@ public interface OutputDirectorySettings extends Indexable,
          */
         interface WithAttach<ParentT> extends
                 Attachable.InDefinition<ParentT>,
-                WithPathSuffix<ParentT>,
-                WithCreateNew<ParentT> {
+                WithPathSuffix<ParentT> {
         }
 
         /**
@@ -84,16 +83,6 @@ public interface OutputDirectorySettings extends Indexable,
              * @return the next stage of the definition
              */
             WithAttach<ParentT> withPathSuffix(String pathSuffix);
-        }
-
-        interface WithCreateNew<ParentT> {
-            /**
-             * @param createNew flag whether to create new directory.
-             * Default is true. If false, then the directory is not created and can be
-             * any directory path that the user specifies.
-             * @return the next stage of the definition
-             */
-            WithAttach<ParentT> withCreateNew(boolean createNew);
         }
     }
 }

@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.batchai;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.batchai.implementation.JobsInner;
@@ -33,4 +34,10 @@ public interface BatchAIJobs extends
         SupportsDeletingById,
         HasInner<JobsInner>,
         HasParent<BatchAICluster> {
+    /**
+     * List Batch AI jobs.
+     * @param maxResults maximum number of results
+     * @return jobs  list
+     */
+    PagedList<BatchAIJob> list(int maxResults);
 }

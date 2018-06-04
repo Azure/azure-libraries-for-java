@@ -2819,7 +2819,6 @@ public final class Utils {
         if (resource.nodeSetup() != null && resource.nodeSetup().setupTask() != null) {
             info.append("\n\tSetup task: ")
                     .append("\n\t\tCommand line: ").append(resource.nodeSetup().setupTask().commandLine())
-                    .append("\n\t\tRun elevated: ").append(resource.nodeSetup().setupTask().runElevated())
                     .append("\n\t\tStdout/err Path Prefix: ").append(resource.nodeSetup().setupTask().stdOutErrPathPrefix());
         }
         System.out.println(info.toString());
@@ -2834,11 +2833,11 @@ public final class Utils {
         StringBuilder info = new StringBuilder("Batch AI job: ")
                 .append("\n\tId: ").append(resource.id())
                 .append("\n\tName: ").append(resource.name())
-                .append("\n\tResource group: ").append(resource.resourceGroupName())
+//                .append("\n\tResource group: ").append(resource.resourceGroupName())
                 .append("\n\tCluster Id: ").append(resource.cluster())
                 .append("\n\tCreation time: ").append(resource.creationTime())
                 .append("\n\tNode count: ").append(resource.nodeCount())
-                .append("\n\tPriority: ").append(resource.priority())
+                .append("\n\tPriority: ").append(resource.schedulingPriority())
                 .append("\n\tExecution state: ").append(resource.executionState())
                 .append("\n\tExecution state transition time: ").append(resource.executionStateTransitionTime())
                 .append("\n\tTool type: ").append(resource.toolType())

@@ -80,12 +80,7 @@ public class WorkspacesImpl extends GroupableResourcesImpl<
 
     @Override
     public PagedList<Workspace> list() {
-        return new GroupPagedList<Workspace>(this.manager().resourceManager().resourceGroups().list()) {
-            @Override
-            public List<Workspace> listNextGroup(String resourceGroupName) {
-                return wrapList(WorkspacesImpl.this.inner().listByResourceGroup(resourceGroupName));
-            }
-        };
+        return wrapList(WorkspacesImpl.this.inner().list());
     }
 
     @Override

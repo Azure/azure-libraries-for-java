@@ -12,10 +12,13 @@ import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.batchai.implementation.ClusterInner;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import org.joda.time.DateTime;
@@ -28,7 +31,11 @@ import java.util.List;
 @Fluent
 @Beta(Beta.SinceVersion.V1_6_0)
 public interface BatchAICluster extends
-        GroupableResource<BatchAIManager, ClusterInner>,
+        HasInner<ClusterInner>,
+        Indexable,
+        HasId,
+        HasName,
+        HasManager<BatchAIManager>,
         Refreshable<BatchAICluster>,
         Updatable<BatchAICluster.Update> {
     /**
@@ -121,8 +128,6 @@ public interface BatchAICluster extends
      */
     interface Definition extends
             DefinitionStages.Blank,
-            DefinitionStages.WithGroup,
-            DefinitionStages.WithVMSize,
             DefinitionStages.WithUserName,
             DefinitionStages.WithUserCredentials,
             DefinitionStages.WithScaleSettings,
@@ -137,26 +142,7 @@ public interface BatchAICluster extends
         /**
          * The first stage of a Batch AI cluster definition.
          */
-        interface Blank extends WithWorkspace {
-        }
-
-        /**
-         * The stage of the cluster definition allowing to specify Workspace.
-         */
-        interface WithWorkspace {
-            /**
-             * Specifies resourceGroupName, workspaceName.
-             * @param resourceGroupName resource group name
-             * @param workspaceName workspace name
-             * @return the next stage of the definition
-             */
-            DefinitionWithRegion<WithVMSize> withExistingWorkspace(String resourceGroupName, String workspaceName);
-        }
-
-        /**
-         * The stage of a Batch AI cluster definition allowing the resource group to be specified.
-         */
-        interface WithGroup extends GroupableResource.DefinitionStages.WithGroup<WithVMSize> {
+        interface Blank extends WithVMSize {
         }
 
         /**
@@ -366,8 +352,7 @@ public interface BatchAICluster extends
                 HasMountVolumes.DefinitionStages.WithMountVolumes<WithCreate>,
                 DefinitionStages.WithAppInsightsResourceId,
                 DefinitionStages.WithVirtualMachineImage,
-                DefinitionStages.WithSubnet,
-                Resource.DefinitionWithTags<WithCreate> {
+                DefinitionStages.WithSubnet {
         }
     }
 
@@ -418,7 +403,6 @@ public interface BatchAICluster extends
      */
     interface Update extends
             Appliable<BatchAICluster>,
-            UpdateStages.WithScaleSettings,
-            Resource.UpdateWithTags<Update> {
+            UpdateStages.WithScaleSettings {
     }
 }

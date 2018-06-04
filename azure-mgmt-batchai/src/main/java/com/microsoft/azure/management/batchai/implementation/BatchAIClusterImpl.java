@@ -36,9 +36,6 @@ import com.microsoft.azure.management.batchai.UserAccountSettings;
 import com.microsoft.azure.management.batchai.VirtualMachineConfiguration;
 import com.microsoft.azure.management.batchai.VmPriority;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;
@@ -46,7 +43,6 @@ import rx.Observable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Implementation for Cluster and its create and update interfaces.
@@ -73,24 +69,24 @@ class BatchAIClusterImpl extends CreatableUpdatableImpl<
 
     @Override
     public boolean isInCreateMode() {
-        return false;
+        return inner().id() == null;
     }
 
     @Override
     public Observable<BatchAICluster> createResourceAsync() {
-        return this.manager().inner().clusters().createAsync(resourceGroupName(), workspace.name(), name(), createParameters)
+        return this.manager().inner().clusters().createAsync(workspace.resourceGroupName(), workspace.name(), name(), createParameters)
                 .map(innerToFluentMap(this));
     }
 
     @Override
     public Observable<BatchAICluster> updateResourceAsync() {
-        return this.manager().inner().clusters().updateAsync(resourceGroupName(), workspace.name(), name(), scaleSettings)
+        return this.manager().inner().clusters().updateAsync(workspace.resourceGroupName(), workspace.name(), name(), scaleSettings)
                 .map(innerToFluentMap(this));
     }
 
     @Override
     protected Observable<ClusterInner> getInnerAsync() {
-        return this.manager().inner().clusters().getAsync(this.resourceGroupName(), workspace.name(), this.name());
+        return this.manager().inner().clusters().getAsync(workspace.resourceGroupName(), workspace.name(), this.name());
     }
 
     @Override
@@ -401,82 +397,12 @@ class BatchAIClusterImpl extends CreatableUpdatableImpl<
     }
 
     @Override
-    public DefinitionWithRegion<BatchAICluster.DefinitionStages.WithVMSize> withExistingWorkspace(String resourceGroupName, String workspaceName) {
-        return null;
-    }
-
-    @Override
-    public BatchAICluster.DefinitionStages.WithVMSize withNewResourceGroup(String name) {
-        return null;
-    }
-
-    @Override
-    public BatchAICluster.DefinitionStages.WithVMSize withNewResourceGroup() {
-        return null;
-    }
-
-    @Override
-    public BatchAICluster.DefinitionStages.WithVMSize withNewResourceGroup(Creatable<ResourceGroup> groupDefinition) {
-        return null;
-    }
-
-    @Override
-    public BatchAICluster.DefinitionStages.WithVMSize withExistingResourceGroup(String groupName) {
-        return null;
-    }
-
-    @Override
-    public BatchAICluster.DefinitionStages.WithVMSize withExistingResourceGroup(ResourceGroup group) {
-        return null;
-    }
-
-    @Override
     public BatchAIManager manager() {
-        return null;
-    }
-
-    @Override
-    public String resourceGroupName() {
-        return null;
-    }
-
-    @Override
-    public String type() {
-        return null;
-    }
-
-    @Override
-    public String regionName() {
-        return null;
-    }
-
-    @Override
-    public Region region() {
-        return null;
-    }
-
-    @Override
-    public Map<String, String> tags() {
-        return null;
+        return workspace.manager();
     }
 
     @Override
     public String id() {
-        return null;
-    }
-
-    @Override
-    public BatchAIClusterImpl withTags(Map<String, String> tags) {
-        return null;
-    }
-
-    @Override
-    public BatchAIClusterImpl withTag(String key, String value) {
-        return null;
-    }
-
-    @Override
-    public BatchAIClusterImpl withoutTag(String key) {
-        return null;
+        return inner().id();
     }
 }

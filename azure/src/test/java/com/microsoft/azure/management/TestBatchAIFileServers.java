@@ -6,9 +6,10 @@
 package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.batchai.BatchAIFileServer;
-import com.microsoft.azure.management.batchai.BatchAIFileServers;
 import com.microsoft.azure.management.batchai.CachingType;
 import com.microsoft.azure.management.batchai.StorageAccountType;
+import com.microsoft.azure.management.batchai.Workspace;
+import com.microsoft.azure.management.batchai.Workspaces;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.Networks;
@@ -16,7 +17,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 
-public class TestBatchAIFileServers extends TestTemplate<BatchAIFileServer, BatchAIFileServers> {
+public class TestBatchAIFileServers extends TestTemplate<Workspace, Workspaces> {
     private Networks networks;
 
     public TestBatchAIFileServers(Networks networks) {
@@ -24,24 +25,28 @@ public class TestBatchAIFileServers extends TestTemplate<BatchAIFileServer, Batc
     }
 
     @Override
-    public BatchAIFileServer createResource(BatchAIFileServers fileServers) throws Exception {
+    public Workspace createResource(Workspaces workspaces) throws Exception {
         final Region region = Region.EUROPE_WEST;
         final String groupName = SdkContext.randomResourceName("rg", 10);
+        final String wsName = SdkContext.randomResourceName("ws", 10);
         final String fsName = SdkContext.randomResourceName("fs", 15);
         final String vnetName = SdkContext.randomResourceName("vnet", 15);
         final String subnetName = "MySubnet";
         final String userName = "tirekicker";
 
-        Network network = networks.define(vnetName)
+        Workspace workspace = workspaces.define(wsName)
                 .withRegion(region)
                 .withNewResourceGroup(groupName)
+                .create();
+
+        Network network = networks.define(vnetName)
+                .withRegion(region)
+                .withExistingResourceGroup(groupName)
                 .withAddressSpace("192.168.0.0/16")
                 .withSubnet(subnetName, "192.168.200.0/24")
                 .create();
 
-        BatchAIFileServer fileServer = fileServers.define(fsName)
-                .withRegion(region)
-                .withNewResourceGroup(groupName)
+        BatchAIFileServer fileServer = workspace.fileServers().define(fsName)
                 .withDataDisks(10, 2, StorageAccountType.STANDARD_LRS, CachingType.READWRITE)
                 .withVMSize(VirtualMachineSizeTypes.STANDARD_D1_V2.toString())
                 .withUserName(userName)
@@ -51,22 +56,22 @@ public class TestBatchAIFileServers extends TestTemplate<BatchAIFileServer, Batc
 
         Assert.assertEquals(network.id() + "/subnets/" + subnetName, fileServer.subnet().id());
         Assert.assertEquals(CachingType.READWRITE, fileServer.dataDisks().cachingType());
-        return fileServer;
+        return workspace;
     }
 
     @Override
-    public BatchAIFileServer updateResource(BatchAIFileServer fileServer) throws Exception {
-        return fileServer;
+    public Workspace updateResource(Workspace workspace) throws Exception {
+        return workspace;
     }
 
     @Override
-    public void print(BatchAIFileServer fileServer) {
+    public void print(Workspace workspace) {
         StringBuilder info = new StringBuilder();
-        info.append("File Server: ").append(fileServer.id())
-                .append("\n\tName: ").append(fileServer.name())
-                .append("\n\tResource group: ").append(fileServer.resourceGroupName())
-                .append("\n\tRegion: ").append(fileServer.regionName())
-                .append("\n\tTags: ").append(fileServer.tags());
+        info.append("Workspace: ").append(workspace.id())
+                .append("\n\tName: ").append(workspace.name())
+                .append("\n\tResource group: ").append(workspace.resourceGroupName())
+                .append("\n\tRegion: ").append(workspace.regionName())
+                .append("\n\tTags: ").append(workspace.tags());
         System.out.println(info.toString());
     }
 }

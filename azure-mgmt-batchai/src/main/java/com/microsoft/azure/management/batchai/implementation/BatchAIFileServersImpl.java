@@ -41,8 +41,6 @@ class BatchAIFileServersImpl
         return wrapModel(name);
     }
 
-    // Fluent model create helpers
-
     @Override
     protected BatchAIFileServerImpl wrapModel(String name) {
         FileServerInner inner = new FileServerInner();
@@ -58,16 +56,6 @@ class BatchAIFileServersImpl
     }
 
     @Override
-    public PagedList<BatchAIFileServer> listByResourceGroup(String resourceGroupName) {
-        return null;
-    }
-
-    @Override
-    public Observable<BatchAIFileServer> listByResourceGroupAsync(String resourceGroupName) {
-        return null;
-    }
-
-    @Override
     public PagedList<BatchAIFileServer> list() {
         return new GroupPagedList<BatchAIFileServer>(this.manager().resourceManager().resourceGroups().list()) {
             @Override
@@ -79,27 +67,12 @@ class BatchAIFileServersImpl
 
     @Override
     public Observable<BatchAIFileServer> listAsync() {
-        return null;
+        return wrapPageAsync(inner().listByWorkspaceAsync(workspace.resourceGroupName(), workspace.name()));
     }
 
     @Override
-    public void deleteByResourceGroup(String resourceGroupName, String name) {
-
-    }
-
-    @Override
-    public ServiceFuture<Void> deleteByResourceGroupAsync(String resourceGroupName, String name, ServiceCallback<Void> callback) {
-        return null;
-    }
-
-    @Override
-    public Completable deleteByResourceGroupAsync(String resourceGroupName, String name) {
-        return null;
-    }
-
-    @Override
-    public BatchAIFileServer getById(String id) {
-        return null;
+    public BatchAIFileServerImpl getById(String id) {
+        return (BatchAIFileServerImpl) getByIdAsync(id).toBlocking().single();
     }
 
     @Override
@@ -119,36 +92,52 @@ class BatchAIFileServersImpl
 
     @Override
     public ServiceFuture<BatchAIFileServer> getByIdAsync(String id, ServiceCallback<BatchAIFileServer> callback) {
-        return null;
-    }
-
-    @Override
-    public BatchAIFileServer getByResourceGroup(String resourceGroupName, String name) {
-        return null;
-    }
-
-    @Override
-    public Observable<BatchAIFileServer> getByResourceGroupAsync(String resourceGroupName, String name) {
-        return null;
-    }
-
-    @Override
-    public ServiceFuture<BatchAIFileServer> getByResourceGroupAsync(String resourceGroupName, String name, ServiceCallback<BatchAIFileServer> callback) {
-        return null;
+        return ServiceFuture.fromBody(getByIdAsync(id), callback);
     }
 
     @Override
     public BatchAIManager manager() {
-        return null;
+        return workspace.manager();
     }
 
     @Override
     public Completable deleteByIdAsync(String id) {
-        return null;
+        ResourceId resourceId = ResourceId.fromString(id);
+        return inner().deleteAsync(resourceId.resourceGroupName(), workspace.name(), resourceId.name()).toCompletable();
     }
 
     @Override
     public FileServersInner inner() {
-        return null;
+        return manager().inner().fileServers();
+    }
+
+    @Override
+    public Observable<BatchAIFileServer> getByNameAsync(String name) {
+        return inner().getAsync(workspace.resourceGroupName(), workspace.name(), name).map(new Func1<FileServerInner, BatchAIFileServer>() {
+            @Override
+            public BatchAIFileServer call(FileServerInner inner) {
+                return wrapModel(inner);
+            }
+        });
+    }
+
+    @Override
+    public BatchAIFileServerImpl getByName(String name) {
+        return (BatchAIFileServerImpl) getByNameAsync(name).toBlocking().single();
+    }
+
+    @Override
+    public void deleteByName(String name) {
+        deleteByNameAsync(name).await();
+    }
+
+    @Override
+    public ServiceFuture<Void> deleteByNameAsync(String name, ServiceCallback<Void> callback) {
+        return ServiceFuture.fromResponse(inner().deleteWithServiceResponseAsync(workspace.resourceGroupName(), workspace.name(), name), callback);
+    }
+
+    @Override
+    public Completable deleteByNameAsync(String name) {
+        return inner().deleteAsync(workspace.resourceGroupName(), workspace.name(), name).toCompletable();
     }
 }

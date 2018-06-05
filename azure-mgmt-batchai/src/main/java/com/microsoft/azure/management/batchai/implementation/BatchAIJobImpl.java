@@ -350,6 +350,10 @@ class BatchAIJobImpl
         createParameters.withCustomMpiSettings(customMpi.inner());
     }
 
+    void attachHorovodSettings(HorovodImpl horovod) {
+        createParameters.withHorovodSettings(horovod.inner());
+    }
+
     void attachOutputDirectory(OutputDirectorySettingsImpl outputDirectorySettings) {
         if (createParameters.outputDirectories() == null) {
             createParameters.withOutputDirectories(new ArrayList<OutputDirectory>());

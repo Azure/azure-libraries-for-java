@@ -340,6 +340,10 @@ public interface BatchAIJob extends
             @Beta(Beta.SinceVersion.V1_12_0)
             ToolTypeSettings.CustomMpi.DefinitionStages.Blank<WithCreate> defineCustomMpi();
 
+            @Method
+            @Beta(Beta.SinceVersion.V1_12_0)
+            ToolTypeSettings.Horovod.DefinitionStages.Blank<WithCreate> defineHorovod();
+
             WithCreate withCustomCommandLine(String commandLine);
         }
 

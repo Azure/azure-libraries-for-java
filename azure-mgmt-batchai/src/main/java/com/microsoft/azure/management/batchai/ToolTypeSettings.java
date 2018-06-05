@@ -450,9 +450,18 @@ public interface ToolTypeSettings {
              * @param <ParentT> the stage of the parent definition to return to after attaching this definition
              */
             interface WithAttach<ParentT> extends
-                    Attachable.InDefinition<ParentT>,
+                    Attachable.InDefinition<ParentT> {
+            }
+
+            /**
+             * At this stage, any process count settings can be specified, or the custom MPI job settings definition
+             * can be attached to the parent Batch AI job definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithAttachAndProcessCount<ParentT> extends WithAttach<ParentT>,
                     ToolTypeSettings.DefinitionStages.WithProcessCount<WithAttach<ParentT>> {
             }
+
 
             /**
              * The first stage of the custom MPI job settings definition.
@@ -466,7 +475,61 @@ public interface ToolTypeSettings {
              * @param <ParentT> the stage of the parent definition to return to after attaching this definition
              */
             interface WithCommandLine<ParentT> {
-                WithAttach<ParentT> withCommandLine(String commandLine);
+                WithAttachAndProcessCount<ParentT> withCommandLine(String commandLine);
+            }
+        }
+    }
+
+    /**
+     * Client-side representation for Horovod job settings.
+     */
+    @Fluent
+    @Beta(Beta.SinceVersion.V1_12_0)
+    interface Horovod extends Indexable,
+            HasParent<BatchAIJob>,
+            HasInner<HorovodSettings> {
+
+        /**
+         * Definition of the settings for Horovod job.
+         *
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        interface Definition<ParentT> extends
+                DefinitionStages.Blank<ParentT>,
+                DefinitionStages.WithAttach<ParentT> {
+        }
+
+        /**
+         * Definition stages for the Horovod job settings.
+         */
+        interface DefinitionStages {
+
+            /**
+             * The final stage of the Horovod job settings definition.
+             * At this stage, any remaining optional settings can be specified, or the Horovod job settings definition
+             * can be attached to the parent Batch AI job definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithAttach<ParentT> extends
+                    Attachable.InDefinition<ParentT>,
+                    ToolTypeSettings.DefinitionStages.WithPythonInterpreter<WithAttach<ParentT>>,
+                    ToolTypeSettings.DefinitionStages.WithProcessCount<WithAttach<ParentT>>,
+                    ToolTypeSettings.DefinitionStages.WithCommandLineArgs<WithAttach<ParentT>> {
+            }
+
+            /**
+             * The first stage of the Horovode job settings definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface Blank<ParentT> extends WithPython<ParentT> {
+            }
+
+            /**
+             * Specifies python script file path to execute the job.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithPython<ParentT> {
+                WithAttach<ParentT> withPythonScriptFile(String pythonScriptFilePath);
             }
         }
     }

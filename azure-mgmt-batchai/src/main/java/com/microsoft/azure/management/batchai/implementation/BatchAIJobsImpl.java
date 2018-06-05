@@ -8,12 +8,11 @@ package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIJob;
 import com.microsoft.azure.management.batchai.BatchAIJobs;
 import com.microsoft.azure.management.batchai.JobsListByExperimentOptions;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
@@ -34,39 +33,14 @@ class BatchAIJobsImpl
     private final WorkspaceImpl workspace;
     private final ExperimentImpl experiment;
 
-    protected BatchAIJobsImpl(ExperimentImpl experiment, TaskGroup parentTaskGroup, String childResourceName) {
-        this.workspace = experiment.parent();
+    BatchAIJobsImpl(ExperimentImpl experiment) {
+        this.workspace = (WorkspaceImpl) experiment.workspace();
         this.experiment = experiment;
     }
 
-//    BatchAIJobsImpl(final ExperimentImpl parent) {
-//        super(parent.parent().manager().inner().jobs(), parent.parent().manager());
-//        this.parent = parent;
-//    }
-//
-//    BatchAIJobsImpl(final BatchAIManager manager) {
-//        super(manager.inner().jobs(), manager);
-//        parent = null;
-//    }
-
-
-//    @Override
-//    protected BatchAIJobImpl wrapModel(String name) {
-//        return new BatchAIJobImpl(name, new JobInner(), manager());
-//    }
-//
-//    @Override
-//    protected BatchAIJobImpl wrapModel(JobInner inner) {
-//        if (inner == null) {
-//            return null;
-//        }
-//        return new BatchAIJobImpl(inner.name(), inner, manager());
-//    }
-
     @Override
     public BatchAIJobImpl define(String name) {
-        return null;
-//        return wrapModel(name);
+        return wrapModel(name);
     }
 
     @Override
@@ -87,24 +61,12 @@ class BatchAIJobsImpl
     @Override
     public PagedList<BatchAIJob> list() {
         return wrapList(workspace.manager().inner().jobs().listByExperiment(workspace.resourceGroupName(), workspace.name(), experiment.name()));
-//        return new GroupPagedList<BatchAIJob>(workspace.manager().inner().experiments().resourceManager().resourceGroups().list()) {
-//            @Override
-//            public List<BatchAIJob> listNextGroup(String resourceGroupName) {
-//                return wrapList(BatchAIJobsImpl.this.inner().listByExperiment(resourceGroupName));
-//            }
-//        };
     }
 
     @Override
     public PagedList<BatchAIJob> list(int maxResults) {
         return wrapList(workspace.manager().inner().jobs()
                 .listByExperiment(workspace.resourceGroupName(), workspace.name(), experiment.name(), new JobsListByExperimentOptions().withMaxResults(maxResults)));
-//        return new GroupPagedList<BatchAIJob>(workspace.manager().inner().experiments().resourceManager().resourceGroups().list()) {
-//            @Override
-//            public List<BatchAIJob> listNextGroup(String resourceGroupName) {
-//                return wrapList(BatchAIJobsImpl.this.inner().listByExperiment(resourceGroupName));
-//            }
-//        };
     }
 
     @Override
@@ -119,11 +81,6 @@ class BatchAIJobsImpl
         return wrapPageAsync(inner().listByExperimentAsync(workspace.resourceGroupName(), workspace.name(), experiment.name()));
     }
 
-//    @Override
-//    protected Completable deleteInnerAsync(String resourceGroupName, String name) {
-//        return inner().deleteAsync(resourceGroupName, name).toCompletable();
-//    }
-
     @Override
     public Observable<BatchAIJob> getByNameAsync(String name) {
         return inner().getAsync(workspace.resourceGroupName(), workspace.name(), parent().name(), name)
@@ -136,42 +93,59 @@ class BatchAIJobsImpl
     }
 
     @Override
-    public BatchAIJob getById(String id) {
-        return null;
+    public BatchAIJobImpl getById(String id) {
+        return (BatchAIJobImpl) getByIdAsync(id).toBlocking().single();
     }
 
     @Override
     public Observable<BatchAIJob> getByIdAsync(String id) {
-        return null;
+        ResourceId resourceId = ResourceId.fromString(id);
+        return inner().getAsync(resourceId.resourceGroupName(), workspace.name(), experiment.name(), resourceId.name())
+                .map(new Func1<JobInner, BatchAIJob>() {
+            @Override
+            public BatchAIJob call(JobInner inner) {
+                return wrapModel(inner);
+            }
+        });
     }
 
     @Override
     public ServiceFuture<BatchAIJob> getByIdAsync(String id, ServiceCallback<BatchAIJob> callback) {
-        return null;
+        return ServiceFuture.fromBody(getByIdAsync(id), callback);
     }
 
     @Override
     protected BatchAIJobImpl wrapModel(String name) {
-        return null;
+        JobInner inner = new JobInner();
+        return new BatchAIJobImpl(name, experiment, inner);
     }
 
     @Override
     public Completable deleteByIdAsync(String id) {
-        return null;
+        ResourceId resourceId = ResourceId.fromString(id);
+        return inner().deleteAsync(resourceId.resourceGroupName(), workspace.name(), experiment.name(), resourceId.name()).toCompletable();
     }
 
     @Override
     public JobsInner inner() {
-        return null;
+        return manager().inner().jobs();
     }
 
     @Override
     protected BatchAIJobImpl wrapModel(JobInner inner) {
-        return null;
+        if (inner == null) {
+            return null;
+        }
+        return new BatchAIJobImpl(inner.name(), experiment, inner);
     }
 
     @Override
-    public BatchAICluster parent() {
-        return null;
+    public ExperimentImpl parent() {
+        return experiment;
+    }
+
+    @Override
+    public BatchAIManager manager() {
+        return workspace.manager();
     }
 }

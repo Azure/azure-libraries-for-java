@@ -6,41 +6,80 @@
 package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.batchai.BatchAIJobs;
 import com.microsoft.azure.management.batchai.Experiment;
+import com.microsoft.azure.management.batchai.ProvisioningState;
 import com.microsoft.azure.management.batchai.Workspace;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import org.joda.time.DateTime;
 import rx.Observable;
 
 @LangDefinition
-class ExperimentImpl extends ExternalChildResourceImpl<Experiment, ExperimentInner, WorkspaceImpl, Workspace>
-        implements Experiment {
-    protected ExperimentImpl(String name, WorkspaceImpl parent, ExperimentInner innerObject) {
-        super(name, parent, innerObject);
-    }
+class ExperimentImpl extends CreatableUpdatableImpl<
+        Experiment,
+        ExperimentInner,
+        ExperimentImpl>
+        implements
+        Experiment,
+        Experiment.Definition {
+    private final WorkspaceImpl workspace;
 
-    @Override
-    public Observable<Experiment> createResourceAsync() {
-        return null;
-    }
+    private final BatchAIJobs jobs;
 
-    @Override
-    public Observable<Experiment> updateResourceAsync() {
-        return null;
-    }
-
-    @Override
-    public Observable<Void> deleteResourceAsync() {
-        return null;
-    }
-
-    @Override
-    protected Observable<ExperimentInner> getInnerAsync() {
-        return null;
+    ExperimentImpl(String name, WorkspaceImpl workspace, ExperimentInner innerObject) {
+        super(name, innerObject);
+        this.workspace = workspace;
+        jobs = new BatchAIJobsImpl(this);
     }
 
     @Override
     public String id() {
-        return null;
+        return inner().id();
     }
-//        BatchAIJob.Definition,
+
+    @Override
+    public BatchAIJobs jobs() {
+        return jobs;
+    }
+
+    @Override
+    public DateTime creationTime() {
+        return inner().creationTime();
+    }
+
+    @Override
+    public ProvisioningState provisioningState() {
+        return inner().provisioningState();
+    }
+
+    @Override
+    public DateTime provisioningStateTransitionTime() {
+        return inner().provisioningStateTransitionTime();
+    }
+
+    @Override
+    public Workspace workspace() {
+        return workspace;
+    }
+
+    @Override
+    public BatchAIManager manager() {
+        return workspace.manager();
+    }
+
+    @Override
+    public boolean isInCreateMode() {
+        return inner().id() == null;
+    }
+
+    @Override
+    public Observable<Experiment> createResourceAsync() {
+        return this.manager().inner().experiments().createAsync(workspace.resourceGroupName(), workspace.name(), name())
+                .map(innerToFluentMap(this));
+    }
+
+    @Override
+    protected Observable<ExperimentInner> getInnerAsync() {
+        return this.manager().inner().experiments().getAsync(workspace.resourceGroupName(), workspace.name(), this.name());
+    }
 }

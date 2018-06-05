@@ -46,6 +46,11 @@ public interface Workspace extends
     BatchAIClusters clusters();
 
     /**
+     * @return the entry point to Batch AI experiments management API for this workspace
+     */
+    Experiments experiments();
+
+    /**
      * @return the entry point to Batch AI file servers management API for this workspace
      */
     BatchAIFileServers fileServers();

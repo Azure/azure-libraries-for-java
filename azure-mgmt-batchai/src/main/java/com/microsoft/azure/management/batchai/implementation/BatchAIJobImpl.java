@@ -45,6 +45,7 @@ import com.microsoft.azure.management.batchai.TensorFlowSettings;
 import com.microsoft.azure.management.batchai.ToolType;
 import com.microsoft.azure.management.batchai.ToolTypeSettings;
 import com.microsoft.azure.management.batchai.UnmanagedFileSystemReference;
+import com.microsoft.azure.management.batchai.Workspace;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
@@ -52,6 +53,7 @@ import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,31 +68,35 @@ class BatchAIJobImpl
         implements BatchAIJob,
         BatchAIJob.Definition,
         HasMountVolumes {
+    private final Workspace workspace;
+    private final Experiment experiment;
+
     private JobCreateParameters createParameters = new JobCreateParameters();
 
     BatchAIJobImpl(String name,
                    ExperimentImpl parent,
                    JobInner inner) {
         super(name, parent, inner);
+        this.workspace = parent.workspace();
+        this.experiment = parent;
     }
 
     @Override
     protected Observable<JobInner> getInnerAsync() {
-        return null;
-//        return myManager.inner().jobs().getByResourceGroupAsync(resourceGroupName(), name());
+        return workspace.manager().inner().jobs().getAsync(workspace.resourceGroupName(), workspace.name(), experiment.name(), this.name());
     }
 
     @Override
     public Observable<BatchAIJob> createResourceAsync() {
-        return null;
-//        if (parent == null) {
-//            parent = manager().clusters().getById(createParameters.cluster().id());
-//        }
-//        withExistingResourceGroup(parent.resourceGroupName());
-//        createParameters.withLocation(parent.regionName());
-//        return myManager.inner().jobs().createAsync(
-//                this.resourceGroupName(), this.name(), createParameters)
-//                .map(innerToFluentMap(this));
+        return workspace.manager().inner().jobs().createAsync(
+                workspace.resourceGroupName(), workspace.name(), experiment.name(), this.name(), createParameters)
+                .map(new Func1<JobInner, BatchAIJob>() {
+                    @Override
+                    public BatchAIJob call(JobInner innerModel) {
+                        BatchAIJobImpl.this.setInner(innerModel);
+                        return BatchAIJobImpl.this;
+                    }
+                });
     }
 
     @Override
@@ -233,7 +239,7 @@ class BatchAIJobImpl
 
     @Override
     public BatchAIJobImpl withExistingCluster(BatchAICluster cluster) {
-//        parent = cluster;
+        inner().withCluster(new ResourceId().withId(cluster.id()));
         return this;
     }
 
@@ -247,7 +253,6 @@ class BatchAIJobImpl
     public AzureFileShareImpl defineAzureFileShare() {
         return new AzureFileShareImpl<BatchAIJob.DefinitionStages.WithCreate>(new AzureFileShareReference(), this);
     }
-
 
     @Override
     public AzureBlobFileSystemImpl defineAzureBlobFileSystem() {

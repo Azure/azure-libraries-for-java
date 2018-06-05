@@ -8,6 +8,7 @@ package com.microsoft.azure.management.batchai.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.BatchAIClusters;
 import com.microsoft.azure.management.batchai.BatchAIFileServers;
+import com.microsoft.azure.management.batchai.Experiments;
 import com.microsoft.azure.management.batchai.ProvisioningState;
 import com.microsoft.azure.management.batchai.Workspace;
 import com.microsoft.azure.management.batchai.WorkspaceCreateParameters;
@@ -27,6 +28,7 @@ class WorkspaceImpl extends GroupableResourceImpl<
             Workspace.Update {
     private BatchAIClusters clusters;
     private BatchAIFileServers fileServers;
+    private Experiments experiments;
 
     private WorkspaceCreateParameters createParameters = new WorkspaceCreateParameters();
 
@@ -55,6 +57,14 @@ class WorkspaceImpl extends GroupableResourceImpl<
             clusters = new BatchAIClustersImpl(this);
         }
         return clusters;
+    }
+
+    @Override
+    public Experiments experiments() {
+        if (experiments == null) {
+            experiments = new ExperimentsImpl(this);
+        }
+        return experiments;
     }
 
     @Override

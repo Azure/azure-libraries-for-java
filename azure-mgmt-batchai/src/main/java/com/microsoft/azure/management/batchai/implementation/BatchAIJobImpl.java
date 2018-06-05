@@ -27,6 +27,7 @@ import com.microsoft.azure.management.batchai.ExecutionState;
 import com.microsoft.azure.management.batchai.Experiment;
 import com.microsoft.azure.management.batchai.FileServer;
 import com.microsoft.azure.management.batchai.FileServerReference;
+import com.microsoft.azure.management.batchai.HorovodSettings;
 import com.microsoft.azure.management.batchai.ImageSourceRegistry;
 import com.microsoft.azure.management.batchai.InputDirectory;
 import com.microsoft.azure.management.batchai.JobCreateParameters;
@@ -208,6 +209,11 @@ class BatchAIJobImpl
     @Override
     public ToolTypeSettings.CustomMpi.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineCustomMpi() {
         return new CustomMpiImpl(new CustomMpiSettings(), this);
+    }
+
+    @Override
+    public ToolTypeSettings.Horovod.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineHorovod() {
+        return new HorovodImpl(new HorovodSettings(), this);
     }
 
     @Override

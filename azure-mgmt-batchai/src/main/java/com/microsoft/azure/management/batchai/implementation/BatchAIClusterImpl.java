@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.batchai.implementation;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.AllocationState;
 import com.microsoft.azure.management.batchai.AppInsightsReference;
@@ -28,6 +29,7 @@ import com.microsoft.azure.management.batchai.NodeSetupTask;
 import com.microsoft.azure.management.batchai.NodeStateCounts;
 import com.microsoft.azure.management.batchai.PerformanceCountersSettings;
 import com.microsoft.azure.management.batchai.ProvisioningState;
+import com.microsoft.azure.management.batchai.RemoteLoginInformation;
 import com.microsoft.azure.management.batchai.ResourceId;
 import com.microsoft.azure.management.batchai.ScaleSettings;
 import com.microsoft.azure.management.batchai.SetupTask;
@@ -37,10 +39,13 @@ import com.microsoft.azure.management.batchai.VirtualMachineConfiguration;
 import com.microsoft.azure.management.batchai.VmPriority;
 import com.microsoft.azure.management.batchai.Workspace;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
+import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;
 import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +71,30 @@ class BatchAIClusterImpl extends CreatableUpdatableImpl<
     BatchAIClusterImpl(String name, WorkspaceImpl workspace, ClusterInner innerObject) {
         super(name, innerObject);
         this.workspace = workspace;
+    }
+
+    @Override
+    public PagedList<RemoteLoginInformation> listRemoteLoginInformation() {
+        PagedListConverter<RemoteLoginInformationInner, RemoteLoginInformation> converter = new PagedListConverter<RemoteLoginInformationInner, RemoteLoginInformation>() {
+            @Override
+            public Observable<RemoteLoginInformation> typeConvertAsync(RemoteLoginInformationInner inner) {
+                return Observable.just((RemoteLoginInformation) new RemoteLoginInformationImpl(inner));
+            }
+        };
+        return converter.convert(workspace.manager().inner().clusters()
+                .listRemoteLoginInformation(workspace.resourceGroupName(), workspace.name(), name()));
+    }
+
+    @Override
+    public Observable<RemoteLoginInformation> listRemoteLoginInformationAsync() {
+        return ReadableWrappersImpl.convertPageToInnerAsync(workspace.manager().inner().clusters()
+                .listRemoteLoginInformationAsync(workspace.resourceGroupName(), workspace.name(), name()))
+                .map(new Func1<RemoteLoginInformationInner, RemoteLoginInformation>() {
+                    @Override
+                    public RemoteLoginInformation call(RemoteLoginInformationInner remoteLoginInformationInner) {
+                        return new RemoteLoginInformationImpl(remoteLoginInformationInner);
+                    }
+                });
     }
 
     @Override

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.batchai;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
@@ -22,6 +23,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import org.joda.time.DateTime;
+import rx.Observable;
 
 import java.util.List;
 
@@ -38,6 +40,20 @@ public interface BatchAICluster extends
         HasManager<BatchAIManager>,
         Refreshable<BatchAICluster>,
         Updatable<BatchAICluster.Update> {
+    /**
+     * Get the IP address, port of all the compute nodes in the Cluster.
+     * @return list of remote login details
+     */
+    @Method
+    PagedList<RemoteLoginInformation> listRemoteLoginInformation();
+
+    /**
+     * Get the IP address, port of all the compute nodes in the Cluster.
+     * @return an observable that emits remote login information
+     */
+    @Method
+    Observable<RemoteLoginInformation> listRemoteLoginInformationAsync();
+
     /**
      * All virtual machines in a cluster are the same size. For information
      * about available VM sizes for clusters using images from the Virtual

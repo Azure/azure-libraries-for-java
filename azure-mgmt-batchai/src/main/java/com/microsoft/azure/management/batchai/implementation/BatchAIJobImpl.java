@@ -19,6 +19,7 @@ import com.microsoft.azure.management.batchai.CaffeSettings;
 import com.microsoft.azure.management.batchai.ChainerSettings;
 import com.microsoft.azure.management.batchai.ContainerImageSettings;
 import com.microsoft.azure.management.batchai.ContainerSettings;
+import com.microsoft.azure.management.batchai.CustomMpiSettings;
 import com.microsoft.azure.management.batchai.CustomToolkitSettings;
 import com.microsoft.azure.management.batchai.EnvironmentVariable;
 import com.microsoft.azure.management.batchai.EnvironmentVariableWithSecretValue;
@@ -205,6 +206,11 @@ class BatchAIJobImpl
     }
 
     @Override
+    public ToolTypeSettings.CustomMpi.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineCustomMpi() {
+        return new CustomMpiImpl(new CustomMpiSettings(), this);
+    }
+
+    @Override
     public BatchAIJobImpl withCustomCommandLine(String commandLine) {
         inner().withCustomToolkitSettings(new CustomToolkitSettings().withCommandLine(commandLine));
         return this;
@@ -338,6 +344,10 @@ class BatchAIJobImpl
 
     void attachPyTorchSettings(PyTorchImpl pyTorch) {
         createParameters.withPyTorchSettings(pyTorch.inner());
+    }
+
+    void attachCustomMpiSettings(CustomMpiImpl customMpi) {
+        createParameters.withCustomMpiSettings(customMpi.inner());
     }
 
     void attachOutputDirectory(OutputDirectorySettingsImpl outputDirectorySettings) {

@@ -336,6 +336,10 @@ public interface BatchAIJob extends
             @Beta(Beta.SinceVersion.V1_8_0)
             ToolTypeSettings.PyTorch.DefinitionStages.Blank<WithCreate> definePyTorch();
 
+            @Method
+            @Beta(Beta.SinceVersion.V1_12_0)
+            ToolTypeSettings.CustomMpi.DefinitionStages.Blank<WithCreate> defineCustomMpi();
+
             WithCreate withCustomCommandLine(String commandLine);
         }
 

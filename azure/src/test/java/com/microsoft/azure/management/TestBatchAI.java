@@ -62,15 +62,6 @@ public class TestBatchAI {
             String storageAccountKey;
             String fileShareUri;
 
-            for (Workspace w : workspaces.list()) {
-                for (BatchAICluster c : w.clusters().list()) {
-                    System.out.println("Cluster!!!!" + c.name());
-                    if (c.name().startsWith("cluster")) {
-                        w.clusters().deleteByName(c.name());
-                    }
-                }
-            }
-
             Workspace workspace = workspaces.define(workspaceName)
                     .withRegion(region)
                     .withNewResourceGroup(groupName)

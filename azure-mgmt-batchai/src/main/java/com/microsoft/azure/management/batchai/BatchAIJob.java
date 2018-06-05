@@ -89,6 +89,20 @@ public interface BatchAIJob extends
     Observable<OutputFile> listFilesAsync(String outputDirectoryId, String directory, Integer linkExpiryMinutes, Integer maxResults);
 
     /**
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
+     * @return list of remote login details
+     */
+    @Method
+    PagedList<RemoteLoginInformation> listRemoteLoginInformation();
+
+    /**
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
+     * @return an observable that emits remote login information
+     */
+    @Method
+    Observable<RemoteLoginInformation> listRemoteLoginInformationAsync();
+
+    /**
      * @return priority associated with the job. Priority values can range from -1000
      * to 1000, with -1000 being the lowest priority and 1000 being the highest
      * priority. The default value is 0.

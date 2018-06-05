@@ -87,4 +87,10 @@ class WorkspaceImpl extends GroupableResourceImpl<
         return this.manager().inner().workspaces().createAsync(resourceGroupName(), name(), createParameters)
                 .map(innerToFluentMap(this));
     }
+
+    @Override
+    public Observable<Workspace> updateResourceAsync() {
+        return this.manager().inner().workspaces().updateAsync(resourceGroupName(), name(), this.inner().getTags())
+                .map(innerToFluentMap(this));
+    }
 }

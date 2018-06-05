@@ -43,6 +43,7 @@ import com.microsoft.azure.management.batchai.OutputDirectorySettings;
 import com.microsoft.azure.management.batchai.OutputFile;
 import com.microsoft.azure.management.batchai.ProvisioningState;
 import com.microsoft.azure.management.batchai.PyTorchSettings;
+import com.microsoft.azure.management.batchai.RemoteLoginInformation;
 import com.microsoft.azure.management.batchai.ResourceId;
 import com.microsoft.azure.management.batchai.TensorFlowSettings;
 import com.microsoft.azure.management.batchai.ToolType;
@@ -437,6 +438,30 @@ class BatchAIJobImpl
                     @Override
                     public OutputFile call(FileInner fileInner) {
                         return new OutputFileImpl(fileInner);
+                    }
+                });
+    }
+
+    @Override
+    public PagedList<RemoteLoginInformation> listRemoteLoginInformation() {
+        PagedListConverter<RemoteLoginInformationInner, RemoteLoginInformation> converter = new PagedListConverter<RemoteLoginInformationInner, RemoteLoginInformation>() {
+            @Override
+            public Observable<RemoteLoginInformation> typeConvertAsync(RemoteLoginInformationInner inner) {
+                return Observable.just((RemoteLoginInformation) new RemoteLoginInformationImpl(inner));
+            }
+        };
+        return converter.convert(workspace.manager().inner().jobs()
+                .listRemoteLoginInformation(workspace.resourceGroupName(), workspace.name(), experiment.name(), name()));
+    }
+
+    @Override
+    public Observable<RemoteLoginInformation> listRemoteLoginInformationAsync() {
+        return ReadableWrappersImpl.convertPageToInnerAsync(workspace.manager().inner().jobs()
+                .listRemoteLoginInformationAsync(workspace.resourceGroupName(), workspace.name(), experiment.name(), name()))
+                .map(new Func1<RemoteLoginInformationInner, RemoteLoginInformation>() {
+                    @Override
+                    public RemoteLoginInformation call(RemoteLoginInformationInner remoteLoginInformationInner) {
+                        return new RemoteLoginInformationImpl(remoteLoginInformationInner);
                     }
                 });
     }

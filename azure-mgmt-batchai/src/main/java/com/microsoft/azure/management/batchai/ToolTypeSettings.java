@@ -435,7 +435,7 @@ public interface ToolTypeSettings {
          */
         interface Definition<ParentT> extends
                 DefinitionStages.Blank<ParentT>,
-                DefinitionStages.WithAttach<ParentT> {
+                DefinitionStages.WithAttachAndProcessCount<ParentT> {
         }
 
         /**

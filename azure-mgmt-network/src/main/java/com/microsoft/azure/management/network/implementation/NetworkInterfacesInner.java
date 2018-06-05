@@ -223,7 +223,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, networkInterfaceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -289,7 +289,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.beginDelete(resourceGroupName, networkInterfaceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -375,7 +375,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         final String expand = null;
         return service.getByResourceGroup(resourceGroupName, networkInterfaceName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkInterfaceInner>>>() {
@@ -457,7 +457,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.getByResourceGroup(resourceGroupName, networkInterfaceName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkInterfaceInner>>>() {
                 @Override
@@ -549,7 +549,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, networkInterfaceName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<NetworkInterfaceInner>() { }.getType());
     }
@@ -624,7 +624,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.beginCreateOrUpdate(resourceGroupName, networkInterfaceName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkInterfaceInner>>>() {
                 @Override
@@ -709,7 +709,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -783,7 +783,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, networkInterfaceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
@@ -852,7 +852,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -937,7 +937,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         return service.beginUpdateTags(resourceGroupName, networkInterfaceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -1044,7 +1044,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<NetworkInterfaceInner>>>>() {
                 @Override
@@ -1157,7 +1157,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<NetworkInterfaceInner>>>>() {
                 @Override
@@ -1241,7 +1241,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         Observable<Response<ResponseBody>> observable = service.getEffectiveRouteTable(resourceGroupName, networkInterfaceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<EffectiveRouteListResultInner>() { }.getType());
     }
@@ -1308,7 +1308,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.beginGetEffectiveRouteTable(resourceGroupName, networkInterfaceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<EffectiveRouteListResultInner>>>() {
                 @Override
@@ -1393,7 +1393,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         Observable<Response<ResponseBody>> observable = service.listEffectiveNetworkSecurityGroups(resourceGroupName, networkInterfaceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<EffectiveNetworkSecurityGroupListResultInner>() { }.getType());
     }
@@ -1460,7 +1460,7 @@ public class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterface
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-02-01";
+        final String apiVersion = "2018-04-01";
         return service.beginListEffectiveNetworkSecurityGroups(resourceGroupName, networkInterfaceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<EffectiveNetworkSecurityGroupListResultInner>>>() {
                 @Override

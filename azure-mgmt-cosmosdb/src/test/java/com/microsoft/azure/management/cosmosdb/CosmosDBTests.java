@@ -106,7 +106,7 @@ public class CosmosDBTests extends TestBase {
             .create();
 
         Assert.assertEquals(cosmosDBAccount.name(), cosmosDbAccountName.toLowerCase());
-        Assert.assertEquals(cosmosDBAccount.kind(), DatabaseAccountKind.PARSE);
+        Assert.assertEquals(cosmosDBAccount.kind(), DatabaseAccountKind.GLOBAL_DOCUMENT_DB);
         Assert.assertEquals(cosmosDBAccount.capabilities().get(0).name(), "EnableCassandra");
         Assert.assertEquals(cosmosDBAccount.writableReplications().size(), 1);
         Assert.assertEquals(cosmosDBAccount.readableReplications().size(), 2);
@@ -130,7 +130,7 @@ public class CosmosDBTests extends TestBase {
             .create();
 
         Assert.assertEquals(cosmosDBAccount.name(), cosmosDbAccountName.toLowerCase());
-        Assert.assertEquals(cosmosDBAccount.kind(), DatabaseAccountKind.PARSE);
+        Assert.assertEquals(cosmosDBAccount.kind(), DatabaseAccountKind.GLOBAL_DOCUMENT_DB);
         Assert.assertEquals(cosmosDBAccount.capabilities().get(0).name(), "EnableTable");
         Assert.assertEquals(cosmosDBAccount.writableReplications().size(), 1);
         Assert.assertEquals(cosmosDBAccount.readableReplications().size(), 2);

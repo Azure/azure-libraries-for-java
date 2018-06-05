@@ -72,6 +72,14 @@ public class VirtualMachineScaleSetVMProfile {
     private VirtualMachinePriorityTypes priority;
 
     /**
+     * Specifies the eviction policy for virtual machines in a low priority
+     * scale set. &lt;br&gt;&lt;br&gt;Minimum api-version: 2017-10-30-preview.
+     * Possible values include: 'Deallocate', 'Delete'.
+     */
+    @JsonProperty(value = "evictionPolicy")
+    private VirtualMachineEvictionPolicyTypes evictionPolicy;
+
+    /**
      * Get the osProfile value.
      *
      * @return the osProfile value
@@ -208,6 +216,26 @@ public class VirtualMachineScaleSetVMProfile {
      */
     public VirtualMachineScaleSetVMProfile withPriority(VirtualMachinePriorityTypes priority) {
         this.priority = priority;
+        return this;
+    }
+
+    /**
+     * Get the evictionPolicy value.
+     *
+     * @return the evictionPolicy value
+     */
+    public VirtualMachineEvictionPolicyTypes evictionPolicy() {
+        return this.evictionPolicy;
+    }
+
+    /**
+     * Set the evictionPolicy value.
+     *
+     * @param evictionPolicy the evictionPolicy value to set
+     * @return the VirtualMachineScaleSetVMProfile object itself.
+     */
+    public VirtualMachineScaleSetVMProfile withEvictionPolicy(VirtualMachineEvictionPolicyTypes evictionPolicy) {
+        this.evictionPolicy = evictionPolicy;
         return this;
     }
 

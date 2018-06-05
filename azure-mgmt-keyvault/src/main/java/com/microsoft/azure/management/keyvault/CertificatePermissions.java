@@ -58,6 +58,12 @@ public final class CertificatePermissions extends ExpandableStringEnum<Certifica
     /** Static value purge for CertificatePermissions. */
     public static final CertificatePermissions PURGE = fromString("purge");
 
+    /** Static value backup for CertificatePermissions. */
+    public static final CertificatePermissions BACKUP = fromString("backup");
+
+    /** Static value restore for CertificatePermissions. */
+    public static final CertificatePermissions RESTORE = fromString("restore");
+
     /**
      * Creates or finds a CertificatePermissions from its string representation.
      * @param name a name to look for

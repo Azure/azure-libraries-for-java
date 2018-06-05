@@ -16,9 +16,6 @@ import com.microsoft.rest.ExpandableStringEnum;
  * Defines values for ContainerServiceVMSizeTypes.
  */
 public final class ContainerServiceVMSizeTypes extends ExpandableStringEnum<ContainerServiceVMSizeTypes> {
-    /** Static value Standard_A0 for ContainerServiceVMSizeTypes. */
-    public static final ContainerServiceVMSizeTypes STANDARD_A0 = fromString("Standard_A0");
-
     /** Static value Standard_A1 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_A1 = fromString("Standard_A1");
 
@@ -72,12 +69,6 @@ public final class ContainerServiceVMSizeTypes extends ExpandableStringEnum<Cont
 
     /** Static value Standard_A9 for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_A9 = fromString("Standard_A9");
-
-    /** Static value Standard_B1ms for ContainerServiceVMSizeTypes. */
-    public static final ContainerServiceVMSizeTypes STANDARD_B1MS = fromString("Standard_B1ms");
-
-    /** Static value Standard_B1s for ContainerServiceVMSizeTypes. */
-    public static final ContainerServiceVMSizeTypes STANDARD_B1S = fromString("Standard_B1s");
 
     /** Static value Standard_B2ms for ContainerServiceVMSizeTypes. */
     public static final ContainerServiceVMSizeTypes STANDARD_B2MS = fromString("Standard_B2ms");

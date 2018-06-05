@@ -59,8 +59,8 @@ public class VaultPatchProperties {
     private Boolean enabledForTemplateDeployment;
 
     /**
-     * Property specifying whether recoverable deletion ('soft' delete) is
-     * enabled for this key vault. The property may not be set to false.
+     * Property to specify whether the 'soft delete' functionality is enabled
+     * for this key vault. It does not accept false value.
      */
     @JsonProperty(value = "enableSoftDelete")
     private Boolean enableSoftDelete;
@@ -74,11 +74,21 @@ public class VaultPatchProperties {
 
     /**
      * Property specifying whether protection against purge is enabled for this
-     * vault; it is only effective if soft delete is also enabled. Once
-     * activated, the property may no longer be reset to false.
+     * vault. Setting this property to true activates protection against purge
+     * for this vault and its content - only the Key Vault service may initiate
+     * a hard, irrecoverable deletion. The setting is effective only if soft
+     * delete is also enabled. Enabling this functionality is irreversible -
+     * that is, the property does not accept false as its value.
      */
     @JsonProperty(value = "enablePurgeProtection")
     private Boolean enablePurgeProtection;
+
+    /**
+     * A collection of rules governing the accessibility of the vault from
+     * specific network locations.
+     */
+    @JsonProperty(value = "networkAcls")
+    private NetworkRuleSet networkAcls;
 
     /**
      * Get the tenantId value.
@@ -257,6 +267,26 @@ public class VaultPatchProperties {
      */
     public VaultPatchProperties withEnablePurgeProtection(Boolean enablePurgeProtection) {
         this.enablePurgeProtection = enablePurgeProtection;
+        return this;
+    }
+
+    /**
+     * Get the networkAcls value.
+     *
+     * @return the networkAcls value
+     */
+    public NetworkRuleSet networkAcls() {
+        return this.networkAcls;
+    }
+
+    /**
+     * Set the networkAcls value.
+     *
+     * @param networkAcls the networkAcls value to set
+     * @return the VaultPatchProperties object itself.
+     */
+    public VaultPatchProperties withNetworkAcls(NetworkRuleSet networkAcls) {
+        this.networkAcls = networkAcls;
         return this;
     }
 

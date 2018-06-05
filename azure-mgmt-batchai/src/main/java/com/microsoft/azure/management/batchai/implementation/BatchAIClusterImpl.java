@@ -35,6 +35,7 @@ import com.microsoft.azure.management.batchai.UnmanagedFileSystemReference;
 import com.microsoft.azure.management.batchai.UserAccountSettings;
 import com.microsoft.azure.management.batchai.VirtualMachineConfiguration;
 import com.microsoft.azure.management.batchai.VmPriority;
+import com.microsoft.azure.management.batchai.Workspace;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
@@ -270,6 +271,11 @@ class BatchAIClusterImpl extends CreatableUpdatableImpl<
     @Override
     public NodeStateCounts nodeStateCounts() {
         return inner().nodeStateCounts();
+    }
+
+    @Override
+    public Workspace workspace() {
+        return workspace;
     }
 
     @Override

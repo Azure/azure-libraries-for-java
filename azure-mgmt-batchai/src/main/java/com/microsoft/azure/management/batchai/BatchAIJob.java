@@ -9,10 +9,13 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
+import com.microsoft.azure.management.batchai.implementation.JobInner;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import org.joda.time.DateTime;
 import rx.Completable;
@@ -26,7 +29,10 @@ import java.util.List;
 @Fluent
 @Beta(Beta.SinceVersion.V1_6_0)
 public interface BatchAIJob extends
-        ExternalChildResource<BatchAIJob, Experiment>,
+        HasInner<JobInner>,
+        Indexable,
+        HasId,
+        HasName,
         Refreshable<BatchAIJob> {
 
     /**
@@ -427,7 +433,6 @@ public interface BatchAIJob extends
          */
         interface WithCreate extends
                 Creatable<BatchAIJob>,
-                Resource.DefinitionWithTags<WithCreate>,
                 WithJobPreparation,
                 WithInputDirectory,
                 WithOutputDirectory,

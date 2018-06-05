@@ -47,7 +47,7 @@ import com.microsoft.azure.management.batchai.ToolTypeSettings;
 import com.microsoft.azure.management.batchai.UnmanagedFileSystemReference;
 import com.microsoft.azure.management.batchai.Workspace;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;
@@ -57,14 +57,16 @@ import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Implementation for BatchAIJob and its create interface.
  */
 @LangDefinition
 class BatchAIJobImpl
-        extends ExternalChildResourceImpl<BatchAIJob, JobInner, ExperimentImpl, Experiment>
+        extends CreatableUpdatableImpl<
+        BatchAIJob,
+        JobInner,
+        BatchAIJobImpl>
         implements BatchAIJob,
         BatchAIJob.Definition,
         HasMountVolumes {
@@ -76,7 +78,7 @@ class BatchAIJobImpl
     BatchAIJobImpl(String name,
                    ExperimentImpl parent,
                    JobInner inner) {
-        super(name, parent, inner);
+        super(name, inner);
         this.workspace = parent.workspace();
         this.experiment = parent;
     }
@@ -84,6 +86,11 @@ class BatchAIJobImpl
     @Override
     protected Observable<JobInner> getInnerAsync() {
         return workspace.manager().inner().jobs().getAsync(workspace.resourceGroupName(), workspace.name(), experiment.name(), this.name());
+    }
+
+    @Override
+    public boolean isInCreateMode() {
+        return inner().id() == null;
     }
 
     @Override
@@ -97,16 +104,6 @@ class BatchAIJobImpl
                         return BatchAIJobImpl.this;
                     }
                 });
-    }
-
-    @Override
-    public Observable<BatchAIJob> updateResourceAsync() {
-        return null;
-    }
-
-    @Override
-    public Observable<Void> deleteResourceAsync() {
-        return null;
     }
 
     @Override
@@ -566,17 +563,7 @@ class BatchAIJobImpl
     }
 
     @Override
-    public BatchAIJob.DefinitionStages.WithCreate withTags(Map<String, String> tags) {
-        return null;
-    }
-
-    @Override
-    public BatchAIJob.DefinitionStages.WithCreate withTag(String key, String value) {
-        return null;
-    }
-
-    @Override
     public String id() {
-        return null;
+        return inner().id();
     }
 }

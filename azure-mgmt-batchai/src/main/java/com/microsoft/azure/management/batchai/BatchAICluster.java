@@ -124,6 +124,11 @@ public interface BatchAICluster extends
     NodeStateCounts nodeStateCounts();
 
     /**
+     * @return workspace this cluster belongs to
+     */
+    Workspace workspace();
+
+    /**
      * The entirety of a Batch AI cluster definition.
      */
     interface Definition extends

@@ -7,6 +7,11 @@ package com.microsoft.azure.management;
 
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.batchai.BatchAICluster;
+import com.microsoft.azure.management.batchai.BatchAIJob;
+import com.microsoft.azure.management.batchai.Experiment;
+import com.microsoft.azure.management.batchai.OutputDirectory;
+import com.microsoft.azure.management.batchai.Workspace;
 import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.Disk;
 import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
@@ -965,17 +970,73 @@ public class AzureTests extends TestBase {
 
     @Test
     public void testBatchAI() throws Exception {
-        new TestBatchAI.Basic(azure.storageAccounts(), azure.networks()).runTest(azure.batchAIClusters(), azure.resourceGroups());
+        new TestBatchAI.Basic(azure.storageAccounts(), azure.networks()).runTest(azure.batchAIWorkspaces(), azure.resourceGroups());
     }
 
     @Test
     public void testBatchAIJob() throws Exception {
-        new TestBatchAI.JobCreate().runTest(azure.batchAIClusters(), azure.resourceGroups());
+        final Region region = Region.US_EAST;
+        final String groupName = SdkContext.randomResourceName("rg", 10);
+        final String workspaceName = SdkContext.randomResourceName("ws", 10);
+        final String clusterName = SdkContext.randomResourceName("cluster", 15);
+        final String experimentName = SdkContext.randomResourceName("exp", 10);
+        final String userName = "tirekicker";
+        try {
+
+            Workspace workspace = azure.batchAIWorkspaces().define(workspaceName)
+                    .withRegion(region)
+                    .withNewResourceGroup(groupName)
+                    .create();
+            Experiment experiment = workspace.experiments().define(experimentName).create();
+
+            BatchAICluster cluster = workspace.clusters().define(clusterName)
+                    .withVMSize(VirtualMachineSizeTypes.STANDARD_D1_V2.toString())
+                    .withUserName(userName)
+                    .withPassword("MyPassword")
+                    .withAutoScale(1, 1)
+                    .create();
+            Assert.assertEquals("steady", cluster.allocationState().toString());
+            Assert.assertEquals(userName, cluster.adminUserName());
+
+            BatchAIJob job = experiment.jobs().define("myJob")
+                    .withExistingClusterId(cluster.id())
+                    .withNodeCount(1)
+                    .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
+                    .defineCognitiveToolkit()
+                        .withPythonScriptFile("$AZ_BATCHAI_INPUT_SAMPLE/ConvNet_MNIST.py")
+                        .withCommandLineArgs("$AZ_BATCHAI_INPUT_SAMPLE $AZ_BATCHAI_OUTPUT_MODEL")
+                        .attach()
+                    .withInputDirectory("SAMPLE", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/mnistcntksample")
+                    .withOutputDirectory("MODEL", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/model")
+                    .defineOutputDirectory("OUTPUT")
+                        .withPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/output")
+                        .withPathSuffix("suffix")
+                        .attach()
+                    .withContainerImage("microsoft/cntk:2.1-gpu-python3.5-cuda8.0-cudnn6.0")
+                    .create();
+            Assert.assertEquals(2,job.outputDirectories().size());
+            OutputDirectory outputDirectory = null;
+            for (OutputDirectory directory : job.outputDirectories()) {
+                if ("OUTPUT".equalsIgnoreCase(directory.id())) {
+                    outputDirectory = directory;
+                }
+            }
+            Assert.assertNotNull(outputDirectory);
+            Assert.assertEquals("suffix", outputDirectory.pathSuffix().toLowerCase());
+
+            experiment.jobs().list();
+
+            BatchAIJob job2 = experiment.jobs().getById(job.id());
+            Assert.assertEquals(cluster.id(), job2.cluster().id());
+
+        } finally {
+            azure.resourceGroups().beginDeleteByName(groupName);
+        }
     }
 
     @Test
     public void testBatchAIFileServer() throws Exception {
-        new TestBatchAIFileServers(azure.networks()).runTest(azure.batchAIFileServers(), azure.resourceGroups());
+        new TestBatchAIFileServers(azure.networks()).runTest(azure.batchAIWorkspaces(), azure.resourceGroups());
     }
 
     @Test

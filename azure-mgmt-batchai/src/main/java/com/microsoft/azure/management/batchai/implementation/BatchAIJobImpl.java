@@ -33,6 +33,7 @@ import com.microsoft.azure.management.batchai.JobPreparation;
 import com.microsoft.azure.management.batchai.JobPriority;
 import com.microsoft.azure.management.batchai.JobPropertiesConstraints;
 import com.microsoft.azure.management.batchai.JobPropertiesExecutionInfo;
+import com.microsoft.azure.management.batchai.JobsListOutputFilesOptions;
 import com.microsoft.azure.management.batchai.KeyVaultSecretReference;
 import com.microsoft.azure.management.batchai.MountVolumes;
 import com.microsoft.azure.management.batchai.OutputDirectory;
@@ -47,6 +48,7 @@ import com.microsoft.azure.management.batchai.ToolTypeSettings;
 import com.microsoft.azure.management.batchai.UnmanagedFileSystemReference;
 import com.microsoft.azure.management.batchai.Workspace;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
+import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
@@ -170,12 +172,6 @@ class BatchAIJobImpl
             createParameters.withContainerSettings(new ContainerSettings());
         }
         return createParameters.containerSettings();
-    }
-
-    @Override
-    public BatchAIJob.DefinitionStages.WithCreate withExperimentName(String experimentName) {
-//        inner().withExperimentName(experimentName);
-        return this;
     }
 
     @Override
@@ -362,11 +358,11 @@ class BatchAIJobImpl
 
     @Override
     public Completable terminateAsync() {
-//        Observable<Void> stopObservable = this.manager().inner().jobs().terminateAsync(this.resourceGroupName(), this.name());
-//        Observable<BatchAIJob> refreshObservable = refreshAsync();
-//        // Refresh after stop to ensure the job operational state is updated
-//        return Observable.concat(stopObservable, refreshObservable).toCompletable();
-        return null;
+        Observable<Void> stopObservable = workspace.manager().inner().jobs()
+                .terminateAsync(workspace.resourceGroupName(), workspace.name(), experiment.name(), this.name());
+        Observable<BatchAIJob> refreshObservable = refreshAsync();
+        // Refresh after stop to ensure the job operational state is updated
+        return Observable.concat(stopObservable, refreshObservable).toCompletable();
     }
 
     @Override
@@ -377,59 +373,57 @@ class BatchAIJobImpl
                 return Observable.just((OutputFile) new OutputFileImpl(fileInner));
             }
         };
-        return null;
-//        return converter.convert(this.manager().inner().jobs().listOutputFiles(resourceGroupName(), name(), new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId)));
+        return converter.convert(workspace.manager().inner().jobs()
+                .listOutputFiles(workspace.resourceGroupName(), workspace.name(), experiment.name(), name(), new JobsListOutputFilesOptions().withOutputdirectoryid(outputDirectoryId)));
     }
 
     @Override
     public Observable<OutputFile> listFilesAsync(String outputDirectoryId) {
-        return null;
-//        return convertPageToInnerAsync(this.manager().inner().jobs().listOutputFilesAsync(resourceGroupName(), name(),
-//                new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId))).map(new Func1<FileInner, OutputFile>() {
-//            @Override
-//            public OutputFile call(FileInner fileInner) {
-//                return new OutputFileImpl(fileInner);
-//            }
-//        });
+        return ReadableWrappersImpl.convertPageToInnerAsync(workspace.manager().inner().jobs()
+                .listOutputFilesAsync(workspace.resourceGroupName(), workspace.name(), experiment.name(), name(),
+                new JobsListOutputFilesOptions().withOutputdirectoryid(outputDirectoryId))).map(new Func1<FileInner, OutputFile>() {
+            @Override
+            public OutputFile call(FileInner fileInner) {
+                return new OutputFileImpl(fileInner);
+            }
+        });
     }
 
     @Override
     public PagedList<OutputFile> listFiles(String outputDirectoryId, String directory, Integer linkExpiryMinutes, Integer maxResults) {
-//        PagedListConverter<FileInner, OutputFile> converter = new PagedListConverter<FileInner, OutputFile>() {
-//            @Override
-//            public Observable<OutputFile> typeConvertAsync(FileInner fileInner) {
-//                return Observable.just((OutputFile) new OutputFileImpl(fileInner));
-//            }
-//        };
-//        return converter.convert(this.manager().inner().jobs().listOutputFiles(resourceGroupName(), name(),
-//                new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId)
-//                        .withDirectory(directory)
-//                        .withLinkexpiryinminutes(linkExpiryMinutes)
-//                        .withMaxResults(maxResults)));
-        return null;
-
+        PagedListConverter<FileInner, OutputFile> converter = new PagedListConverter<FileInner, OutputFile>() {
+            @Override
+            public Observable<OutputFile> typeConvertAsync(FileInner fileInner) {
+                return Observable.just((OutputFile) new OutputFileImpl(fileInner));
+            }
+        };
+        return converter.convert(workspace.manager().inner().jobs()
+                .listOutputFiles(workspace.resourceGroupName(), workspace.name(), experiment.name(), name(),
+                new JobsListOutputFilesOptions().withOutputdirectoryid(outputDirectoryId)
+                        .withDirectory(directory)
+                        .withLinkexpiryinminutes(linkExpiryMinutes)
+                        .withMaxResults(maxResults)));
     }
 
     @Override
     public Observable<OutputFile> listFilesAsync(String outputDirectoryId, String directory, Integer linkExpiryMinutes, Integer maxResults) {
-//        return convertPageToInnerAsync(this.manager().inner().jobs().listOutputFilesAsync(resourceGroupName(), name(),
-//                new JobsListOutputFilesOptionsInner().withOutputdirectoryid(outputDirectoryId)
-//                        .withDirectory(directory)
-//                        .withLinkexpiryinminutes(linkExpiryMinutes)
-//                        .withMaxResults(maxResults)))
-//                .map(new Func1<FileInner, OutputFile>() {
-//                    @Override
-//                    public OutputFile call(FileInner fileInner) {
-//                        return new OutputFileImpl(fileInner);
-//                    }
-//                });
-        return null;
+        return ReadableWrappersImpl.convertPageToInnerAsync(workspace.manager().inner().jobs()
+                .listOutputFilesAsync(workspace.resourceGroupName(), workspace.name(), experiment.name(), name(),
+                new JobsListOutputFilesOptions().withOutputdirectoryid(outputDirectoryId)
+                        .withDirectory(directory)
+                        .withLinkexpiryinminutes(linkExpiryMinutes)
+                        .withMaxResults(maxResults)))
+                .map(new Func1<FileInner, OutputFile>() {
+                    @Override
+                    public OutputFile call(FileInner fileInner) {
+                        return new OutputFileImpl(fileInner);
+                    }
+                });
     }
 
     @Override
-    public String experimentName() {
-        return null;
-//        return inner().experimentName();
+    public Experiment experiment() {
+        return experiment;
     }
 
     @Override

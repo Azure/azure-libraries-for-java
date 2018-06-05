@@ -2778,8 +2778,8 @@ public final class Utils {
         StringBuilder info = new StringBuilder("Batch AI cluster: ")
                 .append("\n\tId: ").append(resource.id())
                 .append("\n\tName: ").append(resource.name())
-                .append("\n\tResource group: ").append(resource.resourceGroupName())
-                .append("\n\tRegion: ").append(resource.regionName())
+                .append("\n\tResource group: ").append(resource.workspace().resourceGroupName())
+                .append("\n\tRegion: ").append(resource.workspace().regionName())
                 .append("\n\tVM Size: ").append(resource.vmSize())
                 .append("\n\tVM Priority: ").append(resource.vmPriority())
                 .append("\n\tSubnet: ").append(resource.subnet())
@@ -2841,7 +2841,7 @@ public final class Utils {
                 .append("\n\tExecution state: ").append(resource.executionState())
                 .append("\n\tExecution state transition time: ").append(resource.executionStateTransitionTime())
                 .append("\n\tTool type: ").append(resource.toolType())
-                .append("\n\tExperiment name: ").append(resource.experimentName());
+                .append("\n\tExperiment name: ").append(resource.experiment().name());
         if (resource.mountVolumes() != null) {
             info.append("\n\tMount volumes:");
             if (resource.mountVolumes().azureFileShares() != null) {

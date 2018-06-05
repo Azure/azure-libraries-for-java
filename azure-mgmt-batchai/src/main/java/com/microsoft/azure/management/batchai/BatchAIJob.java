@@ -89,11 +89,6 @@ public interface BatchAIJob extends
     Observable<OutputFile> listFilesAsync(String outputDirectoryId, String directory, Integer linkExpiryMinutes, Integer maxResults);
 
     /**
-     * @return the experiment information of the job.
-     */
-    String experimentName();
-
-    /**
      * @return priority associated with the job. Priority values can range from -1000
      * to 1000, with -1000 being the lowest priority and 1000 being the highest
      * priority. The default value is 0.
@@ -254,6 +249,11 @@ public interface BatchAIJob extends
     JobPropertiesExecutionInfo executionInfo();
 
     /**
+     * @return the experiment information of the job.
+     */
+    Experiment experiment();
+
+    /**
      * The entirety of the Batch AI job definition.
      */
     interface Definition extends
@@ -381,17 +381,6 @@ public interface BatchAIJob extends
         }
 
         /**
-         * Allows to specify the experiment information of the job.
-         */
-        interface WithExperimentName {
-            /**
-             * @param experimentName describes the experiment information of the job
-             * @return the next stage of the definition
-             */
-            WithCreate withExperimentName(String experimentName);
-        }
-
-        /**
          * Allows to specify environment variables.
          */
         interface WithEnvironmentVariable {
@@ -437,7 +426,6 @@ public interface BatchAIJob extends
                 WithInputDirectory,
                 WithOutputDirectory,
                 WithContainerSettings,
-                WithExperimentName,
                 WithEnvironmentVariable,
                 WithEnvironmentVariableSecretValue,
                 HasMountVolumes.DefinitionStages.WithMountVolumes<WithCreate> {

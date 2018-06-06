@@ -8,9 +8,6 @@ package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
-import com.microsoft.azure.management.batchai.BatchAIClusters;
-import com.microsoft.azure.management.batchai.BatchAIJob;
-import com.microsoft.azure.management.batchai.OutputDirectory;
 import com.microsoft.azure.management.batchai.VmPriority;
 import com.microsoft.azure.management.batchai.Workspace;
 import com.microsoft.azure.management.batchai.Workspaces;
@@ -51,7 +48,6 @@ public class TestBatchAI {
             final String groupName = SdkContext.randomResourceName("rg", 10);
             final String workspaceName = SdkContext.randomResourceName("ws", 10);
             final String vnetName = SdkContext.randomResourceName("vnet", 15);
-            final String fsName = SdkContext.randomResourceName("fs", 10);
             final String saName = SdkContext.randomResourceName("cluster", 15);
             final String shareName = "myfileshare";
             final String shareMountPath = "azurefileshare";
@@ -67,40 +63,32 @@ public class TestBatchAI {
                     .withNewResourceGroup(groupName)
                     .create();
 
-//            workspace.fileServers()
-//                    .define(fsName)
-//                    .withDataDisks()
-//                    .withVMSize()
-//                    .withUserName()
-//                    .withPassword()
-//                    .create();
+            if (isPlaybackMode()) {
+                storageAccountKey = "dummy_key";
+                fileShareUri = "dummy_uri";
+            } else {
+                storageAccountKey = ensureStorageAccount(storageAccounts, saName, groupName, shareName);
+                String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s", saName, storageAccountKey);
 
-//            if (isPlaybackMode()) {
-//                storageAccountKey = "dummy_key";
-//                fileShareUri = "dummy_uri";
-//            } else {
-//                storageAccountKey = ensureStorageAccount(storageAccounts, saName, groupName, shareName);
-//                String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s", saName, storageAccountKey);
-//
-//                CloudFileShare cloudFileShare = CloudStorageAccount.parse(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net",
-//                        saName, storageAccountKey))
-//                        .createCloudFileClient()
-//                        .getShareReference(shareName);
-//                cloudFileShare.create();
-//
-//                CloudStorageAccount account = CloudStorageAccount.parse(connectionString);
-//                CloudBlobClient cloudBlobClient = account.createCloudBlobClient();
-//                CloudBlobContainer container = cloudBlobClient.getContainerReference(containerName);
-//                container.createIfNotExists();
-//                fileShareUri = cloudFileShare.getStorageUri().getPrimaryUri().toString();
-//            }
+                CloudFileShare cloudFileShare = CloudStorageAccount.parse(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net",
+                        saName, storageAccountKey))
+                        .createCloudFileClient()
+                        .getShareReference(shareName);
+                cloudFileShare.create();
 
-//            Network network = networks.define(vnetName)
-//                .withRegion(region)
-//                .withExistingResourceGroup(groupName)
-//                .withAddressSpace("192.168.0.0/16")
-//                .withSubnet(subnetName, "192.168.200.0/24")
-//                .create();
+                CloudStorageAccount account = CloudStorageAccount.parse(connectionString);
+                CloudBlobClient cloudBlobClient = account.createCloudBlobClient();
+                CloudBlobContainer container = cloudBlobClient.getContainerReference(containerName);
+                container.createIfNotExists();
+                fileShareUri = cloudFileShare.getStorageUri().getPrimaryUri().toString();
+            }
+
+            Network network = networks.define(vnetName)
+                .withRegion(region)
+                .withExistingResourceGroup(groupName)
+                .withAddressSpace("192.168.0.0/16")
+                .withSubnet(subnetName, "192.168.200.0/24")
+                .create();
 
             BatchAICluster cluster = workspace.clusters().define(clusterName)
                     .withVMSize(VirtualMachineSizeTypes.STANDARD_D1_V2.toString())
@@ -112,36 +100,32 @@ public class TestBatchAI {
                         .withCommandLine("echo Hello World!")
                         .withStdOutErrPath("./outputpath")
                     .attach()
-//                    .defineFileServer()
-//                        .withFileServerId()
-//                        .withRelativeMountPath()
-//                        .attach()
-//                    .defineAzureFileShare()
-//                        .withStorageAccountName(saName)
-//                        .withAzureFileUrl(fileShareUri)
-//                        .withRelativeMountPath(shareMountPath)
-//                        .withAccountKey(storageAccountKey)
-//                        .attach()
-//                    .defineAzureBlobFileSystem()
-//                        .withStorageAccountName(saName)
-//                        .withContainerName(containerName)
-//                        .withRelativeMountPath(blobFileSystemPath)
-//                        .withAccountKey(storageAccountKey)
-//                        .attach()
+                    .defineAzureFileShare()
+                        .withStorageAccountName(saName)
+                        .withAzureFileUrl(fileShareUri)
+                        .withRelativeMountPath(shareMountPath)
+                        .withAccountKey(storageAccountKey)
+                        .attach()
+                    .defineAzureBlobFileSystem()
+                        .withStorageAccountName(saName)
+                        .withContainerName(containerName)
+                        .withRelativeMountPath(blobFileSystemPath)
+                        .withAccountKey(storageAccountKey)
+                        .attach()
                     .withVirtualMachineImage("microsoft-ads", "linux-data-science-vm-ubuntu", "linuxdsvmubuntu")
-//                    .withSubnet(network.id(), subnetName)
+                    .withSubnet(network.id(), subnetName)
                     .withAppInsightsComponentId("appinsightsId")
                     .withInstrumentationKey("appInsightsKey")
                     .create();
             printBatchAICluster(cluster);
-//            Assert.assertEquals("steady", cluster.allocationState().toString());
+            Assert.assertEquals("steady", cluster.allocationState().toString());
             Assert.assertEquals(userName, cluster.adminUserName());
             Assert.assertEquals(VmPriority.LOWPRIORITY, cluster.vmPriority());
-//            Assert.assertEquals(1, cluster.nodeSetup().mountVolumes().azureFileShares().size());
-//            Assert.assertEquals(shareMountPath, cluster.nodeSetup().mountVolumes().azureFileShares().get(0).relativeMountPath());
-//            Assert.assertEquals(1, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().size());
-//            Assert.assertEquals(blobFileSystemPath, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().get(0).relativeMountPath());
-//            Assert.assertEquals(network.id() + "/subnets/" + subnetName, cluster.subnet().id());
+            Assert.assertEquals(1, cluster.nodeSetup().mountVolumes().azureFileShares().size());
+            Assert.assertEquals(shareMountPath, cluster.nodeSetup().mountVolumes().azureFileShares().get(0).relativeMountPath());
+            Assert.assertEquals(1, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().size());
+            Assert.assertEquals(blobFileSystemPath, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().get(0).relativeMountPath());
+            Assert.assertEquals(network.id() + "/subnets/" + subnetName, cluster.subnet().id());
             Assert.assertEquals("appinsightsId", cluster.nodeSetup().performanceCountersSettings().appInsightsReference().component().id());
             Assert.assertEquals("linux-data-science-vm-ubuntu", cluster.virtualMachineConfiguration().imageReference().offer());
             return workspace;
@@ -149,6 +133,7 @@ public class TestBatchAI {
 
         @Override
         public Workspace updateResource(Workspace workspace) throws Exception {
+//            workspace.update().withTag("tag2", "value2").apply();
             BatchAICluster cluster = workspace.clusters().getByName(clusterName);
             cluster.update()
                     .withAutoScale(1, 2, 2)

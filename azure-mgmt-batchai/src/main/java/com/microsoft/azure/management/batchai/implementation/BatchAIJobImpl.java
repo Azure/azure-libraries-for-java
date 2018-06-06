@@ -167,7 +167,7 @@ class BatchAIJobImpl
 
     @Override
     public ContainerImageSettings.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineContainerSettings(String image) {
-        return new ContainerImageSettingsImpl(new ImageSourceRegistry().withImage(image), this);
+        return new ContainerImageSettingsImpl(new ContainerSettings().withImageSourceRegistry(new ImageSourceRegistry().withImage(image)), this);
     }
 
     private ContainerSettings ensureContainerSettings() {
@@ -368,8 +368,8 @@ class BatchAIJobImpl
         createParameters.outputDirectories().add(outputDirectorySettings.inner());
     }
 
-    void attachImageSourceRegistry(ContainerImageSettingsImpl containerImageSettings) {
-        ensureContainerSettings().withImageSourceRegistry(containerImageSettings.inner());
+    void attachContainerSettings(ContainerImageSettingsImpl containerImageSettings) {
+        createParameters.withContainerSettings(containerImageSettings.inner());
     }
 
     @Override

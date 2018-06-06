@@ -399,6 +399,11 @@ public interface BatchAIJob extends
              */
             WithCreate withContainerImage(String image);
 
+            /**
+             * Begins the definition of container settings.
+             * @param image the name of the image in image repository
+             * @return next definition stage
+             */
             ContainerImageSettings.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineContainerSettings(String image);
         }
 

@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.batchai.FileType;
 import com.microsoft.azure.management.batchai.OutputFile;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
@@ -38,6 +39,11 @@ final class OutputFileImpl extends
     @Override
     public long contentLength() {
         return Utils.toPrimitiveLong(inner().contentLength());
+    }
+
+    @Override
+    public FileType fileType() {
+        return inner().fileType();
     }
 
     @Override

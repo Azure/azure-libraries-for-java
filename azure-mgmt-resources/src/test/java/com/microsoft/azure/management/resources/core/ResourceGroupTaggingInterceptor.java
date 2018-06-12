@@ -40,7 +40,9 @@ public class ResourceGroupTaggingInterceptor implements Interceptor {
             tags.put("product", "javasdk");
             tags.put("cause", "automation");
             tags.put("date", DateTime.now(DateTimeZone.UTC).toString());
-
+            if (System.getenv("ENV_JOB_NAME") != null) {
+                tags.put("job", System.getenv("ENV_JOB_NAME"));
+            }
             rg.withTags(tags);
 
             String newBody = adapter.serialize(rg);

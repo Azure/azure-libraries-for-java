@@ -8,6 +8,8 @@
 
 package com.microsoft.azure.management.datalake.analytics;
 
+import java.util.List;
+
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.Page;
@@ -16,9 +18,8 @@ import com.microsoft.azure.management.datalake.analytics.models.DataLakeStoreAcc
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
-import rx.Observable;
 
-import java.util.List;
+import rx.Observable;
 
 /**
  * An instance of this class provides access to all the operations defined

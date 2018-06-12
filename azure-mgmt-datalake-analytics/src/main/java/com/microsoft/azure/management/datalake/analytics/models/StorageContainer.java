@@ -24,12 +24,42 @@ public class StorageContainer extends SubResource {
     private DateTime lastModifiedTime;
 
     /**
+     * The resource name.
+     */
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
+    private String name;
+
+    /**
+     * The resource type.
+     */
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
+    private String type;
+
+    /**
      * Get the lastModifiedTime value.
      *
      * @return the lastModifiedTime value
      */
     public DateTime lastModifiedTime() {
         return this.lastModifiedTime;
+    }
+
+    /**
+     * Get the name value.
+     *
+     * @return the name value
+     */
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Get the type value.
+     *
+     * @return the type value
+     */
+    public String type() {
+        return this.type;
     }
 
 }

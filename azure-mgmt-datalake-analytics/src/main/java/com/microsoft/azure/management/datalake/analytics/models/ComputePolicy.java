@@ -8,10 +8,9 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
+import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-
-import java.util.UUID;
 
 /**
  * Data Lake Analytics compute policy information.
@@ -43,6 +42,18 @@ public class ComputePolicy extends SubResource {
      */
     @JsonProperty(value = "properties.minPriorityPerJob", access = JsonProperty.Access.WRITE_ONLY)
     private Integer minPriorityPerJob;
+
+    /**
+     * The resource name.
+     */
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
+    private String name;
+
+    /**
+     * The resource type.
+     */
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
+    private String type;
 
     /**
      * Get the objectId value.
@@ -78,6 +89,24 @@ public class ComputePolicy extends SubResource {
      */
     public Integer minPriorityPerJob() {
         return this.minPriorityPerJob;
+    }
+
+    /**
+     * Get the name value.
+     *
+     * @return the name value
+     */
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Get the type value.
+     *
+     * @return the type value
+     */
+    public String type() {
+        return this.type;
     }
 
 }

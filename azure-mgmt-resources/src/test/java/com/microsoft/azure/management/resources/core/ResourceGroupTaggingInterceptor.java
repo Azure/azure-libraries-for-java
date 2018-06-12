@@ -24,10 +24,12 @@ import java.util.Map;
  * An interceptor for tagging resource groups created in tests.
  */
 public class ResourceGroupTaggingInterceptor implements Interceptor {
+    private static final String LOGGING_CONTEXT = "com.microsoft.azure.management.resources.ResourceGroups createOrUpdate";
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        if ("PUT".equals(chain.request().method()) && chain.request().url().uri().toString().contains("/resourcegroups/")) {
+        if ("PUT".equals(chain.request().method()) && chain.request().url().uri().toString().contains("/resourcegroups/") &&
+                LOGGING_CONTEXT.equals(chain.request().header("x-ms-logging-context"))) {
             String body = bodyToString(chain.request());
             AzureJacksonAdapter adapter = new AzureJacksonAdapter();
             ResourceGroupInner rg = adapter.deserialize(body, ResourceGroupInner.class);
@@ -38,6 +40,7 @@ public class ResourceGroupTaggingInterceptor implements Interceptor {
             tags.put("product", "javasdk");
             tags.put("cause", "automation");
             tags.put("date", DateTime.now(DateTimeZone.UTC).toString());
+
             rg.withTags(tags);
 
             String newBody = adapter.serialize(rg);

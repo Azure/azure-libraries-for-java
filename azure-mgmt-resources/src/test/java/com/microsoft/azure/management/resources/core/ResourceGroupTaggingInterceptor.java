@@ -25,14 +25,17 @@ import java.util.Map;
  */
 public class ResourceGroupTaggingInterceptor implements Interceptor {
     private static final String LOGGING_CONTEXT = "com.microsoft.azure.management.resources.ResourceGroups createOrUpdate";
+    private AzureJacksonAdapter adapter = new AzureJacksonAdapter();
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         if ("PUT".equals(chain.request().method()) && chain.request().url().uri().toString().contains("/resourcegroups/") &&
                 LOGGING_CONTEXT.equals(chain.request().header("x-ms-logging-context"))) {
             String body = bodyToString(chain.request());
-            AzureJacksonAdapter adapter = new AzureJacksonAdapter();
             ResourceGroupInner rg = adapter.deserialize(body, ResourceGroupInner.class);
+            if (rg == null) {
+                throw new RuntimeException("Failed to deserialize " + body);
+            }
             Map<String, String> tags = rg.tags();
             if (tags == null) {
                 tags = new HashMap<>();
@@ -54,15 +57,10 @@ public class ResourceGroupTaggingInterceptor implements Interceptor {
         return chain.proceed(chain.request());
     }
 
-    private static String bodyToString(final Request request){
-
-        try {
-            final Request copy = request.newBuilder().build();
-            final Buffer buffer = new Buffer();
-            copy.body().writeTo(buffer);
-            return buffer.readUtf8();
-        } catch (final IOException e) {
-            return "did not work";
-        }
+    private static String bodyToString(final Request request) throws IOException {
+        final Request copy = request.newBuilder().build();
+        final Buffer buffer = new Buffer();
+        copy.body().writeTo(buffer);
+        return buffer.readUtf8();
     }
 }

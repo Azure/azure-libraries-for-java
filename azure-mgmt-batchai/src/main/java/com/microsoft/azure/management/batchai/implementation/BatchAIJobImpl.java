@@ -124,7 +124,7 @@ class BatchAIJobImpl
     }
 
     @Override
-    public BatchAIJobImpl withCommandLine(String commandLine) {
+    public BatchAIJobImpl withJobPreparationCommandLine(String commandLine) {
         createParameters.withJobPreparation(new JobPreparation().withCommandLine(commandLine));
         return this;
     }

@@ -388,7 +388,7 @@ public interface BatchAIJob extends
              * @param commandLine command line to execute
              * @return the next stage of the definition
              */
-            WithCreate withCommandLine(String commandLine);
+            WithCreate withJobPreparationCommandLine(String commandLine);
         }
 
         /**

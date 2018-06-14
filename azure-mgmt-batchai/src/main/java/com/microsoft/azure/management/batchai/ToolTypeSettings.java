@@ -439,7 +439,7 @@ public interface ToolTypeSettings {
         }
 
         /**
-         * Definition stages for for a custom MPI job.
+         * Definition stages for a custom MPI job.
          */
         interface DefinitionStages {
 
@@ -530,6 +530,57 @@ public interface ToolTypeSettings {
              */
             interface WithPython<ParentT> {
                 WithAttach<ParentT> withPythonScriptFile(String pythonScriptFilePath);
+            }
+        }
+    }
+
+    /**
+     * Client-side representation for the settings for a custom toolkit job.
+     */
+    @Fluent
+    @Beta(Beta.SinceVersion.V1_12_0)
+    interface CustomToolkit extends Indexable,
+            HasParent<BatchAIJob>,
+            HasInner<CustomToolkitSettings> {
+
+        /**
+         * Definition of the settings for a custom toolkit job.
+         *
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        interface Definition<ParentT> extends
+                DefinitionStages.Blank<ParentT>,
+                DefinitionStages.WithAttach<ParentT> {
+        }
+
+        /**
+         * Definition stages for a custom toolkit job.
+         */
+        interface DefinitionStages {
+
+            /**
+             * The final stage of the custom toolkit job settings definition.
+             * At this stage, any remaining optional settings can be specified, or the custom toolkit job settings definition
+             * can be attached to the parent Batch AI job definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithAttach<ParentT> extends
+                    Attachable.InDefinition<ParentT> {
+            }
+
+            /**
+             * The first stage of the custom toolkit job settings definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface Blank<ParentT> extends WithCommandLine<ParentT> {
+            }
+
+            /**
+             * Specifies the command line to execute the custom toolkit Job.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithCommandLine<ParentT> {
+                WithAttach<ParentT> withCommandLine(String commandLine);
             }
         }
     }

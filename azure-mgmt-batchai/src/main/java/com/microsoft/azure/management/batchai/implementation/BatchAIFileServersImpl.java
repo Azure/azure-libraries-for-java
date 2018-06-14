@@ -57,12 +57,7 @@ class BatchAIFileServersImpl
 
     @Override
     public PagedList<BatchAIFileServer> list() {
-        return new GroupPagedList<BatchAIFileServer>(this.manager().resourceManager().resourceGroups().list()) {
-            @Override
-            public List<BatchAIFileServer> listNextGroup(String resourceGroupName) {
-                return wrapList(BatchAIFileServersImpl.this.inner().listByWorkspace(resourceGroupName, workspace.name()));
-            }
-        };
+        return wrapList(BatchAIFileServersImpl.this.inner().listByWorkspace(workspace.resourceGroupName(), workspace.name()));
     }
 
     @Override

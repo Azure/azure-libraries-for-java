@@ -218,9 +218,8 @@ class BatchAIJobImpl
     }
 
     @Override
-    public BatchAIJobImpl withCustomCommandLine(String commandLine) {
-        inner().withCustomToolkitSettings(new CustomToolkitSettings().withCommandLine(commandLine));
-        return this;
+    public ToolTypeSettings.CustomToolkit.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineCustomToolkit() {
+        return new CustomToolkitImpl(new CustomToolkitSettings(), this);
     }
 
     @Override
@@ -245,7 +244,7 @@ class BatchAIJobImpl
 
     @Override
     public BatchAIJobImpl withExistingCluster(BatchAICluster cluster) {
-        inner().withCluster(new ResourceId().withId(cluster.id()));
+        createParameters.withCluster(new ResourceId().withId(cluster.id()));
         return this;
     }
 
@@ -315,10 +314,10 @@ class BatchAIJobImpl
     }
 
     private List<EnvironmentVariableWithSecretValue> ensureEnvironmentVariablesWithSecrets() {
-        if (inner().secrets() == null) {
-            inner().withSecrets(new ArrayList<EnvironmentVariableWithSecretValue>());
+        if (createParameters.secrets() == null) {
+            createParameters.withSecrets(new ArrayList<EnvironmentVariableWithSecretValue>());
         }
-        return inner().secrets();
+        return createParameters.secrets();
     }
 
 
@@ -359,6 +358,10 @@ class BatchAIJobImpl
 
     void attachHorovodSettings(HorovodImpl horovod) {
         createParameters.withHorovodSettings(horovod.inner());
+    }
+
+    void attachCustomToolkitSettings(CustomToolkitImpl customToolkit) {
+        createParameters.withCustomToolkitSettings(customToolkit.inner());
     }
 
     void attachOutputDirectory(OutputDirectorySettingsImpl outputDirectorySettings) {

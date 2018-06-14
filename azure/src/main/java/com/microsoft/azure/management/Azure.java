@@ -18,6 +18,7 @@ import com.microsoft.azure.management.appservice.WebApps;
 import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
 import com.microsoft.azure.management.batch.BatchAccounts;
 import com.microsoft.azure.management.batch.implementation.BatchManager;
+import com.microsoft.azure.management.batchai.BatchAIUsages;
 import com.microsoft.azure.management.batchai.Workspaces;
 import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.cdn.CdnProfiles;
@@ -722,8 +723,17 @@ public final class Azure {
     /**
      * @return entry point to managing batch AI clusters.
      */
+    @Beta(SinceVersion.V1_12_0)
     public Workspaces batchAIWorkspaces() {
         return batchAIManager.workspaces();
+    }
+
+    /**
+     * @return entry point to managing batch AI usages.
+     */
+    @Beta(SinceVersion.V1_12_0)
+    public BatchAIUsages batchAIUsages() {
+        return batchAIManager.usages();
     }
 
     /**

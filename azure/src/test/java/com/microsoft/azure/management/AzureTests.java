@@ -9,9 +9,9 @@ import com.microsoft.azure.CloudException;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIJob;
-import com.microsoft.azure.management.batchai.Experiment;
+import com.microsoft.azure.management.batchai.BatchAIExperiment;
 import com.microsoft.azure.management.batchai.OutputDirectory;
-import com.microsoft.azure.management.batchai.Workspace;
+import com.microsoft.azure.management.batchai.BatchAIWorkspace;
 import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.Disk;
 import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
@@ -983,11 +983,11 @@ public class AzureTests extends TestBase {
         final String userName = "tirekicker";
         try {
 
-            Workspace workspace = azure.batchAIWorkspaces().define(workspaceName)
+            BatchAIWorkspace workspace = azure.batchAIWorkspaces().define(workspaceName)
                     .withRegion(region)
                     .withNewResourceGroup(groupName)
                     .create();
-            Experiment experiment = workspace.experiments().define(experimentName).create();
+            BatchAIExperiment experiment = workspace.experiments().define(experimentName).create();
 
             BatchAICluster cluster = workspace.clusters().define(clusterName)
                     .withVMSize(VirtualMachineSizeTypes.STANDARD_D1_V2.toString())

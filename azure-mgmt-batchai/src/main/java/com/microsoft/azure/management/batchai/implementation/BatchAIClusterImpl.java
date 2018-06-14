@@ -16,6 +16,7 @@ import com.microsoft.azure.management.batchai.AzureFileShare;
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIError;
+import com.microsoft.azure.management.batchai.BatchAIWorkspace;
 import com.microsoft.azure.management.batchai.ClusterCreateParameters;
 import com.microsoft.azure.management.batchai.FileServer;
 import com.microsoft.azure.management.batchai.DeallocationOption;
@@ -37,7 +38,6 @@ import com.microsoft.azure.management.batchai.UnmanagedFileSystemReference;
 import com.microsoft.azure.management.batchai.UserAccountSettings;
 import com.microsoft.azure.management.batchai.VirtualMachineConfiguration;
 import com.microsoft.azure.management.batchai.VmPriority;
-import com.microsoft.azure.management.batchai.Workspace;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
@@ -63,12 +63,12 @@ class BatchAIClusterImpl extends CreatableUpdatableImpl<
         BatchAICluster.Definition,
         BatchAICluster.Update,
         HasMountVolumes {
-    private final WorkspaceImpl workspace;
+    private final BatchAIWorkspaceImpl workspace;
 
     private ClusterCreateParameters createParameters = new ClusterCreateParameters();
     private ScaleSettings scaleSettings = new ScaleSettings();
 
-    BatchAIClusterImpl(String name, WorkspaceImpl workspace, ClusterInner innerObject) {
+    BatchAIClusterImpl(String name, BatchAIWorkspaceImpl workspace, ClusterInner innerObject) {
         super(name, innerObject);
         this.workspace = workspace;
     }
@@ -303,7 +303,7 @@ class BatchAIClusterImpl extends CreatableUpdatableImpl<
     }
 
     @Override
-    public Workspace workspace() {
+    public BatchAIWorkspace workspace() {
         return workspace;
     }
 

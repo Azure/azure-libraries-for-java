@@ -265,7 +265,7 @@ public interface BatchAIJob extends
     /**
      * @return the experiment information of the job.
      */
-    Experiment experiment();
+    BatchAIExperiment experiment();
 
     /**
      * The entirety of the Batch AI job definition.

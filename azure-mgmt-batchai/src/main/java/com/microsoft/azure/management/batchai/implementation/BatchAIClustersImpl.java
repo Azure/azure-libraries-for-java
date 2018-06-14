@@ -9,7 +9,7 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIClusters;
-import com.microsoft.azure.management.batchai.Workspace;
+import com.microsoft.azure.management.batchai.BatchAIWorkspace;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
 import com.microsoft.rest.ServiceCallback;
@@ -28,9 +28,9 @@ class BatchAIClustersImpl
                         BatchAIClusterImpl,
                         ClusterInner>
         implements BatchAIClusters {
-    private final WorkspaceImpl workspace;
+    private final BatchAIWorkspaceImpl workspace;
 
-    BatchAIClustersImpl(final WorkspaceImpl workspace) {
+    BatchAIClustersImpl(final BatchAIWorkspaceImpl workspace) {
         this.workspace = workspace;
     }
 
@@ -64,7 +64,7 @@ class BatchAIClustersImpl
     }
 
     @Override
-    public Workspace parent() {
+    public BatchAIWorkspace parent() {
         return workspace;
     }
 

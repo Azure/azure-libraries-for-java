@@ -6,10 +6,10 @@
 package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.batchai.BatchAIFileServer;
+import com.microsoft.azure.management.batchai.BatchAIWorkspace;
+import com.microsoft.azure.management.batchai.BatchAIWorkspaces;
 import com.microsoft.azure.management.batchai.CachingType;
 import com.microsoft.azure.management.batchai.StorageAccountType;
-import com.microsoft.azure.management.batchai.Workspace;
-import com.microsoft.azure.management.batchai.Workspaces;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.Networks;
@@ -17,7 +17,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 
-public class TestBatchAIFileServers extends TestTemplate<Workspace, Workspaces> {
+public class TestBatchAIFileServers extends TestTemplate<BatchAIWorkspace, BatchAIWorkspaces> {
     private Networks networks;
 
     public TestBatchAIFileServers(Networks networks) {
@@ -25,7 +25,7 @@ public class TestBatchAIFileServers extends TestTemplate<Workspace, Workspaces> 
     }
 
     @Override
-    public Workspace createResource(Workspaces workspaces) throws Exception {
+    public BatchAIWorkspace createResource(BatchAIWorkspaces workspaces) throws Exception {
         final Region region = Region.EUROPE_WEST;
         final String groupName = SdkContext.randomResourceName("rg", 10);
         final String wsName = SdkContext.randomResourceName("ws", 10);
@@ -34,7 +34,7 @@ public class TestBatchAIFileServers extends TestTemplate<Workspace, Workspaces> 
         final String subnetName = "MySubnet";
         final String userName = "tirekicker";
 
-        Workspace workspace = workspaces.define(wsName)
+        BatchAIWorkspace workspace = workspaces.define(wsName)
                 .withRegion(region)
                 .withNewResourceGroup(groupName)
                 .create();
@@ -60,12 +60,12 @@ public class TestBatchAIFileServers extends TestTemplate<Workspace, Workspaces> 
     }
 
     @Override
-    public Workspace updateResource(Workspace workspace) throws Exception {
+    public BatchAIWorkspace updateResource(BatchAIWorkspace workspace) throws Exception {
         return workspace;
     }
 
     @Override
-    public void print(Workspace workspace) {
+    public void print(BatchAIWorkspace workspace) {
         StringBuilder info = new StringBuilder();
         info.append("Workspace: ").append(workspace.id())
                 .append("\n\tName: ").append(workspace.name())

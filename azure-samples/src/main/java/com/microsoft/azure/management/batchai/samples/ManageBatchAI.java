@@ -8,10 +8,10 @@ package com.microsoft.azure.management.batchai.samples;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIJob;
+import com.microsoft.azure.management.batchai.BatchAIWorkspace;
 import com.microsoft.azure.management.batchai.ExecutionState;
-import com.microsoft.azure.management.batchai.Experiment;
+import com.microsoft.azure.management.batchai.BatchAIExperiment;
 import com.microsoft.azure.management.batchai.OutputFile;
-import com.microsoft.azure.management.batchai.Workspace;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
@@ -99,11 +99,11 @@ public final class ManageBatchAI {
 
             //=============================================================
             // Create a workspace and experiment
-            Workspace workspace = azure.batchAIWorkspaces().define(workspaceName)
+            BatchAIWorkspace workspace = azure.batchAIWorkspaces().define(workspaceName)
                     .withRegion(region)
                     .withNewResourceGroup(rgName)
                     .create();
-            Experiment experiment = workspace.experiments().define(experimentName).create();
+            BatchAIExperiment experiment = workspace.experiments().define(experimentName).create();
 
             //=============================================================
             // Create Batch AI cluster that uses Azure file share to host the training data and scripts for the learning job
@@ -127,7 +127,7 @@ public final class ManageBatchAI {
             // Create Microsoft Cognitive Toolkit job to run on the cluster
             System.out.println("Creating Batch AI job...");
             BatchAIJob job = experiment.jobs().define("myJob")
-                    .withExistingClusterId(cluster.id())
+                    .withExistingCluster(cluster)
                     .withNodeCount(1)
                     .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
                     .defineCognitiveToolkit()

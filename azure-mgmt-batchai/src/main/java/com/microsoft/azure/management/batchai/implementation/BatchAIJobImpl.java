@@ -12,6 +12,7 @@ import com.microsoft.azure.management.batchai.AzureBlobFileSystemReference;
 import com.microsoft.azure.management.batchai.AzureFileShare;
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
+import com.microsoft.azure.management.batchai.BatchAIExperiment;
 import com.microsoft.azure.management.batchai.BatchAIJob;
 import com.microsoft.azure.management.batchai.CNTKsettings;
 import com.microsoft.azure.management.batchai.Caffe2Settings;
@@ -24,7 +25,6 @@ import com.microsoft.azure.management.batchai.CustomToolkitSettings;
 import com.microsoft.azure.management.batchai.EnvironmentVariable;
 import com.microsoft.azure.management.batchai.EnvironmentVariableWithSecretValue;
 import com.microsoft.azure.management.batchai.ExecutionState;
-import com.microsoft.azure.management.batchai.Experiment;
 import com.microsoft.azure.management.batchai.FileServer;
 import com.microsoft.azure.management.batchai.FileServerReference;
 import com.microsoft.azure.management.batchai.HorovodSettings;
@@ -49,7 +49,7 @@ import com.microsoft.azure.management.batchai.TensorFlowSettings;
 import com.microsoft.azure.management.batchai.ToolType;
 import com.microsoft.azure.management.batchai.ToolTypeSettings;
 import com.microsoft.azure.management.batchai.UnmanagedFileSystemReference;
-import com.microsoft.azure.management.batchai.Workspace;
+import com.microsoft.azure.management.batchai.BatchAIWorkspace;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
@@ -75,13 +75,13 @@ class BatchAIJobImpl
         implements BatchAIJob,
         BatchAIJob.Definition,
         HasMountVolumes {
-    private final Workspace workspace;
-    private final Experiment experiment;
+    private final BatchAIWorkspace workspace;
+    private final BatchAIExperiment experiment;
 
     private JobCreateParameters createParameters = new JobCreateParameters();
 
     BatchAIJobImpl(String name,
-                   ExperimentImpl parent,
+                   BatchAIExperimentImpl parent,
                    JobInner inner) {
         super(name, inner);
         this.workspace = parent.workspace();
@@ -470,7 +470,7 @@ class BatchAIJobImpl
     }
 
     @Override
-    public Experiment experiment() {
+    public BatchAIExperiment experiment() {
         return experiment;
     }
 

@@ -36,7 +36,7 @@ public interface BatchAIJobs extends
         SupportsDeletingById,
         HasInner<JobsInner>,
         HasManager<BatchAIManager>,
-        HasParent<Experiment> {
+        HasParent<BatchAIExperiment> {
     /**
      * List Batch AI jobs.
      * @param maxResults maximum number of results

@@ -23,13 +23,13 @@ import org.joda.time.DateTime;
  */
 @Fluent
 @Beta(Beta.SinceVersion.V1_12_0)
-public interface Experiment extends
+public interface BatchAIExperiment extends
         HasInner<ExperimentInner>,
         Indexable,
         HasId,
         HasName,
         HasManager<BatchAIManager>,
-        Refreshable<Experiment> {
+        Refreshable<BatchAIExperiment> {
 
     /**
      * @return the entry point to Batch AI jobs management API for this experiment
@@ -54,7 +54,7 @@ public interface Experiment extends
     /**
      * @return workspace this experiment belongs to
      */
-    Workspace workspace();
+    BatchAIWorkspace workspace();
 
     /**
      * The entirety of a Batch AI experiment definition.
@@ -72,7 +72,7 @@ public interface Experiment extends
          * but also allows for any other optional settings to be specified.
          */
         interface WithCreate extends
-                Creatable<Experiment> {
+                Creatable<BatchAIExperiment> {
         }
     }
 }

@@ -27,16 +27,16 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  * Entry point to virtual network gateways management API in Azure.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_10_0)
-public interface Workspaces extends
-        SupportsCreating<Workspace.DefinitionStages.Blank>,
-        SupportsListing<Workspace>,
-        SupportsListingByResourceGroup<Workspace>,
-        SupportsGettingByResourceGroup<Workspace>,
-        SupportsGettingById<Workspace>,
+@Beta(Beta.SinceVersion.V1_12_0)
+public interface BatchAIWorkspaces extends
+        SupportsCreating<BatchAIWorkspace.DefinitionStages.Blank>,
+        SupportsListing<BatchAIWorkspace>,
+        SupportsListingByResourceGroup<BatchAIWorkspace>,
+        SupportsGettingByResourceGroup<BatchAIWorkspace>,
+        SupportsGettingById<BatchAIWorkspace>,
         SupportsDeletingById,
         SupportsDeletingByResourceGroup,
-        SupportsBatchCreation<Workspace>,
+        SupportsBatchCreation<BatchAIWorkspace>,
         HasManager<BatchAIManager>,
         HasInner<WorkspacesInner> {
 }

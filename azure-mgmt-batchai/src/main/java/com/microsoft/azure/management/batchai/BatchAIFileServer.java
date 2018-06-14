@@ -77,7 +77,7 @@ public interface BatchAIFileServer extends
     /**
      * @return workspace this fileserver belongs to
      */
-    Workspace workspace();
+    BatchAIWorkspace workspace();
 
     /**
      * The entirety of a Batch AI file server definition.

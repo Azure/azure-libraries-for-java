@@ -6,27 +6,27 @@
 package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.batchai.BatchAIExperiment;
 import com.microsoft.azure.management.batchai.BatchAIJobs;
-import com.microsoft.azure.management.batchai.Experiment;
+import com.microsoft.azure.management.batchai.BatchAIWorkspace;
 import com.microsoft.azure.management.batchai.ProvisioningState;
-import com.microsoft.azure.management.batchai.Workspace;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import org.joda.time.DateTime;
 import rx.Observable;
 
 @LangDefinition
-class ExperimentImpl extends CreatableUpdatableImpl<
-        Experiment,
+class BatchAIExperimentImpl extends CreatableUpdatableImpl<
+        BatchAIExperiment,
         ExperimentInner,
-        ExperimentImpl>
+        BatchAIExperimentImpl>
         implements
-        Experiment,
-        Experiment.Definition {
-    private final WorkspaceImpl workspace;
+        BatchAIExperiment,
+        BatchAIExperiment.Definition {
+    private final BatchAIWorkspaceImpl workspace;
 
     private final BatchAIJobs jobs;
 
-    ExperimentImpl(String name, WorkspaceImpl workspace, ExperimentInner innerObject) {
+    BatchAIExperimentImpl(String name, BatchAIWorkspaceImpl workspace, ExperimentInner innerObject) {
         super(name, innerObject);
         this.workspace = workspace;
         jobs = new BatchAIJobsImpl(this);
@@ -58,7 +58,7 @@ class ExperimentImpl extends CreatableUpdatableImpl<
     }
 
     @Override
-    public Workspace workspace() {
+    public BatchAIWorkspace workspace() {
         return workspace;
     }
 
@@ -73,7 +73,7 @@ class ExperimentImpl extends CreatableUpdatableImpl<
     }
 
     @Override
-    public Observable<Experiment> createResourceAsync() {
+    public Observable<BatchAIExperiment> createResourceAsync() {
         return this.manager().inner().experiments().createAsync(workspace.resourceGroupName(), workspace.name(), name())
                 .map(innerToFluentMap(this));
     }

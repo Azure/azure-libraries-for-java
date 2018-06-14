@@ -7,32 +7,32 @@ package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.BatchAIClusters;
+import com.microsoft.azure.management.batchai.BatchAIExperiments;
 import com.microsoft.azure.management.batchai.BatchAIFileServers;
-import com.microsoft.azure.management.batchai.Experiments;
+import com.microsoft.azure.management.batchai.BatchAIWorkspace;
 import com.microsoft.azure.management.batchai.ProvisioningState;
-import com.microsoft.azure.management.batchai.Workspace;
 import com.microsoft.azure.management.batchai.WorkspaceCreateParameters;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import org.joda.time.DateTime;
 import rx.Observable;
 
 @LangDefinition
-class WorkspaceImpl extends GroupableResourceImpl<
-        Workspace,
+class BatchAIWorkspaceImpl extends GroupableResourceImpl<
+        BatchAIWorkspace,
         WorkspaceInner,
-        WorkspaceImpl,
+        BatchAIWorkspaceImpl,
         BatchAIManager>
         implements
-            Workspace,
-            Workspace.Definition,
-            Workspace.Update {
+        BatchAIWorkspace,
+            BatchAIWorkspace.Definition,
+            BatchAIWorkspace.Update {
     private BatchAIClusters clusters;
     private BatchAIFileServers fileServers;
-    private Experiments experiments;
+    private BatchAIExperiments experiments;
 
     private WorkspaceCreateParameters createParameters = new WorkspaceCreateParameters();
 
-    WorkspaceImpl(String name, WorkspaceInner innerObject, BatchAIManager manager) {
+    BatchAIWorkspaceImpl(String name, WorkspaceInner innerObject, BatchAIManager manager) {
         super(name, innerObject, manager);
     }
 
@@ -60,9 +60,9 @@ class WorkspaceImpl extends GroupableResourceImpl<
     }
 
     @Override
-    public Experiments experiments() {
+    public BatchAIExperiments experiments() {
         if (experiments == null) {
-            experiments = new ExperimentsImpl(this);
+            experiments = new BatchAIExperimentsImpl(this);
         }
         return experiments;
     }
@@ -81,7 +81,7 @@ class WorkspaceImpl extends GroupableResourceImpl<
     }
 
     @Override
-    public Observable<Workspace> createResourceAsync() {
+    public Observable<BatchAIWorkspace> createResourceAsync() {
         createParameters.withLocation(this.regionName());
         createParameters.withTags(this.inner().getTags());
         return this.manager().inner().workspaces().createAsync(resourceGroupName(), name(), createParameters)
@@ -89,7 +89,7 @@ class WorkspaceImpl extends GroupableResourceImpl<
     }
 
     @Override
-    public Observable<Workspace> updateResourceAsync() {
+    public Observable<BatchAIWorkspace> updateResourceAsync() {
         return this.manager().inner().workspaces().updateAsync(resourceGroupName(), name(), this.inner().getTags())
                 .map(innerToFluentMap(this));
     }

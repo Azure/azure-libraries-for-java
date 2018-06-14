@@ -7,6 +7,7 @@ package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.BatchAIFileServer;
+import com.microsoft.azure.management.batchai.BatchAIWorkspace;
 import com.microsoft.azure.management.batchai.CachingType;
 import com.microsoft.azure.management.batchai.DataDisks;
 import com.microsoft.azure.management.batchai.FileServerCreateParameters;
@@ -16,7 +17,6 @@ import com.microsoft.azure.management.batchai.ResourceId;
 import com.microsoft.azure.management.batchai.SshConfiguration;
 import com.microsoft.azure.management.batchai.StorageAccountType;
 import com.microsoft.azure.management.batchai.UserAccountSettings;
-import com.microsoft.azure.management.batchai.Workspace;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import org.joda.time.DateTime;
 import rx.Observable;
@@ -32,10 +32,10 @@ class BatchAIFileServerImpl extends CreatableUpdatableImpl<
         implements
         BatchAIFileServer,
         BatchAIFileServer.Definition {
-    private final WorkspaceImpl workspace;
+    private final BatchAIWorkspaceImpl workspace;
     private FileServerCreateParameters createParameters = new FileServerCreateParameters();
 
-    BatchAIFileServerImpl(String name, WorkspaceImpl workspace, FileServerInner innerObject) {
+    BatchAIFileServerImpl(String name, BatchAIWorkspaceImpl workspace, FileServerInner innerObject) {
         super(name, innerObject);
         this.workspace = workspace;
     }
@@ -172,7 +172,7 @@ class BatchAIFileServerImpl extends CreatableUpdatableImpl<
     }
 
     @Override
-    public Workspace workspace() {
+    public BatchAIWorkspace workspace() {
         return workspace;
     }
 

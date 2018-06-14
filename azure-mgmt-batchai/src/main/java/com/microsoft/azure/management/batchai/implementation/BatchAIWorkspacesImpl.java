@@ -7,8 +7,8 @@ package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.batchai.Workspace;
-import com.microsoft.azure.management.batchai.Workspaces;
+import com.microsoft.azure.management.batchai.BatchAIWorkspace;
+import com.microsoft.azure.management.batchai.BatchAIWorkspaces;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
 import rx.Completable;
@@ -19,28 +19,28 @@ import rx.functions.Func1;
  * Implementation for Workspaces.
  */
 @LangDefinition
-public class WorkspacesImpl extends GroupableResourcesImpl<
-        Workspace,
-        WorkspaceImpl,
+public class BatchAIWorkspacesImpl extends GroupableResourcesImpl<
+        BatchAIWorkspace,
+        BatchAIWorkspaceImpl,
         WorkspaceInner,
         WorkspacesInner,
         BatchAIManager>
-        implements Workspaces {
-    WorkspacesImpl(BatchAIManager manager) {
+        implements BatchAIWorkspaces {
+    BatchAIWorkspacesImpl(BatchAIManager manager) {
         super(manager.inner().workspaces(), manager);
     }
 
     @Override
-    public PagedList<Workspace> listByResourceGroup(String groupName) {
+    public PagedList<BatchAIWorkspace> listByResourceGroup(String groupName) {
         return wrapList(this.inner().listByResourceGroup(groupName));
     }
 
     @Override
-    public Observable<Workspace> listByResourceGroupAsync(String groupName) {
+    public Observable<BatchAIWorkspace> listByResourceGroupAsync(String groupName) {
         return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<Workspace>>() {
+                .flatMap(new Func1<ResourceGroup, Observable<BatchAIWorkspace>>() {
                     @Override
-                    public Observable<Workspace> call(ResourceGroup resourceGroup) {
+                    public Observable<BatchAIWorkspace> call(ResourceGroup resourceGroup) {
                         return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
                     }
                 });
@@ -57,35 +57,35 @@ public class WorkspacesImpl extends GroupableResourcesImpl<
     }
 
     @Override
-    protected WorkspaceImpl wrapModel(String name) {
+    protected BatchAIWorkspaceImpl wrapModel(String name) {
         WorkspaceInner inner = new WorkspaceInner();
-        return new WorkspaceImpl(name, inner, super.manager());
+        return new BatchAIWorkspaceImpl(name, inner, super.manager());
     }
 
     @Override
-    protected WorkspaceImpl wrapModel(WorkspaceInner inner) {
+    protected BatchAIWorkspaceImpl wrapModel(WorkspaceInner inner) {
         if (inner == null) {
             return null;
         }
-        return new WorkspaceImpl(inner.name(), inner, this.manager());
+        return new BatchAIWorkspaceImpl(inner.name(), inner, this.manager());
     }
 
     @Override
-    public WorkspaceImpl define(String name) {
+    public BatchAIWorkspaceImpl define(String name) {
         return wrapModel(name);
     }
 
     @Override
-    public PagedList<Workspace> list() {
-        return wrapList(WorkspacesImpl.this.inner().list());
+    public PagedList<BatchAIWorkspace> list() {
+        return wrapList(BatchAIWorkspacesImpl.this.inner().list());
     }
 
     @Override
-    public Observable<Workspace> listAsync() {
+    public Observable<BatchAIWorkspace> listAsync() {
         return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<Workspace>>() {
+                .flatMap(new Func1<ResourceGroup, Observable<BatchAIWorkspace>>() {
                     @Override
-                    public Observable<Workspace> call(ResourceGroup resourceGroup) {
+                    public Observable<BatchAIWorkspace> call(ResourceGroup resourceGroup) {
                         return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
                     }
                 });

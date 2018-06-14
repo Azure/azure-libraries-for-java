@@ -8,9 +8,9 @@ package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
+import com.microsoft.azure.management.batchai.BatchAIWorkspaces;
 import com.microsoft.azure.management.batchai.VmPriority;
-import com.microsoft.azure.management.batchai.Workspace;
-import com.microsoft.azure.management.batchai.Workspaces;
+import com.microsoft.azure.management.batchai.BatchAIWorkspace;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.Networks;
@@ -32,7 +32,7 @@ import static com.microsoft.azure.management.resources.core.TestBase.isPlaybackM
 public class TestBatchAI {
     private static final Region region = Region.US_EAST;
 
-    public static class Basic extends TestTemplate<Workspace, Workspaces> {
+    public static class Basic extends TestTemplate<BatchAIWorkspace, BatchAIWorkspaces> {
         private StorageAccounts storageAccounts;
         private Networks networks;
 
@@ -44,7 +44,7 @@ public class TestBatchAI {
         }
 
         @Override
-        public Workspace createResource(Workspaces workspaces) throws Exception {
+        public BatchAIWorkspace createResource(BatchAIWorkspaces workspaces) throws Exception {
             final String groupName = SdkContext.randomResourceName("rg", 10);
             final String workspaceName = SdkContext.randomResourceName("ws", 10);
             final String vnetName = SdkContext.randomResourceName("vnet", 15);
@@ -58,7 +58,7 @@ public class TestBatchAI {
             String storageAccountKey;
             String fileShareUri;
 
-            Workspace workspace = workspaces.define(workspaceName)
+            BatchAIWorkspace workspace = workspaces.define(workspaceName)
                     .withRegion(region)
                     .withNewResourceGroup(groupName)
                     .create();
@@ -132,7 +132,7 @@ public class TestBatchAI {
         }
 
         @Override
-        public Workspace updateResource(Workspace workspace) throws Exception {
+        public BatchAIWorkspace updateResource(BatchAIWorkspace workspace) throws Exception {
 //            workspace.update().withTag("tag2", "value2").apply();
             BatchAICluster cluster = workspace.clusters().getByName(clusterName);
             cluster.update()
@@ -143,7 +143,7 @@ public class TestBatchAI {
         }
 
         @Override
-        public void print(Workspace resource) {
+        public void print(BatchAIWorkspace resource) {
 
         }
     }

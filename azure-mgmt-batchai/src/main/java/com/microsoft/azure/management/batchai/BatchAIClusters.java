@@ -33,5 +33,5 @@ public interface BatchAIClusters extends
         SupportsDeletingByName,
         HasManager<BatchAIManager>,
         HasInner<ClustersInner>,
-        HasParent<Workspace> {
+        HasParent<BatchAIWorkspace> {
 }

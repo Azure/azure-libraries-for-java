@@ -30,11 +30,11 @@ class BatchAIJobsImpl
                         BatchAIJobImpl,
                         JobInner>
         implements BatchAIJobs {
-    private final WorkspaceImpl workspace;
-    private final ExperimentImpl experiment;
+    private final BatchAIWorkspaceImpl workspace;
+    private final BatchAIExperimentImpl experiment;
 
-    BatchAIJobsImpl(ExperimentImpl experiment) {
-        this.workspace = (WorkspaceImpl) experiment.workspace();
+    BatchAIJobsImpl(BatchAIExperimentImpl experiment) {
+        this.workspace = (BatchAIWorkspaceImpl) experiment.workspace();
         this.experiment = experiment;
     }
 
@@ -140,7 +140,7 @@ class BatchAIJobsImpl
     }
 
     @Override
-    public ExperimentImpl parent() {
+    public BatchAIExperimentImpl parent() {
         return experiment;
     }
 

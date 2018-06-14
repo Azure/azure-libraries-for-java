@@ -24,15 +24,15 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  */
 @Fluent
 @Beta(Beta.SinceVersion.V1_12_0)
-public interface Experiments extends
-        SupportsCreating<Experiment.DefinitionStages.WithCreate>,
-        SupportsListing<Experiment>,
-        SupportsGettingById<Experiment>,
-        SupportsGettingByNameAsync<Experiment>,
+public interface BatchAIExperiments extends
+        SupportsCreating<BatchAIExperiment.DefinitionStages.WithCreate>,
+        SupportsListing<BatchAIExperiment>,
+        SupportsGettingById<BatchAIExperiment>,
+        SupportsGettingByNameAsync<BatchAIExperiment>,
         SupportsDeletingById,
         SupportsDeletingByName,
         HasManager<BatchAIManager>,
         HasInner<ExperimentsInner>,
-        HasParent<Workspace> {
+        HasParent<BatchAIWorkspace> {
 }
 

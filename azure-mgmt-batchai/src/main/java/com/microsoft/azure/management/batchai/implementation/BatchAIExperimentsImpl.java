@@ -7,9 +7,9 @@ package com.microsoft.azure.management.batchai.implementation;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.batchai.Experiment;
-import com.microsoft.azure.management.batchai.Experiments;
-import com.microsoft.azure.management.batchai.Workspace;
+import com.microsoft.azure.management.batchai.BatchAIExperiment;
+import com.microsoft.azure.management.batchai.BatchAIExperiments;
+import com.microsoft.azure.management.batchai.BatchAIWorkspace;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
 import com.microsoft.rest.ServiceCallback;
@@ -22,70 +22,70 @@ import rx.functions.Func1;
  *  Implementation for Experiments.
  */
 @LangDefinition
-class ExperimentsImpl
+class BatchAIExperimentsImpl
         extends CreatableResourcesImpl<
-                Experiment,
-                ExperimentImpl,
+        BatchAIExperiment,
+        BatchAIExperimentImpl,
                 ExperimentInner>
-        implements Experiments {
-    private final WorkspaceImpl workspace;
+        implements BatchAIExperiments {
+    private final BatchAIWorkspaceImpl workspace;
 
-    ExperimentsImpl(final WorkspaceImpl workspace) {
+    BatchAIExperimentsImpl(final BatchAIWorkspaceImpl workspace) {
         this.workspace = workspace;
     }
 
     @Override
-    public ExperimentImpl define(String name) {
+    public BatchAIExperimentImpl define(String name) {
         return wrapModel(name);
     }
 
     @Override
-    protected ExperimentImpl wrapModel(String name) {
+    protected BatchAIExperimentImpl wrapModel(String name) {
         ExperimentInner inner = new ExperimentInner();
-        return new ExperimentImpl(name, workspace, inner);
+        return new BatchAIExperimentImpl(name, workspace, inner);
     }
 
     @Override
-    protected ExperimentImpl wrapModel(ExperimentInner inner) {
+    protected BatchAIExperimentImpl wrapModel(ExperimentInner inner) {
         if (inner == null) {
             return null;
         }
-        return new ExperimentImpl(inner.name(), workspace, inner);
+        return new BatchAIExperimentImpl(inner.name(), workspace, inner);
     }
 
     @Override
-    public PagedList<Experiment> list() {
+    public PagedList<BatchAIExperiment> list() {
         return wrapList(inner().listByWorkspace(workspace.resourceGroupName(), workspace.name()));
     }
 
     @Override
-    public Observable<Experiment> listAsync() {
+    public Observable<BatchAIExperiment> listAsync() {
         return wrapPageAsync(inner().listByWorkspaceAsync(workspace.resourceGroupName(), workspace.name()));
     }
 
     @Override
-    public Workspace parent() {
+    public BatchAIWorkspace parent() {
         return workspace;
     }
 
     @Override
-    public ExperimentImpl getById(String id) {
-        return (ExperimentImpl) getByIdAsync(id).toBlocking().single();
+    public BatchAIExperimentImpl getById(String id) {
+        return (BatchAIExperimentImpl) getByIdAsync(id).toBlocking().single();
     }
 
     @Override
-    public Observable<Experiment> getByIdAsync(String id) {
+    public Observable<BatchAIExperiment> getByIdAsync(String id) {
         ResourceId resourceId = ResourceId.fromString(id);
-        return inner().getAsync(resourceId.resourceGroupName(), workspace.name(), resourceId.name()).map(new Func1<ExperimentInner, Experiment>() {
+        return inner().getAsync(resourceId.resourceGroupName(), workspace.name(), resourceId.name()).map(new Func1<ExperimentInner, BatchAIExperiment>() {
             @Override
-            public Experiment call(ExperimentInner innerT) {
+            public BatchAIExperiment call(ExperimentInner innerT) {
                 return wrapModel(innerT);
             }
         });
     }
 
     @Override
-    public ServiceFuture<Experiment> getByIdAsync(String id, ServiceCallback<Experiment> callback) {
+    public ServiceFuture<BatchAIExperiment> getByIdAsync(String id, ServiceCallback<BatchAIExperiment> callback) {
         return ServiceFuture.fromBody(getByIdAsync(id), callback);
     }
 
@@ -106,18 +106,18 @@ class ExperimentsImpl
     }
 
     @Override
-    public Observable<Experiment> getByNameAsync(String name) {
-        return inner().getAsync(workspace.resourceGroupName(), workspace.name(), name).map(new Func1<ExperimentInner, Experiment>() {
+    public Observable<BatchAIExperiment> getByNameAsync(String name) {
+        return inner().getAsync(workspace.resourceGroupName(), workspace.name(), name).map(new Func1<ExperimentInner, BatchAIExperiment>() {
             @Override
-            public Experiment call(ExperimentInner innerT) {
+            public BatchAIExperiment call(ExperimentInner innerT) {
                 return wrapModel(innerT);
             }
         });
     }
 
     @Override
-    public ExperimentImpl getByName(String name) {
-        return (ExperimentImpl) getByNameAsync(name).toBlocking().single();
+    public BatchAIExperimentImpl getByName(String name) {
+        return (BatchAIExperimentImpl) getByNameAsync(name).toBlocking().single();
     }
 
     @Override

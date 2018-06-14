@@ -142,7 +142,7 @@ public interface BatchAICluster extends
     /**
      * @return workspace this cluster belongs to
      */
-    Workspace workspace();
+    BatchAIWorkspace workspace();
 
     /**
      * The entirety of a Batch AI cluster definition.

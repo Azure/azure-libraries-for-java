@@ -11,14 +11,11 @@ import com.microsoft.azure.management.batchai.BatchAIFileServer;
 import com.microsoft.azure.management.batchai.BatchAIFileServers;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
-
-import java.util.List;
 
 /**
  *  Implementation for BatchAIFileServers.
@@ -30,9 +27,9 @@ class BatchAIFileServersImpl
                         BatchAIFileServerImpl,
                         FileServerInner>
         implements BatchAIFileServers {
-    private final WorkspaceImpl workspace;
+    private final BatchAIWorkspaceImpl workspace;
 
-    BatchAIFileServersImpl(final WorkspaceImpl workspace) {
+    BatchAIFileServersImpl(final BatchAIWorkspaceImpl workspace) {
         this.workspace = workspace;
     }
 

@@ -21,10 +21,10 @@ import org.joda.time.DateTime;
 /**
  * Type representing Workspace.
  */
-public interface Workspace extends
+public interface BatchAIWorkspace extends
         GroupableResource<BatchAIManager, WorkspaceInner>,
-        Refreshable<Workspace>,
-        Updatable<Workspace.Update> {
+        Refreshable<BatchAIWorkspace>,
+        Updatable<BatchAIWorkspace.Update> {
     /**
      * @return the creationTime value.
      */
@@ -48,7 +48,7 @@ public interface Workspace extends
     /**
      * @return the entry point to Batch AI experiments management API for this workspace
      */
-    Experiments experiments();
+    BatchAIExperiments experiments();
 
     /**
      * @return the entry point to Batch AI file servers management API for this workspace
@@ -86,7 +86,7 @@ public interface Workspace extends
          * for any other optional settings to be specified.
          */
         interface WithCreate extends
-                Creatable<Workspace>,
+                Creatable<BatchAIWorkspace>,
                 Resource.DefinitionWithTags<WithCreate> {
         }
     }
@@ -94,7 +94,7 @@ public interface Workspace extends
      * The template for a Workspace update operation, containing all the settings that can be modified.
      */
     interface Update extends
-            Appliable<Workspace>,
+            Appliable<BatchAIWorkspace>,
             Resource.UpdateWithTags<Update> {
     }
 }

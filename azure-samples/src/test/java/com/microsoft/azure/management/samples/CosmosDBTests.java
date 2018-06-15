@@ -9,6 +9,7 @@ package com.microsoft.azure.management.samples;
 import com.microsoft.azure.management.cosmosdb.samples.CreateCosmosDBWithEventualConsistency;
 import com.microsoft.azure.management.cosmosdb.samples.CreateCosmosDBWithIPRange;
 import com.microsoft.azure.management.cosmosdb.samples.CreateCosmosDBWithKindMongoDB;
+import com.microsoft.azure.management.cosmosdb.samples.CreateCosmosDBTableWithVirtualNetworkRule;
 import com.microsoft.azure.management.cosmosdb.samples.ManageHACosmosDB;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,6 +27,11 @@ public class CosmosDBTests extends SamplesTestBase {
     @Test
     public void testCreateCosmosDBWithIPRange() {
         Assert.assertTrue(CreateCosmosDBWithIPRange.runSample(azure, "clientId"));
+    }
+
+    @Test
+    public void testCreateCosmosDBTableWithVirtualNetworkRule() {
+        Assert.assertTrue(CreateCosmosDBTableWithVirtualNetworkRule.runSample(azure, "clientId"));
     }
 
     @Test

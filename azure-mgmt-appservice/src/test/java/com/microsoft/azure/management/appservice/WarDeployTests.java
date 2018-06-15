@@ -59,10 +59,10 @@ public class WarDeployTests extends AppServiceTest {
                 .create();
         Assert.assertNotNull(webApp);
 
-        webApp.warDeploy(new File(WarDeployTests.class.getResource("/helloworld.war").getPath()));
-        webApp.warDeploy(WarDeployTests.class.getResourceAsStream("/helloworld.war"), "app2");
-
         if (!isPlaybackMode()) {
+            webApp.warDeploy(new File(WarDeployTests.class.getResource("/helloworld.war").getPath()));
+            webApp.warDeploy(WarDeployTests.class.getResourceAsStream("/helloworld.war"), "app2");
+
             Response response = curl("http://" + WEBAPP_NAME + "." + "azurewebsites.net");
             Assert.assertEquals(200, response.code());
             String body = response.body().string();

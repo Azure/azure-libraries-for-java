@@ -227,6 +227,7 @@ class BatchAIJobImpl
     @Override
     public BatchAIJobImpl withExistingCluster(BatchAICluster cluster) {
         parent = cluster;
+        createParameters.withCluster(new ResourceId().withId(cluster.id()));
         return this;
     }
 

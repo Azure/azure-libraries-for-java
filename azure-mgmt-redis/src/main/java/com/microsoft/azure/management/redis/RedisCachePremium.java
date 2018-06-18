@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.redis;
 
 import java.util.List;
+import java.util.Map;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
@@ -89,14 +90,14 @@ public interface RedisCachePremium extends RedisCache {
      * @param role the role of the linked server.
      */
     @Beta(Beta.SinceVersion.V1_11_0)
-    void addLinkedServer(ReplicationRole role);
+    String addLinkedServer(String linkedRedisCacheId, String linkedServerLocation, ReplicationRole role);
 
     /**
      * Removes the linked server from the current Redis cache instance.
      *
      */
     @Beta(Beta.SinceVersion.V1_11_0)
-    void removeLinkedServer();
+    void removeLinkedServer(String linkedServerName);
 
     /**
      * Gets the role for the linked server of the current Redis cache instance.
@@ -104,7 +105,7 @@ public interface RedisCachePremium extends RedisCache {
      * @return the role of the linked server.
      */
     @Beta(Beta.SinceVersion.V1_11_0)
-    ReplicationRole getLinkedServerRole();
+    ReplicationRole getLinkedServerRole(String linkedServerName);
 
     /**
      * Gets the list of linked servers associated with this redis cache.
@@ -113,5 +114,5 @@ public interface RedisCachePremium extends RedisCache {
      */
     @Method
     @Beta(Beta.SinceVersion.V1_11_0)
-    List<ReplicationRole> listLinkedServers();
+    Map<String, ReplicationRole> listLinkedServers();
 }

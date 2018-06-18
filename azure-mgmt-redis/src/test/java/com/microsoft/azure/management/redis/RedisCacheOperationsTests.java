@@ -139,6 +139,9 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
         // Premium SKU Functionality
         RedisCachePremium premiumCache = redisCachePremium.asPremium();
         Assert.assertEquals(SkuFamily.P, premiumCache.sku().family());
+        Assert.assertEquals(2, premiumCache.firewallRules().size());
+        Assert.assertTrue(premiumCache.firewallRules().containsKey("rule1"));
+        Assert.assertTrue(premiumCache.firewallRules().containsKey("rule2"));
 
         // Redis configuration update
         premiumCache.update()
@@ -148,6 +151,11 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
                 .withoutMinimumTlsVersion()
                 .apply();
 
+        Assert.assertEquals(2, premiumCache.firewallRules().size());
+        Assert.assertTrue(premiumCache.firewallRules().containsKey("rule2"));
+        Assert.assertTrue(premiumCache.firewallRules().containsKey("rule3"));
+        Assert.assertFalse(premiumCache.firewallRules().containsKey("rule1"));
+
         premiumCache.update()
                 .withoutRedisConfiguration("maxclients")
                 .apply();
@@ -156,11 +164,13 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
                 .withoutRedisConfiguration()
                 .apply();
 
+        Assert.assertEquals(0, premiumCache.patchSchedules().size());
         premiumCache.update()
                 .withPatchSchedule(DayOfWeek.MONDAY, 1)
                 .withPatchSchedule(DayOfWeek.TUESDAY, 5)
                 .apply();
 
+        Assert.assertEquals(2, premiumCache.patchSchedules().size());
         // Reboot
         premiumCache.forceReboot(RebootType.ALL_NODES);
 
@@ -203,21 +213,27 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
                 .withFirewallRule("rule2", "192.168.0.10", "192.168.0.40")
                 .create();
 
+        RedisCache rggLinked = redisManager.redisCaches()
+                .define(RR_NAME_SECOND)
+                .withRegion(Region.US_EAST)
+                .withExistingResourceGroup(RG_NAME_SECOND)
+                .withPremiumSku(2)
+                .create();
+
         RedisCachePremium premiumRgg = rgg.asPremium();
-        premiumRgg.addLinkedServer(ReplicationRole.PRIMARY);
-        premiumRgg.addLinkedServer(ReplicationRole.SECONDARY);
-        List<ReplicationRole> linkedServers = premiumRgg.listLinkedServers();
-        ReplicationRole repRole = premiumRgg.getLinkedServerRole();
-        premiumRgg.removeLinkedServer();
-        linkedServers = premiumRgg.listLinkedServers();
+        String llName = premiumRgg.addLinkedServer(rggLinked.id(), rggLinked.regionName(), ReplicationRole.PRIMARY);
+        Map<String, ReplicationRole> linkedServers = premiumRgg.listLinkedServers();
+        ReplicationRole repRole = premiumRgg.getLinkedServerRole(llName);
+        premiumRgg.removeLinkedServer(llName);
 
-        premiumRgg.update()
-                .withPatchSchedule(DayOfWeek.MONDAY, 1)
-                .withPatchSchedule(DayOfWeek.TUESDAY, 5)
-                .apply();
-
-        premiumRgg.update()
+        rgg.update()
                 .withoutPatchSchedule()
                 .apply();
+
+        rggLinked.update()
+                .withFirewallRule("rulesmhule", "192.168.1.10", "192.168.1.20")
+                .apply();
+
+        linkedServers = premiumRgg.listLinkedServers();
     }
 }

@@ -12,6 +12,7 @@ import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.redis.DayOfWeek;
 import com.microsoft.azure.management.redis.ExportRDBParameters;
 import com.microsoft.azure.management.redis.ImportRDBParameters;
+import com.microsoft.azure.management.redis.ProvisioningState;
 import com.microsoft.azure.management.redis.RebootType;
 import com.microsoft.azure.management.redis.RedisAccessKeys;
 import com.microsoft.azure.management.redis.RedisCache;
@@ -28,6 +29,7 @@ import com.microsoft.azure.management.redis.ScheduleEntry;
 import com.microsoft.azure.management.redis.SkuFamily;
 import com.microsoft.azure.management.redis.SkuName;
 import com.microsoft.azure.management.redis.TlsVersion;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
@@ -637,47 +639,68 @@ class RedisCacheImpl
     }
 
     @Override
-    public void addLinkedServer(ReplicationRole role) {
+    public String addLinkedServer(String linkedRedisCacheId, String linkedServerLocation, ReplicationRole role) {
+        String linkedRedisName = ResourceUtils.nameFromResourceId(linkedRedisCacheId);
         RedisLinkedServerCreateParameters params = new RedisLinkedServerCreateParameters()
-                .withLinkedRedisCacheId(this.id())
-                .withLinkedRedisCacheLocation(this.inner().location())
+                .withLinkedRedisCacheId(linkedRedisCacheId)
+                .withLinkedRedisCacheLocation(linkedServerLocation)
                 .withServerRole(role);
-        this.manager().inner().linkedServers().create(
+        RedisLinkedServerWithPropertiesInner linkedServerInner = this.manager().inner().linkedServers().create(
                 this.resourceGroupName(),
                 this.name(),
-                this.name(),
+                linkedRedisName,
                 params);
+        return linkedServerInner.name();
     }
 
     @Override
-    public void removeLinkedServer() {
+    public void removeLinkedServer(String linkedServerName) {
+        RedisLinkedServerWithPropertiesInner linkedServer = this.manager().inner().linkedServers().get(this.resourceGroupName(), this.name(), linkedServerName);
+
         this.manager().inner().linkedServers().delete(
                 this.resourceGroupName(),
                 this.name(),
-                this.name());
+                linkedServerName);
+
+        RedisResourceInner innerLinkedResource = null;
+        RedisResourceInner innerResource = null;
+        while (innerLinkedResource == null
+                || innerLinkedResource.provisioningState() != ProvisioningState.SUCCEEDED
+                || innerResource == null
+                || innerResource.provisioningState() != ProvisioningState.SUCCEEDED) {
+            SdkContext.sleep(30 * 1000);
+
+            innerLinkedResource = this.manager().inner().redis().getByResourceGroup(
+                    ResourceUtils.groupFromResourceId(linkedServer.id()),
+                    ResourceUtils.nameFromResourceId(linkedServer.id()));
+
+            innerResource = this.manager().inner().redis().getByResourceGroup( resourceGroupName(), name());
+        }
     }
 
     @Override
-    public ReplicationRole getLinkedServerRole() {
+    public ReplicationRole getLinkedServerRole(String linkedServerName) {
         RedisLinkedServerWithPropertiesInner linkedServer = this.manager().inner().linkedServers().get(
                 this.resourceGroupName(),
                 this.name(),
-                this.name());
+                linkedServerName);
         if (linkedServer == null) {
-            throw new IllegalArgumentException("Server returned `null` value for Linked Server '" + this.name() + "' for Redis Cache '" + this.name() + "' in Resource Group '" + this.resourceGroupName() + "'.");
+            throw new IllegalArgumentException("Server returned `null` value for Linked Server '"
+                    + linkedServerName + "' for Redis Cache '" + this.name()
+                    + "' in Resource Group '" + this.resourceGroupName() + "'.");
         }
         return linkedServer.serverRole();
     }
 
     @Override
-    public List<ReplicationRole> listLinkedServers() {
-        List<ReplicationRole> result = new ArrayList<>();
+    public Map<String, ReplicationRole> listLinkedServers() {
+        Map<String, ReplicationRole> result = new TreeMap<>();
         PagedList<RedisLinkedServerWithPropertiesInner> paginatedResponse = this.manager().inner().linkedServers().list(
                 this.resourceGroupName(),
                 this.name());
 
         for (RedisLinkedServerWithPropertiesInner linkedServer :  paginatedResponse) {
-            result.add(linkedServer.serverRole());
+            result.put(linkedServer.name(), linkedServer.serverRole());
         }
         return result;
     }

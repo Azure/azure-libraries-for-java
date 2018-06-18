@@ -87,7 +87,10 @@ public interface RedisCachePremium extends RedisCache {
     /**
      * Adds a linked server to the current Redis cache instance.
      *
+     * @param linkedRedisCacheId the resource Id of the Redis instance to link with.
+     * @param linkedServerLocation the location of the linked Redis instance.
      * @param role the role of the linked server.
+     * @return name of the linked server.
      */
     @Beta(Beta.SinceVersion.V1_11_0)
     String addLinkedServer(String linkedRedisCacheId, String linkedServerLocation, ReplicationRole role);
@@ -95,6 +98,7 @@ public interface RedisCachePremium extends RedisCache {
     /**
      * Removes the linked server from the current Redis cache instance.
      *
+     * @param linkedServerName the name of the linked server.
      */
     @Beta(Beta.SinceVersion.V1_11_0)
     void removeLinkedServer(String linkedServerName);
@@ -102,6 +106,7 @@ public interface RedisCachePremium extends RedisCache {
     /**
      * Gets the role for the linked server of the current Redis cache instance.
      *
+     * @param linkedServerName the name of the linked server.
      * @return the role of the linked server.
      */
     @Beta(Beta.SinceVersion.V1_11_0)

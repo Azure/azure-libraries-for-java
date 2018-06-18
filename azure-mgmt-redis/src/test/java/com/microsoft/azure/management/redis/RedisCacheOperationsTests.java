@@ -9,6 +9,7 @@ package com.microsoft.azure.management.redis;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
 import com.microsoft.azure.management.storage.StorageAccount;
@@ -220,10 +221,23 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
                 .withPremiumSku(2)
                 .create();
 
+        Assert.assertNotNull(rgg);
+        Assert.assertNotNull(rggLinked);
+
         RedisCachePremium premiumRgg = rgg.asPremium();
+
         String llName = premiumRgg.addLinkedServer(rggLinked.id(), rggLinked.regionName(), ReplicationRole.PRIMARY);
+
+        Assert.assertEquals(ResourceUtils.nameFromResourceId(rggLinked.id()), llName);
+
         Map<String, ReplicationRole> linkedServers = premiumRgg.listLinkedServers();
+        Assert.assertEquals(1, linkedServers.size());
+        Assert.assertTrue(linkedServers.keySet().contains(llName));
+        Assert.assertEquals(ReplicationRole.PRIMARY, linkedServers.get(llName));
+
         ReplicationRole repRole = premiumRgg.getLinkedServerRole(llName);
+        Assert.assertEquals(ReplicationRole.PRIMARY, repRole);
+
         premiumRgg.removeLinkedServer(llName);
 
         rgg.update()
@@ -235,5 +249,6 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
                 .apply();
 
         linkedServers = premiumRgg.listLinkedServers();
+        Assert.assertEquals(0, linkedServers.size());
     }
 }

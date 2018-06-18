@@ -674,7 +674,7 @@ class RedisCacheImpl
                     ResourceUtils.groupFromResourceId(linkedServer.id()),
                     ResourceUtils.nameFromResourceId(linkedServer.id()));
 
-            innerResource = this.manager().inner().redis().getByResourceGroup( resourceGroupName(), name());
+            innerResource = this.manager().inner().redis().getByResourceGroup(resourceGroupName(), name());
         }
     }
 

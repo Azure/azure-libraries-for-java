@@ -76,6 +76,7 @@ public interface RedisCachePremium extends RedisCache {
     /**
      * @return List of patch schedules for current Redis Cache.
      */
+    @Beta(Beta.SinceVersion.V1_12_0)
     List<ScheduleEntry> patchSchedules();
 
     /**
@@ -92,7 +93,7 @@ public interface RedisCachePremium extends RedisCache {
      * @param role the role of the linked server.
      * @return name of the linked server.
      */
-    @Beta(Beta.SinceVersion.V1_11_0)
+    @Beta(Beta.SinceVersion.V1_12_0)
     String addLinkedServer(String linkedRedisCacheId, String linkedServerLocation, ReplicationRole role);
 
     /**
@@ -100,7 +101,7 @@ public interface RedisCachePremium extends RedisCache {
      *
      * @param linkedServerName the name of the linked server.
      */
-    @Beta(Beta.SinceVersion.V1_11_0)
+    @Beta(Beta.SinceVersion.V1_12_0)
     void removeLinkedServer(String linkedServerName);
 
     /**
@@ -109,7 +110,7 @@ public interface RedisCachePremium extends RedisCache {
      * @param linkedServerName the name of the linked server.
      * @return the role of the linked server.
      */
-    @Beta(Beta.SinceVersion.V1_11_0)
+    @Beta(Beta.SinceVersion.V1_12_0)
     ReplicationRole getLinkedServerRole(String linkedServerName);
 
     /**
@@ -118,6 +119,6 @@ public interface RedisCachePremium extends RedisCache {
      * @return the Roles of the linked servers, indexed by name
      */
     @Method
-    @Beta(Beta.SinceVersion.V1_11_0)
+    @Beta(Beta.SinceVersion.V1_12_0)
     Map<String, ReplicationRole> listLinkedServers();
 }

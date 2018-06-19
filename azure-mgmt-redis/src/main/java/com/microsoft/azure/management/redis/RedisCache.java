@@ -5,6 +5,7 @@
  */
 
 package com.microsoft.azure.management.redis;
+import com.microsoft.azure.management.apigeneration.Beta;
 import org.joda.time.Period;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
@@ -99,11 +100,13 @@ public interface RedisCache extends
     /**
      * @return the minimum TLS version (or higher) that clients require to use.
      */
+    @Beta(Beta.SinceVersion.V1_12_0)
     TlsVersion minimumTlsVersion();
 
     /**
      * @return Firewall Rules in the Redis Cache, indexed by name
      */
+    @Beta(Beta.SinceVersion.V1_12_0)
     Map<String, RedisFirewallRule> firewallRules();
 
     /**
@@ -266,6 +269,7 @@ public interface RedisCache extends
               * @param highestIp highest IP address included in the range.
               * @return the next stage of Redis Cache definition.
               */
+             @Beta(Beta.SinceVersion.V1_12_0)
              WithCreate withFirewallRule(String name, String lowestIp, String highestIp);
 
              /**
@@ -274,6 +278,7 @@ public interface RedisCache extends
               * @param rule firewall rule that specifies name, lowest and highest IP address included in the range of permitted IP addresses.
               * @return the next stage of Redis Cache definition.
               */
+             @Beta(Beta.SinceVersion.V1_12_0)
              WithCreate withFirewallRule(RedisFirewallRule rule);
 
              /**
@@ -282,6 +287,7 @@ public interface RedisCache extends
               * @param tlsVersion minimum TLS version.
               * @return the next stage of Redis Cache definition.
               */
+             @Beta(Beta.SinceVersion.V1_12_0)
              WithCreate withMinimumTlsVersion(TlsVersion tlsVersion);
         }
 
@@ -340,6 +346,7 @@ public interface RedisCache extends
              * @param subnetName the name of the subnet.
              * @return the next stage of Redis Cache definition.
              */
+            @Beta(Beta.SinceVersion.V1_12_0)
             WithCreate withSubnet(HasId network, String subnetName);
 
             /**
@@ -348,6 +355,7 @@ public interface RedisCache extends
              * @param subnetId resource id of subnet.
              * @return the next stage of Redis Cache definition.
              */
+            @Beta(Beta.SinceVersion.V1_12_0)
             WithCreate withSubnet(String subnetId);
 
             /**
@@ -356,6 +364,7 @@ public interface RedisCache extends
              * @param staticIP the static IP value to set.
              * @return the next stage of Redis Cache definition.
              */
+            @Beta(Beta.SinceVersion.V1_12_0)
             WithCreate withStaticIP(String staticIP);
         }
     }
@@ -536,6 +545,7 @@ public interface RedisCache extends
          *
          * @return the next stage of Redis Cache with Premium SKU definition.
          */
+        @Beta(Beta.SinceVersion.V1_12_0)
         @Method
         Update withoutPatchSchedule();
 
@@ -547,6 +557,7 @@ public interface RedisCache extends
          * @param highestIp highest IP address included in the range.
          * @return the next stage of Redis Cache update.
          */
+        @Beta(Beta.SinceVersion.V1_12_0)
         Update withFirewallRule(String name, String lowestIp, String highestIp);
 
         /**
@@ -555,6 +566,7 @@ public interface RedisCache extends
          * @param rule firewall rule that specifies name, lowest and highest IP address included in the range of permitted IP addresses.
          * @return the next stage of Redis Cache update.
          */
+        @Beta(Beta.SinceVersion.V1_12_0)
         Update withFirewallRule(RedisFirewallRule rule);
 
         /**
@@ -563,6 +575,7 @@ public interface RedisCache extends
          * @param name name of the rule.
          * @return the next stage of Redis Cache update.
          */
+        @Beta(Beta.SinceVersion.V1_12_0)
         Update withoutFirewallRule(String name);
 
         /**
@@ -571,6 +584,7 @@ public interface RedisCache extends
          * @param tlsVersion minimum TLS version.
          * @return the next stage of Redis Cache definition.
          */
+        @Beta(Beta.SinceVersion.V1_12_0)
         Update withMinimumTlsVersion(TlsVersion tlsVersion);
 
         /**
@@ -578,6 +592,7 @@ public interface RedisCache extends
          *
          * @return the next stage of Redis Cache definition.
          */
+        @Beta(Beta.SinceVersion.V1_12_0)
         @Method
         Update withoutMinimumTlsVersion();
     }

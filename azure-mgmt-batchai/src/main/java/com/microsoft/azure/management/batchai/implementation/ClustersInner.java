@@ -390,7 +390,7 @@ public class ClustersInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param scaleSettings Desired scale for the cluster
+     * @param scaleSettings Scale settings. Desired scale settings for the cluster. Batch AI service supports manual and auto scale clusters.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -406,7 +406,7 @@ public class ClustersInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param scaleSettings Desired scale for the cluster
+     * @param scaleSettings Scale settings. Desired scale settings for the cluster. Batch AI service supports manual and auto scale clusters.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -421,7 +421,7 @@ public class ClustersInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param scaleSettings Desired scale for the cluster
+     * @param scaleSettings Scale settings. Desired scale settings for the cluster. Batch AI service supports manual and auto scale clusters.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ClusterInner object
      */
@@ -440,7 +440,7 @@ public class ClustersInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param clusterName The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param scaleSettings Desired scale for the cluster
+     * @param scaleSettings Scale settings. Desired scale settings for the cluster. Batch AI service supports manual and auto scale clusters.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ClusterInner object
      */

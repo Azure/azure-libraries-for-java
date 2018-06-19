@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BatchAIError {
     /**
-     * An identifier for the error. Codes are invariant and are intended to be
+     * An identifier of the error. Codes are invariant and are intended to be
      * consumed programmatically.
      */
     @JsonProperty(value = "code", access = JsonProperty.Access.WRITE_ONLY)
@@ -36,7 +36,7 @@ public class BatchAIError {
     private List<NameValuePair> details;
 
     /**
-     * Get an identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+     * Get an identifier of the error. Codes are invariant and are intended to be consumed programmatically.
      *
      * @return the code value
      */

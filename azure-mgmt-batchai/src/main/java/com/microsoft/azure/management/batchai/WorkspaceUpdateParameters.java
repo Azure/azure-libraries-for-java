@@ -12,10 +12,11 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Parameters supplied to the Update operation.
+ * Workspace update parameters.
  */
 public class WorkspaceUpdateParameters {
     /**
+     * Tags.
      * The user specified tags associated with the Workspace.
      */
     @JsonProperty(value = "tags")

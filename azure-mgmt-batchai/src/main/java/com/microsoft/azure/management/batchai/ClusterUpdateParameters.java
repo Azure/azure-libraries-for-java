@@ -12,18 +12,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Parameters supplied to the Update operation.
+ * Cluster update parameters.
  */
 @JsonFlatten
 public class ClusterUpdateParameters {
     /**
-     * Desired scale for the cluster.
+     * Scale settings.
+     * Desired scale settings for the cluster. Batch AI service supports manual
+     * and auto scale clusters.
      */
     @JsonProperty(value = "properties.scaleSettings")
     private ScaleSettings scaleSettings;
 
     /**
-     * Get the scaleSettings value.
+     * Get desired scale settings for the cluster. Batch AI service supports manual and auto scale clusters.
      *
      * @return the scaleSettings value
      */
@@ -32,7 +34,7 @@ public class ClusterUpdateParameters {
     }
 
     /**
-     * Set the scaleSettings value.
+     * Set desired scale settings for the cluster. Batch AI service supports manual and auto scale clusters.
      *
      * @param scaleSettings the scaleSettings value to set
      * @return the ClusterUpdateParameters object itself.

@@ -11,16 +11,19 @@ package com.microsoft.azure.management.batchai;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Settings for the container to be downloaded.
+ * Docker container settings.
  */
 public class ContainerSettings {
     /**
-     * Registry to download the container from.
+     * Image source registry.
+     * Information about docker image and docker registry to download the
+     * container from.
      */
     @JsonProperty(value = "imageSourceRegistry", required = true)
     private ImageSourceRegistry imageSourceRegistry;
 
     /**
+     * /dev/shm size.
      * Size of /dev/shm. Please refer to docker documentation for supported
      * argument formats.
      */
@@ -28,7 +31,7 @@ public class ContainerSettings {
     private String shmSize;
 
     /**
-     * Get the imageSourceRegistry value.
+     * Get information about docker image and docker registry to download the container from.
      *
      * @return the imageSourceRegistry value
      */
@@ -37,7 +40,7 @@ public class ContainerSettings {
     }
 
     /**
-     * Set the imageSourceRegistry value.
+     * Set information about docker image and docker registry to download the container from.
      *
      * @param imageSourceRegistry the imageSourceRegistry value to set
      * @return the ContainerSettings object itself.
@@ -48,7 +51,7 @@ public class ContainerSettings {
     }
 
     /**
-     * Get the shmSize value.
+     * Get size of /dev/shm. Please refer to docker documentation for supported argument formats.
      *
      * @return the shmSize value
      */
@@ -57,7 +60,7 @@ public class ContainerSettings {
     }
 
     /**
-     * Set the shmSize value.
+     * Set size of /dev/shm. Please refer to docker documentation for supported argument formats.
      *
      * @param shmSize the shmSize value to set
      * @return the ContainerSettings object itself.

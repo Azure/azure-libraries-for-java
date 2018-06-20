@@ -6,19 +6,24 @@
 
 package com.microsoft.azure.management.batchai;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.batchai.implementation.ClusterInner;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import org.joda.time.DateTime;
+import rx.Observable;
 
 import java.util.List;
 
@@ -28,9 +33,27 @@ import java.util.List;
 @Fluent
 @Beta(Beta.SinceVersion.V1_6_0)
 public interface BatchAICluster extends
-        GroupableResource<BatchAIManager, ClusterInner>,
+        HasInner<ClusterInner>,
+        Indexable,
+        HasId,
+        HasName,
+        HasManager<BatchAIManager>,
         Refreshable<BatchAICluster>,
         Updatable<BatchAICluster.Update> {
+    /**
+     * Get the IP address, port of all the compute nodes in the Cluster.
+     * @return list of remote login details
+     */
+    @Method
+    PagedList<RemoteLoginInformation> listRemoteLoginInformation();
+
+    /**
+     * Get the IP address, port of all the compute nodes in the Cluster.
+     * @return an observable that emits remote login information
+     */
+    @Method
+    Observable<RemoteLoginInformation> listRemoteLoginInformationAsync();
+
     /**
      * All virtual machines in a cluster are the same size. For information
      * about available VM sizes for clusters using images from the Virtual
@@ -117,12 +140,15 @@ public interface BatchAICluster extends
     NodeStateCounts nodeStateCounts();
 
     /**
+     * @return workspace this cluster belongs to
+     */
+    BatchAIWorkspace workspace();
+
+    /**
      * The entirety of a Batch AI cluster definition.
      */
     interface Definition extends
             DefinitionStages.Blank,
-            DefinitionStages.WithGroup,
-            DefinitionStages.WithVMSize,
             DefinitionStages.WithUserName,
             DefinitionStages.WithUserCredentials,
             DefinitionStages.WithScaleSettings,
@@ -137,13 +163,7 @@ public interface BatchAICluster extends
         /**
          * The first stage of a Batch AI cluster definition.
          */
-        interface Blank extends DefinitionWithRegion<WithGroup> {
-        }
-
-        /**
-         * The stage of a Batch AI cluster definition allowing the resource group to be specified.
-         */
-        interface WithGroup extends GroupableResource.DefinitionStages.WithGroup<WithVMSize> {
+        interface Blank extends WithVMSize {
         }
 
         /**
@@ -353,8 +373,7 @@ public interface BatchAICluster extends
                 HasMountVolumes.DefinitionStages.WithMountVolumes<WithCreate>,
                 DefinitionStages.WithAppInsightsResourceId,
                 DefinitionStages.WithVirtualMachineImage,
-                DefinitionStages.WithSubnet,
-                Resource.DefinitionWithTags<WithCreate> {
+                DefinitionStages.WithSubnet {
         }
     }
 
@@ -405,7 +424,6 @@ public interface BatchAICluster extends
      */
     interface Update extends
             Appliable<BatchAICluster>,
-            UpdateStages.WithScaleSettings,
-            Resource.UpdateWithTags<Update> {
+            UpdateStages.WithScaleSettings {
     }
 }

@@ -10,9 +10,12 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.batchai.implementation.FileServerInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import org.joda.time.DateTime;
 
@@ -22,7 +25,11 @@ import org.joda.time.DateTime;
 @Fluent
 @Beta(Beta.SinceVersion.V1_6_0)
 public interface BatchAIFileServer extends
-        GroupableResource<BatchAIManager, FileServerInner>,
+        HasInner<FileServerInner>,
+        Indexable,
+        HasId,
+        HasName,
+        HasManager<BatchAIManager>,
         Refreshable<BatchAIFileServer> {
 
     /**
@@ -68,12 +75,15 @@ public interface BatchAIFileServer extends
     FileServerProvisioningState provisioningState();
 
     /**
+     * @return workspace this fileserver belongs to
+     */
+    BatchAIWorkspace workspace();
+
+    /**
      * The entirety of a Batch AI file server definition.
      */
     interface Definition extends
             DefinitionStages.Blank,
-            DefinitionStages.WithGroup,
-            DefinitionStages.WithDataDisks,
             DefinitionStages.WithVMSize,
             DefinitionStages.WithUserName,
             DefinitionStages.WithUserCredentials,
@@ -87,13 +97,7 @@ public interface BatchAIFileServer extends
         /**
          * The first stage of a Batch AI file server definition.
          */
-        interface Blank extends DefinitionWithRegion<WithGroup> {
-        }
-
-        /**
-         * The stage of a Batch AI file server definition allowing the resource group to be specified.
-         */
-        interface WithGroup extends GroupableResource.DefinitionStages.WithGroup<WithDataDisks> {
+        interface Blank extends WithDataDisks {
         }
 
         /**
@@ -191,7 +195,6 @@ public interface BatchAIFileServer extends
          */
         interface WithCreate extends
                 Creatable<BatchAIFileServer>,
-                Resource.DefinitionWithTags<WithCreate>,
                 DefinitionStages.WithUserCredentials,
                 DefinitionStages.WithSubnet {
         }

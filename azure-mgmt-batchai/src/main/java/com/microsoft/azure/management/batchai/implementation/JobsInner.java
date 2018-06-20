@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.management.batchai.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.batchai.JobCreateParameters;
+import com.microsoft.azure.management.batchai.JobsListByExperimentOptions;
+import com.microsoft.azure.management.batchai.JobsListOutputFilesOptions;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -43,7 +43,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in Jobs.
  */
-public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelete<Void>, InnerSupportsListing<JobInner> {
+public class JobsInner {
     /** The Retrofit service to perform REST calls. */
     private JobsService service;
     /** The service client containing this operation class. */
@@ -65,72 +65,333 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
      * used by Retrofit to perform actually REST calls.
      */
     interface JobsService {
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs listByExperiment" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs")
+        Observable<Response<ResponseBody>> listByExperiment(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("experimentName") String experimentName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Query("maxresults") Integer maxResults, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs create" })
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/jobs/{jobName}")
-        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Body JobCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}")
+        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("experimentName") String experimentName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Body JobCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs beginCreate" })
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/jobs/{jobName}")
-        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Body JobCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}")
+        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("experimentName") String experimentName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Body JobCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/jobs/{jobName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("experimentName") String experimentName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/jobs/{jobName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("experimentName") String experimentName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs getByResourceGroup" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/jobs/{jobName}")
-        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs listRemoteLoginInformation" })
-        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/jobs/{jobName}/listRemoteLoginInformation")
-        Observable<Response<ResponseBody>> listRemoteLoginInformation(@Path("resourceGroupName") String resourceGroupName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs terminate" })
-        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/jobs/{jobName}/terminate")
-        Observable<Response<ResponseBody>> terminate(@Path("resourceGroupName") String resourceGroupName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs beginTerminate" })
-        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/jobs/{jobName}/terminate")
-        Observable<Response<ResponseBody>> beginTerminate(@Path("resourceGroupName") String resourceGroupName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs list" })
-        @GET("subscriptions/{subscriptionId}/providers/Microsoft.BatchAI/jobs")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Query("$filter") String filter, @Query("$select") String select, @Query("maxresults") Integer maxResults, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs listByResourceGroup" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/jobs")
-        Observable<Response<ResponseBody>> listByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Query("$filter") String filter, @Query("$select") String select, @Query("maxresults") Integer maxResults, @Header("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs get" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}")
+        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("experimentName") String experimentName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs listOutputFiles" })
-        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/jobs/{jobName}/listOutputFiles")
-        Observable<Response<ResponseBody>> listOutputFiles(@Path("resourceGroupName") String resourceGroupName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Query("outputdirectoryid") String outputdirectoryid, @Query("directory") String directory, @Query("linkexpiryinminutes") Integer linkexpiryinminutes, @Query("maxresults") Integer maxResults, @Header("User-Agent") String userAgent);
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}/listOutputFiles")
+        Observable<Response<ResponseBody>> listOutputFiles(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("experimentName") String experimentName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Query("outputdirectoryid") String outputdirectoryid, @Query("directory") String directory, @Query("linkexpiryinminutes") Integer linkexpiryinminutes, @Query("maxresults") Integer maxResults, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs listRemoteLoginInformationNext" })
-        @GET
-        Observable<Response<ResponseBody>> listRemoteLoginInformationNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs listRemoteLoginInformation" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}/listRemoteLoginInformation")
+        Observable<Response<ResponseBody>> listRemoteLoginInformation(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("experimentName") String experimentName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs terminate" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}/terminate")
+        Observable<Response<ResponseBody>> terminate(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("experimentName") String experimentName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs listByResourceGroupNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs beginTerminate" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}/terminate")
+        Observable<Response<ResponseBody>> beginTerminate(@Path("resourceGroupName") String resourceGroupName, @Path("workspaceName") String workspaceName, @Path("experimentName") String experimentName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs listByExperimentNext" })
         @GET
-        Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listByExperimentNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs listOutputFilesNext" })
         @GET
         Observable<Response<ResponseBody>> listOutputFilesNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batchai.Jobs listRemoteLoginInformationNext" })
+        @GET
+        Observable<Response<ResponseBody>> listRemoteLoginInformationNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
     }
 
     /**
-     * Adds a Job that gets executed on a cluster.
+     * Gets a list of Jobs within the specified Experiment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;JobInner&gt; object if successful.
+     */
+    public PagedList<JobInner> listByExperiment(final String resourceGroupName, final String workspaceName, final String experimentName) {
+        ServiceResponse<Page<JobInner>> response = listByExperimentSinglePageAsync(resourceGroupName, workspaceName, experimentName).toBlocking().single();
+        return new PagedList<JobInner>(response.body()) {
+            @Override
+            public Page<JobInner> nextPage(String nextPageLink) {
+                return listByExperimentNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets a list of Jobs within the specified Experiment.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<JobInner>> listByExperimentAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final ListOperationCallback<JobInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByExperimentSinglePageAsync(resourceGroupName, workspaceName, experimentName),
+            new Func1<String, Observable<ServiceResponse<Page<JobInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<JobInner>>> call(String nextPageLink) {
+                    return listByExperimentNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets a list of Jobs within the specified Experiment.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;JobInner&gt; object
+     */
+    public Observable<Page<JobInner>> listByExperimentAsync(final String resourceGroupName, final String workspaceName, final String experimentName) {
+        return listByExperimentWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName)
+            .map(new Func1<ServiceResponse<Page<JobInner>>, Page<JobInner>>() {
+                @Override
+                public Page<JobInner> call(ServiceResponse<Page<JobInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets a list of Jobs within the specified Experiment.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;JobInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<JobInner>>> listByExperimentWithServiceResponseAsync(final String resourceGroupName, final String workspaceName, final String experimentName) {
+        return listByExperimentSinglePageAsync(resourceGroupName, workspaceName, experimentName)
+            .concatMap(new Func1<ServiceResponse<Page<JobInner>>, Observable<ServiceResponse<Page<JobInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<JobInner>>> call(ServiceResponse<Page<JobInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByExperimentNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets a list of Jobs within the specified Experiment.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;JobInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<JobInner>>> listByExperimentSinglePageAsync(final String resourceGroupName, final String workspaceName, final String experimentName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
+        }
+        if (experimentName == null) {
+            throw new IllegalArgumentException("Parameter experimentName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final JobsListByExperimentOptions jobsListByExperimentOptions = null;
+        Integer maxResults = null;
+        return service.listByExperiment(resourceGroupName, workspaceName, experimentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), maxResults, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<JobInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<JobInner>> result = listByExperimentDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<JobInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Gets a list of Jobs within the specified Experiment.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param jobsListByExperimentOptions Additional parameters for the operation
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;JobInner&gt; object if successful.
+     */
+    public PagedList<JobInner> listByExperiment(final String resourceGroupName, final String workspaceName, final String experimentName, final JobsListByExperimentOptions jobsListByExperimentOptions) {
+        ServiceResponse<Page<JobInner>> response = listByExperimentSinglePageAsync(resourceGroupName, workspaceName, experimentName, jobsListByExperimentOptions).toBlocking().single();
+        return new PagedList<JobInner>(response.body()) {
+            @Override
+            public Page<JobInner> nextPage(String nextPageLink) {
+                return listByExperimentNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets a list of Jobs within the specified Experiment.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param jobsListByExperimentOptions Additional parameters for the operation
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<JobInner>> listByExperimentAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final JobsListByExperimentOptions jobsListByExperimentOptions, final ListOperationCallback<JobInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByExperimentSinglePageAsync(resourceGroupName, workspaceName, experimentName, jobsListByExperimentOptions),
+            new Func1<String, Observable<ServiceResponse<Page<JobInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<JobInner>>> call(String nextPageLink) {
+                    return listByExperimentNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets a list of Jobs within the specified Experiment.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param jobsListByExperimentOptions Additional parameters for the operation
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;JobInner&gt; object
+     */
+    public Observable<Page<JobInner>> listByExperimentAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final JobsListByExperimentOptions jobsListByExperimentOptions) {
+        return listByExperimentWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobsListByExperimentOptions)
+            .map(new Func1<ServiceResponse<Page<JobInner>>, Page<JobInner>>() {
+                @Override
+                public Page<JobInner> call(ServiceResponse<Page<JobInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets a list of Jobs within the specified Experiment.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param jobsListByExperimentOptions Additional parameters for the operation
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;JobInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<JobInner>>> listByExperimentWithServiceResponseAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final JobsListByExperimentOptions jobsListByExperimentOptions) {
+        return listByExperimentSinglePageAsync(resourceGroupName, workspaceName, experimentName, jobsListByExperimentOptions)
+            .concatMap(new Func1<ServiceResponse<Page<JobInner>>, Observable<ServiceResponse<Page<JobInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<JobInner>>> call(ServiceResponse<Page<JobInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByExperimentNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets a list of Jobs within the specified Experiment.
+     *
+    ServiceResponse<PageImpl<JobInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<JobInner>> * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+    ServiceResponse<PageImpl<JobInner>> * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+    ServiceResponse<PageImpl<JobInner>> * @param jobsListByExperimentOptions Additional parameters for the operation
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;JobInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<JobInner>>> listByExperimentSinglePageAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final JobsListByExperimentOptions jobsListByExperimentOptions) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
+        }
+        if (experimentName == null) {
+            throw new IllegalArgumentException("Parameter experimentName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(jobsListByExperimentOptions);
+        Integer maxResults = null;
+        if (jobsListByExperimentOptions != null) {
+            maxResults = jobsListByExperimentOptions.maxResults();
+        }
+        return service.listByExperiment(resourceGroupName, workspaceName, experimentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), maxResults, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<JobInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<JobInner>> result = listByExperimentDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<JobInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<JobInner>> listByExperimentDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<JobInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<JobInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Creates a Job in the given Experiment.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param parameters The parameters to provide for job creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -138,35 +399,39 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the JobInner object if successful.
      */
-    public JobInner create(String resourceGroupName, String jobName, JobCreateParametersInner parameters) {
-        return createWithServiceResponseAsync(resourceGroupName, jobName, parameters).toBlocking().last().body();
+    public JobInner create(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters) {
+        return createWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName, parameters).toBlocking().last().body();
     }
 
     /**
-     * Adds a Job that gets executed on a cluster.
+     * Creates a Job in the given Experiment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param parameters The parameters to provide for job creation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<JobInner> createAsync(String resourceGroupName, String jobName, JobCreateParametersInner parameters, final ServiceCallback<JobInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, jobName, parameters), serviceCallback);
+    public ServiceFuture<JobInner> createAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters, final ServiceCallback<JobInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName, parameters), serviceCallback);
     }
 
     /**
-     * Adds a Job that gets executed on a cluster.
+     * Creates a Job in the given Experiment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param parameters The parameters to provide for job creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<JobInner> createAsync(String resourceGroupName, String jobName, JobCreateParametersInner parameters) {
-        return createWithServiceResponseAsync(resourceGroupName, jobName, parameters).map(new Func1<ServiceResponse<JobInner>, JobInner>() {
+    public Observable<JobInner> createAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters) {
+        return createWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName, parameters).map(new Func1<ServiceResponse<JobInner>, JobInner>() {
             @Override
             public JobInner call(ServiceResponse<JobInner> response) {
                 return response.body();
@@ -175,17 +440,25 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * Adds a Job that gets executed on a cluster.
+     * Creates a Job in the given Experiment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param parameters The parameters to provide for job creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<JobInner>> createWithServiceResponseAsync(String resourceGroupName, String jobName, JobCreateParametersInner parameters) {
+    public Observable<ServiceResponse<JobInner>> createWithServiceResponseAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
+        }
+        if (experimentName == null) {
+            throw new IllegalArgumentException("Parameter experimentName is required and cannot be null.");
         }
         if (jobName == null) {
             throw new IllegalArgumentException("Parameter jobName is required and cannot be null.");
@@ -200,14 +473,16 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, jobName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, workspaceName, experimentName, jobName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<JobInner>() { }.getType());
     }
 
     /**
-     * Adds a Job that gets executed on a cluster.
+     * Creates a Job in the given Experiment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param parameters The parameters to provide for job creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -215,35 +490,39 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the JobInner object if successful.
      */
-    public JobInner beginCreate(String resourceGroupName, String jobName, JobCreateParametersInner parameters) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, jobName, parameters).toBlocking().single().body();
+    public JobInner beginCreate(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters) {
+        return beginCreateWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName, parameters).toBlocking().single().body();
     }
 
     /**
-     * Adds a Job that gets executed on a cluster.
+     * Creates a Job in the given Experiment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param parameters The parameters to provide for job creation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<JobInner> beginCreateAsync(String resourceGroupName, String jobName, JobCreateParametersInner parameters, final ServiceCallback<JobInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, jobName, parameters), serviceCallback);
+    public ServiceFuture<JobInner> beginCreateAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters, final ServiceCallback<JobInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName, parameters), serviceCallback);
     }
 
     /**
-     * Adds a Job that gets executed on a cluster.
+     * Creates a Job in the given Experiment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param parameters The parameters to provide for job creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the JobInner object
      */
-    public Observable<JobInner> beginCreateAsync(String resourceGroupName, String jobName, JobCreateParametersInner parameters) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, jobName, parameters).map(new Func1<ServiceResponse<JobInner>, JobInner>() {
+    public Observable<JobInner> beginCreateAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters) {
+        return beginCreateWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName, parameters).map(new Func1<ServiceResponse<JobInner>, JobInner>() {
             @Override
             public JobInner call(ServiceResponse<JobInner> response) {
                 return response.body();
@@ -252,17 +531,25 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * Adds a Job that gets executed on a cluster.
+     * Creates a Job in the given Experiment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param parameters The parameters to provide for job creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the JobInner object
      */
-    public Observable<ServiceResponse<JobInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String jobName, JobCreateParametersInner parameters) {
+    public Observable<ServiceResponse<JobInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, JobCreateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
+        }
+        if (experimentName == null) {
+            throw new IllegalArgumentException("Parameter experimentName is required and cannot be null.");
         }
         if (jobName == null) {
             throw new IllegalArgumentException("Parameter jobName is required and cannot be null.");
@@ -277,7 +564,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        return service.beginCreate(resourceGroupName, jobName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginCreate(resourceGroupName, workspaceName, experimentName, jobName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<JobInner>>>() {
                 @Override
                 public Observable<ServiceResponse<JobInner>> call(Response<ResponseBody> response) {
@@ -300,41 +587,47 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * Deletes the specified Batch AI job.
+     * Deletes a Job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void delete(String resourceGroupName, String jobName) {
-        deleteWithServiceResponseAsync(resourceGroupName, jobName).toBlocking().last().body();
+    public void delete(String resourceGroupName, String workspaceName, String experimentName, String jobName) {
+        deleteWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName).toBlocking().last().body();
     }
 
     /**
-     * Deletes the specified Batch AI job.
+     * Deletes a Job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String jobName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, jobName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName), serviceCallback);
     }
 
     /**
-     * Deletes the specified Batch AI job.
+     * Deletes a Job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String jobName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, jobName).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> deleteAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName) {
+        return deleteWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -343,16 +636,24 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * Deletes the specified Batch AI job.
+     * Deletes a Job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String jobName) {
+    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
+        }
+        if (experimentName == null) {
+            throw new IllegalArgumentException("Parameter experimentName is required and cannot be null.");
         }
         if (jobName == null) {
             throw new IllegalArgumentException("Parameter jobName is required and cannot be null.");
@@ -363,46 +664,52 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, workspaceName, experimentName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
     /**
-     * Deletes the specified Batch AI job.
+     * Deletes a Job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void beginDelete(String resourceGroupName, String jobName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, jobName).toBlocking().single().body();
+    public void beginDelete(String resourceGroupName, String workspaceName, String experimentName, String jobName) {
+        beginDeleteWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName).toBlocking().single().body();
     }
 
     /**
-     * Deletes the specified Batch AI job.
+     * Deletes a Job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String jobName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, jobName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName), serviceCallback);
     }
 
     /**
-     * Deletes the specified Batch AI job.
+     * Deletes a Job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String jobName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, jobName).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> beginDeleteAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName) {
+        return beginDeleteWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -411,16 +718,24 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * Deletes the specified Batch AI job.
+     * Deletes a Job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String jobName) {
+    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
+        }
+        if (experimentName == null) {
+            throw new IllegalArgumentException("Parameter experimentName is required and cannot be null.");
         }
         if (jobName == null) {
             throw new IllegalArgumentException("Parameter jobName is required and cannot be null.");
@@ -431,7 +746,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.beginDelete(resourceGroupName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginDelete(resourceGroupName, workspaceName, experimentName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -455,42 +770,48 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * Gets information about the specified Batch AI job.
+     * Gets information about a Job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the JobInner object if successful.
      */
-    public JobInner getByResourceGroup(String resourceGroupName, String jobName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, jobName).toBlocking().single().body();
+    public JobInner get(String resourceGroupName, String workspaceName, String experimentName, String jobName) {
+        return getWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName).toBlocking().single().body();
     }
 
     /**
-     * Gets information about the specified Batch AI job.
+     * Gets information about a Job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<JobInner> getByResourceGroupAsync(String resourceGroupName, String jobName, final ServiceCallback<JobInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, jobName), serviceCallback);
+    public ServiceFuture<JobInner> getAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, final ServiceCallback<JobInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName), serviceCallback);
     }
 
     /**
-     * Gets information about the specified Batch AI job.
+     * Gets information about a Job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the JobInner object
      */
-    public Observable<JobInner> getByResourceGroupAsync(String resourceGroupName, String jobName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, jobName).map(new Func1<ServiceResponse<JobInner>, JobInner>() {
+    public Observable<JobInner> getAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName) {
+        return getWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName).map(new Func1<ServiceResponse<JobInner>, JobInner>() {
             @Override
             public JobInner call(ServiceResponse<JobInner> response) {
                 return response.body();
@@ -499,16 +820,24 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * Gets information about the specified Batch AI job.
+     * Gets information about a Job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the JobInner object
      */
-    public Observable<ServiceResponse<JobInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String jobName) {
+    public Observable<ServiceResponse<JobInner>> getWithServiceResponseAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
+        }
+        if (experimentName == null) {
+            throw new IllegalArgumentException("Parameter experimentName is required and cannot be null.");
         }
         if (jobName == null) {
             throw new IllegalArgumentException("Parameter jobName is required and cannot be null.");
@@ -519,12 +848,12 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.getByResourceGroup(resourceGroupName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.get(resourceGroupName, workspaceName, experimentName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<JobInner>>>() {
                 @Override
                 public Observable<ServiceResponse<JobInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<JobInner> clientResponse = getByResourceGroupDelegate(response);
+                        ServiceResponse<JobInner> clientResponse = getDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -533,7 +862,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
             });
     }
 
-    private ServiceResponse<JobInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<JobInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<JobInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<JobInner>() { }.getType())
                 .registerError(CloudException.class)
@@ -541,17 +870,171 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * Gets the IP address and port information of all the compute nodes which are used for job execution.
+     * List all directories and files inside the given directory of the Job's output directory (if the output directory is on Azure File Share or Azure Storage Container).
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param jobsListOutputFilesOptions Additional parameters for the operation
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;FileInner&gt; object if successful.
+     */
+    public PagedList<FileInner> listOutputFiles(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final JobsListOutputFilesOptions jobsListOutputFilesOptions) {
+        ServiceResponse<Page<FileInner>> response = listOutputFilesSinglePageAsync(resourceGroupName, workspaceName, experimentName, jobName, jobsListOutputFilesOptions).toBlocking().single();
+        return new PagedList<FileInner>(response.body()) {
+            @Override
+            public Page<FileInner> nextPage(String nextPageLink) {
+                return listOutputFilesNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * List all directories and files inside the given directory of the Job's output directory (if the output directory is on Azure File Share or Azure Storage Container).
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param jobsListOutputFilesOptions Additional parameters for the operation
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<FileInner>> listOutputFilesAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final JobsListOutputFilesOptions jobsListOutputFilesOptions, final ListOperationCallback<FileInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listOutputFilesSinglePageAsync(resourceGroupName, workspaceName, experimentName, jobName, jobsListOutputFilesOptions),
+            new Func1<String, Observable<ServiceResponse<Page<FileInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<FileInner>>> call(String nextPageLink) {
+                    return listOutputFilesNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * List all directories and files inside the given directory of the Job's output directory (if the output directory is on Azure File Share or Azure Storage Container).
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param jobsListOutputFilesOptions Additional parameters for the operation
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;FileInner&gt; object
+     */
+    public Observable<Page<FileInner>> listOutputFilesAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final JobsListOutputFilesOptions jobsListOutputFilesOptions) {
+        return listOutputFilesWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName, jobsListOutputFilesOptions)
+            .map(new Func1<ServiceResponse<Page<FileInner>>, Page<FileInner>>() {
+                @Override
+                public Page<FileInner> call(ServiceResponse<Page<FileInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * List all directories and files inside the given directory of the Job's output directory (if the output directory is on Azure File Share or Azure Storage Container).
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param jobsListOutputFilesOptions Additional parameters for the operation
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;FileInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<FileInner>>> listOutputFilesWithServiceResponseAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final JobsListOutputFilesOptions jobsListOutputFilesOptions) {
+        return listOutputFilesSinglePageAsync(resourceGroupName, workspaceName, experimentName, jobName, jobsListOutputFilesOptions)
+            .concatMap(new Func1<ServiceResponse<Page<FileInner>>, Observable<ServiceResponse<Page<FileInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<FileInner>>> call(ServiceResponse<Page<FileInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listOutputFilesNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * List all directories and files inside the given directory of the Job's output directory (if the output directory is on Azure File Share or Azure Storage Container).
+     *
+    ServiceResponse<PageImpl<FileInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<FileInner>> * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+    ServiceResponse<PageImpl<FileInner>> * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+    ServiceResponse<PageImpl<FileInner>> * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+    ServiceResponse<PageImpl<FileInner>> * @param jobsListOutputFilesOptions Additional parameters for the operation
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;FileInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<FileInner>>> listOutputFilesSinglePageAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final JobsListOutputFilesOptions jobsListOutputFilesOptions) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
+        }
+        if (experimentName == null) {
+            throw new IllegalArgumentException("Parameter experimentName is required and cannot be null.");
+        }
+        if (jobName == null) {
+            throw new IllegalArgumentException("Parameter jobName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        if (jobsListOutputFilesOptions == null) {
+            throw new IllegalArgumentException("Parameter jobsListOutputFilesOptions is required and cannot be null.");
+        }
+        Validator.validate(jobsListOutputFilesOptions);
+        String outputdirectoryid = jobsListOutputFilesOptions.outputdirectoryid();
+        String directory = jobsListOutputFilesOptions.directory();
+        Integer linkexpiryinminutes = jobsListOutputFilesOptions.linkexpiryinminutes();
+        Integer maxResults = jobsListOutputFilesOptions.maxResults();
+        return service.listOutputFiles(resourceGroupName, workspaceName, experimentName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), outputdirectoryid, directory, linkexpiryinminutes, maxResults, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<FileInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<FileInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<FileInner>> result = listOutputFilesDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<FileInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<FileInner>> listOutputFilesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<FileInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<FileInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;RemoteLoginInformationInner&gt; object if successful.
      */
-    public PagedList<RemoteLoginInformationInner> listRemoteLoginInformation(final String resourceGroupName, final String jobName) {
-        ServiceResponse<Page<RemoteLoginInformationInner>> response = listRemoteLoginInformationSinglePageAsync(resourceGroupName, jobName).toBlocking().single();
+    public PagedList<RemoteLoginInformationInner> listRemoteLoginInformation(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName) {
+        ServiceResponse<Page<RemoteLoginInformationInner>> response = listRemoteLoginInformationSinglePageAsync(resourceGroupName, workspaceName, experimentName, jobName).toBlocking().single();
         return new PagedList<RemoteLoginInformationInner>(response.body()) {
             @Override
             public Page<RemoteLoginInformationInner> nextPage(String nextPageLink) {
@@ -561,17 +1044,19 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * Gets the IP address and port information of all the compute nodes which are used for job execution.
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<RemoteLoginInformationInner>> listRemoteLoginInformationAsync(final String resourceGroupName, final String jobName, final ListOperationCallback<RemoteLoginInformationInner> serviceCallback) {
+    public ServiceFuture<List<RemoteLoginInformationInner>> listRemoteLoginInformationAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName, final ListOperationCallback<RemoteLoginInformationInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listRemoteLoginInformationSinglePageAsync(resourceGroupName, jobName),
+            listRemoteLoginInformationSinglePageAsync(resourceGroupName, workspaceName, experimentName, jobName),
             new Func1<String, Observable<ServiceResponse<Page<RemoteLoginInformationInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> call(String nextPageLink) {
@@ -582,15 +1067,17 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * Gets the IP address and port information of all the compute nodes which are used for job execution.
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;RemoteLoginInformationInner&gt; object
      */
-    public Observable<Page<RemoteLoginInformationInner>> listRemoteLoginInformationAsync(final String resourceGroupName, final String jobName) {
-        return listRemoteLoginInformationWithServiceResponseAsync(resourceGroupName, jobName)
+    public Observable<Page<RemoteLoginInformationInner>> listRemoteLoginInformationAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName) {
+        return listRemoteLoginInformationWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName)
             .map(new Func1<ServiceResponse<Page<RemoteLoginInformationInner>>, Page<RemoteLoginInformationInner>>() {
                 @Override
                 public Page<RemoteLoginInformationInner> call(ServiceResponse<Page<RemoteLoginInformationInner>> response) {
@@ -600,15 +1087,17 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * Gets the IP address and port information of all the compute nodes which are used for job execution.
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;RemoteLoginInformationInner&gt; object
      */
-    public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> listRemoteLoginInformationWithServiceResponseAsync(final String resourceGroupName, final String jobName) {
-        return listRemoteLoginInformationSinglePageAsync(resourceGroupName, jobName)
+    public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> listRemoteLoginInformationWithServiceResponseAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName) {
+        return listRemoteLoginInformationSinglePageAsync(resourceGroupName, workspaceName, experimentName, jobName)
             .concatMap(new Func1<ServiceResponse<Page<RemoteLoginInformationInner>>, Observable<ServiceResponse<Page<RemoteLoginInformationInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> call(ServiceResponse<Page<RemoteLoginInformationInner>> page) {
@@ -622,16 +1111,24 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * Gets the IP address and port information of all the compute nodes which are used for job execution.
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
      *
     ServiceResponse<PageImpl<RemoteLoginInformationInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<RemoteLoginInformationInner>> * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+    ServiceResponse<PageImpl<RemoteLoginInformationInner>> * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
     ServiceResponse<PageImpl<RemoteLoginInformationInner>> * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;RemoteLoginInformationInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> listRemoteLoginInformationSinglePageAsync(final String resourceGroupName, final String jobName) {
+    public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> listRemoteLoginInformationSinglePageAsync(final String resourceGroupName, final String workspaceName, final String experimentName, final String jobName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
+        }
+        if (experimentName == null) {
+            throw new IllegalArgumentException("Parameter experimentName is required and cannot be null.");
         }
         if (jobName == null) {
             throw new IllegalArgumentException("Parameter jobName is required and cannot be null.");
@@ -642,7 +1139,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listRemoteLoginInformation(resourceGroupName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.listRemoteLoginInformation(resourceGroupName, workspaceName, experimentName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RemoteLoginInformationInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> call(Response<ResponseBody> response) {
@@ -667,38 +1164,44 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
      * Terminates a job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void terminate(String resourceGroupName, String jobName) {
-        terminateWithServiceResponseAsync(resourceGroupName, jobName).toBlocking().last().body();
+    public void terminate(String resourceGroupName, String workspaceName, String experimentName, String jobName) {
+        terminateWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName).toBlocking().last().body();
     }
 
     /**
      * Terminates a job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> terminateAsync(String resourceGroupName, String jobName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(terminateWithServiceResponseAsync(resourceGroupName, jobName), serviceCallback);
+    public ServiceFuture<Void> terminateAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(terminateWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName), serviceCallback);
     }
 
     /**
      * Terminates a job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<Void> terminateAsync(String resourceGroupName, String jobName) {
-        return terminateWithServiceResponseAsync(resourceGroupName, jobName).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> terminateAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName) {
+        return terminateWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -710,13 +1213,21 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
      * Terminates a job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<Void>> terminateWithServiceResponseAsync(String resourceGroupName, String jobName) {
+    public Observable<ServiceResponse<Void>> terminateWithServiceResponseAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
+        }
+        if (experimentName == null) {
+            throw new IllegalArgumentException("Parameter experimentName is required and cannot be null.");
         }
         if (jobName == null) {
             throw new IllegalArgumentException("Parameter jobName is required and cannot be null.");
@@ -727,7 +1238,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        Observable<Response<ResponseBody>> observable = service.terminate(resourceGroupName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.terminate(resourceGroupName, workspaceName, experimentName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
@@ -735,38 +1246,44 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
      * Terminates a job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void beginTerminate(String resourceGroupName, String jobName) {
-        beginTerminateWithServiceResponseAsync(resourceGroupName, jobName).toBlocking().single().body();
+    public void beginTerminate(String resourceGroupName, String workspaceName, String experimentName, String jobName) {
+        beginTerminateWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName).toBlocking().single().body();
     }
 
     /**
      * Terminates a job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> beginTerminateAsync(String resourceGroupName, String jobName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginTerminateWithServiceResponseAsync(resourceGroupName, jobName), serviceCallback);
+    public ServiceFuture<Void> beginTerminateAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginTerminateWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName), serviceCallback);
     }
 
     /**
      * Terminates a job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> beginTerminateAsync(String resourceGroupName, String jobName) {
-        return beginTerminateWithServiceResponseAsync(resourceGroupName, jobName).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> beginTerminateAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName) {
+        return beginTerminateWithServiceResponseAsync(resourceGroupName, workspaceName, experimentName, jobName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -778,13 +1295,21 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
      * Terminates a job.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param workspaceName The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+     * @param experimentName The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> beginTerminateWithServiceResponseAsync(String resourceGroupName, String jobName) {
+    public Observable<ServiceResponse<Void>> beginTerminateWithServiceResponseAsync(String resourceGroupName, String workspaceName, String experimentName, String jobName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (workspaceName == null) {
+            throw new IllegalArgumentException("Parameter workspaceName is required and cannot be null.");
+        }
+        if (experimentName == null) {
+            throw new IllegalArgumentException("Parameter experimentName is required and cannot be null.");
         }
         if (jobName == null) {
             throw new IllegalArgumentException("Parameter jobName is required and cannot be null.");
@@ -795,7 +1320,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.beginTerminate(resourceGroupName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginTerminate(resourceGroupName, workspaceName, experimentName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -818,636 +1343,26 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * Gets information about the jobs associated with the subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;JobInner&gt; object if successful.
-     */
-    public PagedList<JobInner> list() {
-        ServiceResponse<Page<JobInner>> response = listSinglePageAsync().toBlocking().single();
-        return new PagedList<JobInner>(response.body()) {
-            @Override
-            public Page<JobInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets information about the jobs associated with the subscription.
-     *
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<JobInner>> listAsync(final ListOperationCallback<JobInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(),
-            new Func1<String, Observable<ServiceResponse<Page<JobInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets information about the jobs associated with the subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobInner&gt; object
-     */
-    public Observable<Page<JobInner>> listAsync() {
-        return listWithServiceResponseAsync()
-            .map(new Func1<ServiceResponse<Page<JobInner>>, Page<JobInner>>() {
-                @Override
-                public Page<JobInner> call(ServiceResponse<Page<JobInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets information about the jobs associated with the subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobInner>>> listWithServiceResponseAsync() {
-        return listSinglePageAsync()
-            .concatMap(new Func1<ServiceResponse<Page<JobInner>>, Observable<ServiceResponse<Page<JobInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobInner>>> call(ServiceResponse<Page<JobInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets information about the jobs associated with the subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<JobInner>>> listSinglePageAsync() {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        final JobsListOptionsInner jobsListOptions = null;
-        String filter = null;
-        String select = null;
-        Integer maxResults = null;
-        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), filter, select, maxResults, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<JobInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    /**
-     * Gets information about the jobs associated with the subscription.
-     *
-     * @param jobsListOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;JobInner&gt; object if successful.
-     */
-    public PagedList<JobInner> list(final JobsListOptionsInner jobsListOptions) {
-        ServiceResponse<Page<JobInner>> response = listSinglePageAsync(jobsListOptions).toBlocking().single();
-        return new PagedList<JobInner>(response.body()) {
-            @Override
-            public Page<JobInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets information about the jobs associated with the subscription.
-     *
-     * @param jobsListOptions Additional parameters for the operation
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<JobInner>> listAsync(final JobsListOptionsInner jobsListOptions, final ListOperationCallback<JobInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(jobsListOptions),
-            new Func1<String, Observable<ServiceResponse<Page<JobInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets information about the jobs associated with the subscription.
-     *
-     * @param jobsListOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobInner&gt; object
-     */
-    public Observable<Page<JobInner>> listAsync(final JobsListOptionsInner jobsListOptions) {
-        return listWithServiceResponseAsync(jobsListOptions)
-            .map(new Func1<ServiceResponse<Page<JobInner>>, Page<JobInner>>() {
-                @Override
-                public Page<JobInner> call(ServiceResponse<Page<JobInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets information about the jobs associated with the subscription.
-     *
-     * @param jobsListOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobInner>>> listWithServiceResponseAsync(final JobsListOptionsInner jobsListOptions) {
-        return listSinglePageAsync(jobsListOptions)
-            .concatMap(new Func1<ServiceResponse<Page<JobInner>>, Observable<ServiceResponse<Page<JobInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobInner>>> call(ServiceResponse<Page<JobInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets information about the jobs associated with the subscription.
-     *
-    ServiceResponse<PageImpl<JobInner>> * @param jobsListOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<JobInner>>> listSinglePageAsync(final JobsListOptionsInner jobsListOptions) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        Validator.validate(jobsListOptions);
-        String filter = null;
-        if (jobsListOptions != null) {
-            filter = jobsListOptions.filter();
-        }
-        String select = null;
-        if (jobsListOptions != null) {
-            select = jobsListOptions.select();
-        }
-        Integer maxResults = null;
-        if (jobsListOptions != null) {
-            maxResults = jobsListOptions.maxResults();
-        }
-        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), filter, select, maxResults, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<JobInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<JobInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<JobInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<JobInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets information about the Batch AI jobs associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;JobInner&gt; object if successful.
-     */
-    public PagedList<JobInner> listByResourceGroup(final String resourceGroupName) {
-        ServiceResponse<Page<JobInner>> response = listByResourceGroupSinglePageAsync(resourceGroupName).toBlocking().single();
-        return new PagedList<JobInner>(response.body()) {
-            @Override
-            public Page<JobInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets information about the Batch AI jobs associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<JobInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<JobInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupSinglePageAsync(resourceGroupName),
-            new Func1<String, Observable<ServiceResponse<Page<JobInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets information about the Batch AI jobs associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobInner&gt; object
-     */
-    public Observable<Page<JobInner>> listByResourceGroupAsync(final String resourceGroupName) {
-        return listByResourceGroupWithServiceResponseAsync(resourceGroupName)
-            .map(new Func1<ServiceResponse<Page<JobInner>>, Page<JobInner>>() {
-                @Override
-                public Page<JobInner> call(ServiceResponse<Page<JobInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets information about the Batch AI jobs associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName) {
-        return listByResourceGroupSinglePageAsync(resourceGroupName)
-            .concatMap(new Func1<ServiceResponse<Page<JobInner>>, Observable<ServiceResponse<Page<JobInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobInner>>> call(ServiceResponse<Page<JobInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets information about the Batch AI jobs associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<JobInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        final JobsListByResourceGroupOptionsInner jobsListByResourceGroupOptions = null;
-        String filter = null;
-        String select = null;
-        Integer maxResults = null;
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), filter, select, maxResults, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<JobInner>> result = listByResourceGroupDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    /**
-     * Gets information about the Batch AI jobs associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param jobsListByResourceGroupOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;JobInner&gt; object if successful.
-     */
-    public PagedList<JobInner> listByResourceGroup(final String resourceGroupName, final JobsListByResourceGroupOptionsInner jobsListByResourceGroupOptions) {
-        ServiceResponse<Page<JobInner>> response = listByResourceGroupSinglePageAsync(resourceGroupName, jobsListByResourceGroupOptions).toBlocking().single();
-        return new PagedList<JobInner>(response.body()) {
-            @Override
-            public Page<JobInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets information about the Batch AI jobs associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param jobsListByResourceGroupOptions Additional parameters for the operation
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<JobInner>> listByResourceGroupAsync(final String resourceGroupName, final JobsListByResourceGroupOptionsInner jobsListByResourceGroupOptions, final ListOperationCallback<JobInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupSinglePageAsync(resourceGroupName, jobsListByResourceGroupOptions),
-            new Func1<String, Observable<ServiceResponse<Page<JobInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets information about the Batch AI jobs associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param jobsListByResourceGroupOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobInner&gt; object
-     */
-    public Observable<Page<JobInner>> listByResourceGroupAsync(final String resourceGroupName, final JobsListByResourceGroupOptionsInner jobsListByResourceGroupOptions) {
-        return listByResourceGroupWithServiceResponseAsync(resourceGroupName, jobsListByResourceGroupOptions)
-            .map(new Func1<ServiceResponse<Page<JobInner>>, Page<JobInner>>() {
-                @Override
-                public Page<JobInner> call(ServiceResponse<Page<JobInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets information about the Batch AI jobs associated within the specified resource group.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param jobsListByResourceGroupOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName, final JobsListByResourceGroupOptionsInner jobsListByResourceGroupOptions) {
-        return listByResourceGroupSinglePageAsync(resourceGroupName, jobsListByResourceGroupOptions)
-            .concatMap(new Func1<ServiceResponse<Page<JobInner>>, Observable<ServiceResponse<Page<JobInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobInner>>> call(ServiceResponse<Page<JobInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets information about the Batch AI jobs associated within the specified resource group.
-     *
-    ServiceResponse<PageImpl<JobInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-    ServiceResponse<PageImpl<JobInner>> * @param jobsListByResourceGroupOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<JobInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName, final JobsListByResourceGroupOptionsInner jobsListByResourceGroupOptions) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        Validator.validate(jobsListByResourceGroupOptions);
-        String filter = null;
-        if (jobsListByResourceGroupOptions != null) {
-            filter = jobsListByResourceGroupOptions.filter();
-        }
-        String select = null;
-        if (jobsListByResourceGroupOptions != null) {
-            select = jobsListByResourceGroupOptions.select();
-        }
-        Integer maxResults = null;
-        if (jobsListByResourceGroupOptions != null) {
-            maxResults = jobsListByResourceGroupOptions.maxResults();
-        }
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), filter, select, maxResults, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<JobInner>> result = listByResourceGroupDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<JobInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<JobInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<JobInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param jobsListOutputFilesOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;FileInner&gt; object if successful.
-     */
-    public PagedList<FileInner> listOutputFiles(final String resourceGroupName, final String jobName, final JobsListOutputFilesOptionsInner jobsListOutputFilesOptions) {
-        ServiceResponse<Page<FileInner>> response = listOutputFilesSinglePageAsync(resourceGroupName, jobName, jobsListOutputFilesOptions).toBlocking().single();
-        return new PagedList<FileInner>(response.body()) {
-            @Override
-            public Page<FileInner> nextPage(String nextPageLink) {
-                return listOutputFilesNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param jobsListOutputFilesOptions Additional parameters for the operation
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<FileInner>> listOutputFilesAsync(final String resourceGroupName, final String jobName, final JobsListOutputFilesOptionsInner jobsListOutputFilesOptions, final ListOperationCallback<FileInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listOutputFilesSinglePageAsync(resourceGroupName, jobName, jobsListOutputFilesOptions),
-            new Func1<String, Observable<ServiceResponse<Page<FileInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FileInner>>> call(String nextPageLink) {
-                    return listOutputFilesNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param jobsListOutputFilesOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;FileInner&gt; object
-     */
-    public Observable<Page<FileInner>> listOutputFilesAsync(final String resourceGroupName, final String jobName, final JobsListOutputFilesOptionsInner jobsListOutputFilesOptions) {
-        return listOutputFilesWithServiceResponseAsync(resourceGroupName, jobName, jobsListOutputFilesOptions)
-            .map(new Func1<ServiceResponse<Page<FileInner>>, Page<FileInner>>() {
-                @Override
-                public Page<FileInner> call(ServiceResponse<Page<FileInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-     * @param jobsListOutputFilesOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;FileInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<FileInner>>> listOutputFilesWithServiceResponseAsync(final String resourceGroupName, final String jobName, final JobsListOutputFilesOptionsInner jobsListOutputFilesOptions) {
-        return listOutputFilesSinglePageAsync(resourceGroupName, jobName, jobsListOutputFilesOptions)
-            .concatMap(new Func1<ServiceResponse<Page<FileInner>>, Observable<ServiceResponse<Page<FileInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FileInner>>> call(ServiceResponse<Page<FileInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listOutputFilesNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
-     *
-    ServiceResponse<PageImpl<FileInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-    ServiceResponse<PageImpl<FileInner>> * @param jobName The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-    ServiceResponse<PageImpl<FileInner>> * @param jobsListOutputFilesOptions Additional parameters for the operation
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;FileInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<FileInner>>> listOutputFilesSinglePageAsync(final String resourceGroupName, final String jobName, final JobsListOutputFilesOptionsInner jobsListOutputFilesOptions) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (jobName == null) {
-            throw new IllegalArgumentException("Parameter jobName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        if (jobsListOutputFilesOptions == null) {
-            throw new IllegalArgumentException("Parameter jobsListOutputFilesOptions is required and cannot be null.");
-        }
-        Validator.validate(jobsListOutputFilesOptions);
-        String outputdirectoryid = jobsListOutputFilesOptions.outputdirectoryid();
-        String directory = jobsListOutputFilesOptions.directory();
-        Integer linkexpiryinminutes = jobsListOutputFilesOptions.linkexpiryinminutes();
-        Integer maxResults = jobsListOutputFilesOptions.maxResults();
-        return service.listOutputFiles(resourceGroupName, jobName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), outputdirectoryid, directory, linkexpiryinminutes, maxResults, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<FileInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FileInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<FileInner>> result = listOutputFilesDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<FileInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<FileInner>> listOutputFilesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<FileInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<FileInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets the IP address and port information of all the compute nodes which are used for job execution.
+     * Gets a list of Jobs within the specified Experiment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;RemoteLoginInformationInner&gt; object if successful.
+     * @return the PagedList&lt;JobInner&gt; object if successful.
      */
-    public PagedList<RemoteLoginInformationInner> listRemoteLoginInformationNext(final String nextPageLink) {
-        ServiceResponse<Page<RemoteLoginInformationInner>> response = listRemoteLoginInformationNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<RemoteLoginInformationInner>(response.body()) {
+    public PagedList<JobInner> listByExperimentNext(final String nextPageLink) {
+        ServiceResponse<Page<JobInner>> response = listByExperimentNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<JobInner>(response.body()) {
             @Override
-            public Page<RemoteLoginInformationInner> nextPage(String nextPageLink) {
-                return listRemoteLoginInformationNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            public Page<JobInner> nextPage(String nextPageLink) {
+                return listByExperimentNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
 
     /**
-     * Gets the IP address and port information of all the compute nodes which are used for job execution.
+     * Gets a list of Jobs within the specified Experiment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -1455,138 +1370,27 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<RemoteLoginInformationInner>> listRemoteLoginInformationNextAsync(final String nextPageLink, final ServiceFuture<List<RemoteLoginInformationInner>> serviceFuture, final ListOperationCallback<RemoteLoginInformationInner> serviceCallback) {
+    public ServiceFuture<List<JobInner>> listByExperimentNextAsync(final String nextPageLink, final ServiceFuture<List<JobInner>> serviceFuture, final ListOperationCallback<JobInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listRemoteLoginInformationNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<RemoteLoginInformationInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> call(String nextPageLink) {
-                    return listRemoteLoginInformationNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets the IP address and port information of all the compute nodes which are used for job execution.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RemoteLoginInformationInner&gt; object
-     */
-    public Observable<Page<RemoteLoginInformationInner>> listRemoteLoginInformationNextAsync(final String nextPageLink) {
-        return listRemoteLoginInformationNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<RemoteLoginInformationInner>>, Page<RemoteLoginInformationInner>>() {
-                @Override
-                public Page<RemoteLoginInformationInner> call(ServiceResponse<Page<RemoteLoginInformationInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets the IP address and port information of all the compute nodes which are used for job execution.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RemoteLoginInformationInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> listRemoteLoginInformationNextWithServiceResponseAsync(final String nextPageLink) {
-        return listRemoteLoginInformationNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<RemoteLoginInformationInner>>, Observable<ServiceResponse<Page<RemoteLoginInformationInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> call(ServiceResponse<Page<RemoteLoginInformationInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listRemoteLoginInformationNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets the IP address and port information of all the compute nodes which are used for job execution.
-     *
-    ServiceResponse<PageImpl<RemoteLoginInformationInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RemoteLoginInformationInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> listRemoteLoginInformationNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listRemoteLoginInformationNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RemoteLoginInformationInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RemoteLoginInformationInner>> result = listRemoteLoginInformationNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RemoteLoginInformationInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<RemoteLoginInformationInner>> listRemoteLoginInformationNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<RemoteLoginInformationInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<RemoteLoginInformationInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets information about the jobs associated with the subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;JobInner&gt; object if successful.
-     */
-    public PagedList<JobInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<JobInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<JobInner>(response.body()) {
-            @Override
-            public Page<JobInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets information about the jobs associated with the subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<JobInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<JobInner>> serviceFuture, final ListOperationCallback<JobInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
+            listByExperimentNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<JobInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<JobInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
+                    return listByExperimentNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
     }
 
     /**
-     * Gets information about the jobs associated with the subscription.
+     * Gets a list of Jobs within the specified Experiment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobInner&gt; object
      */
-    public Observable<Page<JobInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
+    public Observable<Page<JobInner>> listByExperimentNextAsync(final String nextPageLink) {
+        return listByExperimentNextWithServiceResponseAsync(nextPageLink)
             .map(new Func1<ServiceResponse<Page<JobInner>>, Page<JobInner>>() {
                 @Override
                 public Page<JobInner> call(ServiceResponse<Page<JobInner>> response) {
@@ -1596,14 +1400,14 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * Gets information about the jobs associated with the subscription.
+     * Gets a list of Jobs within the specified Experiment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobInner&gt; object
      */
-    public Observable<ServiceResponse<Page<JobInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
-        return listNextSinglePageAsync(nextPageLink)
+    public Observable<ServiceResponse<Page<JobInner>>> listByExperimentNextWithServiceResponseAsync(final String nextPageLink) {
+        return listByExperimentNextSinglePageAsync(nextPageLink)
             .concatMap(new Func1<ServiceResponse<Page<JobInner>>, Observable<ServiceResponse<Page<JobInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<JobInner>>> call(ServiceResponse<Page<JobInner>> page) {
@@ -1611,29 +1415,29 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listByExperimentNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
 
     /**
-     * Gets information about the jobs associated with the subscription.
+     * Gets a list of Jobs within the specified Experiment.
      *
     ServiceResponse<PageImpl<JobInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;JobInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<JobInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<JobInner>>> listByExperimentNextSinglePageAsync(final String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listByExperimentNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<JobInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<JobInner>> result = listNextDelegate(response);
+                        ServiceResponse<PageImpl<JobInner>> result = listByExperimentNextDelegate(response);
                         return Observable.just(new ServiceResponse<Page<JobInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1642,7 +1446,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
             });
     }
 
-    private ServiceResponse<PageImpl<JobInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<PageImpl<JobInner>> listByExperimentNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<JobInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<JobInner>>() { }.getType())
                 .registerError(CloudException.class)
@@ -1650,118 +1454,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * Gets information about the Batch AI jobs associated within the specified resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;JobInner&gt; object if successful.
-     */
-    public PagedList<JobInner> listByResourceGroupNext(final String nextPageLink) {
-        ServiceResponse<Page<JobInner>> response = listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<JobInner>(response.body()) {
-            @Override
-            public Page<JobInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets information about the Batch AI jobs associated within the specified resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<JobInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<JobInner>> serviceFuture, final ListOperationCallback<JobInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<JobInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets information about the Batch AI jobs associated within the specified resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobInner&gt; object
-     */
-    public Observable<Page<JobInner>> listByResourceGroupNextAsync(final String nextPageLink) {
-        return listByResourceGroupNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<JobInner>>, Page<JobInner>>() {
-                @Override
-                public Page<JobInner> call(ServiceResponse<Page<JobInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets information about the Batch AI jobs associated within the specified resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobInner>>> listByResourceGroupNextWithServiceResponseAsync(final String nextPageLink) {
-        return listByResourceGroupNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<JobInner>>, Observable<ServiceResponse<Page<JobInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobInner>>> call(ServiceResponse<Page<JobInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets information about the Batch AI jobs associated within the specified resource group.
-     *
-    ServiceResponse<PageImpl<JobInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<JobInner>>> listByResourceGroupNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listByResourceGroupNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<JobInner>> result = listByResourceGroupNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<JobInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<JobInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<JobInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * List all directories and files inside the given directory of the Job's output directory (if the output directory is on Azure File Share or Azure Storage Container).
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1780,7 +1473,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * List all directories and files inside the given directory of the Job's output directory (if the output directory is on Azure File Share or Azure Storage Container).
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -1801,7 +1494,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * List all directories and files inside the given directory of the Job's output directory (if the output directory is on Azure File Share or Azure Storage Container).
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1818,7 +1511,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * List all directories and files inside the given directory of the Job's output directory (if the output directory is on Azure File Share or Azure Storage Container).
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1839,7 +1532,7 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     }
 
     /**
-     * List all directories and files inside the given directory of the output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * List all directories and files inside the given directory of the Job's output directory (if the output directory is on Azure File Share or Azure Storage Container).
      *
     ServiceResponse<PageImpl<FileInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1867,6 +1560,117 @@ public class JobsInner implements InnerSupportsGet<JobInner>, InnerSupportsDelet
     private ServiceResponse<PageImpl<FileInner>> listOutputFilesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<FileInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<FileInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;RemoteLoginInformationInner&gt; object if successful.
+     */
+    public PagedList<RemoteLoginInformationInner> listRemoteLoginInformationNext(final String nextPageLink) {
+        ServiceResponse<Page<RemoteLoginInformationInner>> response = listRemoteLoginInformationNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<RemoteLoginInformationInner>(response.body()) {
+            @Override
+            public Page<RemoteLoginInformationInner> nextPage(String nextPageLink) {
+                return listRemoteLoginInformationNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<RemoteLoginInformationInner>> listRemoteLoginInformationNextAsync(final String nextPageLink, final ServiceFuture<List<RemoteLoginInformationInner>> serviceFuture, final ListOperationCallback<RemoteLoginInformationInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listRemoteLoginInformationNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<RemoteLoginInformationInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> call(String nextPageLink) {
+                    return listRemoteLoginInformationNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;RemoteLoginInformationInner&gt; object
+     */
+    public Observable<Page<RemoteLoginInformationInner>> listRemoteLoginInformationNextAsync(final String nextPageLink) {
+        return listRemoteLoginInformationNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<RemoteLoginInformationInner>>, Page<RemoteLoginInformationInner>>() {
+                @Override
+                public Page<RemoteLoginInformationInner> call(ServiceResponse<Page<RemoteLoginInformationInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;RemoteLoginInformationInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> listRemoteLoginInformationNextWithServiceResponseAsync(final String nextPageLink) {
+        return listRemoteLoginInformationNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<RemoteLoginInformationInner>>, Observable<ServiceResponse<Page<RemoteLoginInformationInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> call(ServiceResponse<Page<RemoteLoginInformationInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listRemoteLoginInformationNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
+     *
+    ServiceResponse<PageImpl<RemoteLoginInformationInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;RemoteLoginInformationInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> listRemoteLoginInformationNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listRemoteLoginInformationNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RemoteLoginInformationInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<RemoteLoginInformationInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<RemoteLoginInformationInner>> result = listRemoteLoginInformationNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<RemoteLoginInformationInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<RemoteLoginInformationInner>> listRemoteLoginInformationNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<RemoteLoginInformationInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<RemoteLoginInformationInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

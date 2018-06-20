@@ -416,8 +416,172 @@ public interface ToolTypeSettings {
             interface WithPython<ParentT> {
                 WithAttach<ParentT> withPythonScriptFile(String pythonScriptFilePath);
             }
+        }
+    }
+
+    /**
+     * Client-side representation for the settings for a custom MPI job.
+     */
+    @Fluent
+    @Beta(Beta.SinceVersion.V1_12_0)
+    interface CustomMpi extends Indexable,
+            HasParent<BatchAIJob>,
+            HasInner<CustomMpiSettings> {
+
+        /**
+         * Definition of the settings for a custom MPI job.
+         *
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        interface Definition<ParentT> extends
+                DefinitionStages.Blank<ParentT>,
+                DefinitionStages.WithAttachAndProcessCount<ParentT> {
+        }
+
+        /**
+         * Definition stages for a custom MPI job.
+         */
+        interface DefinitionStages {
+
+            /**
+             * The final stage of the custom MPI job settings definition.
+             * At this stage, any remaining optional settings can be specified, or the custom MPI job settings definition
+             * can be attached to the parent Batch AI job definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithAttach<ParentT> extends
+                    Attachable.InDefinition<ParentT> {
+            }
+
+            /**
+             * At this stage, any process count settings can be specified, or the custom MPI job settings definition
+             * can be attached to the parent Batch AI job definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithAttachAndProcessCount<ParentT> extends WithAttach<ParentT>,
+                    ToolTypeSettings.DefinitionStages.WithProcessCount<WithAttach<ParentT>> {
+            }
 
 
+            /**
+             * The first stage of the custom MPI job settings definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface Blank<ParentT> extends WithCommandLine<ParentT> {
+            }
+
+            /**
+             * Specifies the program and program command line parameters to be executed by mpi runtime.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithCommandLine<ParentT> {
+                WithAttachAndProcessCount<ParentT> withCommandLine(String commandLine);
+            }
+        }
+    }
+
+    /**
+     * Client-side representation for Horovod job settings.
+     */
+    @Fluent
+    @Beta(Beta.SinceVersion.V1_12_0)
+    interface Horovod extends Indexable,
+            HasParent<BatchAIJob>,
+            HasInner<HorovodSettings> {
+
+        /**
+         * Definition of the settings for Horovod job.
+         *
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        interface Definition<ParentT> extends
+                DefinitionStages.Blank<ParentT>,
+                DefinitionStages.WithAttach<ParentT> {
+        }
+
+        /**
+         * Definition stages for the Horovod job settings.
+         */
+        interface DefinitionStages {
+
+            /**
+             * The final stage of the Horovod job settings definition.
+             * At this stage, any remaining optional settings can be specified, or the Horovod job settings definition
+             * can be attached to the parent Batch AI job definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithAttach<ParentT> extends
+                    Attachable.InDefinition<ParentT>,
+                    ToolTypeSettings.DefinitionStages.WithPythonInterpreter<WithAttach<ParentT>>,
+                    ToolTypeSettings.DefinitionStages.WithProcessCount<WithAttach<ParentT>>,
+                    ToolTypeSettings.DefinitionStages.WithCommandLineArgs<WithAttach<ParentT>> {
+            }
+
+            /**
+             * The first stage of the Horovode job settings definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface Blank<ParentT> extends WithPython<ParentT> {
+            }
+
+            /**
+             * Specifies python script file path to execute the job.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithPython<ParentT> {
+                WithAttach<ParentT> withPythonScriptFile(String pythonScriptFilePath);
+            }
+        }
+    }
+
+    /**
+     * Client-side representation for the settings for a custom toolkit job.
+     */
+    @Fluent
+    @Beta(Beta.SinceVersion.V1_12_0)
+    interface CustomToolkit extends Indexable,
+            HasParent<BatchAIJob>,
+            HasInner<CustomToolkitSettings> {
+
+        /**
+         * Definition of the settings for a custom toolkit job.
+         *
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        interface Definition<ParentT> extends
+                DefinitionStages.Blank<ParentT>,
+                DefinitionStages.WithAttach<ParentT> {
+        }
+
+        /**
+         * Definition stages for a custom toolkit job.
+         */
+        interface DefinitionStages {
+
+            /**
+             * The final stage of the custom toolkit job settings definition.
+             * At this stage, any remaining optional settings can be specified, or the custom toolkit job settings definition
+             * can be attached to the parent Batch AI job definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithAttach<ParentT> extends
+                    Attachable.InDefinition<ParentT> {
+            }
+
+            /**
+             * The first stage of the custom toolkit job settings definition.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface Blank<ParentT> extends WithCommandLine<ParentT> {
+            }
+
+            /**
+             * Specifies the command line to execute the custom toolkit Job.
+             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             */
+            interface WithCommandLine<ParentT> {
+                WithAttach<ParentT> withCommandLine(String commandLine);
+            }
         }
     }
 

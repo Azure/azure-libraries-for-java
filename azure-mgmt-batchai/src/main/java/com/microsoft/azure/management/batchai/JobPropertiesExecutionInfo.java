@@ -13,43 +13,44 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Contains information about the execution of a job in the Azure Batch
- * service.
+ * Information about the execution of a job.
  */
 public class JobPropertiesExecutionInfo {
     /**
-     * The time at which the job started running.
-     * 'Running' corresponds to the running state. If the job has been
-     * restarted or retried, this is the most recent time at which the job
-     * started running. This property is present only for job that are in the
-     * running or completed state.
+     * Start time.
+     * The time at which the job started running. 'Running' corresponds to the
+     * running state. If the job has been restarted or retried, this is the
+     * most recent time at which the job started running. This property is
+     * present only for job that are in the running or completed state.
      */
-    @JsonProperty(value = "startTime", required = true)
+    @JsonProperty(value = "startTime", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime startTime;
 
     /**
-     * The time at which the job completed.
-     * This property is only returned if the job is in completed state.
+     * End time.
+     * The time at which the job completed. This property is only returned if
+     * the job is in completed state.
      */
-    @JsonProperty(value = "endTime")
+    @JsonProperty(value = "endTime", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime endTime;
 
     /**
-     * The exit code of the job.
-     * This property is only returned if the job is in completed state.
+     * Exit code.
+     * The exit code of the job. This property is only returned if the job is
+     * in completed state.
      */
-    @JsonProperty(value = "exitCode")
+    @JsonProperty(value = "exitCode", access = JsonProperty.Access.WRITE_ONLY)
     private Integer exitCode;
 
     /**
-     * Contains details of various errors encountered by the service during job
-     * execution.
+     * Errors.
+     * A collection of errors encountered by the service during job execution.
      */
-    @JsonProperty(value = "errors")
+    @JsonProperty(value = "errors", access = JsonProperty.Access.WRITE_ONLY)
     private List<BatchAIError> errors;
 
     /**
-     * Get the startTime value.
+     * Get the time at which the job started running. 'Running' corresponds to the running state. If the job has been restarted or retried, this is the most recent time at which the job started running. This property is present only for job that are in the running or completed state.
      *
      * @return the startTime value
      */
@@ -58,18 +59,7 @@ public class JobPropertiesExecutionInfo {
     }
 
     /**
-     * Set the startTime value.
-     *
-     * @param startTime the startTime value to set
-     * @return the JobPropertiesExecutionInfo object itself.
-     */
-    public JobPropertiesExecutionInfo withStartTime(DateTime startTime) {
-        this.startTime = startTime;
-        return this;
-    }
-
-    /**
-     * Get the endTime value.
+     * Get the time at which the job completed. This property is only returned if the job is in completed state.
      *
      * @return the endTime value
      */
@@ -78,18 +68,7 @@ public class JobPropertiesExecutionInfo {
     }
 
     /**
-     * Set the endTime value.
-     *
-     * @param endTime the endTime value to set
-     * @return the JobPropertiesExecutionInfo object itself.
-     */
-    public JobPropertiesExecutionInfo withEndTime(DateTime endTime) {
-        this.endTime = endTime;
-        return this;
-    }
-
-    /**
-     * Get the exitCode value.
+     * Get the exit code of the job. This property is only returned if the job is in completed state.
      *
      * @return the exitCode value
      */
@@ -98,34 +77,12 @@ public class JobPropertiesExecutionInfo {
     }
 
     /**
-     * Set the exitCode value.
-     *
-     * @param exitCode the exitCode value to set
-     * @return the JobPropertiesExecutionInfo object itself.
-     */
-    public JobPropertiesExecutionInfo withExitCode(Integer exitCode) {
-        this.exitCode = exitCode;
-        return this;
-    }
-
-    /**
-     * Get the errors value.
+     * Get a collection of errors encountered by the service during job execution.
      *
      * @return the errors value
      */
     public List<BatchAIError> errors() {
         return this.errors;
-    }
-
-    /**
-     * Set the errors value.
-     *
-     * @param errors the errors value to set
-     * @return the JobPropertiesExecutionInfo object itself.
-     */
-    public JobPropertiesExecutionInfo withErrors(List<BatchAIError> errors) {
-        this.errors = errors;
-        return this;
     }
 
 }

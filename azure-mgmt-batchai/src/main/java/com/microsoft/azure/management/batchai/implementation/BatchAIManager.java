@@ -17,6 +17,7 @@ import com.microsoft.azure.management.batchai.BatchAIClusters;
 import com.microsoft.azure.management.batchai.BatchAIFileServers;
 import com.microsoft.azure.management.batchai.BatchAIJobs;
 import com.microsoft.azure.management.batchai.BatchAIUsages;
+import com.microsoft.azure.management.batchai.BatchAIWorkspaces;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -33,6 +34,7 @@ public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagem
     private BatchAIJobs batchAIJobs;
     private BatchAIFileServers batchAIFileServers;
     private BatchAIUsages batchAIUsages;
+    private BatchAIWorkspaces workspaces;
 
     /**
     * Get a Configurable instance that can be used to create BatchAIManager with optional configuration.
@@ -99,31 +101,11 @@ public final class BatchAIManager extends Manager<BatchAIManager, BatchAIManagem
     /**
      * @return the batch AI clusters management API entry point
      */
-    public BatchAIClusters clusters() {
-        if (batchAIClusters == null) {
-            batchAIClusters = new BatchAIClustersImpl(this);
+    public BatchAIWorkspaces workspaces() {
+        if (workspaces == null) {
+            workspaces = new BatchAIWorkspacesImpl(this);
         }
-        return batchAIClusters;
-    }
-
-    /**
-     * @return the batch AI jobs management API entry point
-     */
-    public BatchAIJobs jobs() {
-        if (batchAIJobs == null) {
-            batchAIJobs = new BatchAIJobsImpl(this);
-        }
-        return batchAIJobs;
-    }
-
-    /**
-     * @return the batch AI file servers management API entry point
-     */
-    public BatchAIFileServers fileServers() {
-        if (batchAIFileServers == null) {
-            batchAIFileServers = new BatchAIFileServersImpl(this);
-        }
-        return batchAIFileServers;
+        return workspaces;
     }
 
     /**

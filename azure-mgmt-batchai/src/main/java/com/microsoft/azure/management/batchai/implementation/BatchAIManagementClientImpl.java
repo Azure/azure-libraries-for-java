@@ -159,16 +159,29 @@ public class BatchAIManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The ClustersInner object to access its operations.
+     * The WorkspacesInner object to access its operations.
      */
-    private ClustersInner clusters;
+    private WorkspacesInner workspaces;
 
     /**
-     * Gets the ClustersInner object to access its operations.
-     * @return the ClustersInner object.
+     * Gets the WorkspacesInner object to access its operations.
+     * @return the WorkspacesInner object.
      */
-    public ClustersInner clusters() {
-        return this.clusters;
+    public WorkspacesInner workspaces() {
+        return this.workspaces;
+    }
+
+    /**
+     * The ExperimentsInner object to access its operations.
+     */
+    private ExperimentsInner experiments;
+
+    /**
+     * Gets the ExperimentsInner object to access its operations.
+     * @return the ExperimentsInner object.
+     */
+    public ExperimentsInner experiments() {
+        return this.experiments;
     }
 
     /**
@@ -195,6 +208,19 @@ public class BatchAIManagementClientImpl extends AzureServiceClient {
      */
     public FileServersInner fileServers() {
         return this.fileServers;
+    }
+
+    /**
+     * The ClustersInner object to access its operations.
+     */
+    private ClustersInner clusters;
+
+    /**
+     * Gets the ClustersInner object to access its operations.
+     * @return the ClustersInner object.
+     */
+    public ClustersInner clusters() {
+        return this.clusters;
     }
 
     /**
@@ -228,15 +254,17 @@ public class BatchAIManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2018-03-01";
+        this.apiVersion = "2018-05-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
         this.operations = new OperationsInner(restClient().retrofit(), this);
         this.usages = new UsagesInner(restClient().retrofit(), this);
-        this.clusters = new ClustersInner(restClient().retrofit(), this);
+        this.workspaces = new WorkspacesInner(restClient().retrofit(), this);
+        this.experiments = new ExperimentsInner(restClient().retrofit(), this);
         this.jobs = new JobsInner(restClient().retrofit(), this);
         this.fileServers = new FileServersInner(restClient().retrofit(), this);
+        this.clusters = new ClustersInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 
@@ -247,6 +275,6 @@ public class BatchAIManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "BatchAIManagementClient", "2018-03-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "BatchAIManagementClient", "2018-05-01");
     }
 }

@@ -11,37 +11,34 @@ package com.microsoft.azure.management.batchai;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Details of the File Server.
+ * File Server mount Information.
  */
 public class MountSettings {
     /**
-     * Path where the NFS is mounted on the Server.
+     * Mount Point.
+     * Path where the data disks are mounted on the File Server.
      */
     @JsonProperty(value = "mountPoint")
     private String mountPoint;
 
     /**
-     * Public IP of the File Server VM.
+     * Public IP.
+     * Public IP address of the File Server which can be used to SSH to the
+     * node from outside of the subnet.
      */
     @JsonProperty(value = "fileServerPublicIP")
     private String fileServerPublicIP;
 
     /**
-     * Internal subnet IP which can be used to access the file Server from
-     * within the subnet.
+     * Internal IP.
+     * Internal IP address of the File Server which can be used to access the
+     * File Server from within the subnet.
      */
     @JsonProperty(value = "fileServerInternalIP")
     private String fileServerInternalIP;
 
     /**
-     * Type of the fileserver e.g. nfs, glusterfs etc.
-     * Possible values include: 'nfs', 'glusterfs'.
-     */
-    @JsonProperty(value = "fileServerType")
-    private FileServerType fileServerType;
-
-    /**
-     * Get the mountPoint value.
+     * Get path where the data disks are mounted on the File Server.
      *
      * @return the mountPoint value
      */
@@ -50,7 +47,7 @@ public class MountSettings {
     }
 
     /**
-     * Set the mountPoint value.
+     * Set path where the data disks are mounted on the File Server.
      *
      * @param mountPoint the mountPoint value to set
      * @return the MountSettings object itself.
@@ -61,7 +58,7 @@ public class MountSettings {
     }
 
     /**
-     * Get the fileServerPublicIP value.
+     * Get public IP address of the File Server which can be used to SSH to the node from outside of the subnet.
      *
      * @return the fileServerPublicIP value
      */
@@ -70,7 +67,7 @@ public class MountSettings {
     }
 
     /**
-     * Set the fileServerPublicIP value.
+     * Set public IP address of the File Server which can be used to SSH to the node from outside of the subnet.
      *
      * @param fileServerPublicIP the fileServerPublicIP value to set
      * @return the MountSettings object itself.
@@ -81,7 +78,7 @@ public class MountSettings {
     }
 
     /**
-     * Get the fileServerInternalIP value.
+     * Get internal IP address of the File Server which can be used to access the File Server from within the subnet.
      *
      * @return the fileServerInternalIP value
      */
@@ -90,33 +87,13 @@ public class MountSettings {
     }
 
     /**
-     * Set the fileServerInternalIP value.
+     * Set internal IP address of the File Server which can be used to access the File Server from within the subnet.
      *
      * @param fileServerInternalIP the fileServerInternalIP value to set
      * @return the MountSettings object itself.
      */
     public MountSettings withFileServerInternalIP(String fileServerInternalIP) {
         this.fileServerInternalIP = fileServerInternalIP;
-        return this;
-    }
-
-    /**
-     * Get the fileServerType value.
-     *
-     * @return the fileServerType value
-     */
-    public FileServerType fileServerType() {
-        return this.fileServerType;
-    }
-
-    /**
-     * Set the fileServerType value.
-     *
-     * @param fileServerType the fileServerType value to set
-     * @return the MountSettings object itself.
-     */
-    public MountSettings withFileServerType(FileServerType fileServerType) {
-        this.fileServerType = fileServerType;
         return this;
     }
 

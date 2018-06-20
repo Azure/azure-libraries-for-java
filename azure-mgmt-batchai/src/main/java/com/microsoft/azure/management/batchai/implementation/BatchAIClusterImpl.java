@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.batchai.implementation;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.AllocationState;
 import com.microsoft.azure.management.batchai.AppInsightsReference;
@@ -15,6 +16,8 @@ import com.microsoft.azure.management.batchai.AzureFileShare;
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
 import com.microsoft.azure.management.batchai.BatchAIError;
+import com.microsoft.azure.management.batchai.BatchAIWorkspace;
+import com.microsoft.azure.management.batchai.ClusterCreateParameters;
 import com.microsoft.azure.management.batchai.FileServer;
 import com.microsoft.azure.management.batchai.DeallocationOption;
 import com.microsoft.azure.management.batchai.FileServerReference;
@@ -27,6 +30,7 @@ import com.microsoft.azure.management.batchai.NodeSetupTask;
 import com.microsoft.azure.management.batchai.NodeStateCounts;
 import com.microsoft.azure.management.batchai.PerformanceCountersSettings;
 import com.microsoft.azure.management.batchai.ProvisioningState;
+import com.microsoft.azure.management.batchai.RemoteLoginInformation;
 import com.microsoft.azure.management.batchai.ResourceId;
 import com.microsoft.azure.management.batchai.ScaleSettings;
 import com.microsoft.azure.management.batchai.SetupTask;
@@ -35,10 +39,13 @@ import com.microsoft.azure.management.batchai.UserAccountSettings;
 import com.microsoft.azure.management.batchai.VirtualMachineConfiguration;
 import com.microsoft.azure.management.batchai.VmPriority;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;
 import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,41 +54,69 @@ import java.util.List;
  * Implementation for Cluster and its create and update interfaces.
  */
 @LangDefinition
-class BatchAIClusterImpl extends GroupableResourceImpl<
+class BatchAIClusterImpl extends CreatableUpdatableImpl<
         BatchAICluster,
         ClusterInner,
-        BatchAIClusterImpl,
-        BatchAIManager>
+        BatchAIClusterImpl>
         implements
         BatchAICluster,
         BatchAICluster.Definition,
         BatchAICluster.Update,
         HasMountVolumes {
-    private ClusterCreateParametersInner createParameters = new ClusterCreateParametersInner();
-    private ClusterUpdateParametersInner updateParameters = new ClusterUpdateParametersInner();
+    private final BatchAIWorkspaceImpl workspace;
 
-    BatchAIClusterImpl(String name, ClusterInner innerObject, BatchAIManager manager) {
-        super(name, innerObject, manager);
+    private ClusterCreateParameters createParameters = new ClusterCreateParameters();
+    private ScaleSettings scaleSettings = new ScaleSettings();
+
+    BatchAIClusterImpl(String name, BatchAIWorkspaceImpl workspace, ClusterInner innerObject) {
+        super(name, innerObject);
+        this.workspace = workspace;
+    }
+
+    @Override
+    public PagedList<RemoteLoginInformation> listRemoteLoginInformation() {
+        PagedListConverter<RemoteLoginInformationInner, RemoteLoginInformation> converter = new PagedListConverter<RemoteLoginInformationInner, RemoteLoginInformation>() {
+            @Override
+            public Observable<RemoteLoginInformation> typeConvertAsync(RemoteLoginInformationInner inner) {
+                return Observable.just((RemoteLoginInformation) new RemoteLoginInformationImpl(inner));
+            }
+        };
+        return converter.convert(workspace.manager().inner().clusters()
+                .listRemoteLoginInformation(workspace.resourceGroupName(), workspace.name(), name()));
+    }
+
+    @Override
+    public Observable<RemoteLoginInformation> listRemoteLoginInformationAsync() {
+        return ReadableWrappersImpl.convertPageToInnerAsync(workspace.manager().inner().clusters()
+                .listRemoteLoginInformationAsync(workspace.resourceGroupName(), workspace.name(), name()))
+                .map(new Func1<RemoteLoginInformationInner, RemoteLoginInformation>() {
+                    @Override
+                    public RemoteLoginInformation call(RemoteLoginInformationInner remoteLoginInformationInner) {
+                        return new RemoteLoginInformationImpl(remoteLoginInformationInner);
+                    }
+                });
+    }
+
+    @Override
+    public boolean isInCreateMode() {
+        return inner().id() == null;
     }
 
     @Override
     public Observable<BatchAICluster> createResourceAsync() {
-        createParameters.withLocation(this.regionName());
-        createParameters.withTags(this.inner().getTags());
-        return this.manager().inner().clusters().createAsync(resourceGroupName(), name(), createParameters)
+        return this.manager().inner().clusters().createAsync(workspace.resourceGroupName(), workspace.name(), name(), createParameters)
                 .map(innerToFluentMap(this));
     }
 
     @Override
     public Observable<BatchAICluster> updateResourceAsync() {
-        updateParameters.withTags(this.inner().getTags());
-        return this.manager().inner().clusters().updateAsync(resourceGroupName(), name(), updateParameters)
+        return this.manager().inner().clusters().updateAsync(workspace.resourceGroupName(), workspace.name(), name(), scaleSettings)
                 .map(innerToFluentMap(this));
     }
 
     @Override
     protected Observable<ClusterInner> getInnerAsync() {
-        return this.manager().inner().clusters().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+        return this.manager().inner().clusters().getAsync(workspace.resourceGroupName(), workspace.name(), this.name());
     }
 
     @Override
@@ -121,7 +156,7 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         if (isInCreateMode()) {
             ensureScaleSettings().withAutoScale(autoScaleSettings);
         } else {
-            updateParameters.withScaleSettings(new ScaleSettings().withAutoScale(autoScaleSettings));
+            scaleSettings = new ScaleSettings().withAutoScale(autoScaleSettings);
         }
         return this;
     }
@@ -135,7 +170,7 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         if (isInCreateMode()) {
             ensureScaleSettings().withAutoScale(autoScaleSettings);
         } else {
-            updateParameters.withScaleSettings(new ScaleSettings().withAutoScale(autoScaleSettings));
+            scaleSettings = new ScaleSettings().withAutoScale(autoScaleSettings);
         }
         return this;
     }
@@ -146,7 +181,7 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         if (isInCreateMode()) {
             ensureScaleSettings().withManual(manualScaleSettings);
         } else {
-            updateParameters.withScaleSettings(new ScaleSettings().withManual(manualScaleSettings));
+            scaleSettings = new ScaleSettings().withManual(manualScaleSettings);
         }
         return this;
     }
@@ -157,7 +192,7 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
         if (isInCreateMode()) {
             ensureScaleSettings().withManual(manualScaleSettings);
         } else {
-            updateParameters.withScaleSettings(new ScaleSettings().withManual(manualScaleSettings));
+            scaleSettings = new ScaleSettings().withManual(manualScaleSettings);
         }
         return this;
     }
@@ -265,6 +300,11 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
     @Override
     public NodeStateCounts nodeStateCounts() {
         return inner().nodeStateCounts();
+    }
+
+    @Override
+    public BatchAIWorkspace workspace() {
+        return workspace;
     }
 
     @Override
@@ -389,5 +429,15 @@ class BatchAIClusterImpl extends GroupableResourceImpl<
             createParameters.withVirtualMachineConfiguration(new VirtualMachineConfiguration());
         }
         return createParameters.virtualMachineConfiguration();
+    }
+
+    @Override
+    public BatchAIManager manager() {
+        return workspace.manager();
+    }
+
+    @Override
+    public String id() {
+        return inner().id();
     }
 }

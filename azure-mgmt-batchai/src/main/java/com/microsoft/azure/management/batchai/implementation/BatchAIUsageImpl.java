@@ -8,6 +8,7 @@ package com.microsoft.azure.management.batchai.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batchai.BatchAIUsage;
 import com.microsoft.azure.management.batchai.UsageName;
+import com.microsoft.azure.management.batchai.UsageUnit;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
@@ -20,7 +21,7 @@ class BatchAIUsageImpl extends WrapperImpl<UsageInner> implements BatchAIUsage {
     }
 
     @Override
-    public String unit() {
+    public UsageUnit unit() {
         return inner().unit();
     }
 

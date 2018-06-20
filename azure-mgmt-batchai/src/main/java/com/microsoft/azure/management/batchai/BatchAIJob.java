@@ -9,13 +9,13 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.batchai.implementation.JobInner;
 import com.microsoft.azure.management.batchai.model.HasMountVolumes;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import org.joda.time.DateTime;
 import rx.Completable;
@@ -29,9 +29,11 @@ import java.util.List;
 @Fluent
 @Beta(Beta.SinceVersion.V1_6_0)
 public interface BatchAIJob extends
-        IndependentChildResource<BatchAIManager, JobInner>,
-        Refreshable<BatchAIJob>,
-        HasParent<BatchAICluster> {
+        HasInner<JobInner>,
+        Indexable,
+        HasId,
+        HasName,
+        Refreshable<BatchAIJob> {
 
     /**
      * Terminates a job.
@@ -87,16 +89,25 @@ public interface BatchAIJob extends
     Observable<OutputFile> listFilesAsync(String outputDirectoryId, String directory, Integer linkExpiryMinutes, Integer maxResults);
 
     /**
-     * @return the experiment information of the job.
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
+     * @return list of remote login details
      */
-    String experimentName();
+    @Method
+    PagedList<RemoteLoginInformation> listRemoteLoginInformation();
+
+    /**
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
+     * @return an observable that emits remote login information
+     */
+    @Method
+    Observable<RemoteLoginInformation> listRemoteLoginInformationAsync();
 
     /**
      * @return priority associated with the job. Priority values can range from -1000
      * to 1000, with -1000 being the lowest priority and 1000 being the highest
      * priority. The default value is 0.
      */
-    Integer priority();
+    JobPriority schedulingPriority();
 
     /**
      * @return  the Id of the cluster on which this job will run.
@@ -252,6 +263,11 @@ public interface BatchAIJob extends
     JobPropertiesExecutionInfo executionInfo();
 
     /**
+     * @return the experiment information of the job.
+     */
+    BatchAIExperiment experiment();
+
+    /**
      * The entirety of the Batch AI job definition.
      */
     interface Definition extends
@@ -334,7 +350,17 @@ public interface BatchAIJob extends
             @Beta(Beta.SinceVersion.V1_8_0)
             ToolTypeSettings.PyTorch.DefinitionStages.Blank<WithCreate> definePyTorch();
 
-            WithCreate withCustomCommandLine(String commandLine);
+            @Method
+            @Beta(Beta.SinceVersion.V1_12_0)
+            ToolTypeSettings.CustomMpi.DefinitionStages.Blank<WithCreate> defineCustomMpi();
+
+            @Method
+            @Beta(Beta.SinceVersion.V1_12_0)
+            ToolTypeSettings.Horovod.DefinitionStages.Blank<WithCreate> defineHorovod();
+
+            @Method
+            @Beta(Beta.SinceVersion.V1_12_0)
+            ToolTypeSettings.CustomToolkit.DefinitionStages.Blank<WithCreate> defineCustomToolkit();
         }
 
         interface WithInputDirectory {
@@ -362,7 +388,7 @@ public interface BatchAIJob extends
              * @param commandLine command line to execute
              * @return the next stage of the definition
              */
-            WithCreate withCommandLine(String commandLine);
+            WithCreate withJobPreparationCommandLine(String commandLine);
         }
 
         /**
@@ -375,18 +401,12 @@ public interface BatchAIJob extends
              */
             WithCreate withContainerImage(String image);
 
-            ContainerImageSettings.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineContainerSettings(String image);
-        }
-
-        /**
-         * Allows to specify the experiment information of the job.
-         */
-        interface WithExperimentName {
             /**
-             * @param experimentName describes the experiment information of the job
-             * @return the next stage of the definition
+             * Begins the definition of container settings.
+             * @param image the name of the image in image repository
+             * @return next definition stage
              */
-            WithCreate withExperimentName(String experimentName);
+            ContainerImageSettings.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineContainerSettings(String image);
         }
 
         /**
@@ -431,12 +451,10 @@ public interface BatchAIJob extends
          */
         interface WithCreate extends
                 Creatable<BatchAIJob>,
-                Resource.DefinitionWithTags<WithCreate>,
                 WithJobPreparation,
                 WithInputDirectory,
                 WithOutputDirectory,
                 WithContainerSettings,
-                WithExperimentName,
                 WithEnvironmentVariable,
                 WithEnvironmentVariableSecretValue,
                 HasMountVolumes.DefinitionStages.WithMountVolumes<WithCreate> {

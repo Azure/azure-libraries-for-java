@@ -46,7 +46,8 @@ public interface ContainerImageSettings extends Indexable,
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAttach<ParentT> extends
-                Attachable.InDefinition<ParentT> {
+                Attachable.InDefinition<ParentT>,
+                WithShmSize<ParentT> {
             /**
              * Specifies url for container registry.
              * @param serverUrl URL for image repository
@@ -88,6 +89,20 @@ public interface ContainerImageSettings extends Indexable,
              * AI Service to integrate with KeyVault.
              **/
             WithAttach<ParentT> withRegistrySecretReference(String keyVaultId, String secretUrl);
+        }
+
+        /**
+         * Specifies size of /dev/shm. Please refer to docker documentation for supported argument formats.
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        @Beta(Beta.SinceVersion.V1_12_0)
+        interface WithShmSize<ParentT> {
+            /**
+             * Specifies size of /dev/shm.
+             * @param shmSize size of /dev/shm
+             * @return the next stage of the definition
+             */
+            WithAttach<ParentT> withShmSize(String shmSize);
         }
     }
 

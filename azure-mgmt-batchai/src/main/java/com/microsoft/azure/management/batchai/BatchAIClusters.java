@@ -9,15 +9,13 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.batchai.implementation.ClustersInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
+import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByNameAsync;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingByName;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
@@ -29,13 +27,11 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 public interface BatchAIClusters extends
         SupportsCreating<BatchAICluster.DefinitionStages.Blank>,
         SupportsListing<BatchAICluster>,
-        SupportsListingByResourceGroup<BatchAICluster>,
-        SupportsGettingByResourceGroup<BatchAICluster>,
         SupportsGettingById<BatchAICluster>,
+        SupportsGettingByNameAsync<BatchAICluster>,
         SupportsDeletingById,
-        SupportsDeletingByResourceGroup,
-        SupportsBatchCreation<BatchAICluster>,
-        SupportsBatchDeletion,
+        SupportsDeletingByName,
         HasManager<BatchAIManager>,
-        HasInner<ClustersInner> {
+        HasInner<ClustersInner>,
+        HasParent<BatchAIWorkspace> {
 }

@@ -8,55 +8,43 @@
 
 package com.microsoft.azure.management.batchai;
 
+import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for FileServerProvisioningState.
  */
-public enum FileServerProvisioningState {
-    /** Enum value creating. */
-    CREATING("creating"),
+public final class FileServerProvisioningState extends ExpandableStringEnum<FileServerProvisioningState> {
+    /** Static value creating for FileServerProvisioningState. */
+    public static final FileServerProvisioningState CREATING = fromString("creating");
 
-    /** Enum value updating. */
-    UPDATING("updating"),
+    /** Static value updating for FileServerProvisioningState. */
+    public static final FileServerProvisioningState UPDATING = fromString("updating");
 
-    /** Enum value deleting. */
-    DELETING("deleting"),
+    /** Static value deleting for FileServerProvisioningState. */
+    public static final FileServerProvisioningState DELETING = fromString("deleting");
 
-    /** Enum value succeeded. */
-    SUCCEEDED("succeeded"),
+    /** Static value succeeded for FileServerProvisioningState. */
+    public static final FileServerProvisioningState SUCCEEDED = fromString("succeeded");
 
-    /** Enum value failed. */
-    FAILED("failed");
+    /** Static value failed for FileServerProvisioningState. */
+    public static final FileServerProvisioningState FAILED = fromString("failed");
 
-    /** The actual serialized value for a FileServerProvisioningState instance. */
-    private String value;
-
-    FileServerProvisioningState(String value) {
-        this.value = value;
+    /**
+     * Creates or finds a FileServerProvisioningState from its string representation.
+     * @param name a name to look for
+     * @return the corresponding FileServerProvisioningState
+     */
+    @JsonCreator
+    public static FileServerProvisioningState fromString(String name) {
+        return fromString(name, FileServerProvisioningState.class);
     }
 
     /**
-     * Parses a serialized value to a FileServerProvisioningState instance.
-     *
-     * @param value the serialized value to parse.
-     * @return the parsed FileServerProvisioningState object, or null if unable to parse.
+     * @return known FileServerProvisioningState values
      */
-    @JsonCreator
-    public static FileServerProvisioningState fromString(String value) {
-        FileServerProvisioningState[] items = FileServerProvisioningState.values();
-        for (FileServerProvisioningState item : items) {
-            if (item.toString().equalsIgnoreCase(value)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    @JsonValue
-    @Override
-    public String toString() {
-        return this.value;
+    public static Collection<FileServerProvisioningState> values() {
+        return values(FileServerProvisioningState.class);
     }
 }

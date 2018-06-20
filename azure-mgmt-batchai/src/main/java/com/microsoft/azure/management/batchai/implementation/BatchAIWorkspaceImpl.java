@@ -30,8 +30,6 @@ class BatchAIWorkspaceImpl extends GroupableResourceImpl<
     private BatchAIFileServers fileServers;
     private BatchAIExperiments experiments;
 
-    private WorkspaceCreateParameters createParameters = new WorkspaceCreateParameters();
-
     BatchAIWorkspaceImpl(String name, WorkspaceInner innerObject, BatchAIManager manager) {
         super(name, innerObject, manager);
     }
@@ -82,6 +80,7 @@ class BatchAIWorkspaceImpl extends GroupableResourceImpl<
 
     @Override
     public Observable<BatchAIWorkspace> createResourceAsync() {
+        WorkspaceCreateParameters createParameters = new WorkspaceCreateParameters();
         createParameters.withLocation(this.regionName());
         createParameters.withTags(this.inner().getTags());
         return this.manager().inner().workspaces().createAsync(resourceGroupName(), name(), createParameters)

@@ -2833,7 +2833,6 @@ public final class Utils {
         StringBuilder info = new StringBuilder("Batch AI job: ")
                 .append("\n\tId: ").append(resource.id())
                 .append("\n\tName: ").append(resource.name())
-//                .append("\n\tResource group: ").append(resource.resourceGroupName())
                 .append("\n\tCluster Id: ").append(resource.cluster())
                 .append("\n\tCreation time: ").append(resource.creationTime())
                 .append("\n\tNode count: ").append(resource.nodeCount())

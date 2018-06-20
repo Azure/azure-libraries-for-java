@@ -37,13 +37,7 @@ public class BatchAIWorkspacesImpl extends GroupableResourcesImpl<
 
     @Override
     public Observable<BatchAIWorkspace> listByResourceGroupAsync(String groupName) {
-        return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<BatchAIWorkspace>>() {
-                    @Override
-                    public Observable<BatchAIWorkspace> call(ResourceGroup resourceGroup) {
-                        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
-                    }
-                });
+        return wrapPageAsync(inner().listByResourceGroupAsync(groupName));
     }
 
     @Override
@@ -82,12 +76,6 @@ public class BatchAIWorkspacesImpl extends GroupableResourcesImpl<
 
     @Override
     public Observable<BatchAIWorkspace> listAsync() {
-        return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<BatchAIWorkspace>>() {
-                    @Override
-                    public Observable<BatchAIWorkspace> call(ResourceGroup resourceGroup) {
-                        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
-                    }
-                });
+        return wrapPageAsync(inner().listAsync());
     }
 }

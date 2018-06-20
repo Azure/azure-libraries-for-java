@@ -33,5 +33,5 @@ public interface RemoteLoginInformation extends
     /**
      * @return port number
      */
-    double port();
+    int port();
 }

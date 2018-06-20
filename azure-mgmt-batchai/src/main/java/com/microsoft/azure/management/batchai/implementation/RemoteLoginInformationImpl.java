@@ -34,10 +34,10 @@ final class RemoteLoginInformationImpl extends
     }
 
     @Override
-    public double port() {
+    public int port() {
         if (inner().port() == null) {
             return 0;
         }
-        return inner().port();
+        return (int) Math.round(inner().port());
     }
 }

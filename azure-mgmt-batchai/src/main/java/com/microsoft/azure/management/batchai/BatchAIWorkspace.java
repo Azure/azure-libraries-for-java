@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.batchai;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.batchai.implementation.WorkspaceInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -21,6 +22,7 @@ import org.joda.time.DateTime;
 /**
  * Type representing Workspace.
  */
+@Beta(Beta.SinceVersion.V1_12_0)
 public interface BatchAIWorkspace extends
         GroupableResource<BatchAIManager, WorkspaceInner>,
         Refreshable<BatchAIWorkspace>,

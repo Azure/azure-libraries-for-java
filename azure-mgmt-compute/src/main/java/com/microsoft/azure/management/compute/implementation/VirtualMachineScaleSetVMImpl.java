@@ -11,6 +11,7 @@ import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.DataDisk;
 import com.microsoft.azure.management.compute.DiagnosticsProfile;
 import com.microsoft.azure.management.compute.ImageReference;
+import com.microsoft.azure.management.compute.NetworkInterfaceReference;
 import com.microsoft.azure.management.compute.OSProfile;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.PowerState;
@@ -328,7 +329,7 @@ class VirtualMachineScaleSetVMImpl
     @Override
     public List<String> networkInterfaceIds() {
         List<String> resourceIds = new ArrayList<>();
-        for (NetworkInterfaceReferenceInner reference : this.inner().networkProfile().networkInterfaces()) {
+        for (NetworkInterfaceReference reference : this.inner().networkProfile().networkInterfaces()) {
             resourceIds.add(reference.id());
         }
         return Collections.unmodifiableList(resourceIds);
@@ -336,7 +337,7 @@ class VirtualMachineScaleSetVMImpl
 
     @Override
     public String primaryNetworkInterfaceId() {
-        for (NetworkInterfaceReferenceInner reference : this.inner().networkProfile().networkInterfaces()) {
+        for (NetworkInterfaceReference reference : this.inner().networkProfile().networkInterfaces()) {
             if (reference.primary() != null && reference.primary()) {
                 return reference.id();
             }

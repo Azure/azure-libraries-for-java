@@ -10,6 +10,7 @@ package com.microsoft.azure.management.compute;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.compute.implementation.ImageReferenceInner;
 
 /**
  * Specifies the storage settings for the virtual machine disks.
@@ -23,7 +24,7 @@ public class StorageProfile {
      * other creation operations.
      */
     @JsonProperty(value = "imageReference")
-    private ImageReference imageReference;
+    private ImageReferenceInner imageReference;
 
     /**
      * Specifies information about the operating system disk used by the
@@ -48,7 +49,7 @@ public class StorageProfile {
      *
      * @return the imageReference value
      */
-    public ImageReference imageReference() {
+    public ImageReferenceInner imageReference() {
         return this.imageReference;
     }
 
@@ -58,7 +59,7 @@ public class StorageProfile {
      * @param imageReference the imageReference value to set
      * @return the StorageProfile object itself.
      */
-    public StorageProfile withImageReference(ImageReference imageReference) {
+    public StorageProfile withImageReference(ImageReferenceInner imageReference) {
         this.imageReference = imageReference;
         return this;
     }

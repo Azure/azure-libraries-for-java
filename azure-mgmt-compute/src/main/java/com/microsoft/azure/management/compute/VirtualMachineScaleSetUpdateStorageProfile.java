@@ -10,6 +10,7 @@ package com.microsoft.azure.management.compute;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.compute.implementation.ImageReferenceInner;
 
 /**
  * Describes a virtual machine scale set storage profile.
@@ -19,7 +20,7 @@ public class VirtualMachineScaleSetUpdateStorageProfile {
      * The image reference.
      */
     @JsonProperty(value = "imageReference")
-    private ImageReference imageReference;
+    private ImageReferenceInner imageReference;
 
     /**
      * The OS disk.
@@ -38,7 +39,7 @@ public class VirtualMachineScaleSetUpdateStorageProfile {
      *
      * @return the imageReference value
      */
-    public ImageReference imageReference() {
+    public ImageReferenceInner imageReference() {
         return this.imageReference;
     }
 
@@ -48,7 +49,7 @@ public class VirtualMachineScaleSetUpdateStorageProfile {
      * @param imageReference the imageReference value to set
      * @return the VirtualMachineScaleSetUpdateStorageProfile object itself.
      */
-    public VirtualMachineScaleSetUpdateStorageProfile withImageReference(ImageReference imageReference) {
+    public VirtualMachineScaleSetUpdateStorageProfile withImageReference(ImageReferenceInner imageReference) {
         this.imageReference = imageReference;
         return this;
     }

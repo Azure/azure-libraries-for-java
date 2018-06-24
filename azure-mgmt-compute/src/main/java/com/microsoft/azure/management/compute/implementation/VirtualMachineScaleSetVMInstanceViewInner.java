@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
+import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.microsoft.azure.management.compute.VirtualMachineAgentInstanceView;
 import com.microsoft.azure.management.compute.MaintenanceRedeployStatus;
 import java.util.List;
@@ -84,7 +85,7 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
      * The resource status information.
      */
     @JsonProperty(value = "statuses")
-    private List<InstanceViewStatusInner> statuses;
+    private List<InstanceViewStatus> statuses;
 
     /**
      * The placement group in which the VM is running. If the VM is deallocated
@@ -267,7 +268,7 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
      *
      * @return the statuses value
      */
-    public List<InstanceViewStatusInner> statuses() {
+    public List<InstanceViewStatus> statuses() {
         return this.statuses;
     }
 
@@ -277,7 +278,7 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
      * @param statuses the statuses value to set
      * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
      */
-    public VirtualMachineScaleSetVMInstanceViewInner withStatuses(List<InstanceViewStatusInner> statuses) {
+    public VirtualMachineScaleSetVMInstanceViewInner withStatuses(List<InstanceViewStatus> statuses) {
         this.statuses = statuses;
         return this;
     }

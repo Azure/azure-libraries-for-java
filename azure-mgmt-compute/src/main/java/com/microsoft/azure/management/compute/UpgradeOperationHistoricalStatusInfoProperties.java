@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.compute;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.compute.implementation.ImageReferenceInner;
 
 /**
  * Describes each OS upgrade on the Virtual Machine Scale Set.
@@ -43,7 +44,7 @@ public class UpgradeOperationHistoricalStatusInfoProperties {
      * Image Reference details.
      */
     @JsonProperty(value = "targetImageReference", access = JsonProperty.Access.WRITE_ONLY)
-    private ImageReference targetImageReference;
+    private ImageReferenceInner targetImageReference;
 
     /**
      * Information about OS rollback if performed.
@@ -92,7 +93,7 @@ public class UpgradeOperationHistoricalStatusInfoProperties {
      *
      * @return the targetImageReference value
      */
-    public ImageReference targetImageReference() {
+    public ImageReferenceInner targetImageReference() {
         return this.targetImageReference;
     }
 

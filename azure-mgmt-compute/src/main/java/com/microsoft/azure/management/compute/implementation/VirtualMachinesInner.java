@@ -275,10 +275,9 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.capture(resourceGroupName, vmName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.capture(resourceGroupName, vmName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<VirtualMachineCaptureResultInner>() { }.getType());
-        }
+    }
 
     /**
      * Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
@@ -773,10 +772,9 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.delete(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * The operation to delete a virtual machine.
@@ -1175,10 +1173,9 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.convertToManagedDisks(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.convertToManagedDisks(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+     }
 
     /**
      * Converts virtual machine disks from blob-based to managed disks. Virtual machine must be stop-deallocated before invoking this operation.
@@ -1326,10 +1323,9 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.deallocate(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.deallocate(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Shuts down the virtual machine and releases the compute resources. You are not billed for the compute resources that this virtual machine uses.
@@ -1867,10 +1863,9 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.powerOff(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.powerOff(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine.
@@ -2018,10 +2013,9 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.restart(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.restart(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * The operation to restart a virtual machine.
@@ -2169,10 +2163,9 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.start(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.start(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * The operation to start a virtual machine.
@@ -2320,10 +2313,9 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.redeploy(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.redeploy(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * The operation to redeploy a virtual machine.
@@ -2471,10 +2463,9 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.performMaintenance(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.performMaintenance(resourceGroupName, vmName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * The operation to perform maintenance on a virtual machine.
@@ -2631,10 +2622,9 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-04-01";
-        Observable<Response<ResponseBody>
-        > observable = service.runCommand(resourceGroupName, vmName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.runCommand(resourceGroupName, vmName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<List<InstanceViewStatus>>() { }.getType());
-        }
+    }
 
     /**
      * Run command on the VM.

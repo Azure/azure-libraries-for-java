@@ -231,10 +231,9 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.reimage(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.reimage(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
@@ -396,10 +395,9 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.reimageAll(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.reimageAll(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This operation is only supported for managed disks.
@@ -561,10 +559,9 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.deallocate(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.deallocate(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and releases the compute resources it uses. You are not billed for the compute resources of this virtual machine once it is deallocated.
@@ -1510,10 +1507,9 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.powerOff(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.powerOff(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
@@ -1675,10 +1671,9 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.restart(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.restart(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Restarts a virtual machine in a VM scale set.
@@ -1840,10 +1835,9 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.start(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.start(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Starts a virtual machine in a VM scale set.
@@ -2005,10 +1999,9 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.redeploy(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.redeploy(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Redeploys a virtual machine in a VM scale set.
@@ -2170,10 +2163,9 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.performMaintenance(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.performMaintenance(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Performs maintenance on a virtual machine in a VM scale set.

@@ -139,10 +139,9 @@ public class LogAnalyticsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.exportRequestRateByInterval(location, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.exportRequestRateByInterval(location, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<LogAnalyticsOperationResultInner>() { }.getType());
-        }
+    }
 
     /**
      * Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
@@ -294,10 +293,9 @@ public class LogAnalyticsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.exportThrottledRequests(location, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.exportThrottledRequests(location, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<LogAnalyticsOperationResultInner>() { }.getType());
-        }
+    }
 
     /**
      * Export logs that show total throttled Api requests for this subscription in the given time window.

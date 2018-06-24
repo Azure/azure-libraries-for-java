@@ -138,10 +138,9 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.cancel(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.cancel(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Cancels the current virtual machine scale set rolling upgrade.
@@ -289,10 +288,9 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>
-        > observable = service.startOSUpgrade(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.startOSUpgrade(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected.

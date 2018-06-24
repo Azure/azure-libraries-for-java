@@ -934,10 +934,9 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        Observable<Response<ResponseBody>
-        > observable = service.deallocate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.deallocate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
@@ -1184,10 +1183,9 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         final String apiVersion = "2018-06-01";
         VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceRequiredIDs();
         vmInstanceIDs.withInstanceIds(instanceIds);
-        Observable<Response<ResponseBody>
-        > observable = service.deleteInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.deleteInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Deletes virtual machines in a VM scale set.
@@ -1967,10 +1965,9 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        Observable<Response<ResponseBody>
-        > observable = service.powerOff(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.powerOff(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
@@ -2285,10 +2282,9 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        Observable<Response<ResponseBody>
-        > observable = service.restart(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.restart(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Restarts one or more virtual machines in a VM scale set.
@@ -2603,10 +2599,9 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        Observable<Response<ResponseBody>
-        > observable = service.start(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.start(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Starts one or more virtual machines in a VM scale set.
@@ -2921,10 +2916,9 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        Observable<Response<ResponseBody>
-        > observable = service.redeploy(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.redeploy(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Redeploy one or more virtual machines in a VM scale set.
@@ -3239,10 +3233,9 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        Observable<Response<ResponseBody>
-        > observable = service.performMaintenance(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.performMaintenance(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Perform maintenance on one or more virtual machines in a VM scale set.
@@ -3489,10 +3482,9 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         final String apiVersion = "2018-06-01";
         VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceRequiredIDs();
         vmInstanceIDs.withInstanceIds(instanceIds);
-        Observable<Response<ResponseBody>
-        > observable = service.updateInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.updateInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
@@ -3728,10 +3720,9 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        Observable<Response<ResponseBody>
-        > observable = service.reimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.reimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
@@ -4046,10 +4037,9 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        Observable<Response<ResponseBody>
-        > observable = service.reimageAll(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.reimageAll(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.

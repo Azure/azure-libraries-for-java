@@ -995,10 +995,9 @@ public class DisksInner implements InnerSupportsGet<DiskInner>, InnerSupportsDel
         }
         Validator.validate(grantAccessData);
         final String apiVersion = "2018-04-01";
-        Observable<Response<ResponseBody>
-        > observable = service.grantAccess(this.client.subscriptionId(), resourceGroupName, diskName, apiVersion, grantAccessData, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.grantAccess(this.client.subscriptionId(), resourceGroupName, diskName, apiVersion, grantAccessData, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<AccessUriInner>() { }.getType());
-        }
+    }
 
     /**
      * Grants access to a disk.
@@ -1155,10 +1154,9 @@ public class DisksInner implements InnerSupportsGet<DiskInner>, InnerSupportsDel
             throw new IllegalArgumentException("Parameter diskName is required and cannot be null.");
         }
         final String apiVersion = "2018-04-01";
-        Observable<Response<ResponseBody>
-        > observable = service.revokeAccess(this.client.subscriptionId(), resourceGroupName, diskName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.revokeAccess(this.client.subscriptionId(), resourceGroupName, diskName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Revokes access to a disk.

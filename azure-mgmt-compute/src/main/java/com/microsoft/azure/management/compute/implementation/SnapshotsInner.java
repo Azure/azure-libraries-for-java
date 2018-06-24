@@ -995,10 +995,9 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
         }
         Validator.validate(grantAccessData);
         final String apiVersion = "2018-04-01";
-        Observable<Response<ResponseBody>
-        > observable = service.grantAccess(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, grantAccessData, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.grantAccess(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, grantAccessData, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<AccessUriInner>() { }.getType());
-        }
+    }
 
     /**
      * Grants access to a snapshot.
@@ -1155,10 +1154,9 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
             throw new IllegalArgumentException("Parameter snapshotName is required and cannot be null.");
         }
         final String apiVersion = "2018-04-01";
-        Observable<Response<ResponseBody>
-        > observable = service.revokeAccess(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.revokeAccess(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<Void>() { }.getType());
-        }
+    }
 
     /**
      * Revokes access to a snapshot.

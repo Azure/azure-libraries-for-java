@@ -8,9 +8,9 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.microsoft.azure.management.compute.implementation.ImageReferenceInner;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.compute.implementation.ImageReferenceInner;
 
 /**
  * Specifies the storage settings for the virtual machine disks.
@@ -45,7 +45,7 @@ public class StorageProfile {
     private List<DataDisk> dataDisks;
 
     /**
-     * Get the imageReference value.
+     * Get specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.
      *
      * @return the imageReference value
      */
@@ -54,7 +54,7 @@ public class StorageProfile {
     }
 
     /**
-     * Set the imageReference value.
+     * Set specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.
      *
      * @param imageReference the imageReference value to set
      * @return the StorageProfile object itself.
@@ -65,7 +65,7 @@ public class StorageProfile {
     }
 
     /**
-     * Get the osDisk value.
+     * Get specifies information about the operating system disk used by the virtual machine. &lt;br&gt;&lt;br&gt; For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
      *
      * @return the osDisk value
      */
@@ -74,7 +74,7 @@ public class StorageProfile {
     }
 
     /**
-     * Set the osDisk value.
+     * Set specifies information about the operating system disk used by the virtual machine. &lt;br&gt;&lt;br&gt; For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
      *
      * @param osDisk the osDisk value to set
      * @return the StorageProfile object itself.
@@ -85,7 +85,7 @@ public class StorageProfile {
     }
 
     /**
-     * Get the dataDisks value.
+     * Get specifies the parameters that are used to add a data disk to a virtual machine. &lt;br&gt;&lt;br&gt; For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
      *
      * @return the dataDisks value
      */
@@ -94,7 +94,7 @@ public class StorageProfile {
     }
 
     /**
-     * Set the dataDisks value.
+     * Set specifies the parameters that are used to add a data disk to a virtual machine. &lt;br&gt;&lt;br&gt; For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
      *
      * @param dataDisks the dataDisks value to set
      * @return the StorageProfile object itself.

@@ -10,11 +10,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.DataDisk;
 import com.microsoft.azure.management.compute.HardwareProfile;
+import com.microsoft.azure.management.compute.NetworkInterfaceReference;
 import com.microsoft.azure.management.compute.NetworkProfile;
 import com.microsoft.azure.management.compute.OSDisk;
 import com.microsoft.azure.management.compute.OSProfile;
 import com.microsoft.azure.management.compute.StorageProfile;
 import com.microsoft.azure.management.compute.VirtualMachine;
+import com.microsoft.azure.management.compute.VirtualMachineCaptureParameters;
 import com.microsoft.azure.management.compute.VirtualMachineSizes;
 import com.microsoft.azure.management.compute.VirtualMachines;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
@@ -165,7 +167,7 @@ class VirtualMachinesImpl
 
     @Override
     public Observable<String> captureAsync(String groupName, String name, String containerName, String vhdPrefix, boolean overwriteVhd) {
-        VirtualMachineCaptureParametersInner parameters = new VirtualMachineCaptureParametersInner();
+        VirtualMachineCaptureParameters parameters = new VirtualMachineCaptureParameters();
         parameters.withDestinationContainerName(containerName);
         parameters.withOverwriteVhds(overwriteVhd);
         parameters.withVhdPrefix(vhdPrefix);
@@ -179,7 +181,7 @@ class VirtualMachinesImpl
                         ObjectMapper mapper = new ObjectMapper();
                         //Object to JSON string
                         try {
-                            return mapper.writeValueAsString(innerResult.output());
+                            return mapper.writeValueAsString(innerResult);
                         } catch (JsonProcessingException e) {
                             throw Exceptions.propagate(e);
                         }
@@ -225,7 +227,7 @@ class VirtualMachinesImpl
         inner.withOsProfile(new OSProfile());
         inner.withHardwareProfile(new HardwareProfile());
         inner.withNetworkProfile(new NetworkProfile()
-                .withNetworkInterfaces(new ArrayList<NetworkInterfaceReferenceInner>()));
+                .withNetworkInterfaces(new ArrayList<NetworkInterfaceReference>()));
         return new VirtualMachineImpl(name,
                 inner,
                 this.manager(),

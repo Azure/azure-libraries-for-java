@@ -8,6 +8,7 @@ package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.AccessLevel;
+import com.microsoft.azure.management.compute.GrantAccessData;
 import com.microsoft.azure.management.compute.Snapshot;
 import com.microsoft.azure.management.compute.Snapshots;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
@@ -36,7 +37,7 @@ class SnapshotsImpl
 
     @Override
     public Observable<String> grantAccessAsync(String resourceGroupName, String snapshotName, AccessLevel accessLevel, int accessDuration) {
-        GrantAccessDataInner grantAccessDataInner = new GrantAccessDataInner();
+        GrantAccessData grantAccessDataInner = new GrantAccessData();
         grantAccessDataInner.withAccess(accessLevel)
                 .withDurationInSeconds(accessDuration);
         return this.inner().grantAccessAsync(resourceGroupName, snapshotName, grantAccessDataInner)

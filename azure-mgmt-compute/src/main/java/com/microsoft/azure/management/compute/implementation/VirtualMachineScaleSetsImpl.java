@@ -7,6 +7,8 @@ package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetIPConfiguration;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetNetworkConfiguration;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetNetworkProfile;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetOSDisk;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetOSProfile;
@@ -146,16 +148,16 @@ public class VirtualMachineScaleSetsImpl
 
         inner.virtualMachineProfile()
                 .networkProfile()
-                .withNetworkInterfaceConfigurations(new ArrayList<VirtualMachineScaleSetNetworkConfigurationInner>());
+                .withNetworkInterfaceConfigurations(new ArrayList<VirtualMachineScaleSetNetworkConfiguration>());
 
-        VirtualMachineScaleSetNetworkConfigurationInner primaryNetworkInterfaceConfiguration =
-                new VirtualMachineScaleSetNetworkConfigurationInner()
+        VirtualMachineScaleSetNetworkConfiguration primaryNetworkInterfaceConfiguration =
+                new VirtualMachineScaleSetNetworkConfiguration()
                         .withPrimary(true)
                         .withName("primary-nic-cfg")
-                        .withIpConfigurations(new ArrayList<VirtualMachineScaleSetIPConfigurationInner>());
+                        .withIpConfigurations(new ArrayList<VirtualMachineScaleSetIPConfiguration>());
         primaryNetworkInterfaceConfiguration
                 .ipConfigurations()
-                .add(new VirtualMachineScaleSetIPConfigurationInner()
+                .add(new VirtualMachineScaleSetIPConfiguration()
                         .withName("primary-nic-ip-cfg"));
 
         inner.virtualMachineProfile()

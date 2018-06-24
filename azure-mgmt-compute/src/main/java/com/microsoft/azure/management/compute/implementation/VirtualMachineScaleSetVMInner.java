@@ -18,7 +18,6 @@ import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.compute.Plan;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
 
@@ -56,7 +55,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      * The virtual machine instance view.
      */
     @JsonProperty(value = "properties.instanceView", access = JsonProperty.Access.WRITE_ONLY)
-    private VirtualMachineInstanceView instanceView;
+    private VirtualMachineInstanceViewInner instanceView;
 
     /**
      * Specifies the hardware settings for the virtual machine.
@@ -146,7 +145,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     private List<VirtualMachineExtensionInner> resources;
 
     /**
-     * Get the instanceId value.
+     * Get the virtual machine instance ID.
      *
      * @return the instanceId value
      */
@@ -155,7 +154,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Get the sku value.
+     * Get the virtual machine SKU.
      *
      * @return the sku value
      */
@@ -164,7 +163,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Get the latestModelApplied value.
+     * Get specifies whether the latest model has been applied to the virtual machine.
      *
      * @return the latestModelApplied value
      */
@@ -173,7 +172,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Get the vmId value.
+     * Get azure VM unique ID.
      *
      * @return the vmId value
      */
@@ -182,16 +181,16 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Get the instanceView value.
+     * Get the virtual machine instance view.
      *
      * @return the instanceView value
      */
-    public VirtualMachineInstanceView instanceView() {
+    public VirtualMachineInstanceViewInner instanceView() {
         return this.instanceView;
     }
 
     /**
-     * Get the hardwareProfile value.
+     * Get specifies the hardware settings for the virtual machine.
      *
      * @return the hardwareProfile value
      */
@@ -200,7 +199,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Set the hardwareProfile value.
+     * Set specifies the hardware settings for the virtual machine.
      *
      * @param hardwareProfile the hardwareProfile value to set
      * @return the VirtualMachineScaleSetVMInner object itself.
@@ -211,7 +210,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Get the storageProfile value.
+     * Get specifies the storage settings for the virtual machine disks.
      *
      * @return the storageProfile value
      */
@@ -220,7 +219,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Set the storageProfile value.
+     * Set specifies the storage settings for the virtual machine disks.
      *
      * @param storageProfile the storageProfile value to set
      * @return the VirtualMachineScaleSetVMInner object itself.
@@ -231,7 +230,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Get the osProfile value.
+     * Get specifies the operating system settings for the virtual machine.
      *
      * @return the osProfile value
      */
@@ -240,7 +239,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Set the osProfile value.
+     * Set specifies the operating system settings for the virtual machine.
      *
      * @param osProfile the osProfile value to set
      * @return the VirtualMachineScaleSetVMInner object itself.
@@ -251,7 +250,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Get the networkProfile value.
+     * Get specifies the network interfaces of the virtual machine.
      *
      * @return the networkProfile value
      */
@@ -260,7 +259,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Set the networkProfile value.
+     * Set specifies the network interfaces of the virtual machine.
      *
      * @param networkProfile the networkProfile value to set
      * @return the VirtualMachineScaleSetVMInner object itself.
@@ -271,7 +270,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Get the diagnosticsProfile value.
+     * Get specifies the boot diagnostic settings state. &lt;br&gt;&lt;br&gt;Minimum api-version: 2015-06-15.
      *
      * @return the diagnosticsProfile value
      */
@@ -280,7 +279,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Set the diagnosticsProfile value.
+     * Set specifies the boot diagnostic settings state. &lt;br&gt;&lt;br&gt;Minimum api-version: 2015-06-15.
      *
      * @param diagnosticsProfile the diagnosticsProfile value to set
      * @return the VirtualMachineScaleSetVMInner object itself.
@@ -291,7 +290,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Get the availabilitySet value.
+     * Get specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). &lt;br&gt;&lt;br&gt; For more information on Azure planned maintainance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set.
      *
      * @return the availabilitySet value
      */
@@ -300,7 +299,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Set the availabilitySet value.
+     * Set specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). &lt;br&gt;&lt;br&gt; For more information on Azure planned maintainance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set.
      *
      * @param availabilitySet the availabilitySet value to set
      * @return the VirtualMachineScaleSetVMInner object itself.
@@ -311,7 +310,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state, which only appears in the response.
      *
      * @return the provisioningState value
      */
@@ -320,7 +319,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Get the licenseType value.
+     * Get specifies that the image or disk that is being used was licensed on-premises. This element is only used for images that contain the Windows Server operating system. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; Windows_Client &lt;br&gt;&lt;br&gt; Windows_Server &lt;br&gt;&lt;br&gt; If this element is included in a request for an update, the value must match the initial value. This value cannot be updated. &lt;br&gt;&lt;br&gt; For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-hybrid-use-benefit-licensing?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Minimum api-version: 2015-06-15.
      *
      * @return the licenseType value
      */
@@ -329,7 +328,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Set the licenseType value.
+     * Set specifies that the image or disk that is being used was licensed on-premises. This element is only used for images that contain the Windows Server operating system. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; Windows_Client &lt;br&gt;&lt;br&gt; Windows_Server &lt;br&gt;&lt;br&gt; If this element is included in a request for an update, the value must match the initial value. This value cannot be updated. &lt;br&gt;&lt;br&gt; For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-hybrid-use-benefit-licensing?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Minimum api-version: 2015-06-15.
      *
      * @param licenseType the licenseType value to set
      * @return the VirtualMachineScaleSetVMInner object itself.
@@ -340,7 +339,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Get the plan value.
+     * Get specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started -&gt;**. Enter any required information and then click **Save**.
      *
      * @return the plan value
      */
@@ -349,7 +348,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Set the plan value.
+     * Set specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started -&gt;**. Enter any required information and then click **Save**.
      *
      * @param plan the plan value to set
      * @return the VirtualMachineScaleSetVMInner object itself.
@@ -360,7 +359,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Get the resources value.
+     * Get the virtual machine child extension resources.
      *
      * @return the resources value
      */

@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.management.compute.implementation.InstanceViewStatusInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -18,14 +19,14 @@ public class VirtualMachineHealthStatus {
      * The health status information for the VM.
      */
     @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
-    private InstanceViewStatus status;
+    private InstanceViewStatusInner status;
 
     /**
-     * Get the status value.
+     * Get the health status information for the VM.
      *
      * @return the status value
      */
-    public InstanceViewStatus status() {
+    public InstanceViewStatusInner status() {
         return this.status;
     }
 

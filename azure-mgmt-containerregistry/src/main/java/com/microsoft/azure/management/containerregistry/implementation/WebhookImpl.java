@@ -12,8 +12,10 @@ import com.microsoft.azure.management.containerregistry.ProvisioningState;
 import com.microsoft.azure.management.containerregistry.Registry;
 import com.microsoft.azure.management.containerregistry.Webhook;
 import com.microsoft.azure.management.containerregistry.WebhookAction;
+import com.microsoft.azure.management.containerregistry.WebhookCreateParameters;
 import com.microsoft.azure.management.containerregistry.WebhookEventInfo;
 import com.microsoft.azure.management.containerregistry.WebhookStatus;
+import com.microsoft.azure.management.containerregistry.WebhookUpdateParameters;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
@@ -44,8 +46,8 @@ public class WebhookImpl
         Webhook.UpdateResource<Registry.Update>,
         Webhook.Update {
 
-    private WebhookCreateParametersInner webhookCreateParametersInner;
-    private WebhookUpdateParametersInner webhookUpdateParametersInner;
+    private WebhookCreateParameters webhookCreateParameters;
+    private WebhookUpdateParameters webhookUpdateParameters;
 
     private Map<String, String> tags;
     private Map<String, String> customHeaders;
@@ -95,8 +97,8 @@ public class WebhookImpl
     }
 
     private void initCreateUpdateParams() {
-        this.webhookCreateParametersInner = null;
-        this.webhookUpdateParametersInner = null;
+        this.webhookCreateParameters = null;
+        this.webhookUpdateParameters = null;
         this.isInCreateMode = false;
     }
 
@@ -245,16 +247,16 @@ public class WebhookImpl
     @Override
     public Observable<Webhook> createResourceAsync() {
         final WebhookImpl self = this;
-        if (webhookCreateParametersInner != null) {
+        if (webhookCreateParameters != null) {
             return this.containerRegistryManager.inner().webhooks()
                 .createAsync(self.resourceGroupName,
                     this.registryName,
                     this.name(),
-                    this.webhookCreateParametersInner)
+                    this.webhookCreateParameters)
                 .map(new Func1<WebhookInner, WebhookImpl>() {
                     @Override
                     public WebhookImpl call(WebhookInner inner) {
-                        self.webhookCreateParametersInner = null;
+                        self.webhookCreateParameters = null;
                         self.setInner(inner);
                         return self;
                     }
@@ -297,17 +299,17 @@ public class WebhookImpl
     @Override
     public Observable<Webhook> updateResourceAsync() {
         final WebhookImpl self = this;
-        if (webhookUpdateParametersInner != null) {
+        if (webhookUpdateParameters != null) {
             return this.containerRegistryManager.inner().webhooks()
                 .updateAsync(self.resourceGroupName,
                     self.registryName,
                     self.name(),
-                    self.webhookUpdateParametersInner)
+                    self.webhookUpdateParameters)
                 .map(new Func1<WebhookInner, WebhookImpl>() {
                     @Override
                     public WebhookImpl call(WebhookInner inner) {
                         self.setInner(inner);
-                        self.webhookUpdateParametersInner = null;
+                        self.webhookUpdateParameters = null;
                         return self;
                     }
                 }).flatMap(new Func1<WebhookImpl, Observable<Webhook>>() {
@@ -386,9 +388,9 @@ public class WebhookImpl
         this.isInCreateMode = isInCreateMode;
 
         if (this.isInCreateMode && parent() != null) {
-            this.webhookCreateParametersInner = new WebhookCreateParametersInner().withLocation(parent().regionName());
+            this.webhookCreateParameters = new WebhookCreateParameters().withLocation(parent().regionName());
         } else {
-            this.webhookUpdateParametersInner = new WebhookUpdateParametersInner();
+            this.webhookUpdateParameters = new WebhookUpdateParameters();
         }
 
         return this;
@@ -427,9 +429,9 @@ public class WebhookImpl
     public WebhookImpl withTriggerWhen(WebhookAction... webhookActions) {
         if (webhookActions != null) {
             if (this.isInCreateMode) {
-                ensureWebhookCreateParametersInner().withActions(Arrays.asList(webhookActions));
+                ensureWebhookCreateParameters().withActions(Arrays.asList(webhookActions));
             } else {
-                ensureWebhookUpdateParametersInner().withActions(Arrays.asList(webhookActions));
+                ensureWebhookUpdateParameters().withActions(Arrays.asList(webhookActions));
             }
         }
         return this;
@@ -439,9 +441,9 @@ public class WebhookImpl
     public WebhookImpl withServiceUri(String serviceUri) {
         if (serviceUri != null) {
             if (this.isInCreateMode) {
-                ensureWebhookCreateParametersInner().withServiceUri(serviceUri);
+                ensureWebhookCreateParameters().withServiceUri(serviceUri);
             } else {
-                ensureWebhookUpdateParametersInner().withServiceUri(serviceUri);
+                ensureWebhookUpdateParameters().withServiceUri(serviceUri);
             }
         }
         return this;
@@ -471,9 +473,9 @@ public class WebhookImpl
     public WebhookImpl withRepositoriesScope(String repositoriesScope) {
         if (repositoriesScope != null) {
             if (this.isInCreateMode) {
-                ensureWebhookCreateParametersInner().withScope(repositoriesScope);
+                ensureWebhookCreateParameters().withScope(repositoriesScope);
             } else {
-                ensureWebhookUpdateParametersInner().withScope(repositoriesScope);
+                ensureWebhookUpdateParameters().withScope(repositoriesScope);
             }
         }
         return this;
@@ -483,34 +485,34 @@ public class WebhookImpl
     public WebhookImpl enabled(boolean defaultStatus) {
         WebhookStatus status = defaultStatus ? WebhookStatus.ENABLED : WebhookStatus.DISABLED;
         if (this.isInCreateMode) {
-            ensureWebhookCreateParametersInner().withStatus(status);
+            ensureWebhookCreateParameters().withStatus(status);
         } else {
-            ensureWebhookUpdateParametersInner().withStatus(status);
+            ensureWebhookUpdateParameters().withStatus(status);
         }
         return this;
     }
 
-    private WebhookCreateParametersInner ensureWebhookCreateParametersInner() {
-        if (this.webhookCreateParametersInner == null && parent() != null) {
-            this.webhookCreateParametersInner = new WebhookCreateParametersInner().withLocation(parent().regionName());
+    private WebhookCreateParameters ensureWebhookCreateParameters() {
+        if (this.webhookCreateParameters == null && parent() != null) {
+            this.webhookCreateParameters = new WebhookCreateParameters().withLocation(parent().regionName());
         }
-        return this.webhookCreateParametersInner;
+        return this.webhookCreateParameters;
     }
 
-    private WebhookUpdateParametersInner ensureWebhookUpdateParametersInner() {
-        if (this.webhookUpdateParametersInner == null && parent() != null) {
-            this.webhookUpdateParametersInner = new WebhookUpdateParametersInner();
+    private WebhookUpdateParameters ensureWebhookUpdateParameters() {
+        if (this.webhookUpdateParameters == null && parent() != null) {
+            this.webhookUpdateParameters = new WebhookUpdateParameters();
         }
-        return this.webhookUpdateParametersInner;
+        return this.webhookUpdateParameters;
     }
 
     private Map<String, String> ensureValidTags() {
         if (this.tags == null) {
             this.tags = new HashMap<>();
             if (this.isInCreateMode) {
-                this.ensureWebhookCreateParametersInner().withTags(this.tags);
+                this.ensureWebhookCreateParameters().withTags(this.tags);
             } else {
-                this.ensureWebhookUpdateParametersInner().withTags(this.tags);
+                this.ensureWebhookUpdateParameters().withTags(this.tags);
             }
         }
         return this.tags;
@@ -520,9 +522,9 @@ public class WebhookImpl
         if (this.customHeaders == null) {
             this.customHeaders = new HashMap<>();
             if (this.isInCreateMode) {
-                this.ensureWebhookCreateParametersInner().withCustomHeaders(this.customHeaders);
+                this.ensureWebhookCreateParameters().withCustomHeaders(this.customHeaders);
             } else {
-                this.ensureWebhookUpdateParametersInner().withCustomHeaders(this.customHeaders);
+                this.ensureWebhookUpdateParameters().withCustomHeaders(this.customHeaders);
             }
         }
         return this.customHeaders;

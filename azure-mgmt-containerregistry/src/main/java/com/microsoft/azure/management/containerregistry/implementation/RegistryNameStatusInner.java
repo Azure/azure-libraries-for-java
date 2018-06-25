@@ -35,7 +35,7 @@ public class RegistryNameStatusInner {
     private String message;
 
     /**
-     * Get the nameAvailable value.
+     * Get the value that indicates whether the name is available.
      *
      * @return the nameAvailable value
      */
@@ -44,7 +44,7 @@ public class RegistryNameStatusInner {
     }
 
     /**
-     * Set the nameAvailable value.
+     * Set the value that indicates whether the name is available.
      *
      * @param nameAvailable the nameAvailable value to set
      * @return the RegistryNameStatusInner object itself.
@@ -55,7 +55,7 @@ public class RegistryNameStatusInner {
     }
 
     /**
-     * Get the reason value.
+     * Get if any, the reason that the name is not available.
      *
      * @return the reason value
      */
@@ -64,7 +64,7 @@ public class RegistryNameStatusInner {
     }
 
     /**
-     * Set the reason value.
+     * Set if any, the reason that the name is not available.
      *
      * @param reason the reason value to set
      * @return the RegistryNameStatusInner object itself.
@@ -75,7 +75,7 @@ public class RegistryNameStatusInner {
     }
 
     /**
-     * Get the message value.
+     * Get if any, the error message that provides more detail for the reason that the name is not available.
      *
      * @return the message value
      */
@@ -84,7 +84,7 @@ public class RegistryNameStatusInner {
     }
 
     /**
-     * Set the message value.
+     * Set if any, the error message that provides more detail for the reason that the name is not available.
      *
      * @param message the message value to set
      * @return the RegistryNameStatusInner object itself.

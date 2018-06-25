@@ -21,7 +21,7 @@ public class EventInfoInner {
     private String id;
 
     /**
-     * Get the id value.
+     * Get the event ID.
      *
      * @return the id value
      */
@@ -30,7 +30,7 @@ public class EventInfoInner {
     }
 
     /**
-     * Set the id value.
+     * Set the event ID.
      *
      * @param id the id value to set
      * @return the EventInfoInner object itself.

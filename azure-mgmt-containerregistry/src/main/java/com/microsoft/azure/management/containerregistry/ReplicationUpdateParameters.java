@@ -22,7 +22,7 @@ public class ReplicationUpdateParameters {
     private Map<String, String> tags;
 
     /**
-     * Get the tags value.
+     * Get the tags for the replication.
      *
      * @return the tags value
      */
@@ -31,7 +31,7 @@ public class ReplicationUpdateParameters {
     }
 
     /**
-     * Set the tags value.
+     * Set the tags for the replication.
      *
      * @param tags the tags value to set
      * @return the ReplicationUpdateParameters object itself.

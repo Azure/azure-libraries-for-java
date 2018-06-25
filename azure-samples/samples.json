@@ -523,31 +523,43 @@
       "owner": "lenala",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageNetworkWatcher.java",
       "githubPath": "Azure-Samples/network-java-use-new-watcher",
-      "description": "Getting started on using network watcher using Java"
+      "description": "Getting started on using network watcher using Java",
+      "product": "network-watcher"
     },
     {
       "owner": "lenala",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageVpnGatewaySite2SiteConnection.java",
       "githubPath": "Azure-Samples/network-java-manage-virtual-network-with-site-to-site-vpn-connection",
-      "description": "Manage virtual network with site-to-site VPN connection using Java"
+      "description": "Manage virtual network with site-to-site VPN connection using Java",
+      "product": "virtual-network"
     },
     {
       "owner": "lenala",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageVpnGatewayVNet2VNetConnection.java",
       "githubPath": "Azure-Samples/network-java-manage-virtual-network-to-virtual-network-vpn-connection",
-      "description": "Manage virtual network to virtual network VPN connection using Java"
+      "description": "Manage virtual network to virtual network VPN connection using Java",
+      "product": "virtual-network"
     },
     {
       "owner": "lenala",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageVpnGatewayPoint2SiteConnection.java",
       "githubPath": "Azure-Samples/network-java-manage-vpn-client-connection",
-      "description": "Getting started on managing client to virtual network VPN connection using Java"
+      "description": "Getting started on managing client to virtual network VPN connection using Java",
+      "product": "virtual-network"
     },
     {
       "owner": "lenala",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageExpressRoute.java",
       "githubPath": "Azure-Samples/network-java-manage-express-route",
-      "description": "Create and configure Express Route circuit using Java"
+      "description": "Create and configure Express Route circuit using Java",
+      "product": "virtual-network"
+    },
+    {
+      "owner": "lenala",
+      "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageExpressRouteCrossConnection.java",
+      "githubPath": "Azure-Samples/network-java-manage-express-route-cross-connection",
+      "description": "Configure Express Route Cross Connection using Java",
+      "product": "virtual-network"
     },
 
 
@@ -555,19 +567,22 @@
       "owner": "martinsawicki",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/CreateSimpleInternetFacingLoadBalancer.java",
       "githubPath": "Azure-Samples/network-java-create-simple-internet-facing-load-balancer",
-      "description": "Create a simple Internet Facing load balancer using Java"
+      "description": "Create a simple Internet Facing load balancer using Java",
+      "product": "virtual-network,load-balancer"
     },
     {
       "owner": "martinsawicki",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageNetworkPeeringInSameSubscription.java",
       "githubPath": "Azure-Samples/network-java-manage-network-peering",
-      "description": "Manage network peering between two virtual networks using Java"
+      "description": "Manage network peering between two virtual networks using Java",
+      "product": "virtual-network"
     },
     {
       "owner": "martinsawicki",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/VerifyNetworkPeeringWithNetworkWatcher.java",
       "githubPath": "Azure-Samples/network-java-use-network-watcher-to-check-connectivity",
-      "description": "Use network watcher to check connectivity between virtual machines in peered networks using Java"
+      "description": "Use network watcher to check connectivity between virtual machines in peered networks using Java",
+      "product": "network-watcher,virtual-network"
     },
     {
       "owner": "martinsawicki",
@@ -691,37 +706,43 @@
       "owner": "selvasingh",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageInternalLoadBalancer.java",
       "githubPath": "Azure-Samples/network-java-manage-internal-load-balancers",
-      "description": "Getting started on managing internal load balancers using Java"
+      "description": "Getting started on managing internal load balancers using Java",
+      "product": "virtual-network,load-balancer"
     },
     {
       "owner": "selvasingh",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageInternetFacingLoadBalancer.java",
       "githubPath": "Azure-Samples/network-java-manage-internet-facing-load-balancers",
-      "description": "Getting started on managing load balancers using Java"
+      "description": "Getting started on managing load balancers using Java",
+      "product": "virtual-network,load-balancer"
     },
     {
       "owner": "selvasingh",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageIPAddress.java",
       "githubPath": "Azure-Samples/network-java-manage-ip-address",
-      "description": "Manage IP addresses using Java - assign a Public IP Address for a Virtual Machine during create and through an update. Get the associated Public IP Name for a virtual machine, get the assigned Public IP Address for a virtual machine. Remove Public IP Address from a Virtual machine"
+      "description": "Manage IP addresses using Java - assign a Public IP Address for a Virtual Machine during create and through an update. Get the associated Public IP Name for a virtual machine, get the assigned Public IP Address for a virtual machine. Remove Public IP Address from a Virtual machine",
+      "product": "virtual-network"
     },
     {
       "owner": "selvasingh",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageNetworkInterface.java",
       "githubPath": "Azure-Samples/network-java-manage-network-interface",
-      "description": "Manage multiples network interfaces for VMs using Java - create a VM with multiple network interfaces, configure multiple network interfaces, list network interfaces, delete a network interface"
+      "description": "Manage multiples network interfaces for VMs using Java - create a VM with multiple network interfaces, configure multiple network interfaces, list network interfaces, delete a network interface",
+      "product": "virtual-network"
     },
     {
       "owner": "selvasingh",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageNetworkSecurityGroup.java",
       "githubPath": "Azure-Samples/network-java-manage-network-security-group",
-      "description": "Manage network security group (NSG) using Java - create an NSG for the front end subnet, create another for the backend subnet, and CRUD on NSG"
+      "description": "Manage network security group (NSG) using Java - create an NSG for the front end subnet, create another for the backend subnet, and CRUD on NSG",
+      "product": "virtual-network"
     },
     {
       "owner": "selvasingh",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageVirtualNetwork.java",
       "githubPath": "Azure-Samples/network-java-manage-virtual-network",
-      "description": "Manage virtual networks using Java - create a virtual network, create a virtual network with subnets, update a virtual network, list virtual networks, delete a virtual network"
+      "description": "Manage virtual networks using Java - create a virtual network, create a virtual network with subnets, update a virtual network, list virtual networks, delete a virtual network",
+      "product": "virtual-network"
     },
     {
       "owner": "selvasingh",
@@ -739,7 +760,8 @@
       "owner": "selvasingh",
       "filePath": "azure-samples/src/main/java/com/microsoft/azure/management/network/samples/ManageApplicationGateway.java",
       "githubPath": "Azure-Samples/application-gateway-java-manage-application-gateways",
-      "description": "Getting started on managing Application Gateways with backend pools using Java"
+      "description": "Getting started on managing Application Gateways with backend pools using Java",
+      "product": "virtual-network"
 	}
   ]
 }

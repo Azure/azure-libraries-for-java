@@ -69,7 +69,7 @@ public class RegistryInner extends Resource {
     private StorageAccountProperties storageAccount;
 
     /**
-     * Get the sku value.
+     * Get the SKU of the container registry.
      *
      * @return the sku value
      */
@@ -78,7 +78,7 @@ public class RegistryInner extends Resource {
     }
 
     /**
-     * Set the sku value.
+     * Set the SKU of the container registry.
      *
      * @param sku the sku value to set
      * @return the RegistryInner object itself.
@@ -89,7 +89,7 @@ public class RegistryInner extends Resource {
     }
 
     /**
-     * Get the loginServer value.
+     * Get the URL that can be used to log into the container registry.
      *
      * @return the loginServer value
      */
@@ -98,7 +98,7 @@ public class RegistryInner extends Resource {
     }
 
     /**
-     * Get the creationDate value.
+     * Get the creation date of the container registry in ISO8601 format.
      *
      * @return the creationDate value
      */
@@ -107,7 +107,7 @@ public class RegistryInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the container registry at the time the operation was called. Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'.
      *
      * @return the provisioningState value
      */
@@ -116,7 +116,7 @@ public class RegistryInner extends Resource {
     }
 
     /**
-     * Get the status value.
+     * Get the status of the container registry at the time the operation was called.
      *
      * @return the status value
      */
@@ -125,7 +125,7 @@ public class RegistryInner extends Resource {
     }
 
     /**
-     * Get the adminUserEnabled value.
+     * Get the value that indicates whether the admin user is enabled.
      *
      * @return the adminUserEnabled value
      */
@@ -134,7 +134,7 @@ public class RegistryInner extends Resource {
     }
 
     /**
-     * Set the adminUserEnabled value.
+     * Set the value that indicates whether the admin user is enabled.
      *
      * @param adminUserEnabled the adminUserEnabled value to set
      * @return the RegistryInner object itself.
@@ -145,7 +145,7 @@ public class RegistryInner extends Resource {
     }
 
     /**
-     * Get the storageAccount value.
+     * Get the properties of the storage account for the container registry. Only applicable to Classic SKU.
      *
      * @return the storageAccount value
      */
@@ -154,7 +154,7 @@ public class RegistryInner extends Resource {
     }
 
     /**
-     * Set the storageAccount value.
+     * Set the properties of the storage account for the container registry. Only applicable to Classic SKU.
      *
      * @param storageAccount the storageAccount value to set
      * @return the RegistryInner object itself.

@@ -46,7 +46,7 @@ public class EventRequestMessage {
     private String version;
 
     /**
-     * Get the content value.
+     * Get the content of the event request message.
      *
      * @return the content value
      */
@@ -55,7 +55,7 @@ public class EventRequestMessage {
     }
 
     /**
-     * Set the content value.
+     * Set the content of the event request message.
      *
      * @param content the content value to set
      * @return the EventRequestMessage object itself.
@@ -66,7 +66,7 @@ public class EventRequestMessage {
     }
 
     /**
-     * Get the headers value.
+     * Get the headers of the event request message.
      *
      * @return the headers value
      */
@@ -75,7 +75,7 @@ public class EventRequestMessage {
     }
 
     /**
-     * Set the headers value.
+     * Set the headers of the event request message.
      *
      * @param headers the headers value to set
      * @return the EventRequestMessage object itself.
@@ -86,7 +86,7 @@ public class EventRequestMessage {
     }
 
     /**
-     * Get the method value.
+     * Get the HTTP method used to send the event request message.
      *
      * @return the method value
      */
@@ -95,7 +95,7 @@ public class EventRequestMessage {
     }
 
     /**
-     * Set the method value.
+     * Set the HTTP method used to send the event request message.
      *
      * @param method the method value to set
      * @return the EventRequestMessage object itself.
@@ -106,7 +106,7 @@ public class EventRequestMessage {
     }
 
     /**
-     * Get the requestUri value.
+     * Get the URI used to send the event request message.
      *
      * @return the requestUri value
      */
@@ -115,7 +115,7 @@ public class EventRequestMessage {
     }
 
     /**
-     * Set the requestUri value.
+     * Set the URI used to send the event request message.
      *
      * @param requestUri the requestUri value to set
      * @return the EventRequestMessage object itself.
@@ -126,7 +126,7 @@ public class EventRequestMessage {
     }
 
     /**
-     * Get the version value.
+     * Get the HTTP message version.
      *
      * @return the version value
      */
@@ -135,7 +135,7 @@ public class EventRequestMessage {
     }
 
     /**
-     * Set the version value.
+     * Set the HTTP message version.
      *
      * @param version the version value to set
      * @return the EventRequestMessage object itself.

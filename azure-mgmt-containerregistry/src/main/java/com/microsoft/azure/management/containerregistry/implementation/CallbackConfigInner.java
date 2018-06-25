@@ -28,7 +28,7 @@ public class CallbackConfigInner {
     private Map<String, String> customHeaders;
 
     /**
-     * Get the serviceUri value.
+     * Get the service URI for the webhook to post notifications.
      *
      * @return the serviceUri value
      */
@@ -37,7 +37,7 @@ public class CallbackConfigInner {
     }
 
     /**
-     * Set the serviceUri value.
+     * Set the service URI for the webhook to post notifications.
      *
      * @param serviceUri the serviceUri value to set
      * @return the CallbackConfigInner object itself.
@@ -48,7 +48,7 @@ public class CallbackConfigInner {
     }
 
     /**
-     * Get the customHeaders value.
+     * Get custom headers that will be added to the webhook notifications.
      *
      * @return the customHeaders value
      */
@@ -57,7 +57,7 @@ public class CallbackConfigInner {
     }
 
     /**
-     * Set the customHeaders value.
+     * Set custom headers that will be added to the webhook notifications.
      *
      * @param customHeaders the customHeaders value to set
      * @return the CallbackConfigInner object itself.

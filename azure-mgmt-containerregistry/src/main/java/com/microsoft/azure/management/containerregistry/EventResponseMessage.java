@@ -46,7 +46,7 @@ public class EventResponseMessage {
     private String version;
 
     /**
-     * Get the content value.
+     * Get the content of the event response message.
      *
      * @return the content value
      */
@@ -55,7 +55,7 @@ public class EventResponseMessage {
     }
 
     /**
-     * Set the content value.
+     * Set the content of the event response message.
      *
      * @param content the content value to set
      * @return the EventResponseMessage object itself.
@@ -66,7 +66,7 @@ public class EventResponseMessage {
     }
 
     /**
-     * Get the headers value.
+     * Get the headers of the event response message.
      *
      * @return the headers value
      */
@@ -75,7 +75,7 @@ public class EventResponseMessage {
     }
 
     /**
-     * Set the headers value.
+     * Set the headers of the event response message.
      *
      * @param headers the headers value to set
      * @return the EventResponseMessage object itself.
@@ -86,7 +86,7 @@ public class EventResponseMessage {
     }
 
     /**
-     * Get the reasonPhrase value.
+     * Get the reason phrase of the event response message.
      *
      * @return the reasonPhrase value
      */
@@ -95,7 +95,7 @@ public class EventResponseMessage {
     }
 
     /**
-     * Set the reasonPhrase value.
+     * Set the reason phrase of the event response message.
      *
      * @param reasonPhrase the reasonPhrase value to set
      * @return the EventResponseMessage object itself.
@@ -106,7 +106,7 @@ public class EventResponseMessage {
     }
 
     /**
-     * Get the statusCode value.
+     * Get the status code of the event response message.
      *
      * @return the statusCode value
      */
@@ -115,7 +115,7 @@ public class EventResponseMessage {
     }
 
     /**
-     * Set the statusCode value.
+     * Set the status code of the event response message.
      *
      * @param statusCode the statusCode value to set
      * @return the EventResponseMessage object itself.
@@ -126,7 +126,7 @@ public class EventResponseMessage {
     }
 
     /**
-     * Get the version value.
+     * Get the HTTP message version.
      *
      * @return the version value
      */
@@ -135,7 +135,7 @@ public class EventResponseMessage {
     }
 
     /**
-     * Set the version value.
+     * Set the HTTP message version.
      *
      * @param version the version value to set
      * @return the EventResponseMessage object itself.

@@ -54,8 +54,8 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
   <tr>
     <td>Networking</td>
     <td>Virtual networks<br>Network interfaces<br>IP addresses<br>Routing table<br>Network security groups<br>Load balancers<br>Application gateways<br>DNS<br>Traffic managers</td>
-    <td valign="top">Network peering<br>Virtual Network Gateway<br>Network watchers<br>Express Route</td>
-    <td valign="top">VPN<br>More application gateway features</td>
+    <td valign="top">Network peering<br>Virtual Network Gateway<br>Network watchers<br>Express Route<br>Application Security Groups</td>
+    <td valign="top">More application gateway features</td>
   </tr>
   <tr>
     <td>More services</td>

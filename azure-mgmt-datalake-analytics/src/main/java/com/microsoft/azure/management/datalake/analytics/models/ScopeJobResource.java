@@ -15,19 +15,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ScopeJobResource {
     /**
-     * the name of the resource.
+     * The name of the resource.
      */
     @JsonProperty(value = "name")
     private String name;
 
     /**
-     * the path to the resource.
+     * The path to the resource.
      */
     @JsonProperty(value = "path")
     private String path;
 
     /**
-     * Get the name value.
+     * Get the name of the resource.
      *
      * @return the name value
      */
@@ -36,7 +36,7 @@ public class ScopeJobResource {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the resource.
      *
      * @param name the name value to set
      * @return the ScopeJobResource object itself.
@@ -47,7 +47,7 @@ public class ScopeJobResource {
     }
 
     /**
-     * Get the path value.
+     * Get the path to the resource.
      *
      * @return the path value
      */
@@ -56,7 +56,7 @@ public class ScopeJobResource {
     }
 
     /**
-     * Set the path value.
+     * Set the path to the resource.
      *
      * @param path the path value to set
      * @return the ScopeJobResource object itself.

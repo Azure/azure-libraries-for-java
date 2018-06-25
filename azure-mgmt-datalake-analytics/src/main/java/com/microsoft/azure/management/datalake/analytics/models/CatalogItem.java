@@ -28,7 +28,7 @@ public class CatalogItem {
     private UUID version;
 
     /**
-     * Get the computeAccountName value.
+     * Get the name of the Data Lake Analytics account.
      *
      * @return the computeAccountName value
      */
@@ -37,7 +37,7 @@ public class CatalogItem {
     }
 
     /**
-     * Set the computeAccountName value.
+     * Set the name of the Data Lake Analytics account.
      *
      * @param computeAccountName the computeAccountName value to set
      * @return the CatalogItem object itself.
@@ -48,7 +48,7 @@ public class CatalogItem {
     }
 
     /**
-     * Get the version value.
+     * Get the version of the catalog item.
      *
      * @return the version value
      */
@@ -57,7 +57,7 @@ public class CatalogItem {
     }
 
     /**
-     * Set the version value.
+     * Set the version of the catalog item.
      *
      * @param version the version value to set
      * @return the CatalogItem object itself.

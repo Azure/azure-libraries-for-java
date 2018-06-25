@@ -64,7 +64,7 @@ public class USqlTable extends CatalogItem {
     private USqlDistributionInfo distributionInfo;
 
     /**
-     * Get the databaseName value.
+     * Get the name of the database.
      *
      * @return the databaseName value
      */
@@ -73,7 +73,7 @@ public class USqlTable extends CatalogItem {
     }
 
     /**
-     * Set the databaseName value.
+     * Set the name of the database.
      *
      * @param databaseName the databaseName value to set
      * @return the USqlTable object itself.
@@ -84,7 +84,7 @@ public class USqlTable extends CatalogItem {
     }
 
     /**
-     * Get the schemaName value.
+     * Get the name of the schema associated with this table and database.
      *
      * @return the schemaName value
      */
@@ -93,7 +93,7 @@ public class USqlTable extends CatalogItem {
     }
 
     /**
-     * Set the schemaName value.
+     * Set the name of the schema associated with this table and database.
      *
      * @param schemaName the schemaName value to set
      * @return the USqlTable object itself.
@@ -104,7 +104,7 @@ public class USqlTable extends CatalogItem {
     }
 
     /**
-     * Get the name value.
+     * Get the name of the table.
      *
      * @return the name value
      */
@@ -113,7 +113,7 @@ public class USqlTable extends CatalogItem {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the table.
      *
      * @param name the name value to set
      * @return the USqlTable object itself.
@@ -124,7 +124,7 @@ public class USqlTable extends CatalogItem {
     }
 
     /**
-     * Get the columnList value.
+     * Get the list of columns in this table.
      *
      * @return the columnList value
      */
@@ -133,7 +133,7 @@ public class USqlTable extends CatalogItem {
     }
 
     /**
-     * Set the columnList value.
+     * Set the list of columns in this table.
      *
      * @param columnList the columnList value to set
      * @return the USqlTable object itself.
@@ -144,7 +144,7 @@ public class USqlTable extends CatalogItem {
     }
 
     /**
-     * Get the indexList value.
+     * Get the list of indices in this table.
      *
      * @return the indexList value
      */
@@ -153,7 +153,7 @@ public class USqlTable extends CatalogItem {
     }
 
     /**
-     * Set the indexList value.
+     * Set the list of indices in this table.
      *
      * @param indexList the indexList value to set
      * @return the USqlTable object itself.
@@ -164,7 +164,7 @@ public class USqlTable extends CatalogItem {
     }
 
     /**
-     * Get the partitionKeyList value.
+     * Get the list of partition keys in the table.
      *
      * @return the partitionKeyList value
      */
@@ -173,7 +173,7 @@ public class USqlTable extends CatalogItem {
     }
 
     /**
-     * Set the partitionKeyList value.
+     * Set the list of partition keys in the table.
      *
      * @param partitionKeyList the partitionKeyList value to set
      * @return the USqlTable object itself.
@@ -184,7 +184,7 @@ public class USqlTable extends CatalogItem {
     }
 
     /**
-     * Get the externalTable value.
+     * Get the external table associated with the table.
      *
      * @return the externalTable value
      */
@@ -193,7 +193,7 @@ public class USqlTable extends CatalogItem {
     }
 
     /**
-     * Set the externalTable value.
+     * Set the external table associated with the table.
      *
      * @param externalTable the externalTable value to set
      * @return the USqlTable object itself.
@@ -204,7 +204,7 @@ public class USqlTable extends CatalogItem {
     }
 
     /**
-     * Get the distributionInfo value.
+     * Get the distributions info of the table.
      *
      * @return the distributionInfo value
      */
@@ -213,7 +213,7 @@ public class USqlTable extends CatalogItem {
     }
 
     /**
-     * Set the distributionInfo value.
+     * Set the distributions info of the table.
      *
      * @param distributionInfo the distributionInfo value to set
      * @return the USqlTable object itself.

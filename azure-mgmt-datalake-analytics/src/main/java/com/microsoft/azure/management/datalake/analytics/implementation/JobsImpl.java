@@ -8,14 +8,13 @@
 
 package com.microsoft.azure.management.datalake.analytics.implementation;
 
+import retrofit2.Retrofit;
+import com.microsoft.azure.management.datalake.analytics.Jobs;
 import com.google.common.base.Joiner;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.datalake.analytics.Jobs;
 import com.microsoft.azure.management.datalake.analytics.models.BuildJobParameters;
 import com.microsoft.azure.management.datalake.analytics.models.CreateJobParameters;
 import com.microsoft.azure.management.datalake.analytics.models.JobDataPath;
@@ -24,29 +23,29 @@ import com.microsoft.azure.management.datalake.analytics.models.JobInformationBa
 import com.microsoft.azure.management.datalake.analytics.models.JobStatistics;
 import com.microsoft.azure.management.datalake.analytics.models.PageImpl;
 import com.microsoft.azure.management.datalake.analytics.models.UpdateJobParameters;
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 import okhttp3.ResponseBody;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
+import retrofit2.http.Path;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
-import rx.Observable;
+import retrofit2.Response;
 import rx.functions.Func1;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
+import rx.Observable;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -74,55 +73,55 @@ public class JobsImpl implements Jobs {
      * used by Retrofit to perform actually REST calls.
      */
     interface JobsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Jobs list" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Jobs list" })
         @GET("jobs")
         Observable<Response<ResponseBody>> list(@Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Jobs create" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Jobs create" })
         @PUT("jobs/{jobIdentity}")
         Observable<Response<ResponseBody>> create(@Path("jobIdentity") UUID jobIdentity, @Body CreateJobParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Jobs get" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Jobs get" })
         @GET("jobs/{jobIdentity}")
         Observable<Response<ResponseBody>> get(@Path("jobIdentity") UUID jobIdentity, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Jobs update" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Jobs update" })
         @PATCH("jobs/{jobIdentity}")
         Observable<Response<ResponseBody>> update(@Path("jobIdentity") UUID jobIdentity, @Body UpdateJobParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Jobs beginUpdate" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Jobs beginUpdate" })
         @PATCH("jobs/{jobIdentity}")
         Observable<Response<ResponseBody>> beginUpdate(@Path("jobIdentity") UUID jobIdentity, @Body UpdateJobParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Jobs getStatistics" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Jobs getStatistics" })
         @GET("jobs/{jobIdentity}/GetStatistics")
         Observable<Response<ResponseBody>> getStatistics(@Path("jobIdentity") UUID jobIdentity, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Jobs getDebugDataPath" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Jobs getDebugDataPath" })
         @GET("jobs/{jobIdentity}/GetDebugDataPath")
         Observable<Response<ResponseBody>> getDebugDataPath(@Path("jobIdentity") UUID jobIdentity, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Jobs cancel" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Jobs cancel" })
         @POST("jobs/{jobIdentity}/CancelJob")
         Observable<Response<ResponseBody>> cancel(@Path("jobIdentity") UUID jobIdentity, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Jobs beginCancel" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Jobs beginCancel" })
         @POST("jobs/{jobIdentity}/CancelJob")
         Observable<Response<ResponseBody>> beginCancel(@Path("jobIdentity") UUID jobIdentity, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Jobs yield" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Jobs yield" })
         @POST("jobs/{jobIdentity}/YieldJob")
         Observable<Response<ResponseBody>> yield(@Path("jobIdentity") UUID jobIdentity, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Jobs beginYield" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Jobs beginYield" })
         @POST("jobs/{jobIdentity}/YieldJob")
         Observable<Response<ResponseBody>> beginYield(@Path("jobIdentity") UUID jobIdentity, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Jobs build" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Jobs build" })
         @POST("buildJob")
         Observable<Response<ResponseBody>> build(@Body BuildJobParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Jobs listNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Jobs listNext" })
         @GET
         Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
@@ -382,7 +381,7 @@ public class JobsImpl implements Jobs {
             });
     }
 
-    private ServiceResponse<PageImpl<JobInformationBasic>> listDelegate(Response<ResponseBody> response) throws CloudException, IllegalArgumentException, IOException {
+    private ServiceResponse<PageImpl<JobInformationBasic>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<JobInformationBasic>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<JobInformationBasic>>() { }.getType())
                 .registerError(CloudException.class)
@@ -477,7 +476,7 @@ public class JobsImpl implements Jobs {
             });
     }
 
-    private ServiceResponse<JobInformation> createDelegate(Response<ResponseBody> response) throws CloudException, IllegalArgumentException, IOException {
+    private ServiceResponse<JobInformation> createDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<JobInformation, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<JobInformation>() { }.getType())
                 .registerError(CloudException.class)
@@ -564,7 +563,7 @@ public class JobsImpl implements Jobs {
             });
     }
 
-    private ServiceResponse<JobInformation> getDelegate(Response<ResponseBody> response) throws CloudException, IllegalArgumentException, IOException {
+    private ServiceResponse<JobInformation> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<JobInformation, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<JobInformation>() { }.getType())
                 .registerError(CloudException.class)
@@ -882,7 +881,7 @@ public class JobsImpl implements Jobs {
             });
     }
 
-    private ServiceResponse<JobInformation> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IllegalArgumentException, IOException {
+    private ServiceResponse<JobInformation> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<JobInformation, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<JobInformation>() { }.getType())
                 .register(201, new TypeToken<Void>() { }.getType())
@@ -971,7 +970,7 @@ public class JobsImpl implements Jobs {
             });
     }
 
-    private ServiceResponse<JobStatistics> getStatisticsDelegate(Response<ResponseBody> response) throws CloudException, IllegalArgumentException, IOException {
+    private ServiceResponse<JobStatistics> getStatisticsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<JobStatistics, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<JobStatistics>() { }.getType())
                 .registerError(CloudException.class)
@@ -1058,7 +1057,7 @@ public class JobsImpl implements Jobs {
             });
     }
 
-    private ServiceResponse<JobDataPath> getDebugDataPathDelegate(Response<ResponseBody> response) throws CloudException, IllegalArgumentException, IOException {
+    private ServiceResponse<JobDataPath> getDebugDataPathDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<JobDataPath, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<JobDataPath>() { }.getType())
                 .registerError(CloudException.class)
@@ -1213,7 +1212,7 @@ public class JobsImpl implements Jobs {
             });
     }
 
-    private ServiceResponse<Void> beginCancelDelegate(Response<ResponseBody> response) throws CloudException, IllegalArgumentException, IOException {
+    private ServiceResponse<Void> beginCancelDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
@@ -1370,7 +1369,7 @@ public class JobsImpl implements Jobs {
             });
     }
 
-    private ServiceResponse<Void> beginYieldDelegate(Response<ResponseBody> response) throws CloudException, IllegalArgumentException, IOException {
+    private ServiceResponse<Void> beginYieldDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
@@ -1460,7 +1459,7 @@ public class JobsImpl implements Jobs {
             });
     }
 
-    private ServiceResponse<JobInformation> buildDelegate(Response<ResponseBody> response) throws CloudException, IllegalArgumentException, IOException {
+    private ServiceResponse<JobInformation> buildDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<JobInformation, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<JobInformation>() { }.getType())
                 .registerError(CloudException.class)
@@ -1571,7 +1570,7 @@ public class JobsImpl implements Jobs {
             });
     }
 
-    private ServiceResponse<PageImpl<JobInformationBasic>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IllegalArgumentException, IOException {
+    private ServiceResponse<PageImpl<JobInformationBasic>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<JobInformationBasic>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<JobInformationBasic>>() { }.getType())
                 .registerError(CloudException.class)

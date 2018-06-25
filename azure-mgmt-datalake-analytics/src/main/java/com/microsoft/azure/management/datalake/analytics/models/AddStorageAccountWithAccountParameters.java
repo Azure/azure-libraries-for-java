@@ -37,7 +37,7 @@ public class AddStorageAccountWithAccountParameters {
     private String suffix;
 
     /**
-     * Get the name value.
+     * Get the unique name of the Azure Storage account to add.
      *
      * @return the name value
      */
@@ -46,7 +46,7 @@ public class AddStorageAccountWithAccountParameters {
     }
 
     /**
-     * Set the name value.
+     * Set the unique name of the Azure Storage account to add.
      *
      * @param name the name value to set
      * @return the AddStorageAccountWithAccountParameters object itself.
@@ -57,7 +57,7 @@ public class AddStorageAccountWithAccountParameters {
     }
 
     /**
-     * Get the accessKey value.
+     * Get the access key associated with this Azure Storage account that will be used to connect to it.
      *
      * @return the accessKey value
      */
@@ -66,7 +66,7 @@ public class AddStorageAccountWithAccountParameters {
     }
 
     /**
-     * Set the accessKey value.
+     * Set the access key associated with this Azure Storage account that will be used to connect to it.
      *
      * @param accessKey the accessKey value to set
      * @return the AddStorageAccountWithAccountParameters object itself.
@@ -77,7 +77,7 @@ public class AddStorageAccountWithAccountParameters {
     }
 
     /**
-     * Get the suffix value.
+     * Get the optional suffix for the storage account.
      *
      * @return the suffix value
      */
@@ -86,7 +86,7 @@ public class AddStorageAccountWithAccountParameters {
     }
 
     /**
-     * Set the suffix value.
+     * Set the optional suffix for the storage account.
      *
      * @param suffix the suffix value to set
      * @return the AddStorageAccountWithAccountParameters object itself.

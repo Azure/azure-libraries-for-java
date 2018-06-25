@@ -8,9 +8,8 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Subscription-level properties and limits for Data Lake Analytics.
@@ -48,7 +47,7 @@ public class CapabilityInformation {
     private Boolean migrationState;
 
     /**
-     * Get the subscriptionId value.
+     * Get the subscription credentials that uniquely identifies the subscription.
      *
      * @return the subscriptionId value
      */
@@ -57,7 +56,7 @@ public class CapabilityInformation {
     }
 
     /**
-     * Get the state value.
+     * Get the subscription state. Possible values include: 'Registered', 'Suspended', 'Deleted', 'Unregistered', 'Warned'.
      *
      * @return the state value
      */
@@ -66,7 +65,7 @@ public class CapabilityInformation {
     }
 
     /**
-     * Get the maxAccountCount value.
+     * Get the maximum supported number of accounts under this subscription.
      *
      * @return the maxAccountCount value
      */
@@ -75,7 +74,7 @@ public class CapabilityInformation {
     }
 
     /**
-     * Get the accountCount value.
+     * Get the current number of accounts under this subscription.
      *
      * @return the accountCount value
      */
@@ -84,7 +83,7 @@ public class CapabilityInformation {
     }
 
     /**
-     * Get the migrationState value.
+     * Get the Boolean value of true or false to indicate the maintenance state.
      *
      * @return the migrationState value
      */

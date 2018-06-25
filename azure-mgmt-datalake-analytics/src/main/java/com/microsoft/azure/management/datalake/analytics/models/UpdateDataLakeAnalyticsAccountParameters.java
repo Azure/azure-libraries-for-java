@@ -44,15 +44,16 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     private List<UpdateComputePolicyWithAccountParameters> computePolicies;
 
     /**
-     * The list of firewall rules associated with this Data Lake Analytics
-     * account.
+     * The list of firewall rules associated with this account.
      */
     @JsonProperty(value = "properties.firewallRules")
     private List<UpdateFirewallRuleWithAccountParameters> firewallRules;
 
     /**
-     * The current state of the IP address firewall for this Data Lake
-     * Analytics account. Possible values include: 'Enabled', 'Disabled'.
+     * The current state of the IP address firewall for this account. Disabling
+     * the firewall does not remove existing rules, they will just be ignored
+     * until the firewall is re-enabled. Possible values include: 'Enabled',
+     * 'Disabled'.
      */
     @JsonProperty(value = "properties.firewallState")
     private FirewallState firewallState;
@@ -106,7 +107,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     private Integer queryStoreRetention;
 
     /**
-     * Get the tags value.
+     * Get the resource tags.
      *
      * @return the tags value
      */
@@ -115,7 +116,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Set the tags value.
+     * Set the resource tags.
      *
      * @param tags the tags value to set
      * @return the UpdateDataLakeAnalyticsAccountParameters object itself.
@@ -126,7 +127,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Get the dataLakeStoreAccounts value.
+     * Get the list of Data Lake Store accounts associated with this account.
      *
      * @return the dataLakeStoreAccounts value
      */
@@ -135,7 +136,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Set the dataLakeStoreAccounts value.
+     * Set the list of Data Lake Store accounts associated with this account.
      *
      * @param dataLakeStoreAccounts the dataLakeStoreAccounts value to set
      * @return the UpdateDataLakeAnalyticsAccountParameters object itself.
@@ -146,7 +147,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Get the storageAccounts value.
+     * Get the list of Azure Blob storage accounts associated with this account.
      *
      * @return the storageAccounts value
      */
@@ -155,7 +156,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Set the storageAccounts value.
+     * Set the list of Azure Blob storage accounts associated with this account.
      *
      * @param storageAccounts the storageAccounts value to set
      * @return the UpdateDataLakeAnalyticsAccountParameters object itself.
@@ -166,7 +167,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Get the computePolicies value.
+     * Get the list of compute policies associated with this account.
      *
      * @return the computePolicies value
      */
@@ -175,7 +176,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Set the computePolicies value.
+     * Set the list of compute policies associated with this account.
      *
      * @param computePolicies the computePolicies value to set
      * @return the UpdateDataLakeAnalyticsAccountParameters object itself.
@@ -186,7 +187,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Get the firewallRules value.
+     * Get the list of firewall rules associated with this account.
      *
      * @return the firewallRules value
      */
@@ -195,7 +196,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Set the firewallRules value.
+     * Set the list of firewall rules associated with this account.
      *
      * @param firewallRules the firewallRules value to set
      * @return the UpdateDataLakeAnalyticsAccountParameters object itself.
@@ -206,7 +207,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Get the firewallState value.
+     * Get the current state of the IP address firewall for this account. Disabling the firewall does not remove existing rules, they will just be ignored until the firewall is re-enabled. Possible values include: 'Enabled', 'Disabled'.
      *
      * @return the firewallState value
      */
@@ -215,7 +216,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Set the firewallState value.
+     * Set the current state of the IP address firewall for this account. Disabling the firewall does not remove existing rules, they will just be ignored until the firewall is re-enabled. Possible values include: 'Enabled', 'Disabled'.
      *
      * @param firewallState the firewallState value to set
      * @return the UpdateDataLakeAnalyticsAccountParameters object itself.
@@ -226,7 +227,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Get the firewallAllowAzureIps value.
+     * Get the current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. Possible values include: 'Enabled', 'Disabled'.
      *
      * @return the firewallAllowAzureIps value
      */
@@ -235,7 +236,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Set the firewallAllowAzureIps value.
+     * Set the current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. Possible values include: 'Enabled', 'Disabled'.
      *
      * @param firewallAllowAzureIps the firewallAllowAzureIps value to set
      * @return the UpdateDataLakeAnalyticsAccountParameters object itself.
@@ -246,7 +247,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Get the newTier value.
+     * Get the commitment tier to use for next month. Possible values include: 'Consumption', 'Commitment_100AUHours', 'Commitment_500AUHours', 'Commitment_1000AUHours', 'Commitment_5000AUHours', 'Commitment_10000AUHours', 'Commitment_50000AUHours', 'Commitment_100000AUHours', 'Commitment_500000AUHours'.
      *
      * @return the newTier value
      */
@@ -255,7 +256,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Set the newTier value.
+     * Set the commitment tier to use for next month. Possible values include: 'Consumption', 'Commitment_100AUHours', 'Commitment_500AUHours', 'Commitment_1000AUHours', 'Commitment_5000AUHours', 'Commitment_10000AUHours', 'Commitment_50000AUHours', 'Commitment_100000AUHours', 'Commitment_500000AUHours'.
      *
      * @param newTier the newTier value to set
      * @return the UpdateDataLakeAnalyticsAccountParameters object itself.
@@ -266,7 +267,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Get the maxJobCount value.
+     * Get the maximum supported jobs running under the account at the same time.
      *
      * @return the maxJobCount value
      */
@@ -275,7 +276,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Set the maxJobCount value.
+     * Set the maximum supported jobs running under the account at the same time.
      *
      * @param maxJobCount the maxJobCount value to set
      * @return the UpdateDataLakeAnalyticsAccountParameters object itself.
@@ -286,7 +287,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Get the maxDegreeOfParallelism value.
+     * Get the maximum supported degree of parallelism for this account.
      *
      * @return the maxDegreeOfParallelism value
      */
@@ -295,7 +296,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Set the maxDegreeOfParallelism value.
+     * Set the maximum supported degree of parallelism for this account.
      *
      * @param maxDegreeOfParallelism the maxDegreeOfParallelism value to set
      * @return the UpdateDataLakeAnalyticsAccountParameters object itself.
@@ -306,7 +307,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Get the maxDegreeOfParallelismPerJob value.
+     * Get the maximum supported degree of parallelism per job for this account.
      *
      * @return the maxDegreeOfParallelismPerJob value
      */
@@ -315,7 +316,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Set the maxDegreeOfParallelismPerJob value.
+     * Set the maximum supported degree of parallelism per job for this account.
      *
      * @param maxDegreeOfParallelismPerJob the maxDegreeOfParallelismPerJob value to set
      * @return the UpdateDataLakeAnalyticsAccountParameters object itself.
@@ -326,7 +327,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Get the minPriorityPerJob value.
+     * Get the minimum supported priority per job for this account.
      *
      * @return the minPriorityPerJob value
      */
@@ -335,7 +336,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Set the minPriorityPerJob value.
+     * Set the minimum supported priority per job for this account.
      *
      * @param minPriorityPerJob the minPriorityPerJob value to set
      * @return the UpdateDataLakeAnalyticsAccountParameters object itself.
@@ -346,7 +347,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Get the queryStoreRetention value.
+     * Get the number of days that job metadata is retained.
      *
      * @return the queryStoreRetention value
      */
@@ -355,7 +356,7 @@ public class UpdateDataLakeAnalyticsAccountParameters {
     }
 
     /**
-     * Set the queryStoreRetention value.
+     * Set the number of days that job metadata is retained.
      *
      * @param queryStoreRetention the queryStoreRetention value to set
      * @return the UpdateDataLakeAnalyticsAccountParameters object itself.

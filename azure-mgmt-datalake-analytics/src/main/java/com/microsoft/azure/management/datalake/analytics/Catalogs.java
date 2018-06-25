@@ -10,8 +10,6 @@ package com.microsoft.azure.management.datalake.analytics;
 
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.datalake.analytics.models.Acl;
 import com.microsoft.azure.management.datalake.analytics.models.AclCreateOrUpdateParameters;
 import com.microsoft.azure.management.datalake.analytics.models.AclDeleteParameters;
@@ -28,18 +26,21 @@ import com.microsoft.azure.management.datalake.analytics.models.USqlProcedure;
 import com.microsoft.azure.management.datalake.analytics.models.USqlSchema;
 import com.microsoft.azure.management.datalake.analytics.models.USqlSecret;
 import com.microsoft.azure.management.datalake.analytics.models.USqlTable;
+import com.microsoft.azure.management.datalake.analytics.models.USqlTableFragment;
 import com.microsoft.azure.management.datalake.analytics.models.USqlTablePartition;
+import com.microsoft.azure.management.datalake.analytics.models.USqlTablePreview;
 import com.microsoft.azure.management.datalake.analytics.models.USqlTableStatistics;
 import com.microsoft.azure.management.datalake.analytics.models.USqlTableType;
 import com.microsoft.azure.management.datalake.analytics.models.USqlTableValuedFunction;
 import com.microsoft.azure.management.datalake.analytics.models.USqlType;
 import com.microsoft.azure.management.datalake.analytics.models.USqlView;
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
-import rx.Observable;
-
 import java.util.List;
+import rx.Observable;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -1012,6 +1013,131 @@ public interface Catalogs {
     Observable<ServiceResponse<USqlTable>> getTableWithServiceResponseAsync(String accountName, String databaseName, String schemaName, String tableName);
 
     /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;USqlTableFragment&gt; object if successful.
+     */
+    PagedList<USqlTableFragment> listTableFragments(final String accountName, final String databaseName, final String schemaName, final String tableName);
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    ServiceFuture<List<USqlTableFragment>> listTableFragmentsAsync(final String accountName, final String databaseName, final String schemaName, final String tableName, final ListOperationCallback<USqlTableFragment> serviceCallback);
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    Observable<Page<USqlTableFragment>> listTableFragmentsAsync(final String accountName, final String databaseName, final String schemaName, final String tableName);
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    Observable<ServiceResponse<Page<USqlTableFragment>>> listTableFragmentsWithServiceResponseAsync(final String accountName, final String databaseName, final String schemaName, final String tableName);
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @param filter OData filter. Optional.
+     * @param top The number of items to return. Optional.
+     * @param skip The number of items to skip over before returning elements. Optional.
+     * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+     * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+     * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;USqlTableFragment&gt; object if successful.
+     */
+    PagedList<USqlTableFragment> listTableFragments(final String accountName, final String databaseName, final String schemaName, final String tableName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @param filter OData filter. Optional.
+     * @param top The number of items to return. Optional.
+     * @param skip The number of items to skip over before returning elements. Optional.
+     * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+     * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+     * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    ServiceFuture<List<USqlTableFragment>> listTableFragmentsAsync(final String accountName, final String databaseName, final String schemaName, final String tableName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count, final ListOperationCallback<USqlTableFragment> serviceCallback);
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @param filter OData filter. Optional.
+     * @param top The number of items to return. Optional.
+     * @param skip The number of items to skip over before returning elements. Optional.
+     * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+     * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+     * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    Observable<Page<USqlTableFragment>> listTableFragmentsAsync(final String accountName, final String databaseName, final String schemaName, final String tableName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @param filter OData filter. Optional.
+     * @param top The number of items to return. Optional.
+     * @param skip The number of items to skip over before returning elements. Optional.
+     * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+     * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+     * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    Observable<ServiceResponse<Page<USqlTableFragment>>> listTableFragmentsWithServiceResponseAsync(final String accountName, final String databaseName, final String schemaName, final String tableName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+
+    /**
      * Retrieves the list of tables from the Data Lake Analytics catalog.
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
@@ -1934,6 +2060,123 @@ public interface Catalogs {
     Observable<ServiceResponse<Page<USqlTableStatistics>>> listTableStatisticsWithServiceResponseAsync(final String accountName, final String databaseName, final String schemaName, final String tableName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
 
     /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the USqlTablePreview object if successful.
+     */
+    USqlTablePreview previewTablePartition(String accountName, String databaseName, String schemaName, String tableName, String partitionName);
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    ServiceFuture<USqlTablePreview> previewTablePartitionAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName, final ServiceCallback<USqlTablePreview> serviceCallback);
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    Observable<USqlTablePreview> previewTablePartitionAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName);
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    Observable<ServiceResponse<USqlTablePreview>> previewTablePartitionWithServiceResponseAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName);
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @param maxRows The maximum number of preview rows to be retrieved.Rows returned may be less than or equal to this number depending on row sizes and number of rows in the partition.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the USqlTablePreview object if successful.
+     */
+    USqlTablePreview previewTablePartition(String accountName, String databaseName, String schemaName, String tableName, String partitionName, Long maxRows, Long maxColumns);
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @param maxRows The maximum number of preview rows to be retrieved.Rows returned may be less than or equal to this number depending on row sizes and number of rows in the partition.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    ServiceFuture<USqlTablePreview> previewTablePartitionAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName, Long maxRows, Long maxColumns, final ServiceCallback<USqlTablePreview> serviceCallback);
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @param maxRows The maximum number of preview rows to be retrieved.Rows returned may be less than or equal to this number depending on row sizes and number of rows in the partition.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    Observable<USqlTablePreview> previewTablePartitionAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName, Long maxRows, Long maxColumns);
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @param maxRows The maximum number of preview rows to be retrieved.Rows returned may be less than or equal to this number depending on row sizes and number of rows in the partition.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    Observable<ServiceResponse<USqlTablePreview>> previewTablePartitionWithServiceResponseAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName, Long maxRows, Long maxColumns);
+
+    /**
      * Retrieves the specified table partition from the Data Lake Analytics catalog.
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
@@ -1987,6 +2230,115 @@ public interface Catalogs {
      * @return the observable to the USqlTablePartition object
      */
     Observable<ServiceResponse<USqlTablePartition>> getTablePartitionWithServiceResponseAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName);
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the USqlTablePreview object if successful.
+     */
+    USqlTablePreview previewTable(String accountName, String databaseName, String schemaName, String tableName);
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    ServiceFuture<USqlTablePreview> previewTableAsync(String accountName, String databaseName, String schemaName, String tableName, final ServiceCallback<USqlTablePreview> serviceCallback);
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    Observable<USqlTablePreview> previewTableAsync(String accountName, String databaseName, String schemaName, String tableName);
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    Observable<ServiceResponse<USqlTablePreview>> previewTableWithServiceResponseAsync(String accountName, String databaseName, String schemaName, String tableName);
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @param maxRows The maximum number of preview rows to be retrieved. Rows returned may be less than or equal to this number depending on row sizes and number of rows in the table.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the USqlTablePreview object if successful.
+     */
+    USqlTablePreview previewTable(String accountName, String databaseName, String schemaName, String tableName, Long maxRows, Long maxColumns);
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @param maxRows The maximum number of preview rows to be retrieved. Rows returned may be less than or equal to this number depending on row sizes and number of rows in the table.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    ServiceFuture<USqlTablePreview> previewTableAsync(String accountName, String databaseName, String schemaName, String tableName, Long maxRows, Long maxColumns, final ServiceCallback<USqlTablePreview> serviceCallback);
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @param maxRows The maximum number of preview rows to be retrieved. Rows returned may be less than or equal to this number depending on row sizes and number of rows in the table.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    Observable<USqlTablePreview> previewTableAsync(String accountName, String databaseName, String schemaName, String tableName, Long maxRows, Long maxColumns);
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @param maxRows The maximum number of preview rows to be retrieved. Rows returned may be less than or equal to this number depending on row sizes and number of rows in the table.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    Observable<ServiceResponse<USqlTablePreview>> previewTableWithServiceResponseAsync(String accountName, String databaseName, String schemaName, String tableName, Long maxRows, Long maxColumns);
 
     /**
      * Retrieves the list of table partitions from the Data Lake Analytics catalog.
@@ -3799,6 +4151,46 @@ public interface Catalogs {
      * @return the observable to the PagedList&lt;USqlProcedure&gt; object
      */
     Observable<ServiceResponse<Page<USqlProcedure>>> listProceduresNextWithServiceResponseAsync(final String nextPageLink);
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;USqlTableFragment&gt; object if successful.
+     */
+    PagedList<USqlTableFragment> listTableFragmentsNext(final String nextPageLink);
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    ServiceFuture<List<USqlTableFragment>> listTableFragmentsNextAsync(final String nextPageLink, final ServiceFuture<List<USqlTableFragment>> serviceFuture, final ListOperationCallback<USqlTableFragment> serviceCallback);
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    Observable<Page<USqlTableFragment>> listTableFragmentsNextAsync(final String nextPageLink);
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    Observable<ServiceResponse<Page<USqlTableFragment>>> listTableFragmentsNextWithServiceResponseAsync(final String nextPageLink);
 
     /**
      * Retrieves the list of tables from the Data Lake Analytics catalog.

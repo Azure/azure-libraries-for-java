@@ -39,7 +39,7 @@ public class OperationDisplay {
     private String description;
 
     /**
-     * Get the provider value.
+     * Get the resource provider of the operation.
      *
      * @return the provider value
      */
@@ -48,7 +48,7 @@ public class OperationDisplay {
     }
 
     /**
-     * Get the resource value.
+     * Get the resource type of the operation.
      *
      * @return the resource value
      */
@@ -57,7 +57,7 @@ public class OperationDisplay {
     }
 
     /**
-     * Get the operation value.
+     * Get a friendly name of the operation.
      *
      * @return the operation value
      */
@@ -66,7 +66,7 @@ public class OperationDisplay {
     }
 
     /**
-     * Get the description value.
+     * Get a friendly description of the operation.
      *
      * @return the description value
      */

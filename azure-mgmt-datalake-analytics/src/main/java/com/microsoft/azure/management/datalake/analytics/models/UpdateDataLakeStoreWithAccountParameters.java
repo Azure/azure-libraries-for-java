@@ -30,7 +30,7 @@ public class UpdateDataLakeStoreWithAccountParameters {
     private String suffix;
 
     /**
-     * Get the name value.
+     * Get the unique name of the Data Lake Store account to update.
      *
      * @return the name value
      */
@@ -39,7 +39,7 @@ public class UpdateDataLakeStoreWithAccountParameters {
     }
 
     /**
-     * Set the name value.
+     * Set the unique name of the Data Lake Store account to update.
      *
      * @param name the name value to set
      * @return the UpdateDataLakeStoreWithAccountParameters object itself.
@@ -50,7 +50,7 @@ public class UpdateDataLakeStoreWithAccountParameters {
     }
 
     /**
-     * Get the suffix value.
+     * Get the optional suffix for the Data Lake Store account.
      *
      * @return the suffix value
      */
@@ -59,7 +59,7 @@ public class UpdateDataLakeStoreWithAccountParameters {
     }
 
     /**
-     * Set the suffix value.
+     * Set the optional suffix for the Data Lake Store account.
      *
      * @param suffix the suffix value to set
      * @return the UpdateDataLakeStoreWithAccountParameters object itself.

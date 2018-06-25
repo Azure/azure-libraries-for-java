@@ -11,23 +11,23 @@ package com.microsoft.azure.management.datalake.analytics.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * the statistics information for resource usage.
+ * The statistics information for resource usage.
  */
 public class ResourceUsageStatistics {
     /**
-     * the average value.
+     * The average value.
      */
     @JsonProperty(value = "average", access = JsonProperty.Access.WRITE_ONLY)
     private Double average;
 
     /**
-     * the minimum value.
+     * The minimum value.
      */
     @JsonProperty(value = "minimum", access = JsonProperty.Access.WRITE_ONLY)
     private Long minimum;
 
     /**
-     * the maximum value.
+     * The maximum value.
      */
     @JsonProperty(value = "maximum", access = JsonProperty.Access.WRITE_ONLY)
     private Long maximum;

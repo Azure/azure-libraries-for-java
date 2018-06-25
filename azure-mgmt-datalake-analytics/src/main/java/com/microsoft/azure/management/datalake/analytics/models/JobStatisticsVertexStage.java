@@ -16,134 +16,134 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class JobStatisticsVertexStage {
     /**
-     * the amount of data read, in bytes.
+     * The amount of data read, in bytes.
      */
     @JsonProperty(value = "dataRead", access = JsonProperty.Access.WRITE_ONLY)
     private Long dataRead;
 
     /**
-     * the amount of data read across multiple pods, in bytes.
+     * The amount of data read across multiple pods, in bytes.
      */
     @JsonProperty(value = "dataReadCrossPod", access = JsonProperty.Access.WRITE_ONLY)
     private Long dataReadCrossPod;
 
     /**
-     * the amount of data read in one pod, in bytes.
+     * The amount of data read in one pod, in bytes.
      */
     @JsonProperty(value = "dataReadIntraPod", access = JsonProperty.Access.WRITE_ONLY)
     private Long dataReadIntraPod;
 
     /**
-     * the amount of data remaining to be read, in bytes.
+     * The amount of data remaining to be read, in bytes.
      */
     @JsonProperty(value = "dataToRead", access = JsonProperty.Access.WRITE_ONLY)
     private Long dataToRead;
 
     /**
-     * the amount of data written, in bytes.
+     * The amount of data written, in bytes.
      */
     @JsonProperty(value = "dataWritten", access = JsonProperty.Access.WRITE_ONLY)
     private Long dataWritten;
 
     /**
-     * the number of duplicates that were discarded.
+     * The number of duplicates that were discarded.
      */
     @JsonProperty(value = "duplicateDiscardCount", access = JsonProperty.Access.WRITE_ONLY)
     private Integer duplicateDiscardCount;
 
     /**
-     * the number of failures that occured in this stage.
+     * The number of failures that occured in this stage.
      */
     @JsonProperty(value = "failedCount", access = JsonProperty.Access.WRITE_ONLY)
     private Integer failedCount;
 
     /**
-     * the maximum amount of data read in a single vertex, in bytes.
+     * The maximum amount of data read in a single vertex, in bytes.
      */
     @JsonProperty(value = "maxVertexDataRead", access = JsonProperty.Access.WRITE_ONLY)
     private Long maxVertexDataRead;
 
     /**
-     * the minimum amount of data read in a single vertex, in bytes.
+     * The minimum amount of data read in a single vertex, in bytes.
      */
     @JsonProperty(value = "minVertexDataRead", access = JsonProperty.Access.WRITE_ONLY)
     private Long minVertexDataRead;
 
     /**
-     * the number of read failures in this stage.
+     * The number of read failures in this stage.
      */
     @JsonProperty(value = "readFailureCount", access = JsonProperty.Access.WRITE_ONLY)
     private Integer readFailureCount;
 
     /**
-     * the number of vertices that were revoked during this stage.
+     * The number of vertices that were revoked during this stage.
      */
     @JsonProperty(value = "revocationCount", access = JsonProperty.Access.WRITE_ONLY)
     private Integer revocationCount;
 
     /**
-     * the number of currently running vertices in this stage.
+     * The number of currently running vertices in this stage.
      */
     @JsonProperty(value = "runningCount", access = JsonProperty.Access.WRITE_ONLY)
     private Integer runningCount;
 
     /**
-     * the number of currently scheduled vertices in this stage.
+     * The number of currently scheduled vertices in this stage.
      */
     @JsonProperty(value = "scheduledCount", access = JsonProperty.Access.WRITE_ONLY)
     private Integer scheduledCount;
 
     /**
-     * the name of this stage in job execution.
+     * The name of this stage in job execution.
      */
     @JsonProperty(value = "stageName", access = JsonProperty.Access.WRITE_ONLY)
     private String stageName;
 
     /**
-     * the number of vertices that succeeded in this stage.
+     * The number of vertices that succeeded in this stage.
      */
     @JsonProperty(value = "succeededCount", access = JsonProperty.Access.WRITE_ONLY)
     private Integer succeededCount;
 
     /**
-     * the amount of temporary data written, in bytes.
+     * The amount of temporary data written, in bytes.
      */
     @JsonProperty(value = "tempDataWritten", access = JsonProperty.Access.WRITE_ONLY)
     private Long tempDataWritten;
 
     /**
-     * the total vertex count for this stage.
+     * The total vertex count for this stage.
      */
     @JsonProperty(value = "totalCount", access = JsonProperty.Access.WRITE_ONLY)
     private Integer totalCount;
 
     /**
-     * the amount of time that failed vertices took up in this stage.
+     * The amount of time that failed vertices took up in this stage.
      */
     @JsonProperty(value = "totalFailedTime", access = JsonProperty.Access.WRITE_ONLY)
     private Period totalFailedTime;
 
     /**
-     * the current progress of this stage, as a percentage.
+     * The current progress of this stage, as a percentage.
      */
     @JsonProperty(value = "totalProgress", access = JsonProperty.Access.WRITE_ONLY)
     private Integer totalProgress;
 
     /**
-     * the amount of time all successful vertices took in this stage.
+     * The amount of time all successful vertices took in this stage.
      */
     @JsonProperty(value = "totalSucceededTime", access = JsonProperty.Access.WRITE_ONLY)
     private Period totalSucceededTime;
 
     /**
-     * the sum of the peak memory usage of all the vertices in the stage, in
+     * The sum of the peak memory usage of all the vertices in the stage, in
      * bytes.
      */
     @JsonProperty(value = "totalPeakMemUsage", access = JsonProperty.Access.WRITE_ONLY)
     private Long totalPeakMemUsage;
 
     /**
-     * the sum of the total execution time of all the vertices in the stage.
+     * The sum of the total execution time of all the vertices in the stage.
      */
     @JsonProperty(value = "totalExecutionTime", access = JsonProperty.Access.WRITE_ONLY)
     private Period totalExecutionTime;
@@ -167,49 +167,49 @@ public class JobStatisticsVertexStage {
     private JobStatisticsVertex maxPeakMemUsageVertex;
 
     /**
-     * the estimated vertex CPU core count.
+     * The estimated vertex CPU core count.
      */
     @JsonProperty(value = "estimatedVertexCpuCoreCount", access = JsonProperty.Access.WRITE_ONLY)
     private Integer estimatedVertexCpuCoreCount;
 
     /**
-     * the estimated vertex peak CPU core count.
+     * The estimated vertex peak CPU core count.
      */
     @JsonProperty(value = "estimatedVertexPeakCpuCoreCount", access = JsonProperty.Access.WRITE_ONLY)
     private Integer estimatedVertexPeakCpuCoreCount;
 
     /**
-     * the estimated vertex memory size, in bytes.
+     * The estimated vertex memory size, in bytes.
      */
     @JsonProperty(value = "estimatedVertexMemSize", access = JsonProperty.Access.WRITE_ONLY)
     private Long estimatedVertexMemSize;
 
     /**
-     * the statistics information for the allocated container CPU core count.
+     * The statistics information for the allocated container CPU core count.
      */
     @JsonProperty(value = "allocatedContainerCpuCoreCount")
     private ResourceUsageStatistics allocatedContainerCpuCoreCount;
 
     /**
-     * the statistics information for the allocated container memory size.
+     * The statistics information for the allocated container memory size.
      */
     @JsonProperty(value = "allocatedContainerMemSize")
     private ResourceUsageStatistics allocatedContainerMemSize;
 
     /**
-     * the statistics information for the used vertex CPU core count.
+     * The statistics information for the used vertex CPU core count.
      */
     @JsonProperty(value = "usedVertexCpuCoreCount")
     private ResourceUsageStatistics usedVertexCpuCoreCount;
 
     /**
-     * the statistics information for the used vertex peak memory size.
+     * The statistics information for the used vertex peak memory size.
      */
     @JsonProperty(value = "usedVertexPeakMemSize")
     private ResourceUsageStatistics usedVertexPeakMemSize;
 
     /**
-     * Get the dataRead value.
+     * Get the amount of data read, in bytes.
      *
      * @return the dataRead value
      */
@@ -218,7 +218,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the dataReadCrossPod value.
+     * Get the amount of data read across multiple pods, in bytes.
      *
      * @return the dataReadCrossPod value
      */
@@ -227,7 +227,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the dataReadIntraPod value.
+     * Get the amount of data read in one pod, in bytes.
      *
      * @return the dataReadIntraPod value
      */
@@ -236,7 +236,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the dataToRead value.
+     * Get the amount of data remaining to be read, in bytes.
      *
      * @return the dataToRead value
      */
@@ -245,7 +245,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the dataWritten value.
+     * Get the amount of data written, in bytes.
      *
      * @return the dataWritten value
      */
@@ -254,7 +254,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the duplicateDiscardCount value.
+     * Get the number of duplicates that were discarded.
      *
      * @return the duplicateDiscardCount value
      */
@@ -263,7 +263,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the failedCount value.
+     * Get the number of failures that occured in this stage.
      *
      * @return the failedCount value
      */
@@ -272,7 +272,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the maxVertexDataRead value.
+     * Get the maximum amount of data read in a single vertex, in bytes.
      *
      * @return the maxVertexDataRead value
      */
@@ -281,7 +281,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the minVertexDataRead value.
+     * Get the minimum amount of data read in a single vertex, in bytes.
      *
      * @return the minVertexDataRead value
      */
@@ -290,7 +290,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the readFailureCount value.
+     * Get the number of read failures in this stage.
      *
      * @return the readFailureCount value
      */
@@ -299,7 +299,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the revocationCount value.
+     * Get the number of vertices that were revoked during this stage.
      *
      * @return the revocationCount value
      */
@@ -308,7 +308,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the runningCount value.
+     * Get the number of currently running vertices in this stage.
      *
      * @return the runningCount value
      */
@@ -317,7 +317,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the scheduledCount value.
+     * Get the number of currently scheduled vertices in this stage.
      *
      * @return the scheduledCount value
      */
@@ -326,7 +326,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the stageName value.
+     * Get the name of this stage in job execution.
      *
      * @return the stageName value
      */
@@ -335,7 +335,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the succeededCount value.
+     * Get the number of vertices that succeeded in this stage.
      *
      * @return the succeededCount value
      */
@@ -344,7 +344,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the tempDataWritten value.
+     * Get the amount of temporary data written, in bytes.
      *
      * @return the tempDataWritten value
      */
@@ -353,7 +353,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the totalCount value.
+     * Get the total vertex count for this stage.
      *
      * @return the totalCount value
      */
@@ -362,7 +362,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the totalFailedTime value.
+     * Get the amount of time that failed vertices took up in this stage.
      *
      * @return the totalFailedTime value
      */
@@ -371,7 +371,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the totalProgress value.
+     * Get the current progress of this stage, as a percentage.
      *
      * @return the totalProgress value
      */
@@ -380,7 +380,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the totalSucceededTime value.
+     * Get the amount of time all successful vertices took in this stage.
      *
      * @return the totalSucceededTime value
      */
@@ -389,7 +389,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the totalPeakMemUsage value.
+     * Get the sum of the peak memory usage of all the vertices in the stage, in bytes.
      *
      * @return the totalPeakMemUsage value
      */
@@ -398,7 +398,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the totalExecutionTime value.
+     * Get the sum of the total execution time of all the vertices in the stage.
      *
      * @return the totalExecutionTime value
      */
@@ -407,7 +407,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the maxDataReadVertex value.
+     * Get the vertex with the maximum amount of data read.
      *
      * @return the maxDataReadVertex value
      */
@@ -416,7 +416,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Set the maxDataReadVertex value.
+     * Set the vertex with the maximum amount of data read.
      *
      * @param maxDataReadVertex the maxDataReadVertex value to set
      * @return the JobStatisticsVertexStage object itself.
@@ -427,7 +427,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the maxExecutionTimeVertex value.
+     * Get the vertex with the maximum execution time.
      *
      * @return the maxExecutionTimeVertex value
      */
@@ -436,7 +436,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Set the maxExecutionTimeVertex value.
+     * Set the vertex with the maximum execution time.
      *
      * @param maxExecutionTimeVertex the maxExecutionTimeVertex value to set
      * @return the JobStatisticsVertexStage object itself.
@@ -447,7 +447,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the maxPeakMemUsageVertex value.
+     * Get the vertex with the maximum peak memory usage.
      *
      * @return the maxPeakMemUsageVertex value
      */
@@ -456,7 +456,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Set the maxPeakMemUsageVertex value.
+     * Set the vertex with the maximum peak memory usage.
      *
      * @param maxPeakMemUsageVertex the maxPeakMemUsageVertex value to set
      * @return the JobStatisticsVertexStage object itself.
@@ -467,7 +467,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the estimatedVertexCpuCoreCount value.
+     * Get the estimated vertex CPU core count.
      *
      * @return the estimatedVertexCpuCoreCount value
      */
@@ -476,7 +476,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the estimatedVertexPeakCpuCoreCount value.
+     * Get the estimated vertex peak CPU core count.
      *
      * @return the estimatedVertexPeakCpuCoreCount value
      */
@@ -485,7 +485,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the estimatedVertexMemSize value.
+     * Get the estimated vertex memory size, in bytes.
      *
      * @return the estimatedVertexMemSize value
      */
@@ -494,7 +494,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the allocatedContainerCpuCoreCount value.
+     * Get the statistics information for the allocated container CPU core count.
      *
      * @return the allocatedContainerCpuCoreCount value
      */
@@ -503,7 +503,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Set the allocatedContainerCpuCoreCount value.
+     * Set the statistics information for the allocated container CPU core count.
      *
      * @param allocatedContainerCpuCoreCount the allocatedContainerCpuCoreCount value to set
      * @return the JobStatisticsVertexStage object itself.
@@ -514,7 +514,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the allocatedContainerMemSize value.
+     * Get the statistics information for the allocated container memory size.
      *
      * @return the allocatedContainerMemSize value
      */
@@ -523,7 +523,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Set the allocatedContainerMemSize value.
+     * Set the statistics information for the allocated container memory size.
      *
      * @param allocatedContainerMemSize the allocatedContainerMemSize value to set
      * @return the JobStatisticsVertexStage object itself.
@@ -534,7 +534,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the usedVertexCpuCoreCount value.
+     * Get the statistics information for the used vertex CPU core count.
      *
      * @return the usedVertexCpuCoreCount value
      */
@@ -543,7 +543,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Set the usedVertexCpuCoreCount value.
+     * Set the statistics information for the used vertex CPU core count.
      *
      * @param usedVertexCpuCoreCount the usedVertexCpuCoreCount value to set
      * @return the JobStatisticsVertexStage object itself.
@@ -554,7 +554,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Get the usedVertexPeakMemSize value.
+     * Get the statistics information for the used vertex peak memory size.
      *
      * @return the usedVertexPeakMemSize value
      */
@@ -563,7 +563,7 @@ public class JobStatisticsVertexStage {
     }
 
     /**
-     * Set the usedVertexPeakMemSize value.
+     * Set the statistics information for the used vertex peak memory size.
      *
      * @param usedVertexPeakMemSize the usedVertexPeakMemSize value to set
      * @return the JobStatisticsVertexStage object itself.

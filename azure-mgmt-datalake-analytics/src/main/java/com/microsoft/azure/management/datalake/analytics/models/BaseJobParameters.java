@@ -15,20 +15,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BaseJobParameters {
     /**
-     * the job type of the current job (Hive, USql, or Scope (for internal use
+     * The job type of the current job (Hive, USql, or Scope (for internal use
      * only)). Possible values include: 'USql', 'Hive', 'Scope'.
      */
     @JsonProperty(value = "type", required = true)
     private JobType type;
 
     /**
-     * the job specific properties.
+     * The job specific properties.
      */
     @JsonProperty(value = "properties", required = true)
     private CreateJobProperties properties;
 
     /**
-     * Get the type value.
+     * Get the job type of the current job (Hive, USql, or Scope (for internal use only)). Possible values include: 'USql', 'Hive', 'Scope'.
      *
      * @return the type value
      */
@@ -37,7 +37,7 @@ public class BaseJobParameters {
     }
 
     /**
-     * Set the type value.
+     * Set the job type of the current job (Hive, USql, or Scope (for internal use only)). Possible values include: 'USql', 'Hive', 'Scope'.
      *
      * @param type the type value to set
      * @return the BaseJobParameters object itself.
@@ -48,7 +48,7 @@ public class BaseJobParameters {
     }
 
     /**
-     * Get the properties value.
+     * Get the job specific properties.
      *
      * @return the properties value
      */
@@ -57,7 +57,7 @@ public class BaseJobParameters {
     }
 
     /**
-     * Set the properties value.
+     * Set the job specific properties.
      *
      * @param properties the properties value to set
      * @return the BaseJobParameters object itself.

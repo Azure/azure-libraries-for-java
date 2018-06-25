@@ -22,68 +22,68 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Scope")
 public class ScopeJobProperties extends JobProperties {
     /**
-     * the list of resources that are required by the job.
+     * The list of resources that are required by the job.
      */
     @JsonProperty(value = "resources", access = JsonProperty.Access.WRITE_ONLY)
     private List<ScopeJobResource> resources;
 
     /**
-     * the algebra file path after the job has completed.
+     * The algebra file path after the job has completed.
      */
     @JsonProperty(value = "userAlgebraPath", access = JsonProperty.Access.WRITE_ONLY)
     private String userAlgebraPath;
 
     /**
-     * the list of email addresses, separated by semi-colons, to notify when
+     * The list of email addresses, separated by semi-colons, to notify when
      * the job reaches a terminal state.
      */
     @JsonProperty(value = "notifier")
     private String notifier;
 
     /**
-     * the total time this job spent compiling. This value should not be set by
+     * The total time this job spent compiling. This value should not be set by
      * the user and will be ignored if it is.
      */
     @JsonProperty(value = "totalCompilationTime", access = JsonProperty.Access.WRITE_ONLY)
     private Period totalCompilationTime;
 
     /**
-     * the total time this job spent paused. This value should not be set by
-     * the user and will be ignored if it is.
-     */
-    @JsonProperty(value = "totalPausedTime", access = JsonProperty.Access.WRITE_ONLY)
-    private Period totalPausedTime;
-
-    /**
-     * the total time this job spent queued. This value should not be set by
+     * The total time this job spent queued. This value should not be set by
      * the user and will be ignored if it is.
      */
     @JsonProperty(value = "totalQueuedTime", access = JsonProperty.Access.WRITE_ONLY)
     private Period totalQueuedTime;
 
     /**
-     * the total time this job spent executing. This value should not be set by
+     * The total time this job spent executing. This value should not be set by
      * the user and will be ignored if it is.
      */
     @JsonProperty(value = "totalRunningTime", access = JsonProperty.Access.WRITE_ONLY)
     private Period totalRunningTime;
 
     /**
-     * the ID used to identify the job manager coordinating job execution. This
+     * The total time this job spent paused. This value should not be set by
+     * the user and will be ignored if it is.
+     */
+    @JsonProperty(value = "totalPausedTime", access = JsonProperty.Access.WRITE_ONLY)
+    private Period totalPausedTime;
+
+    /**
+     * The ID used to identify the job manager coordinating job execution. This
      * value should not be set by the user and will be ignored if it is.
      */
     @JsonProperty(value = "rootProcessNodeId", access = JsonProperty.Access.WRITE_ONLY)
     private String rootProcessNodeId;
 
     /**
-     * the ID used to identify the yarn application executing the job. This
+     * The ID used to identify the yarn application executing the job. This
      * value should not be set by the user and will be ignored if it is.
      */
     @JsonProperty(value = "yarnApplicationId", access = JsonProperty.Access.WRITE_ONLY)
     private String yarnApplicationId;
 
     /**
-     * Get the resources value.
+     * Get the list of resources that are required by the job.
      *
      * @return the resources value
      */
@@ -92,7 +92,7 @@ public class ScopeJobProperties extends JobProperties {
     }
 
     /**
-     * Get the userAlgebraPath value.
+     * Get the algebra file path after the job has completed.
      *
      * @return the userAlgebraPath value
      */
@@ -101,7 +101,7 @@ public class ScopeJobProperties extends JobProperties {
     }
 
     /**
-     * Get the notifier value.
+     * Get the list of email addresses, separated by semi-colons, to notify when the job reaches a terminal state.
      *
      * @return the notifier value
      */
@@ -110,7 +110,7 @@ public class ScopeJobProperties extends JobProperties {
     }
 
     /**
-     * Set the notifier value.
+     * Set the list of email addresses, separated by semi-colons, to notify when the job reaches a terminal state.
      *
      * @param notifier the notifier value to set
      * @return the ScopeJobProperties object itself.
@@ -121,7 +121,7 @@ public class ScopeJobProperties extends JobProperties {
     }
 
     /**
-     * Get the totalCompilationTime value.
+     * Get the total time this job spent compiling. This value should not be set by the user and will be ignored if it is.
      *
      * @return the totalCompilationTime value
      */
@@ -130,16 +130,7 @@ public class ScopeJobProperties extends JobProperties {
     }
 
     /**
-     * Get the totalPausedTime value.
-     *
-     * @return the totalPausedTime value
-     */
-    public Period totalPausedTime() {
-        return this.totalPausedTime;
-    }
-
-    /**
-     * Get the totalQueuedTime value.
+     * Get the total time this job spent queued. This value should not be set by the user and will be ignored if it is.
      *
      * @return the totalQueuedTime value
      */
@@ -148,7 +139,7 @@ public class ScopeJobProperties extends JobProperties {
     }
 
     /**
-     * Get the totalRunningTime value.
+     * Get the total time this job spent executing. This value should not be set by the user and will be ignored if it is.
      *
      * @return the totalRunningTime value
      */
@@ -157,7 +148,16 @@ public class ScopeJobProperties extends JobProperties {
     }
 
     /**
-     * Get the rootProcessNodeId value.
+     * Get the total time this job spent paused. This value should not be set by the user and will be ignored if it is.
+     *
+     * @return the totalPausedTime value
+     */
+    public Period totalPausedTime() {
+        return this.totalPausedTime;
+    }
+
+    /**
+     * Get the ID used to identify the job manager coordinating job execution. This value should not be set by the user and will be ignored if it is.
      *
      * @return the rootProcessNodeId value
      */
@@ -166,7 +166,7 @@ public class ScopeJobProperties extends JobProperties {
     }
 
     /**
-     * Get the yarnApplicationId value.
+     * Get the ID used to identify the yarn application executing the job. This value should not be set by the user and will be ignored if it is.
      *
      * @return the yarnApplicationId value
      */

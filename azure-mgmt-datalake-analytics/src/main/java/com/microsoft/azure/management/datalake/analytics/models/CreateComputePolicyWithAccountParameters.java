@@ -54,7 +54,7 @@ public class CreateComputePolicyWithAccountParameters {
     private Integer minPriorityPerJob;
 
     /**
-     * Get the name value.
+     * Get the unique name of the compute policy to create.
      *
      * @return the name value
      */
@@ -63,7 +63,7 @@ public class CreateComputePolicyWithAccountParameters {
     }
 
     /**
-     * Set the name value.
+     * Set the unique name of the compute policy to create.
      *
      * @param name the name value to set
      * @return the CreateComputePolicyWithAccountParameters object itself.
@@ -74,7 +74,7 @@ public class CreateComputePolicyWithAccountParameters {
     }
 
     /**
-     * Get the objectId value.
+     * Get the AAD object identifier for the entity to create a policy for.
      *
      * @return the objectId value
      */
@@ -83,7 +83,7 @@ public class CreateComputePolicyWithAccountParameters {
     }
 
     /**
-     * Set the objectId value.
+     * Set the AAD object identifier for the entity to create a policy for.
      *
      * @param objectId the objectId value to set
      * @return the CreateComputePolicyWithAccountParameters object itself.
@@ -94,7 +94,7 @@ public class CreateComputePolicyWithAccountParameters {
     }
 
     /**
-     * Get the objectType value.
+     * Get the type of AAD object the object identifier refers to. Possible values include: 'User', 'Group', 'ServicePrincipal'.
      *
      * @return the objectType value
      */
@@ -103,7 +103,7 @@ public class CreateComputePolicyWithAccountParameters {
     }
 
     /**
-     * Set the objectType value.
+     * Set the type of AAD object the object identifier refers to. Possible values include: 'User', 'Group', 'ServicePrincipal'.
      *
      * @param objectType the objectType value to set
      * @return the CreateComputePolicyWithAccountParameters object itself.
@@ -114,7 +114,7 @@ public class CreateComputePolicyWithAccountParameters {
     }
 
     /**
-     * Get the maxDegreeOfParallelismPerJob value.
+     * Get the maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed.
      *
      * @return the maxDegreeOfParallelismPerJob value
      */
@@ -123,7 +123,7 @@ public class CreateComputePolicyWithAccountParameters {
     }
 
     /**
-     * Set the maxDegreeOfParallelismPerJob value.
+     * Set the maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed.
      *
      * @param maxDegreeOfParallelismPerJob the maxDegreeOfParallelismPerJob value to set
      * @return the CreateComputePolicyWithAccountParameters object itself.
@@ -134,7 +134,7 @@ public class CreateComputePolicyWithAccountParameters {
     }
 
     /**
-     * Get the minPriorityPerJob value.
+     * Get the minimum priority per job this user can use to submit jobs. This property, the max degree of parallelism per job property, or both must be passed.
      *
      * @return the minPriorityPerJob value
      */
@@ -143,7 +143,7 @@ public class CreateComputePolicyWithAccountParameters {
     }
 
     /**
-     * Set the minPriorityPerJob value.
+     * Set the minimum priority per job this user can use to submit jobs. This property, the max degree of parallelism per job property, or both must be passed.
      *
      * @param minPriorityPerJob the minPriorityPerJob value to set
      * @return the CreateComputePolicyWithAccountParameters object itself.

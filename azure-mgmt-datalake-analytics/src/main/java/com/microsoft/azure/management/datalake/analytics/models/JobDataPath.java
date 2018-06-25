@@ -8,35 +8,34 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.List;
 import java.util.UUID;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A Data Lake Analytics job data path item.
  */
 public class JobDataPath {
     /**
-     * the id of the job this data is for.
+     * The ID of the job this data is for.
      */
     @JsonProperty(value = "jobId", access = JsonProperty.Access.WRITE_ONLY)
     private UUID jobId;
 
     /**
-     * the command that this job data relates to.
+     * The command that this job data relates to.
      */
     @JsonProperty(value = "command", access = JsonProperty.Access.WRITE_ONLY)
     private String command;
 
     /**
-     * the list of paths to all of the job data.
+     * The list of paths to all of the job data.
      */
     @JsonProperty(value = "paths", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> paths;
 
     /**
-     * Get the jobId value.
+     * Get the ID of the job this data is for.
      *
      * @return the jobId value
      */
@@ -45,7 +44,7 @@ public class JobDataPath {
     }
 
     /**
-     * Get the command value.
+     * Get the command that this job data relates to.
      *
      * @return the command value
      */
@@ -54,7 +53,7 @@ public class JobDataPath {
     }
 
     /**
-     * Get the paths value.
+     * Get the list of paths to all of the job data.
      *
      * @return the paths value
      */

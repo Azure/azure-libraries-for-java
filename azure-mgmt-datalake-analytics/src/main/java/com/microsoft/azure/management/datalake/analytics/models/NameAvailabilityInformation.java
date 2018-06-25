@@ -36,7 +36,7 @@ public class NameAvailabilityInformation {
     private String message;
 
     /**
-     * Get the nameAvailable value.
+     * Get the Boolean value of true or false to indicate whether the Data Lake Analytics account name is available or not.
      *
      * @return the nameAvailable value
      */
@@ -45,7 +45,7 @@ public class NameAvailabilityInformation {
     }
 
     /**
-     * Get the reason value.
+     * Get the reason why the Data Lake Analytics account name is not available, if nameAvailable is false.
      *
      * @return the reason value
      */
@@ -54,7 +54,7 @@ public class NameAvailabilityInformation {
     }
 
     /**
-     * Get the message value.
+     * Get the message describing why the Data Lake Analytics account name is not available, if nameAvailable is false.
      *
      * @return the message value
      */

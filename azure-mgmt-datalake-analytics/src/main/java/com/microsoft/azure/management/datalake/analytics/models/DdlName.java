@@ -39,7 +39,7 @@ public class DdlName {
     private String server;
 
     /**
-     * Get the firstPart value.
+     * Get the name of the table associated with this database and schema.
      *
      * @return the firstPart value
      */
@@ -48,7 +48,7 @@ public class DdlName {
     }
 
     /**
-     * Set the firstPart value.
+     * Set the name of the table associated with this database and schema.
      *
      * @param firstPart the firstPart value to set
      * @return the DdlName object itself.
@@ -59,7 +59,7 @@ public class DdlName {
     }
 
     /**
-     * Get the secondPart value.
+     * Get the name of the table associated with this database and schema.
      *
      * @return the secondPart value
      */
@@ -68,7 +68,7 @@ public class DdlName {
     }
 
     /**
-     * Set the secondPart value.
+     * Set the name of the table associated with this database and schema.
      *
      * @param secondPart the secondPart value to set
      * @return the DdlName object itself.
@@ -79,7 +79,7 @@ public class DdlName {
     }
 
     /**
-     * Get the thirdPart value.
+     * Get the name of the table associated with this database and schema.
      *
      * @return the thirdPart value
      */
@@ -88,7 +88,7 @@ public class DdlName {
     }
 
     /**
-     * Set the thirdPart value.
+     * Set the name of the table associated with this database and schema.
      *
      * @param thirdPart the thirdPart value to set
      * @return the DdlName object itself.
@@ -99,7 +99,7 @@ public class DdlName {
     }
 
     /**
-     * Get the server value.
+     * Get the name of the table associated with this database and schema.
      *
      * @return the server value
      */
@@ -108,7 +108,7 @@ public class DdlName {
     }
 
     /**
-     * Set the server value.
+     * Set the name of the table associated with this database and schema.
      *
      * @param server the server value to set
      * @return the DdlName object itself.

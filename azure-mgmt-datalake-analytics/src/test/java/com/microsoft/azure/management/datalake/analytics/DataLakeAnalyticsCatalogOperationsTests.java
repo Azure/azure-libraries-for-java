@@ -6,19 +6,8 @@
 
 package com.microsoft.azure.management.datalake.analytics;
 
-import com.microsoft.azure.management.datalake.analytics.models.Acl;
-import com.microsoft.azure.management.datalake.analytics.models.AclCreateOrUpdateParameters;
-import com.microsoft.azure.management.datalake.analytics.models.AclDeleteParameters;
-import com.microsoft.azure.management.datalake.analytics.models.AclType;
-import com.microsoft.azure.management.datalake.analytics.models.DataLakeAnalyticsCatalogCredentialCreateParameters;
-import com.microsoft.azure.management.datalake.analytics.models.PermissionType;
-import com.microsoft.azure.management.datalake.analytics.models.USqlCredential;
-import com.microsoft.azure.management.datalake.analytics.models.USqlDatabase;
-import com.microsoft.azure.management.datalake.analytics.models.USqlProcedure;
-import com.microsoft.azure.management.datalake.analytics.models.USqlTable;
-import com.microsoft.azure.management.datalake.analytics.models.USqlTableValuedFunction;
-import com.microsoft.azure.management.datalake.analytics.models.USqlType;
-import com.microsoft.azure.management.datalake.analytics.models.USqlView;
+import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.datalake.analytics.models.*;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
@@ -34,6 +23,7 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
     // Catalog names
     protected static String dbName;
     protected static String tableName;
+    protected static String schemaName;
     protected static String tvfName;
     protected static String procName;
     protected static String viewName;
@@ -53,6 +43,7 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
         // Define catalog items
         dbName = generateRandomResourceName("testdb1", 15);
         tableName = generateRandomResourceName("testtable1", 15);
+        schemaName = "dbo";
         tvfName = generateRandomResourceName("testtvf1", 15);
         procName = generateRandomResourceName("testproc1", 15);
         viewName = generateRandomResourceName("testview1", 15);
@@ -80,6 +71,13 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
                 ");\r\n" +
                 "\r\n" +
                 "ALTER TABLE {0}.dbo.{1} ADD IF NOT EXISTS PARTITION (1);\r\n" +
+                "\r\n" +
+                "INSERT INTO {0}.dbo.{1}" +
+                "(UserId, Start, Region, Query, Duration, Urls, ClickedUrls)" +
+                "ON INTEGRITY VIOLATION MOVE TO PARTITION (1)" +
+                "VALUES" +
+                "(1, new DateTime(2018, 04, 25), \"US\", @\"fake query\", 34, \"http://url1.fake.com\", \"http://clickedUrl1.fake.com\")," +
+                "(1, new DateTime(2018, 04, 26), \"EN\", @\"fake query\", 23, \"http://url2.fake.com\", \"http://clickedUrl2.fake.com\");" +
                 "\r\n" +
                 "DROP FUNCTION IF EXISTS {0}.dbo.{2};\r\n" +
                 "\r\n" +
@@ -229,7 +227,7 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
                 dataLakeAnalyticsCatalogManagementClient.catalogs().listTables(
                         jobAndCatalogAdlaName,
                         dbName,
-                        "dbo"
+                        schemaName
                 );
 
         Assert.assertTrue(tableListResponse.size() >= 1);
@@ -247,12 +245,28 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
 
         Assert.assertTrue(foundCatalogElement);
 
+        // Get preview of the specific table
+        USqlTablePreview tablePreviewGetResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().previewTable(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        schemaName,
+                        tableName
+                );
+
+        Assert.assertTrue(tablePreviewGetResponse.totalRowCount() > 0);
+        Assert.assertTrue(tablePreviewGetResponse.totalColumnCount() > 0);
+        Assert.assertTrue(tablePreviewGetResponse.rows() != null && tablePreviewGetResponse.rows().size() > 0);
+        Assert.assertTrue(tablePreviewGetResponse.schema() != null && tablePreviewGetResponse.schema().size() > 0);
+        Assert.assertNotNull(tablePreviewGetResponse.schema().get(0).name());
+        Assert.assertNotNull(tablePreviewGetResponse.schema().get(0).type());
+
         // Get the specific table as well
         USqlTable tableGetResponse =
                 dataLakeAnalyticsCatalogManagementClient.catalogs().getTable(
                         jobAndCatalogAdlaName,
                         dbName,
-                        "dbo",
+                        schemaName,
                         tableName
                 );
 
@@ -263,7 +277,7 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
                 dataLakeAnalyticsCatalogManagementClient.catalogs().listTableValuedFunctions(
                         jobAndCatalogAdlaName,
                         dbName,
-                        "dbo"
+                        schemaName
                 );
 
         Assert.assertTrue(tvfListResponse.size() >= 1);
@@ -286,7 +300,7 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
                 dataLakeAnalyticsCatalogManagementClient.catalogs().getTableValuedFunction(
                         jobAndCatalogAdlaName,
                         dbName,
-                        "dbo",
+                        schemaName,
                         tvfName
                 );
 
@@ -297,7 +311,7 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
                 dataLakeAnalyticsCatalogManagementClient.catalogs().listViews(
                         jobAndCatalogAdlaName,
                         dbName,
-                        "dbo"
+                        schemaName
                 );
 
         Assert.assertTrue(viewListResponse.size() >= 1);
@@ -320,7 +334,7 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
                 dataLakeAnalyticsCatalogManagementClient.catalogs().getView(
                         jobAndCatalogAdlaName,
                         dbName,
-                        "dbo",
+                        schemaName,
                         viewName
                 );
 
@@ -331,7 +345,7 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
                 dataLakeAnalyticsCatalogManagementClient.catalogs().listProcedures(
                         jobAndCatalogAdlaName,
                         dbName,
-                        "dbo"
+                        schemaName
                 );
 
         Assert.assertTrue(procListResponse.size() >= 1);
@@ -354,20 +368,72 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
                 dataLakeAnalyticsCatalogManagementClient.catalogs().getProcedure(
                         jobAndCatalogAdlaName,
                         dbName,
-                        "dbo",
+                        schemaName,
                         procName
                 );
 
         Assert.assertEquals(procName, procGetResponse.name());
+
+        List<USqlTablePartition> partitionList =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listTablePartitions(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        schemaName,
+                        tableName
+                );
+
+        Assert.assertTrue(partitionList.size() >= 1);
+
+        USqlTablePartition specificPartition = partitionList.get(0);
+
+        // Get preview of the specific partition
+        USqlTablePreview partitionPreviewGetResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().previewTablePartition(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        schemaName,
+                        tableName,
+                        specificPartition.name()
+                );
+
+        Assert.assertTrue(partitionPreviewGetResponse.totalRowCount() > 0);
+        Assert.assertTrue(partitionPreviewGetResponse.totalColumnCount() > 0);
+        Assert.assertTrue(partitionPreviewGetResponse.rows() != null && partitionPreviewGetResponse.rows().size() > 0);
+        Assert.assertTrue(partitionPreviewGetResponse.schema() != null && partitionPreviewGetResponse.schema().size() > 0);
+        Assert.assertNotNull(partitionPreviewGetResponse.schema().get(0).name());
+        Assert.assertNotNull(partitionPreviewGetResponse.schema().get(0).type());
+
+        // Get the specific partition as well
+        USqlTablePartition partitionGetResponse =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().getTablePartition(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        schemaName,
+                        tableName,
+                        specificPartition.name()
+                );
+
+        Assert.assertEquals(specificPartition.name(), partitionGetResponse.name());
+
+        // Get the fragment list
+        PagedList<USqlTableFragment> fragmentList =
+                dataLakeAnalyticsCatalogManagementClient.catalogs().listTableFragments(
+                        jobAndCatalogAdlaName,
+                        dbName,
+                        schemaName,
+                        tableName
+                );
+
+        Assert.assertNotNull(fragmentList);
+        Assert.assertTrue(fragmentList.size() > 0);
 
         // Get all the types
         List<USqlType> typeGetResponse =
                 dataLakeAnalyticsCatalogManagementClient.catalogs().listTypes(
                         jobAndCatalogAdlaName,
                         dbName,
-                        "dbo"
+                        schemaName
                 );
-
 
         Assert.assertNotNull(typeGetResponse);
         Assert.assertTrue(typeGetResponse.size() > 0);
@@ -377,7 +443,7 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
                 dataLakeAnalyticsCatalogManagementClient.catalogs().listTypes(
                         jobAndCatalogAdlaName,
                         dbName,
-                        "dbo",
+                        schemaName,
                         "isComplexType eq false",
                         null,
                         null,
@@ -514,7 +580,7 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
                 credentialName,
                 createParams
         );
-        
+
         // Attempt to create the secret again, which should throw
         try
         {
@@ -635,3 +701,4 @@ public class DataLakeAnalyticsCatalogOperationsTests extends DataLakeAnalyticsMa
         Assert.assertNull(credGetResponse);
     }
 }
+

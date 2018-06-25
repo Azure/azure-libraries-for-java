@@ -8,18 +8,19 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
-import com.microsoft.rest.serializer.JsonFlatten;
-import org.joda.time.DateTime;
-
 import java.util.UUID;
+import org.joda.time.DateTime;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
+import com.microsoft.azure.Resource;
 
 /**
  * A Data Lake Analytics account object, containing all information associated
  * with the named Data Lake Analytics account.
  */
 @JsonFlatten
+@SkipParentValidation
 public class DataLakeAnalyticsAccountBasic extends Resource {
     /**
      * The unique identifier associated with this Data Lake Analytics account.
@@ -62,7 +63,7 @@ public class DataLakeAnalyticsAccountBasic extends Resource {
     private String endpoint;
 
     /**
-     * Get the accountId value.
+     * Get the unique identifier associated with this Data Lake Analytics account.
      *
      * @return the accountId value
      */
@@ -71,7 +72,7 @@ public class DataLakeAnalyticsAccountBasic extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning status of the Data Lake Analytics account. Possible values include: 'Failed', 'Creating', 'Running', 'Succeeded', 'Patching', 'Suspending', 'Resuming', 'Deleting', 'Deleted', 'Undeleting', 'Canceled'.
      *
      * @return the provisioningState value
      */
@@ -80,7 +81,7 @@ public class DataLakeAnalyticsAccountBasic extends Resource {
     }
 
     /**
-     * Get the state value.
+     * Get the state of the Data Lake Analytics account. Possible values include: 'Active', 'Suspended'.
      *
      * @return the state value
      */
@@ -89,7 +90,7 @@ public class DataLakeAnalyticsAccountBasic extends Resource {
     }
 
     /**
-     * Get the creationTime value.
+     * Get the account creation time.
      *
      * @return the creationTime value
      */
@@ -98,7 +99,7 @@ public class DataLakeAnalyticsAccountBasic extends Resource {
     }
 
     /**
-     * Get the lastModifiedTime value.
+     * Get the account last modified time.
      *
      * @return the lastModifiedTime value
      */
@@ -107,7 +108,7 @@ public class DataLakeAnalyticsAccountBasic extends Resource {
     }
 
     /**
-     * Get the endpoint value.
+     * Get the full CName endpoint for this account.
      *
      * @return the endpoint value
      */

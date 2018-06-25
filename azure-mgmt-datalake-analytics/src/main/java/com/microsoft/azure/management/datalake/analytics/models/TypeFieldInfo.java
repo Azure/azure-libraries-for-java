@@ -27,7 +27,7 @@ public class TypeFieldInfo {
     private String type;
 
     /**
-     * Get the name value.
+     * Get the name of the field associated with this type.
      *
      * @return the name value
      */
@@ -36,7 +36,7 @@ public class TypeFieldInfo {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the field associated with this type.
      *
      * @param name the name value to set
      * @return the TypeFieldInfo object itself.
@@ -47,7 +47,7 @@ public class TypeFieldInfo {
     }
 
     /**
-     * Get the type value.
+     * Get the type of the field.
      *
      * @return the type value
      */
@@ -56,7 +56,7 @@ public class TypeFieldInfo {
     }
 
     /**
-     * Set the type value.
+     * Set the type of the field.
      *
      * @param type the type value to set
      * @return the TypeFieldInfo object itself.

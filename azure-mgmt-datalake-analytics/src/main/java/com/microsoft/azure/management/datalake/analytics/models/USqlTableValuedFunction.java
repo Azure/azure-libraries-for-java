@@ -39,7 +39,7 @@ public class USqlTableValuedFunction extends CatalogItem {
     private String definition;
 
     /**
-     * Get the databaseName value.
+     * Get the name of the database.
      *
      * @return the databaseName value
      */
@@ -48,7 +48,7 @@ public class USqlTableValuedFunction extends CatalogItem {
     }
 
     /**
-     * Set the databaseName value.
+     * Set the name of the database.
      *
      * @param databaseName the databaseName value to set
      * @return the USqlTableValuedFunction object itself.
@@ -59,7 +59,7 @@ public class USqlTableValuedFunction extends CatalogItem {
     }
 
     /**
-     * Get the schemaName value.
+     * Get the name of the schema associated with this database.
      *
      * @return the schemaName value
      */
@@ -68,7 +68,7 @@ public class USqlTableValuedFunction extends CatalogItem {
     }
 
     /**
-     * Set the schemaName value.
+     * Set the name of the schema associated with this database.
      *
      * @param schemaName the schemaName value to set
      * @return the USqlTableValuedFunction object itself.
@@ -79,7 +79,7 @@ public class USqlTableValuedFunction extends CatalogItem {
     }
 
     /**
-     * Get the name value.
+     * Get the name of the table valued function.
      *
      * @return the name value
      */
@@ -88,7 +88,7 @@ public class USqlTableValuedFunction extends CatalogItem {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the table valued function.
      *
      * @param name the name value to set
      * @return the USqlTableValuedFunction object itself.
@@ -99,7 +99,7 @@ public class USqlTableValuedFunction extends CatalogItem {
     }
 
     /**
-     * Get the definition value.
+     * Get the definition of the table valued function.
      *
      * @return the definition value
      */
@@ -108,7 +108,7 @@ public class USqlTableValuedFunction extends CatalogItem {
     }
 
     /**
-     * Set the definition value.
+     * Set the definition of the table valued function.
      *
      * @param definition the definition value to set
      * @return the USqlTableValuedFunction object itself.

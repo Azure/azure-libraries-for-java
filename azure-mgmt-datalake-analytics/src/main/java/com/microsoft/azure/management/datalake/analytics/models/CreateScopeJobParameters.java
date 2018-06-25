@@ -8,9 +8,8 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The parameters used to submit a new Data Lake Analytics Scope job. (Only for
@@ -18,14 +17,14 @@ import java.util.Map;
  */
 public class CreateScopeJobParameters extends CreateJobParameters {
     /**
-     * the key-value pairs used to add additional metadata to the job
-     * information. (Only for use internally with Scope job type.).
+     * The key-value pairs used to add additional metadata to the job
+     * information.
      */
     @JsonProperty(value = "tags")
     private Map<String, String> tags;
 
     /**
-     * Get the tags value.
+     * Get the key-value pairs used to add additional metadata to the job information.
      *
      * @return the tags value
      */
@@ -34,7 +33,7 @@ public class CreateScopeJobParameters extends CreateJobParameters {
     }
 
     /**
-     * Set the tags value.
+     * Set the key-value pairs used to add additional metadata to the job information.
      *
      * @param tags the tags value to set
      * @return the CreateScopeJobParameters object itself.

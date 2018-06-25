@@ -35,7 +35,7 @@ public class DataLakeAnalyticsCatalogCredentialCreateParameters {
     private String userId;
 
     /**
-     * Get the password value.
+     * Get the password for the credential and user with access to the data source.
      *
      * @return the password value
      */
@@ -44,7 +44,7 @@ public class DataLakeAnalyticsCatalogCredentialCreateParameters {
     }
 
     /**
-     * Set the password value.
+     * Set the password for the credential and user with access to the data source.
      *
      * @param password the password value to set
      * @return the DataLakeAnalyticsCatalogCredentialCreateParameters object itself.
@@ -55,7 +55,7 @@ public class DataLakeAnalyticsCatalogCredentialCreateParameters {
     }
 
     /**
-     * Get the uri value.
+     * Get the URI identifier for the data source this credential can connect to in the format &lt;hostname&gt;:&lt;port&gt;.
      *
      * @return the uri value
      */
@@ -64,7 +64,7 @@ public class DataLakeAnalyticsCatalogCredentialCreateParameters {
     }
 
     /**
-     * Set the uri value.
+     * Set the URI identifier for the data source this credential can connect to in the format &lt;hostname&gt;:&lt;port&gt;.
      *
      * @param uri the uri value to set
      * @return the DataLakeAnalyticsCatalogCredentialCreateParameters object itself.
@@ -75,7 +75,7 @@ public class DataLakeAnalyticsCatalogCredentialCreateParameters {
     }
 
     /**
-     * Get the userId value.
+     * Get the object identifier for the user associated with this credential with access to the data source.
      *
      * @return the userId value
      */
@@ -84,7 +84,7 @@ public class DataLakeAnalyticsCatalogCredentialCreateParameters {
     }
 
     /**
-     * Set the userId value.
+     * Set the object identifier for the user associated with this credential with access to the data source.
      *
      * @param userId the userId value to set
      * @return the DataLakeAnalyticsCatalogCredentialCreateParameters object itself.

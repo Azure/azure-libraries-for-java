@@ -8,14 +8,13 @@
 
 package com.microsoft.azure.management.datalake.analytics.implementation;
 
+import retrofit2.Retrofit;
+import com.microsoft.azure.management.datalake.analytics.Catalogs;
 import com.google.common.base.Joiner;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.datalake.analytics.Catalogs;
 import com.microsoft.azure.management.datalake.analytics.models.Acl;
 import com.microsoft.azure.management.datalake.analytics.models.AclCreateOrUpdateParameters;
 import com.microsoft.azure.management.datalake.analytics.models.AclDeleteParameters;
@@ -34,35 +33,37 @@ import com.microsoft.azure.management.datalake.analytics.models.USqlProcedure;
 import com.microsoft.azure.management.datalake.analytics.models.USqlSchema;
 import com.microsoft.azure.management.datalake.analytics.models.USqlSecret;
 import com.microsoft.azure.management.datalake.analytics.models.USqlTable;
+import com.microsoft.azure.management.datalake.analytics.models.USqlTableFragment;
 import com.microsoft.azure.management.datalake.analytics.models.USqlTablePartition;
+import com.microsoft.azure.management.datalake.analytics.models.USqlTablePreview;
 import com.microsoft.azure.management.datalake.analytics.models.USqlTableStatistics;
 import com.microsoft.azure.management.datalake.analytics.models.USqlTableType;
 import com.microsoft.azure.management.datalake.analytics.models.USqlTableValuedFunction;
 import com.microsoft.azure.management.datalake.analytics.models.USqlType;
 import com.microsoft.azure.management.datalake.analytics.models.USqlView;
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.HTTP;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.PATCH;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import rx.Observable;
-import rx.functions.Func1;
-
 import java.io.IOException;
 import java.util.List;
+import okhttp3.ResponseBody;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
+import retrofit2.http.HTTP;
+import retrofit2.http.PATCH;
+import retrofit2.http.Path;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Query;
+import retrofit2.http.Url;
+import retrofit2.Response;
+import rx.functions.Func1;
+import rx.Observable;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -90,271 +91,287 @@ public class CatalogsImpl implements Catalogs {
      * used by Retrofit to perform actually REST calls.
      */
     interface CatalogsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs createSecret" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs createSecret" })
         @PUT("catalog/usql/databases/{databaseName}/secrets/{secretName}")
         Observable<Response<ResponseBody>> createSecret(@Path("databaseName") String databaseName, @Path("secretName") String secretName, @Body DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs getSecret" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getSecret" })
         @GET("catalog/usql/databases/{databaseName}/secrets/{secretName}")
         Observable<Response<ResponseBody>> getSecret(@Path("databaseName") String databaseName, @Path("secretName") String secretName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs updateSecret" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs updateSecret" })
         @PATCH("catalog/usql/databases/{databaseName}/secrets/{secretName}")
         Observable<Response<ResponseBody>> updateSecret(@Path("databaseName") String databaseName, @Path("secretName") String secretName, @Body DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs deleteSecret" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs deleteSecret" })
         @HTTP(path = "catalog/usql/databases/{databaseName}/secrets/{secretName}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> deleteSecret(@Path("databaseName") String databaseName, @Path("secretName") String secretName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs deleteAllSecrets" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs deleteAllSecrets" })
         @HTTP(path = "catalog/usql/databases/{databaseName}/secrets", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> deleteAllSecrets(@Path("databaseName") String databaseName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs createCredential" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs createCredential" })
         @PUT("catalog/usql/databases/{databaseName}/credentials/{credentialName}")
         Observable<Response<ResponseBody>> createCredential(@Path("databaseName") String databaseName, @Path("credentialName") String credentialName, @Body DataLakeAnalyticsCatalogCredentialCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs getCredential" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getCredential" })
         @GET("catalog/usql/databases/{databaseName}/credentials/{credentialName}")
         Observable<Response<ResponseBody>> getCredential(@Path("databaseName") String databaseName, @Path("credentialName") String credentialName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs updateCredential" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs updateCredential" })
         @PATCH("catalog/usql/databases/{databaseName}/credentials/{credentialName}")
         Observable<Response<ResponseBody>> updateCredential(@Path("databaseName") String databaseName, @Path("credentialName") String credentialName, @Body DataLakeAnalyticsCatalogCredentialUpdateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs deleteCredential" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs deleteCredential" })
         @POST("catalog/usql/databases/{databaseName}/credentials/{credentialName}")
         Observable<Response<ResponseBody>> deleteCredential(@Path("databaseName") String databaseName, @Path("credentialName") String credentialName, @Query("cascade") Boolean cascade, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body DataLakeAnalyticsCatalogCredentialDeleteParameters parameters, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listCredentials" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listCredentials" })
         @GET("catalog/usql/databases/{databaseName}/credentials")
         Observable<Response<ResponseBody>> listCredentials(@Path("databaseName") String databaseName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs getExternalDataSource" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getExternalDataSource" })
         @GET("catalog/usql/databases/{databaseName}/externaldatasources/{externalDataSourceName}")
         Observable<Response<ResponseBody>> getExternalDataSource(@Path("databaseName") String databaseName, @Path("externalDataSourceName") String externalDataSourceName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listExternalDataSources" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listExternalDataSources" })
         @GET("catalog/usql/databases/{databaseName}/externaldatasources")
         Observable<Response<ResponseBody>> listExternalDataSources(@Path("databaseName") String databaseName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs getProcedure" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getProcedure" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/procedures/{procedureName}")
         Observable<Response<ResponseBody>> getProcedure(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("procedureName") String procedureName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listProcedures" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listProcedures" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/procedures")
         Observable<Response<ResponseBody>> listProcedures(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs getTable" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getTable" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}")
         Observable<Response<ResponseBody>> getTable(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTables" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableFragments" })
+        @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/tablefragments")
+        Observable<Response<ResponseBody>> listTableFragments(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTables" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables")
         Observable<Response<ResponseBody>> listTables(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("basic") Boolean basic, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTableStatisticsByDatabaseAndSchema" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableStatisticsByDatabaseAndSchema" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/statistics")
         Observable<Response<ResponseBody>> listTableStatisticsByDatabaseAndSchema(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs getTableType" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getTableType" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tabletypes/{tableTypeName}")
         Observable<Response<ResponseBody>> getTableType(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableTypeName") String tableTypeName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTableTypes" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableTypes" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tabletypes")
         Observable<Response<ResponseBody>> listTableTypes(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs getPackage" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getPackage" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/packages/{packageName}")
         Observable<Response<ResponseBody>> getPackage(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("packageName") String packageName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listPackages" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listPackages" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/packages")
         Observable<Response<ResponseBody>> listPackages(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs getView" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getView" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/views/{viewName}")
         Observable<Response<ResponseBody>> getView(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("viewName") String viewName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listViews" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listViews" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/views")
         Observable<Response<ResponseBody>> listViews(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs getTableStatistic" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getTableStatistic" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/statistics/{statisticsName}")
         Observable<Response<ResponseBody>> getTableStatistic(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Path("statisticsName") String statisticsName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTableStatistics" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableStatistics" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/statistics")
         Observable<Response<ResponseBody>> listTableStatistics(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs getTablePartition" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs previewTablePartition" })
+        @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/partitions/{partitionName}/previewrows")
+        Observable<Response<ResponseBody>> previewTablePartition(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Path("partitionName") String partitionName, @Query("maxRows") Long maxRows, @Query("maxColumns") Long maxColumns, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getTablePartition" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/partitions/{partitionName}")
         Observable<Response<ResponseBody>> getTablePartition(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Path("partitionName") String partitionName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTablePartitions" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs previewTable" })
+        @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/previewrows")
+        Observable<Response<ResponseBody>> previewTable(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Query("maxRows") Long maxRows, @Query("maxColumns") Long maxColumns, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTablePartitions" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/partitions")
         Observable<Response<ResponseBody>> listTablePartitions(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTypes" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTypes" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/types")
         Observable<Response<ResponseBody>> listTypes(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs getTableValuedFunction" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getTableValuedFunction" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tablevaluedfunctions/{tableValuedFunctionName}")
         Observable<Response<ResponseBody>> getTableValuedFunction(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableValuedFunctionName") String tableValuedFunctionName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTableValuedFunctions" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableValuedFunctions" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tablevaluedfunctions")
         Observable<Response<ResponseBody>> listTableValuedFunctions(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs getAssembly" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getAssembly" })
         @GET("catalog/usql/databases/{databaseName}/assemblies/{assemblyName}")
         Observable<Response<ResponseBody>> getAssembly(@Path("databaseName") String databaseName, @Path("assemblyName") String assemblyName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listAssemblies" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listAssemblies" })
         @GET("catalog/usql/databases/{databaseName}/assemblies")
         Observable<Response<ResponseBody>> listAssemblies(@Path("databaseName") String databaseName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs getSchema" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getSchema" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}")
         Observable<Response<ResponseBody>> getSchema(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listSchemas" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listSchemas" })
         @GET("catalog/usql/databases/{databaseName}/schemas")
         Observable<Response<ResponseBody>> listSchemas(@Path("databaseName") String databaseName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTableStatisticsByDatabase" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableStatisticsByDatabase" })
         @GET("catalog/usql/databases/{databaseName}/statistics")
         Observable<Response<ResponseBody>> listTableStatisticsByDatabase(@Path("databaseName") String databaseName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTablesByDatabase" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTablesByDatabase" })
         @GET("catalog/usql/databases/{databaseName}/tables")
         Observable<Response<ResponseBody>> listTablesByDatabase(@Path("databaseName") String databaseName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("basic") Boolean basic, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTableValuedFunctionsByDatabase" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableValuedFunctionsByDatabase" })
         @GET("catalog/usql/databases/{databaseName}/tablevaluedfunctions")
         Observable<Response<ResponseBody>> listTableValuedFunctionsByDatabase(@Path("databaseName") String databaseName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listViewsByDatabase" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listViewsByDatabase" })
         @GET("catalog/usql/databases/{databaseName}/views")
         Observable<Response<ResponseBody>> listViewsByDatabase(@Path("databaseName") String databaseName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listAclsByDatabase" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listAclsByDatabase" })
         @GET("catalog/usql/databases/{databaseName}/acl")
         Observable<Response<ResponseBody>> listAclsByDatabase(@Path("databaseName") String databaseName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listAcls" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listAcls" })
         @GET("catalog/usql/acl")
         Observable<Response<ResponseBody>> listAcls(@Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs getDatabase" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getDatabase" })
         @GET("catalog/usql/databases/{databaseName}")
         Observable<Response<ResponseBody>> getDatabase(@Path("databaseName") String databaseName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listDatabases" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listDatabases" })
         @GET("catalog/usql/databases")
         Observable<Response<ResponseBody>> listDatabases(@Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs grantAcl" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs grantAcl" })
         @POST("catalog/usql/acl")
         Observable<Response<ResponseBody>> grantAcl(@Body AclCreateOrUpdateParameters parameters, @Query("op") String op, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs grantAclToDatabase" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs grantAclToDatabase" })
         @POST("catalog/usql/databases/{databaseName}/acl")
         Observable<Response<ResponseBody>> grantAclToDatabase(@Path("databaseName") String databaseName, @Body AclCreateOrUpdateParameters parameters, @Query("op") String op, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs revokeAcl" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs revokeAcl" })
         @POST("catalog/usql/acl")
         Observable<Response<ResponseBody>> revokeAcl(@Body AclDeleteParameters parameters, @Query("op") String op, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs revokeAclFromDatabase" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs revokeAclFromDatabase" })
         @POST("catalog/usql/databases/{databaseName}/acl")
         Observable<Response<ResponseBody>> revokeAclFromDatabase(@Path("databaseName") String databaseName, @Body AclDeleteParameters parameters, @Query("op") String op, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listCredentialsNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listCredentialsNext" })
         @GET
         Observable<Response<ResponseBody>> listCredentialsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listExternalDataSourcesNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listExternalDataSourcesNext" })
         @GET
         Observable<Response<ResponseBody>> listExternalDataSourcesNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listProceduresNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listProceduresNext" })
         @GET
         Observable<Response<ResponseBody>> listProceduresNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTablesNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableFragmentsNext" })
+        @GET
+        Observable<Response<ResponseBody>> listTableFragmentsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTablesNext" })
         @GET
         Observable<Response<ResponseBody>> listTablesNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTableStatisticsByDatabaseAndSchemaNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableStatisticsByDatabaseAndSchemaNext" })
         @GET
         Observable<Response<ResponseBody>> listTableStatisticsByDatabaseAndSchemaNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTableTypesNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableTypesNext" })
         @GET
         Observable<Response<ResponseBody>> listTableTypesNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listPackagesNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listPackagesNext" })
         @GET
         Observable<Response<ResponseBody>> listPackagesNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listViewsNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listViewsNext" })
         @GET
         Observable<Response<ResponseBody>> listViewsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTableStatisticsNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableStatisticsNext" })
         @GET
         Observable<Response<ResponseBody>> listTableStatisticsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTablePartitionsNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTablePartitionsNext" })
         @GET
         Observable<Response<ResponseBody>> listTablePartitionsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTypesNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTypesNext" })
         @GET
         Observable<Response<ResponseBody>> listTypesNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTableValuedFunctionsNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableValuedFunctionsNext" })
         @GET
         Observable<Response<ResponseBody>> listTableValuedFunctionsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listAssembliesNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listAssembliesNext" })
         @GET
         Observable<Response<ResponseBody>> listAssembliesNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listSchemasNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listSchemasNext" })
         @GET
         Observable<Response<ResponseBody>> listSchemasNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTableStatisticsByDatabaseNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableStatisticsByDatabaseNext" })
         @GET
         Observable<Response<ResponseBody>> listTableStatisticsByDatabaseNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTablesByDatabaseNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTablesByDatabaseNext" })
         @GET
         Observable<Response<ResponseBody>> listTablesByDatabaseNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listTableValuedFunctionsByDatabaseNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableValuedFunctionsByDatabaseNext" })
         @GET
         Observable<Response<ResponseBody>> listTableValuedFunctionsByDatabaseNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listViewsByDatabaseNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listViewsByDatabaseNext" })
         @GET
         Observable<Response<ResponseBody>> listViewsByDatabaseNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listAclsByDatabaseNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listAclsByDatabaseNext" })
         @GET
         Observable<Response<ResponseBody>> listAclsByDatabaseNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listAclsNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listAclsNext" })
         @GET
         Observable<Response<ResponseBody>> listAclsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.datalake.analytics.Catalogs listDatabasesNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listDatabasesNext" })
         @GET
         Observable<Response<ResponseBody>> listDatabasesNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
@@ -2466,6 +2483,315 @@ public class CatalogsImpl implements Catalogs {
     private ServiceResponse<USqlTable> getTableDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<USqlTable, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<USqlTable>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;USqlTableFragment&gt; object if successful.
+     */
+    public PagedList<USqlTableFragment> listTableFragments(final String accountName, final String databaseName, final String schemaName, final String tableName) {
+        ServiceResponse<Page<USqlTableFragment>> response = listTableFragmentsSinglePageAsync(accountName, databaseName, schemaName, tableName).toBlocking().single();
+        return new PagedList<USqlTableFragment>(response.body()) {
+            @Override
+            public Page<USqlTableFragment> nextPage(String nextPageLink) {
+                return listTableFragmentsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<USqlTableFragment>> listTableFragmentsAsync(final String accountName, final String databaseName, final String schemaName, final String tableName, final ListOperationCallback<USqlTableFragment> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listTableFragmentsSinglePageAsync(accountName, databaseName, schemaName, tableName),
+            new Func1<String, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(String nextPageLink) {
+                    return listTableFragmentsNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    public Observable<Page<USqlTableFragment>> listTableFragmentsAsync(final String accountName, final String databaseName, final String schemaName, final String tableName) {
+        return listTableFragmentsWithServiceResponseAsync(accountName, databaseName, schemaName, tableName)
+            .map(new Func1<ServiceResponse<Page<USqlTableFragment>>, Page<USqlTableFragment>>() {
+                @Override
+                public Page<USqlTableFragment> call(ServiceResponse<Page<USqlTableFragment>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    public Observable<ServiceResponse<Page<USqlTableFragment>>> listTableFragmentsWithServiceResponseAsync(final String accountName, final String databaseName, final String schemaName, final String tableName) {
+        return listTableFragmentsSinglePageAsync(accountName, databaseName, schemaName, tableName)
+            .concatMap(new Func1<ServiceResponse<Page<USqlTableFragment>>, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(ServiceResponse<Page<USqlTableFragment>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listTableFragmentsNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;USqlTableFragment&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<USqlTableFragment>>> listTableFragmentsSinglePageAsync(final String accountName, final String databaseName, final String schemaName, final String tableName) {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlaCatalogDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (schemaName == null) {
+            throw new IllegalArgumentException("Parameter schemaName is required and cannot be null.");
+        }
+        if (tableName == null) {
+            throw new IllegalArgumentException("Parameter tableName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final String filter = null;
+        final Integer top = null;
+        final Integer skip = null;
+        final String select = null;
+        final String orderby = null;
+        final Boolean count = null;
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
+        return service.listTableFragments(databaseName, schemaName, tableName, filter, top, skip, select, orderby, count, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<USqlTableFragment>> result = listTableFragmentsDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<USqlTableFragment>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @param filter OData filter. Optional.
+     * @param top The number of items to return. Optional.
+     * @param skip The number of items to skip over before returning elements. Optional.
+     * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+     * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+     * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;USqlTableFragment&gt; object if successful.
+     */
+    public PagedList<USqlTableFragment> listTableFragments(final String accountName, final String databaseName, final String schemaName, final String tableName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
+        ServiceResponse<Page<USqlTableFragment>> response = listTableFragmentsSinglePageAsync(accountName, databaseName, schemaName, tableName, filter, top, skip, select, orderby, count).toBlocking().single();
+        return new PagedList<USqlTableFragment>(response.body()) {
+            @Override
+            public Page<USqlTableFragment> nextPage(String nextPageLink) {
+                return listTableFragmentsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @param filter OData filter. Optional.
+     * @param top The number of items to return. Optional.
+     * @param skip The number of items to skip over before returning elements. Optional.
+     * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+     * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+     * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<USqlTableFragment>> listTableFragmentsAsync(final String accountName, final String databaseName, final String schemaName, final String tableName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count, final ListOperationCallback<USqlTableFragment> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listTableFragmentsSinglePageAsync(accountName, databaseName, schemaName, tableName, filter, top, skip, select, orderby, count),
+            new Func1<String, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(String nextPageLink) {
+                    return listTableFragmentsNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @param filter OData filter. Optional.
+     * @param top The number of items to return. Optional.
+     * @param skip The number of items to skip over before returning elements. Optional.
+     * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+     * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+     * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    public Observable<Page<USqlTableFragment>> listTableFragmentsAsync(final String accountName, final String databaseName, final String schemaName, final String tableName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
+        return listTableFragmentsWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, filter, top, skip, select, orderby, count)
+            .map(new Func1<ServiceResponse<Page<USqlTableFragment>>, Page<USqlTableFragment>>() {
+                @Override
+                public Page<USqlTableFragment> call(ServiceResponse<Page<USqlTableFragment>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @param filter OData filter. Optional.
+     * @param top The number of items to return. Optional.
+     * @param skip The number of items to skip over before returning elements. Optional.
+     * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+     * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+     * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    public Observable<ServiceResponse<Page<USqlTableFragment>>> listTableFragmentsWithServiceResponseAsync(final String accountName, final String databaseName, final String schemaName, final String tableName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
+        return listTableFragmentsSinglePageAsync(accountName, databaseName, schemaName, tableName, filter, top, skip, select, orderby, count)
+            .concatMap(new Func1<ServiceResponse<Page<USqlTableFragment>>, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(ServiceResponse<Page<USqlTableFragment>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listTableFragmentsNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param databaseName The name of the database containing the table fragments.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param schemaName The name of the schema containing the table fragments.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param tableName The name of the table containing the table fragments.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param filter OData filter. Optional.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param top The number of items to return. Optional.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param skip The number of items to skip over before returning elements. Optional.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;USqlTableFragment&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<USqlTableFragment>>> listTableFragmentsSinglePageAsync(final String accountName, final String databaseName, final String schemaName, final String tableName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlaCatalogDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (schemaName == null) {
+            throw new IllegalArgumentException("Parameter schemaName is required and cannot be null.");
+        }
+        if (tableName == null) {
+            throw new IllegalArgumentException("Parameter tableName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
+        return service.listTableFragments(databaseName, schemaName, tableName, filter, top, skip, select, orderby, count, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<USqlTableFragment>> result = listTableFragmentsDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<USqlTableFragment>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<USqlTableFragment>> listTableFragmentsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<USqlTableFragment>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<USqlTableFragment>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -4662,6 +4988,225 @@ public class CatalogsImpl implements Catalogs {
     }
 
     /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the USqlTablePreview object if successful.
+     */
+    public USqlTablePreview previewTablePartition(String accountName, String databaseName, String schemaName, String tableName, String partitionName) {
+        return previewTablePartitionWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, partitionName).toBlocking().single().body();
+    }
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<USqlTablePreview> previewTablePartitionAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName, final ServiceCallback<USqlTablePreview> serviceCallback) {
+        return ServiceFuture.fromResponse(previewTablePartitionWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, partitionName), serviceCallback);
+    }
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<USqlTablePreview> previewTablePartitionAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName) {
+        return previewTablePartitionWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, partitionName).map(new Func1<ServiceResponse<USqlTablePreview>, USqlTablePreview>() {
+            @Override
+            public USqlTablePreview call(ServiceResponse<USqlTablePreview> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<ServiceResponse<USqlTablePreview>> previewTablePartitionWithServiceResponseAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName) {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlaCatalogDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (schemaName == null) {
+            throw new IllegalArgumentException("Parameter schemaName is required and cannot be null.");
+        }
+        if (tableName == null) {
+            throw new IllegalArgumentException("Parameter tableName is required and cannot be null.");
+        }
+        if (partitionName == null) {
+            throw new IllegalArgumentException("Parameter partitionName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final Long maxRows = null;
+        final Long maxColumns = null;
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
+        return service.previewTablePartition(databaseName, schemaName, tableName, partitionName, maxRows, maxColumns, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<USqlTablePreview>>>() {
+                @Override
+                public Observable<ServiceResponse<USqlTablePreview>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<USqlTablePreview> clientResponse = previewTablePartitionDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @param maxRows The maximum number of preview rows to be retrieved.Rows returned may be less than or equal to this number depending on row sizes and number of rows in the partition.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the USqlTablePreview object if successful.
+     */
+    public USqlTablePreview previewTablePartition(String accountName, String databaseName, String schemaName, String tableName, String partitionName, Long maxRows, Long maxColumns) {
+        return previewTablePartitionWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, partitionName, maxRows, maxColumns).toBlocking().single().body();
+    }
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @param maxRows The maximum number of preview rows to be retrieved.Rows returned may be less than or equal to this number depending on row sizes and number of rows in the partition.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<USqlTablePreview> previewTablePartitionAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName, Long maxRows, Long maxColumns, final ServiceCallback<USqlTablePreview> serviceCallback) {
+        return ServiceFuture.fromResponse(previewTablePartitionWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, partitionName, maxRows, maxColumns), serviceCallback);
+    }
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @param maxRows The maximum number of preview rows to be retrieved.Rows returned may be less than or equal to this number depending on row sizes and number of rows in the partition.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<USqlTablePreview> previewTablePartitionAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName, Long maxRows, Long maxColumns) {
+        return previewTablePartitionWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, partitionName, maxRows, maxColumns).map(new Func1<ServiceResponse<USqlTablePreview>, USqlTablePreview>() {
+            @Override
+            public USqlTablePreview call(ServiceResponse<USqlTablePreview> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @param maxRows The maximum number of preview rows to be retrieved.Rows returned may be less than or equal to this number depending on row sizes and number of rows in the partition.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<ServiceResponse<USqlTablePreview>> previewTablePartitionWithServiceResponseAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName, Long maxRows, Long maxColumns) {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlaCatalogDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (schemaName == null) {
+            throw new IllegalArgumentException("Parameter schemaName is required and cannot be null.");
+        }
+        if (tableName == null) {
+            throw new IllegalArgumentException("Parameter tableName is required and cannot be null.");
+        }
+        if (partitionName == null) {
+            throw new IllegalArgumentException("Parameter partitionName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
+        return service.previewTablePartition(databaseName, schemaName, tableName, partitionName, maxRows, maxColumns, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<USqlTablePreview>>>() {
+                @Override
+                public Observable<ServiceResponse<USqlTablePreview>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<USqlTablePreview> clientResponse = previewTablePartitionDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<USqlTablePreview> previewTablePartitionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<USqlTablePreview, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<USqlTablePreview>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
      * Retrieves the specified table partition from the Data Lake Analytics catalog.
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
@@ -4765,6 +5310,211 @@ public class CatalogsImpl implements Catalogs {
     private ServiceResponse<USqlTablePartition> getTablePartitionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<USqlTablePartition, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<USqlTablePartition>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the USqlTablePreview object if successful.
+     */
+    public USqlTablePreview previewTable(String accountName, String databaseName, String schemaName, String tableName) {
+        return previewTableWithServiceResponseAsync(accountName, databaseName, schemaName, tableName).toBlocking().single().body();
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<USqlTablePreview> previewTableAsync(String accountName, String databaseName, String schemaName, String tableName, final ServiceCallback<USqlTablePreview> serviceCallback) {
+        return ServiceFuture.fromResponse(previewTableWithServiceResponseAsync(accountName, databaseName, schemaName, tableName), serviceCallback);
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<USqlTablePreview> previewTableAsync(String accountName, String databaseName, String schemaName, String tableName) {
+        return previewTableWithServiceResponseAsync(accountName, databaseName, schemaName, tableName).map(new Func1<ServiceResponse<USqlTablePreview>, USqlTablePreview>() {
+            @Override
+            public USqlTablePreview call(ServiceResponse<USqlTablePreview> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<ServiceResponse<USqlTablePreview>> previewTableWithServiceResponseAsync(String accountName, String databaseName, String schemaName, String tableName) {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlaCatalogDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (schemaName == null) {
+            throw new IllegalArgumentException("Parameter schemaName is required and cannot be null.");
+        }
+        if (tableName == null) {
+            throw new IllegalArgumentException("Parameter tableName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final Long maxRows = null;
+        final Long maxColumns = null;
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
+        return service.previewTable(databaseName, schemaName, tableName, maxRows, maxColumns, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<USqlTablePreview>>>() {
+                @Override
+                public Observable<ServiceResponse<USqlTablePreview>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<USqlTablePreview> clientResponse = previewTableDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @param maxRows The maximum number of preview rows to be retrieved. Rows returned may be less than or equal to this number depending on row sizes and number of rows in the table.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the USqlTablePreview object if successful.
+     */
+    public USqlTablePreview previewTable(String accountName, String databaseName, String schemaName, String tableName, Long maxRows, Long maxColumns) {
+        return previewTableWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, maxRows, maxColumns).toBlocking().single().body();
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @param maxRows The maximum number of preview rows to be retrieved. Rows returned may be less than or equal to this number depending on row sizes and number of rows in the table.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<USqlTablePreview> previewTableAsync(String accountName, String databaseName, String schemaName, String tableName, Long maxRows, Long maxColumns, final ServiceCallback<USqlTablePreview> serviceCallback) {
+        return ServiceFuture.fromResponse(previewTableWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, maxRows, maxColumns), serviceCallback);
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @param maxRows The maximum number of preview rows to be retrieved. Rows returned may be less than or equal to this number depending on row sizes and number of rows in the table.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<USqlTablePreview> previewTableAsync(String accountName, String databaseName, String schemaName, String tableName, Long maxRows, Long maxColumns) {
+        return previewTableWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, maxRows, maxColumns).map(new Func1<ServiceResponse<USqlTablePreview>, USqlTablePreview>() {
+            @Override
+            public USqlTablePreview call(ServiceResponse<USqlTablePreview> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @param maxRows The maximum number of preview rows to be retrieved. Rows returned may be less than or equal to this number depending on row sizes and number of rows in the table.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<ServiceResponse<USqlTablePreview>> previewTableWithServiceResponseAsync(String accountName, String databaseName, String schemaName, String tableName, Long maxRows, Long maxColumns) {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlaCatalogDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (schemaName == null) {
+            throw new IllegalArgumentException("Parameter schemaName is required and cannot be null.");
+        }
+        if (tableName == null) {
+            throw new IllegalArgumentException("Parameter tableName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
+        return service.previewTable(databaseName, schemaName, tableName, maxRows, maxColumns, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<USqlTablePreview>>>() {
+                @Override
+                public Observable<ServiceResponse<USqlTablePreview>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<USqlTablePreview> clientResponse = previewTableDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<USqlTablePreview> previewTableDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<USqlTablePreview, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<USqlTablePreview>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -9202,6 +9952,117 @@ public class CatalogsImpl implements Catalogs {
     private ServiceResponse<PageImpl<USqlProcedure>> listProceduresNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<USqlProcedure>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<USqlProcedure>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;USqlTableFragment&gt; object if successful.
+     */
+    public PagedList<USqlTableFragment> listTableFragmentsNext(final String nextPageLink) {
+        ServiceResponse<Page<USqlTableFragment>> response = listTableFragmentsNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<USqlTableFragment>(response.body()) {
+            @Override
+            public Page<USqlTableFragment> nextPage(String nextPageLink) {
+                return listTableFragmentsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<USqlTableFragment>> listTableFragmentsNextAsync(final String nextPageLink, final ServiceFuture<List<USqlTableFragment>> serviceFuture, final ListOperationCallback<USqlTableFragment> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listTableFragmentsNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(String nextPageLink) {
+                    return listTableFragmentsNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    public Observable<Page<USqlTableFragment>> listTableFragmentsNextAsync(final String nextPageLink) {
+        return listTableFragmentsNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<USqlTableFragment>>, Page<USqlTableFragment>>() {
+                @Override
+                public Page<USqlTableFragment> call(ServiceResponse<Page<USqlTableFragment>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    public Observable<ServiceResponse<Page<USqlTableFragment>>> listTableFragmentsNextWithServiceResponseAsync(final String nextPageLink) {
+        return listTableFragmentsNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<USqlTableFragment>>, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(ServiceResponse<Page<USqlTableFragment>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listTableFragmentsNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;USqlTableFragment&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<USqlTableFragment>>> listTableFragmentsNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listTableFragmentsNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<USqlTableFragment>> result = listTableFragmentsNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<USqlTableFragment>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<USqlTableFragment>> listTableFragmentsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<USqlTableFragment>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<USqlTableFragment>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

@@ -95,7 +95,7 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase
             }
             RestClient.Builder builder = new RestClient.Builder()
                     .withConnectionTimeout(5, TimeUnit.MINUTES)
-                    .withBaseUrl("https://{accountName}.{adlaJobDnsSuffix}")
+                    .withBaseUrl("https://{accountName}." + adlaSuffix)
                     .withSerializerAdapter(new AzureJacksonAdapter())
                     .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
                     .withCredentials(credentials)
@@ -103,24 +103,12 @@ public class DataLakeAnalyticsManagementTestBase extends TestBase
             if (!interceptorManager.isNoneMode()) {
                 builder.withNetworkInterceptor(interceptorManager.initInterceptor());
             }
-            RestClient restClientWithTimeout = buildRestClient(builder, true);
+            RestClient restClientWithTimeout = buildRestClient(builder, false);
 
             dataLakeAnalyticsJobManagementClient = new DataLakeAnalyticsJobManagementClientImpl(restClientWithTimeout)
                     .withAdlaJobDnsSuffix(adlaSuffix);
 
-            RestClient.Builder catalogRestClientBuilder = new RestClient.Builder()
-                    .withBaseUrl("https://{accountName}.{adlaCatalogDnsSuffix}")
-                    .withSerializerAdapter(new AzureJacksonAdapter())
-                    .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                    .withCredentials(credentials)
-                    .withLogLevel(LogLevel.BODY_AND_HEADERS);
-            if (!interceptorManager.isNoneMode()) {
-                builder.withNetworkInterceptor(interceptorManager.initInterceptor());
-            }
-
-            RestClient catalogRestClient = buildRestClient(builder,false);
-
-            dataLakeAnalyticsCatalogManagementClient = new DataLakeAnalyticsCatalogManagementClientImpl(catalogRestClient)
+            dataLakeAnalyticsCatalogManagementClient = new DataLakeAnalyticsCatalogManagementClientImpl(restClientWithTimeout)
                     .withAdlaCatalogDnsSuffix(adlaSuffix);
         }
         else

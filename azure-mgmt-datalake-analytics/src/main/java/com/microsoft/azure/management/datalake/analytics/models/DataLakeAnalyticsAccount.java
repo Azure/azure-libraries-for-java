@@ -8,19 +8,20 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
-import com.microsoft.rest.serializer.JsonFlatten;
-import org.joda.time.DateTime;
-
-import java.util.List;
 import java.util.UUID;
+import org.joda.time.DateTime;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
+import com.microsoft.azure.Resource;
 
 /**
  * A Data Lake Analytics account object, containing all information associated
  * with the named Data Lake Analytics account.
  */
 @JsonFlatten
+@SkipParentValidation
 public class DataLakeAnalyticsAccount extends Resource {
     /**
      * The unique identifier associated with this Data Lake Analytics account.
@@ -175,7 +176,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     private Integer queryStoreRetention;
 
     /**
-     * Get the accountId value.
+     * Get the unique identifier associated with this Data Lake Analytics account.
      *
      * @return the accountId value
      */
@@ -184,7 +185,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning status of the Data Lake Analytics account. Possible values include: 'Failed', 'Creating', 'Running', 'Succeeded', 'Patching', 'Suspending', 'Resuming', 'Deleting', 'Deleted', 'Undeleting', 'Canceled'.
      *
      * @return the provisioningState value
      */
@@ -193,7 +194,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the state value.
+     * Get the state of the Data Lake Analytics account. Possible values include: 'Active', 'Suspended'.
      *
      * @return the state value
      */
@@ -202,7 +203,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the creationTime value.
+     * Get the account creation time.
      *
      * @return the creationTime value
      */
@@ -211,7 +212,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the lastModifiedTime value.
+     * Get the account last modified time.
      *
      * @return the lastModifiedTime value
      */
@@ -220,7 +221,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the endpoint value.
+     * Get the full CName endpoint for this account.
      *
      * @return the endpoint value
      */
@@ -229,7 +230,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the defaultDataLakeStoreAccount value.
+     * Get the default Data Lake Store account associated with this account.
      *
      * @return the defaultDataLakeStoreAccount value
      */
@@ -238,7 +239,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the dataLakeStoreAccounts value.
+     * Get the list of Data Lake Store accounts associated with this account.
      *
      * @return the dataLakeStoreAccounts value
      */
@@ -247,7 +248,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the storageAccounts value.
+     * Get the list of Azure Blob Storage accounts associated with this account.
      *
      * @return the storageAccounts value
      */
@@ -256,7 +257,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the computePolicies value.
+     * Get the list of compute policies associated with this account.
      *
      * @return the computePolicies value
      */
@@ -265,7 +266,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the firewallRules value.
+     * Get the list of firewall rules associated with this account.
      *
      * @return the firewallRules value
      */
@@ -274,7 +275,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the firewallState value.
+     * Get the current state of the IP address firewall for this account. Possible values include: 'Enabled', 'Disabled'.
      *
      * @return the firewallState value
      */
@@ -283,7 +284,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the firewallAllowAzureIps value.
+     * Get the current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. Possible values include: 'Enabled', 'Disabled'.
      *
      * @return the firewallAllowAzureIps value
      */
@@ -292,7 +293,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the newTier value.
+     * Get the commitment tier for the next month. Possible values include: 'Consumption', 'Commitment_100AUHours', 'Commitment_500AUHours', 'Commitment_1000AUHours', 'Commitment_5000AUHours', 'Commitment_10000AUHours', 'Commitment_50000AUHours', 'Commitment_100000AUHours', 'Commitment_500000AUHours'.
      *
      * @return the newTier value
      */
@@ -301,7 +302,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the currentTier value.
+     * Get the commitment tier in use for the current month. Possible values include: 'Consumption', 'Commitment_100AUHours', 'Commitment_500AUHours', 'Commitment_1000AUHours', 'Commitment_5000AUHours', 'Commitment_10000AUHours', 'Commitment_50000AUHours', 'Commitment_100000AUHours', 'Commitment_500000AUHours'.
      *
      * @return the currentTier value
      */
@@ -310,7 +311,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the maxJobCount value.
+     * Get the maximum supported jobs running under the account at the same time.
      *
      * @return the maxJobCount value
      */
@@ -319,7 +320,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the systemMaxJobCount value.
+     * Get the system defined maximum supported jobs running under the account at the same time, which restricts the maximum number of running jobs the user can set for the account.
      *
      * @return the systemMaxJobCount value
      */
@@ -328,7 +329,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the maxDegreeOfParallelism value.
+     * Get the maximum supported degree of parallelism for this account.
      *
      * @return the maxDegreeOfParallelism value
      */
@@ -337,7 +338,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the systemMaxDegreeOfParallelism value.
+     * Get the system defined maximum supported degree of parallelism for this account, which restricts the maximum value of parallelism the user can set for the account.
      *
      * @return the systemMaxDegreeOfParallelism value
      */
@@ -346,7 +347,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the maxDegreeOfParallelismPerJob value.
+     * Get the maximum supported degree of parallelism per job for this account.
      *
      * @return the maxDegreeOfParallelismPerJob value
      */
@@ -355,7 +356,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the minPriorityPerJob value.
+     * Get the minimum supported priority per job for this account.
      *
      * @return the minPriorityPerJob value
      */
@@ -364,7 +365,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the queryStoreRetention value.
+     * Get the number of days that job metadata is retained.
      *
      * @return the queryStoreRetention value
      */

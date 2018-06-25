@@ -8,9 +8,8 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A Data Lake Analytics catalog U-SQL external datasource item.
@@ -47,7 +46,7 @@ public class USqlExternalDataSource extends CatalogItem {
     private List<String> pushdownTypes;
 
     /**
-     * Get the databaseName value.
+     * Get the name of the database.
      *
      * @return the databaseName value
      */
@@ -56,7 +55,7 @@ public class USqlExternalDataSource extends CatalogItem {
     }
 
     /**
-     * Set the databaseName value.
+     * Set the name of the database.
      *
      * @param databaseName the databaseName value to set
      * @return the USqlExternalDataSource object itself.
@@ -67,7 +66,7 @@ public class USqlExternalDataSource extends CatalogItem {
     }
 
     /**
-     * Get the name value.
+     * Get the name of the external data source.
      *
      * @return the name value
      */
@@ -76,7 +75,7 @@ public class USqlExternalDataSource extends CatalogItem {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the external data source.
      *
      * @param name the name value to set
      * @return the USqlExternalDataSource object itself.
@@ -87,7 +86,7 @@ public class USqlExternalDataSource extends CatalogItem {
     }
 
     /**
-     * Get the provider value.
+     * Get the name of the provider for the external data source.
      *
      * @return the provider value
      */
@@ -96,7 +95,7 @@ public class USqlExternalDataSource extends CatalogItem {
     }
 
     /**
-     * Set the provider value.
+     * Set the name of the provider for the external data source.
      *
      * @param provider the provider value to set
      * @return the USqlExternalDataSource object itself.
@@ -107,7 +106,7 @@ public class USqlExternalDataSource extends CatalogItem {
     }
 
     /**
-     * Get the providerString value.
+     * Get the name of the provider string for the external data source.
      *
      * @return the providerString value
      */
@@ -116,7 +115,7 @@ public class USqlExternalDataSource extends CatalogItem {
     }
 
     /**
-     * Set the providerString value.
+     * Set the name of the provider string for the external data source.
      *
      * @param providerString the providerString value to set
      * @return the USqlExternalDataSource object itself.
@@ -127,7 +126,7 @@ public class USqlExternalDataSource extends CatalogItem {
     }
 
     /**
-     * Get the pushdownTypes value.
+     * Get the list of types to push down from the external data source.
      *
      * @return the pushdownTypes value
      */
@@ -136,7 +135,7 @@ public class USqlExternalDataSource extends CatalogItem {
     }
 
     /**
-     * Set the pushdownTypes value.
+     * Set the list of types to push down from the external data source.
      *
      * @param pushdownTypes the pushdownTypes value to set
      * @return the USqlExternalDataSource object itself.

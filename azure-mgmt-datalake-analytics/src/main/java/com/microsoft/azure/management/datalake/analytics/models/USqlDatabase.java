@@ -21,7 +21,7 @@ public class USqlDatabase extends CatalogItem {
     private String name;
 
     /**
-     * Get the name value.
+     * Get the name of the database.
      *
      * @return the name value
      */
@@ -30,7 +30,7 @@ public class USqlDatabase extends CatalogItem {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the database.
      *
      * @param name the name value to set
      * @return the USqlDatabase object itself.

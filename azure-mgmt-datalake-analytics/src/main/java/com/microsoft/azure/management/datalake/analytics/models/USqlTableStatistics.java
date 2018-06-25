@@ -8,10 +8,9 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.joda.time.DateTime;
-
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A Data Lake Analytics catalog U-SQL table statistics item.
@@ -96,7 +95,7 @@ public class USqlTableStatistics extends CatalogItem {
     private List<String> colNames;
 
     /**
-     * Get the databaseName value.
+     * Get the name of the database.
      *
      * @return the databaseName value
      */
@@ -105,7 +104,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Set the databaseName value.
+     * Set the name of the database.
      *
      * @param databaseName the databaseName value to set
      * @return the USqlTableStatistics object itself.
@@ -116,7 +115,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Get the schemaName value.
+     * Get the name of the schema associated with this table and database.
      *
      * @return the schemaName value
      */
@@ -125,7 +124,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Set the schemaName value.
+     * Set the name of the schema associated with this table and database.
      *
      * @param schemaName the schemaName value to set
      * @return the USqlTableStatistics object itself.
@@ -136,7 +135,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Get the tableName value.
+     * Get the name of the table.
      *
      * @return the tableName value
      */
@@ -145,7 +144,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Set the tableName value.
+     * Set the name of the table.
      *
      * @param tableName the tableName value to set
      * @return the USqlTableStatistics object itself.
@@ -156,7 +155,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Get the name value.
+     * Get the name of the table statistics.
      *
      * @return the name value
      */
@@ -165,7 +164,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the table statistics.
      *
      * @param name the name value to set
      * @return the USqlTableStatistics object itself.
@@ -176,7 +175,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Get the userStatName value.
+     * Get the name of the user statistics.
      *
      * @return the userStatName value
      */
@@ -185,7 +184,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Set the userStatName value.
+     * Set the name of the user statistics.
      *
      * @param userStatName the userStatName value to set
      * @return the USqlTableStatistics object itself.
@@ -196,7 +195,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Get the statDataPath value.
+     * Get the path to the statistics data.
      *
      * @return the statDataPath value
      */
@@ -205,7 +204,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Set the statDataPath value.
+     * Set the path to the statistics data.
      *
      * @param statDataPath the statDataPath value to set
      * @return the USqlTableStatistics object itself.
@@ -216,7 +215,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Get the createTime value.
+     * Get the creation time of the statistics.
      *
      * @return the createTime value
      */
@@ -225,7 +224,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Set the createTime value.
+     * Set the creation time of the statistics.
      *
      * @param createTime the createTime value to set
      * @return the USqlTableStatistics object itself.
@@ -236,7 +235,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Get the updateTime value.
+     * Get the last time the statistics were updated.
      *
      * @return the updateTime value
      */
@@ -245,7 +244,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Set the updateTime value.
+     * Set the last time the statistics were updated.
      *
      * @param updateTime the updateTime value to set
      * @return the USqlTableStatistics object itself.
@@ -256,7 +255,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Get the isUserCreated value.
+     * Get the switch indicating if these statistics are user created.
      *
      * @return the isUserCreated value
      */
@@ -265,7 +264,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Set the isUserCreated value.
+     * Set the switch indicating if these statistics are user created.
      *
      * @param isUserCreated the isUserCreated value to set
      * @return the USqlTableStatistics object itself.
@@ -276,7 +275,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Get the isAutoCreated value.
+     * Get the switch indicating if these statistics are automatically created.
      *
      * @return the isAutoCreated value
      */
@@ -285,7 +284,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Set the isAutoCreated value.
+     * Set the switch indicating if these statistics are automatically created.
      *
      * @param isAutoCreated the isAutoCreated value to set
      * @return the USqlTableStatistics object itself.
@@ -296,7 +295,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Get the hasFilter value.
+     * Get the switch indicating if these statistics have a filter.
      *
      * @return the hasFilter value
      */
@@ -305,7 +304,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Set the hasFilter value.
+     * Set the switch indicating if these statistics have a filter.
      *
      * @param hasFilter the hasFilter value to set
      * @return the USqlTableStatistics object itself.
@@ -316,7 +315,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Get the filterDefinition value.
+     * Get the filter definition for the statistics.
      *
      * @return the filterDefinition value
      */
@@ -325,7 +324,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Set the filterDefinition value.
+     * Set the filter definition for the statistics.
      *
      * @param filterDefinition the filterDefinition value to set
      * @return the USqlTableStatistics object itself.
@@ -336,7 +335,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Get the colNames value.
+     * Get the list of column names associated with these statistics.
      *
      * @return the colNames value
      */
@@ -345,7 +344,7 @@ public class USqlTableStatistics extends CatalogItem {
     }
 
     /**
-     * Set the colNames value.
+     * Set the list of column names associated with these statistics.
      *
      * @param colNames the colNames value to set
      * @return the USqlTableStatistics object itself.

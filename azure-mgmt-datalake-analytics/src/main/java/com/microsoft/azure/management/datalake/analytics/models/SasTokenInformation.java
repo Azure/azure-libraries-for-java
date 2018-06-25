@@ -21,7 +21,7 @@ public class SasTokenInformation {
     private String accessToken;
 
     /**
-     * Get the accessToken value.
+     * Get the access token for the associated Azure Storage Container.
      *
      * @return the accessToken value
      */

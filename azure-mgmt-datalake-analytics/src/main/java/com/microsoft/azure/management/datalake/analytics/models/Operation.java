@@ -34,7 +34,7 @@ public class Operation {
     private OperationOrigin origin;
 
     /**
-     * Get the name value.
+     * Get the name of the operation.
      *
      * @return the name value
      */
@@ -43,7 +43,7 @@ public class Operation {
     }
 
     /**
-     * Get the display value.
+     * Get the display information for the operation.
      *
      * @return the display value
      */
@@ -52,7 +52,7 @@ public class Operation {
     }
 
     /**
-     * Get the origin value.
+     * Get the intended executor of the operation. Possible values include: 'user', 'system', 'user,system'.
      *
      * @return the origin value
      */

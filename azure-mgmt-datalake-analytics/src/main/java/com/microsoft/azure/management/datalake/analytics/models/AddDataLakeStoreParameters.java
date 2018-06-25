@@ -23,7 +23,7 @@ public class AddDataLakeStoreParameters {
     private String suffix;
 
     /**
-     * Get the suffix value.
+     * Get the optional suffix for the Data Lake Store account.
      *
      * @return the suffix value
      */
@@ -32,7 +32,7 @@ public class AddDataLakeStoreParameters {
     }
 
     /**
-     * Set the suffix value.
+     * Set the optional suffix for the Data Lake Store account.
      *
      * @param suffix the suffix value to set
      * @return the AddDataLakeStoreParameters object itself.

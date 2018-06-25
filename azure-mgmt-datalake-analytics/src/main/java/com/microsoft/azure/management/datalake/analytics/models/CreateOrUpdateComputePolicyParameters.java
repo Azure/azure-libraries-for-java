@@ -47,7 +47,7 @@ public class CreateOrUpdateComputePolicyParameters {
     private Integer minPriorityPerJob;
 
     /**
-     * Get the objectId value.
+     * Get the AAD object identifier for the entity to create a policy for.
      *
      * @return the objectId value
      */
@@ -56,7 +56,7 @@ public class CreateOrUpdateComputePolicyParameters {
     }
 
     /**
-     * Set the objectId value.
+     * Set the AAD object identifier for the entity to create a policy for.
      *
      * @param objectId the objectId value to set
      * @return the CreateOrUpdateComputePolicyParameters object itself.
@@ -67,7 +67,7 @@ public class CreateOrUpdateComputePolicyParameters {
     }
 
     /**
-     * Get the objectType value.
+     * Get the type of AAD object the object identifier refers to. Possible values include: 'User', 'Group', 'ServicePrincipal'.
      *
      * @return the objectType value
      */
@@ -76,7 +76,7 @@ public class CreateOrUpdateComputePolicyParameters {
     }
 
     /**
-     * Set the objectType value.
+     * Set the type of AAD object the object identifier refers to. Possible values include: 'User', 'Group', 'ServicePrincipal'.
      *
      * @param objectType the objectType value to set
      * @return the CreateOrUpdateComputePolicyParameters object itself.
@@ -87,7 +87,7 @@ public class CreateOrUpdateComputePolicyParameters {
     }
 
     /**
-     * Get the maxDegreeOfParallelismPerJob value.
+     * Get the maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed.
      *
      * @return the maxDegreeOfParallelismPerJob value
      */
@@ -96,7 +96,7 @@ public class CreateOrUpdateComputePolicyParameters {
     }
 
     /**
-     * Set the maxDegreeOfParallelismPerJob value.
+     * Set the maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed.
      *
      * @param maxDegreeOfParallelismPerJob the maxDegreeOfParallelismPerJob value to set
      * @return the CreateOrUpdateComputePolicyParameters object itself.
@@ -107,7 +107,7 @@ public class CreateOrUpdateComputePolicyParameters {
     }
 
     /**
-     * Get the minPriorityPerJob value.
+     * Get the minimum priority per job this user can use to submit jobs. This property, the max degree of parallelism per job property, or both must be passed.
      *
      * @return the minPriorityPerJob value
      */
@@ -116,7 +116,7 @@ public class CreateOrUpdateComputePolicyParameters {
     }
 
     /**
-     * Set the minPriorityPerJob value.
+     * Set the minimum priority per job this user can use to submit jobs. This property, the max degree of parallelism per job property, or both must be passed.
      *
      * @param minPriorityPerJob the minPriorityPerJob value to set
      * @return the CreateOrUpdateComputePolicyParameters object itself.

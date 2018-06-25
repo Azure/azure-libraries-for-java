@@ -8,10 +8,9 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.joda.time.DateTime;
-
 import java.util.List;
+import org.joda.time.DateTime;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A Data Lake Analytics catalog U-SQL table partition item.
@@ -61,7 +60,7 @@ public class USqlTablePartition extends CatalogItem {
     private DateTime createDate;
 
     /**
-     * Get the databaseName value.
+     * Get the name of the database.
      *
      * @return the databaseName value
      */
@@ -70,7 +69,7 @@ public class USqlTablePartition extends CatalogItem {
     }
 
     /**
-     * Set the databaseName value.
+     * Set the name of the database.
      *
      * @param databaseName the databaseName value to set
      * @return the USqlTablePartition object itself.
@@ -81,7 +80,7 @@ public class USqlTablePartition extends CatalogItem {
     }
 
     /**
-     * Get the schemaName value.
+     * Get the name of the schema associated with this table partition and database.
      *
      * @return the schemaName value
      */
@@ -90,7 +89,7 @@ public class USqlTablePartition extends CatalogItem {
     }
 
     /**
-     * Set the schemaName value.
+     * Set the name of the schema associated with this table partition and database.
      *
      * @param schemaName the schemaName value to set
      * @return the USqlTablePartition object itself.
@@ -101,7 +100,7 @@ public class USqlTablePartition extends CatalogItem {
     }
 
     /**
-     * Get the name value.
+     * Get the name of the table partition.
      *
      * @return the name value
      */
@@ -110,7 +109,7 @@ public class USqlTablePartition extends CatalogItem {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the table partition.
      *
      * @param name the name value to set
      * @return the USqlTablePartition object itself.
@@ -121,7 +120,7 @@ public class USqlTablePartition extends CatalogItem {
     }
 
     /**
-     * Get the parentName value.
+     * Get the Ddl object of the partition's parent.
      *
      * @return the parentName value
      */
@@ -130,7 +129,7 @@ public class USqlTablePartition extends CatalogItem {
     }
 
     /**
-     * Set the parentName value.
+     * Set the Ddl object of the partition's parent.
      *
      * @param parentName the parentName value to set
      * @return the USqlTablePartition object itself.
@@ -141,7 +140,7 @@ public class USqlTablePartition extends CatalogItem {
     }
 
     /**
-     * Get the indexId value.
+     * Get the index ID for this partition.
      *
      * @return the indexId value
      */
@@ -150,7 +149,7 @@ public class USqlTablePartition extends CatalogItem {
     }
 
     /**
-     * Set the indexId value.
+     * Set the index ID for this partition.
      *
      * @param indexId the indexId value to set
      * @return the USqlTablePartition object itself.
@@ -161,7 +160,7 @@ public class USqlTablePartition extends CatalogItem {
     }
 
     /**
-     * Get the label value.
+     * Get the list of labels associated with this partition.
      *
      * @return the label value
      */
@@ -170,7 +169,7 @@ public class USqlTablePartition extends CatalogItem {
     }
 
     /**
-     * Set the label value.
+     * Set the list of labels associated with this partition.
      *
      * @param label the label value to set
      * @return the USqlTablePartition object itself.
@@ -181,7 +180,7 @@ public class USqlTablePartition extends CatalogItem {
     }
 
     /**
-     * Get the createDate value.
+     * Get the creation time of the partition.
      *
      * @return the createDate value
      */
@@ -190,7 +189,7 @@ public class USqlTablePartition extends CatalogItem {
     }
 
     /**
-     * Set the createDate value.
+     * Set the creation time of the partition.
      *
      * @param createDate the createDate value to set
      * @return the USqlTablePartition object itself.

@@ -21,7 +21,7 @@ public class CatalogItemList {
     private String nextLink;
 
     /**
-     * Get the nextLink value.
+     * Get the link to the next page of results.
      *
      * @return the nextLink value
      */
@@ -30,7 +30,7 @@ public class CatalogItemList {
     }
 
     /**
-     * Set the nextLink value.
+     * Set the link to the next page of results.
      *
      * @param nextLink the nextLink value to set
      * @return the CatalogItemList object itself.

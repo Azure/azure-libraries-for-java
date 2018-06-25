@@ -8,10 +8,9 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
+import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-
-import java.util.UUID;
 
 /**
  * Data Lake Analytics compute policy information.
@@ -45,7 +44,19 @@ public class ComputePolicy extends SubResource {
     private Integer minPriorityPerJob;
 
     /**
-     * Get the objectId value.
+     * The resource name.
+     */
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
+    private String name;
+
+    /**
+     * The resource type.
+     */
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
+    private String type;
+
+    /**
+     * Get the AAD object identifier for the entity to create a policy for.
      *
      * @return the objectId value
      */
@@ -54,7 +65,7 @@ public class ComputePolicy extends SubResource {
     }
 
     /**
-     * Get the objectType value.
+     * Get the type of AAD object the object identifier refers to. Possible values include: 'User', 'Group', 'ServicePrincipal'.
      *
      * @return the objectType value
      */
@@ -63,7 +74,7 @@ public class ComputePolicy extends SubResource {
     }
 
     /**
-     * Get the maxDegreeOfParallelismPerJob value.
+     * Get the maximum degree of parallelism per job this user can use to submit jobs.
      *
      * @return the maxDegreeOfParallelismPerJob value
      */
@@ -72,12 +83,30 @@ public class ComputePolicy extends SubResource {
     }
 
     /**
-     * Get the minPriorityPerJob value.
+     * Get the minimum priority per job this user can use to submit jobs.
      *
      * @return the minPriorityPerJob value
      */
     public Integer minPriorityPerJob() {
         return this.minPriorityPerJob;
+    }
+
+    /**
+     * Get the resource name.
+     *
+     * @return the name value
+     */
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Get the resource type.
+     *
+     * @return the type value
+     */
+    public String type() {
+        return this.type;
     }
 
 }

@@ -17,31 +17,31 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class JobStateAuditRecord {
     /**
-     * the new state the job is in.
+     * The new state the job is in.
      */
     @JsonProperty(value = "newState", access = JsonProperty.Access.WRITE_ONLY)
     private String newState;
 
     /**
-     * the time stamp that the state change took place.
+     * The time stamp that the state change took place.
      */
     @JsonProperty(value = "timeStamp", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime timeStamp;
 
     /**
-     * the user who requests the change.
+     * The user who requests the change.
      */
     @JsonProperty(value = "requestedByUser", access = JsonProperty.Access.WRITE_ONLY)
     private String requestedByUser;
 
     /**
-     * the details of the audit log.
+     * The details of the audit log.
      */
     @JsonProperty(value = "details", access = JsonProperty.Access.WRITE_ONLY)
     private String details;
 
     /**
-     * Get the newState value.
+     * Get the new state the job is in.
      *
      * @return the newState value
      */
@@ -50,7 +50,7 @@ public class JobStateAuditRecord {
     }
 
     /**
-     * Get the timeStamp value.
+     * Get the time stamp that the state change took place.
      *
      * @return the timeStamp value
      */
@@ -59,7 +59,7 @@ public class JobStateAuditRecord {
     }
 
     /**
-     * Get the requestedByUser value.
+     * Get the user who requests the change.
      *
      * @return the requestedByUser value
      */
@@ -68,7 +68,7 @@ public class JobStateAuditRecord {
     }
 
     /**
-     * Get the details value.
+     * Get the details of the audit log.
      *
      * @return the details value
      */

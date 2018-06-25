@@ -31,7 +31,7 @@ public class CreateOrUpdateFirewallRuleParameters {
     private String endIpAddress;
 
     /**
-     * Get the startIpAddress value.
+     * Get the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      *
      * @return the startIpAddress value
      */
@@ -40,7 +40,7 @@ public class CreateOrUpdateFirewallRuleParameters {
     }
 
     /**
-     * Set the startIpAddress value.
+     * Set the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      *
      * @param startIpAddress the startIpAddress value to set
      * @return the CreateOrUpdateFirewallRuleParameters object itself.
@@ -51,7 +51,7 @@ public class CreateOrUpdateFirewallRuleParameters {
     }
 
     /**
-     * Get the endIpAddress value.
+     * Get the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      *
      * @return the endIpAddress value
      */
@@ -60,7 +60,7 @@ public class CreateOrUpdateFirewallRuleParameters {
     }
 
     /**
-     * Set the endIpAddress value.
+     * Set the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      *
      * @param endIpAddress the endIpAddress value to set
      * @return the CreateOrUpdateFirewallRuleParameters object itself.

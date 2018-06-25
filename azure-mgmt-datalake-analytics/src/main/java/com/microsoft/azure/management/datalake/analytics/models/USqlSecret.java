@@ -48,7 +48,7 @@ public class USqlSecret extends CatalogItem {
     private String password;
 
     /**
-     * Get the databaseName value.
+     * Get the name of the database.
      *
      * @return the databaseName value
      */
@@ -57,7 +57,7 @@ public class USqlSecret extends CatalogItem {
     }
 
     /**
-     * Set the databaseName value.
+     * Set the name of the database.
      *
      * @param databaseName the databaseName value to set
      * @return the USqlSecret object itself.
@@ -68,7 +68,7 @@ public class USqlSecret extends CatalogItem {
     }
 
     /**
-     * Get the name value.
+     * Get the name of the secret.
      *
      * @return the name value
      */
@@ -77,7 +77,7 @@ public class USqlSecret extends CatalogItem {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the secret.
      *
      * @param name the name value to set
      * @return the USqlSecret object itself.
@@ -88,7 +88,7 @@ public class USqlSecret extends CatalogItem {
     }
 
     /**
-     * Get the creationTime value.
+     * Get the creation time of the credential object. This is the only information returned about a secret from a GET.
      *
      * @return the creationTime value
      */
@@ -97,7 +97,7 @@ public class USqlSecret extends CatalogItem {
     }
 
     /**
-     * Set the creationTime value.
+     * Set the creation time of the credential object. This is the only information returned about a secret from a GET.
      *
      * @param creationTime the creationTime value to set
      * @return the USqlSecret object itself.
@@ -108,7 +108,7 @@ public class USqlSecret extends CatalogItem {
     }
 
     /**
-     * Get the uri value.
+     * Get the URI identifier for the secret in the format &lt;hostname&gt;:&lt;port&gt;.
      *
      * @return the uri value
      */
@@ -117,7 +117,7 @@ public class USqlSecret extends CatalogItem {
     }
 
     /**
-     * Set the uri value.
+     * Set the URI identifier for the secret in the format &lt;hostname&gt;:&lt;port&gt;.
      *
      * @param uri the uri value to set
      * @return the USqlSecret object itself.
@@ -128,7 +128,7 @@ public class USqlSecret extends CatalogItem {
     }
 
     /**
-     * Get the password value.
+     * Get the password for the secret to pass in.
      *
      * @return the password value
      */
@@ -137,7 +137,7 @@ public class USqlSecret extends CatalogItem {
     }
 
     /**
-     * Set the password value.
+     * Set the password for the secret to pass in.
      *
      * @param password the password value to set
      * @return the USqlSecret object itself.

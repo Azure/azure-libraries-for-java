@@ -8,12 +8,11 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
+import java.util.List;
+import org.joda.time.Period;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import org.joda.time.Period;
-
-import java.util.List;
 
 /**
  * U-SQL job properties used when retrieving U-SQL jobs.
@@ -22,86 +21,86 @@ import java.util.List;
 @JsonTypeName("USql")
 public class USqlJobProperties extends JobProperties {
     /**
-     * the list of resources that are required by the job.
+     * The list of resources that are required by the job.
      */
     @JsonProperty(value = "resources", access = JsonProperty.Access.WRITE_ONLY)
     private List<JobResource> resources;
 
     /**
-     * the job specific statistics.
+     * The job specific statistics.
      */
     @JsonProperty(value = "statistics")
     private JobStatistics statistics;
 
     /**
-     * the job specific debug data locations.
+     * The job specific debug data locations.
      */
     @JsonProperty(value = "debugData")
     private JobDataPath debugData;
 
     /**
-     * the diagnostics for the job.
+     * The diagnostics for the job.
      */
     @JsonProperty(value = "diagnostics", access = JsonProperty.Access.WRITE_ONLY)
     private List<Diagnostics> diagnostics;
 
     /**
-     * the algebra file path after the job has completed.
+     * The algebra file path after the job has completed.
      */
     @JsonProperty(value = "algebraFilePath", access = JsonProperty.Access.WRITE_ONLY)
     private String algebraFilePath;
 
     /**
-     * the total time this job spent compiling. This value should not be set by
+     * The total time this job spent compiling. This value should not be set by
      * the user and will be ignored if it is.
      */
     @JsonProperty(value = "totalCompilationTime", access = JsonProperty.Access.WRITE_ONLY)
     private Period totalCompilationTime;
 
     /**
-     * the total time this job spent paused. This value should not be set by
-     * the user and will be ignored if it is.
-     */
-    @JsonProperty(value = "totalPausedTime", access = JsonProperty.Access.WRITE_ONLY)
-    private Period totalPausedTime;
-
-    /**
-     * the total time this job spent queued. This value should not be set by
+     * The total time this job spent queued. This value should not be set by
      * the user and will be ignored if it is.
      */
     @JsonProperty(value = "totalQueuedTime", access = JsonProperty.Access.WRITE_ONLY)
     private Period totalQueuedTime;
 
     /**
-     * the total time this job spent executing. This value should not be set by
+     * The total time this job spent executing. This value should not be set by
      * the user and will be ignored if it is.
      */
     @JsonProperty(value = "totalRunningTime", access = JsonProperty.Access.WRITE_ONLY)
     private Period totalRunningTime;
 
     /**
-     * the ID used to identify the job manager coordinating job execution. This
+     * The total time this job spent paused. This value should not be set by
+     * the user and will be ignored if it is.
+     */
+    @JsonProperty(value = "totalPausedTime", access = JsonProperty.Access.WRITE_ONLY)
+    private Period totalPausedTime;
+
+    /**
+     * The ID used to identify the job manager coordinating job execution. This
      * value should not be set by the user and will be ignored if it is.
      */
     @JsonProperty(value = "rootProcessNodeId", access = JsonProperty.Access.WRITE_ONLY)
     private String rootProcessNodeId;
 
     /**
-     * the ID used to identify the yarn application executing the job. This
+     * The ID used to identify the yarn application executing the job. This
      * value should not be set by the user and will be ignored if it is.
      */
     @JsonProperty(value = "yarnApplicationId", access = JsonProperty.Access.WRITE_ONLY)
     private String yarnApplicationId;
 
     /**
-     * the timestamp (in ticks) for the yarn application executing the job.
+     * The timestamp (in ticks) for the yarn application executing the job.
      * This value should not be set by the user and will be ignored if it is.
      */
     @JsonProperty(value = "yarnApplicationTimeStamp", access = JsonProperty.Access.WRITE_ONLY)
     private Long yarnApplicationTimeStamp;
 
     /**
-     * the specific compilation mode for the job used during execution. If this
+     * The specific compilation mode for the job used during execution. If this
      * is not specified during submission, the server will determine the
      * optimal compilation mode. Possible values include: 'Semantic', 'Full',
      * 'SingleBox'.
@@ -110,7 +109,7 @@ public class USqlJobProperties extends JobProperties {
     private CompileMode compileMode;
 
     /**
-     * Get the resources value.
+     * Get the list of resources that are required by the job.
      *
      * @return the resources value
      */
@@ -119,7 +118,7 @@ public class USqlJobProperties extends JobProperties {
     }
 
     /**
-     * Get the statistics value.
+     * Get the job specific statistics.
      *
      * @return the statistics value
      */
@@ -128,7 +127,7 @@ public class USqlJobProperties extends JobProperties {
     }
 
     /**
-     * Set the statistics value.
+     * Set the job specific statistics.
      *
      * @param statistics the statistics value to set
      * @return the USqlJobProperties object itself.
@@ -139,7 +138,7 @@ public class USqlJobProperties extends JobProperties {
     }
 
     /**
-     * Get the debugData value.
+     * Get the job specific debug data locations.
      *
      * @return the debugData value
      */
@@ -148,7 +147,7 @@ public class USqlJobProperties extends JobProperties {
     }
 
     /**
-     * Set the debugData value.
+     * Set the job specific debug data locations.
      *
      * @param debugData the debugData value to set
      * @return the USqlJobProperties object itself.
@@ -159,7 +158,7 @@ public class USqlJobProperties extends JobProperties {
     }
 
     /**
-     * Get the diagnostics value.
+     * Get the diagnostics for the job.
      *
      * @return the diagnostics value
      */
@@ -168,7 +167,7 @@ public class USqlJobProperties extends JobProperties {
     }
 
     /**
-     * Get the algebraFilePath value.
+     * Get the algebra file path after the job has completed.
      *
      * @return the algebraFilePath value
      */
@@ -177,7 +176,7 @@ public class USqlJobProperties extends JobProperties {
     }
 
     /**
-     * Get the totalCompilationTime value.
+     * Get the total time this job spent compiling. This value should not be set by the user and will be ignored if it is.
      *
      * @return the totalCompilationTime value
      */
@@ -186,16 +185,7 @@ public class USqlJobProperties extends JobProperties {
     }
 
     /**
-     * Get the totalPausedTime value.
-     *
-     * @return the totalPausedTime value
-     */
-    public Period totalPausedTime() {
-        return this.totalPausedTime;
-    }
-
-    /**
-     * Get the totalQueuedTime value.
+     * Get the total time this job spent queued. This value should not be set by the user and will be ignored if it is.
      *
      * @return the totalQueuedTime value
      */
@@ -204,7 +194,7 @@ public class USqlJobProperties extends JobProperties {
     }
 
     /**
-     * Get the totalRunningTime value.
+     * Get the total time this job spent executing. This value should not be set by the user and will be ignored if it is.
      *
      * @return the totalRunningTime value
      */
@@ -213,7 +203,16 @@ public class USqlJobProperties extends JobProperties {
     }
 
     /**
-     * Get the rootProcessNodeId value.
+     * Get the total time this job spent paused. This value should not be set by the user and will be ignored if it is.
+     *
+     * @return the totalPausedTime value
+     */
+    public Period totalPausedTime() {
+        return this.totalPausedTime;
+    }
+
+    /**
+     * Get the ID used to identify the job manager coordinating job execution. This value should not be set by the user and will be ignored if it is.
      *
      * @return the rootProcessNodeId value
      */
@@ -222,7 +221,7 @@ public class USqlJobProperties extends JobProperties {
     }
 
     /**
-     * Get the yarnApplicationId value.
+     * Get the ID used to identify the yarn application executing the job. This value should not be set by the user and will be ignored if it is.
      *
      * @return the yarnApplicationId value
      */
@@ -231,7 +230,7 @@ public class USqlJobProperties extends JobProperties {
     }
 
     /**
-     * Get the yarnApplicationTimeStamp value.
+     * Get the timestamp (in ticks) for the yarn application executing the job. This value should not be set by the user and will be ignored if it is.
      *
      * @return the yarnApplicationTimeStamp value
      */
@@ -240,7 +239,7 @@ public class USqlJobProperties extends JobProperties {
     }
 
     /**
-     * Get the compileMode value.
+     * Get the specific compilation mode for the job used during execution. If this is not specified during submission, the server will determine the optimal compilation mode. Possible values include: 'Semantic', 'Full', 'SingleBox'.
      *
      * @return the compileMode value
      */

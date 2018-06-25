@@ -21,7 +21,7 @@ public class USqlAssemblyDependencyInfo {
     private EntityId entityId;
 
     /**
-     * Get the entityId value.
+     * Get the EntityId of the dependency.
      *
      * @return the entityId value
      */
@@ -30,7 +30,7 @@ public class USqlAssemblyDependencyInfo {
     }
 
     /**
-     * Set the entityId value.
+     * Set the EntityId of the dependency.
      *
      * @param entityId the entityId value to set
      * @return the USqlAssemblyDependencyInfo object itself.

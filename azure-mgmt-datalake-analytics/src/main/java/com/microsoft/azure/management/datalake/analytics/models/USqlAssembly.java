@@ -58,7 +58,7 @@ public class USqlAssembly extends CatalogItem {
     private List<USqlAssemblyDependencyInfo> dependencies;
 
     /**
-     * Get the databaseName value.
+     * Get the name of the database.
      *
      * @return the databaseName value
      */
@@ -67,7 +67,7 @@ public class USqlAssembly extends CatalogItem {
     }
 
     /**
-     * Set the databaseName value.
+     * Set the name of the database.
      *
      * @param databaseName the databaseName value to set
      * @return the USqlAssembly object itself.
@@ -78,7 +78,7 @@ public class USqlAssembly extends CatalogItem {
     }
 
     /**
-     * Get the name value.
+     * Get the name of the assembly.
      *
      * @return the name value
      */
@@ -87,7 +87,7 @@ public class USqlAssembly extends CatalogItem {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the assembly.
      *
      * @param name the name value to set
      * @return the USqlAssembly object itself.
@@ -98,7 +98,7 @@ public class USqlAssembly extends CatalogItem {
     }
 
     /**
-     * Get the clrName value.
+     * Get the name of the CLR.
      *
      * @return the clrName value
      */
@@ -107,7 +107,7 @@ public class USqlAssembly extends CatalogItem {
     }
 
     /**
-     * Set the clrName value.
+     * Set the name of the CLR.
      *
      * @param clrName the clrName value to set
      * @return the USqlAssembly object itself.
@@ -118,7 +118,7 @@ public class USqlAssembly extends CatalogItem {
     }
 
     /**
-     * Get the isVisible value.
+     * Get the switch indicating if this assembly is visible or not.
      *
      * @return the isVisible value
      */
@@ -127,7 +127,7 @@ public class USqlAssembly extends CatalogItem {
     }
 
     /**
-     * Set the isVisible value.
+     * Set the switch indicating if this assembly is visible or not.
      *
      * @param isVisible the isVisible value to set
      * @return the USqlAssembly object itself.
@@ -138,7 +138,7 @@ public class USqlAssembly extends CatalogItem {
     }
 
     /**
-     * Get the isUserDefined value.
+     * Get the switch indicating if this assembly is user defined or not.
      *
      * @return the isUserDefined value
      */
@@ -147,7 +147,7 @@ public class USqlAssembly extends CatalogItem {
     }
 
     /**
-     * Set the isUserDefined value.
+     * Set the switch indicating if this assembly is user defined or not.
      *
      * @param isUserDefined the isUserDefined value to set
      * @return the USqlAssembly object itself.
@@ -158,7 +158,7 @@ public class USqlAssembly extends CatalogItem {
     }
 
     /**
-     * Get the files value.
+     * Get the list of files associated with the assembly.
      *
      * @return the files value
      */
@@ -167,7 +167,7 @@ public class USqlAssembly extends CatalogItem {
     }
 
     /**
-     * Set the files value.
+     * Set the list of files associated with the assembly.
      *
      * @param files the files value to set
      * @return the USqlAssembly object itself.
@@ -178,7 +178,7 @@ public class USqlAssembly extends CatalogItem {
     }
 
     /**
-     * Get the dependencies value.
+     * Get the list of dependencies associated with the assembly.
      *
      * @return the dependencies value
      */
@@ -187,7 +187,7 @@ public class USqlAssembly extends CatalogItem {
     }
 
     /**
-     * Set the dependencies value.
+     * Set the list of dependencies associated with the assembly.
      *
      * @param dependencies the dependencies value to set
      * @return the USqlAssembly object itself.

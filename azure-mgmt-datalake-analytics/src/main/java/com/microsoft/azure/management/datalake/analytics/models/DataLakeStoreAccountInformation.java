@@ -23,12 +23,42 @@ public class DataLakeStoreAccountInformation extends SubResource {
     private String suffix;
 
     /**
-     * Get the suffix value.
+     * The resource name.
+     */
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
+    private String name;
+
+    /**
+     * The resource type.
+     */
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
+    private String type;
+
+    /**
+     * Get the optional suffix for the Data Lake Store account.
      *
      * @return the suffix value
      */
     public String suffix() {
         return this.suffix;
+    }
+
+    /**
+     * Get the resource name.
+     *
+     * @return the name value
+     */
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Get the resource type.
+     *
+     * @return the type value
+     */
+    public String type() {
+        return this.type;
     }
 
 }

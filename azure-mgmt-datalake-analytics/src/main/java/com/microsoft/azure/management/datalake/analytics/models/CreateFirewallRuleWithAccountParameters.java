@@ -38,7 +38,7 @@ public class CreateFirewallRuleWithAccountParameters {
     private String endIpAddress;
 
     /**
-     * Get the name value.
+     * Get the unique name of the firewall rule to create.
      *
      * @return the name value
      */
@@ -47,7 +47,7 @@ public class CreateFirewallRuleWithAccountParameters {
     }
 
     /**
-     * Set the name value.
+     * Set the unique name of the firewall rule to create.
      *
      * @param name the name value to set
      * @return the CreateFirewallRuleWithAccountParameters object itself.
@@ -58,7 +58,7 @@ public class CreateFirewallRuleWithAccountParameters {
     }
 
     /**
-     * Get the startIpAddress value.
+     * Get the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      *
      * @return the startIpAddress value
      */
@@ -67,7 +67,7 @@ public class CreateFirewallRuleWithAccountParameters {
     }
 
     /**
-     * Set the startIpAddress value.
+     * Set the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      *
      * @param startIpAddress the startIpAddress value to set
      * @return the CreateFirewallRuleWithAccountParameters object itself.
@@ -78,7 +78,7 @@ public class CreateFirewallRuleWithAccountParameters {
     }
 
     /**
-     * Get the endIpAddress value.
+     * Get the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      *
      * @return the endIpAddress value
      */
@@ -87,7 +87,7 @@ public class CreateFirewallRuleWithAccountParameters {
     }
 
     /**
-     * Set the endIpAddress value.
+     * Set the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      *
      * @param endIpAddress the endIpAddress value to set
      * @return the CreateFirewallRuleWithAccountParameters object itself.

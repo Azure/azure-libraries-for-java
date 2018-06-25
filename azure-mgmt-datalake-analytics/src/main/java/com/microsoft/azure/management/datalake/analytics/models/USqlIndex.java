@@ -8,10 +8,9 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A Data Lake Analytics catalog U-SQL table index item.
@@ -79,7 +78,7 @@ public class USqlIndex {
     private Boolean isUnique;
 
     /**
-     * Get the name value.
+     * Get the name of the index in the table.
      *
      * @return the name value
      */
@@ -88,7 +87,7 @@ public class USqlIndex {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the index in the table.
      *
      * @param name the name value to set
      * @return the USqlIndex object itself.
@@ -99,7 +98,7 @@ public class USqlIndex {
     }
 
     /**
-     * Get the indexKeys value.
+     * Get the list of directed columns in the index.
      *
      * @return the indexKeys value
      */
@@ -108,7 +107,7 @@ public class USqlIndex {
     }
 
     /**
-     * Set the indexKeys value.
+     * Set the list of directed columns in the index.
      *
      * @param indexKeys the indexKeys value to set
      * @return the USqlIndex object itself.
@@ -119,7 +118,7 @@ public class USqlIndex {
     }
 
     /**
-     * Get the columns value.
+     * Get the list of columns in the index.
      *
      * @return the columns value
      */
@@ -128,7 +127,7 @@ public class USqlIndex {
     }
 
     /**
-     * Set the columns value.
+     * Set the list of columns in the index.
      *
      * @param columns the columns value to set
      * @return the USqlIndex object itself.
@@ -139,7 +138,7 @@ public class USqlIndex {
     }
 
     /**
-     * Get the distributionInfo value.
+     * Get the distributions info of the index.
      *
      * @return the distributionInfo value
      */
@@ -148,7 +147,7 @@ public class USqlIndex {
     }
 
     /**
-     * Set the distributionInfo value.
+     * Set the distributions info of the index.
      *
      * @param distributionInfo the distributionInfo value to set
      * @return the USqlIndex object itself.
@@ -159,7 +158,7 @@ public class USqlIndex {
     }
 
     /**
-     * Get the partitionFunction value.
+     * Get partition function ID for the index.
      *
      * @return the partitionFunction value
      */
@@ -168,7 +167,7 @@ public class USqlIndex {
     }
 
     /**
-     * Set the partitionFunction value.
+     * Set partition function ID for the index.
      *
      * @param partitionFunction the partitionFunction value to set
      * @return the USqlIndex object itself.
@@ -179,7 +178,7 @@ public class USqlIndex {
     }
 
     /**
-     * Get the partitionKeyList value.
+     * Get the list of partion keys in the index.
      *
      * @return the partitionKeyList value
      */
@@ -188,7 +187,7 @@ public class USqlIndex {
     }
 
     /**
-     * Set the partitionKeyList value.
+     * Set the list of partion keys in the index.
      *
      * @param partitionKeyList the partitionKeyList value to set
      * @return the USqlIndex object itself.
@@ -199,7 +198,7 @@ public class USqlIndex {
     }
 
     /**
-     * Get the streamNames value.
+     * Get the list of full paths to the streams that contain this index in the DataLake account.
      *
      * @return the streamNames value
      */
@@ -208,7 +207,7 @@ public class USqlIndex {
     }
 
     /**
-     * Set the streamNames value.
+     * Set the list of full paths to the streams that contain this index in the DataLake account.
      *
      * @param streamNames the streamNames value to set
      * @return the USqlIndex object itself.
@@ -219,7 +218,7 @@ public class USqlIndex {
     }
 
     /**
-     * Get the isColumnstore value.
+     * Get the switch indicating if this index is a columnstore index.
      *
      * @return the isColumnstore value
      */
@@ -228,7 +227,7 @@ public class USqlIndex {
     }
 
     /**
-     * Set the isColumnstore value.
+     * Set the switch indicating if this index is a columnstore index.
      *
      * @param isColumnstore the isColumnstore value to set
      * @return the USqlIndex object itself.
@@ -239,7 +238,7 @@ public class USqlIndex {
     }
 
     /**
-     * Get the indexId value.
+     * Get the ID of this index within the table.
      *
      * @return the indexId value
      */
@@ -248,7 +247,7 @@ public class USqlIndex {
     }
 
     /**
-     * Set the indexId value.
+     * Set the ID of this index within the table.
      *
      * @param indexId the indexId value to set
      * @return the USqlIndex object itself.
@@ -259,7 +258,7 @@ public class USqlIndex {
     }
 
     /**
-     * Get the isUnique value.
+     * Get the switch indicating if this index is a unique index.
      *
      * @return the isUnique value
      */
@@ -268,7 +267,7 @@ public class USqlIndex {
     }
 
     /**
-     * Set the isUnique value.
+     * Set the switch indicating if this index is a unique index.
      *
      * @param isUnique the isUnique value to set
      * @return the USqlIndex object itself.

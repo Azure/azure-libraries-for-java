@@ -22,7 +22,7 @@ public class USqlTableType extends USqlType {
     private List<TypeFieldInfo> columns;
 
     /**
-     * Get the columns value.
+     * Get the type field information associated with this table type.
      *
      * @return the columns value
      */

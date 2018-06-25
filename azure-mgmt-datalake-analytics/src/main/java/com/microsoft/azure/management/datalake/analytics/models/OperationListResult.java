@@ -8,9 +8,8 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The list of available operations for Data Lake Analytics.
@@ -29,7 +28,7 @@ public class OperationListResult {
     private String nextLink;
 
     /**
-     * Get the value value.
+     * Get the results of the list operation.
      *
      * @return the value value
      */
@@ -38,7 +37,7 @@ public class OperationListResult {
     }
 
     /**
-     * Get the nextLink value.
+     * Get the link (url) to the next page of results.
      *
      * @return the nextLink value
      */

@@ -27,7 +27,7 @@ public class USqlSchema extends CatalogItem {
     private String name;
 
     /**
-     * Get the databaseName value.
+     * Get the name of the database.
      *
      * @return the databaseName value
      */
@@ -36,7 +36,7 @@ public class USqlSchema extends CatalogItem {
     }
 
     /**
-     * Set the databaseName value.
+     * Set the name of the database.
      *
      * @param databaseName the databaseName value to set
      * @return the USqlSchema object itself.
@@ -47,7 +47,7 @@ public class USqlSchema extends CatalogItem {
     }
 
     /**
-     * Get the name value.
+     * Get the name of the schema.
      *
      * @return the name value
      */
@@ -56,7 +56,7 @@ public class USqlSchema extends CatalogItem {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the schema.
      *
      * @param name the name value to set
      * @return the USqlSchema object itself.

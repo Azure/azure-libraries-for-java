@@ -27,7 +27,25 @@ public class USqlTableColumn {
     private String type;
 
     /**
-     * Get the name value.
+     * the name of the column in the table.
+     * This property is only used for compability. It will be removed in the future. Use name instead
+     */
+    @JsonProperty(value = "columnName")
+    private void setColumnName(String columnName) {
+        this.name = columnName;
+    }
+
+    /**
+     * the object type of the specified column (such as System.String).
+     * This property is only used for compability. It will be removed in the future. Use type instead
+     */
+    @JsonProperty(value = "dataType")
+    private void setDataType(String dataType) {
+        this.type = dataType;
+    }
+
+    /**
+     * Get the name of the column in the table.
      *
      * @return the name value
      */
@@ -36,7 +54,7 @@ public class USqlTableColumn {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the column in the table.
      *
      * @param name the name value to set
      * @return the USqlTableColumn object itself.
@@ -47,7 +65,7 @@ public class USqlTableColumn {
     }
 
     /**
-     * Get the type value.
+     * Get the object type of the specified column (such as System.String).
      *
      * @return the type value
      */
@@ -56,7 +74,7 @@ public class USqlTableColumn {
     }
 
     /**
-     * Set the type value.
+     * Set the object type of the specified column (such as System.String).
      *
      * @param type the type value to set
      * @return the USqlTableColumn object itself.

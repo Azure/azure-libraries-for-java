@@ -8,47 +8,46 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.joda.time.Period;
-
 import java.util.UUID;
+import org.joda.time.Period;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * the detailed information for a vertex.
+ * The detailed information for a vertex.
  */
 public class JobStatisticsVertex {
     /**
-     * the name of the vertex.
+     * The name of the vertex.
      */
     @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
-     * the id of the vertex.
+     * The id of the vertex.
      */
     @JsonProperty(value = "vertexId", access = JsonProperty.Access.WRITE_ONLY)
     private UUID vertexId;
 
     /**
-     * the amount of execution time of the vertex.
+     * The amount of execution time of the vertex.
      */
     @JsonProperty(value = "executionTime", access = JsonProperty.Access.WRITE_ONLY)
     private Period executionTime;
 
     /**
-     * the amount of data read of the vertex, in bytes.
+     * The amount of data read of the vertex, in bytes.
      */
     @JsonProperty(value = "dataRead", access = JsonProperty.Access.WRITE_ONLY)
     private Long dataRead;
 
     /**
-     * the amount of peak memory usage of the vertex, in bytes.
+     * The amount of peak memory usage of the vertex, in bytes.
      */
     @JsonProperty(value = "peakMemUsage", access = JsonProperty.Access.WRITE_ONLY)
     private Long peakMemUsage;
 
     /**
-     * Get the name value.
+     * Get the name of the vertex.
      *
      * @return the name value
      */
@@ -57,7 +56,7 @@ public class JobStatisticsVertex {
     }
 
     /**
-     * Get the vertexId value.
+     * Get the id of the vertex.
      *
      * @return the vertexId value
      */
@@ -66,7 +65,7 @@ public class JobStatisticsVertex {
     }
 
     /**
-     * Get the executionTime value.
+     * Get the amount of execution time of the vertex.
      *
      * @return the executionTime value
      */
@@ -75,7 +74,7 @@ public class JobStatisticsVertex {
     }
 
     /**
-     * Get the dataRead value.
+     * Get the amount of data read of the vertex, in bytes.
      *
      * @return the dataRead value
      */
@@ -84,7 +83,7 @@ public class JobStatisticsVertex {
     }
 
     /**
-     * Get the peakMemUsage value.
+     * Get the amount of peak memory usage of the vertex, in bytes.
      *
      * @return the peakMemUsage value
      */

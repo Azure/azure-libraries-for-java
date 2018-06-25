@@ -22,7 +22,7 @@ public class DataLakeAnalyticsCatalogCredentialDeleteParameters {
     private String password;
 
     /**
-     * Get the password value.
+     * Get the current password for the credential and user with access to the data source. This is required if the requester is not the account owner.
      *
      * @return the password value
      */
@@ -31,7 +31,7 @@ public class DataLakeAnalyticsCatalogCredentialDeleteParameters {
     }
 
     /**
-     * Set the password value.
+     * Set the current password for the credential and user with access to the data source. This is required if the requester is not the account owner.
      *
      * @param password the password value to set
      * @return the DataLakeAnalyticsCatalogCredentialDeleteParameters object itself.

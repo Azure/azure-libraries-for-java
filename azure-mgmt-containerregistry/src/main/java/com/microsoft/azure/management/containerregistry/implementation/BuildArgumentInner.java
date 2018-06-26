@@ -41,8 +41,6 @@ public class BuildArgumentInner {
 
     /**
      * Creates an instance of BuildArgumentInner class.
-     * @param name the name of the argument.
-     * @param value the value of the argument.
      */
     public BuildArgumentInner() {
         type = "DockerBuildArgument";

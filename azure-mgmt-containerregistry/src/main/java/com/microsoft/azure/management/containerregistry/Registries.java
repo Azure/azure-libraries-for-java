@@ -123,6 +123,49 @@ public interface Registries extends
     @Beta(SinceVersion.V1_4_0)
     Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name);
 
+
+    /**
+     * Creates a new build based on the request parameters and add it to the build queue.
+     *
+     * @param resourceGroupName the resource group name
+     * @param registryName the registry name
+     * @param buildRequest the parameters of a build that needs to queued
+     * @return the Build object if successful
+     */
+    @Beta(SinceVersion.V2_0_0)
+    Build queueBuild(String resourceGroupName, String registryName, QueueBuildRequest buildRequest);
+
+    /**
+     * Creates a new build based on the request parameters and add it to the build queue.
+     *
+     * @param resourceGroupName the resource group name
+     * @param registryName the registry name
+     * @param buildRequest the parameters of a build that needs to queued
+     * @return a representation of the future computation of this call, returning the Build object if successful
+     */
+    @Beta(SinceVersion.V2_0_0)
+    Observable<Build> queueBuildAsync(String resourceGroupName, String registryName, QueueBuildRequest buildRequest);
+
+    /**
+     * Get the upload location for the user to be able to upload the source.
+     *
+     * @param resourceGroupName the resource group name
+     * @param registryName the registry name
+     * @return the SourceUploadDefinition object if successful.
+     */
+    @Beta(SinceVersion.V2_0_0)
+    SourceUploadDefinition getBuildSourceUploadUrl(String resourceGroupName, String registryName);
+
+    /**
+     * Get the upload location for the user to be able to upload the source.
+     *
+     * @param resourceGroupName the resource group name
+     * @param registryName the registry name
+     * @return a representation of the future computation of this call, returning the SourceUploadDefinition object if successful.
+     */
+    @Beta(SinceVersion.V2_0_0)
+    Observable<SourceUploadDefinition> getBuildSourceUploadUrlAsync(String resourceGroupName, String registryName);
+
     /**
      * @return returns entry point to manage container registry webhooks.
      */

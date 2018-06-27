@@ -145,10 +145,8 @@ public class OperationsInner {
      * @return the PagedList&lt;OperationDefinitionInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<OperationDefinitionInner>>> listSinglePageAsync() {
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.list(this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2017-10-01";
+        return service.list(apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<OperationDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<OperationDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -162,7 +160,7 @@ public class OperationsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<OperationDefinitionInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<PageImpl<OperationDefinitionInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<OperationDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<OperationDefinitionInner>>() { }.getType())
                 .registerError(CloudException.class)

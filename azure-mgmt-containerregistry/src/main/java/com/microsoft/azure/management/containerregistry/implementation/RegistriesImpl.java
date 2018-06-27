@@ -9,12 +9,15 @@ package com.microsoft.azure.management.containerregistry.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.containerregistry.AccessKeyType;
+import com.microsoft.azure.management.containerregistry.Build;
 import com.microsoft.azure.management.containerregistry.CheckNameAvailabilityResult;
 import com.microsoft.azure.management.containerregistry.PasswordName;
+import com.microsoft.azure.management.containerregistry.QueueBuildRequest;
 import com.microsoft.azure.management.containerregistry.Registries;
 import com.microsoft.azure.management.containerregistry.Registry;
 import com.microsoft.azure.management.containerregistry.RegistryCredentials;
 import com.microsoft.azure.management.containerregistry.RegistryUsage;
+import com.microsoft.azure.management.containerregistry.SourceUploadDefinition;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
@@ -183,6 +186,42 @@ public class RegistriesImpl
             @Override
             public CheckNameAvailabilityResult call(RegistryNameStatusInner registryNameStatusInner) {
                 return new CheckNameAvailabilityResultImpl(registryNameStatusInner);
+            }
+        });
+    }
+
+    @Override
+    public Build queueBuild(String resourceGroupName, String registryName, QueueBuildRequest buildRequest) {
+        BuildInner buildInner = this.inner().queueBuild(resourceGroupName, registryName, buildRequest);
+
+        return new BuildImpl(buildInner, this.manager(), resourceGroupName, registryName);
+    }
+
+    @Override
+    public Observable<Build> queueBuildAsync(final String resourceGroupName, final String registryName, QueueBuildRequest buildRequest) {
+        final RegistriesImpl self = this;
+
+        return this.inner().queueBuildAsync(resourceGroupName, registryName, buildRequest).map(new Func1<BuildInner, Build>() {
+            @Override
+            public Build call(BuildInner buildInner) {
+                return new BuildImpl(buildInner, self.manager(), resourceGroupName, registryName);
+            }
+        });
+    }
+
+    @Override
+    public SourceUploadDefinition getBuildSourceUploadUrl(String resourceGroupName, String registryName) {
+        SourceUploadDefinitionInner sourceInner = this.inner().getBuildSourceUploadUrl(resourceGroupName, registryName);
+
+        return new SourceUploadDefinitionImpl(sourceInner);
+    }
+
+    @Override
+    public Observable<SourceUploadDefinition> getBuildSourceUploadUrlAsync(String resourceGroupName, String registryName) {
+        return this.inner().getBuildSourceUploadUrlAsync(resourceGroupName, registryName).map(new Func1<SourceUploadDefinitionInner, SourceUploadDefinition>() {
+            @Override
+            public SourceUploadDefinition call(SourceUploadDefinitionInner sourceInner) {
+                return new SourceUploadDefinitionImpl(sourceInner);
             }
         });
     }

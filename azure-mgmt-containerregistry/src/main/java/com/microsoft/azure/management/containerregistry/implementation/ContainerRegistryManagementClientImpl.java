@@ -51,18 +51,6 @@ public class ContainerRegistryManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** The client API version. */
-    private String apiVersion;
-
-    /**
-     * Gets The client API version.
-     *
-     * @return the apiVersion value.
-     */
-    public String apiVersion() {
-        return this.apiVersion;
-    }
-
     /** Gets or sets the preferred language for the response. */
     private String acceptLanguage;
 
@@ -185,6 +173,45 @@ public class ContainerRegistryManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The BuildsInner object to access its operations.
+     */
+    private BuildsInner builds;
+
+    /**
+     * Gets the BuildsInner object to access its operations.
+     * @return the BuildsInner object.
+     */
+    public BuildsInner builds() {
+        return this.builds;
+    }
+
+    /**
+     * The BuildStepsInner object to access its operations.
+     */
+    private BuildStepsInner buildSteps;
+
+    /**
+     * Gets the BuildStepsInner object to access its operations.
+     * @return the BuildStepsInner object.
+     */
+    public BuildStepsInner buildSteps() {
+        return this.buildSteps;
+    }
+
+    /**
+     * The BuildTasksInner object to access its operations.
+     */
+    private BuildTasksInner buildTasks;
+
+    /**
+     * Gets the BuildTasksInner object to access its operations.
+     * @return the BuildTasksInner object.
+     */
+    public BuildTasksInner buildTasks() {
+        return this.buildTasks;
+    }
+
+    /**
      * Initializes an instance of ContainerRegistryManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -215,7 +242,6 @@ public class ContainerRegistryManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2017-10-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
@@ -223,6 +249,9 @@ public class ContainerRegistryManagementClientImpl extends AzureServiceClient {
         this.operations = new OperationsInner(restClient().retrofit(), this);
         this.replications = new ReplicationsInner(restClient().retrofit(), this);
         this.webhooks = new WebhooksInner(restClient().retrofit(), this);
+        this.builds = new BuildsInner(restClient().retrofit(), this);
+        this.buildSteps = new BuildStepsInner(restClient().retrofit(), this);
+        this.buildTasks = new BuildTasksInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 
@@ -233,6 +262,6 @@ public class ContainerRegistryManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "ContainerRegistryManagementClient", "2017-10-01");
+        return String.format("%s (%s)", super.userAgent(), "ContainerRegistryManagementClient");
     }
 }

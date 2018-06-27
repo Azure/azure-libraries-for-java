@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.AccessKeyType;
 import com.microsoft.azure.management.containerregistry.Registry;
 import com.microsoft.azure.management.containerregistry.RegistryCredentials;
+import com.microsoft.azure.management.containerregistry.RegistryUpdateParameters;
 import com.microsoft.azure.management.containerregistry.RegistryUsage;
 import com.microsoft.azure.management.containerregistry.Sku;
 import com.microsoft.azure.management.containerregistry.SkuName;
@@ -40,7 +41,7 @@ public class RegistryImpl
         Registry.Definition,
         Registry.Update {
 
-    private RegistryUpdateParametersInner updateParameters;
+    private RegistryUpdateParameters updateParameters;
     private final StorageManager storageManager;
     private String storageAccountId;
     private String creatableStorageAccountKey;
@@ -62,7 +63,7 @@ public class RegistryImpl
 
     @Override
     public RegistryImpl update() {
-        updateParameters = new RegistryUpdateParametersInner();
+        updateParameters = new RegistryUpdateParameters();
         return super.update();
     }
 

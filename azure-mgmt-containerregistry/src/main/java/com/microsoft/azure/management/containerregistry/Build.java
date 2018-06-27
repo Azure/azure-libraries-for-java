@@ -107,7 +107,6 @@ public interface Build extends
     /**
      * Gets a link to download the build logs.
      *
-     * @param buildId the build id
      * @return the BuildGetLogResult object if successful.
      */
     @Method

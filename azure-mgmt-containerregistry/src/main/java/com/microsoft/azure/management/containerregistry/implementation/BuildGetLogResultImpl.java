@@ -26,8 +26,8 @@ public class BuildGetLogResultImpl
         super(inner);
     }
 
-	@Override
-	public String logLink() {
-		return this.inner().logLink();
-	}
+    @Override
+    public String logLink() {
+        return this.inner().logLink();
+    }
 }

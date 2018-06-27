@@ -51,11 +51,11 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Gets or sets the preferred language for the response. */
+    /** The preferred language for the response. */
     private String acceptLanguage;
 
     /**
-     * Gets Gets or sets the preferred language for the response.
+     * Gets The preferred language for the response.
      *
      * @return the acceptLanguage value.
      */
@@ -64,7 +64,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the preferred language for the response.
+     * Sets The preferred language for the response.
      *
      * @param acceptLanguage the acceptLanguage value.
      * @return the service client itself
@@ -74,11 +74,11 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30. */
+    /** The retry timeout in seconds for Long Running Operations. Default value is 30. */
     private int longRunningOperationRetryTimeout;
 
     /**
-     * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Gets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @return the longRunningOperationRetryTimeout value.
      */
@@ -87,7 +87,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Sets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
      * @return the service client itself
@@ -97,11 +97,11 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
+    /** Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
     private boolean generateClientRequestId;
 
     /**
-     * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Gets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @return the generateClientRequestId value.
      */
@@ -110,7 +110,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @param generateClientRequestId the generateClientRequestId value.
      * @return the service client itself
@@ -118,6 +118,19 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     public ComputeManagementClientImpl withGenerateClientRequestId(boolean generateClientRequestId) {
         this.generateClientRequestId = generateClientRequestId;
         return this;
+    }
+
+    /**
+     * The OperationsInner object to access its operations.
+     */
+    private OperationsInner operations;
+
+    /**
+     * Gets the OperationsInner object to access its operations.
+     * @return the OperationsInner object.
+     */
+    public OperationsInner operations() {
+        return this.operations;
     }
 
     /**
@@ -342,6 +355,45 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The GalleriesInner object to access its operations.
+     */
+    private GalleriesInner galleries;
+
+    /**
+     * Gets the GalleriesInner object to access its operations.
+     * @return the GalleriesInner object.
+     */
+    public GalleriesInner galleries() {
+        return this.galleries;
+    }
+
+    /**
+     * The GalleryImagesInner object to access its operations.
+     */
+    private GalleryImagesInner galleryImages;
+
+    /**
+     * Gets the GalleryImagesInner object to access its operations.
+     * @return the GalleryImagesInner object.
+     */
+    public GalleryImagesInner galleryImages() {
+        return this.galleryImages;
+    }
+
+    /**
+     * The GalleryImageVersionsInner object to access its operations.
+     */
+    private GalleryImageVersionsInner galleryImageVersions;
+
+    /**
+     * Gets the GalleryImageVersionsInner object to access its operations.
+     * @return the GalleryImageVersionsInner object.
+     */
+    public GalleryImageVersionsInner galleryImageVersions() {
+        return this.galleryImageVersions;
+    }
+
+    /**
      * Initializes an instance of ComputeManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -375,6 +427,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
+        this.operations = new OperationsInner(restClient().retrofit(), this);
         this.availabilitySets = new AvailabilitySetsInner(restClient().retrofit(), this);
         this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesInner(restClient().retrofit(), this);
         this.virtualMachineExtensions = new VirtualMachineExtensionsInner(restClient().retrofit(), this);
@@ -392,6 +445,9 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
         this.resourceSkus = new ResourceSkusInner(restClient().retrofit(), this);
         this.disks = new DisksInner(restClient().retrofit(), this);
         this.snapshots = new SnapshotsInner(restClient().retrofit(), this);
+        this.galleries = new GalleriesInner(restClient().retrofit(), this);
+        this.galleryImages = new GalleryImagesInner(restClient().retrofit(), this);
+        this.galleryImageVersions = new GalleryImageVersionsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

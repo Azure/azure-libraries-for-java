@@ -10,7 +10,6 @@ package com.microsoft.azure.management.compute.implementation;
 
 import java.util.List;
 import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.microsoft.azure.management.compute.Sku;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -52,7 +51,7 @@ public class AvailabilitySetInner extends Resource {
      * The resource status information.
      */
     @JsonProperty(value = "properties.statuses", access = JsonProperty.Access.WRITE_ONLY)
-    private List<InstanceViewStatus> statuses;
+    private List<InstanceViewStatusInner> statuses;
 
     /**
      * Sku of the availability set.
@@ -61,7 +60,7 @@ public class AvailabilitySetInner extends Resource {
     private Sku sku;
 
     /**
-     * Get the platformUpdateDomainCount value.
+     * Get update Domain count.
      *
      * @return the platformUpdateDomainCount value
      */
@@ -70,7 +69,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Set the platformUpdateDomainCount value.
+     * Set update Domain count.
      *
      * @param platformUpdateDomainCount the platformUpdateDomainCount value to set
      * @return the AvailabilitySetInner object itself.
@@ -81,7 +80,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Get the platformFaultDomainCount value.
+     * Get fault Domain count.
      *
      * @return the platformFaultDomainCount value
      */
@@ -90,7 +89,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Set the platformFaultDomainCount value.
+     * Set fault Domain count.
      *
      * @param platformFaultDomainCount the platformFaultDomainCount value to set
      * @return the AvailabilitySetInner object itself.
@@ -101,7 +100,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Get the virtualMachines value.
+     * Get a list of references to all virtual machines in the availability set.
      *
      * @return the virtualMachines value
      */
@@ -110,7 +109,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Set the virtualMachines value.
+     * Set a list of references to all virtual machines in the availability set.
      *
      * @param virtualMachines the virtualMachines value to set
      * @return the AvailabilitySetInner object itself.
@@ -121,16 +120,16 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Get the statuses value.
+     * Get the resource status information.
      *
      * @return the statuses value
      */
-    public List<InstanceViewStatus> statuses() {
+    public List<InstanceViewStatusInner> statuses() {
         return this.statuses;
     }
 
     /**
-     * Get the sku value.
+     * Get sku of the availability set.
      *
      * @return the sku value
      */
@@ -139,7 +138,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Set the sku value.
+     * Set sku of the availability set.
      *
      * @param sku the sku value to set
      * @return the AvailabilitySetInner object itself.

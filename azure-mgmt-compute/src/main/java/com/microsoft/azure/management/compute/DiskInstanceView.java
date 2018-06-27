@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.compute;
 
 import java.util.List;
+import com.microsoft.azure.management.compute.implementation.InstanceViewStatusInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -32,10 +33,10 @@ public class DiskInstanceView {
      * The resource status information.
      */
     @JsonProperty(value = "statuses")
-    private List<InstanceViewStatus> statuses;
+    private List<InstanceViewStatusInner> statuses;
 
     /**
-     * Get the name value.
+     * Get the disk name.
      *
      * @return the name value
      */
@@ -44,7 +45,7 @@ public class DiskInstanceView {
     }
 
     /**
-     * Set the name value.
+     * Set the disk name.
      *
      * @param name the name value to set
      * @return the DiskInstanceView object itself.
@@ -55,7 +56,7 @@ public class DiskInstanceView {
     }
 
     /**
-     * Get the encryptionSettings value.
+     * Get specifies the encryption settings for the OS Disk. &lt;br&gt;&lt;br&gt; Minimum api-version: 2015-06-15.
      *
      * @return the encryptionSettings value
      */
@@ -64,7 +65,7 @@ public class DiskInstanceView {
     }
 
     /**
-     * Set the encryptionSettings value.
+     * Set specifies the encryption settings for the OS Disk. &lt;br&gt;&lt;br&gt; Minimum api-version: 2015-06-15.
      *
      * @param encryptionSettings the encryptionSettings value to set
      * @return the DiskInstanceView object itself.
@@ -75,21 +76,21 @@ public class DiskInstanceView {
     }
 
     /**
-     * Get the statuses value.
+     * Get the resource status information.
      *
      * @return the statuses value
      */
-    public List<InstanceViewStatus> statuses() {
+    public List<InstanceViewStatusInner> statuses() {
         return this.statuses;
     }
 
     /**
-     * Set the statuses value.
+     * Set the resource status information.
      *
      * @param statuses the statuses value to set
      * @return the DiskInstanceView object itself.
      */
-    public DiskInstanceView withStatuses(List<InstanceViewStatus> statuses) {
+    public DiskInstanceView withStatuses(List<InstanceViewStatusInner> statuses) {
         this.statuses = statuses;
         return this;
     }

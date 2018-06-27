@@ -10,6 +10,7 @@ package com.microsoft.azure.management.compute.implementation;
 
 import java.util.List;
 import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.microsoft.azure.management.compute.Sku;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -51,7 +52,7 @@ public class AvailabilitySetInner extends Resource {
      * The resource status information.
      */
     @JsonProperty(value = "properties.statuses", access = JsonProperty.Access.WRITE_ONLY)
-    private List<InstanceViewStatusInner> statuses;
+    private List<InstanceViewStatus> statuses;
 
     /**
      * Sku of the availability set.
@@ -124,7 +125,7 @@ public class AvailabilitySetInner extends Resource {
      *
      * @return the statuses value
      */
-    public List<InstanceViewStatusInner> statuses() {
+    public List<InstanceViewStatus> statuses() {
         return this.statuses;
     }
 

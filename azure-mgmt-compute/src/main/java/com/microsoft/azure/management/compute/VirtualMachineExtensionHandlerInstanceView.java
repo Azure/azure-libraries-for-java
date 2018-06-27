@@ -8,7 +8,6 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.microsoft.azure.management.compute.implementation.InstanceViewStatusInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -32,7 +31,7 @@ public class VirtualMachineExtensionHandlerInstanceView {
      * The extension handler status.
      */
     @JsonProperty(value = "status")
-    private InstanceViewStatusInner status;
+    private InstanceViewStatus status;
 
     /**
      * Get specifies the type of the extension; an example is "CustomScriptExtension".
@@ -79,7 +78,7 @@ public class VirtualMachineExtensionHandlerInstanceView {
      *
      * @return the status value
      */
-    public InstanceViewStatusInner status() {
+    public InstanceViewStatus status() {
         return this.status;
     }
 
@@ -89,7 +88,7 @@ public class VirtualMachineExtensionHandlerInstanceView {
      * @param status the status value to set
      * @return the VirtualMachineExtensionHandlerInstanceView object itself.
      */
-    public VirtualMachineExtensionHandlerInstanceView withStatus(InstanceViewStatusInner status) {
+    public VirtualMachineExtensionHandlerInstanceView withStatus(InstanceViewStatus status) {
         this.status = status;
         return this;
     }

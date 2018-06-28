@@ -126,7 +126,7 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
                 .withoutRule("rule1")
                 .updateRule("rule2")
                     .denyInbound()
-                    .fromAddress("100.0.0.0/29")
+                    .fromAddresses("100.0.0.0/29", "100.1.0.0/29")
                     .fromPort(88)
                     .withPriority(300)
                     .withDescription("bar!!!")
@@ -134,7 +134,9 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
                 .apply();
         Assert.assertTrue(resource.tags().containsKey("tag1"));
         Assert.assertTrue(resource.securityRules().get("rule2").sourceApplicationSecurityGroupIds().isEmpty());
-        Assert.assertEquals("100.0.0.0/29", resource.securityRules().get("rule2").sourceAddressPrefix());
+        Assert.assertNull(resource.securityRules().get("rule2").sourceAddressPrefix());
+        Assert.assertEquals(2, resource.securityRules().get("rule2").sourceAddressPrefixes().size());
+        Assert.assertTrue(resource.securityRules().get("rule2").sourceAddressPrefixes().contains("100.1.0.0/29"));
 
         resource.updateTags()
                 .withTag("tag3", "value3")

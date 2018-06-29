@@ -100,7 +100,7 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
         Assert.assertTrue(nsg.securityRules().size() == 2);
 
         // Confirm NIC association
-        Assert.assertEquals(1,  nsg.networkInterfaceIds().size());
+        Assert.assertEquals(1, nsg.networkInterfaceIds().size());
         Assert.assertTrue(nsg.networkInterfaceIds().contains(nic.id()));
 
         Assert.assertEquals(1, nsg.securityRules().get("rule2").sourceApplicationSecurityGroupIds().size());
@@ -111,7 +111,7 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
 
     @Override
     public NetworkSecurityGroup updateResource(NetworkSecurityGroup resource) throws Exception {
-        resource =  resource.update()
+        resource = resource.update()
                 .withoutRule("rule1")
                 .withTag("tag1", "value1")
                 .withTag("tag2", "value2")
@@ -127,7 +127,7 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
                 .updateRule("rule2")
                     .denyInbound()
                     .fromAddresses("100.0.0.0/29", "100.1.0.0/29")
-                    .fromPort(88)
+                    .fromPortRanges("88-90")
                     .withPriority(300)
                     .withDescription("bar!!!")
                     .parent()
@@ -137,6 +137,8 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
         Assert.assertNull(resource.securityRules().get("rule2").sourceAddressPrefix());
         Assert.assertEquals(2, resource.securityRules().get("rule2").sourceAddressPrefixes().size());
         Assert.assertTrue(resource.securityRules().get("rule2").sourceAddressPrefixes().contains("100.1.0.0/29"));
+        Assert.assertEquals(1, resource.securityRules().get("rule2").sourcePortRanges().size());
+        Assert.assertEquals("88-90", resource.securityRules().get("rule2").sourcePortRanges().get(0));
 
         resource.updateTags()
                 .withTag("tag3", "value3")

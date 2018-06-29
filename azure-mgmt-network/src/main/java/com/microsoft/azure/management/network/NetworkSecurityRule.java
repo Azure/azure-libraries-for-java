@@ -62,6 +62,11 @@ public interface NetworkSecurityRule extends
     String sourcePortRange();
 
     /**
+     * @return the source port ranges that the rule applies to, in the format "##-##", where "*" means "any"
+     */
+    List<String> sourcePortRanges();
+
+    /**
      * @return the destination address prefix the rule applies to, expressed using the CIDR notation in the format: "###.###.###.###/##",
      * and "*" means "any"
      */
@@ -77,6 +82,11 @@ public interface NetworkSecurityRule extends
      * @return the destination port range that the rule applies to, in the format "##-##", where "*" means any
      */
     String destinationPortRange();
+
+    /**
+     * @return the destination port ranges that the rule applies to, in the format "##-##", where "*" means any
+     */
+    List<String> destinationPortRanges();
 
     /**
      * @return the priority number of this rule based on which this rule will be applied relative to the priority numbers of any other rules specified

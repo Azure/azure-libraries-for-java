@@ -13,6 +13,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.redis.RedisLinkedServerCreateParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -63,11 +64,11 @@ public class LinkedServersInner {
     interface LinkedServersService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.LinkedServers create" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/linkedServers/{linkedServerName}")
-        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("linkedServerName") String linkedServerName, @Path("subscriptionId") String subscriptionId, @Body RedisLinkedServerCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("linkedServerName") String linkedServerName, @Path("subscriptionId") String subscriptionId, @Body RedisLinkedServerCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.LinkedServers beginCreate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/linkedServers/{linkedServerName}")
-        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("linkedServerName") String linkedServerName, @Path("subscriptionId") String subscriptionId, @Body RedisLinkedServerCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("linkedServerName") String linkedServerName, @Path("subscriptionId") String subscriptionId, @Body RedisLinkedServerCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.LinkedServers delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/linkedServers/{linkedServerName}", method = "DELETE", hasBody = true)
@@ -99,7 +100,7 @@ public class LinkedServersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RedisLinkedServerWithPropertiesInner object if successful.
      */
-    public RedisLinkedServerWithPropertiesInner create(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParametersInner parameters) {
+    public RedisLinkedServerWithPropertiesInner create(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParameters parameters) {
         return createWithServiceResponseAsync(resourceGroupName, name, linkedServerName, parameters).toBlocking().last().body();
     }
 
@@ -114,7 +115,7 @@ public class LinkedServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<RedisLinkedServerWithPropertiesInner> createAsync(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParametersInner parameters, final ServiceCallback<RedisLinkedServerWithPropertiesInner> serviceCallback) {
+    public ServiceFuture<RedisLinkedServerWithPropertiesInner> createAsync(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParameters parameters, final ServiceCallback<RedisLinkedServerWithPropertiesInner> serviceCallback) {
         return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, name, linkedServerName, parameters), serviceCallback);
     }
 
@@ -128,7 +129,7 @@ public class LinkedServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<RedisLinkedServerWithPropertiesInner> createAsync(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParametersInner parameters) {
+    public Observable<RedisLinkedServerWithPropertiesInner> createAsync(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParameters parameters) {
         return createWithServiceResponseAsync(resourceGroupName, name, linkedServerName, parameters).map(new Func1<ServiceResponse<RedisLinkedServerWithPropertiesInner>, RedisLinkedServerWithPropertiesInner>() {
             @Override
             public RedisLinkedServerWithPropertiesInner call(ServiceResponse<RedisLinkedServerWithPropertiesInner> response) {
@@ -147,7 +148,7 @@ public class LinkedServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<RedisLinkedServerWithPropertiesInner>> createWithServiceResponseAsync(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParametersInner parameters) {
+    public Observable<ServiceResponse<RedisLinkedServerWithPropertiesInner>> createWithServiceResponseAsync(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -183,7 +184,7 @@ public class LinkedServersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RedisLinkedServerWithPropertiesInner object if successful.
      */
-    public RedisLinkedServerWithPropertiesInner beginCreate(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParametersInner parameters) {
+    public RedisLinkedServerWithPropertiesInner beginCreate(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParameters parameters) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, name, linkedServerName, parameters).toBlocking().single().body();
     }
 
@@ -198,7 +199,7 @@ public class LinkedServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<RedisLinkedServerWithPropertiesInner> beginCreateAsync(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParametersInner parameters, final ServiceCallback<RedisLinkedServerWithPropertiesInner> serviceCallback) {
+    public ServiceFuture<RedisLinkedServerWithPropertiesInner> beginCreateAsync(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParameters parameters, final ServiceCallback<RedisLinkedServerWithPropertiesInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, name, linkedServerName, parameters), serviceCallback);
     }
 
@@ -212,7 +213,7 @@ public class LinkedServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisLinkedServerWithPropertiesInner object
      */
-    public Observable<RedisLinkedServerWithPropertiesInner> beginCreateAsync(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParametersInner parameters) {
+    public Observable<RedisLinkedServerWithPropertiesInner> beginCreateAsync(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParameters parameters) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, name, linkedServerName, parameters).map(new Func1<ServiceResponse<RedisLinkedServerWithPropertiesInner>, RedisLinkedServerWithPropertiesInner>() {
             @Override
             public RedisLinkedServerWithPropertiesInner call(ServiceResponse<RedisLinkedServerWithPropertiesInner> response) {
@@ -231,7 +232,7 @@ public class LinkedServersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisLinkedServerWithPropertiesInner object
      */
-    public Observable<ServiceResponse<RedisLinkedServerWithPropertiesInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParametersInner parameters) {
+    public Observable<ServiceResponse<RedisLinkedServerWithPropertiesInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String name, String linkedServerName, RedisLinkedServerCreateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }

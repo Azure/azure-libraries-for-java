@@ -13,6 +13,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -50,9 +51,20 @@ public interface NetworkSecurityRule extends
     String sourceAddressPrefix();
 
     /**
+     * @return the list of source address prefixes the rule applies to, expressed using the CIDR notation in the format: "###.###.###.###/##",
+     * and "*" means "any", or IP addresses
+     */
+    List<String> sourceAddressPrefixes();
+
+    /**
      * @return the source port range that the rule applies to, in the format "##-##", where "*" means "any"
      */
     String sourcePortRange();
+
+    /**
+     * @return the source port ranges that the rule applies to, in the format "##-##", where "*" means "any"
+     */
+    List<String> sourcePortRanges();
 
     /**
      * @return the destination address prefix the rule applies to, expressed using the CIDR notation in the format: "###.###.###.###/##",
@@ -61,9 +73,20 @@ public interface NetworkSecurityRule extends
     String destinationAddressPrefix();
 
     /**
+     * @return the list of destination address prefixes the rule applies to, expressed using the CIDR notation in the format: "###.###.###.###/##",
+     * and "*" means "any", or IP addresses
+     */
+    List<String> destinationAddressPrefixes();
+
+    /**
      * @return the destination port range that the rule applies to, in the format "##-##", where "*" means any
      */
     String destinationPortRange();
+
+    /**
+     * @return the destination port ranges that the rule applies to, in the format "##-##", where "*" means any
+     */
+    List<String> destinationPortRanges();
 
     /**
      * @return the priority number of this rule based on which this rule will be applied relative to the priority numbers of any other rules specified
@@ -152,6 +175,13 @@ public interface NetworkSecurityRule extends
              * @return the next stage of the definition
              */
             WithProtocol<ParentT> toPortRange(int from, int to);
+
+            /**
+             * Specifies the destination port ranges to which this rule applies.
+             * @param ranges the destination port ranges
+             * @return the next stage of the definition
+             */
+            WithProtocol<ParentT> toPortRanges(String... ranges);
         }
 
         /**
@@ -167,6 +197,13 @@ public interface NetworkSecurityRule extends
              * @return the next stage of the definition
              */
             WithDestinationPort<ParentT> toAddress(String cidr);
+
+            /**
+             * Specifies the traffic destination address prefixes to which this rule applies.
+             * @param addresses IP address prefixes in CIDR notation or IP addresses
+             * @return the next stage of the definition
+             */
+            WithDestinationPort<ParentT> toAddresses(String... addresses);
 
             /**
              * Makes the rule apply to any traffic destination address.
@@ -209,6 +246,13 @@ public interface NetworkSecurityRule extends
              * @return the next stage of the definition
              */
             WithDestinationAddressOrSecurityGroup<ParentT> fromPortRange(int from, int to);
+
+            /**
+             * Specifies the source port ranges to which this rule applies.
+             * @param ranges the starting port ranges
+             * @return the next stage of the definition
+             */
+            WithDestinationAddressOrSecurityGroup<ParentT> fromPortRanges(String... ranges);
         }
 
         /**
@@ -232,6 +276,14 @@ public interface NetworkSecurityRule extends
              */
             @Method
             WithSourcePort<ParentT> fromAnyAddress();
+
+            /**
+             * Specifies the traffic source address prefixes to which this rule applies.
+             * @param addresses IP address prefixes in CIDR notation or IP addresses
+             * @return the next stage of the definition
+             */
+            @Method
+            WithSourcePort<ParentT> fromAddresses(String... addresses);
 
             /**
              * Sets the application security group specified as source.
@@ -391,6 +443,13 @@ public interface NetworkSecurityRule extends
             WithSourcePort<ParentT> fromAddress(String cidr);
 
             /**
+             * Specifies the traffic source address prefixes to which this rule applies.
+             * @param addresses IP address prefixes in CIDR notation or IP addresses
+             * @return the next stage of the definition
+             */
+            WithSourcePort<ParentT> fromAddresses(String... addresses);
+
+            /**
              * Specifies that the rule applies to any traffic source address.
              * @return the next stage of the definition
              */
@@ -431,6 +490,14 @@ public interface NetworkSecurityRule extends
              * @return the next stage of the definition
              */
             WithDestinationAddressOrSecurityGroup<ParentT> fromPortRange(int from, int to);
+
+
+            /**
+             * Specifies the source port ranges to which this rule applies.
+             * @param ranges the starting port ranges
+             * @return the next stage of the definition
+             */
+            WithDestinationAddressOrSecurityGroup<ParentT> fromPortRanges(String... ranges);
         }
 
         /**
@@ -446,6 +513,14 @@ public interface NetworkSecurityRule extends
              * @return the next stage of the definition
              */
             WithDestinationPort<ParentT> toAddress(String cidr);
+
+            /**
+             * Specifies the traffic destination address prefixes to which this rule applies.
+             * @param addresses IP address prefixes in CIDR notation or IP addresses
+             * @return the next stage of the definition
+             */
+            @Method
+            WithDestinationPort<ParentT> toAddresses(String... addresses);
 
             /**
              * Makes the rule apply to any traffic destination address.
@@ -488,6 +563,13 @@ public interface NetworkSecurityRule extends
              * @return the next stage of the definition
              */
             WithProtocol<ParentT> toPortRange(int from, int to);
+
+            /**
+             * Specifies the destination port ranges to which this rule applies.
+             * @param ranges the destination port ranges
+             * @return the next stage of the definition
+             */
+            WithProtocol<ParentT> toPortRanges(String... ranges);
         }
 
         /**
@@ -615,6 +697,13 @@ public interface NetworkSecurityRule extends
             Update fromAddress(String cidr);
 
             /**
+             * Specifies the traffic source address prefixes to which this rule applies.
+             * @param addresses IP address prefixes in CIDR notation or IP addresses
+             * @return the next stage of the definition
+             */
+            Update fromAddresses(String... addresses);
+
+            /**
              * Specifies that the rule applies to any traffic source address.
              * @return the next stage of the definition
              */
@@ -654,6 +743,14 @@ public interface NetworkSecurityRule extends
              * @return the next stage of the definition
              */
             Update fromPortRange(int from, int to);
+
+
+            /**
+             * Specifies the source port ranges to which this rule applies.
+             * @param ranges the starting port ranges
+             * @return the next stage of the definition
+             */
+            Update fromPortRanges(String... ranges);
         }
 
         /**
@@ -675,6 +772,14 @@ public interface NetworkSecurityRule extends
              */
             @Method
             Update toAnyAddress();
+
+            /**
+             * Specifies the traffic destination address prefixes to which this rule applies.
+             * @param addresses IP address prefixes in CIDR notation or IP addresses
+             * @return the next stage of the definition
+             */
+            @Method
+            Update toAddresses(String... addresses);
 
             /**
              * Sets the application security group specified as destination.
@@ -709,6 +814,13 @@ public interface NetworkSecurityRule extends
              * @return the next stage of the definition
              */
             Update toPortRange(int from, int to);
+
+            /**
+             * Specifies the destination port ranges to which this rule applies.
+             * @param ranges the destination port ranges
+             * @return the next stage of the definition
+             */
+            Update toPortRanges(String... ranges);
         }
 
         /**

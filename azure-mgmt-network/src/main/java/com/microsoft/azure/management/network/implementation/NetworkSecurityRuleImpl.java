@@ -15,8 +15,10 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.implementa
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -76,8 +78,18 @@ class NetworkSecurityRuleImpl
     }
 
     @Override
+    public List<String> sourceAddressPrefixes() {
+        return Collections.unmodifiableList(this.inner().sourceAddressPrefixes());
+    }
+
+    @Override
     public String sourcePortRange() {
         return this.inner().sourcePortRange();
+    }
+
+    @Override
+    public List<String> sourcePortRanges() {
+        return Collections.unmodifiableList(inner().sourcePortRanges());
     }
 
     @Override
@@ -86,8 +98,18 @@ class NetworkSecurityRuleImpl
     }
 
     @Override
+    public List<String> destinationAddressPrefixes() {
+        return Collections.unmodifiableList(this.inner().destinationAddressPrefixes());
+    }
+
+    @Override
     public String destinationPortRange() {
         return this.inner().destinationPortRange();
+    }
+
+    @Override
+    public List<String> destinationPortRanges() {
+        return Collections.unmodifiableList(inner().destinationPortRanges());
     }
 
     @Override
@@ -163,20 +185,38 @@ class NetworkSecurityRuleImpl
     }
 
     @Override
+    public NetworkSecurityRuleImpl fromAddresses(String... addresses) {
+        this.inner().withSourceAddressPrefixes(Arrays.asList(addresses));
+        this.inner().withSourceAddressPrefix(null);
+        this.inner().withSourceApplicationSecurityGroups(null);
+        return this;
+    }
+
+    @Override
     public NetworkSecurityRuleImpl fromPort(int port) {
         this.inner().withSourcePortRange(String.valueOf(port));
+        this.inner().withSourcePortRanges(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl fromAnyPort() {
         this.inner().withSourcePortRange("*");
+        this.inner().withSourcePortRanges(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl fromPortRange(int from, int to) {
         this.inner().withSourcePortRange(String.valueOf(from) + "-" + String.valueOf(to));
+        this.inner().withSourcePortRanges(null);
+        return this;
+    }
+
+    @Override
+    public NetworkSecurityRuleImpl fromPortRanges(String... ranges) {
+        this.inner().withSourcePortRanges(Arrays.asList(ranges));
+        this.inner().withSourcePortRange(null);
         return this;
     }
 
@@ -184,6 +224,14 @@ class NetworkSecurityRuleImpl
     public NetworkSecurityRuleImpl toAddress(String cidr) {
         this.inner().withDestinationAddressPrefix(cidr);
         this.inner().withDestinationAddressPrefixes(null);
+        this.inner().withDestinationApplicationSecurityGroups(null);
+        return this;
+    }
+
+    @Override
+    public NetworkSecurityRuleImpl toAddresses(String... addresses) {
+        this.inner().withDestinationAddressPrefixes(Arrays.asList(addresses));
+        this.inner().withDestinationAddressPrefix(null);
         this.inner().withDestinationApplicationSecurityGroups(null);
         return this;
     }
@@ -199,18 +247,28 @@ class NetworkSecurityRuleImpl
     @Override
     public NetworkSecurityRuleImpl toPort(int port) {
         this.inner().withDestinationPortRange(String.valueOf(port));
+        this.inner().withDestinationPortRanges(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl toAnyPort() {
         this.inner().withDestinationPortRange("*");
+        this.inner().withDestinationPortRanges(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl toPortRange(int from, int to) {
         this.inner().withDestinationPortRange(String.valueOf(from) + "-" + String.valueOf(to));
+        this.inner().withDestinationPortRanges(null);
+        return this;
+    }
+
+    @Override
+    public NetworkSecurityRuleImpl toPortRanges(String... ranges) {
+        this.inner().withDestinationPortRanges(Arrays.asList(ranges));
+        this.inner().withDestinationPortRange(null);
         return this;
     }
 

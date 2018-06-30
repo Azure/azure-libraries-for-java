@@ -1695,7 +1695,6 @@ class VirtualMachineImpl
     @Override
     public Completable afterPostRunAsync(boolean isGroupFaulted) {
         this.virtualMachineExtensions.clear();
-        this.virtualMachineMsiHandler.clear();
         if (isGroupFaulted) {
             return Completable.complete();
         } else {

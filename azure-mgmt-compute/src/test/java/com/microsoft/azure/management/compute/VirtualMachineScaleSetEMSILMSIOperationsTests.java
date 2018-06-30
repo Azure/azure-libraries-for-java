@@ -132,19 +132,6 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         Assert.assertNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId()); // No Local MSI enabled
         Assert.assertNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityTenantId());    // No Local MSI enabled
 
-        // Ensure the MSI extension is set
-        //
-        Map<String, VirtualMachineScaleSetExtension> extensions = virtualMachineScaleSet.extensions();
-        VirtualMachineScaleSetExtension msiExtension = null;
-        for (VirtualMachineScaleSetExtension extension : extensions.values()) {
-            if (extension.publisherName().equalsIgnoreCase("Microsoft.ManagedIdentity")
-                    && extension.typeName().equalsIgnoreCase("ManagedIdentityExtensionForLinux")) {
-                msiExtension = extension;
-                break;
-            }
-        }
-        Assert.assertNotNull(msiExtension);
-
         // Ensure the "User Assigned (External) MSI" id can be retrieved from the virtual machine scale set
         //
         Set<String> emsiIds = virtualMachineScaleSet.userAssignedManagedServiceIdentityIds();
@@ -282,19 +269,6 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         Assert.assertTrue(virtualMachineScaleSet.isManagedServiceIdentityEnabled());
         Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId());
         Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityTenantId());
-
-        // Ensure the MSI extension is set
-        //
-        Map<String, VirtualMachineScaleSetExtension> extensions = virtualMachineScaleSet.extensions();
-        VirtualMachineScaleSetExtension msiExtension = null;
-        for (VirtualMachineScaleSetExtension extension : extensions.values()) {
-            if (extension.publisherName().equalsIgnoreCase("Microsoft.ManagedIdentity")
-                    && extension.typeName().equalsIgnoreCase("ManagedIdentityExtensionForLinux")) {
-                msiExtension = extension;
-                break;
-            }
-        }
-        Assert.assertNotNull(msiExtension);
 
         // Ensure the "User Assigned (External) MSI" id can be retrieved from the virtual machine
         //

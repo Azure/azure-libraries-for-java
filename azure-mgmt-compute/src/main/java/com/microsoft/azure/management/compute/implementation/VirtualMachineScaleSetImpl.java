@@ -1334,7 +1334,6 @@ public class VirtualMachineScaleSetImpl
     //
     @Override
     protected void beforeCreating() {
-        this.virtualMachineScaleSetMsiHandler.addOrUpdateMSIExtension(this);
         if (this.extensions.size() > 0) {
             this.inner()
                     .virtualMachineProfile()

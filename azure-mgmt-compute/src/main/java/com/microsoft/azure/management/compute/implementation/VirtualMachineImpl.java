@@ -51,6 +51,7 @@ import com.microsoft.azure.management.compute.VirtualMachineExtension;
 import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
 import com.microsoft.azure.management.compute.VirtualMachineSize;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
+import com.microsoft.azure.management.compute.VirtualMachineUpdate;
 import com.microsoft.azure.management.compute.WinRMConfiguration;
 import com.microsoft.azure.management.compute.WinRMListener;
 import com.microsoft.azure.management.compute.WindowsConfiguration;
@@ -1278,16 +1279,15 @@ class VirtualMachineImpl
 
     @Override
     public VirtualMachineImpl withSystemAssignedManagedServiceIdentity() {
-            this.virtualMachineMsiHandler.withLocalManagedServiceIdentity();
+        this.virtualMachineMsiHandler.withLocalManagedServiceIdentity();
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withSystemAssignedManagedServiceIdentity(int tokenPort) {
-        this.virtualMachineMsiHandler.withLocalManagedServiceIdentity(tokenPort);
+    public VirtualMachineImpl withoutSystemAssignedManagedServiceIdentity() {
+        this.virtualMachineMsiHandler.withoutLocalManagedServiceIdentity();
         return this;
     }
-
 
     @Override
     public VirtualMachineImpl withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role) {
@@ -1621,9 +1621,8 @@ class VirtualMachineImpl
 
     @Override
     public Set<String> userAssignedManagedServiceIdentityIds() {
-        if (this.inner().identity() != null && this.inner().identity().identityIds() != null) {
-            return Collections.unmodifiableSet(new HashSet<String>(this.inner().identity().identityIds()));
-
+        if (this.inner().identity() != null && this.inner().identity().userAssignedIdentities() != null) {
+            return Collections.unmodifiableSet(new HashSet<String>(this.inner().identity().userAssignedIdentities().keySet()));
         }
         return Collections.unmodifiableSet(new HashSet<String>());
     }
@@ -1661,11 +1660,12 @@ class VirtualMachineImpl
     //
     @Override
     public Observable<VirtualMachine> createResourceAsync() {
-        if (isInCreateMode()) {
-            setOSDiskDefaults();
-            setOSProfileDefaults();
-            setHardwareProfileDefaults();
-        }
+        //
+        // -- set creation-time only properties
+        setOSDiskDefaults();
+        setOSProfileDefaults();
+        setHardwareProfileDefaults();
+        //
         if (isManagedDiskEnabled()) {
             managedDataDisks.setDataDisksDefaults();
         } else {
@@ -1675,11 +1675,51 @@ class VirtualMachineImpl
         this.bootDiagnosticsHandler.handleDiagnosticsSettings();
         this.handleNetworkSettings();
         this.handleAvailabilitySettings();
-        this.virtualMachineMsiHandler.handleExternalIdentitySettings();
-
+        this.virtualMachineMsiHandler.processCreatedExternalIdentities();
+        this.virtualMachineMsiHandler.handleExternalIdentities();
         final VirtualMachineImpl self = this;
         return this.manager().inner().virtualMachines()
                 .createOrUpdateAsync(resourceGroupName(), vmName, inner())
+                .map(new Func1<VirtualMachineInner, VirtualMachine>() {
+                    @Override
+                    public VirtualMachine call(VirtualMachineInner virtualMachineInner) {
+                        reset(virtualMachineInner);
+                        return self;
+                    }
+
+                });
+    }
+
+    @Override
+    public Observable<VirtualMachine> updateResourceAsync() {
+        if (isManagedDiskEnabled()) {
+            managedDataDisks.setDataDisksDefaults();
+        } else {
+            UnmanagedDataDiskImpl.setDataDisksDefaults(this.unmanagedDataDisks, this.vmName);
+        }
+        this.handleUnManagedOSAndDataDisksStorageSettings();
+        this.bootDiagnosticsHandler.handleDiagnosticsSettings();
+        this.handleNetworkSettings();
+        this.handleAvailabilitySettings();
+        this.virtualMachineMsiHandler.processCreatedExternalIdentities();
+        //
+        VirtualMachineUpdate updateParameter = new VirtualMachineUpdate();
+        //
+        updateParameter.withPlan(this.inner().plan());
+        updateParameter.withHardwareProfile(this.inner().hardwareProfile());
+        updateParameter.withStorageProfile(this.inner().storageProfile());
+        updateParameter.withOsProfile(this.inner().osProfile());
+        updateParameter.withNetworkProfile(this.inner().networkProfile());
+        updateParameter.withDiagnosticsProfile(this.inner().diagnosticsProfile());
+        updateParameter.withAvailabilitySet(this.inner().availabilitySet());
+        updateParameter.withLicenseType(this.inner().licenseType());
+        updateParameter.withZones(this.inner().zones());
+        //
+        this.virtualMachineMsiHandler.handleExternalIdentities(updateParameter);
+        //
+        final VirtualMachineImpl self = this;
+        return this.manager().inner().virtualMachines()
+                .updateAsync(resourceGroupName(), vmName, updateParameter)
                 .map(new Func1<VirtualMachineInner, VirtualMachine>() {
                     @Override
                     public VirtualMachine call(VirtualMachineInner virtualMachineInner) {
@@ -1712,6 +1752,7 @@ class VirtualMachineImpl
         this.setInner(inner);
         clearCachedRelatedResources();
         initializeDataDisks();
+        virtualMachineMsiHandler.clear();
     }
 
     VirtualMachineImpl withUnmanagedDataDisk(UnmanagedDataDiskImpl dataDisk) {

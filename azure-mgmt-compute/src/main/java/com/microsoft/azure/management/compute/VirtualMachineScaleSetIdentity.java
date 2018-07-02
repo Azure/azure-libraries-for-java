@@ -8,7 +8,7 @@
 
 package com.microsoft.azure.management.compute;
 
-import java.util.List;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -42,11 +42,12 @@ public class VirtualMachineScaleSetIdentity {
 
     /**
      * The list of user identities associated with the virtual machine scale
-     * set. The user identity references will be ARM resource ids in the form:
-     * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/identities/{identityName}'.
+     * set. The user identity dictionary key references will be ARM resource
+     * ids in the form:
+     * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
      */
-    @JsonProperty(value = "identityIds")
-    private List<String> identityIds;
+    @JsonProperty(value = "userAssignedIdentities")
+    private Map<String, VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue> userAssignedIdentities;
 
     /**
      * Get the principal id of virtual machine scale set identity. This property will only be provided for a system assigned identity.
@@ -87,22 +88,22 @@ public class VirtualMachineScaleSetIdentity {
     }
 
     /**
-     * Get the list of user identities associated with the virtual machine scale set. The user identity references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/identities/{identityName}'.
+     * Get the list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
      *
-     * @return the identityIds value
+     * @return the userAssignedIdentities value
      */
-    public List<String> identityIds() {
-        return this.identityIds;
+    public Map<String, VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue> userAssignedIdentities() {
+        return this.userAssignedIdentities;
     }
 
     /**
-     * Set the list of user identities associated with the virtual machine scale set. The user identity references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/identities/{identityName}'.
+     * Set the list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
      *
-     * @param identityIds the identityIds value to set
+     * @param userAssignedIdentities the userAssignedIdentities value to set
      * @return the VirtualMachineScaleSetIdentity object itself.
      */
-    public VirtualMachineScaleSetIdentity withIdentityIds(List<String> identityIds) {
-        this.identityIds = identityIds;
+    public VirtualMachineScaleSetIdentity withUserAssignedIdentities(Map<String, VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue> userAssignedIdentities) {
+        this.userAssignedIdentities = userAssignedIdentities;
         return this;
     }
 

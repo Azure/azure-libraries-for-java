@@ -75,7 +75,7 @@ class VirtualMachineMsiHandler extends RoleAssignmentHelper {
                 || this.virtualMachine.inner().identity().type().equals(ResourceIdentityType.NONE)
                 || this.virtualMachine.inner().identity().type().equals(ResourceIdentityType.USER_ASSIGNED)) {
             return this;
-        } else if (this.virtualMachine.inner().identity().type().equals(ResourceIdentityType.SYSTEM_ASSIGNED)){
+        } else if (this.virtualMachine.inner().identity().type().equals(ResourceIdentityType.SYSTEM_ASSIGNED)) {
             this.virtualMachine.inner().identity().withType(ResourceIdentityType.NONE);
         } else if (this.virtualMachine.inner().identity().type().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED)) {
             this.virtualMachine.inner().identity().withType(ResourceIdentityType.USER_ASSIGNED);

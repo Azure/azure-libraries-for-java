@@ -1369,16 +1369,6 @@ public interface VirtualMachineScaleSet extends
              */
             @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity();
-
-            /**
-             * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the virtual
-             * machine scale set.
-             *
-             * @param tokenPort the port on the virtual machine scale set instance where access token is available
-             * @return the next stage of the definition
-             */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity(int tokenPort);
         }
 
         /**
@@ -1818,14 +1808,13 @@ public interface VirtualMachineScaleSet extends
             WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedManagedServiceIdentity();
 
             /**
-             * Specifies that System assigned (Local) Managed Service Identity needs to be enabled in the
+             * Specifies that System assigned (Local) Managed Service Identity needs to be disabled in the
              * virtual machine scale set.
              *
-             * @param tokenPort the port on the virtual machine scale set instance where access token is available
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedManagedServiceIdentity(int tokenPort);
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithSystemAssignedIdentityBasedAccessOrApply withoutSystemAssignedManagedServiceIdentity();
         }
 
         /**

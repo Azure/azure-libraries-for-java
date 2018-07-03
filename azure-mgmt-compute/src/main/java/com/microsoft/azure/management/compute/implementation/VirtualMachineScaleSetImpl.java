@@ -41,7 +41,7 @@ import com.microsoft.azure.management.compute.VirtualMachineScaleSetOSProfile;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetSku;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetSkuTypes;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetStorageProfile;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMProfile;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetUpdate;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMs;
 import com.microsoft.azure.management.compute.WinRMConfiguration;
 import com.microsoft.azure.management.compute.WinRMListener;
@@ -1064,9 +1064,8 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public Set<String> userAssignedManagedServiceIdentityIds() {
-        if (this.inner().identity() != null && this.inner().identity().identityIds() != null) {
-            return Collections.unmodifiableSet(new HashSet<String>(this.inner().identity().identityIds()));
-
+        if (this.inner().identity() != null && this.inner().identity().userAssignedIdentities() != null) {
+            return Collections.unmodifiableSet(new HashSet<String>(this.inner().identity().userAssignedIdentities().keySet()));
         }
         return Collections.unmodifiableSet(new HashSet<String>());
     }
@@ -1283,8 +1282,8 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withSystemAssignedManagedServiceIdentity(int tokenPort) {
-        this.virtualMachineScaleSetMsiHandler.withLocalManagedServiceIdentity(tokenPort);
+    public VirtualMachineScaleSetImpl withoutSystemAssignedManagedServiceIdentity() {
+        this.virtualMachineScaleSetMsiHandler.withoutLocalManagedServiceIdentity();
         return this;
     }
 
@@ -1362,7 +1361,8 @@ public class VirtualMachineScaleSetImpl
         }
         this.handleUnManagedOSDiskContainers();
         this.bootDiagnosticsHandler.handleDiagnosticsSettings();
-        this.virtualMachineScaleSetMsiHandler.handleExternalIdentitySettings();
+        this.virtualMachineScaleSetMsiHandler.processCreatedExternalIdentities();
+        this.virtualMachineScaleSetMsiHandler.handleExternalIdentities();
         return this.manager().inner().virtualMachineScaleSets()
                 .createOrUpdateAsync(resourceGroupName(), name(), inner());
     }
@@ -1371,6 +1371,50 @@ public class VirtualMachineScaleSetImpl
     protected void afterCreating() {
         this.clearCachedProperties();
         this.initializeChildrenFromInner();
+        this.virtualMachineScaleSetMsiHandler.clear();
+    }
+
+    @Override
+    public Observable<VirtualMachineScaleSet> updateResourceAsync() {
+        if (this.extensions.size() > 0) {
+            this.inner()
+                    .virtualMachineProfile()
+                    .withExtensionProfile(new VirtualMachineScaleSetExtensionProfile())
+                    .extensionProfile()
+                    .withExtensions(innersFromWrappers(this.extensions.values()));
+        }
+        this.setPrimaryIpConfigurationSubnet();
+        this.setPrimaryIpConfigurationBackendsAndInboundNatPools();
+        if (isManagedDiskEnabled()) {
+            this.managedDataDisks.setDataDisksDefaults();
+        } else {
+            List<VirtualMachineScaleSetDataDisk> dataDisks = this.inner()
+                    .virtualMachineProfile()
+                    .storageProfile()
+                    .dataDisks();
+            VirtualMachineScaleSetUnmanagedDataDiskImpl.setDataDisksDefaults(dataDisks, this.name());
+        }
+        this.handleUnManagedOSDiskContainers();
+        this.bootDiagnosticsHandler.handleDiagnosticsSettings();
+        this.virtualMachineScaleSetMsiHandler.processCreatedExternalIdentities();
+        //
+        VirtualMachineScaleSetUpdate updateParameter = VMSSPatchPayload.preparePatchPayload(this);
+        //
+        this.virtualMachineScaleSetMsiHandler.handleExternalIdentities(updateParameter);
+        //
+        final VirtualMachineScaleSetImpl self = this;
+        return this.manager().inner().virtualMachineScaleSets()
+                .updateAsync(resourceGroupName(), name(), updateParameter)
+                .map(new Func1<VirtualMachineScaleSetInner, VirtualMachineScaleSet>() {
+                    @Override
+                    public VirtualMachineScaleSet call(VirtualMachineScaleSetInner vmssInner) {
+                        setInner(vmssInner);
+                        self.clearCachedProperties();
+                        self.initializeChildrenFromInner();
+                        self.virtualMachineScaleSetMsiHandler.clear();
+                        return self;
+                    }
+                });
     }
 
     @Override
@@ -2104,40 +2148,10 @@ public class VirtualMachineScaleSetImpl
                 && osDisk.image().uri() != null;
     }
 
-    /* TODO Unused
-      private void throwIfManagedDiskEnabled(String message) {
-        if (this.isManagedDiskEnabled()) {
-            throw new UnsupportedOperationException(message);
-        }
-    }*/
-
     private void throwIfManagedDiskDisabled(String message) {
         if (!this.isManagedDiskEnabled()) {
             throw new UnsupportedOperationException(message);
         }
-    }
-
-
-    OperatingSystemTypes osTypeIntern() {
-        VirtualMachineScaleSetVMProfile vmProfile = this.inner().virtualMachineProfile();
-        if (vmProfile != null
-                && vmProfile.storageProfile() != null
-                && vmProfile.storageProfile().osDisk() != null
-                && vmProfile.storageProfile().osDisk().osType() != null) {
-            return vmProfile.storageProfile().osDisk().osType();
-        }
-        if (vmProfile != null
-                && vmProfile.osProfile() != null) {
-            if (vmProfile.osProfile().linuxConfiguration() != null) {
-                return OperatingSystemTypes.LINUX;
-            }
-            if (vmProfile.osProfile().windowsConfiguration() != null) {
-                return OperatingSystemTypes.WINDOWS;
-            }
-        }
-        // This should never hit
-        //
-        throw new RuntimeException("Unable to resolve the operating system type");
     }
 
     @Override

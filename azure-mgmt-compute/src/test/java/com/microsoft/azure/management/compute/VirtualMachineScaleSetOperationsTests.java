@@ -274,6 +274,103 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
     }
 
     @Test
+    public void canCreateVirtualMachineScaleSetWithOptionalNetworkSettings() throws Exception {
+        final String vmss_name = generateRandomResourceName("vmss", 10);
+        final String vmssVmDnsLabel = generateRandomResourceName("pip", 10);
+        final String nsgName = generateRandomResourceName("nsg", 10);
+
+        ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
+                .define(RG_NAME)
+                .withRegion(REGION)
+                .create();
+
+        Network network = this.networkManager
+                .networks()
+                .define("vmssvnet")
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withAddressSpace("10.0.0.0/28")
+                .withSubnet("subnet1", "10.0.0.0/28")
+                .create();
+
+        // Create VMSS with instance public ip
+        VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets()
+                .define(vmss_name)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withSku(VirtualMachineScaleSetSkuTypes.STANDARD_D3_V2)
+                .withExistingPrimaryNetworkSubnet(network, "subnet1")
+                .withoutPrimaryInternetFacingLoadBalancer()
+                .withoutPrimaryInternalLoadBalancer()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("jvuser")
+                .withRootPassword("123OData!@#123")
+                .withVirtualMachinePublicIp(vmssVmDnsLabel)
+                .create();
+
+        VirtualMachineScaleSetPublicIPAddressConfiguration currentIpConfig = virtualMachineScaleSet.virtualMachinePublicIpConfig();
+
+        Assert.assertNotNull(currentIpConfig);
+        Assert.assertNotNull(currentIpConfig.dnsSettings());
+        Assert.assertNotNull(currentIpConfig.dnsSettings().domainNameLabel());
+
+        currentIpConfig.withIdleTimeoutInMinutes(20);
+
+        virtualMachineScaleSet.update()
+                .withVirtualMachinePublicIp(currentIpConfig)
+                .apply();
+
+        currentIpConfig = virtualMachineScaleSet.virtualMachinePublicIpConfig();
+        Assert.assertNotNull(currentIpConfig);
+        Assert.assertNotNull(currentIpConfig.idleTimeoutInMinutes());
+        Assert.assertEquals((long) 20, (long) currentIpConfig.idleTimeoutInMinutes());
+
+        virtualMachineScaleSet.refresh();
+        currentIpConfig = virtualMachineScaleSet.virtualMachinePublicIpConfig();
+        Assert.assertNotNull(currentIpConfig);
+        Assert.assertNotNull(currentIpConfig.idleTimeoutInMinutes());
+        Assert.assertEquals((long) 20, (long) currentIpConfig.idleTimeoutInMinutes());
+
+        NetworkSecurityGroup nsg = networkManager.networkSecurityGroups().define(nsgName)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .defineRule("rule1")
+                    .allowOutbound()
+                    .fromAnyAddress()
+                    .fromPort(80)
+                    .toAnyAddress()
+                    .toPort(80)
+                    .withProtocol(SecurityRuleProtocol.TCP)
+                    .attach()
+                .create();
+
+        virtualMachineScaleSet.update()
+                .withIpForwarding()
+                .withAcceleratedNetworking()
+                .withExistingNetworkSecurityGroup(nsg)
+                .apply();
+
+        Assert.assertTrue(virtualMachineScaleSet.isIpForwardingEnabled());
+        Assert.assertTrue(virtualMachineScaleSet.isAcceleratedNetworkingEnabled());
+        Assert.assertNotNull(virtualMachineScaleSet.networkSecurityGroupId());
+        //
+        virtualMachineScaleSet.refresh();
+        //
+        Assert.assertTrue(virtualMachineScaleSet.isIpForwardingEnabled());
+        Assert.assertTrue(virtualMachineScaleSet.isAcceleratedNetworkingEnabled());
+        Assert.assertNotNull(virtualMachineScaleSet.networkSecurityGroupId());
+
+        virtualMachineScaleSet.update()
+                .withoutIpForwarding()
+                .withoutAcceleratedNetworking()
+                .withoutNetworkSecurityGroup()
+                .apply();
+        Assert.assertFalse(virtualMachineScaleSet.isIpForwardingEnabled());
+        Assert.assertFalse(virtualMachineScaleSet.isAcceleratedNetworkingEnabled());
+        Assert.assertNull(virtualMachineScaleSet.networkSecurityGroupId());
+    }
+
+    @Test
     public void canCreateVirtualMachineScaleSet() throws Exception {
         final String vmss_name = generateRandomResourceName("vmss", 10);
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups()

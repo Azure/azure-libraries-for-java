@@ -17,6 +17,7 @@ import com.microsoft.azure.management.network.LoadBalancerBackend;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
 import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.Network;
+import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -380,6 +381,31 @@ public interface VirtualMachineScaleSet extends
      */
     @Beta(Beta.SinceVersion.V1_4_0)
     StorageAccountTypes managedOSDiskStorageAccountType();
+
+
+    /**
+     * @return the public ip configuration of virtual machines in the scale set.
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    VirtualMachineScaleSetPublicIPAddressConfiguration virtualMachinePublicIpConfig();
+
+    /**
+     * @return true if ip forwarding is enabled for the virtual machine scale set.
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    boolean isIpForwardingEnabled();
+
+    /**
+     * @return true if accelerated networking is enabled for the virtual machine scale set.
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    boolean isAcceleratedNetworkingEnabled();
+
+    /**
+     * @return the network security group ARM id.
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    String networkSecurityGroupId();
 
     /**
      * The virtual machine scale set stages shared between managed and unmanaged based
@@ -1526,6 +1552,111 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of the virtual machine scale set definition allowing to enable public ip
+         * for vm instances.
+         */
+        @Beta(Beta.SinceVersion.V1_13_0)
+        interface WithVirtualMachinePublicIp {
+            /**
+             * Specify that virtual machines in the scale set should have public ip address.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithCreate withVirtualMachinePublicIp();
+
+            /**
+             * Specify that virtual machines in the scale set should have public ip address.
+             *
+             * @param leafDomainLabel the domain name label
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithCreate withVirtualMachinePublicIp(String leafDomainLabel);
+
+            /**
+             * Specify that virtual machines in the scale set should have public ip address.
+             *
+             * @param ipConfig the public ip address configuration
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithCreate withVirtualMachinePublicIp(VirtualMachineScaleSetPublicIPAddressConfiguration ipConfig);
+        }
+
+        /**
+         * The stage of the virtual machine scale set definition allowing to configure accelerated networking.
+         */
+        @Beta(Beta.SinceVersion.V1_13_0)
+        interface WithAcceleratedNetworking {
+            /**
+             * Specify that accelerated networking should be enabled for the virtual machine scale set.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithCreate withAcceleratedNetworking();
+
+            /**
+             * Specify that accelerated networking should be disabled for the virtual machine scale set.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithCreate withoutAcceleratedNetworking();
+        }
+
+        /**
+         * The stage of the virtual machine scale set definition allowing to configure ip forwarding.
+         */
+        @Beta(Beta.SinceVersion.V1_13_0)
+        interface WithIpForwarding {
+            /**
+             * Specify that ip forwarding should be enabled for the virtual machine scale set.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithCreate withIpForwarding();
+
+            /**
+             * Specify that ip forwarding should be disabled for the virtual machine scale set.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithCreate withoutIpForwarding();
+        }
+
+        /**
+         * The stage of the virtual machine scale set definition allowing to configure network security group.
+         */
+        @Beta(Beta.SinceVersion.V1_13_0)
+        interface WithNetworkSecurityGroup {
+            /**
+             * Specifies the network security group for the virtual machine scale set.
+             *
+             * @param networkSecurityGroup the network security group to associate
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithCreate withExistingNetworkSecurityGroup(NetworkSecurityGroup networkSecurityGroup);
+
+            /**
+             * Specifies the network security group for the virtual machine scale set.
+             *
+             * @param networkSecurityGroupId the network security group to associate
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithCreate withExistingNetworkSecurityGroupId(String networkSecurityGroupId);
+        }
+
+        /**
          * The stage of a virtual machine scale set definition containing all the required inputs for the resource
          * to be created, but also allowing for any other optional settings
          * to be specified.
@@ -1544,6 +1675,10 @@ public interface VirtualMachineScaleSet extends
                 DefinitionStages.WithUserAssignedManagedServiceIdentity,
                 DefinitionStages.WithBootDiagnostics,
                 DefinitionStages.WithVMPriority,
+                DefinitionStages.WithVirtualMachinePublicIp,
+                DefinitionStages.WithAcceleratedNetworking,
+                DefinitionStages.WithIpForwarding,
+                DefinitionStages.WithNetworkSecurityGroup,
                 Resource.DefinitionWithTags<VirtualMachineScaleSet.DefinitionStages.WithCreate> {
         }
     }
@@ -2058,6 +2193,119 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of the virtual machine scale set update allowing to enable public ip
+         * for vm instances.
+         */
+        @Beta(Beta.SinceVersion.V1_13_0)
+        interface WithVirtualMachinePublicIp {
+            /**
+             * Specify that virtual machines in the scale set should have public ip address.
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withVirtualMachinePublicIp();
+
+                        /**
+             * Specify that virtual machines in the scale set should have public ip address.
+             *
+             * @param leafDomainLabel the domain name label
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withVirtualMachinePublicIp(String leafDomainLabel);
+
+            /**
+             * Specify that virtual machines in the scale set should have public ip address.
+             *
+             * @param ipConfig the public ip address configuration
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withVirtualMachinePublicIp(VirtualMachineScaleSetPublicIPAddressConfiguration ipConfig);
+        }
+
+        /**
+         * The stage of the virtual machine scale set update allowing to configure accelerated networking.
+         */
+        @Beta(Beta.SinceVersion.V1_13_0)
+        interface WithAcceleratedNetworking {
+            /**
+             * Specify that accelerated networking should be enabled for the virtual machine scale set.
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withAcceleratedNetworking();
+
+            /**
+             * Specify that accelerated networking should be disabled for the virtual machine scale set.
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withoutAcceleratedNetworking();
+        }
+
+        /**
+         * The stage of the virtual machine scale set update allowing to configure ip forwarding.
+         */
+        @Beta(Beta.SinceVersion.V1_13_0)
+        interface WithIpForwarding {
+            /**
+             * Specify that ip forwarding should be enabled for the virtual machine scale set.
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withIpForwarding();
+
+            /**
+             * Specify that ip forwarding should be disabled for the virtual machine scale set.
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withoutIpForwarding();
+        }
+
+        /**
+         * The stage of the virtual machine scale set update allowing to configure network security group.
+         */
+        @Beta(Beta.SinceVersion.V1_13_0)
+        interface WithNetworkSecurityGroup {
+            /**
+             * Specifies the network security group for the virtual machine scale set.
+             *
+             * @param networkSecurityGroup the network security group to associate
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withExistingNetworkSecurityGroup(NetworkSecurityGroup networkSecurityGroup);
+
+            /**
+             * Specifies the network security group for the virtual machine scale set.
+             *
+             * @param networkSecurityGroupId the network security group to associate
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withExistingNetworkSecurityGroupId(String networkSecurityGroupId);
+
+            /**
+             * Specifies that network security group association should be removed if exists.
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withoutNetworkSecurityGroup();
+        }
+
+        /**
          * The stage of a virtual machine scale set update containing inputs for the resource to be updated.
          */
         interface WithApply extends
@@ -2074,7 +2322,11 @@ public interface VirtualMachineScaleSet extends
                 UpdateStages.WithSystemAssignedManagedServiceIdentity,
                 UpdateStages.WithUserAssignedManagedServiceIdentity,
                 UpdateStages.WithBootDiagnostics,
-                UpdateStages.WithAvailabilityZone {
+                UpdateStages.WithAvailabilityZone,
+                UpdateStages.WithVirtualMachinePublicIp,
+                UpdateStages.WithAcceleratedNetworking,
+                UpdateStages.WithIpForwarding,
+                UpdateStages.WithNetworkSecurityGroup {
         }
     }
 

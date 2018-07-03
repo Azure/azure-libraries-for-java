@@ -38,6 +38,8 @@ import com.microsoft.azure.management.compute.VirtualMachineScaleSetNetworkConfi
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetNetworkProfile;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetOSDisk;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetOSProfile;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetPublicIPAddressConfiguration;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetSku;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetSkuTypes;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetStorageProfile;
@@ -55,6 +57,7 @@ import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
 import com.microsoft.azure.management.network.LoadBalancerPrivateFrontend;
 import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.Network;
+import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
@@ -414,9 +417,50 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
+    public VirtualMachineScaleSetPublicIPAddressConfiguration virtualMachinePublicIpConfig() {
+        VirtualMachineScaleSetIPConfiguration nicConfig = this.primaryNicDefaultIPConfiguration();
+        if (nicConfig != null) {
+            return nicConfig.publicIPAddressConfiguration();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public VirtualMachineEvictionPolicyTypes virtualMachineEvictionPolicy() {
         if (this.inner().virtualMachineProfile() != null) {
             return this.inner().virtualMachineProfile().evictionPolicy();
+        } else {
+            return null;
+        }
+    }
+
+
+    @Override
+    public boolean isIpForwardingEnabled() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = primaryNicConfiguration();
+        if (nicConfig.enableIPForwarding() != null) {
+            return nicConfig.enableIPForwarding();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isAcceleratedNetworkingEnabled() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = primaryNicConfiguration();
+        if (nicConfig.enableAcceleratedNetworking() != null) {
+            return nicConfig.enableAcceleratedNetworking();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public String networkSecurityGroupId() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = primaryNicConfiguration();
+        if (nicConfig.networkSecurityGroup() != null) {
+            return nicConfig.networkSecurityGroup().id();
         } else {
             return null;
         }
@@ -1838,6 +1882,20 @@ public class VirtualMachineScaleSetImpl
         throw new RuntimeException("Could not find the primary nic configuration or an IP configuration in it");
     }
 
+    private VirtualMachineScaleSetNetworkConfiguration primaryNicConfiguration() {
+        List<VirtualMachineScaleSetNetworkConfiguration> nicConfigurations = this.inner()
+                .virtualMachineProfile()
+                .networkProfile()
+                .networkInterfaceConfigurations();
+
+        for (VirtualMachineScaleSetNetworkConfiguration nicConfiguration : nicConfigurations) {
+            if (nicConfiguration.primary()) {
+                return nicConfiguration;
+            }
+        }
+        throw new RuntimeException("Could not find the primary nic configuration");
+    }
+
     private static void associateBackEndsToIpConfiguration(String loadBalancerId,
                                                            VirtualMachineScaleSetIPConfiguration ipConfig,
                                                            String... backendNames) {
@@ -2200,6 +2258,98 @@ public class VirtualMachineScaleSetImpl
     public VirtualMachineScaleSetImpl withLowPriorityVirtualMachine(VirtualMachineEvictionPolicyTypes policy) {
         this.withLowPriorityVirtualMachine();
         this.inner().virtualMachineProfile().withEvictionPolicy(policy);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withVirtualMachinePublicIp() {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = this.primaryNicDefaultIPConfiguration();
+        if (nicIpConfig.publicIPAddressConfiguration() != null) {
+            return this;
+        } else {
+            VirtualMachineScaleSetPublicIPAddressConfiguration pipConfig = new VirtualMachineScaleSetPublicIPAddressConfiguration();
+            pipConfig.withName("pip1");
+            pipConfig.withIdleTimeoutInMinutes(15);
+            //
+            nicIpConfig.withPublicIPAddressConfiguration(pipConfig);
+            return this;
+        }
+    }
+
+    @Override
+    public  VirtualMachineScaleSetImpl withVirtualMachinePublicIp(String leafDomainLabel) {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = this.primaryNicDefaultIPConfiguration();
+        if (nicIpConfig.publicIPAddressConfiguration() != null) {
+            if (nicIpConfig.publicIPAddressConfiguration().dnsSettings() != null) {
+                nicIpConfig.publicIPAddressConfiguration().dnsSettings().withDomainNameLabel(leafDomainLabel);
+            } else {
+                nicIpConfig.publicIPAddressConfiguration().withDnsSettings(new VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings());
+                nicIpConfig.publicIPAddressConfiguration().dnsSettings().withDomainNameLabel(leafDomainLabel);
+            }
+        } else {
+            VirtualMachineScaleSetPublicIPAddressConfiguration pipConfig = new VirtualMachineScaleSetPublicIPAddressConfiguration();
+            pipConfig.withName("pip1");
+            pipConfig.withIdleTimeoutInMinutes(15);
+            pipConfig.withDnsSettings(new VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings());
+            pipConfig.dnsSettings().withDomainNameLabel(leafDomainLabel);
+            nicIpConfig.withPublicIPAddressConfiguration(pipConfig);
+        }
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withVirtualMachinePublicIp(VirtualMachineScaleSetPublicIPAddressConfiguration pipConfig) {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = this.primaryNicDefaultIPConfiguration();
+        nicIpConfig.withPublicIPAddressConfiguration(pipConfig);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withAcceleratedNetworking() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = this.primaryNicConfiguration();
+        nicConfig.withEnableAcceleratedNetworking(true);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutAcceleratedNetworking() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = this.primaryNicConfiguration();
+        nicConfig.withEnableAcceleratedNetworking(false);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withIpForwarding() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = this.primaryNicConfiguration();
+        nicConfig.withEnableIPForwarding(true);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutIpForwarding() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = this.primaryNicConfiguration();
+        nicConfig.withEnableIPForwarding(false);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withExistingNetworkSecurityGroup(NetworkSecurityGroup networkSecurityGroup) {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = this.primaryNicConfiguration();
+        nicConfig.withNetworkSecurityGroup(new SubResource().withId(networkSecurityGroup.id()));
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withExistingNetworkSecurityGroupId(String networkSecurityGroupId) {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = this.primaryNicConfiguration();
+        nicConfig.withNetworkSecurityGroup(new SubResource().withId(networkSecurityGroupId));
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutNetworkSecurityGroup() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = this.primaryNicConfiguration();
+        nicConfig.withNetworkSecurityGroup(null);
         return this;
     }
 

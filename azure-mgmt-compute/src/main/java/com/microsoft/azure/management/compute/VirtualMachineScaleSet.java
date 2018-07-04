@@ -408,6 +408,17 @@ public interface VirtualMachineScaleSet extends
     String networkSecurityGroupId();
 
     /**
+     * @return true if single placement group is enabled for the virtual machine scale set.
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    boolean isSinglePlacementGroupEnabled();
+
+    /**
+     * @return the list of application gateway backend pool associated with the virtual machine scale set.
+     */
+    List<String> applicationGatewayBackendAddressPools();
+
+    /**
      * The virtual machine scale set stages shared between managed and unmanaged based
      * virtual machine scale set definitions.
      */
@@ -1657,6 +1668,44 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of the virtual machine scale set definition allowing to configure single placement group.
+         */
+        @Beta(Beta.SinceVersion.V1_13_0)
+        interface WithSinglePlacementGroup {
+            /**
+             * Specify that single placement group should be enabled for the virtual machine scale set.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithCreate withSinglePlacementGroup();
+
+            /**
+             * Specify that single placement group should be disabled for the virtual machine scale set.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithCreate withoutSinglePlacementGroup();
+        }
+
+        /**
+         * The stage of the virtual machine scale set definition allowing to configure application gateway.
+         */
+        @Beta(Beta.SinceVersion.V1_13_0)
+        interface WithApplicationGateway {
+            /**
+             * Specify that an application gateway backend pool should be associated with virtual machine scale set.
+             *
+             * @param backendPoolId an existing backend pool id of the gateway
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithCreate withExistingApplicationGatewayBackendPool(String backendPoolId);
+        }
+
+        /**
          * The stage of a virtual machine scale set definition containing all the required inputs for the resource
          * to be created, but also allowing for any other optional settings
          * to be specified.
@@ -1679,6 +1728,8 @@ public interface VirtualMachineScaleSet extends
                 DefinitionStages.WithAcceleratedNetworking,
                 DefinitionStages.WithIpForwarding,
                 DefinitionStages.WithNetworkSecurityGroup,
+                DefinitionStages.WithSinglePlacementGroup,
+                DefinitionStages.WithApplicationGateway,
                 Resource.DefinitionWithTags<VirtualMachineScaleSet.DefinitionStages.WithCreate> {
         }
     }
@@ -2306,6 +2357,54 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of the virtual machine scale set update allowing to configure single placement group.
+         */
+        @Beta(Beta.SinceVersion.V1_13_0)
+        interface WithSinglePlacementGroup {
+            /**
+             * Specify that single placement group should be enabled for the virtual machine scale set.
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withSinglePlacementGroup();
+
+            /**
+             * Specify that single placement group should be disabled for the virtual machine scale set.
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withoutSinglePlacementGroup();
+        }
+
+        /**
+         * The stage of the virtual machine scale set update allowing to configure application gateway.
+         */
+        @Beta(Beta.SinceVersion.V1_13_0)
+        interface WithApplicationGateway {
+            /**
+             * Specify that an application gateway backend pool should be associated with virtual machine scale set.
+             *
+             * @param backendPoolId an existing backend pool id of the gateway
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withExistingApplicationGatewayBackendPool(String backendPoolId);
+
+            /**
+             * Specify an existing application gateway associated should be removed from the virtual machine scale set.
+             *
+             * @param backendPoolId an existing backend pool id of the gateway
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withoutApplicationGatewayBackendPool(String backendPoolId);
+        }
+
+        /**
          * The stage of a virtual machine scale set update containing inputs for the resource to be updated.
          */
         interface WithApply extends
@@ -2326,7 +2425,9 @@ public interface VirtualMachineScaleSet extends
                 UpdateStages.WithVirtualMachinePublicIp,
                 UpdateStages.WithAcceleratedNetworking,
                 UpdateStages.WithIpForwarding,
-                UpdateStages.WithNetworkSecurityGroup {
+                UpdateStages.WithNetworkSecurityGroup,
+                UpdateStages.WithSinglePlacementGroup,
+                UpdateStages.WithApplicationGateway {
         }
     }
 

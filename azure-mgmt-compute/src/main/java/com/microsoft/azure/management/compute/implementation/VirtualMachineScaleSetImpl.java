@@ -467,6 +467,28 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
+    public boolean isSinglePlacementGroupEnabled() {
+        if (this.inner().singlePlacementGroup() != null) {
+            return this.inner().singlePlacementGroup();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public List<String> applicationGatewayBackendAddressPools() {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = this.primaryNicDefaultIPConfiguration();
+        List<SubResource> backendPools = nicIpConfig.applicationGatewayBackendAddressPools();
+        List<String> result = new ArrayList<>();
+        if (backendPools != null) {
+            for (SubResource backendPool : backendPools) {
+                result.add(backendPool.id());
+            }
+        }
+        return result;
+    }
+
+    @Override
     public VirtualMachineScaleSetNetworkInterface getNetworkInterfaceByInstanceId(String instanceId, String name) {
         return this.networkManager.networkInterfaces().getByVirtualMachineScaleSetInstanceId(this.resourceGroupName(),
                 this.name(),
@@ -2351,6 +2373,59 @@ public class VirtualMachineScaleSetImpl
         VirtualMachineScaleSetNetworkConfiguration nicConfig = this.primaryNicConfiguration();
         nicConfig.withNetworkSecurityGroup(null);
         return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withSinglePlacementGroup() {
+        this.inner().withSinglePlacementGroup(true);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutSinglePlacementGroup() {
+        this.inner().withSinglePlacementGroup(false);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withExistingApplicationGatewayBackendPool(String backendPoolId) {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = primaryNicDefaultIPConfiguration();
+        if (nicIpConfig.applicationGatewayBackendAddressPools() == null) {
+            nicIpConfig.withApplicationGatewayBackendAddressPools(new ArrayList<SubResource>());
+        }
+        boolean found = false;
+        for (SubResource backendPool : nicIpConfig.applicationGatewayBackendAddressPools()) {
+            if (backendPool.id().equalsIgnoreCase(backendPoolId)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            nicIpConfig.applicationGatewayBackendAddressPools().add(new SubResource().withId(backendPoolId));
+        }
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutApplicationGatewayBackendPool(String backendPoolId) {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = primaryNicDefaultIPConfiguration();
+        if (nicIpConfig.applicationGatewayBackendAddressPools() == null) {
+            return this;
+        } else {
+            int foundIndex = -1;
+            int index = -1;
+            for (SubResource backendPool : nicIpConfig.applicationGatewayBackendAddressPools()) {
+                index = index + 1;
+                if (backendPool.id().equalsIgnoreCase(backendPoolId)) {
+                    foundIndex = index;
+                    break;
+                }
+            }
+            if (foundIndex != -1) {
+                nicIpConfig.applicationGatewayBackendAddressPools().remove(foundIndex);
+            }
+            return this;
+        }
     }
 
     /**

@@ -14,6 +14,7 @@ import com.microsoft.azure.management.network.*;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountKey;
 import com.microsoft.azure.storage.CloudStorageAccount;
@@ -278,6 +279,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         final String vmss_name = generateRandomResourceName("vmss", 10);
         final String vmssVmDnsLabel = generateRandomResourceName("pip", 10);
         final String nsgName = generateRandomResourceName("nsg", 10);
+        final String asgName = generateRandomResourceName("asg", 8);
 
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
                 .define(RG_NAME)
@@ -293,6 +295,13 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                 .withSubnet("subnet1", "10.0.0.0/28")
                 .create();
 
+        ApplicationSecurityGroup asg = this.networkManager
+                .applicationSecurityGroups()
+                .define(asgName)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .create();
+
         // Create VMSS with instance public ip
         VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets()
                 .define(vmss_name)
@@ -306,6 +315,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                 .withRootUsername("jvuser")
                 .withRootPassword("123OData!@#123")
                 .withVirtualMachinePublicIp(vmssVmDnsLabel)
+                .withExistingApplicationSecurityGroup(asg)
                 .create();
 
         VirtualMachineScaleSetPublicIPAddressConfiguration currentIpConfig = virtualMachineScaleSet.virtualMachinePublicIpConfig();
@@ -330,6 +340,10 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         Assert.assertNotNull(currentIpConfig);
         Assert.assertNotNull(currentIpConfig.idleTimeoutInMinutes());
         Assert.assertEquals((long) 20, (long) currentIpConfig.idleTimeoutInMinutes());
+
+        List<String> asgIds = virtualMachineScaleSet.applicationSecurityGroupIds();
+        Assert.assertNotNull(asgIds);
+        Assert.assertEquals(1, asgIds.size());
 
         NetworkSecurityGroup nsg = networkManager.networkSecurityGroups().define(nsgName)
                 .withRegion(REGION)

@@ -52,6 +52,7 @@ import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.microsoft.azure.management.msi.Identity;
+import com.microsoft.azure.management.network.ApplicationSecurityGroup;
 import com.microsoft.azure.management.network.LoadBalancerBackend;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
 import com.microsoft.azure.management.network.LoadBalancerPrivateFrontend;
@@ -476,7 +477,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public List<String> applicationGatewayBackendAddressPools() {
+    public List<String> applicationGatewayBackendAddressPoolsIds() {
         VirtualMachineScaleSetIPConfiguration nicIpConfig = this.primaryNicDefaultIPConfiguration();
         List<SubResource> backendPools = nicIpConfig.applicationGatewayBackendAddressPools();
         List<String> result = new ArrayList<>();
@@ -486,6 +487,18 @@ public class VirtualMachineScaleSetImpl
             }
         }
         return result;
+    }
+
+    @Override
+    public List<String> applicationSecurityGroupIds() {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = this.primaryNicDefaultIPConfiguration();
+        List<String> asgIds = new ArrayList<>();
+        if (nicIpConfig.applicationSecurityGroups() != null) {
+            for (SubResource asg : nicIpConfig.applicationSecurityGroups()) {
+                asgIds.add(asg.id());
+            }
+        }
+        return asgIds;
     }
 
     @Override
@@ -2423,6 +2436,52 @@ public class VirtualMachineScaleSetImpl
             }
             if (foundIndex != -1) {
                 nicIpConfig.applicationGatewayBackendAddressPools().remove(foundIndex);
+            }
+            return this;
+        }
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withExistingApplicationSecurityGroup(ApplicationSecurityGroup applicationSecurityGroup) {
+        return withExistingApplicationSecurityGroupId(applicationSecurityGroup.id());
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withExistingApplicationSecurityGroupId(String applicationSecurityGroupId) {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = primaryNicDefaultIPConfiguration();
+        if (nicIpConfig.applicationSecurityGroups() == null) {
+            nicIpConfig.withApplicationSecurityGroups(new ArrayList<SubResource>());
+        }
+        boolean found = false;
+        for (SubResource asg : nicIpConfig.applicationSecurityGroups()) {
+            if (asg.id().equalsIgnoreCase(applicationSecurityGroupId)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            nicIpConfig.applicationSecurityGroups().add(new SubResource().withId(applicationSecurityGroupId));
+        }
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutApplicationSecurityGroup(String applicationSecurityGroupId) {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = primaryNicDefaultIPConfiguration();
+        if (nicIpConfig.applicationSecurityGroups() == null) {
+            return this;
+        } else {
+            int foundIndex = -1;
+            int index = -1;
+            for (SubResource asg : nicIpConfig.applicationSecurityGroups()) {
+                index = index + 1;
+                if (asg.id().equalsIgnoreCase(applicationSecurityGroupId)) {
+                    foundIndex = index;
+                    break;
+                }
+            }
+            if (foundIndex != -1) {
+                nicIpConfig.applicationSecurityGroups().remove(foundIndex);
             }
             return this;
         }

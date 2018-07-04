@@ -58,7 +58,7 @@ public class VirtualMachineScaleSetIPConfiguration extends SubResource {
      * application gateways. Multiple scale sets cannot use the same
      * application gateway.
      */
-    @JsonProperty(value = "properties.applicationGatewayBackendAddressPools")
+    @JsonProperty(value = "properties.applicationGatewayBackendAddressPoolsIds")
     private List<SubResource> applicationGatewayBackendAddressPools;
 
     /**
@@ -78,6 +78,12 @@ public class VirtualMachineScaleSetIPConfiguration extends SubResource {
      */
     @JsonProperty(value = "properties.loadBalancerInboundNatPools")
     private List<SubResource> loadBalancerInboundNatPools;
+
+    /**
+     * Gets the applicationSecurityGroups.
+     */
+    @JsonProperty(value = "properties.applicationSecurityGroups")
+    private List<SubResource> applicationSecurityGroups;
 
     /**
      * Get the IP configuration name.
@@ -182,7 +188,7 @@ public class VirtualMachineScaleSetIPConfiguration extends SubResource {
     /**
      * Get specifies an array of references to backend address pools of application gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot use the same application gateway.
      *
-     * @return the applicationGatewayBackendAddressPools value
+     * @return the applicationGatewayBackendAddressPoolsIds value
      */
     public List<SubResource> applicationGatewayBackendAddressPools() {
         return this.applicationGatewayBackendAddressPools;
@@ -191,7 +197,7 @@ public class VirtualMachineScaleSetIPConfiguration extends SubResource {
     /**
      * Set specifies an array of references to backend address pools of application gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot use the same application gateway.
      *
-     * @param applicationGatewayBackendAddressPools the applicationGatewayBackendAddressPools value to set
+     * @param applicationGatewayBackendAddressPools the applicationGatewayBackendAddressPoolsIds value to set
      * @return the VirtualMachineScaleSetIPConfiguration object itself.
      */
     public VirtualMachineScaleSetIPConfiguration withApplicationGatewayBackendAddressPools(List<SubResource> applicationGatewayBackendAddressPools) {
@@ -239,4 +245,23 @@ public class VirtualMachineScaleSetIPConfiguration extends SubResource {
         return this;
     }
 
+    /**
+     * Get application security groups.
+     *
+     * @return the applicationSecurityGroups value
+     */
+    public List<SubResource> applicationSecurityGroups() {
+        return this.applicationSecurityGroups;
+    }
+
+    /**
+     * Set application security groups.
+     *
+     * @param applicationSecurityGroups application security groups
+     * @return the VirtualMachineScaleSetIPConfiguration object itself.
+     */
+    public VirtualMachineScaleSetIPConfiguration withApplicationSecurityGroups(List<SubResource> applicationSecurityGroups) {
+        this.applicationSecurityGroups = applicationSecurityGroups;
+        return this;
+    }
 }

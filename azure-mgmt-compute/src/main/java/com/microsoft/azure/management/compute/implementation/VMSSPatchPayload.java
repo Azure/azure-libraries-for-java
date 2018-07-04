@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
+import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetIPConfiguration;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetNetworkConfiguration;
@@ -100,6 +101,12 @@ class VMSSPatchPayload {
                                     patchIpConfig.publicIPAddressConfiguration().withDnsSettings(ipConfig.publicIPAddressConfiguration().dnsSettings());
                                     patchIpConfig.publicIPAddressConfiguration().withIdleTimeoutInMinutes(ipConfig.publicIPAddressConfiguration().idleTimeoutInMinutes());
                                     patchIpConfig.publicIPAddressConfiguration().withName(ipConfig.publicIPAddressConfiguration().name());
+                                }
+                                if (ipConfig.applicationSecurityGroups() != null) {
+                                    patchIpConfig.withApplicationSecurityGroups(new ArrayList<SubResource>());
+                                    for (SubResource asg : ipConfig.applicationSecurityGroups()) {
+                                        patchIpConfig.applicationSecurityGroups().add(new SubResource().withId(asg.id()));
+                                    }
                                 }
                                 nicPatchConfig.ipConfigurations().add(patchIpConfig);
                             }

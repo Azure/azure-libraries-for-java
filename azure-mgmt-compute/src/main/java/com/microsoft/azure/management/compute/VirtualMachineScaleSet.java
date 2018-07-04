@@ -13,6 +13,7 @@ import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineScaleSetInner;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.msi.Identity;
+import com.microsoft.azure.management.network.ApplicationSecurityGroup;
 import com.microsoft.azure.management.network.LoadBalancerBackend;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
 import com.microsoft.azure.management.network.LoadBalancer;
@@ -416,7 +417,12 @@ public interface VirtualMachineScaleSet extends
     /**
      * @return the list of application gateway backend pool associated with the virtual machine scale set.
      */
-    List<String> applicationGatewayBackendAddressPools();
+    List<String> applicationGatewayBackendAddressPoolsIds();
+
+    /**
+     * @return the list of application security groups associated with the virtual machine scale set.
+     */
+    List<String> applicationSecurityGroupIds();
 
     /**
      * The virtual machine scale set stages shared between managed and unmanaged based
@@ -1706,6 +1712,32 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of the virtual machine scale set definition allowing to configure application security group.
+         */
+        @Beta(Beta.SinceVersion.V1_13_0)
+        interface WithApplicationSecurityGroup {
+            /**
+             * Specifies that provided application security group should be associated with the virtual machine scale set.
+             *
+             * @param applicationSecurityGroup the application security group
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithCreate withExistingApplicationSecurityGroup(ApplicationSecurityGroup applicationSecurityGroup);
+
+            /**
+             * Specifies that provided application security group should be associated with the virtual machine scale set.
+             *
+             * @param applicationSecurityGroupId the application security group id
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithCreate withExistingApplicationSecurityGroupId(String applicationSecurityGroupId);
+        }
+
+        /**
          * The stage of a virtual machine scale set definition containing all the required inputs for the resource
          * to be created, but also allowing for any other optional settings
          * to be specified.
@@ -1730,6 +1762,7 @@ public interface VirtualMachineScaleSet extends
                 DefinitionStages.WithNetworkSecurityGroup,
                 DefinitionStages.WithSinglePlacementGroup,
                 DefinitionStages.WithApplicationGateway,
+                DefinitionStages.WithApplicationSecurityGroup,
                 Resource.DefinitionWithTags<VirtualMachineScaleSet.DefinitionStages.WithCreate> {
         }
     }
@@ -2405,6 +2438,43 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of the virtual machine scale set update allowing to configure application security group.
+         */
+        @Beta(Beta.SinceVersion.V1_13_0)
+        interface WithApplicationSecurityGroup {
+            /**
+             * Specifies that provided application security group should be associated with the virtual machine scale set.
+             *
+             * @param applicationSecurityGroup the application security group
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withExistingApplicationSecurityGroup(ApplicationSecurityGroup applicationSecurityGroup);
+
+            /**
+             * Specifies that provided application security group should be associated with the virtual machine scale set.
+             *
+             * @param applicationSecurityGroupId the application security group id
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withExistingApplicationSecurityGroupId(String applicationSecurityGroupId);
+
+            /**
+             * Specifies that provided application security group should be removed from the virtual machine scale set.
+             *
+             * @param applicationSecurityGroupId the application security group id
+             *
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_13_0)
+            WithApply withoutApplicationSecurityGroup(String applicationSecurityGroupId);
+
+        }
+
+        /**
          * The stage of a virtual machine scale set update containing inputs for the resource to be updated.
          */
         interface WithApply extends
@@ -2427,7 +2497,8 @@ public interface VirtualMachineScaleSet extends
                 UpdateStages.WithIpForwarding,
                 UpdateStages.WithNetworkSecurityGroup,
                 UpdateStages.WithSinglePlacementGroup,
-                UpdateStages.WithApplicationGateway {
+                UpdateStages.WithApplicationGateway,
+                UpdateStages.WithApplicationSecurityGroup {
         }
     }
 

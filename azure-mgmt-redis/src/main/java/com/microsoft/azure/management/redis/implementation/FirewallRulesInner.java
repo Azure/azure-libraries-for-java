@@ -13,6 +13,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.redis.RedisFirewallRuleCreateParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -67,7 +68,7 @@ public class FirewallRulesInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.FirewallRules createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{cacheName}/firewallRules/{ruleName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("cacheName") String cacheName, @Path("ruleName") String ruleName, @Path("subscriptionId") String subscriptionId, @Body RedisFirewallRuleCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("cacheName") String cacheName, @Path("ruleName") String ruleName, @Path("subscriptionId") String subscriptionId, @Body RedisFirewallRuleCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.FirewallRules get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{cacheName}/firewallRules/{ruleName}")
@@ -218,7 +219,7 @@ public class FirewallRulesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RedisFirewallRuleInner object if successful.
      */
-    public RedisFirewallRuleInner createOrUpdate(String resourceGroupName, String cacheName, String ruleName, RedisFirewallRuleCreateParametersInner parameters) {
+    public RedisFirewallRuleInner createOrUpdate(String resourceGroupName, String cacheName, String ruleName, RedisFirewallRuleCreateParameters parameters) {
         return createOrUpdateWithServiceResponseAsync(resourceGroupName, cacheName, ruleName, parameters).toBlocking().single().body();
     }
 
@@ -233,7 +234,7 @@ public class FirewallRulesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<RedisFirewallRuleInner> createOrUpdateAsync(String resourceGroupName, String cacheName, String ruleName, RedisFirewallRuleCreateParametersInner parameters, final ServiceCallback<RedisFirewallRuleInner> serviceCallback) {
+    public ServiceFuture<RedisFirewallRuleInner> createOrUpdateAsync(String resourceGroupName, String cacheName, String ruleName, RedisFirewallRuleCreateParameters parameters, final ServiceCallback<RedisFirewallRuleInner> serviceCallback) {
         return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, cacheName, ruleName, parameters), serviceCallback);
     }
 
@@ -247,7 +248,7 @@ public class FirewallRulesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisFirewallRuleInner object
      */
-    public Observable<RedisFirewallRuleInner> createOrUpdateAsync(String resourceGroupName, String cacheName, String ruleName, RedisFirewallRuleCreateParametersInner parameters) {
+    public Observable<RedisFirewallRuleInner> createOrUpdateAsync(String resourceGroupName, String cacheName, String ruleName, RedisFirewallRuleCreateParameters parameters) {
         return createOrUpdateWithServiceResponseAsync(resourceGroupName, cacheName, ruleName, parameters).map(new Func1<ServiceResponse<RedisFirewallRuleInner>, RedisFirewallRuleInner>() {
             @Override
             public RedisFirewallRuleInner call(ServiceResponse<RedisFirewallRuleInner> response) {
@@ -266,7 +267,7 @@ public class FirewallRulesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisFirewallRuleInner object
      */
-    public Observable<ServiceResponse<RedisFirewallRuleInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String cacheName, String ruleName, RedisFirewallRuleCreateParametersInner parameters) {
+    public Observable<ServiceResponse<RedisFirewallRuleInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String cacheName, String ruleName, RedisFirewallRuleCreateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }

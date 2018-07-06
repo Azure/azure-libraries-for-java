@@ -16,8 +16,14 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.redis.CheckNameAvailabilityParameters;
+import com.microsoft.azure.management.redis.ExportRDBParameters;
+import com.microsoft.azure.management.redis.ImportRDBParameters;
+import com.microsoft.azure.management.redis.RedisCreateParameters;
 import com.microsoft.azure.management.redis.RedisKeyType;
+import com.microsoft.azure.management.redis.RedisRebootParameters;
 import com.microsoft.azure.management.redis.RedisRegenerateKeyParameters;
+import com.microsoft.azure.management.redis.RedisUpdateParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -70,7 +76,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
     interface RedisService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis checkNameAvailability" })
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.Cache/CheckNameAvailability")
-        Observable<Response<ResponseBody>> checkNameAvailability(@Path("subscriptionId") String subscriptionId, @Body CheckNameAvailabilityParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> checkNameAvailability(@Path("subscriptionId") String subscriptionId, @Body CheckNameAvailabilityParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis listUpgradeNotifications" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/listUpgradeNotifications")
@@ -78,15 +84,15 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis create" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}")
-        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body RedisCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body RedisCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis beginCreate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}")
-        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body RedisCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body RedisCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body RedisUpdateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body RedisUpdateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}", method = "DELETE", hasBody = true)
@@ -118,23 +124,23 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis forceReboot" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/forceReboot")
-        Observable<Response<ResponseBody>> forceReboot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body RedisRebootParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> forceReboot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body RedisRebootParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis importData" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/import")
-        Observable<Response<ResponseBody>> importData(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body ImportRDBParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> importData(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body ImportRDBParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis beginImportData" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/import")
-        Observable<Response<ResponseBody>> beginImportData(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body ImportRDBParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginImportData(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body ImportRDBParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis exportData" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/export")
-        Observable<Response<ResponseBody>> exportData(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body ExportRDBParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> exportData(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body ExportRDBParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis beginExportData" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/export")
-        Observable<Response<ResponseBody>> beginExportData(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body ExportRDBParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginExportData(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body ExportRDBParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.redis.Redis listByResourceGroupNext" })
         @GET
@@ -149,35 +155,35 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
     /**
      * Checks that the redis cache name is valid and is not already in use.
      *
-     * @param parameters Parameters supplied to the CheckNameAvailability Redis operation.
+     * @param parameters Parameters supplied to the CheckNameAvailability Redis operation. The only supported resource type is 'Microsoft.Cache/redis'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void checkNameAvailability(CheckNameAvailabilityParametersInner parameters) {
+    public void checkNameAvailability(CheckNameAvailabilityParameters parameters) {
         checkNameAvailabilityWithServiceResponseAsync(parameters).toBlocking().single().body();
     }
 
     /**
      * Checks that the redis cache name is valid and is not already in use.
      *
-     * @param parameters Parameters supplied to the CheckNameAvailability Redis operation.
+     * @param parameters Parameters supplied to the CheckNameAvailability Redis operation. The only supported resource type is 'Microsoft.Cache/redis'
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> checkNameAvailabilityAsync(CheckNameAvailabilityParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> checkNameAvailabilityAsync(CheckNameAvailabilityParameters parameters, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(checkNameAvailabilityWithServiceResponseAsync(parameters), serviceCallback);
     }
 
     /**
      * Checks that the redis cache name is valid and is not already in use.
      *
-     * @param parameters Parameters supplied to the CheckNameAvailability Redis operation.
+     * @param parameters Parameters supplied to the CheckNameAvailability Redis operation. The only supported resource type is 'Microsoft.Cache/redis'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> checkNameAvailabilityAsync(CheckNameAvailabilityParametersInner parameters) {
+    public Observable<Void> checkNameAvailabilityAsync(CheckNameAvailabilityParameters parameters) {
         return checkNameAvailabilityWithServiceResponseAsync(parameters).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
@@ -189,11 +195,11 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
     /**
      * Checks that the redis cache name is valid and is not already in use.
      *
-     * @param parameters Parameters supplied to the CheckNameAvailability Redis operation.
+     * @param parameters Parameters supplied to the CheckNameAvailability Redis operation. The only supported resource type is 'Microsoft.Cache/redis'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> checkNameAvailabilityWithServiceResponseAsync(CheckNameAvailabilityParametersInner parameters) {
+    public Observable<ServiceResponse<Void>> checkNameAvailabilityWithServiceResponseAsync(CheckNameAvailabilityParameters parameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -326,7 +332,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RedisResourceInner object if successful.
      */
-    public RedisResourceInner create(String resourceGroupName, String name, RedisCreateParametersInner parameters) {
+    public RedisResourceInner create(String resourceGroupName, String name, RedisCreateParameters parameters) {
         return createWithServiceResponseAsync(resourceGroupName, name, parameters).toBlocking().last().body();
     }
 
@@ -340,7 +346,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<RedisResourceInner> createAsync(String resourceGroupName, String name, RedisCreateParametersInner parameters, final ServiceCallback<RedisResourceInner> serviceCallback) {
+    public ServiceFuture<RedisResourceInner> createAsync(String resourceGroupName, String name, RedisCreateParameters parameters, final ServiceCallback<RedisResourceInner> serviceCallback) {
         return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
@@ -353,7 +359,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<RedisResourceInner> createAsync(String resourceGroupName, String name, RedisCreateParametersInner parameters) {
+    public Observable<RedisResourceInner> createAsync(String resourceGroupName, String name, RedisCreateParameters parameters) {
         return createWithServiceResponseAsync(resourceGroupName, name, parameters).map(new Func1<ServiceResponse<RedisResourceInner>, RedisResourceInner>() {
             @Override
             public RedisResourceInner call(ServiceResponse<RedisResourceInner> response) {
@@ -371,7 +377,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<RedisResourceInner>> createWithServiceResponseAsync(String resourceGroupName, String name, RedisCreateParametersInner parameters) {
+    public Observable<ServiceResponse<RedisResourceInner>> createWithServiceResponseAsync(String resourceGroupName, String name, RedisCreateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -403,7 +409,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RedisResourceInner object if successful.
      */
-    public RedisResourceInner beginCreate(String resourceGroupName, String name, RedisCreateParametersInner parameters) {
+    public RedisResourceInner beginCreate(String resourceGroupName, String name, RedisCreateParameters parameters) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, name, parameters).toBlocking().single().body();
     }
 
@@ -417,7 +423,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<RedisResourceInner> beginCreateAsync(String resourceGroupName, String name, RedisCreateParametersInner parameters, final ServiceCallback<RedisResourceInner> serviceCallback) {
+    public ServiceFuture<RedisResourceInner> beginCreateAsync(String resourceGroupName, String name, RedisCreateParameters parameters, final ServiceCallback<RedisResourceInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
@@ -430,7 +436,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisResourceInner object
      */
-    public Observable<RedisResourceInner> beginCreateAsync(String resourceGroupName, String name, RedisCreateParametersInner parameters) {
+    public Observable<RedisResourceInner> beginCreateAsync(String resourceGroupName, String name, RedisCreateParameters parameters) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, name, parameters).map(new Func1<ServiceResponse<RedisResourceInner>, RedisResourceInner>() {
             @Override
             public RedisResourceInner call(ServiceResponse<RedisResourceInner> response) {
@@ -448,7 +454,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisResourceInner object
      */
-    public Observable<ServiceResponse<RedisResourceInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String name, RedisCreateParametersInner parameters) {
+    public Observable<ServiceResponse<RedisResourceInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String name, RedisCreateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -498,7 +504,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RedisResourceInner object if successful.
      */
-    public RedisResourceInner update(String resourceGroupName, String name, RedisUpdateParametersInner parameters) {
+    public RedisResourceInner update(String resourceGroupName, String name, RedisUpdateParameters parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, name, parameters).toBlocking().single().body();
     }
 
@@ -512,7 +518,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<RedisResourceInner> updateAsync(String resourceGroupName, String name, RedisUpdateParametersInner parameters, final ServiceCallback<RedisResourceInner> serviceCallback) {
+    public ServiceFuture<RedisResourceInner> updateAsync(String resourceGroupName, String name, RedisUpdateParameters parameters, final ServiceCallback<RedisResourceInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
@@ -525,7 +531,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisResourceInner object
      */
-    public Observable<RedisResourceInner> updateAsync(String resourceGroupName, String name, RedisUpdateParametersInner parameters) {
+    public Observable<RedisResourceInner> updateAsync(String resourceGroupName, String name, RedisUpdateParameters parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, name, parameters).map(new Func1<ServiceResponse<RedisResourceInner>, RedisResourceInner>() {
             @Override
             public RedisResourceInner call(ServiceResponse<RedisResourceInner> response) {
@@ -543,7 +549,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisResourceInner object
      */
-    public Observable<ServiceResponse<RedisResourceInner>> updateWithServiceResponseAsync(String resourceGroupName, String name, RedisUpdateParametersInner parameters) {
+    public Observable<ServiceResponse<RedisResourceInner>> updateWithServiceResponseAsync(String resourceGroupName, String name, RedisUpdateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1236,7 +1242,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RedisForceRebootResponseInner object if successful.
      */
-    public RedisForceRebootResponseInner forceReboot(String resourceGroupName, String name, RedisRebootParametersInner parameters) {
+    public RedisForceRebootResponseInner forceReboot(String resourceGroupName, String name, RedisRebootParameters parameters) {
         return forceRebootWithServiceResponseAsync(resourceGroupName, name, parameters).toBlocking().single().body();
     }
 
@@ -1250,7 +1256,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<RedisForceRebootResponseInner> forceRebootAsync(String resourceGroupName, String name, RedisRebootParametersInner parameters, final ServiceCallback<RedisForceRebootResponseInner> serviceCallback) {
+    public ServiceFuture<RedisForceRebootResponseInner> forceRebootAsync(String resourceGroupName, String name, RedisRebootParameters parameters, final ServiceCallback<RedisForceRebootResponseInner> serviceCallback) {
         return ServiceFuture.fromResponse(forceRebootWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
@@ -1263,7 +1269,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisForceRebootResponseInner object
      */
-    public Observable<RedisForceRebootResponseInner> forceRebootAsync(String resourceGroupName, String name, RedisRebootParametersInner parameters) {
+    public Observable<RedisForceRebootResponseInner> forceRebootAsync(String resourceGroupName, String name, RedisRebootParameters parameters) {
         return forceRebootWithServiceResponseAsync(resourceGroupName, name, parameters).map(new Func1<ServiceResponse<RedisForceRebootResponseInner>, RedisForceRebootResponseInner>() {
             @Override
             public RedisForceRebootResponseInner call(ServiceResponse<RedisForceRebootResponseInner> response) {
@@ -1281,7 +1287,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RedisForceRebootResponseInner object
      */
-    public Observable<ServiceResponse<RedisForceRebootResponseInner>> forceRebootWithServiceResponseAsync(String resourceGroupName, String name, RedisRebootParametersInner parameters) {
+    public Observable<ServiceResponse<RedisForceRebootResponseInner>> forceRebootWithServiceResponseAsync(String resourceGroupName, String name, RedisRebootParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1329,7 +1335,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void importData(String resourceGroupName, String name, ImportRDBParametersInner parameters) {
+    public void importData(String resourceGroupName, String name, ImportRDBParameters parameters) {
         importDataWithServiceResponseAsync(resourceGroupName, name, parameters).toBlocking().last().body();
     }
 
@@ -1343,7 +1349,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> importDataAsync(String resourceGroupName, String name, ImportRDBParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> importDataAsync(String resourceGroupName, String name, ImportRDBParameters parameters, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(importDataWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
@@ -1356,7 +1362,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<Void> importDataAsync(String resourceGroupName, String name, ImportRDBParametersInner parameters) {
+    public Observable<Void> importDataAsync(String resourceGroupName, String name, ImportRDBParameters parameters) {
         return importDataWithServiceResponseAsync(resourceGroupName, name, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
@@ -1374,7 +1380,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<Void>> importDataWithServiceResponseAsync(String resourceGroupName, String name, ImportRDBParametersInner parameters) {
+    public Observable<ServiceResponse<Void>> importDataWithServiceResponseAsync(String resourceGroupName, String name, ImportRDBParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1405,7 +1411,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void beginImportData(String resourceGroupName, String name, ImportRDBParametersInner parameters) {
+    public void beginImportData(String resourceGroupName, String name, ImportRDBParameters parameters) {
         beginImportDataWithServiceResponseAsync(resourceGroupName, name, parameters).toBlocking().single().body();
     }
 
@@ -1419,7 +1425,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> beginImportDataAsync(String resourceGroupName, String name, ImportRDBParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> beginImportDataAsync(String resourceGroupName, String name, ImportRDBParameters parameters, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(beginImportDataWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
@@ -1432,7 +1438,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> beginImportDataAsync(String resourceGroupName, String name, ImportRDBParametersInner parameters) {
+    public Observable<Void> beginImportDataAsync(String resourceGroupName, String name, ImportRDBParameters parameters) {
         return beginImportDataWithServiceResponseAsync(resourceGroupName, name, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
@@ -1450,7 +1456,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> beginImportDataWithServiceResponseAsync(String resourceGroupName, String name, ImportRDBParametersInner parameters) {
+    public Observable<ServiceResponse<Void>> beginImportDataWithServiceResponseAsync(String resourceGroupName, String name, ImportRDBParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1500,7 +1506,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void exportData(String resourceGroupName, String name, ExportRDBParametersInner parameters) {
+    public void exportData(String resourceGroupName, String name, ExportRDBParameters parameters) {
         exportDataWithServiceResponseAsync(resourceGroupName, name, parameters).toBlocking().last().body();
     }
 
@@ -1514,7 +1520,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> exportDataAsync(String resourceGroupName, String name, ExportRDBParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> exportDataAsync(String resourceGroupName, String name, ExportRDBParameters parameters, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(exportDataWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
@@ -1527,7 +1533,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<Void> exportDataAsync(String resourceGroupName, String name, ExportRDBParametersInner parameters) {
+    public Observable<Void> exportDataAsync(String resourceGroupName, String name, ExportRDBParameters parameters) {
         return exportDataWithServiceResponseAsync(resourceGroupName, name, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
@@ -1545,7 +1551,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<Void>> exportDataWithServiceResponseAsync(String resourceGroupName, String name, ExportRDBParametersInner parameters) {
+    public Observable<ServiceResponse<Void>> exportDataWithServiceResponseAsync(String resourceGroupName, String name, ExportRDBParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1576,7 +1582,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void beginExportData(String resourceGroupName, String name, ExportRDBParametersInner parameters) {
+    public void beginExportData(String resourceGroupName, String name, ExportRDBParameters parameters) {
         beginExportDataWithServiceResponseAsync(resourceGroupName, name, parameters).toBlocking().single().body();
     }
 
@@ -1590,7 +1596,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> beginExportDataAsync(String resourceGroupName, String name, ExportRDBParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> beginExportDataAsync(String resourceGroupName, String name, ExportRDBParameters parameters, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(beginExportDataWithServiceResponseAsync(resourceGroupName, name, parameters), serviceCallback);
     }
 
@@ -1603,7 +1609,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> beginExportDataAsync(String resourceGroupName, String name, ExportRDBParametersInner parameters) {
+    public Observable<Void> beginExportDataAsync(String resourceGroupName, String name, ExportRDBParameters parameters) {
         return beginExportDataWithServiceResponseAsync(resourceGroupName, name, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
@@ -1621,7 +1627,7 @@ public class RedisInner implements InnerSupportsGet<RedisResourceInner>, InnerSu
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> beginExportDataWithServiceResponseAsync(String resourceGroupName, String name, ExportRDBParametersInner parameters) {
+    public Observable<ServiceResponse<Void>> beginExportDataWithServiceResponseAsync(String resourceGroupName, String name, ExportRDBParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }

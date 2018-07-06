@@ -6,7 +6,9 @@
 package com.microsoft.azure.management.redis;
 
 import java.util.List;
+import java.util.Map;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 
@@ -72,7 +74,51 @@ public interface RedisCachePremium extends RedisCache {
     List<ScheduleEntry> listPatchSchedules();
 
     /**
+     * @return List of patch schedules for current Redis Cache.
+     */
+    @Beta(Beta.SinceVersion.V1_12_0)
+    List<ScheduleEntry> patchSchedules();
+
+    /**
      * Deletes the patching schedule for Redis Cache.
      */
+    @Method
     void deletePatchSchedule();
+
+    /**
+     * Adds a linked server to the current Redis cache instance.
+     *
+     * @param linkedRedisCacheId the resource Id of the Redis instance to link with.
+     * @param linkedServerLocation the location of the linked Redis instance.
+     * @param role the role of the linked server.
+     * @return name of the linked server.
+     */
+    @Beta(Beta.SinceVersion.V1_12_0)
+    String addLinkedServer(String linkedRedisCacheId, String linkedServerLocation, ReplicationRole role);
+
+    /**
+     * Removes the linked server from the current Redis cache instance.
+     *
+     * @param linkedServerName the name of the linked server.
+     */
+    @Beta(Beta.SinceVersion.V1_12_0)
+    void removeLinkedServer(String linkedServerName);
+
+    /**
+     * Gets the role for the linked server of the current Redis cache instance.
+     *
+     * @param linkedServerName the name of the linked server.
+     * @return the role of the linked server.
+     */
+    @Beta(Beta.SinceVersion.V1_12_0)
+    ReplicationRole getLinkedServerRole(String linkedServerName);
+
+    /**
+     * Gets the list of linked servers associated with this redis cache.
+     *
+     * @return the Roles of the linked servers, indexed by name
+     */
+    @Method
+    @Beta(Beta.SinceVersion.V1_12_0)
+    Map<String, ReplicationRole> listLinkedServers();
 }

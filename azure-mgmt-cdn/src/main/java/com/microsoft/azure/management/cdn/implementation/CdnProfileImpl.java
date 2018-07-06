@@ -53,7 +53,7 @@ class CdnProfileImpl
     @Override
     public Map<String, CdnEndpoint> endpoints() {
         // This is not right, The endpoints are not inline children of profile (hence they are
-        // not ached) but CdnEndpointsImpl today is deriving from ExternalChildResourceCachedImpl
+        // not cached) but CdnEndpointsImpl today is deriving from ExternalChildResourceCachedImpl
         // instead it should derive from ExternalChildResourceNonCachedImpl
         //
         return this.endpoints.endpointsAsMap();

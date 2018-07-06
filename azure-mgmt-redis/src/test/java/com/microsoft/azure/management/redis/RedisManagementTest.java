@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.redis;
 
 
+import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.redis.implementation.RedisManager;
 import com.microsoft.azure.management.resources.core.TestBase;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
@@ -49,8 +50,12 @@ public class RedisManagementTest extends TestBase {
 
     @Override
     protected void cleanUpResources() {
-        resourceManager.resourceGroups().deleteByName(RG_NAME);
-        resourceManager.resourceGroups().deleteByName(RG_NAME_SECOND);
+        try {
+            resourceManager.resourceGroups().deleteByName(RG_NAME);
+        } catch (CloudException ex) {}
+        try {
+            resourceManager.resourceGroups().deleteByName(RG_NAME_SECOND);
+        } catch (CloudException ex) {}
     }
 }
 

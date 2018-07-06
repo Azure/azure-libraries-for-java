@@ -5,6 +5,7 @@
  */
 
 package com.microsoft.azure.management.redis;
+import com.microsoft.azure.management.apigeneration.Beta;
 import org.joda.time.Period;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
@@ -97,6 +98,18 @@ public interface RedisCache extends
     String staticIP();
 
     /**
+     * @return the minimum TLS version (or higher) that clients require to use.
+     */
+    @Beta(Beta.SinceVersion.V1_12_0)
+    TlsVersion minimumTlsVersion();
+
+    /**
+     * @return Firewall Rules in the Redis Cache, indexed by name
+     */
+    @Beta(Beta.SinceVersion.V1_12_0)
+    Map<String, RedisFirewallRule> firewallRules();
+
+    /**
      * @return a Redis Cache's access keys. This operation requires write permission to the Cache resource.
      */
     @Method
@@ -163,6 +176,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache definition.
              */
+            @Method
             WithCreate withBasicSku();
 
             /**
@@ -178,6 +192,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache definition.
              */
+            @Method
             WithCreate withStandardSku();
 
             /**
@@ -193,6 +208,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache definition.
              */
+            @Method
             WithPremiumSkuCreate withPremiumSku();
 
             /**
@@ -217,6 +233,7 @@ public interface RedisCache extends
               *
               * @return the next stage of Redis Cache definition.
               */
+             @Method
              WithCreate withNonSslPort();
 
              /**
@@ -245,21 +262,33 @@ public interface RedisCache extends
              WithCreate withRedisConfiguration(String key, String value);
 
              /**
-              * Assigns the specified subnet to this instance of Redis Cache.
+              * Creates Redis cache firewall rule with range of IP addresses permitted to connect to the cache.
               *
-              * @param network instance of Network object.
-              * @param subnetName the name of the subnet.
+              * @param name name of the rule.
+              * @param lowestIp lowest IP address included in the range.
+              * @param highestIp highest IP address included in the range.
               * @return the next stage of Redis Cache definition.
               */
-             WithCreate withSubnet(HasId network, String subnetName);
+             @Beta(Beta.SinceVersion.V1_12_0)
+             WithCreate withFirewallRule(String name, String lowestIp, String highestIp);
 
              /**
-              * Sets Redis Cache static IP. Required when deploying a Redis Cache inside an existing Azure Virtual Network.
+              * Creates Redis cache firewall rule with range of IP addresses permitted to connect to the cache.
               *
-              * @param staticIP the static IP value to set.
+              * @param rule firewall rule that specifies name, lowest and highest IP address included in the range of permitted IP addresses.
               * @return the next stage of Redis Cache definition.
               */
-             WithCreate withStaticIP(String staticIP);
+             @Beta(Beta.SinceVersion.V1_12_0)
+             WithCreate withFirewallRule(RedisFirewallRule rule);
+
+             /**
+              * Requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2').
+              *
+              * @param tlsVersion minimum TLS version.
+              * @return the next stage of Redis Cache definition.
+              */
+             @Beta(Beta.SinceVersion.V1_12_0)
+             WithCreate withMinimumTlsVersion(TlsVersion tlsVersion);
         }
 
         /**
@@ -309,6 +338,34 @@ public interface RedisCache extends
              * @return the next stage of Redis Cache with Premium SKU definition.
              */
             WithPremiumSkuCreate withPatchSchedule(List<ScheduleEntry> scheduleEntry);
+
+            /**
+             * Assigns the specified subnet to this instance of Redis Cache.
+             *
+             * @param network instance of Network object.
+             * @param subnetName the name of the subnet.
+             * @return the next stage of Redis Cache definition.
+             */
+            @Beta(Beta.SinceVersion.V1_12_0)
+            WithCreate withSubnet(HasId network, String subnetName);
+
+            /**
+             * Assigns the specified subnet to this instance of Redis Cache.
+             *
+             * @param subnetId resource id of subnet.
+             * @return the next stage of Redis Cache definition.
+             */
+            @Beta(Beta.SinceVersion.V1_12_0)
+            WithCreate withSubnet(String subnetId);
+
+            /**
+             * Sets Redis Cache static IP. Required when deploying a Redis Cache inside an existing Azure Virtual Network.
+             *
+             * @param staticIP the static IP value to set.
+             * @return the next stage of Redis Cache definition.
+             */
+            @Beta(Beta.SinceVersion.V1_12_0)
+            WithCreate withStaticIP(String staticIP);
         }
     }
 
@@ -334,6 +391,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache update.
              */
+            @Method
             Update withStandardSku();
 
             /**
@@ -349,6 +407,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache update.
              */
+            @Method
             Update withPremiumSku();
 
             /**
@@ -369,6 +428,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache update.
              */
+            @Method
             Update withNonSslPort();
 
             /**
@@ -376,6 +436,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache update.
              */
+            @Method
             Update withoutNonSslPort();
         }
 
@@ -413,6 +474,7 @@ public interface RedisCache extends
              *
              * @return the next stage of Redis Cache update.
              */
+            @Method
             Update withoutRedisConfiguration();
 
             /**
@@ -443,7 +505,7 @@ public interface RedisCache extends
         Update withShardCount(int shardCount);
 
         /**
-         * Patch schedule on a Premium Cluster Cache.
+         * Adds Patch schedule to the current Premium Cluster Cache.
          *
          * @param dayOfWeek day of week when cache can be patched.
          * @param startHourUtc start hour after which cache patching can start.
@@ -452,7 +514,7 @@ public interface RedisCache extends
         Update withPatchSchedule(DayOfWeek dayOfWeek, int startHourUtc);
 
         /**
-         * The number of shards to be created on a Premium Cluster Cache.
+         * Adds Patch schedule to the current Premium Cluster Cache.
          *
          * @param dayOfWeek day of week when cache can be patched.
          * @param startHourUtc start hour after which cache patching can start.
@@ -462,7 +524,7 @@ public interface RedisCache extends
         Update withPatchSchedule(DayOfWeek dayOfWeek, int startHourUtc, Period maintenanceWindow);
 
         /**
-         * Patch schedule on a Premium Cluster Cache.
+         * Adds Patch schedule to the current Premium Cluster Cache.
          *
          * @param scheduleEntry Patch schedule entry for Premium Redis Cache.
          * @return the next stage of Redis Cache with Premium SKU definition.
@@ -470,12 +532,69 @@ public interface RedisCache extends
         Update withPatchSchedule(ScheduleEntry scheduleEntry);
 
         /**
-         * Patch schedule on a Premium Cluster Cache.
+         * Adds Patch schedule to the current Premium Cluster Cache.
          *
          * @param scheduleEntry List of patch schedule entries for Premium Redis Cache.
          * @return the next stage of Redis Cache with Premium SKU definition.
          */
         Update withPatchSchedule(List<ScheduleEntry> scheduleEntry);
+
+
+        /**
+         * Removes all Patch schedules from the current Premium Cluster Cache.
+         *
+         * @return the next stage of Redis Cache with Premium SKU definition.
+         */
+        @Beta(Beta.SinceVersion.V1_12_0)
+        @Method
+        Update withoutPatchSchedule();
+
+        /**
+         * Creates or updates Redis cache firewall rule with range of IP addresses permitted to connect to the cache.
+         *
+         * @param name name of the rule.
+         * @param lowestIp lowest IP address included in the range.
+         * @param highestIp highest IP address included in the range.
+         * @return the next stage of Redis Cache update.
+         */
+        @Beta(Beta.SinceVersion.V1_12_0)
+        Update withFirewallRule(String name, String lowestIp, String highestIp);
+
+        /**
+         * Creates or updates Redis cache firewall rule with range of IP addresses permitted to connect to the cache.
+         *
+         * @param rule firewall rule that specifies name, lowest and highest IP address included in the range of permitted IP addresses.
+         * @return the next stage of Redis Cache update.
+         */
+        @Beta(Beta.SinceVersion.V1_12_0)
+        Update withFirewallRule(RedisFirewallRule rule);
+
+        /**
+         * Deletes a single firewall rule in the current Redis cache instance.
+         *
+         * @param name name of the rule.
+         * @return the next stage of Redis Cache update.
+         */
+        @Beta(Beta.SinceVersion.V1_12_0)
+        Update withoutFirewallRule(String name);
+
+        /**
+         * Requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2').
+         *
+         * @param tlsVersion minimum TLS version.
+         * @return the next stage of Redis Cache definition.
+         */
+        @Beta(Beta.SinceVersion.V1_12_0)
+        Update withMinimumTlsVersion(TlsVersion tlsVersion);
+
+        /**
+         * Removes the requirement for clients minimum TLS version.
+         *
+         * @return the next stage of Redis Cache definition.
+         */
+        @Beta(Beta.SinceVersion.V1_12_0)
+        @Method
+        Update withoutMinimumTlsVersion();
     }
 }
 

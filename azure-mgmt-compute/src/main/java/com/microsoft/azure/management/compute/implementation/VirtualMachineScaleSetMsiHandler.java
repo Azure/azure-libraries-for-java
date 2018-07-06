@@ -7,22 +7,23 @@
 package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.ResourceIdentityType;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetExtension;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetIdentity;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetUpdate;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Utility class to set Managed Service Identity (MSI) property on a virtual machine scale set,
@@ -31,16 +32,10 @@ import java.util.Objects;
  */
 @LangDefinition
 class VirtualMachineScaleSetMsiHandler extends RoleAssignmentHelper {
-    private static final int DEFAULT_TOKEN_PORT = 50342;
-    private static final String MSI_EXTENSION_PUBLISHER_NAME = "Microsoft.ManagedIdentity";
-    private static final String LINUX_MSI_EXTENSION = "ManagedIdentityExtensionForLinux";
-    private static final String WINDOWS_MSI_EXTENSION = "ManagedIdentityExtensionForWindows";
-
     private final VirtualMachineScaleSetImpl scaleSet;
 
-    private Integer tokenPort;
-    private boolean scheduleMSIExtensionInstallation;
     private List<String> creatableIdentityKeys;
+    private Map<String, VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue> userAssignedIdentities;
 
     /**
      * Creates VirtualMachineScaleSetMsiHandler.
@@ -51,6 +46,7 @@ class VirtualMachineScaleSetMsiHandler extends RoleAssignmentHelper {
         super(rbacManager, scaleSet.taskGroup(), scaleSet.idProvider());
         this.scaleSet = scaleSet;
         this.creatableIdentityKeys = new ArrayList<>();
+        this.userAssignedIdentities = new HashMap<>();
     }
 
     /**
@@ -60,20 +56,26 @@ class VirtualMachineScaleSetMsiHandler extends RoleAssignmentHelper {
      * @return VirtualMachineScaleSetMsiHandler
      */
     VirtualMachineScaleSetMsiHandler withLocalManagedServiceIdentity() {
-        return withLocalManagedServiceIdentity(null);
+        this.initVMSSIdentity(ResourceIdentityType.SYSTEM_ASSIGNED);
+        return this;
     }
 
     /**
-     * Specifies that Local Managed Service Identity property needs to be enabled in the virtual machine
-     * scale set.
+     * Specifies that Local Managed Service Identity needs to be disabled in the virtual machine scale set.
      *
-     * @param port the port in the scale set VM instance to get the access token from
      * @return VirtualMachineScaleSetMsiHandler
      */
-    VirtualMachineScaleSetMsiHandler withLocalManagedServiceIdentity(Integer port) {
-        this.initVMSSIdentity(ResourceIdentityType.SYSTEM_ASSIGNED);
-        this.tokenPort = port;
-        this.scheduleMSIExtensionInstallation = true;
+    VirtualMachineScaleSetMsiHandler withoutLocalManagedServiceIdentity() {
+        if (this.scaleSet.inner().identity() == null
+                || this.scaleSet.inner().identity().type() == null
+                || this.scaleSet.inner().identity().type().equals(ResourceIdentityType.NONE)
+                || this.scaleSet.inner().identity().type().equals(ResourceIdentityType.USER_ASSIGNED)) {
+            return this;
+        } else if (this.scaleSet.inner().identity().type().equals(ResourceIdentityType.SYSTEM_ASSIGNED)) {
+            this.scaleSet.inner().identity().withType(ResourceIdentityType.NONE);
+        } else if (this.scaleSet.inner().identity().type().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED)) {
+            this.scaleSet.inner().identity().withType(ResourceIdentityType.USER_ASSIGNED);
+        }
         return this;
     }
 
@@ -93,8 +95,6 @@ class VirtualMachineScaleSetMsiHandler extends RoleAssignmentHelper {
 
         this.scaleSet.taskGroup().addDependency(dependency);
         this.creatableIdentityKeys.add(creatableIdentity.key());
-
-        this.scheduleMSIExtensionInstallation = true;
         return this;
     }
 
@@ -107,8 +107,7 @@ class VirtualMachineScaleSetMsiHandler extends RoleAssignmentHelper {
      */
     VirtualMachineScaleSetMsiHandler withExistingExternalManagedServiceIdentity(Identity identity) {
         this.initVMSSIdentity(ResourceIdentityType.USER_ASSIGNED);
-        Utils.addToListIfNotExists(this.scaleSet.inner().identity().identityIds(), identity.id());
-        this.scheduleMSIExtensionInstallation = true;
+        this.userAssignedIdentities.put(identity.id(), new VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue());
         return this;
     }
 
@@ -120,135 +119,132 @@ class VirtualMachineScaleSetMsiHandler extends RoleAssignmentHelper {
      * @return VirtualMachineScaleSetMsiHandler
      */
     VirtualMachineScaleSetMsiHandler withoutExternalManagedServiceIdentity(String identityId) {
-        VirtualMachineScaleSetInner scaleSetInner = this.scaleSet.inner();
-        if (scaleSetInner.identity() != null && scaleSetInner.identity().identityIds() != null) {
-            Utils.removeFromList(scaleSetInner.identity().identityIds(), identityId);
-        }
+        this.userAssignedIdentities.put(identityId, null);
         return this;
     }
 
     /**
      * Update the VMSS payload model using the created External Managed Service Identities.
      */
-    void handleExternalIdentitySettings() {
+    void processCreatedExternalIdentities() {
         for (String key : this.creatableIdentityKeys) {
             Identity identity = (Identity) this.scaleSet.taskGroup().taskResult(key);
             Objects.requireNonNull(identity);
-            Utils.addToListIfNotExists(this.scaleSet.inner().identity().identityIds(), identity.id());
+            this.userAssignedIdentities.put(identity.id(), new VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue());
         }
         this.creatableIdentityKeys.clear();
     }
 
-    /**
-     * Add or update the Managed Service Identity extension for the given virtual machine scale set.
-     *
-     * @param scaleSetImpl the scale set
-     */
-    void addOrUpdateMSIExtension(VirtualMachineScaleSetImpl scaleSetImpl) {
-        if (!scheduleMSIExtensionInstallation) {
+    void handleExternalIdentities() {
+        if (!this.userAssignedIdentities.isEmpty()) {
+            this.scaleSet.inner().identity().withUserAssignedIdentities(this.userAssignedIdentities);
+        }
+    }
+
+    void handleExternalIdentities(VirtualMachineScaleSetUpdate vmssUpdate) {
+        if (this.handleRemoveAllExternalIdentitiesCase(vmssUpdate)) {
             return;
-        }
-        // To add or update MSI extension, we relay on methods exposed from interfaces instead of from
-        // impl so that any breaking change in the contract cause a compile time error here. So do not
-        // change the below 'updateExtension' or 'defineNewExtension' to use impls.
-        //
-        String msiExtensionType = msiExtensionType(scaleSetImpl.osTypeIntern());
-        VirtualMachineScaleSetExtension msiExtension = getMSIExtension(scaleSetImpl.extensions(), msiExtensionType);
-        if (msiExtension != null) {
-            Object currentTokenPortObj = msiExtension.publicSettings().get("port");
-            Integer currentTokenPort = objectToInteger(currentTokenPortObj);
-            Integer newPort;
-            if (this.tokenPort != null) {
-                // user specified a port
-                newPort = this.tokenPort;
-            } else if (currentTokenPort != null) {
-                // user didn't specify a port and currently there is a port
-                newPort = currentTokenPort;
-            } else {
-                // user didn't specify a port and currently there is no port
-                newPort = DEFAULT_TOKEN_PORT;
-            }
-            VirtualMachineScaleSet.Update appliableVMSS = scaleSetImpl;
-            appliableVMSS.updateExtension(msiExtension.name())
-                    .withPublicSetting("port", newPort)
-                    .parent();
         } else {
-            Integer port;
-            if (this.tokenPort != null) {
-                port = this.tokenPort;
+            // At this point one of the following condition is met:
+            //
+            // 1. User don't want touch the 'VMSS.Identity.userAssignedIdentities' property
+            //      [this.userAssignedIdentities.empty() == true]
+            // 2. User want to add some identities to 'VMSS.Identity.userAssignedIdentities'
+            //      [this.userAssignedIdentities.empty() == false and this.scaleSet.inner().identity() != null]
+            // 3. User want to remove some (not all) identities in 'VMSS.Identity.userAssignedIdentities'
+            //      [this.userAssignedIdentities.empty() == false and this.scaleSet.inner().identity() != null]
+            //      Note: The scenario where this.scaleSet.inner().identity() is null in #3 is already handled in
+            //      handleRemoveAllExternalIdentitiesCase method
+            // 4. User want to add and remove (all or subset) some identities in 'VMSS.Identity.userAssignedIdentities'
+            //      [this.userAssignedIdentities.empty() == false and this.scaleSet.inner().identity() != null]
+            //
+            VirtualMachineScaleSetIdentity currentIdentity = this.scaleSet.inner().identity();
+            vmssUpdate.withIdentity(currentIdentity);
+            if (!this.userAssignedIdentities.isEmpty()) {
+                // At this point its guaranteed that 'currentIdentity' is not null so vmUpdate.identity() is.
+                vmssUpdate.identity().withUserAssignedIdentities(this.userAssignedIdentities);
             } else {
-                port = DEFAULT_TOKEN_PORT;
-            }
-            if (scaleSetImpl.isInCreateMode()) {
-                VirtualMachineScaleSet.DefinitionStages.WithCreate creatableVMSS = scaleSetImpl;
-                creatableVMSS.defineNewExtension(msiExtensionType)
-                        .withPublisher(MSI_EXTENSION_PUBLISHER_NAME)
-                        .withType(msiExtensionType)
-                        .withVersion("1.0")
-                        .withMinorVersionAutoUpgrade()
-                        .withPublicSetting("port", port)
-                        .attach();
-            } else {
-                VirtualMachineScaleSet.Update appliableVMSS = scaleSetImpl;
-                appliableVMSS.defineNewExtension(msiExtensionType)
-                        .withPublisher(MSI_EXTENSION_PUBLISHER_NAME)
-                        .withType(msiExtensionType)
-                        .withVersion("1.0")
-                        .withMinorVersionAutoUpgrade()
-                        .withPublicSetting("port", port)
-                        .attach();
-            }
-        }
-        this.tokenPort = null;
-        this.scheduleMSIExtensionInstallation = false;
-    }
-
-    /**
-     * Given the OS type, gets the Managed Service Identity extension type.
-     *
-     * @param osType the os type
-     *
-     * @return the extension type.
-     */
-    private String msiExtensionType(OperatingSystemTypes osType) {
-        return osType == OperatingSystemTypes.LINUX ? LINUX_MSI_EXTENSION : WINDOWS_MSI_EXTENSION;
-    }
-
-    /**
-     * Gets the Managed Service Identity extension from the given extensions.
-     *
-     * @param extensions the extensions
-     * @param typeName the extension type
-     * @return the MSI extension if exists, null otherwise
-     */
-    private VirtualMachineScaleSetExtension getMSIExtension(Map<String, VirtualMachineScaleSetExtension> extensions, String typeName) {
-        for (VirtualMachineScaleSetExtension extension : extensions.values()) {
-            if (extension.publisherName().equalsIgnoreCase(MSI_EXTENSION_PUBLISHER_NAME)) {
-                if (extension.typeName().equalsIgnoreCase(typeName)) {
-                    return extension;
+                // User don't want to touch 'VM.Identity.userAssignedIdentities' property
+                if (currentIdentity != null) {
+                    // and currently there is identity exists or user want to manipulate some other properties of
+                    // identity, set identities to null so that it won't send over wire.
+                    currentIdentity.withUserAssignedIdentities(null);
                 }
             }
         }
-        return null;
     }
 
     /**
-     * Given an object holding a numeric in Integer or String format, convert that to
-     * Integer.
-     *
-     * @param obj the object
-     * @return the integer value
+     * Clear VirtualMachineScaleSetMsiHandler post-run specific internal state.
      */
-    private Integer objectToInteger(Object obj) {
-        Integer result = null;
-        if (obj != null) {
-            if (obj instanceof Integer) {
-                result = (Integer) obj;
-            } else {
-                result = Integer.valueOf((String) obj);
+    void clear() {
+        this.userAssignedIdentities = new HashMap<>();
+    }
+
+    /**
+     * Method that handle the case where user request indicates all it want to do is remove all identities associated
+     * with the virtual machine.
+     *
+     * @param vmssUpdate the vm update payload model
+     * @return true if user indented to remove all the identities.
+     */
+    private boolean handleRemoveAllExternalIdentitiesCase(VirtualMachineScaleSetUpdate vmssUpdate) {
+        if (!this.userAssignedIdentities.isEmpty()) {
+            int rmCount = 0;
+            for (VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue v : this.userAssignedIdentities.values()) {
+                if (v == null) {
+                    rmCount++;
+                } else {
+                    break;
+                }
+            }
+            boolean containsRemoveOnly = rmCount > 0 && rmCount == this.userAssignedIdentities.size();
+            // Check if user request contains only request for removal of identities.
+            if (containsRemoveOnly) {
+                Set<String> currentIds = new HashSet<>();
+                VirtualMachineScaleSetIdentity currentIdentity = this.scaleSet.inner().identity();
+                if (currentIdentity != null && currentIdentity.userAssignedIdentities() != null) {
+                    for (String id : currentIdentity.userAssignedIdentities().keySet()) {
+                        currentIds.add(id.toLowerCase());
+                    }
+                }
+                Set<String> removeIds = new HashSet<>();
+                for (Map.Entry<String, VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue> entrySet : this.userAssignedIdentities.entrySet()) {
+                    if (entrySet.getValue() == null) {
+                        removeIds.add(entrySet.getKey().toLowerCase());
+                    }
+                }
+                // If so check user want to remove all the identities
+                boolean removeAllCurrentIds = currentIds.size() == removeIds.size() && currentIds.containsAll(removeIds);
+                if (removeAllCurrentIds) {
+                    // If so adjust  the identity type [Setting type to SYSTEM_ASSIGNED orNONE will remove all the identities]
+                    if (currentIdentity == null || currentIdentity.type() == null) {
+                        vmssUpdate.withIdentity(new VirtualMachineScaleSetIdentity().withType(ResourceIdentityType.NONE));
+                    } else if (currentIdentity.type().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED)) {
+                        vmssUpdate.withIdentity(currentIdentity);
+                        vmssUpdate.identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED);
+                    } else if (currentIdentity.type().equals(ResourceIdentityType.USER_ASSIGNED)) {
+                        vmssUpdate.withIdentity(currentIdentity);
+                        vmssUpdate.identity().withType(ResourceIdentityType.NONE);
+                    }
+                    // and set identities property in the payload model to null so that it won't be sent
+                    vmssUpdate.identity().withUserAssignedIdentities(null);
+                    return true;
+                } else {
+                    // Check user is asking to remove identities though there is no identities currently associated
+                    if (currentIds.size() == 0
+                            && removeIds.size() != 0
+                            && currentIdentity == null) {
+                        // If so we are in a invalid state but we want to send user input to service and let service
+                        // handle it (ignore or error).
+                        vmssUpdate.withIdentity(new VirtualMachineScaleSetIdentity().withType(ResourceIdentityType.NONE));
+                        vmssUpdate.identity().withUserAssignedIdentities(null);
+                        return true;
+                    }
+                }
             }
         }
-        return result;
+        return false;
     }
 
     /**
@@ -272,12 +268,6 @@ class VirtualMachineScaleSetMsiHandler extends RoleAssignmentHelper {
             scaleSetInner.identity().withType(identityType);
         } else {
             scaleSetInner.identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED);
-        }
-        if (scaleSetInner.identity().identityIds() == null) {
-            if (identityType.equals(ResourceIdentityType.USER_ASSIGNED)
-                    || identityType.equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED)) {
-                scaleSetInner.identity().withIdentityIds(new ArrayList<String>());
-            }
         }
     }
 }

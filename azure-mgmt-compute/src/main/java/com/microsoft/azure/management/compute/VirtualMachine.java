@@ -1526,15 +1526,6 @@ public interface VirtualMachine extends
              */
             @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity();
-
-            /**
-             * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the virtual machine.
-             *
-             * @param tokenPort the port on the virtual machine where access token is available
-             * @return the next stage of the definition
-             */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity(int tokenPort);
         }
 
         /**
@@ -2019,14 +2010,12 @@ public interface VirtualMachine extends
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedManagedServiceIdentity();
 
             /**
-             * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in
-             * the virtual machine.
+             * Specifies that System Assigned (Local) Managed Service Identity needs to be disabled.
              *
-             * @param tokenPort the port on the virtual machine where access token is available
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedManagedServiceIdentity(int tokenPort);
+            @Beta(Beta.SinceVersion.V1_13_0)
+            Update withoutSystemAssignedManagedServiceIdentity();
         }
 
         /**

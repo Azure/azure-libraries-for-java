@@ -9,7 +9,6 @@
 package com.microsoft.azure.management.compute;
 
 import java.util.List;
-import com.microsoft.azure.management.compute.implementation.NetworkInterfaceReferenceInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -21,24 +20,24 @@ public class NetworkProfile {
      * with the virtual machine.
      */
     @JsonProperty(value = "networkInterfaces")
-    private List<NetworkInterfaceReferenceInner> networkInterfaces;
+    private List<NetworkInterfaceReference> networkInterfaces;
 
     /**
-     * Get the networkInterfaces value.
+     * Get specifies the list of resource Ids for the network interfaces associated with the virtual machine.
      *
      * @return the networkInterfaces value
      */
-    public List<NetworkInterfaceReferenceInner> networkInterfaces() {
+    public List<NetworkInterfaceReference> networkInterfaces() {
         return this.networkInterfaces;
     }
 
     /**
-     * Set the networkInterfaces value.
+     * Set specifies the list of resource Ids for the network interfaces associated with the virtual machine.
      *
      * @param networkInterfaces the networkInterfaces value to set
      * @return the NetworkProfile object itself.
      */
-    public NetworkProfile withNetworkInterfaces(List<NetworkInterfaceReferenceInner> networkInterfaces) {
+    public NetworkProfile withNetworkInterfaces(List<NetworkInterfaceReference> networkInterfaces) {
         this.networkInterfaces = networkInterfaces;
         return this;
     }

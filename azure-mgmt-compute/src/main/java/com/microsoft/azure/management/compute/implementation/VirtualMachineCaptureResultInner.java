@@ -8,39 +8,72 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.SubResource;
 
 /**
- * Resource Id.
+ * Output of virtual machine capture operation.
  */
-@JsonFlatten
 public class VirtualMachineCaptureResultInner extends SubResource {
     /**
-     * Operation output data (raw JSON).
+     * the schema of the captured virtual machine.
      */
-    @JsonProperty(value = "properties.output")
-    private Object output;
+    @JsonProperty(value = "$schema", access = JsonProperty.Access.WRITE_ONLY)
+    private String schema;
 
     /**
-     * Get the output value.
-     *
-     * @return the output value
+     * the version of the content.
      */
-    public Object output() {
-        return this.output;
+    @JsonProperty(value = "contentVersion", access = JsonProperty.Access.WRITE_ONLY)
+    private String contentVersion;
+
+    /**
+     * parameters of the captured virtual machine.
+     */
+    @JsonProperty(value = "parameters", access = JsonProperty.Access.WRITE_ONLY)
+    private Object parameters;
+
+    /**
+     * a list of resource items of the captured virtual machine.
+     */
+    @JsonProperty(value = "resources", access = JsonProperty.Access.WRITE_ONLY)
+    private List<Object> resources;
+
+    /**
+     * Get the schema of the captured virtual machine.
+     *
+     * @return the schema value
+     */
+    public String schema() {
+        return this.schema;
     }
 
     /**
-     * Set the output value.
+     * Get the version of the content.
      *
-     * @param output the output value to set
-     * @return the VirtualMachineCaptureResultInner object itself.
+     * @return the contentVersion value
      */
-    public VirtualMachineCaptureResultInner withOutput(Object output) {
-        this.output = output;
-        return this;
+    public String contentVersion() {
+        return this.contentVersion;
+    }
+
+    /**
+     * Get parameters of the captured virtual machine.
+     *
+     * @return the parameters value
+     */
+    public Object parameters() {
+        return this.parameters;
+    }
+
+    /**
+     * Get a list of resource items of the captured virtual machine.
+     *
+     * @return the resources value
+     */
+    public List<Object> resources() {
+        return this.resources;
     }
 
 }

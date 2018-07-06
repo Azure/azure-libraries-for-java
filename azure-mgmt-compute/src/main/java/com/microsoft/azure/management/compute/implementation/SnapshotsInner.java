@@ -16,6 +16,8 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.compute.GrantAccessData;
+import com.microsoft.azure.management.compute.SnapshotUpdate;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -44,7 +46,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in Snapshots.
  */
-public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSupportsDelete<OperationStatusResponseInner>, InnerSupportsListing<SnapshotInner> {
+public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSupportsDelete<Void>, InnerSupportsListing<SnapshotInner> {
     /** The Retrofit service to perform REST calls. */
     private SnapshotsService service;
     /** The service client containing this operation class. */
@@ -76,11 +78,11 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Snapshots update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}")
-        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("snapshotName") String snapshotName, @Query("api-version") String apiVersion, @Body SnapshotUpdateInner snapshot, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("snapshotName") String snapshotName, @Query("api-version") String apiVersion, @Body SnapshotUpdate snapshot, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Snapshots beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("snapshotName") String snapshotName, @Query("api-version") String apiVersion, @Body SnapshotUpdateInner snapshot, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("snapshotName") String snapshotName, @Query("api-version") String apiVersion, @Body SnapshotUpdate snapshot, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Snapshots getByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}")
@@ -104,11 +106,11 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Snapshots grantAccess" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess")
-        Observable<Response<ResponseBody>> grantAccess(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("snapshotName") String snapshotName, @Query("api-version") String apiVersion, @Body GrantAccessDataInner grantAccessData, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> grantAccess(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("snapshotName") String snapshotName, @Query("api-version") String apiVersion, @Body GrantAccessData grantAccessData, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Snapshots beginGrantAccess" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess")
-        Observable<Response<ResponseBody>> beginGrantAccess(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("snapshotName") String snapshotName, @Query("api-version") String apiVersion, @Body GrantAccessDataInner grantAccessData, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginGrantAccess(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("snapshotName") String snapshotName, @Query("api-version") String apiVersion, @Body GrantAccessData grantAccessData, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Snapshots revokeAccess" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/endGetAccess")
@@ -307,7 +309,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the SnapshotInner object if successful.
      */
-    public SnapshotInner update(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot) {
+    public SnapshotInner update(String resourceGroupName, String snapshotName, SnapshotUpdate snapshot) {
         return updateWithServiceResponseAsync(resourceGroupName, snapshotName, snapshot).toBlocking().last().body();
     }
 
@@ -321,7 +323,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<SnapshotInner> updateAsync(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot, final ServiceCallback<SnapshotInner> serviceCallback) {
+    public ServiceFuture<SnapshotInner> updateAsync(String resourceGroupName, String snapshotName, SnapshotUpdate snapshot, final ServiceCallback<SnapshotInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, snapshotName, snapshot), serviceCallback);
     }
 
@@ -334,7 +336,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<SnapshotInner> updateAsync(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot) {
+    public Observable<SnapshotInner> updateAsync(String resourceGroupName, String snapshotName, SnapshotUpdate snapshot) {
         return updateWithServiceResponseAsync(resourceGroupName, snapshotName, snapshot).map(new Func1<ServiceResponse<SnapshotInner>, SnapshotInner>() {
             @Override
             public SnapshotInner call(ServiceResponse<SnapshotInner> response) {
@@ -352,7 +354,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<SnapshotInner>> updateWithServiceResponseAsync(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot) {
+    public Observable<ServiceResponse<SnapshotInner>> updateWithServiceResponseAsync(String resourceGroupName, String snapshotName, SnapshotUpdate snapshot) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -382,7 +384,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the SnapshotInner object if successful.
      */
-    public SnapshotInner beginUpdate(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot) {
+    public SnapshotInner beginUpdate(String resourceGroupName, String snapshotName, SnapshotUpdate snapshot) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, snapshotName, snapshot).toBlocking().single().body();
     }
 
@@ -396,7 +398,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<SnapshotInner> beginUpdateAsync(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot, final ServiceCallback<SnapshotInner> serviceCallback) {
+    public ServiceFuture<SnapshotInner> beginUpdateAsync(String resourceGroupName, String snapshotName, SnapshotUpdate snapshot, final ServiceCallback<SnapshotInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, snapshotName, snapshot), serviceCallback);
     }
 
@@ -409,7 +411,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the SnapshotInner object
      */
-    public Observable<SnapshotInner> beginUpdateAsync(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot) {
+    public Observable<SnapshotInner> beginUpdateAsync(String resourceGroupName, String snapshotName, SnapshotUpdate snapshot) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, snapshotName, snapshot).map(new Func1<ServiceResponse<SnapshotInner>, SnapshotInner>() {
             @Override
             public SnapshotInner call(ServiceResponse<SnapshotInner> response) {
@@ -427,7 +429,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the SnapshotInner object
      */
-    public Observable<ServiceResponse<SnapshotInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String snapshotName, SnapshotUpdateInner snapshot) {
+    public Observable<ServiceResponse<SnapshotInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String snapshotName, SnapshotUpdate snapshot) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -556,10 +558,9 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the OperationStatusResponseInner object if successful.
      */
-    public OperationStatusResponseInner delete(String resourceGroupName, String snapshotName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, snapshotName).toBlocking().last().body();
+    public void delete(String resourceGroupName, String snapshotName) {
+        deleteWithServiceResponseAsync(resourceGroupName, snapshotName).toBlocking().last().body();
     }
 
     /**
@@ -571,7 +572,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<OperationStatusResponseInner> deleteAsync(String resourceGroupName, String snapshotName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String snapshotName, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, snapshotName), serviceCallback);
     }
 
@@ -583,10 +584,10 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<OperationStatusResponseInner> deleteAsync(String resourceGroupName, String snapshotName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, snapshotName).map(new Func1<ServiceResponse<OperationStatusResponseInner>, OperationStatusResponseInner>() {
+    public Observable<Void> deleteAsync(String resourceGroupName, String snapshotName) {
+        return deleteWithServiceResponseAsync(resourceGroupName, snapshotName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
-            public OperationStatusResponseInner call(ServiceResponse<OperationStatusResponseInner> response) {
+            public Void call(ServiceResponse<Void> response) {
                 return response.body();
             }
         });
@@ -600,7 +601,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<OperationStatusResponseInner>> deleteWithServiceResponseAsync(String resourceGroupName, String snapshotName) {
+    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String snapshotName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -612,7 +613,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
         }
         final String apiVersion = "2018-04-01";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<OperationStatusResponseInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
     /**
@@ -623,10 +624,9 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the OperationStatusResponseInner object if successful.
      */
-    public OperationStatusResponseInner beginDelete(String resourceGroupName, String snapshotName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, snapshotName).toBlocking().single().body();
+    public void beginDelete(String resourceGroupName, String snapshotName) {
+        beginDeleteWithServiceResponseAsync(resourceGroupName, snapshotName).toBlocking().single().body();
     }
 
     /**
@@ -638,7 +638,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<OperationStatusResponseInner> beginDeleteAsync(String resourceGroupName, String snapshotName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String snapshotName, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, snapshotName), serviceCallback);
     }
 
@@ -648,12 +648,12 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot that is being created. The name can't be changed after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name length is 80 characters.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the OperationStatusResponseInner object
+     * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<OperationStatusResponseInner> beginDeleteAsync(String resourceGroupName, String snapshotName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, snapshotName).map(new Func1<ServiceResponse<OperationStatusResponseInner>, OperationStatusResponseInner>() {
+    public Observable<Void> beginDeleteAsync(String resourceGroupName, String snapshotName) {
+        return beginDeleteWithServiceResponseAsync(resourceGroupName, snapshotName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
-            public OperationStatusResponseInner call(ServiceResponse<OperationStatusResponseInner> response) {
+            public Void call(ServiceResponse<Void> response) {
                 return response.body();
             }
         });
@@ -665,9 +665,9 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot that is being created. The name can't be changed after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name length is 80 characters.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the OperationStatusResponseInner object
+     * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<OperationStatusResponseInner>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String snapshotName) {
+    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String snapshotName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -679,11 +679,11 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
         }
         final String apiVersion = "2018-04-01";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<OperationStatusResponseInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
-                public Observable<ServiceResponse<OperationStatusResponseInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<OperationStatusResponseInner> clientResponse = beginDeleteDelegate(response);
+                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -692,9 +692,9 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
             });
     }
 
-    private ServiceResponse<OperationStatusResponseInner> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<OperationStatusResponseInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<OperationStatusResponseInner>() { }.getType())
+    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
@@ -930,7 +930,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AccessUriInner object if successful.
      */
-    public AccessUriInner grantAccess(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData) {
+    public AccessUriInner grantAccess(String resourceGroupName, String snapshotName, GrantAccessData grantAccessData) {
         return grantAccessWithServiceResponseAsync(resourceGroupName, snapshotName, grantAccessData).toBlocking().last().body();
     }
 
@@ -944,7 +944,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<AccessUriInner> grantAccessAsync(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData, final ServiceCallback<AccessUriInner> serviceCallback) {
+    public ServiceFuture<AccessUriInner> grantAccessAsync(String resourceGroupName, String snapshotName, GrantAccessData grantAccessData, final ServiceCallback<AccessUriInner> serviceCallback) {
         return ServiceFuture.fromResponse(grantAccessWithServiceResponseAsync(resourceGroupName, snapshotName, grantAccessData), serviceCallback);
     }
 
@@ -957,7 +957,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<AccessUriInner> grantAccessAsync(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData) {
+    public Observable<AccessUriInner> grantAccessAsync(String resourceGroupName, String snapshotName, GrantAccessData grantAccessData) {
         return grantAccessWithServiceResponseAsync(resourceGroupName, snapshotName, grantAccessData).map(new Func1<ServiceResponse<AccessUriInner>, AccessUriInner>() {
             @Override
             public AccessUriInner call(ServiceResponse<AccessUriInner> response) {
@@ -975,7 +975,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<AccessUriInner>> grantAccessWithServiceResponseAsync(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData) {
+    public Observable<ServiceResponse<AccessUriInner>> grantAccessWithServiceResponseAsync(String resourceGroupName, String snapshotName, GrantAccessData grantAccessData) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -1005,7 +1005,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AccessUriInner object if successful.
      */
-    public AccessUriInner beginGrantAccess(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData) {
+    public AccessUriInner beginGrantAccess(String resourceGroupName, String snapshotName, GrantAccessData grantAccessData) {
         return beginGrantAccessWithServiceResponseAsync(resourceGroupName, snapshotName, grantAccessData).toBlocking().single().body();
     }
 
@@ -1019,7 +1019,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<AccessUriInner> beginGrantAccessAsync(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData, final ServiceCallback<AccessUriInner> serviceCallback) {
+    public ServiceFuture<AccessUriInner> beginGrantAccessAsync(String resourceGroupName, String snapshotName, GrantAccessData grantAccessData, final ServiceCallback<AccessUriInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginGrantAccessWithServiceResponseAsync(resourceGroupName, snapshotName, grantAccessData), serviceCallback);
     }
 
@@ -1032,7 +1032,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the AccessUriInner object
      */
-    public Observable<AccessUriInner> beginGrantAccessAsync(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData) {
+    public Observable<AccessUriInner> beginGrantAccessAsync(String resourceGroupName, String snapshotName, GrantAccessData grantAccessData) {
         return beginGrantAccessWithServiceResponseAsync(resourceGroupName, snapshotName, grantAccessData).map(new Func1<ServiceResponse<AccessUriInner>, AccessUriInner>() {
             @Override
             public AccessUriInner call(ServiceResponse<AccessUriInner> response) {
@@ -1050,7 +1050,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the AccessUriInner object
      */
-    public Observable<ServiceResponse<AccessUriInner>> beginGrantAccessWithServiceResponseAsync(String resourceGroupName, String snapshotName, GrantAccessDataInner grantAccessData) {
+    public Observable<ServiceResponse<AccessUriInner>> beginGrantAccessWithServiceResponseAsync(String resourceGroupName, String snapshotName, GrantAccessData grantAccessData) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -1095,10 +1095,9 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the OperationStatusResponseInner object if successful.
      */
-    public OperationStatusResponseInner revokeAccess(String resourceGroupName, String snapshotName) {
-        return revokeAccessWithServiceResponseAsync(resourceGroupName, snapshotName).toBlocking().last().body();
+    public void revokeAccess(String resourceGroupName, String snapshotName) {
+        revokeAccessWithServiceResponseAsync(resourceGroupName, snapshotName).toBlocking().last().body();
     }
 
     /**
@@ -1110,7 +1109,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<OperationStatusResponseInner> revokeAccessAsync(String resourceGroupName, String snapshotName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+    public ServiceFuture<Void> revokeAccessAsync(String resourceGroupName, String snapshotName, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(revokeAccessWithServiceResponseAsync(resourceGroupName, snapshotName), serviceCallback);
     }
 
@@ -1122,10 +1121,10 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<OperationStatusResponseInner> revokeAccessAsync(String resourceGroupName, String snapshotName) {
-        return revokeAccessWithServiceResponseAsync(resourceGroupName, snapshotName).map(new Func1<ServiceResponse<OperationStatusResponseInner>, OperationStatusResponseInner>() {
+    public Observable<Void> revokeAccessAsync(String resourceGroupName, String snapshotName) {
+        return revokeAccessWithServiceResponseAsync(resourceGroupName, snapshotName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
-            public OperationStatusResponseInner call(ServiceResponse<OperationStatusResponseInner> response) {
+            public Void call(ServiceResponse<Void> response) {
                 return response.body();
             }
         });
@@ -1139,7 +1138,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<OperationStatusResponseInner>> revokeAccessWithServiceResponseAsync(String resourceGroupName, String snapshotName) {
+    public Observable<ServiceResponse<Void>> revokeAccessWithServiceResponseAsync(String resourceGroupName, String snapshotName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -1151,7 +1150,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
         }
         final String apiVersion = "2018-04-01";
         Observable<Response<ResponseBody>> observable = service.revokeAccess(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<OperationStatusResponseInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
     /**
@@ -1162,10 +1161,9 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the OperationStatusResponseInner object if successful.
      */
-    public OperationStatusResponseInner beginRevokeAccess(String resourceGroupName, String snapshotName) {
-        return beginRevokeAccessWithServiceResponseAsync(resourceGroupName, snapshotName).toBlocking().single().body();
+    public void beginRevokeAccess(String resourceGroupName, String snapshotName) {
+        beginRevokeAccessWithServiceResponseAsync(resourceGroupName, snapshotName).toBlocking().single().body();
     }
 
     /**
@@ -1177,7 +1175,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<OperationStatusResponseInner> beginRevokeAccessAsync(String resourceGroupName, String snapshotName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+    public ServiceFuture<Void> beginRevokeAccessAsync(String resourceGroupName, String snapshotName, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(beginRevokeAccessWithServiceResponseAsync(resourceGroupName, snapshotName), serviceCallback);
     }
 
@@ -1187,12 +1185,12 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot that is being created. The name can't be changed after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name length is 80 characters.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the OperationStatusResponseInner object
+     * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<OperationStatusResponseInner> beginRevokeAccessAsync(String resourceGroupName, String snapshotName) {
-        return beginRevokeAccessWithServiceResponseAsync(resourceGroupName, snapshotName).map(new Func1<ServiceResponse<OperationStatusResponseInner>, OperationStatusResponseInner>() {
+    public Observable<Void> beginRevokeAccessAsync(String resourceGroupName, String snapshotName) {
+        return beginRevokeAccessWithServiceResponseAsync(resourceGroupName, snapshotName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
-            public OperationStatusResponseInner call(ServiceResponse<OperationStatusResponseInner> response) {
+            public Void call(ServiceResponse<Void> response) {
                 return response.body();
             }
         });
@@ -1204,9 +1202,9 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
      * @param resourceGroupName The name of the resource group.
      * @param snapshotName The name of the snapshot that is being created. The name can't be changed after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name length is 80 characters.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the OperationStatusResponseInner object
+     * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<OperationStatusResponseInner>> beginRevokeAccessWithServiceResponseAsync(String resourceGroupName, String snapshotName) {
+    public Observable<ServiceResponse<Void>> beginRevokeAccessWithServiceResponseAsync(String resourceGroupName, String snapshotName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -1218,11 +1216,11 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
         }
         final String apiVersion = "2018-04-01";
         return service.beginRevokeAccess(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<OperationStatusResponseInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
-                public Observable<ServiceResponse<OperationStatusResponseInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<OperationStatusResponseInner> clientResponse = beginRevokeAccessDelegate(response);
+                        ServiceResponse<Void> clientResponse = beginRevokeAccessDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1231,9 +1229,9 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
             });
     }
 
-    private ServiceResponse<OperationStatusResponseInner> beginRevokeAccessDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<OperationStatusResponseInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<OperationStatusResponseInner>() { }.getType())
+    private ServiceResponse<Void> beginRevokeAccessDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);

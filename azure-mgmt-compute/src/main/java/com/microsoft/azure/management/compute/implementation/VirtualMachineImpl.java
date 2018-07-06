@@ -28,6 +28,8 @@ import com.microsoft.azure.management.compute.InstanceViewTypes;
 import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
 import com.microsoft.azure.management.compute.LinuxConfiguration;
+import com.microsoft.azure.management.compute.ManagedDiskParameters;
+import com.microsoft.azure.management.compute.NetworkInterfaceReference;
 import com.microsoft.azure.management.compute.OSDisk;
 import com.microsoft.azure.management.compute.OSProfile;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
@@ -41,6 +43,7 @@ import com.microsoft.azure.management.compute.StorageAccountTypes;
 import com.microsoft.azure.management.compute.StorageProfile;
 import com.microsoft.azure.management.compute.VirtualHardDisk;
 import com.microsoft.azure.management.compute.VirtualMachine;
+import com.microsoft.azure.management.compute.VirtualMachineCaptureParameters;
 import com.microsoft.azure.management.compute.VirtualMachineDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineEncryption;
 import com.microsoft.azure.management.compute.VirtualMachineUnmanagedDataDisk;
@@ -48,6 +51,7 @@ import com.microsoft.azure.management.compute.VirtualMachineExtension;
 import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
 import com.microsoft.azure.management.compute.VirtualMachineSize;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
+import com.microsoft.azure.management.compute.VirtualMachineUpdate;
 import com.microsoft.azure.management.compute.WinRMConfiguration;
 import com.microsoft.azure.management.compute.WinRMListener;
 import com.microsoft.azure.management.compute.WindowsConfiguration;
@@ -212,7 +216,7 @@ class VirtualMachineImpl
 
     @Override
     public Completable deallocateAsync() {
-        Observable<OperationStatusResponseInner> o = this.manager().inner().virtualMachines().deallocateAsync(this.resourceGroupName(), this.name());
+        Observable<Void> o = this.manager().inner().virtualMachines().deallocateAsync(this.resourceGroupName(), this.name());
         Observable<VirtualMachine> r = this.refreshAsync();
 
         // Refresh after deallocate to ensure the inner is updatable (due to a change in behavior in Managed Disks)
@@ -308,9 +312,9 @@ class VirtualMachineImpl
     @Override
     public Completable convertToManagedAsync() {
         return this.manager().inner().virtualMachines().convertToManagedDisksAsync(this.resourceGroupName(), this.name())
-                .flatMap(new Func1<OperationStatusResponseInner, Observable<?>>() {
+                .flatMap(new Func1<Void, Observable<?>>() {
                     @Override
-                    public Observable<?> call(OperationStatusResponseInner operationStatusResponseInner) {
+                    public Observable<?> call(Void theVoid) {
                         return refreshAsync();
                     }
                 }).toCompletable();
@@ -346,7 +350,7 @@ class VirtualMachineImpl
 
     @Override
     public Observable<String> captureAsync(String containerName, String vhdPrefix, boolean overwriteVhd) {
-        VirtualMachineCaptureParametersInner parameters = new VirtualMachineCaptureParametersInner();
+        VirtualMachineCaptureParameters parameters = new VirtualMachineCaptureParameters();
         parameters.withDestinationContainerName(containerName);
         parameters.withOverwriteVhds(overwriteVhd);
         parameters.withVhdPrefix(vhdPrefix);
@@ -362,7 +366,7 @@ class VirtualMachineImpl
                         ObjectMapper mapper = new ObjectMapper();
                         //Object to JSON string
                         try {
-                            return mapper.writeValueAsString(innerResult.output());
+                            return mapper.writeValueAsString(innerResult);
                         } catch (JsonProcessingException e) {
                             throw Exceptions.propagate(e);
                         }
@@ -555,7 +559,7 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withSpecificWindowsImageVersion(ImageReference imageReference) {
         this.inner().storageProfile().osDisk().withCreateOption(DiskCreateOptionTypes.FROM_IMAGE);
-        this.inner().storageProfile().withImageReference(imageReference.inner());
+        this.inner().storageProfile().withImageReference(imageReference);
         this.inner().osProfile().withWindowsConfiguration(new WindowsConfiguration());
         // sets defaults for "Stored(User)Image" or "VM(Platform)Image"
         this.inner().osProfile().windowsConfiguration().withProvisionVMAgent(true);
@@ -566,7 +570,7 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withSpecificLinuxImageVersion(ImageReference imageReference) {
         this.inner().storageProfile().osDisk().withCreateOption(DiskCreateOptionTypes.FROM_IMAGE);
-        this.inner().storageProfile().withImageReference(imageReference.inner());
+        this.inner().storageProfile().withImageReference(imageReference);
         this.inner().osProfile().withLinuxConfiguration(new LinuxConfiguration());
         this.isMarketplaceLinuxImage = true;
         return this;
@@ -594,7 +598,7 @@ class VirtualMachineImpl
 
     @Override
     public VirtualMachineImpl withWindowsCustomImage(String customImageId) {
-        ImageReferenceInner imageReferenceInner = new ImageReferenceInner();
+        ImageReference imageReferenceInner = new ImageReference();
         imageReferenceInner.withId(customImageId);
         this.inner().storageProfile().osDisk().withCreateOption(DiskCreateOptionTypes.FROM_IMAGE);
         this.inner().storageProfile().withImageReference(imageReferenceInner);
@@ -607,7 +611,7 @@ class VirtualMachineImpl
 
     @Override
     public VirtualMachineImpl withLinuxCustomImage(String customImageId) {
-        ImageReferenceInner imageReferenceInner = new ImageReferenceInner();
+        ImageReference imageReferenceInner = new ImageReference();
         imageReferenceInner.withId(customImageId);
         this.inner().storageProfile().osDisk().withCreateOption(DiskCreateOptionTypes.FROM_IMAGE);
         this.inner().storageProfile().withImageReference(imageReferenceInner);
@@ -629,7 +633,7 @@ class VirtualMachineImpl
 
     @Override
     public VirtualMachineImpl withSpecializedOSDisk(Disk disk, OperatingSystemTypes osType) {
-        ManagedDiskParametersInner diskParametersInner = new ManagedDiskParametersInner();
+        ManagedDiskParameters diskParametersInner = new ManagedDiskParameters();
         diskParametersInner.withId(disk.id());
         this.inner().storageProfile().osDisk().withCreateOption(DiskCreateOptionTypes.ATTACH);
         this.inner().storageProfile().osDisk().withManagedDisk(diskParametersInner);
@@ -799,7 +803,7 @@ class VirtualMachineImpl
             this.inner()
                     .storageProfile()
                     .osDisk()
-                    .withManagedDisk(new ManagedDiskParametersInner());
+                    .withManagedDisk(new ManagedDiskParameters());
         }
         this.inner()
                 .storageProfile()
@@ -960,7 +964,7 @@ class VirtualMachineImpl
                                               CachingTypes cachingType,
                                               StorageAccountTypes storageAccountType) {
         throwIfManagedDiskDisabled(ManagedUnmanagedDiskErrors.VM_BOTH_UNMANAGED_AND_MANAGED_DISK_NOT_ALLOWED);
-        ManagedDiskParametersInner managedDiskParameters = new ManagedDiskParametersInner();
+        ManagedDiskParameters managedDiskParameters = new ManagedDiskParameters();
         managedDiskParameters.withStorageAccountType(storageAccountType);
         this.managedDataDisks.implicitDisksToAssociate.add(new DataDisk()
                 .withLun(lun)
@@ -973,7 +977,7 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withExistingDataDisk(Disk disk) {
         throwIfManagedDiskDisabled(ManagedUnmanagedDiskErrors.VM_BOTH_UNMANAGED_AND_MANAGED_DISK_NOT_ALLOWED);
-        ManagedDiskParametersInner managedDiskParameters = new ManagedDiskParametersInner();
+        ManagedDiskParameters managedDiskParameters = new ManagedDiskParameters();
         managedDiskParameters.withId(disk.id());
         this.managedDataDisks.existingDisksToAttach.add(new DataDisk()
                 .withLun(-1)
@@ -984,7 +988,7 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withExistingDataDisk(Disk disk, int lun, CachingTypes cachingType) {
         throwIfManagedDiskDisabled(ManagedUnmanagedDiskErrors.VM_BOTH_UNMANAGED_AND_MANAGED_DISK_NOT_ALLOWED);
-        ManagedDiskParametersInner managedDiskParameters = new ManagedDiskParametersInner();
+        ManagedDiskParameters managedDiskParameters = new ManagedDiskParameters();
         managedDiskParameters.withId(disk.id());
         this.managedDataDisks.existingDisksToAttach.add(new DataDisk()
                 .withLun(lun)
@@ -996,7 +1000,7 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withExistingDataDisk(Disk disk, int newSizeInGB, int lun, CachingTypes cachingType) {
         throwIfManagedDiskDisabled(ManagedUnmanagedDiskErrors.VM_BOTH_UNMANAGED_AND_MANAGED_DISK_NOT_ALLOWED);
-        ManagedDiskParametersInner managedDiskParameters = new ManagedDiskParametersInner();
+        ManagedDiskParameters managedDiskParameters = new ManagedDiskParameters();
         managedDiskParameters.withId(disk.id());
         this.managedDataDisks.existingDisksToAttach.add(new DataDisk()
                 .withLun(lun)
@@ -1025,7 +1029,7 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withNewDataDiskFromImage(int imageLun, int newSizeInGB, CachingTypes cachingType,
                                                        StorageAccountTypes storageAccountType) {
-        ManagedDiskParametersInner managedDiskParameters = new ManagedDiskParametersInner();
+        ManagedDiskParameters managedDiskParameters = new ManagedDiskParameters();
         managedDiskParameters.withStorageAccountType(storageAccountType);
         this.managedDataDisks.newDisksFromImage.add(new DataDisk()
                 .withLun(imageLun)
@@ -1196,7 +1200,7 @@ class VirtualMachineImpl
         if (this.inner().networkProfile() != null
                 && this.inner().networkProfile().networkInterfaces() != null) {
             int idx = -1;
-            for (NetworkInterfaceReferenceInner nicReference : this.inner().networkProfile().networkInterfaces()) {
+            for (NetworkInterfaceReference nicReference : this.inner().networkProfile().networkInterfaces()) {
                 idx++;
                 if (!nicReference.primary()
                         && name.equalsIgnoreCase(ResourceUtils.nameFromResourceId(nicReference.id()))) {
@@ -1275,16 +1279,15 @@ class VirtualMachineImpl
 
     @Override
     public VirtualMachineImpl withSystemAssignedManagedServiceIdentity() {
-            this.virtualMachineMsiHandler.withLocalManagedServiceIdentity();
+        this.virtualMachineMsiHandler.withLocalManagedServiceIdentity();
         return this;
     }
 
     @Override
-    public VirtualMachineImpl withSystemAssignedManagedServiceIdentity(int tokenPort) {
-        this.virtualMachineMsiHandler.withLocalManagedServiceIdentity(tokenPort);
+    public VirtualMachineImpl withoutSystemAssignedManagedServiceIdentity() {
+        this.virtualMachineMsiHandler.withoutLocalManagedServiceIdentity();
         return this;
     }
-
 
     @Override
     public VirtualMachineImpl withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role) {
@@ -1463,7 +1466,7 @@ class VirtualMachineImpl
     @Override
     public List<String> networkInterfaceIds() {
         List<String> nicIds = new ArrayList<>();
-        for (NetworkInterfaceReferenceInner nicRef : inner().networkProfile().networkInterfaces()) {
+        for (NetworkInterfaceReference nicRef : inner().networkProfile().networkInterfaces()) {
             nicIds.add(nicRef.id());
         }
         return nicIds;
@@ -1471,7 +1474,7 @@ class VirtualMachineImpl
 
     @Override
     public String primaryNetworkInterfaceId() {
-        final List<NetworkInterfaceReferenceInner> nicRefs = this.inner().networkProfile().networkInterfaces();
+        final List<NetworkInterfaceReference> nicRefs = this.inner().networkProfile().networkInterfaces();
         String primaryNicRefId = null;
 
         if (nicRefs.size() == 1) {
@@ -1482,7 +1485,7 @@ class VirtualMachineImpl
             primaryNicRefId = null;
         } else {
             // Find primary interface as flagged by Azure
-            for (NetworkInterfaceReferenceInner nicRef : inner().networkProfile().networkInterfaces()) {
+            for (NetworkInterfaceReference nicRef : inner().networkProfile().networkInterfaces()) {
                 if (nicRef.primary() != null && nicRef.primary()) {
                     primaryNicRefId = nicRef.id();
                     break;
@@ -1618,9 +1621,8 @@ class VirtualMachineImpl
 
     @Override
     public Set<String> userAssignedManagedServiceIdentityIds() {
-        if (this.inner().identity() != null && this.inner().identity().identityIds() != null) {
-            return Collections.unmodifiableSet(new HashSet<String>(this.inner().identity().identityIds()));
-
+        if (this.inner().identity() != null && this.inner().identity().userAssignedIdentities() != null) {
+            return Collections.unmodifiableSet(new HashSet<String>(this.inner().identity().userAssignedIdentities().keySet()));
         }
         return Collections.unmodifiableSet(new HashSet<String>());
     }
@@ -1658,11 +1660,12 @@ class VirtualMachineImpl
     //
     @Override
     public Observable<VirtualMachine> createResourceAsync() {
-        if (isInCreateMode()) {
-            setOSDiskDefaults();
-            setOSProfileDefaults();
-            setHardwareProfileDefaults();
-        }
+        //
+        // -- set creation-time only properties
+        setOSDiskDefaults();
+        setOSProfileDefaults();
+        setHardwareProfileDefaults();
+        //
         if (isManagedDiskEnabled()) {
             managedDataDisks.setDataDisksDefaults();
         } else {
@@ -1672,11 +1675,51 @@ class VirtualMachineImpl
         this.bootDiagnosticsHandler.handleDiagnosticsSettings();
         this.handleNetworkSettings();
         this.handleAvailabilitySettings();
-        this.virtualMachineMsiHandler.handleExternalIdentitySettings();
-
+        this.virtualMachineMsiHandler.processCreatedExternalIdentities();
+        this.virtualMachineMsiHandler.handleExternalIdentities();
         final VirtualMachineImpl self = this;
         return this.manager().inner().virtualMachines()
                 .createOrUpdateAsync(resourceGroupName(), vmName, inner())
+                .map(new Func1<VirtualMachineInner, VirtualMachine>() {
+                    @Override
+                    public VirtualMachine call(VirtualMachineInner virtualMachineInner) {
+                        reset(virtualMachineInner);
+                        return self;
+                    }
+
+                });
+    }
+
+    @Override
+    public Observable<VirtualMachine> updateResourceAsync() {
+        if (isManagedDiskEnabled()) {
+            managedDataDisks.setDataDisksDefaults();
+        } else {
+            UnmanagedDataDiskImpl.setDataDisksDefaults(this.unmanagedDataDisks, this.vmName);
+        }
+        this.handleUnManagedOSAndDataDisksStorageSettings();
+        this.bootDiagnosticsHandler.handleDiagnosticsSettings();
+        this.handleNetworkSettings();
+        this.handleAvailabilitySettings();
+        this.virtualMachineMsiHandler.processCreatedExternalIdentities();
+        //
+        VirtualMachineUpdate updateParameter = new VirtualMachineUpdate();
+        //
+        updateParameter.withPlan(this.inner().plan());
+        updateParameter.withHardwareProfile(this.inner().hardwareProfile());
+        updateParameter.withStorageProfile(this.inner().storageProfile());
+        updateParameter.withOsProfile(this.inner().osProfile());
+        updateParameter.withNetworkProfile(this.inner().networkProfile());
+        updateParameter.withDiagnosticsProfile(this.inner().diagnosticsProfile());
+        updateParameter.withAvailabilitySet(this.inner().availabilitySet());
+        updateParameter.withLicenseType(this.inner().licenseType());
+        updateParameter.withZones(this.inner().zones());
+        //
+        this.virtualMachineMsiHandler.handleExternalIdentities(updateParameter);
+        //
+        final VirtualMachineImpl self = this;
+        return this.manager().inner().virtualMachines()
+                .updateAsync(resourceGroupName(), vmName, updateParameter)
                 .map(new Func1<VirtualMachineInner, VirtualMachine>() {
                     @Override
                     public VirtualMachine call(VirtualMachineInner virtualMachineInner) {
@@ -1692,7 +1735,6 @@ class VirtualMachineImpl
     @Override
     public Completable afterPostRunAsync(boolean isGroupFaulted) {
         this.virtualMachineExtensions.clear();
-        this.virtualMachineMsiHandler.clear();
         if (isGroupFaulted) {
             return Completable.complete();
         } else {
@@ -1710,6 +1752,7 @@ class VirtualMachineImpl
         this.setInner(inner);
         clearCachedRelatedResources();
         initializeDataDisks();
+        virtualMachineMsiHandler.clear();
     }
 
     VirtualMachineImpl withUnmanagedDataDisk(UnmanagedDataDiskImpl dataDisk) {
@@ -1781,7 +1824,7 @@ class VirtualMachineImpl
                 //     UnSupported: StoredImage
                 //
                 if (osDisk.managedDisk() == null) {
-                    osDisk.withManagedDisk(new ManagedDiskParametersInner());
+                    osDisk.withManagedDisk(new ManagedDiskParameters());
                 }
                 if (osDisk.managedDisk().storageAccountType() == null) {
                     osDisk.managedDisk()
@@ -1930,7 +1973,7 @@ class VirtualMachineImpl
             }
 
             if (primaryNetworkInterface != null) {
-                NetworkInterfaceReferenceInner nicReference = new NetworkInterfaceReferenceInner();
+                NetworkInterfaceReference nicReference = new NetworkInterfaceReference();
                 nicReference.withPrimary(true);
                 nicReference.withId(primaryNetworkInterface.id());
                 this.inner().networkProfile().networkInterfaces().add(nicReference);
@@ -1941,14 +1984,14 @@ class VirtualMachineImpl
         //
         for (String creatableSecondaryNetworkInterfaceKey : this.creatableSecondaryNetworkInterfaceKeys) {
             NetworkInterface secondaryNetworkInterface = this.<NetworkInterface>taskResult(creatableSecondaryNetworkInterfaceKey);
-            NetworkInterfaceReferenceInner nicReference = new NetworkInterfaceReferenceInner();
+            NetworkInterfaceReference nicReference = new NetworkInterfaceReference();
             nicReference.withPrimary(false);
             nicReference.withId(secondaryNetworkInterface.id());
             this.inner().networkProfile().networkInterfaces().add(nicReference);
         }
 
         for (NetworkInterface secondaryNetworkInterface : this.existingSecondaryNetworkInterfacesToAssociate) {
-            NetworkInterfaceReferenceInner nicReference = new NetworkInterfaceReferenceInner();
+            NetworkInterfaceReference nicReference = new NetworkInterfaceReference();
             nicReference.withPrimary(false);
             nicReference.withId(secondaryNetworkInterface.id());
             this.inner().networkProfile().networkInterfaces().add(nicReference);
@@ -2064,7 +2107,7 @@ class VirtualMachineImpl
      * @return true if the OS disk is configured to be based on platform image.
      */
     private boolean isOSDiskFromPlatformImage(StorageProfile storageProfile) {
-        ImageReferenceInner imageReference  = storageProfile.imageReference();
+        ImageReference imageReference  = storageProfile.imageReference();
         return isOSDiskFromImage(storageProfile.osDisk())
                 && imageReference != null
                 && imageReference.publisher() != null
@@ -2082,7 +2125,7 @@ class VirtualMachineImpl
      * @return true if the OS disk is configured to be based on custom image.
      */
     private boolean isOsDiskFromCustomImage(StorageProfile storageProfile) {
-        ImageReferenceInner imageReference  = storageProfile.imageReference();
+        ImageReference imageReference  = storageProfile.imageReference();
         return isOSDiskFromImage(storageProfile.osDisk())
                 && imageReference != null
                 && imageReference.id() != null;
@@ -2313,7 +2356,7 @@ class VirtualMachineImpl
                 if (dataDisk.lun() == -1) {
                     dataDisk.withLun(nextLun.call());
                 }
-                dataDisk.withManagedDisk(new ManagedDiskParametersInner());
+                dataDisk.withManagedDisk(new ManagedDiskParameters());
                 dataDisk.managedDisk().withId(managedDisk.id());
                 if (dataDisk.caching() == null) {
                     dataDisk.withCaching(getDefaultCachingType());
@@ -2353,7 +2396,7 @@ class VirtualMachineImpl
                     dataDisk.withCaching(getDefaultCachingType());
                 }
                 if (dataDisk.managedDisk() == null) {
-                    dataDisk.withManagedDisk(new ManagedDiskParametersInner());
+                    dataDisk.withManagedDisk(new ManagedDiskParameters());
                 }
                 if (dataDisk.managedDisk().storageAccountType() == null) {
                     dataDisk.managedDisk().withStorageAccountType(getDefaultStorageAccountType());

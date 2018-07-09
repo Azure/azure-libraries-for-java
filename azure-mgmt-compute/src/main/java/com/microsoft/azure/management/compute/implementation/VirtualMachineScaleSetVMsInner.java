@@ -8,11 +8,13 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
+import com.microsoft.azure.management.compute.RunCommandResult;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.compute.RunCommandInput;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -35,6 +37,8 @@ import retrofit2.http.Url;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -153,6 +157,14 @@ public class VirtualMachineScaleSetVMsInner {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetVMs beginPerformMaintenance" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/performMaintenance")
         Observable<Response<ResponseBody>> beginPerformMaintenance(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("instanceId") String instanceId, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetVMs runCommand" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/runCommand")
+        Observable<Response<ResponseBody>> runCommand(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("instanceId") String instanceId, @Path("subscriptionId") String subscriptionId, @Body RunCommandInput parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetVMs beginRunCommand" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/runCommand")
+        Observable<Response<ResponseBody>> beginRunCommand(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("instanceId") String instanceId, @Path("subscriptionId") String subscriptionId, @Body RunCommandInput parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetVMs listNext" })
         @GET
@@ -2249,6 +2261,188 @@ public class VirtualMachineScaleSetVMsInner {
     private ServiceResponse<Void> beginPerformMaintenanceDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Run command on a virtual machine in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceId The instance ID of the virtual machine.
+     * @param parameters Parameters supplied to the Run command operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the RunCommandResult objerunCommandWithServiceResponseAsyncct if successful.
+     */
+    public RunCommandResult runCommand(String resourceGroupName, String vmScaleSetName, String instanceId, RunCommandInput parameters) {
+        return runCommandWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId, parameters).toBlocking().last().body();
+    }
+
+    /**
+     * Run command on a virtual machine in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceId The instance ID of the virtual machine.
+     * @param parameters Parameters supplied to the Run command operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<RunCommandResult> runCommandAsync(String resourceGroupName, String vmScaleSetName, String instanceId, RunCommandInput parameters, final ServiceCallback<RunCommandResult> serviceCallback) {
+        return ServiceFuture.fromResponse(runCommandWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId, parameters), serviceCallback);
+    }
+
+    /**
+     * Run command on a virtual machine in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceId The instance ID of the virtual machine.
+     * @param parameters Parameters supplied to the Run command operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<RunCommandResult> runCommandAsync(String resourceGroupName, String vmScaleSetName, String instanceId, RunCommandInput parameters) {
+        return runCommandWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId, parameters).map(new Func1<ServiceResponse<RunCommandResult>, RunCommandResult>() {
+            @Override
+            public RunCommandResult call(ServiceResponse<RunCommandResult> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Run command on a virtual machine in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceId The instance ID of the virtual machine.
+     * @param parameters Parameters supplied to the Run command operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<RunCommandResult>> runCommandWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId, RunCommandInput parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (instanceId == null) {
+            throw new IllegalArgumentException("Parameter instanceId is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2018-04-01";
+        Observable<Response<ResponseBody>> observable = service.runCommand(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<RunCommandResult>() { }.getType());
+    }
+
+    /**
+     * Run command on a virtual machine in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceId The instance ID of the virtual machine.
+     * @param parameters Parameters supplied to the Run command operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the RunCommandResult object if successful.
+     */
+    public RunCommandResult beginRunCommand(String resourceGroupName, String vmScaleSetName, String instanceId, RunCommandInput parameters) {
+        return beginRunCommandWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Run command on a virtual machine in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceId The instance ID of the virtual machine.
+     * @param parameters Parameters supplied to the Run command operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<RunCommandResult> beginRunCommandAsync(String resourceGroupName, String vmScaleSetName, String instanceId, RunCommandInput parameters, final ServiceCallback<RunCommandResult> serviceCallback) {
+        return ServiceFuture.fromResponse(beginRunCommandWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId, parameters), serviceCallback);
+    }
+
+    /**
+     * Run command on a virtual machine in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceId The instance ID of the virtual machine.
+     * @param parameters Parameters supplied to the Run command operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the RunCommandResult object
+     */
+    public Observable<RunCommandResult> beginRunCommandAsync(String resourceGroupName, String vmScaleSetName, String instanceId, RunCommandInput parameters) {
+        return beginRunCommandWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceId, parameters).map(new Func1<ServiceResponse<RunCommandResult>, RunCommandResult>() {
+            @Override
+            public RunCommandResult call(ServiceResponse<RunCommandResult> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Run command on a virtual machine in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceId The instance ID of the virtual machine.
+     * @param parameters Parameters supplied to the Run command operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the RunCommandResult object
+     */
+    public Observable<ServiceResponse<RunCommandResult>> beginRunCommandWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String instanceId, RunCommandInput parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (instanceId == null) {
+            throw new IllegalArgumentException("Parameter instanceId is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2018-04-01";
+        return service.beginRunCommand(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+                .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RunCommandResult>>>() {
+                    @Override
+                    public Observable<ServiceResponse<RunCommandResult>> call(Response<ResponseBody> response) {
+                        try {
+                            ServiceResponse<RunCommandResult> clientResponse = beginRunCommandDelegate(response);
+                            return Observable.just(clientResponse);
+                        } catch (Throwable t) {
+                            return Observable.error(t);
+                        }
+                    }
+                });
+    }
+
+    private ServiceResponse<RunCommandResult> beginRunCommandDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<RunCommandResult, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<RunCommandResult>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);

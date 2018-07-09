@@ -11,35 +11,36 @@ package com.microsoft.azure.management.compute;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
+import java.util.List;
+
 /**
  * Run command operation response.
  */
 @JsonFlatten
 public class RunCommandResult {
     /**
-     * Operation output data (raw JSON).
+     * Run command operation response.
      */
-    @JsonProperty(value = "properties.output")
-    private Object output;
+    @JsonProperty(value = "value")
+    private List<InstanceViewStatus> value;
 
     /**
-     * Get operation output data (raw JSON).
+     * Run command operation response.
      *
-     * @return the output value
+     * @return the Run command operation response value
      */
-    public Object output() {
-        return this.output;
+    public List<InstanceViewStatus> value() {
+        return this.value;
     }
 
     /**
-     * Set operation output data (raw JSON).
+     * Set Run command operation response.
      *
-     * @param output the output value to set
+     * @param value the Run command operation response value
      * @return the RunCommandResult object itself.
      */
-    public RunCommandResult withOutput(Object output) {
-        this.output = output;
+    public RunCommandResult withValue(List<InstanceViewStatus> value) {
+        this.value = value;
         return this;
     }
-
 }

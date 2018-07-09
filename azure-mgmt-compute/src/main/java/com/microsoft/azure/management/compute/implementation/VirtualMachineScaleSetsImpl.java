@@ -6,6 +6,9 @@
 package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.compute.RunCommandInput;
+import com.microsoft.azure.management.compute.RunCommandInputParameter;
+import com.microsoft.azure.management.compute.RunCommandResult;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetIPConfiguration;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetNetworkConfiguration;
@@ -22,8 +25,10 @@ import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
+import rx.Observable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The implementation for VirtualMachineScaleSets.
@@ -125,6 +130,44 @@ public class VirtualMachineScaleSetsImpl
     @Override
     public ServiceFuture<Void> reimageAsync(String groupName, String name, ServiceCallback<Void> callback) {
         return ServiceFuture.fromBody(reimageAsync(groupName, name), callback);
+    }
+
+    @Override
+    public RunCommandResult runPowerShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        return this.runPowerShellScriptInVMInstanceAsync(groupName, scaleSetName, vmId, scriptLines, scriptParameters).toBlocking().last();
+    }
+
+    @Override
+    public Observable<RunCommandResult> runPowerShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        RunCommandInput inputCommand = new RunCommandInput();
+        inputCommand.withCommandId("RunPowerShellScript");
+        inputCommand.withScript(scriptLines);
+        inputCommand.withParameters(scriptParameters);
+        return this.runCommandVMInstanceAsync(groupName, scaleSetName, vmId, inputCommand);
+    }
+
+    @Override
+    public RunCommandResult runShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        return this.runShellScriptInVMInstanceAsync(groupName, scaleSetName, vmId, scriptLines, scriptParameters).toBlocking().last();
+    }
+
+    @Override
+    public Observable<RunCommandResult> runShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        RunCommandInput inputCommand = new RunCommandInput();
+        inputCommand.withCommandId("RunShellScript");
+        inputCommand.withScript(scriptLines);
+        inputCommand.withParameters(scriptParameters);
+        return this.runCommandVMInstanceAsync(groupName, scaleSetName, vmId, inputCommand);
+    }
+
+    @Override
+    public RunCommandResult runCommandInVMInstance(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand) {
+        return this.runCommandVMInstanceAsync(groupName, scaleSetName, vmId, inputCommand).toBlocking().last();
+    }
+
+    @Override
+    public Observable<RunCommandResult> runCommandVMInstanceAsync(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand) {
+        return this.manager().inner().virtualMachineScaleSetVMs().runCommandAsync(groupName, scaleSetName, vmId, inputCommand);
     }
 
     @Override

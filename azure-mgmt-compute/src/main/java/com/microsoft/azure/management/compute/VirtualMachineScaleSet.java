@@ -31,6 +31,7 @@ import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
+import rx.Observable;
 
 import java.io.IOException;
 import java.util.List;
@@ -157,6 +158,71 @@ public interface VirtualMachineScaleSet extends
      * @return a handle to cancel the request
      */
     ServiceFuture<Void> reimageAsync(ServiceCallback<Void> callback);
+
+    /**
+     * Run PowerShell script in a virtual machine instance in a scale set.
+     *
+     * @param vmId the virtual machine instance id
+     * @param scriptLines PowerShell script lines
+     * @param scriptParameters script parameters
+     * @return result of PowerShell script execution
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    RunCommandResult runPowerShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+    /**
+     * Run PowerShell in a virtual machine instance in a scale set asynchronously.
+     *
+     * @param vmId the virtual machine instance id
+     * @param scriptLines PowerShell script lines
+     * @param scriptParameters script parameters
+     * @return handle to the asynchronous execution
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    Observable<RunCommandResult> runPowerShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+    /**
+     * Run shell script in a virtual machine instance in a scale set.
+     *
+     * @param vmId the virtual machine instance id
+     * @param scriptLines shell script lines
+     * @param scriptParameters script parameters
+     * @return result of shell script execution
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    RunCommandResult runShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+
+    /**
+     * Run shell script in a virtual machine instance in a scale set asynchronously.
+     *
+     * @param vmId the virtual machine instance id
+     * @param scriptLines shell script lines
+     * @param scriptParameters script parameters
+     * @return handle to the asynchronous execution
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    Observable<RunCommandResult> runShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+    /**
+     * Run commands in a virtual machine instance in a scale set.
+     *
+     * @param vmId the virtual machine instance id
+     * @param inputCommand command input
+     * @return result of execution
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    RunCommandResult runCommandInVMInstance(String vmId, RunCommandInput inputCommand);
+
+    /**
+     * Run commands in a virtual machine instance in a scale set asynchronously.
+     *
+     * @param vmId the virtual machine instance id
+     * @param inputCommand command input
+     * @return handle to the asynchronous execution
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    Observable<RunCommandResult> runCommandVMInstanceAsync(String vmId, RunCommandInput inputCommand);
 
     // Getters
     //

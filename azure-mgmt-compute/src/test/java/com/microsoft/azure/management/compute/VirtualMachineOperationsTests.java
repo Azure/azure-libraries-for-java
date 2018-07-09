@@ -365,6 +365,31 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         Assert.assertEquals(2, unmanagedDataDisks.size());
     }
 
+    @Test
+    public void canRunScriptOnVM() {
+        // Create
+        VirtualMachine virtualMachine = computeManager.virtualMachines()
+                .define(VMNAME)
+                .withRegion(REGION)
+                .withNewResourceGroup(RG_NAME)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withoutPrimaryPublicIPAddress()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("firstuser")
+                .withRootPassword("afh123RVS!")
+                .create();
+
+        List<String> installGit = new ArrayList<>();
+        installGit.add("sudo apt-get update");
+        installGit.add("sudo apt-get install -y git");
+
+        RunCommandResult runResult = virtualMachine.runShellScript(installGit, new ArrayList<RunCommandInputParameter>());
+        Assert.assertNotNull(runResult);
+        Assert.assertNotNull(runResult.value());
+        Assert.assertTrue(runResult.value().size() > 0);
+    }
+
     private CreatablesInfo prepareCreatableVirtualMachines(Region region,
                                                            String vmNamePrefix,
                                                            String networkNamePrefix,

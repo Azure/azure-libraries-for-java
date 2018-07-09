@@ -8,7 +8,7 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.InstanceViewStatus;
+import com.microsoft.azure.management.compute.RunCommandResult;
 import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
@@ -2560,7 +2560,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the List&lt;InstanceViewStatus&gt; object if successful.
      */
-    public List<InstanceViewStatus> runCommand(String resourceGroupName, String vmName, RunCommandInput parameters) {
+    public RunCommandResult runCommand(String resourceGroupName, String vmName, RunCommandInput parameters) {
         return runCommandWithServiceResponseAsync(resourceGroupName, vmName, parameters).toBlocking().last().body();
     }
 
@@ -2574,7 +2574,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<InstanceViewStatus>> runCommandAsync(String resourceGroupName, String vmName, RunCommandInput parameters, final ServiceCallback<List<InstanceViewStatus>> serviceCallback) {
+    public ServiceFuture<RunCommandResult> runCommandAsync(String resourceGroupName, String vmName, RunCommandInput parameters, final ServiceCallback<RunCommandResult> serviceCallback) {
         return ServiceFuture.fromResponse(runCommandWithServiceResponseAsync(resourceGroupName, vmName, parameters), serviceCallback);
     }
 
@@ -2587,10 +2587,10 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<List<InstanceViewStatus>> runCommandAsync(String resourceGroupName, String vmName, RunCommandInput parameters) {
-        return runCommandWithServiceResponseAsync(resourceGroupName, vmName, parameters).map(new Func1<ServiceResponse<List<InstanceViewStatus>>, List<InstanceViewStatus>>() {
+    public Observable<RunCommandResult> runCommandAsync(String resourceGroupName, String vmName, RunCommandInput parameters) {
+        return runCommandWithServiceResponseAsync(resourceGroupName, vmName, parameters).map(new Func1<ServiceResponse<RunCommandResult>, RunCommandResult>() {
             @Override
-            public List<InstanceViewStatus> call(ServiceResponse<List<InstanceViewStatus>> response) {
+            public RunCommandResult call(ServiceResponse<RunCommandResult> response) {
                 return response.body();
             }
         });
@@ -2605,7 +2605,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<List<InstanceViewStatus>>> runCommandWithServiceResponseAsync(String resourceGroupName, String vmName, RunCommandInput parameters) {
+    public Observable<ServiceResponse<RunCommandResult>> runCommandWithServiceResponseAsync(String resourceGroupName, String vmName, RunCommandInput parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -2621,7 +2621,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
         Validator.validate(parameters);
         final String apiVersion = "2018-04-01";
         Observable<Response<ResponseBody>> observable = service.runCommand(resourceGroupName, vmName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<List<InstanceViewStatus>>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<RunCommandResult>() { }.getType());
     }
 
     /**
@@ -2635,7 +2635,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the List&lt;InstanceViewStatus&gt; object if successful.
      */
-    public List<InstanceViewStatus> beginRunCommand(String resourceGroupName, String vmName, RunCommandInput parameters) {
+    public RunCommandResult beginRunCommand(String resourceGroupName, String vmName, RunCommandInput parameters) {
         return beginRunCommandWithServiceResponseAsync(resourceGroupName, vmName, parameters).toBlocking().single().body();
     }
 
@@ -2649,7 +2649,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<InstanceViewStatus>> beginRunCommandAsync(String resourceGroupName, String vmName, RunCommandInput parameters, final ServiceCallback<List<InstanceViewStatus>> serviceCallback) {
+    public ServiceFuture<RunCommandResult> beginRunCommandAsync(String resourceGroupName, String vmName, RunCommandInput parameters, final ServiceCallback<RunCommandResult> serviceCallback) {
         return ServiceFuture.fromResponse(beginRunCommandWithServiceResponseAsync(resourceGroupName, vmName, parameters), serviceCallback);
     }
 
@@ -2662,10 +2662,10 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the List&lt;InstanceViewStatus&gt; object
      */
-    public Observable<List<InstanceViewStatus>> beginRunCommandAsync(String resourceGroupName, String vmName, RunCommandInput parameters) {
-        return beginRunCommandWithServiceResponseAsync(resourceGroupName, vmName, parameters).map(new Func1<ServiceResponse<List<InstanceViewStatus>>, List<InstanceViewStatus>>() {
+    public Observable<RunCommandResult> beginRunCommandAsync(String resourceGroupName, String vmName, RunCommandInput parameters) {
+        return beginRunCommandWithServiceResponseAsync(resourceGroupName, vmName, parameters).map(new Func1<ServiceResponse<RunCommandResult>, RunCommandResult>() {
             @Override
-            public List<InstanceViewStatus> call(ServiceResponse<List<InstanceViewStatus>> response) {
+            public RunCommandResult call(ServiceResponse<RunCommandResult> response) {
                 return response.body();
             }
         });
@@ -2680,7 +2680,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the List&lt;InstanceViewStatus&gt; object
      */
-    public Observable<ServiceResponse<List<InstanceViewStatus>>> beginRunCommandWithServiceResponseAsync(String resourceGroupName, String vmName, RunCommandInput parameters) {
+    public Observable<ServiceResponse<RunCommandResult>> beginRunCommandWithServiceResponseAsync(String resourceGroupName, String vmName, RunCommandInput parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -2696,11 +2696,11 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
         Validator.validate(parameters);
         final String apiVersion = "2018-04-01";
         return service.beginRunCommand(resourceGroupName, vmName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<InstanceViewStatus>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RunCommandResult>>>() {
                 @Override
-                public Observable<ServiceResponse<List<InstanceViewStatus>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<RunCommandResult>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<List<InstanceViewStatus>> clientResponse = beginRunCommandDelegate(response);
+                        ServiceResponse<RunCommandResult> clientResponse = beginRunCommandDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -2709,9 +2709,9 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
             });
     }
 
-    private ServiceResponse<List<InstanceViewStatus>> beginRunCommandDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<List<InstanceViewStatus>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<List<InstanceViewStatus>>() { }.getType())
+    private ServiceResponse<RunCommandResult> beginRunCommandDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<RunCommandResult, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<RunCommandResult>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);

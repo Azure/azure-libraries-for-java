@@ -8,9 +8,9 @@ package com.microsoft.azure.management.compute.samples;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.microsoft.azure.management.compute.RunCommandInput;
+import com.microsoft.azure.management.compute.RunCommandResult;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
@@ -157,7 +157,7 @@ public final class ManageUserAssignedMSIEnabledVirtualMachine {
         return false;
     }
 
-    private static List<InstanceViewStatus> runCommandOnVM(Azure azure, VirtualMachine virtualMachine, List<String> commands) {
+    private static RunCommandResult runCommandOnVM(Azure azure, VirtualMachine virtualMachine, List<String> commands) {
         RunCommandInput runParams = new RunCommandInput()
                 .withCommandId("RunShellScript")
                 .withScript(commands);

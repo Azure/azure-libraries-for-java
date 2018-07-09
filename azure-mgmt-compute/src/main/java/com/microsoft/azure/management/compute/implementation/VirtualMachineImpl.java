@@ -37,6 +37,9 @@ import com.microsoft.azure.management.compute.Plan;
 import com.microsoft.azure.management.compute.PowerState;
 import com.microsoft.azure.management.compute.PurchasePlan;
 import com.microsoft.azure.management.compute.ResourceIdentityType;
+import com.microsoft.azure.management.compute.RunCommandInput;
+import com.microsoft.azure.management.compute.RunCommandInputParameter;
+import com.microsoft.azure.management.compute.RunCommandResult;
 import com.microsoft.azure.management.compute.SshConfiguration;
 import com.microsoft.azure.management.compute.SshPublicKey;
 import com.microsoft.azure.management.compute.StorageAccountTypes;
@@ -400,6 +403,52 @@ class VirtualMachineImpl
                         return virtualMachineInstanceView;
                     }
                 });
+    }
+
+    @Override
+    public RunCommandResult runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        return this.manager().virtualMachines().runPowerShellScript(this.resourceGroupName(),
+                this.name(),
+                scriptLines,
+                scriptParameters);
+    }
+
+    @Override
+    public Observable<RunCommandResult> runPowerShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        return this.manager().virtualMachines().runPowerShellScriptAsync(this.resourceGroupName(),
+                this.name(),
+                scriptLines,
+                scriptParameters);
+    }
+
+    @Override
+    public RunCommandResult runShellScript(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        return this.manager().virtualMachines().runShellScript(this.resourceGroupName(),
+                this.name(),
+                scriptLines,
+                scriptParameters);
+    }
+
+    @Override
+    public Observable<RunCommandResult> runShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        return this.manager().virtualMachines().runShellScriptAsync(this.resourceGroupName(),
+                this.name(),
+                scriptLines,
+                scriptParameters);
+    }
+
+    @Override
+    public RunCommandResult runCommand(RunCommandInput inputCommand) {
+        return this.manager().virtualMachines().runCommand(this.resourceGroupName(),
+                this.name(),
+                inputCommand);
+    }
+
+    @Override
+    public Observable<RunCommandResult> runCommandAsync(RunCommandInput inputCommand) {
+        return this.manager().virtualMachines().runCommandAsync(this.resourceGroupName(),
+                this.name(),
+                inputCommand);
     }
 
     // SETTERS

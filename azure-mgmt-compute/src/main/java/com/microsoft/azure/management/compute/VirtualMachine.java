@@ -31,6 +31,7 @@ import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
 import rx.Observable;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -245,6 +246,67 @@ public interface VirtualMachine extends
      */
     @Method
     Observable<VirtualMachineInstanceView> refreshInstanceViewAsync();
+
+    /**
+     * Run shell script in a virtual machine.
+     *
+     * @param groupName the resource group name
+     * @param name the virtual machine name
+     * @param scriptLines PowerShell script lines
+     * @param scriptParameters script parameters
+     * @return result of PowerShell script execution
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    RunCommandResult runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+    /**
+     * Run shell script in the virtual machine asynchronously.
+     *
+     * @param scriptLines PowerShell script lines
+     * @param scriptParameters script parameters
+     * @return handle to the asynchronous execution
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    Observable<RunCommandResult> runPowerShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+    /**
+     * Run shell script in the virtual machine.
+     *
+     * @param scriptLines shell script lines
+     * @param scriptParameters script parameters
+     * @return result of shell script execution
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    RunCommandResult runShellScript(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+
+    /**
+     * Run shell script in the virtual machine asynchronously.
+     *
+     * @param scriptLines shell script lines
+     * @param scriptParameters script parameters
+     * @return handle to the asynchronous execution
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    Observable<RunCommandResult> runShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+    /**
+     * Run commands in the virtual machine.
+     *
+     * @param inputCommand command input
+     * @return result of execution
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    RunCommandResult runCommand(RunCommandInput inputCommand);
+
+    /**
+     * Run commands in the virtual machine asynchronously.
+     *
+     * @param inputCommand command input
+     * @return handle to the asynchronous execution
+     */
+    @Beta(Beta.SinceVersion.V1_13_0)
+    Observable<RunCommandResult> runCommandAsync(RunCommandInput inputCommand);
 
     // Getters
     //

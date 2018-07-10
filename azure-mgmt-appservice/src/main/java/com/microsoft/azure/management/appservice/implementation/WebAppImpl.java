@@ -15,7 +15,6 @@ import com.microsoft.azure.management.appservice.RuntimeStack;
 import com.microsoft.azure.management.appservice.WebApp;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import rx.Completable;
-import rx.functions.Action0;
 
 import java.io.File;
 import java.io.FileInputStream;

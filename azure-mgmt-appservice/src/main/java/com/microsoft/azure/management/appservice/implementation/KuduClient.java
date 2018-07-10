@@ -63,7 +63,7 @@ class KuduClient {
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps zipDeploy", "x-ms-body-logging: false" })
         @POST("api/zipdeploy")
         @Streaming
-        Observable<Void> zipDeploy(@Body RequestBody zipFile, @Query("name") String appName);
+        Observable<Void> zipDeploy(@Body RequestBody zipFile);
     }
 
     Observable<String> streamApplicationLogsAsync() {
@@ -98,10 +98,10 @@ class KuduClient {
         }
     }
 
-    Completable zipDeployAsync(InputStream zipFile, String appName) {
+    Completable zipDeployAsync(InputStream zipFile) {
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(zipFile));
-            return getCompletable(service.zipDeploy(body, appName));
+            return getCompletable(service.zipDeploy(body));
         } catch (IOException e) {
             return Completable.error(e);
         }

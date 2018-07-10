@@ -27,11 +27,11 @@ public class SiteConfigurationSnapshotInfoInner extends ProxyOnlyResource {
     /**
      * The id of the snapshot.
      */
-    @JsonProperty(value = "properties.id", access = JsonProperty.Access.WRITE_ONLY)
-    private Integer siteConfigurationSnapshotInfoId;
+    @JsonProperty(value = "properties.snapshotId", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer snapshotId;
 
     /**
-     * Get the time value.
+     * Get the time the snapshot was taken.
      *
      * @return the time value
      */
@@ -40,12 +40,12 @@ public class SiteConfigurationSnapshotInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the siteConfigurationSnapshotInfoId value.
+     * Get the id of the snapshot.
      *
-     * @return the siteConfigurationSnapshotInfoId value
+     * @return the snapshotId value
      */
-    public Integer siteConfigurationSnapshotInfoId() {
-        return this.siteConfigurationSnapshotInfoId;
+    public Integer snapshotId() {
+        return this.snapshotId;
     }
 
 }

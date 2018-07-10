@@ -8,7 +8,6 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
-import com.microsoft.azure.management.appservice.ResourceMetricName;
 import java.util.List;
 import com.microsoft.azure.management.appservice.ResourceMetricAvailability;
 import java.util.Map;
@@ -21,12 +20,6 @@ import com.microsoft.azure.management.appservice.ProxyOnlyResource;
  */
 @JsonFlatten
 public class ResourceMetricDefinitionInner extends ProxyOnlyResource {
-    /**
-     * Name of the metric.
-     */
-    @JsonProperty(value = "properties.name", access = JsonProperty.Access.WRITE_ONLY)
-    private ResourceMetricName resourceMetricDefinitionName;
-
     /**
      * Unit of the metric.
      */
@@ -53,28 +46,13 @@ public class ResourceMetricDefinitionInner extends ProxyOnlyResource {
     private String resourceUri;
 
     /**
-     * Resource ID.
-     */
-    @JsonProperty(value = "properties.id", access = JsonProperty.Access.WRITE_ONLY)
-    private String resourceMetricDefinitionId;
-
-    /**
      * Resource metric definition properties.
      */
     @JsonProperty(value = "properties.properties", access = JsonProperty.Access.WRITE_ONLY)
     private Map<String, String> properties;
 
     /**
-     * Get the resourceMetricDefinitionName value.
-     *
-     * @return the resourceMetricDefinitionName value
-     */
-    public ResourceMetricName resourceMetricDefinitionName() {
-        return this.resourceMetricDefinitionName;
-    }
-
-    /**
-     * Get the unit value.
+     * Get unit of the metric.
      *
      * @return the unit value
      */
@@ -83,7 +61,7 @@ public class ResourceMetricDefinitionInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the primaryAggregationType value.
+     * Get primary aggregation type.
      *
      * @return the primaryAggregationType value
      */
@@ -92,7 +70,7 @@ public class ResourceMetricDefinitionInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the metricAvailabilities value.
+     * Get list of time grains supported for the metric together with retention period.
      *
      * @return the metricAvailabilities value
      */
@@ -101,7 +79,7 @@ public class ResourceMetricDefinitionInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the resourceUri value.
+     * Get resource URI.
      *
      * @return the resourceUri value
      */
@@ -110,16 +88,7 @@ public class ResourceMetricDefinitionInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the resourceMetricDefinitionId value.
-     *
-     * @return the resourceMetricDefinitionId value
-     */
-    public String resourceMetricDefinitionId() {
-        return this.resourceMetricDefinitionId;
-    }
-
-    /**
-     * Get the properties value.
+     * Get resource metric definition properties.
      *
      * @return the properties value
      */

@@ -20,12 +20,6 @@ import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 @JsonFlatten
 public class MetricDefinitionInner extends ProxyOnlyResource {
     /**
-     * Name of the metric.
-     */
-    @JsonProperty(value = "properties.name", access = JsonProperty.Access.WRITE_ONLY)
-    private String metricDefinitionName;
-
-    /**
      * Unit of the metric.
      */
     @JsonProperty(value = "properties.unit", access = JsonProperty.Access.WRITE_ONLY)
@@ -51,16 +45,7 @@ public class MetricDefinitionInner extends ProxyOnlyResource {
     private String displayName;
 
     /**
-     * Get the metricDefinitionName value.
-     *
-     * @return the metricDefinitionName value
-     */
-    public String metricDefinitionName() {
-        return this.metricDefinitionName;
-    }
-
-    /**
-     * Get the unit value.
+     * Get unit of the metric.
      *
      * @return the unit value
      */
@@ -69,7 +54,7 @@ public class MetricDefinitionInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the primaryAggregationType value.
+     * Get primary aggregation type.
      *
      * @return the primaryAggregationType value
      */
@@ -78,7 +63,7 @@ public class MetricDefinitionInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the metricAvailabilities value.
+     * Get list of time grains supported for the metric together with retention period.
      *
      * @return the metricAvailabilities value
      */
@@ -87,7 +72,7 @@ public class MetricDefinitionInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the displayName value.
+     * Get friendly name shown in the UI.
      *
      * @return the displayName value
      */

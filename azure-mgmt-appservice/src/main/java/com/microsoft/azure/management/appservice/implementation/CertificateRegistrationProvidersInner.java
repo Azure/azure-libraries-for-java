@@ -11,8 +11,8 @@ package com.microsoft.azure.management.appservice.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.appservice.DefaultErrorResponseException;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceFuture;
@@ -70,7 +70,7 @@ public class CertificateRegistrationProvidersInner {
      * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;CsmOperationDescriptionInner&gt; object if successful.
      */
@@ -150,8 +150,10 @@ public class CertificateRegistrationProvidersInner {
      * @return the PagedList&lt;CsmOperationDescriptionInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
     public Observable<ServiceResponse<Page<CsmOperationDescriptionInner>>> listOperationsSinglePageAsync() {
-        final String apiVersion = "2015-08-01";
-        return service.listOperations(apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listOperations(this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<CsmOperationDescriptionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<CsmOperationDescriptionInner>>> call(Response<ResponseBody> response) {
@@ -165,10 +167,10 @@ public class CertificateRegistrationProvidersInner {
             });
     }
 
-    private ServiceResponse<PageImpl<CsmOperationDescriptionInner>> listOperationsDelegate(Response<ResponseBody> response) throws CloudException, IOException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<CsmOperationDescriptionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<CsmOperationDescriptionInner>> listOperationsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<CsmOperationDescriptionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<CsmOperationDescriptionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -178,7 +180,7 @@ public class CertificateRegistrationProvidersInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;CsmOperationDescriptionInner&gt; object if successful.
      */
@@ -281,10 +283,10 @@ public class CertificateRegistrationProvidersInner {
             });
     }
 
-    private ServiceResponse<PageImpl<CsmOperationDescriptionInner>> listOperationsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<CsmOperationDescriptionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<CsmOperationDescriptionInner>> listOperationsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<CsmOperationDescriptionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<CsmOperationDescriptionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 

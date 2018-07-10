@@ -16,6 +16,8 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.appservice.CertificatePatchResource;
+import com.microsoft.azure.management.appservice.DefaultErrorResponseException;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -87,7 +89,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Certificates update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body CertificatePatchResourceInner certificateEnvelope, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body CertificatePatchResource certificateEnvelope, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Certificates listNext" })
         @GET
@@ -104,7 +106,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
      * Get all certificates for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;CertificateInner&gt; object if successful.
      */
@@ -187,8 +189,10 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<CertificateInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<CertificateInner>>> call(Response<ResponseBody> response) {
@@ -202,10 +206,10 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
             });
     }
 
-    private ServiceResponse<PageImpl<CertificateInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<CertificateInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<CertificateInner>> listDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<CertificateInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<CertificateInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -215,7 +219,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;CertificateInner&gt; object if successful.
      */
@@ -305,8 +309,10 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<CertificateInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<CertificateInner>>> call(Response<ResponseBody> response) {
@@ -320,10 +326,10 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
             });
     }
 
-    private ServiceResponse<PageImpl<CertificateInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<CertificateInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<CertificateInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<CertificateInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<CertificateInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -334,7 +340,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CertificateInner object if successful.
      */
@@ -393,8 +399,10 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.getByResourceGroup(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getByResourceGroup(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<CertificateInner>>>() {
                 @Override
                 public Observable<ServiceResponse<CertificateInner>> call(Response<ResponseBody> response) {
@@ -408,10 +416,10 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
             });
     }
 
-    private ServiceResponse<CertificateInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<CertificateInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<CertificateInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<CertificateInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<CertificateInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -423,7 +431,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
      * @param name Name of the certificate.
      * @param certificateEnvelope Details of certificate, if it exists already.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CertificateInner object if successful.
      */
@@ -488,9 +496,11 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
         if (certificateEnvelope == null) {
             throw new IllegalArgumentException("Parameter certificateEnvelope is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(certificateEnvelope);
-        final String apiVersion = "2016-03-01";
-        return service.createOrUpdate(resourceGroupName, name, this.client.subscriptionId(), certificateEnvelope, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.createOrUpdate(resourceGroupName, name, this.client.subscriptionId(), certificateEnvelope, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<CertificateInner>>>() {
                 @Override
                 public Observable<ServiceResponse<CertificateInner>> call(Response<ResponseBody> response) {
@@ -504,10 +514,10 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
             });
     }
 
-    private ServiceResponse<CertificateInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<CertificateInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<CertificateInner> createOrUpdateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<CertificateInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<CertificateInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -576,8 +586,10 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.delete(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.delete(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -607,11 +619,11 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
      * @param name Name of the certificate.
      * @param certificateEnvelope Details of certificate, if it exists already.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CertificateInner object if successful.
      */
-    public CertificateInner update(String resourceGroupName, String name, CertificatePatchResourceInner certificateEnvelope) {
+    public CertificateInner update(String resourceGroupName, String name, CertificatePatchResource certificateEnvelope) {
         return updateWithServiceResponseAsync(resourceGroupName, name, certificateEnvelope).toBlocking().single().body();
     }
 
@@ -626,7 +638,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<CertificateInner> updateAsync(String resourceGroupName, String name, CertificatePatchResourceInner certificateEnvelope, final ServiceCallback<CertificateInner> serviceCallback) {
+    public ServiceFuture<CertificateInner> updateAsync(String resourceGroupName, String name, CertificatePatchResource certificateEnvelope, final ServiceCallback<CertificateInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, name, certificateEnvelope), serviceCallback);
     }
 
@@ -640,7 +652,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
-    public Observable<CertificateInner> updateAsync(String resourceGroupName, String name, CertificatePatchResourceInner certificateEnvelope) {
+    public Observable<CertificateInner> updateAsync(String resourceGroupName, String name, CertificatePatchResource certificateEnvelope) {
         return updateWithServiceResponseAsync(resourceGroupName, name, certificateEnvelope).map(new Func1<ServiceResponse<CertificateInner>, CertificateInner>() {
             @Override
             public CertificateInner call(ServiceResponse<CertificateInner> response) {
@@ -659,7 +671,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
-    public Observable<ServiceResponse<CertificateInner>> updateWithServiceResponseAsync(String resourceGroupName, String name, CertificatePatchResourceInner certificateEnvelope) {
+    public Observable<ServiceResponse<CertificateInner>> updateWithServiceResponseAsync(String resourceGroupName, String name, CertificatePatchResource certificateEnvelope) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -672,9 +684,11 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
         if (certificateEnvelope == null) {
             throw new IllegalArgumentException("Parameter certificateEnvelope is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(certificateEnvelope);
-        final String apiVersion = "2016-03-01";
-        return service.update(resourceGroupName, name, this.client.subscriptionId(), certificateEnvelope, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.update(resourceGroupName, name, this.client.subscriptionId(), certificateEnvelope, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<CertificateInner>>>() {
                 @Override
                 public Observable<ServiceResponse<CertificateInner>> call(Response<ResponseBody> response) {
@@ -688,10 +702,10 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
             });
     }
 
-    private ServiceResponse<CertificateInner> updateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<CertificateInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<CertificateInner> updateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<CertificateInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<CertificateInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -701,7 +715,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;CertificateInner&gt; object if successful.
      */
@@ -804,10 +818,10 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
             });
     }
 
-    private ServiceResponse<PageImpl<CertificateInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<CertificateInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<CertificateInner>> listNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<CertificateInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<CertificateInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -817,7 +831,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;CertificateInner&gt; object if successful.
      */
@@ -920,10 +934,10 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
             });
     }
 
-    private ServiceResponse<PageImpl<CertificateInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<CertificateInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<CertificateInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<CertificateInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<CertificateInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 

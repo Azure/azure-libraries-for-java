@@ -262,7 +262,19 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     private List<String> userWhitelistedIpRanges;
 
     /**
-     * Get the appServiceEnvironmentResourceName value.
+     * Flag that displays whether an ASE has linux workers or not.
+     */
+    @JsonProperty(value = "properties.hasLinuxWorkers")
+    private Boolean hasLinuxWorkers;
+
+    /**
+     * Kind of resource.
+     */
+    @JsonProperty(value = "kind")
+    private String kind;
+
+    /**
+     * Get name of the App Service Environment.
      *
      * @return the appServiceEnvironmentResourceName value
      */
@@ -271,7 +283,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the appServiceEnvironmentResourceName value.
+     * Set name of the App Service Environment.
      *
      * @param appServiceEnvironmentResourceName the appServiceEnvironmentResourceName value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -282,7 +294,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the appServiceEnvironmentResourceLocation value.
+     * Get location of the App Service Environment, e.g. "West US".
      *
      * @return the appServiceEnvironmentResourceLocation value
      */
@@ -291,7 +303,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the appServiceEnvironmentResourceLocation value.
+     * Set location of the App Service Environment, e.g. "West US".
      *
      * @param appServiceEnvironmentResourceLocation the appServiceEnvironmentResourceLocation value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -302,7 +314,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get provisioning state of the App Service Environment. Possible values include: 'Succeeded', 'Failed', 'Canceled', 'InProgress', 'Deleting'.
      *
      * @return the provisioningState value
      */
@@ -311,7 +323,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the status value.
+     * Get current status of the App Service Environment. Possible values include: 'Preparing', 'Ready', 'Scaling', 'Deleting'.
      *
      * @return the status value
      */
@@ -320,7 +332,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the vnetName value.
+     * Get name of the Virtual Network for the App Service Environment.
      *
      * @return the vnetName value
      */
@@ -329,7 +341,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the vnetName value.
+     * Set name of the Virtual Network for the App Service Environment.
      *
      * @param vnetName the vnetName value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -340,7 +352,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the vnetResourceGroupName value.
+     * Get resource group of the Virtual Network.
      *
      * @return the vnetResourceGroupName value
      */
@@ -349,7 +361,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the vnetResourceGroupName value.
+     * Set resource group of the Virtual Network.
      *
      * @param vnetResourceGroupName the vnetResourceGroupName value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -360,7 +372,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the vnetSubnetName value.
+     * Get subnet of the Virtual Network.
      *
      * @return the vnetSubnetName value
      */
@@ -369,7 +381,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the vnetSubnetName value.
+     * Set subnet of the Virtual Network.
      *
      * @param vnetSubnetName the vnetSubnetName value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -380,7 +392,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the virtualNetwork value.
+     * Get description of the Virtual Network.
      *
      * @return the virtualNetwork value
      */
@@ -389,7 +401,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the virtualNetwork value.
+     * Set description of the Virtual Network.
      *
      * @param virtualNetwork the virtualNetwork value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -400,7 +412,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the internalLoadBalancingMode value.
+     * Get specifies which endpoints to serve internally in the Virtual Network for the App Service Environment. Possible values include: 'None', 'Web', 'Publishing'.
      *
      * @return the internalLoadBalancingMode value
      */
@@ -409,7 +421,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the internalLoadBalancingMode value.
+     * Set specifies which endpoints to serve internally in the Virtual Network for the App Service Environment. Possible values include: 'None', 'Web', 'Publishing'.
      *
      * @param internalLoadBalancingMode the internalLoadBalancingMode value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -420,7 +432,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the multiSize value.
+     * Get front-end VM size, e.g. "Medium", "Large".
      *
      * @return the multiSize value
      */
@@ -429,7 +441,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the multiSize value.
+     * Set front-end VM size, e.g. "Medium", "Large".
      *
      * @param multiSize the multiSize value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -440,7 +452,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the multiRoleCount value.
+     * Get number of front-end instances.
      *
      * @return the multiRoleCount value
      */
@@ -449,7 +461,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the multiRoleCount value.
+     * Set number of front-end instances.
      *
      * @param multiRoleCount the multiRoleCount value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -460,7 +472,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the workerPools value.
+     * Get description of worker pools with worker size IDs, VM sizes, and number of workers in each pool.
      *
      * @return the workerPools value
      */
@@ -469,7 +481,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the workerPools value.
+     * Set description of worker pools with worker size IDs, VM sizes, and number of workers in each pool.
      *
      * @param workerPools the workerPools value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -480,7 +492,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the ipsslAddressCount value.
+     * Get number of IP SSL addresses reserved for the App Service Environment.
      *
      * @return the ipsslAddressCount value
      */
@@ -489,7 +501,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the ipsslAddressCount value.
+     * Set number of IP SSL addresses reserved for the App Service Environment.
      *
      * @param ipsslAddressCount the ipsslAddressCount value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -500,7 +512,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the databaseEdition value.
+     * Get edition of the metadata database for the App Service Environment, e.g. "Standard".
      *
      * @return the databaseEdition value
      */
@@ -509,7 +521,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the databaseServiceObjective value.
+     * Get service objective of the metadata database for the App Service Environment, e.g. "S0".
      *
      * @return the databaseServiceObjective value
      */
@@ -518,7 +530,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the upgradeDomains value.
+     * Get number of upgrade domains of the App Service Environment.
      *
      * @return the upgradeDomains value
      */
@@ -527,7 +539,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the subscriptionId value.
+     * Get subscription of the App Service Environment.
      *
      * @return the subscriptionId value
      */
@@ -536,7 +548,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the dnsSuffix value.
+     * Get dNS suffix of the App Service Environment.
      *
      * @return the dnsSuffix value
      */
@@ -545,7 +557,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the dnsSuffix value.
+     * Set dNS suffix of the App Service Environment.
      *
      * @param dnsSuffix the dnsSuffix value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -556,7 +568,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the lastAction value.
+     * Get last deployment action on the App Service Environment.
      *
      * @return the lastAction value
      */
@@ -565,7 +577,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the lastActionResult value.
+     * Get result of the last deployment action on the App Service Environment.
      *
      * @return the lastActionResult value
      */
@@ -574,7 +586,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the allowedMultiSizes value.
+     * Get list of comma separated strings describing which VM sizes are allowed for front-ends.
      *
      * @return the allowedMultiSizes value
      */
@@ -583,7 +595,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the allowedWorkerSizes value.
+     * Get list of comma separated strings describing which VM sizes are allowed for workers.
      *
      * @return the allowedWorkerSizes value
      */
@@ -592,7 +604,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the maximumNumberOfMachines value.
+     * Get maximum number of VMs in the App Service Environment.
      *
      * @return the maximumNumberOfMachines value
      */
@@ -601,7 +613,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the vipMappings value.
+     * Get description of IP SSL mapping for the App Service Environment.
      *
      * @return the vipMappings value
      */
@@ -610,7 +622,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the environmentCapacities value.
+     * Get current total, used, and available worker capacities.
      *
      * @return the environmentCapacities value
      */
@@ -619,7 +631,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the networkAccessControlList value.
+     * Get access control list for controlling traffic to the App Service Environment.
      *
      * @return the networkAccessControlList value
      */
@@ -628,7 +640,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the networkAccessControlList value.
+     * Set access control list for controlling traffic to the App Service Environment.
      *
      * @param networkAccessControlList the networkAccessControlList value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -639,7 +651,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the environmentIsHealthy value.
+     * Get true/false indicating whether the App Service Environment is healthy.
      *
      * @return the environmentIsHealthy value
      */
@@ -648,7 +660,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the environmentStatus value.
+     * Get detailed message about with results of the last check of the App Service Environment.
      *
      * @return the environmentStatus value
      */
@@ -657,7 +669,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the resourceGroup value.
+     * Get resource group of the App Service Environment.
      *
      * @return the resourceGroup value
      */
@@ -666,7 +678,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the frontEndScaleFactor value.
+     * Get scale factor for front-ends.
      *
      * @return the frontEndScaleFactor value
      */
@@ -675,7 +687,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the frontEndScaleFactor value.
+     * Set scale factor for front-ends.
      *
      * @param frontEndScaleFactor the frontEndScaleFactor value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -686,7 +698,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the defaultFrontEndScaleFactor value.
+     * Get default Scale Factor for FrontEnds.
      *
      * @return the defaultFrontEndScaleFactor value
      */
@@ -695,7 +707,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the apiManagementAccountId value.
+     * Get aPI Management Account associated with the App Service Environment.
      *
      * @return the apiManagementAccountId value
      */
@@ -704,7 +716,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the apiManagementAccountId value.
+     * Set aPI Management Account associated with the App Service Environment.
      *
      * @param apiManagementAccountId the apiManagementAccountId value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -715,7 +727,8 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the suspended value.
+     * Get &lt;code&gt;true&lt;/code&gt; if the App Service Environment is suspended; otherwise, &lt;code&gt;false&lt;/code&gt;. The environment can be suspended, e.g. when the management endpoint is no longer available
+      (most likely because NSG blocked the incoming traffic).
      *
      * @return the suspended value
      */
@@ -724,7 +737,8 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the suspended value.
+     * Set &lt;code&gt;true&lt;/code&gt; if the App Service Environment is suspended; otherwise, &lt;code&gt;false&lt;/code&gt;. The environment can be suspended, e.g. when the management endpoint is no longer available
+      (most likely because NSG blocked the incoming traffic).
      *
      * @param suspended the suspended value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -735,7 +749,8 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the dynamicCacheEnabled value.
+     * Get true/false indicating whether the App Service Environment is suspended. The environment can be suspended e.g. when the management endpoint is no longer available
+     (most likely because NSG blocked the incoming traffic).
      *
      * @return the dynamicCacheEnabled value
      */
@@ -744,7 +759,8 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the dynamicCacheEnabled value.
+     * Set true/false indicating whether the App Service Environment is suspended. The environment can be suspended e.g. when the management endpoint is no longer available
+     (most likely because NSG blocked the incoming traffic).
      *
      * @param dynamicCacheEnabled the dynamicCacheEnabled value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -755,7 +771,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the clusterSettings value.
+     * Get custom settings for changing the behavior of the App Service Environment.
      *
      * @return the clusterSettings value
      */
@@ -764,7 +780,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the clusterSettings value.
+     * Set custom settings for changing the behavior of the App Service Environment.
      *
      * @param clusterSettings the clusterSettings value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
@@ -775,7 +791,7 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Get the userWhitelistedIpRanges value.
+     * Get user added ip ranges to whitelist on ASE db.
      *
      * @return the userWhitelistedIpRanges value
      */
@@ -784,13 +800,53 @@ public class AppServiceEnvironmentResourceInner extends Resource {
     }
 
     /**
-     * Set the userWhitelistedIpRanges value.
+     * Set user added ip ranges to whitelist on ASE db.
      *
      * @param userWhitelistedIpRanges the userWhitelistedIpRanges value to set
      * @return the AppServiceEnvironmentResourceInner object itself.
      */
     public AppServiceEnvironmentResourceInner withUserWhitelistedIpRanges(List<String> userWhitelistedIpRanges) {
         this.userWhitelistedIpRanges = userWhitelistedIpRanges;
+        return this;
+    }
+
+    /**
+     * Get flag that displays whether an ASE has linux workers or not.
+     *
+     * @return the hasLinuxWorkers value
+     */
+    public Boolean hasLinuxWorkers() {
+        return this.hasLinuxWorkers;
+    }
+
+    /**
+     * Set flag that displays whether an ASE has linux workers or not.
+     *
+     * @param hasLinuxWorkers the hasLinuxWorkers value to set
+     * @return the AppServiceEnvironmentResourceInner object itself.
+     */
+    public AppServiceEnvironmentResourceInner withHasLinuxWorkers(Boolean hasLinuxWorkers) {
+        this.hasLinuxWorkers = hasLinuxWorkers;
+        return this;
+    }
+
+    /**
+     * Get kind of resource.
+     *
+     * @return the kind value
+     */
+    public String kind() {
+        return this.kind;
+    }
+
+    /**
+     * Set kind of resource.
+     *
+     * @param kind the kind value to set
+     * @return the AppServiceEnvironmentResourceInner object itself.
+     */
+    public AppServiceEnvironmentResourceInner withKind(String kind) {
+        this.kind = kind;
         return this;
     }
 

@@ -23,26 +23,26 @@ public class TriggeredJobHistoryInner extends ProxyOnlyResource {
     /**
      * List of triggered web job runs.
      */
-    @JsonProperty(value = "properties.triggeredJobRuns")
-    private List<TriggeredJobRun> triggeredJobRuns;
+    @JsonProperty(value = "properties.runs")
+    private List<TriggeredJobRun> runs;
 
     /**
-     * Get the triggeredJobRuns value.
+     * Get list of triggered web job runs.
      *
-     * @return the triggeredJobRuns value
+     * @return the runs value
      */
-    public List<TriggeredJobRun> triggeredJobRuns() {
-        return this.triggeredJobRuns;
+    public List<TriggeredJobRun> runs() {
+        return this.runs;
     }
 
     /**
-     * Set the triggeredJobRuns value.
+     * Set list of triggered web job runs.
      *
-     * @param triggeredJobRuns the triggeredJobRuns value to set
+     * @param runs the runs value to set
      * @return the TriggeredJobHistoryInner object itself.
      */
-    public TriggeredJobHistoryInner withTriggeredJobRuns(List<TriggeredJobRun> triggeredJobRuns) {
-        this.triggeredJobRuns = triggeredJobRuns;
+    public TriggeredJobHistoryInner withRuns(List<TriggeredJobRun> runs) {
+        this.runs = runs;
         return this;
     }
 

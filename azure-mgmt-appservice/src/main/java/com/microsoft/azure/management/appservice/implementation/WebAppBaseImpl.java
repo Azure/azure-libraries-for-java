@@ -25,8 +25,10 @@ import com.microsoft.azure.management.appservice.HostNameSslState;
 import com.microsoft.azure.management.appservice.HostNameType;
 import com.microsoft.azure.management.appservice.HttpLogsConfig;
 import com.microsoft.azure.management.appservice.JavaVersion;
+import com.microsoft.azure.management.appservice.MSDeploy;
 import com.microsoft.azure.management.appservice.ManagedPipelineMode;
 import com.microsoft.azure.management.appservice.ManagedServiceIdentity;
+import com.microsoft.azure.management.appservice.ManagedServiceIdentityType;
 import com.microsoft.azure.management.appservice.NetFrameworkVersion;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PhpVersion;
@@ -105,7 +107,7 @@ abstract class WebAppBaseImpl<
     private Map<String, Boolean> connectionStringStickiness;
     private WebAppSourceControlImpl<FluentT, FluentImplT> sourceControl;
     private boolean sourceControlToDelete;
-    private MSDeployInner msDeploy;
+    private MSDeploy msDeploy;
     private WebAppAuthenticationImpl<FluentT, FluentImplT> authentication;
     private boolean authenticationToUpdate;
     private SiteLogsConfigInner siteLogsConfig;
@@ -533,7 +535,7 @@ abstract class WebAppBaseImpl<
 
     abstract Observable<SiteAuthSettingsInner> getAuthentication();
 
-    abstract Observable<MSDeployStatusInner> createMSDeploy(MSDeployInner msDeployInner);
+    abstract Observable<MSDeployStatusInner> createMSDeploy(MSDeploy msDeployInner);
 
     abstract Observable<SiteLogsConfigInner> updateDiagnosticLogsConfig(SiteLogsConfigInner siteLogsConfigInner);
 
@@ -1322,7 +1324,7 @@ abstract class WebAppBaseImpl<
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedManagedServiceIdentity() {
-        inner().withIdentity(new ManagedServiceIdentity().withType("SystemAssigned"));
+        inner().withIdentity(new ManagedServiceIdentity().withType(ManagedServiceIdentityType.SYSTEM_ASSIGNED));
         return (FluentImplT) this;
     }
 

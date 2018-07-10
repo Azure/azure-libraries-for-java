@@ -23,31 +23,25 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     /**
      * Latest job run information.
      */
-    @JsonProperty(value = "properties.latestRun")
+    @JsonProperty(value = "properties.latest_run")
     private TriggeredJobRun latestRun;
 
     /**
      * History URL.
      */
-    @JsonProperty(value = "properties.historyUrl")
+    @JsonProperty(value = "properties.history_url")
     private String historyUrl;
 
     /**
      * Scheduler Logs URL.
      */
-    @JsonProperty(value = "properties.schedulerLogsUrl")
+    @JsonProperty(value = "properties.scheduler_logs_url")
     private String schedulerLogsUrl;
-
-    /**
-     * Job name. Used as job identifier in ARM resource URI.
-     */
-    @JsonProperty(value = "properties.name", access = JsonProperty.Access.WRITE_ONLY)
-    private String triggeredWebJobName;
 
     /**
      * Run command.
      */
-    @JsonProperty(value = "properties.runCommand")
+    @JsonProperty(value = "properties.run_command")
     private String runCommand;
 
     /**
@@ -59,14 +53,14 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     /**
      * Extra Info URL.
      */
-    @JsonProperty(value = "properties.extraInfoUrl")
+    @JsonProperty(value = "properties.extra_info_url")
     private String extraInfoUrl;
 
     /**
      * Job type. Possible values include: 'Continuous', 'Triggered'.
      */
-    @JsonProperty(value = "properties.jobType")
-    private WebJobType jobType;
+    @JsonProperty(value = "properties.web_job_type")
+    private WebJobType webJobType;
 
     /**
      * Error information.
@@ -77,7 +71,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     /**
      * Using SDK?.
      */
-    @JsonProperty(value = "properties.usingSdk")
+    @JsonProperty(value = "properties.using_sdk")
     private Boolean usingSdk;
 
     /**
@@ -87,7 +81,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     private Map<String, Object> settings;
 
     /**
-     * Get the latestRun value.
+     * Get latest job run information.
      *
      * @return the latestRun value
      */
@@ -96,7 +90,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the latestRun value.
+     * Set latest job run information.
      *
      * @param latestRun the latestRun value to set
      * @return the TriggeredWebJobInner object itself.
@@ -107,7 +101,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the historyUrl value.
+     * Get history URL.
      *
      * @return the historyUrl value
      */
@@ -116,7 +110,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the historyUrl value.
+     * Set history URL.
      *
      * @param historyUrl the historyUrl value to set
      * @return the TriggeredWebJobInner object itself.
@@ -127,7 +121,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the schedulerLogsUrl value.
+     * Get scheduler Logs URL.
      *
      * @return the schedulerLogsUrl value
      */
@@ -136,7 +130,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the schedulerLogsUrl value.
+     * Set scheduler Logs URL.
      *
      * @param schedulerLogsUrl the schedulerLogsUrl value to set
      * @return the TriggeredWebJobInner object itself.
@@ -147,16 +141,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the triggeredWebJobName value.
-     *
-     * @return the triggeredWebJobName value
-     */
-    public String triggeredWebJobName() {
-        return this.triggeredWebJobName;
-    }
-
-    /**
-     * Get the runCommand value.
+     * Get run command.
      *
      * @return the runCommand value
      */
@@ -165,7 +150,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the runCommand value.
+     * Set run command.
      *
      * @param runCommand the runCommand value to set
      * @return the TriggeredWebJobInner object itself.
@@ -176,7 +161,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the url value.
+     * Get job URL.
      *
      * @return the url value
      */
@@ -185,7 +170,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the url value.
+     * Set job URL.
      *
      * @param url the url value to set
      * @return the TriggeredWebJobInner object itself.
@@ -196,7 +181,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the extraInfoUrl value.
+     * Get extra Info URL.
      *
      * @return the extraInfoUrl value
      */
@@ -205,7 +190,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the extraInfoUrl value.
+     * Set extra Info URL.
      *
      * @param extraInfoUrl the extraInfoUrl value to set
      * @return the TriggeredWebJobInner object itself.
@@ -216,27 +201,27 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the jobType value.
+     * Get job type. Possible values include: 'Continuous', 'Triggered'.
      *
-     * @return the jobType value
+     * @return the webJobType value
      */
-    public WebJobType jobType() {
-        return this.jobType;
+    public WebJobType webJobType() {
+        return this.webJobType;
     }
 
     /**
-     * Set the jobType value.
+     * Set job type. Possible values include: 'Continuous', 'Triggered'.
      *
-     * @param jobType the jobType value to set
+     * @param webJobType the webJobType value to set
      * @return the TriggeredWebJobInner object itself.
      */
-    public TriggeredWebJobInner withJobType(WebJobType jobType) {
-        this.jobType = jobType;
+    public TriggeredWebJobInner withWebJobType(WebJobType webJobType) {
+        this.webJobType = webJobType;
         return this;
     }
 
     /**
-     * Get the error value.
+     * Get error information.
      *
      * @return the error value
      */
@@ -245,7 +230,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the error value.
+     * Set error information.
      *
      * @param error the error value to set
      * @return the TriggeredWebJobInner object itself.
@@ -256,7 +241,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the usingSdk value.
+     * Get using SDK?.
      *
      * @return the usingSdk value
      */
@@ -265,7 +250,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the usingSdk value.
+     * Set using SDK?.
      *
      * @param usingSdk the usingSdk value to set
      * @return the TriggeredWebJobInner object itself.
@@ -276,7 +261,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the settings value.
+     * Get job settings.
      *
      * @return the settings value
      */
@@ -285,7 +270,7 @@ public class TriggeredWebJobInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the settings value.
+     * Set job settings.
      *
      * @param settings the settings value to set
      * @return the TriggeredWebJobInner object itself.

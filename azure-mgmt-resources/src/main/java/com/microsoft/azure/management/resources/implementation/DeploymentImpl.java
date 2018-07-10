@@ -300,7 +300,7 @@ public final class DeploymentImpl extends
         inner.properties().withTemplateLink(templateLink());
         inner.properties().withParameters(parameters());
         inner.properties().withParametersLink(parametersLink());
-        this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), inner);
+        setInner(this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), inner));
         return this;
     }
 

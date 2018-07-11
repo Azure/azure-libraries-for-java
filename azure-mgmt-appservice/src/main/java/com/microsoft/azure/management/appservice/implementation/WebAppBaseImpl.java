@@ -20,6 +20,7 @@ import com.microsoft.azure.management.appservice.ConnectionString;
 import com.microsoft.azure.management.appservice.ConnectionStringType;
 import com.microsoft.azure.management.appservice.CustomHostNameDnsRecordType;
 import com.microsoft.azure.management.appservice.FileSystemHttpLogsConfig;
+import com.microsoft.azure.management.appservice.FtpsState;
 import com.microsoft.azure.management.appservice.HostNameBinding;
 import com.microsoft.azure.management.appservice.HostNameSslState;
 import com.microsoft.azure.management.appservice.HostNameType;
@@ -40,6 +41,7 @@ import com.microsoft.azure.management.appservice.SiteAvailabilityState;
 import com.microsoft.azure.management.appservice.SiteConfig;
 import com.microsoft.azure.management.appservice.SslState;
 import com.microsoft.azure.management.appservice.UsageState;
+import com.microsoft.azure.management.appservice.VirtualApplication;
 import com.microsoft.azure.management.appservice.WebAppAuthentication;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import com.microsoft.azure.management.appservice.WebContainer;
@@ -415,6 +417,59 @@ abstract class WebAppBaseImpl<
             return null;
         }
         return siteConfig.autoSwapSlotName();
+    }
+
+    @Override
+    public boolean httpsOnly() {
+        return Utils.toPrimitiveBoolean(inner().httpsOnly());
+    }
+
+    @Override
+    public FtpsState ftpsState() {
+        if (siteConfig == null) {
+            return null;
+        }
+        return siteConfig.ftpsState();
+    }
+
+    @Override
+    public List<VirtualApplication> virtualApplications() {
+        if (siteConfig == null) {
+            return null;
+        }
+        return siteConfig.virtualApplications();
+    }
+
+    @Override
+    public boolean http20Enabled() {
+        if (siteConfig == null) {
+            return false;
+        }
+        return Utils.toPrimitiveBoolean(siteConfig.http20Enabled());
+    }
+
+    @Override
+    public boolean localMySqlEnabled() {
+        if (siteConfig == null) {
+            return false;
+        }
+        return Utils.toPrimitiveBoolean(siteConfig.localMySqlEnabled());
+    }
+
+    @Override
+    public ScmType scmType() {
+        if (siteConfig == null) {
+            return null;
+        }
+        return siteConfig.scmType();
+    }
+
+    @Override
+    public String documentRoot() {
+        if (siteConfig == null) {
+            return null;
+        }
+        return siteConfig.documentRoot();
     }
 
     @Override
@@ -1161,6 +1216,39 @@ abstract class WebAppBaseImpl<
         if (siteConfig.defaultDocuments() != null) {
             siteConfig.defaultDocuments().remove(document);
         }
+        return (FluentImplT) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public FluentImplT withHttpsOnly(boolean httpsOnly) {
+        inner().withHttpsOnly(httpsOnly);
+        return (FluentImplT) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public FluentImplT withHttp20Enabled(boolean http20Enabled) {
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withHttp20Enabled(http20Enabled);
+        return (FluentImplT) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public FluentImplT withFtpsState(FtpsState ftpsState) {
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withFtpsState(ftpsState);
+        return (FluentImplT) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public FluentImplT withVirtualApplications(List<VirtualApplication> virtualApplications) {
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withVirtualApplications(virtualApplications);
         return (FluentImplT) this;
     }
 

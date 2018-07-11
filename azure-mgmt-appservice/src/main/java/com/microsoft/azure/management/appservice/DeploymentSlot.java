@@ -106,7 +106,7 @@ public interface DeploymentSlot extends
     void zipDeploy(File zipFile);
 
     /**
-     * Deploys a ZIP file onto the Azure specialized Tomcat on this web app.
+     * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
      * @param zipFile the ZIP file to upload
      * @return a completable of the operation
      */
@@ -114,54 +114,19 @@ public interface DeploymentSlot extends
     Completable zipDeployAsync(File zipFile);
 
     /**
-     * Deploys a ZIP file onto the Azure specialized Tomcat on this web app.
+     * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
      * @param zipFile the ZIP file to upload
      */
     @Beta(SinceVersion.V1_13_0)
     void zipDeploy(InputStream zipFile);
 
     /**
-     * Deploys a ZIP file onto the Azure specialized Tomcat on this web app.
+     * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
      * @param zipFile the ZIP file to upload
      * @return a completable of the operation
      */
     @Beta(SinceVersion.V1_13_0)
     Completable zipDeployAsync(InputStream zipFile);
-
-    /**
-     * Deploys a ZIP file onto the Azure specialized Tomcat on this web app.
-     * @param zipFile the ZIP file to upload
-     * @param appName the name of the app, default to "ROOT" when not provided
-     */
-    @Beta(SinceVersion.V1_13_0)
-    void zipDeploy(File zipFile, String appName);
-
-    /**
-     * Deploys a ZIP file onto the Azure specialized Tomcat on this web app.
-     * @param zipFile the ZIP file to upload
-     * @param appName the name of the app, default to "ROOT" when not provided
-     * @return a completable of the operation
-     */
-    @Beta(SinceVersion.V1_13_0)
-    Completable zipDeployAsync(File zipFile, String appName);
-
-    /**
-     * Deploys a ZIP file onto the Azure specialized Tomcat on this web app.
-     * @param zipFile the ZIP file to upload
-     * @param appName the name of the app, default to "ROOT" when not provided
-     */
-    @Beta(SinceVersion.V1_13_0)
-    void zipDeploy(InputStream zipFile, String appName);
-
-    /**
-     * Deploys a ZIP file onto the Azure specialized Tomcat on this web app.
-     * @param zipFile the ZIP file to upload
-     * @param appName the name of the app, default to "ROOT" when not provided
-     * @return a completable of the operation
-     */
-    @Beta(SinceVersion.V1_13_0)
-    Completable zipDeployAsync(InputStream zipFile, String appName);
-
 
     /**************************************************************
      * Fluent interfaces to provision a deployment slot

@@ -227,7 +227,11 @@ class WebAppImpl
 
     @Override
     public Completable zipDeployAsync(File zipFile) {
-        return zipDeployAsync(zipFile, null);
+        try {
+            return zipDeployAsync(new FileInputStream(zipFile));
+        } catch (IOException e) {
+            return Completable.error(e);
+        }
     }
 
     @Override
@@ -237,34 +241,11 @@ class WebAppImpl
 
     @Override
     public Completable zipDeployAsync(InputStream zipFile) {
-        return zipDeployAsync(zipFile, null);
+        return kuduClient.zipDeployAsync(zipFile).concatWith(WebAppImpl.this.stopAsync()).concatWith(WebAppImpl.this.startAsync());
     }
 
     @Override
     public void zipDeploy(InputStream zipFile) {
         zipDeployAsync(zipFile).await();
-    }
-
-    @Override
-    public Completable zipDeployAsync(File zipFile, String appName) {
-        try {
-            return zipDeployAsync(new FileInputStream(zipFile), appName);
-        } catch (IOException e) {
-            return Completable.error(e);
-        }
-    }
-
-    @Override
-    public void zipDeploy(File zipFile, String appName) {
-        zipDeployAsync(zipFile, appName).await();
-    }
-    @Override
-    public void zipDeploy(InputStream zipFile, String appName) {
-        zipDeployAsync(zipFile, appName).await();
-    }
-
-    @Override
-    public Completable zipDeployAsync(InputStream zipFile, String appName) {
-        return kuduClient.zipDeployAsync(zipFile, appName);
     }
 }

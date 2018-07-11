@@ -111,7 +111,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
         final String dp = "dpC" + testId;
 
         // Begin create
-        resourceClient.deployments()
+        Deployment createdDeployment = resourceClient.deployments()
                 .define(dp)
                 .withExistingResourceGroup(rgName)
                 .withTemplateLink(templateUri, contentVersion)
@@ -119,6 +119,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
                 .withMode(DeploymentMode.COMPLETE)
                 .beginCreate();
         Deployment deployment = resourceClient.deployments().getByResourceGroup(rgName, dp);
+        Assert.assertEquals(createdDeployment.correlationId(), deployment.correlationId());
         Assert.assertEquals(dp, deployment.name());
         // Cancel
         deployment.cancel();

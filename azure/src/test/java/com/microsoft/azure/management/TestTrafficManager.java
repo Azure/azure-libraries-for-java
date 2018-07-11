@@ -97,6 +97,28 @@ public class TestTrafficManager extends TestTemplate<TrafficManagerProfile, Traf
         // Creates a TM profile
         //
 
+        // bugfix
+        TrafficManagerProfile updatedProfile = nestedProfile.update()
+                                .defineAzureTargetEndpoint(azureEndpointName)
+                                    .toResourceId(publicIPAddress.id())
+                                    .withTrafficDisabled()
+                                    .withRoutingPriority(11)
+                                    .attach()
+                                .apply();
+
+        Assert.assertEquals(1, updatedProfile.azureEndpoints().size());
+        Assert.assertTrue(updatedProfile.azureEndpoints().containsKey(azureEndpointName));
+
+        TrafficManagerProfile updatedProfileFromGet = profiles.getById(updatedProfile.id());
+
+        Assert.assertEquals(1, updatedProfileFromGet.azureEndpoints().size());
+        Assert.assertTrue(updatedProfileFromGet.azureEndpoints().containsKey(azureEndpointName));
+
+        nestedProfile.update()
+                .withoutEndpoint(azureEndpointName)
+                .apply();
+        // end of bugfix
+
         TrafficManagerProfile profile = profiles.define(tmProfileName)
                 .withNewResourceGroup(rgCreatable)
                 .withLeafDomainLabel(tmProfileDnsLabel)

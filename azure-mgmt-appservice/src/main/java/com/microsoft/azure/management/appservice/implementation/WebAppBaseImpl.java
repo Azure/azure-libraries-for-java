@@ -9,7 +9,6 @@ package com.microsoft.azure.management.appservice.implementation;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServiceCertificate;
 import com.microsoft.azure.management.appservice.AppServiceDomain;
@@ -57,7 +56,6 @@ import com.microsoft.rest.RestException;
 import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
-import rx.exceptions.Exceptions;
 import rx.functions.Action0;
 import rx.functions.Func1;
 import rx.functions.Func2;
@@ -72,7 +70,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 
 /**
  * The implementation for WebAppBase.

@@ -9,6 +9,7 @@ package com.microsoft.azure.management.appservice.implementation;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServiceCertificate;
 import com.microsoft.azure.management.appservice.AppServiceDomain;
@@ -52,9 +53,11 @@ import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskIte
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.rest.RestException;
 import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
+import rx.exceptions.Exceptions;
 import rx.functions.Action0;
 import rx.functions.Func1;
 import rx.functions.Func2;
@@ -69,6 +72,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The implementation for WebAppBase.
@@ -705,7 +709,7 @@ abstract class WebAppBaseImpl<
     }
 
     Observable<FluentT> submitHostNameBindings() {
-        List<Observable<HostNameBinding>> bindingObservables = new ArrayList<>();
+        final List<Observable<HostNameBinding>> bindingObservables = new ArrayList<>();
         for (HostNameBindingImpl<FluentT, FluentImplT> binding : hostNameBindingsToCreate.values()) {
             bindingObservables.add(Utils.<HostNameBinding>rootResource(binding.createAsync()));
         }
@@ -724,6 +728,25 @@ abstract class WebAppBaseImpl<
                 @Override
                 public WebAppBaseImpl call(Object... args) {
                     return WebAppBaseImpl.this;
+                }
+            }).onErrorResumeNext(new Func1<Throwable, Observable<? extends WebAppBaseImpl>>() {
+                @Override
+                public Observable<? extends WebAppBaseImpl> call(Throwable throwable) {
+                    if (throwable instanceof RestException && ((RestException) throwable).response().code() == 400) {
+                        return submitSite(inner()).flatMap(new Func1<SiteInner, Observable<WebAppBaseImpl>>() {
+                            @Override
+                            public Observable<WebAppBaseImpl> call(SiteInner siteInner) {
+                                return Observable.zip(bindingObservables, new FuncN<WebAppBaseImpl>() {
+                                    @Override
+                                    public WebAppBaseImpl call(Object... args) {
+                                        return WebAppBaseImpl.this;
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        return Observable.error(throwable);
+                    }
                 }
             }).flatMap(new Func1<WebAppBaseImpl, Observable<FluentT>>() {
                 @Override

@@ -32,6 +32,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.List;
 
 /**
  *  Implementation for {@link HostNameSslBinding} and its create and update interfaces.
@@ -99,17 +100,24 @@ class HostNameSslBindingImpl<
 
     @Override
     public HostNameSslBindingImpl<FluentT, FluentImplT> withExistingCertificate(final String certificateNameOrThumbprint) {
-        newCertificate = this.parent().manager().certificates().getByResourceGroupAsync(parent().resourceGroupName(), certificateNameOrThumbprint)
-                .onErrorReturn(new Func1<Throwable, AppServiceCertificate>() {
+        newCertificate = this.parent().manager().certificates().listByResourceGroupAsync(parent().resourceGroupName())
+                .toList()
+                .map(new Func1<List<AppServiceCertificate>, AppServiceCertificate>() {
                     @Override
-                    public AppServiceCertificate call(Throwable throwable) {
+                    public AppServiceCertificate call(List<AppServiceCertificate> appServiceCertificates) {
+                        for (AppServiceCertificate certificate : appServiceCertificates) {
+                            if (certificate.name().equals(certificateNameOrThumbprint) ||
+                                    certificate.thumbprint().equalsIgnoreCase(certificateNameOrThumbprint)) {
+                                return certificate;
+                            }
+                        }
                         return null;
                     }
                 })
                 .map(new Func1<AppServiceCertificate, AppServiceCertificate>() {
                     @Override
                     public AppServiceCertificate call(AppServiceCertificate appServiceCertificate) {
-                        if (appServiceCertificate == null) {
+                        if (appServiceCertificate != null) {
                             withCertificateThumbprint(certificateNameOrThumbprint);
                         }
                         return appServiceCertificate;

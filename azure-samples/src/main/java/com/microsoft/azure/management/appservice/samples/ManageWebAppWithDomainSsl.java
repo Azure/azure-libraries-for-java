@@ -154,7 +154,7 @@ public final class ManageWebAppWithDomainSsl {
                     .withManagedHostnameBindings(domain, app2Name)
                     .defineSslBinding()
                         .forHostname(app2Name + "." + domainName)
-                        .withPfxCertificateToUpload(new File(pfxPath), certPassword)
+                        .withExistingCertificate(app1.hostNameSslStates().get(app1Name + "." + domainName).thumbprint())
                         .withSniBasedSsl()
                         .attach()
                     .apply();

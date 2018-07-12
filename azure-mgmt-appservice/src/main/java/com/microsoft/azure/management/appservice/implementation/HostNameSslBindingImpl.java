@@ -106,8 +106,8 @@ class HostNameSslBindingImpl<
                     @Override
                     public AppServiceCertificate call(List<AppServiceCertificate> appServiceCertificates) {
                         for (AppServiceCertificate certificate : appServiceCertificates) {
-                            if (certificate.name().equals(certificateNameOrThumbprint) ||
-                                    certificate.thumbprint().equalsIgnoreCase(certificateNameOrThumbprint)) {
+                            if (certificate.name().equals(certificateNameOrThumbprint)
+                                    || certificate.thumbprint().equalsIgnoreCase(certificateNameOrThumbprint)) {
                                 return certificate;
                             }
                         }

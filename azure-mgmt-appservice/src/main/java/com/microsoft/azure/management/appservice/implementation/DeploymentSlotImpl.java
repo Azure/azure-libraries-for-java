@@ -94,4 +94,28 @@ class DeploymentSlotImpl
     public void warDeploy(InputStream warFile, String appName) {
         warDeployAsync(warFile, appName).await();
     }
+
+    @Override
+    public void zipDeploy(File zipFile) {
+        zipDeployAsync(zipFile).await();
+    }
+
+    @Override
+    public void zipDeploy(InputStream zipFile) {
+        zipDeployAsync(zipFile).await();
+    }
+
+    @Override
+    public Completable zipDeployAsync(InputStream zipFile) {
+        return kuduClient.zipDeployAsync(zipFile).concatWith(stopAsync()).concatWith(startAsync());
+    }
+
+    @Override
+    public Completable zipDeployAsync(File zipFile) {
+        try {
+            return zipDeployAsync(new FileInputStream(zipFile));
+        } catch (IOException e) {
+            return Completable.error(e);
+        }
+    }
 }

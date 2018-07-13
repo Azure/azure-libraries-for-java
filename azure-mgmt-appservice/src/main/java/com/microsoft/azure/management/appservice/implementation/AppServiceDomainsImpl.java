@@ -11,6 +11,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServiceDomain;
 import com.microsoft.azure.management.appservice.AppServiceDomains;
 import com.microsoft.azure.management.appservice.DomainLegalAgreement;
+import com.microsoft.azure.management.appservice.TopLevelDomainAgreementOption;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import rx.Observable;
@@ -58,6 +59,6 @@ class AppServiceDomainsImpl
             public Observable<DomainLegalAgreement> typeConvertAsync(TldLegalAgreementInner tldLegalAgreementInner) {
                 return Observable.just((DomainLegalAgreement) new DomainLegalAgreementImpl(tldLegalAgreementInner));
             }
-        }.convert(this.manager().inner().topLevelDomains().listAgreements(topLevelExtension, new TopLevelDomainAgreementOptionInner()));
+        }.convert(this.manager().inner().topLevelDomains().listAgreements(topLevelExtension, new TopLevelDomainAgreementOption()));
     }
 }

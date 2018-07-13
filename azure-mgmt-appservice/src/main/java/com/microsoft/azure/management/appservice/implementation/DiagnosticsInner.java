@@ -11,8 +11,8 @@ package com.microsoft.azure.management.appservice.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.appservice.DefaultErrorResponseException;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -164,7 +164,7 @@ public class DiagnosticsInner {
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DiagnosticCategoryInner&gt; object if successful.
      */
@@ -261,8 +261,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.listSiteDiagnosticCategories(resourceGroupName, siteName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSiteDiagnosticCategories(resourceGroupName, siteName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DiagnosticCategoryInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<DiagnosticCategoryInner>>> call(Response<ResponseBody> response) {
@@ -276,10 +278,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DiagnosticCategoryInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -291,7 +293,7 @@ public class DiagnosticsInner {
      * @param siteName Site Name
      * @param diagnosticCategory Diagnostic Category
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticCategoryInner object if successful.
      */
@@ -356,8 +358,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.getSiteDiagnosticCategory(resourceGroupName, siteName, diagnosticCategory, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getSiteDiagnosticCategory(resourceGroupName, siteName, diagnosticCategory, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticCategoryInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticCategoryInner>> call(Response<ResponseBody> response) {
@@ -371,10 +375,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticCategoryInner> getSiteDiagnosticCategoryDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticCategoryInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticCategoryInner> getSiteDiagnosticCategoryDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticCategoryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticCategoryInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -386,7 +390,7 @@ public class DiagnosticsInner {
      * @param siteName Site Name
      * @param diagnosticCategory Diagnostic Category
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AnalysisDefinitionInner&gt; object if successful.
      */
@@ -490,8 +494,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.listSiteAnalyses(resourceGroupName, siteName, diagnosticCategory, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSiteAnalyses(resourceGroupName, siteName, diagnosticCategory, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AnalysisDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<AnalysisDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -505,10 +511,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AnalysisDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -521,7 +527,7 @@ public class DiagnosticsInner {
      * @param diagnosticCategory Diagnostic Category
      * @param analysisName Analysis Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticAnalysisInner object if successful.
      */
@@ -592,8 +598,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.getSiteAnalysis(resourceGroupName, siteName, diagnosticCategory, analysisName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getSiteAnalysis(resourceGroupName, siteName, diagnosticCategory, analysisName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticAnalysisInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticAnalysisInner>> call(Response<ResponseBody> response) {
@@ -607,10 +615,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticAnalysisInner> getSiteAnalysisDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticAnalysisInner> getSiteAnalysisDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticAnalysisInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -623,7 +631,7 @@ public class DiagnosticsInner {
      * @param diagnosticCategory Category Name
      * @param analysisName Analysis Resource Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticAnalysisInner object if successful.
      */
@@ -694,11 +702,13 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final DateTime startTime = null;
         final DateTime endTime = null;
         final String timeGrain = null;
-        return service.executeSiteAnalysis(resourceGroupName, siteName, diagnosticCategory, analysisName, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.executeSiteAnalysis(resourceGroupName, siteName, diagnosticCategory, analysisName, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticAnalysisInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticAnalysisInner>> call(Response<ResponseBody> response) {
@@ -724,7 +734,7 @@ public class DiagnosticsInner {
      * @param endTime End Time
      * @param timeGrain Time Grain
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticAnalysisInner object if successful.
      */
@@ -804,8 +814,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.executeSiteAnalysis(resourceGroupName, siteName, diagnosticCategory, analysisName, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.executeSiteAnalysis(resourceGroupName, siteName, diagnosticCategory, analysisName, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticAnalysisInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticAnalysisInner>> call(Response<ResponseBody> response) {
@@ -819,10 +831,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticAnalysisInner> executeSiteAnalysisDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticAnalysisInner> executeSiteAnalysisDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticAnalysisInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -834,7 +846,7 @@ public class DiagnosticsInner {
      * @param siteName Site Name
      * @param diagnosticCategory Diagnostic Category
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -938,8 +950,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.listSiteDetectors(resourceGroupName, siteName, diagnosticCategory, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSiteDetectors(resourceGroupName, siteName, diagnosticCategory, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -953,10 +967,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -969,7 +983,7 @@ public class DiagnosticsInner {
      * @param diagnosticCategory Diagnostic Category
      * @param detectorName Detector Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -1080,8 +1094,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.getSiteDetector(resourceGroupName, siteName, diagnosticCategory, detectorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getSiteDetector(resourceGroupName, siteName, diagnosticCategory, detectorName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -1095,10 +1111,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1111,7 +1127,7 @@ public class DiagnosticsInner {
      * @param detectorName Detector Resource Name
      * @param diagnosticCategory Category Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticDetectorResponseInner object if successful.
      */
@@ -1182,11 +1198,13 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final DateTime startTime = null;
         final DateTime endTime = null;
         final String timeGrain = null;
-        return service.executeSiteDetector(resourceGroupName, siteName, detectorName, diagnosticCategory, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.executeSiteDetector(resourceGroupName, siteName, detectorName, diagnosticCategory, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticDetectorResponseInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticDetectorResponseInner>> call(Response<ResponseBody> response) {
@@ -1212,7 +1230,7 @@ public class DiagnosticsInner {
      * @param endTime End Time
      * @param timeGrain Time Grain
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticDetectorResponseInner object if successful.
      */
@@ -1292,8 +1310,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.executeSiteDetector(resourceGroupName, siteName, detectorName, diagnosticCategory, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.executeSiteDetector(resourceGroupName, siteName, detectorName, diagnosticCategory, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticDetectorResponseInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticDetectorResponseInner>> call(Response<ResponseBody> response) {
@@ -1307,10 +1327,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticDetectorResponseInner> executeSiteDetectorDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticDetectorResponseInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticDetectorResponseInner> executeSiteDetectorDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticDetectorResponseInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticDetectorResponseInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1322,7 +1342,7 @@ public class DiagnosticsInner {
      * @param siteName Site Name
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DiagnosticCategoryInner&gt; object if successful.
      */
@@ -1426,8 +1446,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.listSiteDiagnosticCategoriesSlot(resourceGroupName, siteName, slot, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSiteDiagnosticCategoriesSlot(resourceGroupName, siteName, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DiagnosticCategoryInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<DiagnosticCategoryInner>>> call(Response<ResponseBody> response) {
@@ -1441,10 +1463,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DiagnosticCategoryInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1457,7 +1479,7 @@ public class DiagnosticsInner {
      * @param diagnosticCategory Diagnostic Category
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticCategoryInner object if successful.
      */
@@ -1528,8 +1550,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.getSiteDiagnosticCategorySlot(resourceGroupName, siteName, diagnosticCategory, slot, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getSiteDiagnosticCategorySlot(resourceGroupName, siteName, diagnosticCategory, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticCategoryInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticCategoryInner>> call(Response<ResponseBody> response) {
@@ -1543,10 +1567,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticCategoryInner> getSiteDiagnosticCategorySlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticCategoryInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticCategoryInner> getSiteDiagnosticCategorySlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticCategoryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticCategoryInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1559,7 +1583,7 @@ public class DiagnosticsInner {
      * @param diagnosticCategory Diagnostic Category
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AnalysisDefinitionInner&gt; object if successful.
      */
@@ -1670,8 +1694,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.listSiteAnalysesSlot(resourceGroupName, siteName, diagnosticCategory, slot, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSiteAnalysesSlot(resourceGroupName, siteName, diagnosticCategory, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AnalysisDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<AnalysisDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -1685,10 +1711,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AnalysisDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1702,7 +1728,7 @@ public class DiagnosticsInner {
      * @param analysisName Analysis Name
      * @param slot Slot - optional
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticAnalysisInner object if successful.
      */
@@ -1779,8 +1805,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.getSiteAnalysisSlot(resourceGroupName, siteName, diagnosticCategory, analysisName, slot, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getSiteAnalysisSlot(resourceGroupName, siteName, diagnosticCategory, analysisName, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticAnalysisInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticAnalysisInner>> call(Response<ResponseBody> response) {
@@ -1794,10 +1822,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticAnalysisInner> getSiteAnalysisSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticAnalysisInner> getSiteAnalysisSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticAnalysisInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1811,7 +1839,7 @@ public class DiagnosticsInner {
      * @param analysisName Analysis Resource Name
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticAnalysisInner object if successful.
      */
@@ -1888,11 +1916,13 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final DateTime startTime = null;
         final DateTime endTime = null;
         final String timeGrain = null;
-        return service.executeSiteAnalysisSlot(resourceGroupName, siteName, diagnosticCategory, analysisName, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.executeSiteAnalysisSlot(resourceGroupName, siteName, diagnosticCategory, analysisName, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticAnalysisInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticAnalysisInner>> call(Response<ResponseBody> response) {
@@ -1919,7 +1949,7 @@ public class DiagnosticsInner {
      * @param endTime End Time
      * @param timeGrain Time Grain
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticAnalysisInner object if successful.
      */
@@ -2005,8 +2035,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.executeSiteAnalysisSlot(resourceGroupName, siteName, diagnosticCategory, analysisName, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.executeSiteAnalysisSlot(resourceGroupName, siteName, diagnosticCategory, analysisName, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticAnalysisInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticAnalysisInner>> call(Response<ResponseBody> response) {
@@ -2020,10 +2052,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticAnalysisInner> executeSiteAnalysisSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticAnalysisInner> executeSiteAnalysisSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticAnalysisInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2036,7 +2068,7 @@ public class DiagnosticsInner {
      * @param diagnosticCategory Diagnostic Category
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -2147,8 +2179,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.listSiteDetectorsSlot(resourceGroupName, siteName, diagnosticCategory, slot, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSiteDetectorsSlot(resourceGroupName, siteName, diagnosticCategory, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -2162,10 +2196,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2179,7 +2213,7 @@ public class DiagnosticsInner {
      * @param detectorName Detector Name
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -2297,8 +2331,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.getSiteDetectorSlot(resourceGroupName, siteName, diagnosticCategory, detectorName, slot, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getSiteDetectorSlot(resourceGroupName, siteName, diagnosticCategory, detectorName, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -2312,10 +2348,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2329,7 +2365,7 @@ public class DiagnosticsInner {
      * @param diagnosticCategory Category Name
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticDetectorResponseInner object if successful.
      */
@@ -2406,11 +2442,13 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final DateTime startTime = null;
         final DateTime endTime = null;
         final String timeGrain = null;
-        return service.executeSiteDetectorSlot(resourceGroupName, siteName, detectorName, diagnosticCategory, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.executeSiteDetectorSlot(resourceGroupName, siteName, detectorName, diagnosticCategory, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticDetectorResponseInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticDetectorResponseInner>> call(Response<ResponseBody> response) {
@@ -2437,7 +2475,7 @@ public class DiagnosticsInner {
      * @param endTime End Time
      * @param timeGrain Time Grain
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticDetectorResponseInner object if successful.
      */
@@ -2523,8 +2561,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.executeSiteDetectorSlot(resourceGroupName, siteName, detectorName, diagnosticCategory, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.executeSiteDetectorSlot(resourceGroupName, siteName, detectorName, diagnosticCategory, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticDetectorResponseInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticDetectorResponseInner>> call(Response<ResponseBody> response) {
@@ -2538,10 +2578,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticDetectorResponseInner> executeSiteDetectorSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticDetectorResponseInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticDetectorResponseInner> executeSiteDetectorSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticDetectorResponseInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticDetectorResponseInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2551,7 +2591,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DiagnosticCategoryInner&gt; object if successful.
      */
@@ -2654,10 +2694,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DiagnosticCategoryInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2667,7 +2707,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AnalysisDefinitionInner&gt; object if successful.
      */
@@ -2770,10 +2810,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AnalysisDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2783,7 +2823,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -2886,10 +2926,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2899,7 +2939,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -3002,10 +3042,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -3015,7 +3055,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DiagnosticCategoryInner&gt; object if successful.
      */
@@ -3118,10 +3158,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DiagnosticCategoryInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -3131,7 +3171,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AnalysisDefinitionInner&gt; object if successful.
      */
@@ -3234,10 +3274,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AnalysisDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -3247,7 +3287,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -3350,10 +3390,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -3363,7 +3403,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -3466,10 +3506,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 

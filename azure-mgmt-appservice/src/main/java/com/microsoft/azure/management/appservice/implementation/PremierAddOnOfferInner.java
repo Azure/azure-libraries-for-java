@@ -37,12 +37,6 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     private String vendor;
 
     /**
-     * Premier add on offer Name.
-     */
-    @JsonProperty(value = "properties.name")
-    private String premierAddOnOfferName;
-
-    /**
      * &lt;code&gt;true&lt;/code&gt; if promotion code is required; otherwise,
      * &lt;code&gt;false&lt;/code&gt;.
      */
@@ -87,7 +81,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     private String marketplaceOffer;
 
     /**
-     * Get the sku value.
+     * Get premier add on SKU.
      *
      * @return the sku value
      */
@@ -96,7 +90,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the sku value.
+     * Set premier add on SKU.
      *
      * @param sku the sku value to set
      * @return the PremierAddOnOfferInner object itself.
@@ -107,7 +101,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the product value.
+     * Get premier add on offer Product.
      *
      * @return the product value
      */
@@ -116,7 +110,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the product value.
+     * Set premier add on offer Product.
      *
      * @param product the product value to set
      * @return the PremierAddOnOfferInner object itself.
@@ -127,7 +121,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the vendor value.
+     * Get premier add on offer Vendor.
      *
      * @return the vendor value
      */
@@ -136,7 +130,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the vendor value.
+     * Set premier add on offer Vendor.
      *
      * @param vendor the vendor value to set
      * @return the PremierAddOnOfferInner object itself.
@@ -147,27 +141,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the premierAddOnOfferName value.
-     *
-     * @return the premierAddOnOfferName value
-     */
-    public String premierAddOnOfferName() {
-        return this.premierAddOnOfferName;
-    }
-
-    /**
-     * Set the premierAddOnOfferName value.
-     *
-     * @param premierAddOnOfferName the premierAddOnOfferName value to set
-     * @return the PremierAddOnOfferInner object itself.
-     */
-    public PremierAddOnOfferInner withPremierAddOnOfferName(String premierAddOnOfferName) {
-        this.premierAddOnOfferName = premierAddOnOfferName;
-        return this;
-    }
-
-    /**
-     * Get the promoCodeRequired value.
+     * Get &lt;code&gt;true&lt;/code&gt; if promotion code is required; otherwise, &lt;code&gt;false&lt;/code&gt;.
      *
      * @return the promoCodeRequired value
      */
@@ -176,7 +150,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the promoCodeRequired value.
+     * Set &lt;code&gt;true&lt;/code&gt; if promotion code is required; otherwise, &lt;code&gt;false&lt;/code&gt;.
      *
      * @param promoCodeRequired the promoCodeRequired value to set
      * @return the PremierAddOnOfferInner object itself.
@@ -187,7 +161,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the quota value.
+     * Get premier add on offer Quota.
      *
      * @return the quota value
      */
@@ -196,7 +170,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the quota value.
+     * Set premier add on offer Quota.
      *
      * @param quota the quota value to set
      * @return the PremierAddOnOfferInner object itself.
@@ -207,7 +181,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the webHostingPlanRestrictions value.
+     * Get app Service plans this offer is restricted to. Possible values include: 'None', 'Free', 'Shared', 'Basic', 'Standard', 'Premium'.
      *
      * @return the webHostingPlanRestrictions value
      */
@@ -216,7 +190,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the webHostingPlanRestrictions value.
+     * Set app Service plans this offer is restricted to. Possible values include: 'None', 'Free', 'Shared', 'Basic', 'Standard', 'Premium'.
      *
      * @param webHostingPlanRestrictions the webHostingPlanRestrictions value to set
      * @return the PremierAddOnOfferInner object itself.
@@ -227,7 +201,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the privacyPolicyUrl value.
+     * Get privacy policy URL.
      *
      * @return the privacyPolicyUrl value
      */
@@ -236,7 +210,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the privacyPolicyUrl value.
+     * Set privacy policy URL.
      *
      * @param privacyPolicyUrl the privacyPolicyUrl value to set
      * @return the PremierAddOnOfferInner object itself.
@@ -247,7 +221,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the legalTermsUrl value.
+     * Get legal terms URL.
      *
      * @return the legalTermsUrl value
      */
@@ -256,7 +230,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the legalTermsUrl value.
+     * Set legal terms URL.
      *
      * @param legalTermsUrl the legalTermsUrl value to set
      * @return the PremierAddOnOfferInner object itself.
@@ -267,7 +241,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the marketplacePublisher value.
+     * Get marketplace publisher.
      *
      * @return the marketplacePublisher value
      */
@@ -276,7 +250,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the marketplacePublisher value.
+     * Set marketplace publisher.
      *
      * @param marketplacePublisher the marketplacePublisher value to set
      * @return the PremierAddOnOfferInner object itself.
@@ -287,7 +261,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the marketplaceOffer value.
+     * Get marketplace offer.
      *
      * @return the marketplaceOffer value
      */
@@ -296,7 +270,7 @@ public class PremierAddOnOfferInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the marketplaceOffer value.
+     * Set marketplace offer.
      *
      * @param marketplaceOffer the marketplaceOffer value to set
      * @return the PremierAddOnOfferInner object itself.

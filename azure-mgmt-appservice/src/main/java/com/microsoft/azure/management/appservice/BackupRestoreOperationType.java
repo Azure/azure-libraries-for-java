@@ -25,7 +25,10 @@ public enum BackupRestoreOperationType {
     RELOCATION("Relocation"),
 
     /** Enum value Snapshot. */
-    SNAPSHOT("Snapshot");
+    SNAPSHOT("Snapshot"),
+
+    /** Enum value CloudFS. */
+    CLOUD_FS("CloudFS");
 
     /** The actual serialized value for a BackupRestoreOperationType instance. */
     private String value;

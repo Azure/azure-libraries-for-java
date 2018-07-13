@@ -31,14 +31,14 @@ public final class SkuName extends ExpandableStringEnum<SkuName> {
     /** Static value Premium for SkuName. */
     public static final SkuName PREMIUM = fromString("Premium");
 
-    /** Static value PremiumV2 for SkuName. */
-    public static final SkuName PREMIUM_V2 = fromString("PremiumV2");
-
     /** Static value Dynamic for SkuName. */
     public static final SkuName DYNAMIC = fromString("Dynamic");
 
     /** Static value Isolated for SkuName. */
     public static final SkuName ISOLATED = fromString("Isolated");
+
+    /** Static value PremiumV2 for SkuName. */
+    public static final SkuName PREMIUM_V2 = fromString("PremiumV2");
 
     /**
      * Creates or finds a SkuName from its string representation.

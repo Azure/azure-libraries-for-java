@@ -16,6 +16,9 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.appservice.AppServiceEnvironmentPatchResource;
+import com.microsoft.azure.management.appservice.DefaultErrorResponseException;
+import com.microsoft.azure.management.appservice.VirtualNetworkProfile;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -96,7 +99,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body AppServiceEnvironmentPatchResourceInner hostingEnvironmentEnvelope, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body AppServiceEnvironmentPatchResource hostingEnvironmentEnvelope, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listCapacities" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/capacities/compute")
@@ -105,6 +108,14 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listVips" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/capacities/virtualip")
         Observable<Response<ResponseBody>> listVips(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments changeVnet" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/changeVirtualNetwork")
+        Observable<Response<ResponseBody>> changeVnet(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body VirtualNetworkProfile vnetInfo, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments beginChangeVnet" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/changeVirtualNetwork")
+        Observable<Response<ResponseBody>> beginChangeVnet(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body VirtualNetworkProfile vnetInfo, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listDiagnostics" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/diagnostics")
@@ -147,7 +158,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         Observable<Response<ResponseBody>> listMultiRolePoolInstanceMetricDefinitions(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("instance") String instance, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMultiRolePoolInstanceMetrics" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/instances/{instance}metrics")
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/instances/{instance}/metrics")
         Observable<Response<ResponseBody>> listMultiRolePoolInstanceMetrics(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("instance") String instance, @Path("subscriptionId") String subscriptionId, @Query("details") Boolean details, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMultiRoleMetricDefinitions" })
@@ -198,6 +209,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/suspend")
         Observable<Response<ResponseBody>> beginSuspend(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments syncVirtualNetworkInfo" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/syncVirtualNetwork")
+        Observable<Response<ResponseBody>> syncVirtualNetworkInfo(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listUsages" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/usages")
         Observable<Response<ResponseBody>> listUsages(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query(value = "$filter", encoded = true) String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -227,7 +242,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         Observable<Response<ResponseBody>> listWorkerPoolInstanceMetricDefinitions(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("workerPoolName") String workerPoolName, @Path("instance") String instance, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listWorkerPoolInstanceMetrics" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/instances/{instance}metrics")
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/instances/{instance}/metrics")
         Observable<Response<ResponseBody>> listWorkerPoolInstanceMetrics(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("workerPoolName") String workerPoolName, @Path("instance") String instance, @Path("subscriptionId") String subscriptionId, @Query("details") Boolean details, @Query(value = "$filter", encoded = true) String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listWebWorkerMetricDefinitions" })
@@ -257,6 +272,14 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listCapacitiesNext" })
         @GET
         Observable<Response<ResponseBody>> listCapacitiesNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments changeVnetNext" })
+        @GET
+        Observable<Response<ResponseBody>> changeVnetNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments beginChangeVnetNext" })
+        @GET
+        Observable<Response<ResponseBody>> beginChangeVnetNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMetricsNext" })
         @GET
@@ -353,7 +376,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * Get all App Service Environments for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AppServiceEnvironmentResourceInner&gt; object if successful.
      */
@@ -436,8 +459,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AppServiceEnvironmentResourceInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<AppServiceEnvironmentResourceInner>>> call(Response<ResponseBody> response) {
@@ -451,10 +476,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<AppServiceEnvironmentResourceInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceEnvironmentResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AppServiceEnvironmentResourceInner>> listDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceEnvironmentResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AppServiceEnvironmentResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -464,7 +489,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AppServiceEnvironmentResourceInner&gt; object if successful.
      */
@@ -554,8 +579,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AppServiceEnvironmentResourceInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<AppServiceEnvironmentResourceInner>>> call(Response<ResponseBody> response) {
@@ -569,10 +596,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<AppServiceEnvironmentResourceInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceEnvironmentResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AppServiceEnvironmentResourceInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceEnvironmentResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AppServiceEnvironmentResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -583,7 +610,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AppServiceEnvironmentResourceInner object if successful.
      */
@@ -642,8 +669,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.getByResourceGroup(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getByResourceGroup(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AppServiceEnvironmentResourceInner>>>() {
                 @Override
                 public Observable<ServiceResponse<AppServiceEnvironmentResourceInner>> call(Response<ResponseBody> response) {
@@ -657,10 +686,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<AppServiceEnvironmentResourceInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AppServiceEnvironmentResourceInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<AppServiceEnvironmentResourceInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AppServiceEnvironmentResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<AppServiceEnvironmentResourceInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -737,9 +766,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (hostingEnvironmentEnvelope == null) {
             throw new IllegalArgumentException("Parameter hostingEnvironmentEnvelope is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(hostingEnvironmentEnvelope);
-        final String apiVersion = "2016-09-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, name, this.client.subscriptionId(), hostingEnvironmentEnvelope, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, name, this.client.subscriptionId(), hostingEnvironmentEnvelope, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<AppServiceEnvironmentResourceInner>() { }.getType());
     }
 
@@ -816,9 +847,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (hostingEnvironmentEnvelope == null) {
             throw new IllegalArgumentException("Parameter hostingEnvironmentEnvelope is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(hostingEnvironmentEnvelope);
-        final String apiVersion = "2016-09-01";
-        return service.beginCreateOrUpdate(resourceGroupName, name, this.client.subscriptionId(), hostingEnvironmentEnvelope, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginCreateOrUpdate(resourceGroupName, name, this.client.subscriptionId(), hostingEnvironmentEnvelope, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AppServiceEnvironmentResourceInner>>>() {
                 @Override
                 public Observable<ServiceResponse<AppServiceEnvironmentResourceInner>> call(Response<ResponseBody> response) {
@@ -908,9 +941,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final Boolean forceDelete = null;
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, name, this.client.subscriptionId(), forceDelete, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, name, this.client.subscriptionId(), forceDelete, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
     /**
@@ -982,8 +1017,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, name, this.client.subscriptionId(), forceDelete, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, name, this.client.subscriptionId(), forceDelete, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
@@ -1052,9 +1089,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final Boolean forceDelete = null;
-        return service.beginDelete(resourceGroupName, name, this.client.subscriptionId(), forceDelete, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginDelete(resourceGroupName, name, this.client.subscriptionId(), forceDelete, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -1137,8 +1176,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.beginDelete(resourceGroupName, name, this.client.subscriptionId(), forceDelete, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.beginDelete(resourceGroupName, name, this.client.subscriptionId(), forceDelete, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -1175,7 +1216,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AppServiceEnvironmentResourceInner object if successful.
      */
-    public AppServiceEnvironmentResourceInner update(String resourceGroupName, String name, AppServiceEnvironmentPatchResourceInner hostingEnvironmentEnvelope) {
+    public AppServiceEnvironmentResourceInner update(String resourceGroupName, String name, AppServiceEnvironmentPatchResource hostingEnvironmentEnvelope) {
         return updateWithServiceResponseAsync(resourceGroupName, name, hostingEnvironmentEnvelope).toBlocking().single().body();
     }
 
@@ -1190,7 +1231,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<AppServiceEnvironmentResourceInner> updateAsync(String resourceGroupName, String name, AppServiceEnvironmentPatchResourceInner hostingEnvironmentEnvelope, final ServiceCallback<AppServiceEnvironmentResourceInner> serviceCallback) {
+    public ServiceFuture<AppServiceEnvironmentResourceInner> updateAsync(String resourceGroupName, String name, AppServiceEnvironmentPatchResource hostingEnvironmentEnvelope, final ServiceCallback<AppServiceEnvironmentResourceInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, name, hostingEnvironmentEnvelope), serviceCallback);
     }
 
@@ -1204,7 +1245,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the AppServiceEnvironmentResourceInner object
      */
-    public Observable<AppServiceEnvironmentResourceInner> updateAsync(String resourceGroupName, String name, AppServiceEnvironmentPatchResourceInner hostingEnvironmentEnvelope) {
+    public Observable<AppServiceEnvironmentResourceInner> updateAsync(String resourceGroupName, String name, AppServiceEnvironmentPatchResource hostingEnvironmentEnvelope) {
         return updateWithServiceResponseAsync(resourceGroupName, name, hostingEnvironmentEnvelope).map(new Func1<ServiceResponse<AppServiceEnvironmentResourceInner>, AppServiceEnvironmentResourceInner>() {
             @Override
             public AppServiceEnvironmentResourceInner call(ServiceResponse<AppServiceEnvironmentResourceInner> response) {
@@ -1223,7 +1264,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the AppServiceEnvironmentResourceInner object
      */
-    public Observable<ServiceResponse<AppServiceEnvironmentResourceInner>> updateWithServiceResponseAsync(String resourceGroupName, String name, AppServiceEnvironmentPatchResourceInner hostingEnvironmentEnvelope) {
+    public Observable<ServiceResponse<AppServiceEnvironmentResourceInner>> updateWithServiceResponseAsync(String resourceGroupName, String name, AppServiceEnvironmentPatchResource hostingEnvironmentEnvelope) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1236,9 +1277,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (hostingEnvironmentEnvelope == null) {
             throw new IllegalArgumentException("Parameter hostingEnvironmentEnvelope is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(hostingEnvironmentEnvelope);
-        final String apiVersion = "2016-09-01";
-        return service.update(resourceGroupName, name, this.client.subscriptionId(), hostingEnvironmentEnvelope, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.update(resourceGroupName, name, this.client.subscriptionId(), hostingEnvironmentEnvelope, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AppServiceEnvironmentResourceInner>>>() {
                 @Override
                 public Observable<ServiceResponse<AppServiceEnvironmentResourceInner>> call(Response<ResponseBody> response) {
@@ -1270,7 +1313,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;StampCapacityInner&gt; object if successful.
      */
@@ -1367,8 +1410,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listCapacities(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listCapacities(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<StampCapacityInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<StampCapacityInner>>> call(Response<ResponseBody> response) {
@@ -1382,10 +1427,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<StampCapacityInner>> listCapacitiesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<StampCapacityInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<StampCapacityInner>> listCapacitiesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<StampCapacityInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<StampCapacityInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1396,7 +1441,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AddressResponseInner object if successful.
      */
@@ -1455,8 +1500,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listVips(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listVips(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AddressResponseInner>>>() {
                 @Override
                 public Observable<ServiceResponse<AddressResponseInner>> call(Response<ResponseBody> response) {
@@ -1470,10 +1517,286 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<AddressResponseInner> listVipsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AddressResponseInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<AddressResponseInner> listVipsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AddressResponseInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<AddressResponseInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the App Service Environment.
+     * @param vnetInfo Details for the new virtual network.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;SiteInner&gt; object if successful.
+     */
+    public PagedList<SiteInner> changeVnet(final String resourceGroupName, final String name, final VirtualNetworkProfile vnetInfo) {
+        ServiceResponse<Page<SiteInner>> response = changeVnetSinglePageAsync(resourceGroupName, name, vnetInfo).toBlocking().single();
+        return new PagedList<SiteInner>(response.body()) {
+            @Override
+            public Page<SiteInner> nextPage(String nextPageLink) {
+                return changeVnetNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the App Service Environment.
+     * @param vnetInfo Details for the new virtual network.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<SiteInner>> changeVnetAsync(final String resourceGroupName, final String name, final VirtualNetworkProfile vnetInfo, final ListOperationCallback<SiteInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            changeVnetSinglePageAsync(resourceGroupName, name, vnetInfo),
+            new Func1<String, Observable<ServiceResponse<Page<SiteInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SiteInner>>> call(String nextPageLink) {
+                    return changeVnetNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the App Service Environment.
+     * @param vnetInfo Details for the new virtual network.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SiteInner&gt; object
+     */
+    public Observable<Page<SiteInner>> changeVnetAsync(final String resourceGroupName, final String name, final VirtualNetworkProfile vnetInfo) {
+        return changeVnetWithServiceResponseAsync(resourceGroupName, name, vnetInfo)
+            .map(new Func1<ServiceResponse<Page<SiteInner>>, Page<SiteInner>>() {
+                @Override
+                public Page<SiteInner> call(ServiceResponse<Page<SiteInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the App Service Environment.
+     * @param vnetInfo Details for the new virtual network.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SiteInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<SiteInner>>> changeVnetWithServiceResponseAsync(final String resourceGroupName, final String name, final VirtualNetworkProfile vnetInfo) {
+        return changeVnetSinglePageAsync(resourceGroupName, name, vnetInfo)
+            .concatMap(new Func1<ServiceResponse<Page<SiteInner>>, Observable<ServiceResponse<Page<SiteInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SiteInner>>> call(ServiceResponse<Page<SiteInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(changeVnetNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+    ServiceResponse<PageImpl<SiteInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SiteInner>> * @param name Name of the App Service Environment.
+    ServiceResponse<PageImpl<SiteInner>> * @param vnetInfo Details for the new virtual network.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;SiteInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<SiteInner>>> changeVnetSinglePageAsync(final String resourceGroupName, final String name, final VirtualNetworkProfile vnetInfo) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (vnetInfo == null) {
+            throw new IllegalArgumentException("Parameter vnetInfo is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(vnetInfo);
+        return service.changeVnet(resourceGroupName, name, this.client.subscriptionId(), vnetInfo, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SiteInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SiteInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<SiteInner>> result = changeVnetDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<SiteInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<SiteInner>> changeVnetDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException, InterruptedException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
+                .register(202, new TypeToken<PageImpl<SiteInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the App Service Environment.
+     * @param vnetInfo Details for the new virtual network.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;SiteInner&gt; object if successful.
+     */
+    public PagedList<SiteInner> beginChangeVnet(final String resourceGroupName, final String name, final VirtualNetworkProfile vnetInfo) {
+        ServiceResponse<Page<SiteInner>> response = beginChangeVnetSinglePageAsync(resourceGroupName, name, vnetInfo).toBlocking().single();
+        return new PagedList<SiteInner>(response.body()) {
+            @Override
+            public Page<SiteInner> nextPage(String nextPageLink) {
+                return beginChangeVnetNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the App Service Environment.
+     * @param vnetInfo Details for the new virtual network.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<SiteInner>> beginChangeVnetAsync(final String resourceGroupName, final String name, final VirtualNetworkProfile vnetInfo, final ListOperationCallback<SiteInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            beginChangeVnetSinglePageAsync(resourceGroupName, name, vnetInfo),
+            new Func1<String, Observable<ServiceResponse<Page<SiteInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SiteInner>>> call(String nextPageLink) {
+                    return beginChangeVnetNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the App Service Environment.
+     * @param vnetInfo Details for the new virtual network.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SiteInner&gt; object
+     */
+    public Observable<Page<SiteInner>> beginChangeVnetAsync(final String resourceGroupName, final String name, final VirtualNetworkProfile vnetInfo) {
+        return beginChangeVnetWithServiceResponseAsync(resourceGroupName, name, vnetInfo)
+            .map(new Func1<ServiceResponse<Page<SiteInner>>, Page<SiteInner>>() {
+                @Override
+                public Page<SiteInner> call(ServiceResponse<Page<SiteInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the App Service Environment.
+     * @param vnetInfo Details for the new virtual network.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SiteInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<SiteInner>>> beginChangeVnetWithServiceResponseAsync(final String resourceGroupName, final String name, final VirtualNetworkProfile vnetInfo) {
+        return beginChangeVnetSinglePageAsync(resourceGroupName, name, vnetInfo)
+            .concatMap(new Func1<ServiceResponse<Page<SiteInner>>, Observable<ServiceResponse<Page<SiteInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SiteInner>>> call(ServiceResponse<Page<SiteInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(beginChangeVnetNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+    ServiceResponse<PageImpl<SiteInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SiteInner>> * @param name Name of the App Service Environment.
+    ServiceResponse<PageImpl<SiteInner>> * @param vnetInfo Details for the new virtual network.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;SiteInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<SiteInner>>> beginChangeVnetSinglePageAsync(final String resourceGroupName, final String name, final VirtualNetworkProfile vnetInfo) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (vnetInfo == null) {
+            throw new IllegalArgumentException("Parameter vnetInfo is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(vnetInfo);
+        return service.beginChangeVnet(resourceGroupName, name, this.client.subscriptionId(), vnetInfo, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SiteInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SiteInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<SiteInner>> result = beginChangeVnetDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<SiteInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<SiteInner>> beginChangeVnetDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
+                .register(202, new TypeToken<PageImpl<SiteInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1484,7 +1807,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the List&lt;HostingEnvironmentDiagnosticsInner&gt; object if successful.
      */
@@ -1543,8 +1866,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listDiagnostics(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listDiagnostics(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<HostingEnvironmentDiagnosticsInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<HostingEnvironmentDiagnosticsInner>>> call(Response<ResponseBody> response) {
@@ -1558,10 +1883,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<List<HostingEnvironmentDiagnosticsInner>> listDiagnosticsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<List<HostingEnvironmentDiagnosticsInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<List<HostingEnvironmentDiagnosticsInner>> listDiagnosticsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<List<HostingEnvironmentDiagnosticsInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<List<HostingEnvironmentDiagnosticsInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1573,7 +1898,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param name Name of the App Service Environment.
      * @param diagnosticsName Name of the diagnostics item.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the HostingEnvironmentDiagnosticsInner object if successful.
      */
@@ -1638,8 +1963,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.getDiagnosticsItem(resourceGroupName, name, diagnosticsName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getDiagnosticsItem(resourceGroupName, name, diagnosticsName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<HostingEnvironmentDiagnosticsInner>>>() {
                 @Override
                 public Observable<ServiceResponse<HostingEnvironmentDiagnosticsInner>> call(Response<ResponseBody> response) {
@@ -1653,10 +1980,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<HostingEnvironmentDiagnosticsInner> getDiagnosticsItemDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<HostingEnvironmentDiagnosticsInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<HostingEnvironmentDiagnosticsInner> getDiagnosticsItemDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<HostingEnvironmentDiagnosticsInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<HostingEnvironmentDiagnosticsInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1667,7 +1994,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the MetricDefinitionInner object if successful.
      */
@@ -1726,8 +2053,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listMetricDefinitions(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listMetricDefinitions(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<MetricDefinitionInner>>>() {
                 @Override
                 public Observable<ServiceResponse<MetricDefinitionInner>> call(Response<ResponseBody> response) {
@@ -1741,10 +2070,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<MetricDefinitionInner> listMetricDefinitionsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<MetricDefinitionInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<MetricDefinitionInner> listMetricDefinitionsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<MetricDefinitionInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<MetricDefinitionInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1755,7 +2084,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
      */
@@ -1852,10 +2181,12 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final Boolean details = null;
         final String filter = null;
-        return service.listMetrics(resourceGroupName, name, this.client.subscriptionId(), details, filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listMetrics(resourceGroupName, name, this.client.subscriptionId(), details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
@@ -1878,7 +2209,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
      * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq '2014-01-01T00:00:00Z' and endTime eq '2014-12-31T23:59:59Z' and timeGrain eq duration'[Hour|Minute|Day]'.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
      */
@@ -1983,8 +2314,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listMetrics(resourceGroupName, name, this.client.subscriptionId(), details, filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listMetrics(resourceGroupName, name, this.client.subscriptionId(), details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
@@ -1998,10 +2331,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listMetricsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricInner>> listMetricsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2012,7 +2345,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;WorkerPoolResourceInner&gt; object if successful.
      */
@@ -2109,8 +2442,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listMultiRolePools(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listMultiRolePools(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<WorkerPoolResourceInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<WorkerPoolResourceInner>>> call(Response<ResponseBody> response) {
@@ -2124,10 +2459,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<WorkerPoolResourceInner>> listMultiRolePoolsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<WorkerPoolResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<WorkerPoolResourceInner>> listMultiRolePoolsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<WorkerPoolResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<WorkerPoolResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2138,7 +2473,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the WorkerPoolResourceInner object if successful.
      */
@@ -2197,8 +2532,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.getMultiRolePool(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getMultiRolePool(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<WorkerPoolResourceInner>>>() {
                 @Override
                 public Observable<ServiceResponse<WorkerPoolResourceInner>> call(Response<ResponseBody> response) {
@@ -2212,10 +2549,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<WorkerPoolResourceInner> getMultiRolePoolDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<WorkerPoolResourceInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<WorkerPoolResourceInner> getMultiRolePoolDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<WorkerPoolResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<WorkerPoolResourceInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2292,9 +2629,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (multiRolePoolEnvelope == null) {
             throw new IllegalArgumentException("Parameter multiRolePoolEnvelope is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(multiRolePoolEnvelope);
-        final String apiVersion = "2016-09-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdateMultiRolePool(resourceGroupName, name, this.client.subscriptionId(), multiRolePoolEnvelope, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.createOrUpdateMultiRolePool(resourceGroupName, name, this.client.subscriptionId(), multiRolePoolEnvelope, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<WorkerPoolResourceInner>() { }.getType());
     }
 
@@ -2371,9 +2710,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (multiRolePoolEnvelope == null) {
             throw new IllegalArgumentException("Parameter multiRolePoolEnvelope is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(multiRolePoolEnvelope);
-        final String apiVersion = "2016-09-01";
-        return service.beginCreateOrUpdateMultiRolePool(resourceGroupName, name, this.client.subscriptionId(), multiRolePoolEnvelope, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginCreateOrUpdateMultiRolePool(resourceGroupName, name, this.client.subscriptionId(), multiRolePoolEnvelope, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<WorkerPoolResourceInner>>>() {
                 @Override
                 public Observable<ServiceResponse<WorkerPoolResourceInner>> call(Response<ResponseBody> response) {
@@ -2471,9 +2812,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (multiRolePoolEnvelope == null) {
             throw new IllegalArgumentException("Parameter multiRolePoolEnvelope is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(multiRolePoolEnvelope);
-        final String apiVersion = "2016-09-01";
-        return service.updateMultiRolePool(resourceGroupName, name, this.client.subscriptionId(), multiRolePoolEnvelope, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.updateMultiRolePool(resourceGroupName, name, this.client.subscriptionId(), multiRolePoolEnvelope, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<WorkerPoolResourceInner>>>() {
                 @Override
                 public Observable<ServiceResponse<WorkerPoolResourceInner>> call(Response<ResponseBody> response) {
@@ -2506,7 +2849,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param name Name of the App Service Environment.
      * @param instance Name of the instance in the multi-role pool.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object if successful.
      */
@@ -2610,8 +2953,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listMultiRolePoolInstanceMetricDefinitions(resourceGroupName, name, instance, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listMultiRolePoolInstanceMetricDefinitions(resourceGroupName, name, instance, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -2625,10 +2970,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listMultiRolePoolInstanceMetricDefinitionsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listMultiRolePoolInstanceMetricDefinitionsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2640,7 +2985,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param name Name of the App Service Environment.
      * @param instance Name of the instance in the multi-role pool.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
      */
@@ -2744,9 +3089,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final Boolean details = null;
-        return service.listMultiRolePoolInstanceMetrics(resourceGroupName, name, instance, this.client.subscriptionId(), details, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listMultiRolePoolInstanceMetrics(resourceGroupName, name, instance, this.client.subscriptionId(), details, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
@@ -2769,7 +3116,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param instance Name of the instance in the multi-role pool.
      * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
      */
@@ -2877,8 +3224,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listMultiRolePoolInstanceMetrics(resourceGroupName, name, instance, this.client.subscriptionId(), details, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listMultiRolePoolInstanceMetrics(resourceGroupName, name, instance, this.client.subscriptionId(), details, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
@@ -2892,10 +3241,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listMultiRolePoolInstanceMetricsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricInner>> listMultiRolePoolInstanceMetricsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2906,7 +3255,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object if successful.
      */
@@ -3003,8 +3352,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listMultiRoleMetricDefinitions(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listMultiRoleMetricDefinitions(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -3018,10 +3369,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listMultiRoleMetricDefinitionsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listMultiRoleMetricDefinitionsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -3032,7 +3383,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
      */
@@ -3129,13 +3480,15 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String startTime = null;
         final String endTime = null;
         final String timeGrain = null;
         final Boolean details = null;
         final String filter = null;
-        return service.listMultiRoleMetrics(resourceGroupName, name, this.client.subscriptionId(), startTime, endTime, timeGrain, details, filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listMultiRoleMetrics(resourceGroupName, name, this.client.subscriptionId(), startTime, endTime, timeGrain, details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
@@ -3161,7 +3514,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
      * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq '2014-01-01T00:00:00Z' and endTime eq '2014-12-31T23:59:59Z' and timeGrain eq duration'[Hour|Minute|Day]'.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
      */
@@ -3278,8 +3631,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listMultiRoleMetrics(resourceGroupName, name, this.client.subscriptionId(), startTime, endTime, timeGrain, details, filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listMultiRoleMetrics(resourceGroupName, name, this.client.subscriptionId(), startTime, endTime, timeGrain, details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
@@ -3293,10 +3648,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listMultiRoleMetricsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricInner>> listMultiRoleMetricsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -3307,7 +3662,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SkuInfoInner&gt; object if successful.
      */
@@ -3404,8 +3759,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listMultiRolePoolSkus(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listMultiRolePoolSkus(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SkuInfoInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SkuInfoInner>>> call(Response<ResponseBody> response) {
@@ -3419,10 +3776,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<SkuInfoInner>> listMultiRolePoolSkusDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SkuInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<SkuInfoInner>> listMultiRolePoolSkusDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SkuInfoInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<SkuInfoInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -3433,7 +3790,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;UsageInner&gt; object if successful.
      */
@@ -3530,8 +3887,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listMultiRoleUsages(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listMultiRoleUsages(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<UsageInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<UsageInner>>> call(Response<ResponseBody> response) {
@@ -3545,10 +3904,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<UsageInner>> listMultiRoleUsagesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<UsageInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<UsageInner>> listMultiRoleUsagesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<UsageInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<UsageInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -3559,7 +3918,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the List&lt;OperationInner&gt; object if successful.
      */
@@ -3618,8 +3977,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listOperations(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listOperations(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<OperationInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<OperationInner>>> call(Response<ResponseBody> response) {
@@ -3633,10 +3994,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<List<OperationInner>> listOperationsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<List<OperationInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<List<OperationInner>> listOperationsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<List<OperationInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<List<OperationInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -3705,8 +4066,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.reboot(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.reboot(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -3737,7 +4100,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SiteInner&gt; object if successful.
      */
@@ -3834,8 +4197,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.resume(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.resume(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SiteInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SiteInner>>> call(Response<ResponseBody> response) {
@@ -3849,11 +4214,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<SiteInner>> resumeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException, InterruptedException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<SiteInner>> resumeDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException, InterruptedException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
                 .register(202, new TypeToken<PageImpl<SiteInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -3864,7 +4229,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SiteInner&gt; object if successful.
      */
@@ -3961,8 +4326,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.beginResume(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.beginResume(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SiteInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SiteInner>>> call(Response<ResponseBody> response) {
@@ -3976,11 +4343,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<SiteInner>> beginResumeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<SiteInner>> beginResumeDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
                 .register(202, new TypeToken<PageImpl<SiteInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -3991,7 +4358,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AppServicePlanInner&gt; object if successful.
      */
@@ -4088,8 +4455,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listAppServicePlans(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listAppServicePlans(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AppServicePlanInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<AppServicePlanInner>>> call(Response<ResponseBody> response) {
@@ -4103,10 +4472,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<AppServicePlanInner>> listAppServicePlansDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServicePlanInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AppServicePlanInner>> listAppServicePlansDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServicePlanInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AppServicePlanInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -4117,7 +4486,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SiteInner&gt; object if successful.
      */
@@ -4214,9 +4583,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String propertiesToInclude = null;
-        return service.listWebApps(resourceGroupName, name, this.client.subscriptionId(), propertiesToInclude, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listWebApps(resourceGroupName, name, this.client.subscriptionId(), propertiesToInclude, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SiteInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SiteInner>>> call(Response<ResponseBody> response) {
@@ -4238,7 +4609,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param name Name of the App Service Environment.
      * @param propertiesToInclude Comma separated list of app properties to include.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SiteInner&gt; object if successful.
      */
@@ -4339,8 +4710,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listWebApps(resourceGroupName, name, this.client.subscriptionId(), propertiesToInclude, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listWebApps(resourceGroupName, name, this.client.subscriptionId(), propertiesToInclude, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SiteInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SiteInner>>> call(Response<ResponseBody> response) {
@@ -4354,10 +4727,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<SiteInner>> listWebAppsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<SiteInner>> listWebAppsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -4368,7 +4741,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SiteInner&gt; object if successful.
      */
@@ -4465,8 +4838,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.suspend(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.suspend(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SiteInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SiteInner>>> call(Response<ResponseBody> response) {
@@ -4480,11 +4855,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<SiteInner>> suspendDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException, InterruptedException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<SiteInner>> suspendDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException, InterruptedException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
                 .register(202, new TypeToken<PageImpl<SiteInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -4495,7 +4870,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SiteInner&gt; object if successful.
      */
@@ -4592,8 +4967,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.beginSuspend(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.beginSuspend(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SiteInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SiteInner>>> call(Response<ResponseBody> response) {
@@ -4607,10 +4984,100 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<SiteInner>> beginSuspendDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<SiteInner>> beginSuspendDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
                 .register(202, new TypeToken<PageImpl<SiteInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Resume an App Service Environment.
+     * Resume an App Service Environment.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the App Service Environment.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void syncVirtualNetworkInfo(String resourceGroupName, String name) {
+        syncVirtualNetworkInfoWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
+    }
+
+    /**
+     * Resume an App Service Environment.
+     * Resume an App Service Environment.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the App Service Environment.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> syncVirtualNetworkInfoAsync(String resourceGroupName, String name, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(syncVirtualNetworkInfoWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    }
+
+    /**
+     * Resume an App Service Environment.
+     * Resume an App Service Environment.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the App Service Environment.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> syncVirtualNetworkInfoAsync(String resourceGroupName, String name) {
+        return syncVirtualNetworkInfoWithServiceResponseAsync(resourceGroupName, name).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Resume an App Service Environment.
+     * Resume an App Service Environment.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the App Service Environment.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> syncVirtualNetworkInfoWithServiceResponseAsync(String resourceGroupName, String name) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.syncVirtualNetworkInfo(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = syncVirtualNetworkInfoDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> syncVirtualNetworkInfoDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -4622,7 +5089,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;CsmUsageQuotaInner&gt; object if successful.
      */
@@ -4719,9 +5186,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String filter = null;
-        return service.listUsages(resourceGroupName, name, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listUsages(resourceGroupName, name, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<CsmUsageQuotaInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<CsmUsageQuotaInner>>> call(Response<ResponseBody> response) {
@@ -4743,7 +5212,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param name Name of the App Service Environment.
      * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq '2014-01-01T00:00:00Z' and endTime eq '2014-12-31T23:59:59Z' and timeGrain eq duration'[Hour|Minute|Day]'.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;CsmUsageQuotaInner&gt; object if successful.
      */
@@ -4844,8 +5313,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listUsages(resourceGroupName, name, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listUsages(resourceGroupName, name, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<CsmUsageQuotaInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<CsmUsageQuotaInner>>> call(Response<ResponseBody> response) {
@@ -4859,10 +5330,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<CsmUsageQuotaInner>> listUsagesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<CsmUsageQuotaInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<CsmUsageQuotaInner>> listUsagesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<CsmUsageQuotaInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<CsmUsageQuotaInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -4873,7 +5344,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;WorkerPoolResourceInner&gt; object if successful.
      */
@@ -4970,8 +5441,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listWorkerPools(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listWorkerPools(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<WorkerPoolResourceInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<WorkerPoolResourceInner>>> call(Response<ResponseBody> response) {
@@ -4985,10 +5458,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<WorkerPoolResourceInner>> listWorkerPoolsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<WorkerPoolResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<WorkerPoolResourceInner>> listWorkerPoolsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<WorkerPoolResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<WorkerPoolResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -5000,7 +5473,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param name Name of the App Service Environment.
      * @param workerPoolName Name of the worker pool.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the WorkerPoolResourceInner object if successful.
      */
@@ -5065,8 +5538,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.getWorkerPool(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getWorkerPool(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<WorkerPoolResourceInner>>>() {
                 @Override
                 public Observable<ServiceResponse<WorkerPoolResourceInner>> call(Response<ResponseBody> response) {
@@ -5080,10 +5555,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<WorkerPoolResourceInner> getWorkerPoolDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<WorkerPoolResourceInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<WorkerPoolResourceInner> getWorkerPoolDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<WorkerPoolResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<WorkerPoolResourceInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -5167,9 +5642,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (workerPoolEnvelope == null) {
             throw new IllegalArgumentException("Parameter workerPoolEnvelope is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(workerPoolEnvelope);
-        final String apiVersion = "2016-09-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdateWorkerPool(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), workerPoolEnvelope, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.createOrUpdateWorkerPool(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), workerPoolEnvelope, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<WorkerPoolResourceInner>() { }.getType());
     }
 
@@ -5253,9 +5730,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (workerPoolEnvelope == null) {
             throw new IllegalArgumentException("Parameter workerPoolEnvelope is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(workerPoolEnvelope);
-        final String apiVersion = "2016-09-01";
-        return service.beginCreateOrUpdateWorkerPool(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), workerPoolEnvelope, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginCreateOrUpdateWorkerPool(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), workerPoolEnvelope, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<WorkerPoolResourceInner>>>() {
                 @Override
                 public Observable<ServiceResponse<WorkerPoolResourceInner>> call(Response<ResponseBody> response) {
@@ -5360,9 +5839,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (workerPoolEnvelope == null) {
             throw new IllegalArgumentException("Parameter workerPoolEnvelope is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(workerPoolEnvelope);
-        final String apiVersion = "2016-09-01";
-        return service.updateWorkerPool(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), workerPoolEnvelope, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.updateWorkerPool(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), workerPoolEnvelope, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<WorkerPoolResourceInner>>>() {
                 @Override
                 public Observable<ServiceResponse<WorkerPoolResourceInner>> call(Response<ResponseBody> response) {
@@ -5396,7 +5877,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param workerPoolName Name of the worker pool.
      * @param instance Name of the instance in the worker pool.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object if successful.
      */
@@ -5507,8 +5988,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listWorkerPoolInstanceMetricDefinitions(resourceGroupName, name, workerPoolName, instance, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listWorkerPoolInstanceMetricDefinitions(resourceGroupName, name, workerPoolName, instance, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -5522,10 +6005,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listWorkerPoolInstanceMetricDefinitionsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listWorkerPoolInstanceMetricDefinitionsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -5538,7 +6021,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param workerPoolName Name of the worker pool.
      * @param instance Name of the instance in the worker pool.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
      */
@@ -5649,10 +6132,12 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final Boolean details = null;
         final String filter = null;
-        return service.listWorkerPoolInstanceMetrics(resourceGroupName, name, workerPoolName, instance, this.client.subscriptionId(), details, filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listWorkerPoolInstanceMetrics(resourceGroupName, name, workerPoolName, instance, this.client.subscriptionId(), details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
@@ -5677,7 +6162,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
      * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq '2014-01-01T00:00:00Z' and endTime eq '2014-12-31T23:59:59Z' and timeGrain eq duration'[Hour|Minute|Day]'.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
      */
@@ -5796,8 +6281,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listWorkerPoolInstanceMetrics(resourceGroupName, name, workerPoolName, instance, this.client.subscriptionId(), details, filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listWorkerPoolInstanceMetrics(resourceGroupName, name, workerPoolName, instance, this.client.subscriptionId(), details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
@@ -5811,10 +6298,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listWorkerPoolInstanceMetricsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricInner>> listWorkerPoolInstanceMetricsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -5826,7 +6313,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param name Name of the App Service Environment.
      * @param workerPoolName Name of the worker pool.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object if successful.
      */
@@ -5930,8 +6417,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listWebWorkerMetricDefinitions(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listWebWorkerMetricDefinitions(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -5945,10 +6434,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listWebWorkerMetricDefinitionsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listWebWorkerMetricDefinitionsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -5960,7 +6449,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param name Name of the App Service Environment.
      * @param workerPoolName Name of worker pool
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
      */
@@ -6064,10 +6553,12 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final Boolean details = null;
         final String filter = null;
-        return service.listWebWorkerMetrics(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), details, filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listWebWorkerMetrics(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
@@ -6091,7 +6582,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
      * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq '2014-01-01T00:00:00Z' and endTime eq '2014-12-31T23:59:59Z' and timeGrain eq duration'[Hour|Minute|Day]'.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
      */
@@ -6203,8 +6694,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listWebWorkerMetrics(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), details, filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listWebWorkerMetrics(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
@@ -6218,10 +6711,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listWebWorkerMetricsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricInner>> listWebWorkerMetricsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -6233,7 +6726,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param name Name of the App Service Environment.
      * @param workerPoolName Name of the worker pool.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SkuInfoInner&gt; object if successful.
      */
@@ -6337,8 +6830,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listWorkerPoolSkus(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listWorkerPoolSkus(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SkuInfoInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SkuInfoInner>>> call(Response<ResponseBody> response) {
@@ -6352,10 +6847,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<SkuInfoInner>> listWorkerPoolSkusDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SkuInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<SkuInfoInner>> listWorkerPoolSkusDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SkuInfoInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<SkuInfoInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -6367,7 +6862,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @param name Name of the App Service Environment.
      * @param workerPoolName Name of the worker pool.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;UsageInner&gt; object if successful.
      */
@@ -6471,8 +6966,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-09-01";
-        return service.listWebWorkerUsages(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listWebWorkerUsages(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<UsageInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<UsageInner>>> call(Response<ResponseBody> response) {
@@ -6486,10 +6983,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<UsageInner>> listWebWorkerUsagesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<UsageInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<UsageInner>> listWebWorkerUsagesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<UsageInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<UsageInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -6499,7 +6996,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AppServiceEnvironmentResourceInner&gt; object if successful.
      */
@@ -6602,10 +7099,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<AppServiceEnvironmentResourceInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceEnvironmentResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AppServiceEnvironmentResourceInner>> listNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceEnvironmentResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AppServiceEnvironmentResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -6615,7 +7112,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AppServiceEnvironmentResourceInner&gt; object if successful.
      */
@@ -6718,10 +7215,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<AppServiceEnvironmentResourceInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceEnvironmentResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AppServiceEnvironmentResourceInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceEnvironmentResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AppServiceEnvironmentResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -6731,7 +7228,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;StampCapacityInner&gt; object if successful.
      */
@@ -6834,10 +7331,244 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<StampCapacityInner>> listCapacitiesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<StampCapacityInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<StampCapacityInner>> listCapacitiesNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<StampCapacityInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<StampCapacityInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;SiteInner&gt; object if successful.
+     */
+    public PagedList<SiteInner> changeVnetNext(final String nextPageLink) {
+        ServiceResponse<Page<SiteInner>> response = changeVnetNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<SiteInner>(response.body()) {
+            @Override
+            public Page<SiteInner> nextPage(String nextPageLink) {
+                return changeVnetNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<SiteInner>> changeVnetNextAsync(final String nextPageLink, final ServiceFuture<List<SiteInner>> serviceFuture, final ListOperationCallback<SiteInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            changeVnetNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<SiteInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SiteInner>>> call(String nextPageLink) {
+                    return changeVnetNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SiteInner&gt; object
+     */
+    public Observable<Page<SiteInner>> changeVnetNextAsync(final String nextPageLink) {
+        return changeVnetNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<SiteInner>>, Page<SiteInner>>() {
+                @Override
+                public Page<SiteInner> call(ServiceResponse<Page<SiteInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SiteInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<SiteInner>>> changeVnetNextWithServiceResponseAsync(final String nextPageLink) {
+        return changeVnetNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<SiteInner>>, Observable<ServiceResponse<Page<SiteInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SiteInner>>> call(ServiceResponse<Page<SiteInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(changeVnetNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+    ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;SiteInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<SiteInner>>> changeVnetNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.changeVnetNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SiteInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SiteInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<SiteInner>> result = changeVnetNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<SiteInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<SiteInner>> changeVnetNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException, InterruptedException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
+                .register(202, new TypeToken<PageImpl<SiteInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;SiteInner&gt; object if successful.
+     */
+    public PagedList<SiteInner> beginChangeVnetNext(final String nextPageLink) {
+        ServiceResponse<Page<SiteInner>> response = beginChangeVnetNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<SiteInner>(response.body()) {
+            @Override
+            public Page<SiteInner> nextPage(String nextPageLink) {
+                return beginChangeVnetNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<SiteInner>> beginChangeVnetNextAsync(final String nextPageLink, final ServiceFuture<List<SiteInner>> serviceFuture, final ListOperationCallback<SiteInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            beginChangeVnetNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<SiteInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SiteInner>>> call(String nextPageLink) {
+                    return beginChangeVnetNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SiteInner&gt; object
+     */
+    public Observable<Page<SiteInner>> beginChangeVnetNextAsync(final String nextPageLink) {
+        return beginChangeVnetNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<SiteInner>>, Page<SiteInner>>() {
+                @Override
+                public Page<SiteInner> call(ServiceResponse<Page<SiteInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SiteInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<SiteInner>>> beginChangeVnetNextWithServiceResponseAsync(final String nextPageLink) {
+        return beginChangeVnetNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<SiteInner>>, Observable<ServiceResponse<Page<SiteInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SiteInner>>> call(ServiceResponse<Page<SiteInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(beginChangeVnetNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Move an App Service Environment to a different VNET.
+     * Move an App Service Environment to a different VNET.
+     *
+    ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;SiteInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<SiteInner>>> beginChangeVnetNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.beginChangeVnetNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SiteInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SiteInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<SiteInner>> result = beginChangeVnetNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<SiteInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<SiteInner>> beginChangeVnetNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
+                .register(202, new TypeToken<PageImpl<SiteInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -6847,7 +7578,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
      */
@@ -6950,10 +7681,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listMetricsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricInner>> listMetricsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -6963,7 +7694,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;WorkerPoolResourceInner&gt; object if successful.
      */
@@ -7066,10 +7797,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<WorkerPoolResourceInner>> listMultiRolePoolsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<WorkerPoolResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<WorkerPoolResourceInner>> listMultiRolePoolsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<WorkerPoolResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<WorkerPoolResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -7079,7 +7810,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object if successful.
      */
@@ -7182,10 +7913,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listMultiRolePoolInstanceMetricDefinitionsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listMultiRolePoolInstanceMetricDefinitionsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -7195,7 +7926,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
      */
@@ -7298,10 +8029,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listMultiRolePoolInstanceMetricsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricInner>> listMultiRolePoolInstanceMetricsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -7311,7 +8042,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object if successful.
      */
@@ -7414,10 +8145,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listMultiRoleMetricDefinitionsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listMultiRoleMetricDefinitionsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -7427,7 +8158,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
      */
@@ -7530,10 +8261,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listMultiRoleMetricsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricInner>> listMultiRoleMetricsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -7543,7 +8274,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SkuInfoInner&gt; object if successful.
      */
@@ -7646,10 +8377,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<SkuInfoInner>> listMultiRolePoolSkusNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SkuInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<SkuInfoInner>> listMultiRolePoolSkusNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SkuInfoInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<SkuInfoInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -7659,7 +8390,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;UsageInner&gt; object if successful.
      */
@@ -7762,10 +8493,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<UsageInner>> listMultiRoleUsagesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<UsageInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<UsageInner>> listMultiRoleUsagesNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<UsageInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<UsageInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -7775,7 +8506,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SiteInner&gt; object if successful.
      */
@@ -7878,11 +8609,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<SiteInner>> resumeNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException, InterruptedException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<SiteInner>> resumeNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException, InterruptedException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
                 .register(202, new TypeToken<PageImpl<SiteInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -7892,7 +8623,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SiteInner&gt; object if successful.
      */
@@ -7995,11 +8726,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<SiteInner>> beginResumeNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<SiteInner>> beginResumeNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
                 .register(202, new TypeToken<PageImpl<SiteInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -8009,7 +8740,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AppServicePlanInner&gt; object if successful.
      */
@@ -8112,10 +8843,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<AppServicePlanInner>> listAppServicePlansNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServicePlanInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AppServicePlanInner>> listAppServicePlansNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServicePlanInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AppServicePlanInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -8125,7 +8856,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SiteInner&gt; object if successful.
      */
@@ -8228,10 +8959,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<SiteInner>> listWebAppsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<SiteInner>> listWebAppsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -8241,7 +8972,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SiteInner&gt; object if successful.
      */
@@ -8344,11 +9075,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<SiteInner>> suspendNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException, InterruptedException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<SiteInner>> suspendNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException, InterruptedException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
                 .register(202, new TypeToken<PageImpl<SiteInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -8358,7 +9089,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SiteInner&gt; object if successful.
      */
@@ -8461,11 +9192,11 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<SiteInner>> beginSuspendNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<SiteInner>> beginSuspendNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
                 .register(202, new TypeToken<PageImpl<SiteInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -8475,7 +9206,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;CsmUsageQuotaInner&gt; object if successful.
      */
@@ -8578,10 +9309,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<CsmUsageQuotaInner>> listUsagesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<CsmUsageQuotaInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<CsmUsageQuotaInner>> listUsagesNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<CsmUsageQuotaInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<CsmUsageQuotaInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -8591,7 +9322,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;WorkerPoolResourceInner&gt; object if successful.
      */
@@ -8694,10 +9425,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<WorkerPoolResourceInner>> listWorkerPoolsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<WorkerPoolResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<WorkerPoolResourceInner>> listWorkerPoolsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<WorkerPoolResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<WorkerPoolResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -8707,7 +9438,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object if successful.
      */
@@ -8810,10 +9541,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listWorkerPoolInstanceMetricDefinitionsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listWorkerPoolInstanceMetricDefinitionsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -8823,7 +9554,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
      */
@@ -8926,10 +9657,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listWorkerPoolInstanceMetricsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricInner>> listWorkerPoolInstanceMetricsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -8939,7 +9670,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object if successful.
      */
@@ -9042,10 +9773,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listWebWorkerMetricDefinitionsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listWebWorkerMetricDefinitionsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -9055,7 +9786,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
      */
@@ -9158,10 +9889,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listWebWorkerMetricsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<ResourceMetricInner>> listWebWorkerMetricsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -9171,7 +9902,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SkuInfoInner&gt; object if successful.
      */
@@ -9274,10 +10005,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<SkuInfoInner>> listWorkerPoolSkusNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<SkuInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<SkuInfoInner>> listWorkerPoolSkusNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SkuInfoInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<SkuInfoInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -9287,7 +10018,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;UsageInner&gt; object if successful.
      */
@@ -9390,10 +10121,10 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<PageImpl<UsageInner>> listWebWorkerUsagesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<UsageInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<UsageInner>> listWebWorkerUsagesNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<UsageInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<UsageInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 

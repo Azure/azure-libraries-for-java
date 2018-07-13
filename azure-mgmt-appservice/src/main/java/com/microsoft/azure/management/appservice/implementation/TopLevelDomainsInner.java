@@ -11,8 +11,9 @@ package com.microsoft.azure.management.appservice.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.appservice.DefaultErrorResponseException;
+import com.microsoft.azure.management.appservice.TopLevelDomainAgreementOption;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -70,7 +71,7 @@ public class TopLevelDomainsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.TopLevelDomains listAgreements" })
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains/{name}/listAgreements")
-        Observable<Response<ResponseBody>> listAgreements(@Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body TopLevelDomainAgreementOptionInner agreementOption, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listAgreements(@Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body TopLevelDomainAgreementOption agreementOption, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.TopLevelDomains listNext" })
         @GET
@@ -87,7 +88,7 @@ public class TopLevelDomainsInner {
      * Get all top-level domains supported for registration.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;TopLevelDomainInner&gt; object if successful.
      */
@@ -170,8 +171,10 @@ public class TopLevelDomainsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-04-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<TopLevelDomainInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<TopLevelDomainInner>>> call(Response<ResponseBody> response) {
@@ -185,10 +188,10 @@ public class TopLevelDomainsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<TopLevelDomainInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<TopLevelDomainInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<TopLevelDomainInner>> listDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<TopLevelDomainInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<TopLevelDomainInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -198,7 +201,7 @@ public class TopLevelDomainsInner {
      *
      * @param name Name of the top-level domain.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the TopLevelDomainInner object if successful.
      */
@@ -251,8 +254,10 @@ public class TopLevelDomainsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-04-01";
-        return service.get(name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.get(name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<TopLevelDomainInner>>>() {
                 @Override
                 public Observable<ServiceResponse<TopLevelDomainInner>> call(Response<ResponseBody> response) {
@@ -266,10 +271,10 @@ public class TopLevelDomainsInner {
             });
     }
 
-    private ServiceResponse<TopLevelDomainInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<TopLevelDomainInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<TopLevelDomainInner> getDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<TopLevelDomainInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<TopLevelDomainInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -280,11 +285,11 @@ public class TopLevelDomainsInner {
      * @param name Name of the top-level domain.
      * @param agreementOption Domain agreement options.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;TldLegalAgreementInner&gt; object if successful.
      */
-    public PagedList<TldLegalAgreementInner> listAgreements(final String name, final TopLevelDomainAgreementOptionInner agreementOption) {
+    public PagedList<TldLegalAgreementInner> listAgreements(final String name, final TopLevelDomainAgreementOption agreementOption) {
         ServiceResponse<Page<TldLegalAgreementInner>> response = listAgreementsSinglePageAsync(name, agreementOption).toBlocking().single();
         return new PagedList<TldLegalAgreementInner>(response.body()) {
             @Override
@@ -304,7 +309,7 @@ public class TopLevelDomainsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<TldLegalAgreementInner>> listAgreementsAsync(final String name, final TopLevelDomainAgreementOptionInner agreementOption, final ListOperationCallback<TldLegalAgreementInner> serviceCallback) {
+    public ServiceFuture<List<TldLegalAgreementInner>> listAgreementsAsync(final String name, final TopLevelDomainAgreementOption agreementOption, final ListOperationCallback<TldLegalAgreementInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listAgreementsSinglePageAsync(name, agreementOption),
             new Func1<String, Observable<ServiceResponse<Page<TldLegalAgreementInner>>>>() {
@@ -325,7 +330,7 @@ public class TopLevelDomainsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TldLegalAgreementInner&gt; object
      */
-    public Observable<Page<TldLegalAgreementInner>> listAgreementsAsync(final String name, final TopLevelDomainAgreementOptionInner agreementOption) {
+    public Observable<Page<TldLegalAgreementInner>> listAgreementsAsync(final String name, final TopLevelDomainAgreementOption agreementOption) {
         return listAgreementsWithServiceResponseAsync(name, agreementOption)
             .map(new Func1<ServiceResponse<Page<TldLegalAgreementInner>>, Page<TldLegalAgreementInner>>() {
                 @Override
@@ -344,7 +349,7 @@ public class TopLevelDomainsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TldLegalAgreementInner&gt; object
      */
-    public Observable<ServiceResponse<Page<TldLegalAgreementInner>>> listAgreementsWithServiceResponseAsync(final String name, final TopLevelDomainAgreementOptionInner agreementOption) {
+    public Observable<ServiceResponse<Page<TldLegalAgreementInner>>> listAgreementsWithServiceResponseAsync(final String name, final TopLevelDomainAgreementOption agreementOption) {
         return listAgreementsSinglePageAsync(name, agreementOption)
             .concatMap(new Func1<ServiceResponse<Page<TldLegalAgreementInner>>, Observable<ServiceResponse<Page<TldLegalAgreementInner>>>>() {
                 @Override
@@ -367,7 +372,7 @@ public class TopLevelDomainsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;TldLegalAgreementInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<TldLegalAgreementInner>>> listAgreementsSinglePageAsync(final String name, final TopLevelDomainAgreementOptionInner agreementOption) {
+    public Observable<ServiceResponse<Page<TldLegalAgreementInner>>> listAgreementsSinglePageAsync(final String name, final TopLevelDomainAgreementOption agreementOption) {
         if (name == null) {
             throw new IllegalArgumentException("Parameter name is required and cannot be null.");
         }
@@ -377,9 +382,11 @@ public class TopLevelDomainsInner {
         if (agreementOption == null) {
             throw new IllegalArgumentException("Parameter agreementOption is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(agreementOption);
-        final String apiVersion = "2015-04-01";
-        return service.listAgreements(name, this.client.subscriptionId(), agreementOption, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listAgreements(name, this.client.subscriptionId(), agreementOption, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<TldLegalAgreementInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<TldLegalAgreementInner>>> call(Response<ResponseBody> response) {
@@ -393,10 +400,10 @@ public class TopLevelDomainsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<TldLegalAgreementInner>> listAgreementsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<TldLegalAgreementInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<TldLegalAgreementInner>> listAgreementsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<TldLegalAgreementInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<TldLegalAgreementInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -406,7 +413,7 @@ public class TopLevelDomainsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;TopLevelDomainInner&gt; object if successful.
      */
@@ -509,10 +516,10 @@ public class TopLevelDomainsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<TopLevelDomainInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<TopLevelDomainInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<TopLevelDomainInner>> listNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<TopLevelDomainInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<TopLevelDomainInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -522,7 +529,7 @@ public class TopLevelDomainsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;TldLegalAgreementInner&gt; object if successful.
      */
@@ -625,10 +632,10 @@ public class TopLevelDomainsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<TldLegalAgreementInner>> listAgreementsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<TldLegalAgreementInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<TldLegalAgreementInner>> listAgreementsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<TldLegalAgreementInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<TldLegalAgreementInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 

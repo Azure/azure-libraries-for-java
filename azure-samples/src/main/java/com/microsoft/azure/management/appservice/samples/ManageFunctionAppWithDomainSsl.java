@@ -55,7 +55,7 @@ public final class ManageFunctionAppWithDomainSsl {
             System.out.println("Creating function app " + app1Name + "...");
 
             FunctionApp app1 = azure.appServices().functionApps().define(app1Name)
-                    .withRegion(Region.US_WEST)
+                    .withRegion(Region.US_EAST2)
                     .withNewResourceGroup(rgName)
                     .create();
 
@@ -67,7 +67,7 @@ public final class ManageFunctionAppWithDomainSsl {
 
             System.out.println("Creating another function app " + app2Name + "...");
             FunctionApp app2 = azure.appServices().functionApps().define(app2Name)
-                    .withRegion(Region.US_WEST)
+                    .withRegion(Region.US_EAST2)
                     .withExistingResourceGroup(rgName)
                     .create();
 

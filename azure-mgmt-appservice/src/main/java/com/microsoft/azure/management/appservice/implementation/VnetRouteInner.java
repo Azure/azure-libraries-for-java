@@ -20,13 +20,6 @@ import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 @JsonFlatten
 public class VnetRouteInner extends ProxyOnlyResource {
     /**
-     * The name of this route. This is only returned by the server and does not
-     * need to be set by the client.
-     */
-    @JsonProperty(value = "properties.name")
-    private String vnetRouteName;
-
-    /**
      * The starting address for this route. This may also include a CIDR
      * notation, in which case the end address must not be specified.
      */
@@ -55,27 +48,7 @@ public class VnetRouteInner extends ProxyOnlyResource {
     private RouteType routeType;
 
     /**
-     * Get the vnetRouteName value.
-     *
-     * @return the vnetRouteName value
-     */
-    public String vnetRouteName() {
-        return this.vnetRouteName;
-    }
-
-    /**
-     * Set the vnetRouteName value.
-     *
-     * @param vnetRouteName the vnetRouteName value to set
-     * @return the VnetRouteInner object itself.
-     */
-    public VnetRouteInner withVnetRouteName(String vnetRouteName) {
-        this.vnetRouteName = vnetRouteName;
-        return this;
-    }
-
-    /**
-     * Get the startAddress value.
+     * Get the starting address for this route. This may also include a CIDR notation, in which case the end address must not be specified.
      *
      * @return the startAddress value
      */
@@ -84,7 +57,7 @@ public class VnetRouteInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the startAddress value.
+     * Set the starting address for this route. This may also include a CIDR notation, in which case the end address must not be specified.
      *
      * @param startAddress the startAddress value to set
      * @return the VnetRouteInner object itself.
@@ -95,7 +68,7 @@ public class VnetRouteInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the endAddress value.
+     * Get the ending address for this route. If the start address is specified in CIDR notation, this must be omitted.
      *
      * @return the endAddress value
      */
@@ -104,7 +77,7 @@ public class VnetRouteInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the endAddress value.
+     * Set the ending address for this route. If the start address is specified in CIDR notation, this must be omitted.
      *
      * @param endAddress the endAddress value to set
      * @return the VnetRouteInner object itself.
@@ -115,7 +88,11 @@ public class VnetRouteInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the routeType value.
+     * Get the type of route this is:
+     DEFAULT - By default, every app has routes to the local address ranges specified by RFC1918
+     INHERITED - Routes inherited from the real Virtual Network routes
+     STATIC - Static route set on the app only
+     These values will be used for syncing an app's routes with those from a Virtual Network. Possible values include: 'DEFAULT', 'INHERITED', 'STATIC'.
      *
      * @return the routeType value
      */
@@ -124,7 +101,11 @@ public class VnetRouteInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the routeType value.
+     * Set the type of route this is:
+     DEFAULT - By default, every app has routes to the local address ranges specified by RFC1918
+     INHERITED - Routes inherited from the real Virtual Network routes
+     STATIC - Static route set on the app only
+     These values will be used for syncing an app's routes with those from a Virtual Network. Possible values include: 'DEFAULT', 'INHERITED', 'STATIC'.
      *
      * @param routeType the routeType value to set
      * @return the VnetRouteInner object itself.

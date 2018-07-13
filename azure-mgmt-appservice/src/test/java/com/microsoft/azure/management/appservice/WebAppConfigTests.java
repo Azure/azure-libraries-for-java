@@ -86,5 +86,16 @@ public class WebAppConfigTests extends AppServiceTest {
         Assert.assertEquals("stickyValue", connectionStringMap.get("stickyName").value());
         Assert.assertEquals(true, connectionStringMap.get("stickyName").sticky());
 
+        // HTTPS only
+        webApp = webApp.update()
+                .withHttpsOnly(true)
+                .apply();
+        Assert.assertTrue(webApp.httpsOnly());
+
+        // FTPS
+        webApp = webApp.update()
+                .withFtpsState(FtpsState.FTPS_ONLY)
+                .apply();
+        Assert.assertEquals(FtpsState.FTPS_ONLY, webApp.ftpsState());
     }
 }

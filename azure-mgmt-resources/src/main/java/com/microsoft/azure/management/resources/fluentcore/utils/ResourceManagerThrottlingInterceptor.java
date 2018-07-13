@@ -77,6 +77,12 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
                 Matcher matcher = pattern.matcher(content(response.body()));
                 if (matcher.find()) {
                     retryAfter = (int) TimeUnit.MINUTES.toSeconds(Integer.parseInt(matcher.group(1)));
+                } else {
+                    pattern = Pattern.compile("try again after '([0-9]*)' seconds", Pattern.CASE_INSENSITIVE);
+                    matcher = pattern.matcher(content(response.body()));
+                    if (matcher.find()) {
+                        retryAfter = Integer.parseInt(matcher.group(1));
+                    }
                 }
             }
             if (retryAfter > 0) {

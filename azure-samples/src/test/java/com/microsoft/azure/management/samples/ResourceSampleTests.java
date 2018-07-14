@@ -7,6 +7,8 @@
 package com.microsoft.azure.management.samples;
 
 import com.microsoft.azure.management.resources.samples.DeployUsingARMTemplate;
+import com.microsoft.azure.management.resources.samples.DeployUsingARMTemplateAsync;
+import com.microsoft.azure.management.resources.samples.DeployUsingARMTemplateWithDeploymentOperations;
 import com.microsoft.azure.management.resources.samples.DeployUsingARMTemplateWithProgress;
 import com.microsoft.azure.management.resources.samples.DeployUsingARMTemplateWithTags;
 import com.microsoft.azure.management.resources.samples.DeployVirtualMachineUsingARMTemplate;
@@ -24,6 +26,20 @@ public class ResourceSampleTests extends SamplesTestBase {
     @Test
     public void testDeployUsingARMTemplateWithProgress() {
         Assert.assertTrue(DeployUsingARMTemplateWithProgress.runSample(azure));
+    }
+
+    @Test
+    public void testDeployUsingARMTemplateAsync() {
+        Assert.assertTrue(DeployUsingARMTemplateAsync.runSample(azure));
+    }
+
+    @Test
+    public void testDeployUsingARMTemplateWithDeploymentOperations() {
+        if (isPlaybackMode()) {
+            Assert.assertTrue(DeployUsingARMTemplateWithDeploymentOperations.runSample(azure, 0));
+        } else {
+            Assert.assertTrue(DeployUsingARMTemplateWithDeploymentOperations.runSample(azure, -1));
+        }
     }
 
     @Test

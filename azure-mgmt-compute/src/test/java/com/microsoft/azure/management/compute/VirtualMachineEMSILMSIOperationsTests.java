@@ -58,27 +58,6 @@ public class VirtualMachineEMSILMSIOperationsTests extends TestBase {
     }
 
     @Test
-    public void test1() throws IOException {
-        AzureJacksonAdapter jacksonAdapter = new AzureJacksonAdapter();
-
-        Map<String, VirtualMachineIdentityUserAssignedIdentitiesValue> userAssignedIdentities = new HashMap<>();
-        userAssignedIdentities.put("af.B/C", new VirtualMachineIdentityUserAssignedIdentitiesValue());
-        userAssignedIdentities.put("af.B/D", new VirtualMachineIdentityUserAssignedIdentitiesValue());
-
-        VirtualMachineIdentity identity = new VirtualMachineIdentity();
-        identity.withUserAssignedIdentities(userAssignedIdentities);
-        //
-        VirtualMachineInner virtualMachine = new VirtualMachineInner();
-        virtualMachine.withIdentity(identity);
-
-        virtualMachine.withLicenseType("abs");
-        //
-        String serialized = jacksonAdapter.serialize(virtualMachine);
-        //
-        System.out.println(serialized);
-    }
-
-    @Test
     public void canCreateUpdateVirtualMachineWithEMSI() {
         // this.resourceManager.resourceGroups().beginDeleteByName("41522c6e938c4f6");
 

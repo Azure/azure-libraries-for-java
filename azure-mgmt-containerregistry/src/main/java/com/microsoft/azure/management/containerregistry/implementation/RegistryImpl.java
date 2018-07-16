@@ -8,6 +8,7 @@ package com.microsoft.azure.management.containerregistry.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.AccessKeyType;
+import com.microsoft.azure.management.containerregistry.BuildTaskOperations;
 import com.microsoft.azure.management.containerregistry.Registry;
 import com.microsoft.azure.management.containerregistry.RegistryCredentials;
 import com.microsoft.azure.management.containerregistry.RegistryUsage;
@@ -45,6 +46,7 @@ public class RegistryImpl
     private String storageAccountId;
     private String creatableStorageAccountKey;
     private WebhooksImpl webhooks;
+    private BuildTaskOperations buildTasks;
 
     protected RegistryImpl(String name, RegistryInner innerObject, ContainerRegistryManager manager,
                            final StorageManager storageManager) {
@@ -271,6 +273,14 @@ public class RegistryImpl
     @Override
     public WebhookOperations webhooks() {
         return new WebhookOperationsImpl(this);
+    }
+
+    @Override
+    public BuildTaskOperations buildTasks() {
+        if (this.buildTasks == null) {
+            this.buildTasks = new BuildTaskOperationsImpl(this);
+        }
+        return this.buildTasks;
     }
 
     @Override

@@ -120,6 +120,12 @@ public interface Registry extends
 
 
     /**
+     * @return returns entry point to manage the build tasks for the container registry.
+     */
+    @Beta(SinceVersion.V1_14_0)
+    BuildTaskOperations buildTasks();
+
+    /**
      * Container interface for all the definitions related to a registry.
      */
     interface Definition extends

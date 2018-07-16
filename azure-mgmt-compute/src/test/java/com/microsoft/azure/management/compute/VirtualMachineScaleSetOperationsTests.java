@@ -819,19 +819,6 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         Assert.assertNotNull(servicePrincipal);
         Assert.assertNotNull(servicePrincipal.inner());
 
-        // Ensure the MSI extension is set
-        //
-        Map<String, VirtualMachineScaleSetExtension> extensions = virtualMachineScaleSet.extensions();
-        boolean extensionFound = false;
-        for (VirtualMachineScaleSetExtension extension : extensions.values()) {
-            if (extension.publisherName().equalsIgnoreCase("Microsoft.ManagedIdentity")
-                    && extension.typeName().equalsIgnoreCase("ManagedIdentityExtensionForLinux")) {
-                extensionFound = true;
-                break;
-            }
-        }
-        Assert.assertTrue(extensionFound);
-
         // Ensure role assigned for resource group
         //
         PagedList<RoleAssignment> rgRoleAssignments = rbacManager.roleAssignments().listByScope(resourceGroup.id());
@@ -907,19 +894,6 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
 
         Assert.assertNotNull(servicePrincipal);
         Assert.assertNotNull(servicePrincipal.inner());
-
-        // Ensure the MSI extension is set
-        //
-        Map<String, VirtualMachineScaleSetExtension> extensions = virtualMachineScaleSet.extensions();
-        boolean extensionFound = false;
-        for (VirtualMachineScaleSetExtension extension : extensions.values()) {
-            if (extension.publisherName().equalsIgnoreCase("Microsoft.ManagedIdentity")
-                    && extension.typeName().equalsIgnoreCase("ManagedIdentityExtensionForLinux")) {
-                extensionFound = true;
-                break;
-            }
-        }
-        Assert.assertTrue(extensionFound);
 
         // Ensure role assigned for resource group
         //

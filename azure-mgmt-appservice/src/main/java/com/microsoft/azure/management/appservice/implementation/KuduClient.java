@@ -59,6 +59,11 @@ class KuduClient {
         @POST("api/wardeploy")
         @Streaming
         Observable<Void> warDeploy(@Body RequestBody warFile, @Query("name") String appName);
+
+        @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps zipDeploy", "x-ms-body-logging: false" })
+        @POST("api/zipdeploy")
+        @Streaming
+        Observable<Void> zipDeploy(@Body RequestBody zipFile);
     }
 
     Observable<String> streamApplicationLogsAsync() {
@@ -87,31 +92,44 @@ class KuduClient {
     Completable warDeployAsync(InputStream warFile, String appName) {
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(warFile));
-            return service.warDeploy(body, appName)
-                    .toCompletable()
-                    .retryWhen(new Func1<Observable<? extends Throwable>, Observable<?>>() {
-                        @Override
-                        public Observable<?> call(Observable<? extends Throwable> observable) {
-                            return observable.zipWith(Observable.range(1, 30), new Func2<Throwable, Integer, Integer>() {
-                                @Override
-                                public Integer call(Throwable throwable, Integer integer) {
-                                    if (throwable instanceof CloudException
-                                            && ((CloudException) throwable).response().code() == 502) {
-                                        return integer;
-                                    } else {
-                                        throw Exceptions.propagate(throwable);
-                                    }
-                                }
-                            }).flatMap(new Func1<Integer, Observable<?>>() {
-                                @Override
-                                public Observable<?> call(Integer i) {
-                                    return Observable.timer(i, TimeUnit.SECONDS);
-                                }
-                            });
-                        }
-                    });
+            return getCompletable(service.warDeploy(body, appName));
         } catch (IOException e) {
             return Completable.error(e);
         }
+    }
+
+    Completable zipDeployAsync(InputStream zipFile) {
+        try {
+            RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(zipFile));
+            return getCompletable(service.zipDeploy(body));
+        } catch (IOException e) {
+            return Completable.error(e);
+        }
+    }
+
+    private Completable getCompletable(Observable<Void> observable) {
+        return observable
+                .toCompletable()
+                .retryWhen(new Func1<Observable<? extends Throwable>, Observable<?>>() {
+                    @Override
+                    public Observable<?> call(Observable<? extends Throwable> observable) {
+                        return observable.zipWith(Observable.range(1, 30), new Func2<Throwable, Integer, Integer>() {
+                            @Override
+                            public Integer call(Throwable throwable, Integer integer) {
+                                if (throwable instanceof CloudException
+                                        && ((CloudException) throwable).response().code() == 502) {
+                                    return integer;
+                                } else {
+                                    throw Exceptions.propagate(throwable);
+                                }
+                            }
+                        }).flatMap(new Func1<Integer, Observable<?>>() {
+                            @Override
+                            public Observable<?> call(Integer i) {
+                                return Observable.timer(i, TimeUnit.SECONDS);
+                            }
+                        });
+                    }
+                });
     }
 }

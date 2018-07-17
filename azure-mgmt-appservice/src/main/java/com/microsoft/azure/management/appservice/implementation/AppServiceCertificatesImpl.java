@@ -49,7 +49,7 @@ class AppServiceCertificatesImpl
 
     @Override
     public Observable<AppServiceCertificate> listByResourceGroupAsync(String resourceGroupName) {
-        return null;
+        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroupName));
     }
 
     @Override

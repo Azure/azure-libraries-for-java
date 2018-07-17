@@ -20,13 +20,16 @@ import com.microsoft.azure.management.appservice.ConnectionString;
 import com.microsoft.azure.management.appservice.ConnectionStringType;
 import com.microsoft.azure.management.appservice.CustomHostNameDnsRecordType;
 import com.microsoft.azure.management.appservice.FileSystemHttpLogsConfig;
+import com.microsoft.azure.management.appservice.FtpsState;
 import com.microsoft.azure.management.appservice.HostNameBinding;
 import com.microsoft.azure.management.appservice.HostNameSslState;
 import com.microsoft.azure.management.appservice.HostNameType;
 import com.microsoft.azure.management.appservice.HttpLogsConfig;
 import com.microsoft.azure.management.appservice.JavaVersion;
+import com.microsoft.azure.management.appservice.MSDeploy;
 import com.microsoft.azure.management.appservice.ManagedPipelineMode;
 import com.microsoft.azure.management.appservice.ManagedServiceIdentity;
+import com.microsoft.azure.management.appservice.ManagedServiceIdentityType;
 import com.microsoft.azure.management.appservice.NetFrameworkVersion;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PhpVersion;
@@ -38,6 +41,7 @@ import com.microsoft.azure.management.appservice.SiteAvailabilityState;
 import com.microsoft.azure.management.appservice.SiteConfig;
 import com.microsoft.azure.management.appservice.SslState;
 import com.microsoft.azure.management.appservice.UsageState;
+import com.microsoft.azure.management.appservice.VirtualApplication;
 import com.microsoft.azure.management.appservice.WebAppAuthentication;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import com.microsoft.azure.management.appservice.WebContainer;
@@ -48,6 +52,7 @@ import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskIte
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.rest.RestException;
 import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
@@ -105,7 +110,7 @@ abstract class WebAppBaseImpl<
     private Map<String, Boolean> connectionStringStickiness;
     private WebAppSourceControlImpl<FluentT, FluentImplT> sourceControl;
     private boolean sourceControlToDelete;
-    private MSDeployInner msDeploy;
+    private MSDeploy msDeploy;
     private WebAppAuthenticationImpl<FluentT, FluentImplT> authentication;
     private boolean authenticationToUpdate;
     private SiteLogsConfigInner siteLogsConfig;
@@ -416,6 +421,59 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
+    public boolean httpsOnly() {
+        return Utils.toPrimitiveBoolean(inner().httpsOnly());
+    }
+
+    @Override
+    public FtpsState ftpsState() {
+        if (siteConfig == null) {
+            return null;
+        }
+        return siteConfig.ftpsState();
+    }
+
+    @Override
+    public List<VirtualApplication> virtualApplications() {
+        if (siteConfig == null) {
+            return null;
+        }
+        return siteConfig.virtualApplications();
+    }
+
+    @Override
+    public boolean http20Enabled() {
+        if (siteConfig == null) {
+            return false;
+        }
+        return Utils.toPrimitiveBoolean(siteConfig.http20Enabled());
+    }
+
+    @Override
+    public boolean localMySqlEnabled() {
+        if (siteConfig == null) {
+            return false;
+        }
+        return Utils.toPrimitiveBoolean(siteConfig.localMySqlEnabled());
+    }
+
+    @Override
+    public ScmType scmType() {
+        if (siteConfig == null) {
+            return null;
+        }
+        return siteConfig.scmType();
+    }
+
+    @Override
+    public String documentRoot() {
+        if (siteConfig == null) {
+            return null;
+        }
+        return siteConfig.documentRoot();
+    }
+
+    @Override
     public OperatingSystem operatingSystem() {
         if (inner().kind() != null && inner().kind().toLowerCase().contains("linux")) {
             return OperatingSystem.LINUX;
@@ -533,7 +591,7 @@ abstract class WebAppBaseImpl<
 
     abstract Observable<SiteAuthSettingsInner> getAuthentication();
 
-    abstract Observable<MSDeployStatusInner> createMSDeploy(MSDeployInner msDeployInner);
+    abstract Observable<MSDeployStatusInner> createMSDeploy(MSDeploy msDeployInner);
 
     abstract Observable<SiteLogsConfigInner> updateDiagnosticLogsConfig(SiteLogsConfigInner siteLogsConfigInner);
 
@@ -648,7 +706,7 @@ abstract class WebAppBaseImpl<
     }
 
     Observable<FluentT> submitHostNameBindings() {
-        List<Observable<HostNameBinding>> bindingObservables = new ArrayList<>();
+        final List<Observable<HostNameBinding>> bindingObservables = new ArrayList<>();
         for (HostNameBindingImpl<FluentT, FluentImplT> binding : hostNameBindingsToCreate.values()) {
             bindingObservables.add(Utils.<HostNameBinding>rootResource(binding.createAsync()));
         }
@@ -667,6 +725,25 @@ abstract class WebAppBaseImpl<
                 @Override
                 public WebAppBaseImpl call(Object... args) {
                     return WebAppBaseImpl.this;
+                }
+            }).onErrorResumeNext(new Func1<Throwable, Observable<? extends WebAppBaseImpl>>() {
+                @Override
+                public Observable<? extends WebAppBaseImpl> call(Throwable throwable) {
+                    if (throwable instanceof RestException && ((RestException) throwable).response().code() == 400) {
+                        return submitSite(inner()).flatMap(new Func1<SiteInner, Observable<WebAppBaseImpl>>() {
+                            @Override
+                            public Observable<WebAppBaseImpl> call(SiteInner siteInner) {
+                                return Observable.zip(bindingObservables, new FuncN<WebAppBaseImpl>() {
+                                    @Override
+                                    public WebAppBaseImpl call(Object... args) {
+                                        return WebAppBaseImpl.this;
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        return Observable.error(throwable);
+                    }
                 }
             }).flatMap(new Func1<WebAppBaseImpl, Observable<FluentT>>() {
                 @Override
@@ -1163,6 +1240,39 @@ abstract class WebAppBaseImpl<
     }
 
     @SuppressWarnings("unchecked")
+    public FluentImplT withHttpsOnly(boolean httpsOnly) {
+        inner().withHttpsOnly(httpsOnly);
+        return (FluentImplT) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public FluentImplT withHttp20Enabled(boolean http20Enabled) {
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withHttp20Enabled(http20Enabled);
+        return (FluentImplT) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public FluentImplT withFtpsState(FtpsState ftpsState) {
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withFtpsState(ftpsState);
+        return (FluentImplT) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public FluentImplT withVirtualApplications(List<VirtualApplication> virtualApplications) {
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withVirtualApplications(virtualApplications);
+        return (FluentImplT) this;
+    }
+
+    @SuppressWarnings("unchecked")
     public FluentImplT withAppSetting(String key, String value) {
         appSettingsToAdd.put(key, value);
         return (FluentImplT) this;
@@ -1322,7 +1432,7 @@ abstract class WebAppBaseImpl<
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedManagedServiceIdentity() {
-        inner().withIdentity(new ManagedServiceIdentity().withType("SystemAssigned"));
+        inner().withIdentity(new ManagedServiceIdentity().withType(ManagedServiceIdentityType.SYSTEM_ASSIGNED));
         return (FluentImplT) this;
     }
 

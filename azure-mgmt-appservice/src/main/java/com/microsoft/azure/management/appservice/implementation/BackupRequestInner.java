@@ -11,7 +11,6 @@ package com.microsoft.azure.management.appservice.implementation;
 import com.microsoft.azure.management.appservice.BackupSchedule;
 import java.util.List;
 import com.microsoft.azure.management.appservice.DatabaseBackupSetting;
-import com.microsoft.azure.management.appservice.BackupRestoreOperationType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.management.appservice.ProxyOnlyResource;
@@ -21,12 +20,6 @@ import com.microsoft.azure.management.appservice.ProxyOnlyResource;
  */
 @JsonFlatten
 public class BackupRequestInner extends ProxyOnlyResource {
-    /**
-     * Name of the backup.
-     */
-    @JsonProperty(value = "properties.name", required = true)
-    private String backupRequestName;
-
     /**
      * True if the backup schedule is enabled (must be included in that case),
      * false if the backup schedule should be disabled.
@@ -53,34 +46,7 @@ public class BackupRequestInner extends ProxyOnlyResource {
     private List<DatabaseBackupSetting> databases;
 
     /**
-     * Type of the backup. Possible values include: 'Default', 'Clone',
-     * 'Relocation', 'Snapshot'.
-     */
-    @JsonProperty(value = "properties.type")
-    private BackupRestoreOperationType backupRequestType;
-
-    /**
-     * Get the backupRequestName value.
-     *
-     * @return the backupRequestName value
-     */
-    public String backupRequestName() {
-        return this.backupRequestName;
-    }
-
-    /**
-     * Set the backupRequestName value.
-     *
-     * @param backupRequestName the backupRequestName value to set
-     * @return the BackupRequestInner object itself.
-     */
-    public BackupRequestInner withBackupRequestName(String backupRequestName) {
-        this.backupRequestName = backupRequestName;
-        return this;
-    }
-
-    /**
-     * Get the enabled value.
+     * Get true if the backup schedule is enabled (must be included in that case), false if the backup schedule should be disabled.
      *
      * @return the enabled value
      */
@@ -89,7 +55,7 @@ public class BackupRequestInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the enabled value.
+     * Set true if the backup schedule is enabled (must be included in that case), false if the backup schedule should be disabled.
      *
      * @param enabled the enabled value to set
      * @return the BackupRequestInner object itself.
@@ -100,7 +66,7 @@ public class BackupRequestInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the storageAccountUrl value.
+     * Get sAS URL to the container.
      *
      * @return the storageAccountUrl value
      */
@@ -109,7 +75,7 @@ public class BackupRequestInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the storageAccountUrl value.
+     * Set sAS URL to the container.
      *
      * @param storageAccountUrl the storageAccountUrl value to set
      * @return the BackupRequestInner object itself.
@@ -120,7 +86,7 @@ public class BackupRequestInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the backupSchedule value.
+     * Get schedule for the backup if it is executed periodically.
      *
      * @return the backupSchedule value
      */
@@ -129,7 +95,7 @@ public class BackupRequestInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the backupSchedule value.
+     * Set schedule for the backup if it is executed periodically.
      *
      * @param backupSchedule the backupSchedule value to set
      * @return the BackupRequestInner object itself.
@@ -140,7 +106,7 @@ public class BackupRequestInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the databases value.
+     * Get databases included in the backup.
      *
      * @return the databases value
      */
@@ -149,33 +115,13 @@ public class BackupRequestInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the databases value.
+     * Set databases included in the backup.
      *
      * @param databases the databases value to set
      * @return the BackupRequestInner object itself.
      */
     public BackupRequestInner withDatabases(List<DatabaseBackupSetting> databases) {
         this.databases = databases;
-        return this;
-    }
-
-    /**
-     * Get the backupRequestType value.
-     *
-     * @return the backupRequestType value
-     */
-    public BackupRestoreOperationType backupRequestType() {
-        return this.backupRequestType;
-    }
-
-    /**
-     * Set the backupRequestType value.
-     *
-     * @param backupRequestType the backupRequestType value to set
-     * @return the BackupRequestInner object itself.
-     */
-    public BackupRequestInner withBackupRequestType(BackupRestoreOperationType backupRequestType) {
-        this.backupRequestType = backupRequestType;
         return this;
     }
 

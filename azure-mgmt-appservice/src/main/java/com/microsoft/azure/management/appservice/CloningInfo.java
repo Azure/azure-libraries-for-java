@@ -93,14 +93,8 @@ public class CloningInfo {
     private String trafficManagerProfileName;
 
     /**
-     * &lt;code&gt;true&lt;/code&gt; if quotas should be ignored; otherwise,
-     * &lt;code&gt;false&lt;/code&gt;.
-     */
-    @JsonProperty(value = "ignoreQuotas")
-    private Boolean ignoreQuotas;
-
-    /**
-     * Get the correlationId value.
+     * Get correlation ID of cloning operation. This ID ties multiple cloning operations
+     together to use the same snapshot.
      *
      * @return the correlationId value
      */
@@ -109,7 +103,8 @@ public class CloningInfo {
     }
 
     /**
-     * Set the correlationId value.
+     * Set correlation ID of cloning operation. This ID ties multiple cloning operations
+     together to use the same snapshot.
      *
      * @param correlationId the correlationId value to set
      * @return the CloningInfo object itself.
@@ -120,7 +115,7 @@ public class CloningInfo {
     }
 
     /**
-     * Get the overwrite value.
+     * Get &lt;code&gt;true&lt;/code&gt; to overwrite destination app; otherwise, &lt;code&gt;false&lt;/code&gt;.
      *
      * @return the overwrite value
      */
@@ -129,7 +124,7 @@ public class CloningInfo {
     }
 
     /**
-     * Set the overwrite value.
+     * Set &lt;code&gt;true&lt;/code&gt; to overwrite destination app; otherwise, &lt;code&gt;false&lt;/code&gt;.
      *
      * @param overwrite the overwrite value to set
      * @return the CloningInfo object itself.
@@ -140,7 +135,7 @@ public class CloningInfo {
     }
 
     /**
-     * Get the cloneCustomHostNames value.
+     * Get &lt;code&gt;true&lt;/code&gt; to clone custom hostnames from source app; otherwise, &lt;code&gt;false&lt;/code&gt;.
      *
      * @return the cloneCustomHostNames value
      */
@@ -149,7 +144,7 @@ public class CloningInfo {
     }
 
     /**
-     * Set the cloneCustomHostNames value.
+     * Set &lt;code&gt;true&lt;/code&gt; to clone custom hostnames from source app; otherwise, &lt;code&gt;false&lt;/code&gt;.
      *
      * @param cloneCustomHostNames the cloneCustomHostNames value to set
      * @return the CloningInfo object itself.
@@ -160,7 +155,7 @@ public class CloningInfo {
     }
 
     /**
-     * Get the cloneSourceControl value.
+     * Get &lt;code&gt;true&lt;/code&gt; to clone source control from source app; otherwise, &lt;code&gt;false&lt;/code&gt;.
      *
      * @return the cloneSourceControl value
      */
@@ -169,7 +164,7 @@ public class CloningInfo {
     }
 
     /**
-     * Set the cloneSourceControl value.
+     * Set &lt;code&gt;true&lt;/code&gt; to clone source control from source app; otherwise, &lt;code&gt;false&lt;/code&gt;.
      *
      * @param cloneSourceControl the cloneSourceControl value to set
      * @return the CloningInfo object itself.
@@ -180,7 +175,9 @@ public class CloningInfo {
     }
 
     /**
-     * Get the sourceWebAppId value.
+     * Get aRM resource ID of the source app. App resource ID is of the form
+     /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName} for production slots and
+     /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName} for other slots.
      *
      * @return the sourceWebAppId value
      */
@@ -189,7 +186,9 @@ public class CloningInfo {
     }
 
     /**
-     * Set the sourceWebAppId value.
+     * Set aRM resource ID of the source app. App resource ID is of the form
+     /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName} for production slots and
+     /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName} for other slots.
      *
      * @param sourceWebAppId the sourceWebAppId value to set
      * @return the CloningInfo object itself.
@@ -200,7 +199,7 @@ public class CloningInfo {
     }
 
     /**
-     * Get the hostingEnvironment value.
+     * Get app Service Environment.
      *
      * @return the hostingEnvironment value
      */
@@ -209,7 +208,7 @@ public class CloningInfo {
     }
 
     /**
-     * Set the hostingEnvironment value.
+     * Set app Service Environment.
      *
      * @param hostingEnvironment the hostingEnvironment value to set
      * @return the CloningInfo object itself.
@@ -220,7 +219,8 @@ public class CloningInfo {
     }
 
     /**
-     * Get the appSettingsOverrides value.
+     * Get application setting overrides for cloned app. If specified, these settings override the settings cloned
+     from source app. Otherwise, application settings from source app are retained.
      *
      * @return the appSettingsOverrides value
      */
@@ -229,7 +229,8 @@ public class CloningInfo {
     }
 
     /**
-     * Set the appSettingsOverrides value.
+     * Set application setting overrides for cloned app. If specified, these settings override the settings cloned
+     from source app. Otherwise, application settings from source app are retained.
      *
      * @param appSettingsOverrides the appSettingsOverrides value to set
      * @return the CloningInfo object itself.
@@ -240,7 +241,7 @@ public class CloningInfo {
     }
 
     /**
-     * Get the configureLoadBalancing value.
+     * Get &lt;code&gt;true&lt;/code&gt; to configure load balancing for source and destination app.
      *
      * @return the configureLoadBalancing value
      */
@@ -249,7 +250,7 @@ public class CloningInfo {
     }
 
     /**
-     * Set the configureLoadBalancing value.
+     * Set &lt;code&gt;true&lt;/code&gt; to configure load balancing for source and destination app.
      *
      * @param configureLoadBalancing the configureLoadBalancing value to set
      * @return the CloningInfo object itself.
@@ -260,7 +261,8 @@ public class CloningInfo {
     }
 
     /**
-     * Get the trafficManagerProfileId value.
+     * Get aRM resource ID of the Traffic Manager profile to use, if it exists. Traffic Manager resource ID is of the form
+     /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{profileName}.
      *
      * @return the trafficManagerProfileId value
      */
@@ -269,7 +271,8 @@ public class CloningInfo {
     }
 
     /**
-     * Set the trafficManagerProfileId value.
+     * Set aRM resource ID of the Traffic Manager profile to use, if it exists. Traffic Manager resource ID is of the form
+     /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{profileName}.
      *
      * @param trafficManagerProfileId the trafficManagerProfileId value to set
      * @return the CloningInfo object itself.
@@ -280,7 +283,7 @@ public class CloningInfo {
     }
 
     /**
-     * Get the trafficManagerProfileName value.
+     * Get name of Traffic Manager profile to create. This is only needed if Traffic Manager profile does not already exist.
      *
      * @return the trafficManagerProfileName value
      */
@@ -289,33 +292,13 @@ public class CloningInfo {
     }
 
     /**
-     * Set the trafficManagerProfileName value.
+     * Set name of Traffic Manager profile to create. This is only needed if Traffic Manager profile does not already exist.
      *
      * @param trafficManagerProfileName the trafficManagerProfileName value to set
      * @return the CloningInfo object itself.
      */
     public CloningInfo withTrafficManagerProfileName(String trafficManagerProfileName) {
         this.trafficManagerProfileName = trafficManagerProfileName;
-        return this;
-    }
-
-    /**
-     * Get the ignoreQuotas value.
-     *
-     * @return the ignoreQuotas value
-     */
-    public Boolean ignoreQuotas() {
-        return this.ignoreQuotas;
-    }
-
-    /**
-     * Set the ignoreQuotas value.
-     *
-     * @param ignoreQuotas the ignoreQuotas value to set
-     * @return the CloningInfo object itself.
-     */
-    public CloningInfo withIgnoreQuotas(Boolean ignoreQuotas) {
-        this.ignoreQuotas = ignoreQuotas;
         return this;
     }
 

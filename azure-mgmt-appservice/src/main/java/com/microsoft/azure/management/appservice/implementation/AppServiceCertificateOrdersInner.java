@@ -16,6 +16,12 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.appservice.AppServiceCertificateOrderPatchResource;
+import com.microsoft.azure.management.appservice.AppServiceCertificatePatchResource;
+import com.microsoft.azure.management.appservice.DefaultErrorResponseException;
+import com.microsoft.azure.management.appservice.ReissueCertificateOrderRequest;
+import com.microsoft.azure.management.appservice.RenewCertificateOrderRequest;
+import com.microsoft.azure.management.appservice.SiteSealRequest;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -96,7 +102,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceCertificateOrders update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("certificateOrderName") String certificateOrderName, @Path("subscriptionId") String subscriptionId, @Body AppServiceCertificateOrderPatchResourceInner certificateDistinguishedName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("certificateOrderName") String certificateOrderName, @Path("subscriptionId") String subscriptionId, @Body AppServiceCertificateOrderPatchResource certificateDistinguishedName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceCertificateOrders listCertificates" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates")
@@ -120,15 +126,15 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceCertificateOrders updateCertificate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates/{name}")
-        Observable<Response<ResponseBody>> updateCertificate(@Path("resourceGroupName") String resourceGroupName, @Path("certificateOrderName") String certificateOrderName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body AppServiceCertificatePatchResourceInner keyVaultCertificate, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> updateCertificate(@Path("resourceGroupName") String resourceGroupName, @Path("certificateOrderName") String certificateOrderName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body AppServiceCertificatePatchResource keyVaultCertificate, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceCertificateOrders reissue" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/reissue")
-        Observable<Response<ResponseBody>> reissue(@Path("resourceGroupName") String resourceGroupName, @Path("certificateOrderName") String certificateOrderName, @Path("subscriptionId") String subscriptionId, @Body ReissueCertificateOrderRequestInner reissueCertificateOrderRequest, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> reissue(@Path("resourceGroupName") String resourceGroupName, @Path("certificateOrderName") String certificateOrderName, @Path("subscriptionId") String subscriptionId, @Body ReissueCertificateOrderRequest reissueCertificateOrderRequest, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceCertificateOrders renew" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/renew")
-        Observable<Response<ResponseBody>> renew(@Path("resourceGroupName") String resourceGroupName, @Path("certificateOrderName") String certificateOrderName, @Path("subscriptionId") String subscriptionId, @Body RenewCertificateOrderRequestInner renewCertificateOrderRequest, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> renew(@Path("resourceGroupName") String resourceGroupName, @Path("certificateOrderName") String certificateOrderName, @Path("subscriptionId") String subscriptionId, @Body RenewCertificateOrderRequest renewCertificateOrderRequest, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceCertificateOrders resendEmail" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/resendEmail")
@@ -140,7 +146,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceCertificateOrders retrieveSiteSeal" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/retrieveSiteSeal")
-        Observable<Response<ResponseBody>> retrieveSiteSeal(@Path("resourceGroupName") String resourceGroupName, @Path("certificateOrderName") String certificateOrderName, @Path("subscriptionId") String subscriptionId, @Body SiteSealRequestInner siteSealRequest, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> retrieveSiteSeal(@Path("resourceGroupName") String resourceGroupName, @Path("certificateOrderName") String certificateOrderName, @Path("subscriptionId") String subscriptionId, @Body SiteSealRequest siteSealRequest, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceCertificateOrders verifyDomainOwnership" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/verifyDomainOwnership")
@@ -173,7 +179,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * List all certificate orders in a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AppServiceCertificateOrderInner&gt; object if successful.
      */
@@ -256,8 +262,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-08-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AppServiceCertificateOrderInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<AppServiceCertificateOrderInner>>> call(Response<ResponseBody> response) {
@@ -271,10 +279,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<PageImpl<AppServiceCertificateOrderInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceCertificateOrderInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AppServiceCertificateOrderInner>> listDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceCertificateOrderInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AppServiceCertificateOrderInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -336,9 +344,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (appServiceCertificateOrder == null) {
             throw new IllegalArgumentException("Parameter appServiceCertificateOrder is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(appServiceCertificateOrder);
-        final String apiVersion = "2015-08-01";
-        return service.validatePurchaseInformation(this.client.subscriptionId(), appServiceCertificateOrder, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.validatePurchaseInformation(this.client.subscriptionId(), appServiceCertificateOrder, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -365,7 +375,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AppServiceCertificateOrderInner&gt; object if successful.
      */
@@ -455,8 +465,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-08-01";
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AppServiceCertificateOrderInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<AppServiceCertificateOrderInner>>> call(Response<ResponseBody> response) {
@@ -470,10 +482,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<PageImpl<AppServiceCertificateOrderInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceCertificateOrderInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AppServiceCertificateOrderInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceCertificateOrderInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AppServiceCertificateOrderInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -484,7 +496,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order..
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AppServiceCertificateOrderInner object if successful.
      */
@@ -543,8 +555,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-08-01";
-        return service.getByResourceGroup(resourceGroupName, certificateOrderName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getByResourceGroup(resourceGroupName, certificateOrderName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AppServiceCertificateOrderInner>>>() {
                 @Override
                 public Observable<ServiceResponse<AppServiceCertificateOrderInner>> call(Response<ResponseBody> response) {
@@ -558,10 +572,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<AppServiceCertificateOrderInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AppServiceCertificateOrderInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<AppServiceCertificateOrderInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AppServiceCertificateOrderInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<AppServiceCertificateOrderInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -573,7 +587,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @param certificateOrderName Name of the certificate order.
      * @param certificateDistinguishedName Distinguished name to to use for the certificate order.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AppServiceCertificateOrderInner object if successful.
      */
@@ -638,9 +652,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (certificateDistinguishedName == null) {
             throw new IllegalArgumentException("Parameter certificateDistinguishedName is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(certificateDistinguishedName);
-        final String apiVersion = "2015-08-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, certificateOrderName, this.client.subscriptionId(), certificateDistinguishedName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, certificateOrderName, this.client.subscriptionId(), certificateDistinguishedName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<AppServiceCertificateOrderInner>() { }.getType());
     }
 
@@ -652,7 +668,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @param certificateOrderName Name of the certificate order.
      * @param certificateDistinguishedName Distinguished name to to use for the certificate order.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AppServiceCertificateOrderInner object if successful.
      */
@@ -717,9 +733,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (certificateDistinguishedName == null) {
             throw new IllegalArgumentException("Parameter certificateDistinguishedName is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(certificateDistinguishedName);
-        final String apiVersion = "2015-08-01";
-        return service.beginCreateOrUpdate(resourceGroupName, certificateOrderName, this.client.subscriptionId(), certificateDistinguishedName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginCreateOrUpdate(resourceGroupName, certificateOrderName, this.client.subscriptionId(), certificateDistinguishedName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AppServiceCertificateOrderInner>>>() {
                 @Override
                 public Observable<ServiceResponse<AppServiceCertificateOrderInner>> call(Response<ResponseBody> response) {
@@ -733,11 +751,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<AppServiceCertificateOrderInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AppServiceCertificateOrderInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<AppServiceCertificateOrderInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AppServiceCertificateOrderInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<AppServiceCertificateOrderInner>() { }.getType())
                 .register(201, new TypeToken<AppServiceCertificateOrderInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -806,8 +824,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-08-01";
-        return service.delete(resourceGroupName, certificateOrderName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.delete(resourceGroupName, certificateOrderName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -837,11 +857,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @param certificateOrderName Name of the certificate order.
      * @param certificateDistinguishedName Distinguished name to to use for the certificate order.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AppServiceCertificateOrderInner object if successful.
      */
-    public AppServiceCertificateOrderInner update(String resourceGroupName, String certificateOrderName, AppServiceCertificateOrderPatchResourceInner certificateDistinguishedName) {
+    public AppServiceCertificateOrderInner update(String resourceGroupName, String certificateOrderName, AppServiceCertificateOrderPatchResource certificateDistinguishedName) {
         return updateWithServiceResponseAsync(resourceGroupName, certificateOrderName, certificateDistinguishedName).toBlocking().single().body();
     }
 
@@ -856,7 +876,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<AppServiceCertificateOrderInner> updateAsync(String resourceGroupName, String certificateOrderName, AppServiceCertificateOrderPatchResourceInner certificateDistinguishedName, final ServiceCallback<AppServiceCertificateOrderInner> serviceCallback) {
+    public ServiceFuture<AppServiceCertificateOrderInner> updateAsync(String resourceGroupName, String certificateOrderName, AppServiceCertificateOrderPatchResource certificateDistinguishedName, final ServiceCallback<AppServiceCertificateOrderInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, certificateOrderName, certificateDistinguishedName), serviceCallback);
     }
 
@@ -870,7 +890,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the AppServiceCertificateOrderInner object
      */
-    public Observable<AppServiceCertificateOrderInner> updateAsync(String resourceGroupName, String certificateOrderName, AppServiceCertificateOrderPatchResourceInner certificateDistinguishedName) {
+    public Observable<AppServiceCertificateOrderInner> updateAsync(String resourceGroupName, String certificateOrderName, AppServiceCertificateOrderPatchResource certificateDistinguishedName) {
         return updateWithServiceResponseAsync(resourceGroupName, certificateOrderName, certificateDistinguishedName).map(new Func1<ServiceResponse<AppServiceCertificateOrderInner>, AppServiceCertificateOrderInner>() {
             @Override
             public AppServiceCertificateOrderInner call(ServiceResponse<AppServiceCertificateOrderInner> response) {
@@ -889,7 +909,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the AppServiceCertificateOrderInner object
      */
-    public Observable<ServiceResponse<AppServiceCertificateOrderInner>> updateWithServiceResponseAsync(String resourceGroupName, String certificateOrderName, AppServiceCertificateOrderPatchResourceInner certificateDistinguishedName) {
+    public Observable<ServiceResponse<AppServiceCertificateOrderInner>> updateWithServiceResponseAsync(String resourceGroupName, String certificateOrderName, AppServiceCertificateOrderPatchResource certificateDistinguishedName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -902,9 +922,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (certificateDistinguishedName == null) {
             throw new IllegalArgumentException("Parameter certificateDistinguishedName is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(certificateDistinguishedName);
-        final String apiVersion = "2015-08-01";
-        return service.update(resourceGroupName, certificateOrderName, this.client.subscriptionId(), certificateDistinguishedName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.update(resourceGroupName, certificateOrderName, this.client.subscriptionId(), certificateDistinguishedName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AppServiceCertificateOrderInner>>>() {
                 @Override
                 public Observable<ServiceResponse<AppServiceCertificateOrderInner>> call(Response<ResponseBody> response) {
@@ -918,11 +940,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<AppServiceCertificateOrderInner> updateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AppServiceCertificateOrderInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<AppServiceCertificateOrderInner> updateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AppServiceCertificateOrderInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<AppServiceCertificateOrderInner>() { }.getType())
                 .register(201, new TypeToken<AppServiceCertificateOrderInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -933,7 +955,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AppServiceCertificateResourceInner&gt; object if successful.
      */
@@ -1030,8 +1052,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-08-01";
-        return service.listCertificates(resourceGroupName, certificateOrderName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listCertificates(resourceGroupName, certificateOrderName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AppServiceCertificateResourceInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<AppServiceCertificateResourceInner>>> call(Response<ResponseBody> response) {
@@ -1045,10 +1069,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<PageImpl<AppServiceCertificateResourceInner>> listCertificatesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceCertificateResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AppServiceCertificateResourceInner>> listCertificatesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceCertificateResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AppServiceCertificateResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1060,7 +1084,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @param certificateOrderName Name of the certificate order.
      * @param name Name of the certificate.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AppServiceCertificateResourceInner object if successful.
      */
@@ -1125,8 +1149,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-08-01";
-        return service.getCertificate(resourceGroupName, certificateOrderName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getCertificate(resourceGroupName, certificateOrderName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AppServiceCertificateResourceInner>>>() {
                 @Override
                 public Observable<ServiceResponse<AppServiceCertificateResourceInner>> call(Response<ResponseBody> response) {
@@ -1140,10 +1166,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<AppServiceCertificateResourceInner> getCertificateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AppServiceCertificateResourceInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<AppServiceCertificateResourceInner> getCertificateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AppServiceCertificateResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<AppServiceCertificateResourceInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1156,7 +1182,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @param name Name of the certificate.
      * @param keyVaultCertificate Key vault certificate resource Id.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AppServiceCertificateResourceInner object if successful.
      */
@@ -1227,9 +1253,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (keyVaultCertificate == null) {
             throw new IllegalArgumentException("Parameter keyVaultCertificate is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(keyVaultCertificate);
-        final String apiVersion = "2015-08-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdateCertificate(resourceGroupName, certificateOrderName, name, this.client.subscriptionId(), keyVaultCertificate, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.createOrUpdateCertificate(resourceGroupName, certificateOrderName, name, this.client.subscriptionId(), keyVaultCertificate, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<AppServiceCertificateResourceInner>() { }.getType());
     }
 
@@ -1242,7 +1270,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @param name Name of the certificate.
      * @param keyVaultCertificate Key vault certificate resource Id.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AppServiceCertificateResourceInner object if successful.
      */
@@ -1313,9 +1341,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (keyVaultCertificate == null) {
             throw new IllegalArgumentException("Parameter keyVaultCertificate is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(keyVaultCertificate);
-        final String apiVersion = "2015-08-01";
-        return service.beginCreateOrUpdateCertificate(resourceGroupName, certificateOrderName, name, this.client.subscriptionId(), keyVaultCertificate, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginCreateOrUpdateCertificate(resourceGroupName, certificateOrderName, name, this.client.subscriptionId(), keyVaultCertificate, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AppServiceCertificateResourceInner>>>() {
                 @Override
                 public Observable<ServiceResponse<AppServiceCertificateResourceInner>> call(Response<ResponseBody> response) {
@@ -1329,11 +1359,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<AppServiceCertificateResourceInner> beginCreateOrUpdateCertificateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AppServiceCertificateResourceInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<AppServiceCertificateResourceInner> beginCreateOrUpdateCertificateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AppServiceCertificateResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<AppServiceCertificateResourceInner>() { }.getType())
                 .register(201, new TypeToken<AppServiceCertificateResourceInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1409,8 +1439,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-08-01";
-        return service.deleteCertificate(resourceGroupName, certificateOrderName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.deleteCertificate(resourceGroupName, certificateOrderName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -1441,11 +1473,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @param name Name of the certificate.
      * @param keyVaultCertificate Key vault certificate resource Id.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AppServiceCertificateResourceInner object if successful.
      */
-    public AppServiceCertificateResourceInner updateCertificate(String resourceGroupName, String certificateOrderName, String name, AppServiceCertificatePatchResourceInner keyVaultCertificate) {
+    public AppServiceCertificateResourceInner updateCertificate(String resourceGroupName, String certificateOrderName, String name, AppServiceCertificatePatchResource keyVaultCertificate) {
         return updateCertificateWithServiceResponseAsync(resourceGroupName, certificateOrderName, name, keyVaultCertificate).toBlocking().single().body();
     }
 
@@ -1461,7 +1493,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<AppServiceCertificateResourceInner> updateCertificateAsync(String resourceGroupName, String certificateOrderName, String name, AppServiceCertificatePatchResourceInner keyVaultCertificate, final ServiceCallback<AppServiceCertificateResourceInner> serviceCallback) {
+    public ServiceFuture<AppServiceCertificateResourceInner> updateCertificateAsync(String resourceGroupName, String certificateOrderName, String name, AppServiceCertificatePatchResource keyVaultCertificate, final ServiceCallback<AppServiceCertificateResourceInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateCertificateWithServiceResponseAsync(resourceGroupName, certificateOrderName, name, keyVaultCertificate), serviceCallback);
     }
 
@@ -1476,7 +1508,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the AppServiceCertificateResourceInner object
      */
-    public Observable<AppServiceCertificateResourceInner> updateCertificateAsync(String resourceGroupName, String certificateOrderName, String name, AppServiceCertificatePatchResourceInner keyVaultCertificate) {
+    public Observable<AppServiceCertificateResourceInner> updateCertificateAsync(String resourceGroupName, String certificateOrderName, String name, AppServiceCertificatePatchResource keyVaultCertificate) {
         return updateCertificateWithServiceResponseAsync(resourceGroupName, certificateOrderName, name, keyVaultCertificate).map(new Func1<ServiceResponse<AppServiceCertificateResourceInner>, AppServiceCertificateResourceInner>() {
             @Override
             public AppServiceCertificateResourceInner call(ServiceResponse<AppServiceCertificateResourceInner> response) {
@@ -1496,7 +1528,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the AppServiceCertificateResourceInner object
      */
-    public Observable<ServiceResponse<AppServiceCertificateResourceInner>> updateCertificateWithServiceResponseAsync(String resourceGroupName, String certificateOrderName, String name, AppServiceCertificatePatchResourceInner keyVaultCertificate) {
+    public Observable<ServiceResponse<AppServiceCertificateResourceInner>> updateCertificateWithServiceResponseAsync(String resourceGroupName, String certificateOrderName, String name, AppServiceCertificatePatchResource keyVaultCertificate) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1512,9 +1544,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (keyVaultCertificate == null) {
             throw new IllegalArgumentException("Parameter keyVaultCertificate is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(keyVaultCertificate);
-        final String apiVersion = "2015-08-01";
-        return service.updateCertificate(resourceGroupName, certificateOrderName, name, this.client.subscriptionId(), keyVaultCertificate, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.updateCertificate(resourceGroupName, certificateOrderName, name, this.client.subscriptionId(), keyVaultCertificate, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AppServiceCertificateResourceInner>>>() {
                 @Override
                 public Observable<ServiceResponse<AppServiceCertificateResourceInner>> call(Response<ResponseBody> response) {
@@ -1528,11 +1562,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<AppServiceCertificateResourceInner> updateCertificateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AppServiceCertificateResourceInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<AppServiceCertificateResourceInner> updateCertificateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AppServiceCertificateResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<AppServiceCertificateResourceInner>() { }.getType())
                 .register(201, new TypeToken<AppServiceCertificateResourceInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1547,7 +1581,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void reissue(String resourceGroupName, String certificateOrderName, ReissueCertificateOrderRequestInner reissueCertificateOrderRequest) {
+    public void reissue(String resourceGroupName, String certificateOrderName, ReissueCertificateOrderRequest reissueCertificateOrderRequest) {
         reissueWithServiceResponseAsync(resourceGroupName, certificateOrderName, reissueCertificateOrderRequest).toBlocking().single().body();
     }
 
@@ -1562,7 +1596,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> reissueAsync(String resourceGroupName, String certificateOrderName, ReissueCertificateOrderRequestInner reissueCertificateOrderRequest, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> reissueAsync(String resourceGroupName, String certificateOrderName, ReissueCertificateOrderRequest reissueCertificateOrderRequest, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(reissueWithServiceResponseAsync(resourceGroupName, certificateOrderName, reissueCertificateOrderRequest), serviceCallback);
     }
 
@@ -1576,7 +1610,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> reissueAsync(String resourceGroupName, String certificateOrderName, ReissueCertificateOrderRequestInner reissueCertificateOrderRequest) {
+    public Observable<Void> reissueAsync(String resourceGroupName, String certificateOrderName, ReissueCertificateOrderRequest reissueCertificateOrderRequest) {
         return reissueWithServiceResponseAsync(resourceGroupName, certificateOrderName, reissueCertificateOrderRequest).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
@@ -1595,7 +1629,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> reissueWithServiceResponseAsync(String resourceGroupName, String certificateOrderName, ReissueCertificateOrderRequestInner reissueCertificateOrderRequest) {
+    public Observable<ServiceResponse<Void>> reissueWithServiceResponseAsync(String resourceGroupName, String certificateOrderName, ReissueCertificateOrderRequest reissueCertificateOrderRequest) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1608,9 +1642,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (reissueCertificateOrderRequest == null) {
             throw new IllegalArgumentException("Parameter reissueCertificateOrderRequest is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(reissueCertificateOrderRequest);
-        final String apiVersion = "2015-08-01";
-        return service.reissue(resourceGroupName, certificateOrderName, this.client.subscriptionId(), reissueCertificateOrderRequest, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.reissue(resourceGroupName, certificateOrderName, this.client.subscriptionId(), reissueCertificateOrderRequest, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -1642,7 +1678,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void renew(String resourceGroupName, String certificateOrderName, RenewCertificateOrderRequestInner renewCertificateOrderRequest) {
+    public void renew(String resourceGroupName, String certificateOrderName, RenewCertificateOrderRequest renewCertificateOrderRequest) {
         renewWithServiceResponseAsync(resourceGroupName, certificateOrderName, renewCertificateOrderRequest).toBlocking().single().body();
     }
 
@@ -1657,7 +1693,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> renewAsync(String resourceGroupName, String certificateOrderName, RenewCertificateOrderRequestInner renewCertificateOrderRequest, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> renewAsync(String resourceGroupName, String certificateOrderName, RenewCertificateOrderRequest renewCertificateOrderRequest, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(renewWithServiceResponseAsync(resourceGroupName, certificateOrderName, renewCertificateOrderRequest), serviceCallback);
     }
 
@@ -1671,7 +1707,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> renewAsync(String resourceGroupName, String certificateOrderName, RenewCertificateOrderRequestInner renewCertificateOrderRequest) {
+    public Observable<Void> renewAsync(String resourceGroupName, String certificateOrderName, RenewCertificateOrderRequest renewCertificateOrderRequest) {
         return renewWithServiceResponseAsync(resourceGroupName, certificateOrderName, renewCertificateOrderRequest).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
@@ -1690,7 +1726,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> renewWithServiceResponseAsync(String resourceGroupName, String certificateOrderName, RenewCertificateOrderRequestInner renewCertificateOrderRequest) {
+    public Observable<ServiceResponse<Void>> renewWithServiceResponseAsync(String resourceGroupName, String certificateOrderName, RenewCertificateOrderRequest renewCertificateOrderRequest) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1703,9 +1739,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (renewCertificateOrderRequest == null) {
             throw new IllegalArgumentException("Parameter renewCertificateOrderRequest is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(renewCertificateOrderRequest);
-        final String apiVersion = "2015-08-01";
-        return service.renew(resourceGroupName, certificateOrderName, this.client.subscriptionId(), renewCertificateOrderRequest, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.renew(resourceGroupName, certificateOrderName, this.client.subscriptionId(), renewCertificateOrderRequest, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -1791,8 +1829,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-08-01";
-        return service.resendEmail(resourceGroupName, certificateOrderName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.resendEmail(resourceGroupName, certificateOrderName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -1878,11 +1918,13 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-08-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String name = null;
         NameIdentifierInner nameIdentifier = new NameIdentifierInner();
         nameIdentifier.withName(null);
-        return service.resendRequestEmails(resourceGroupName, certificateOrderName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), nameIdentifier, this.client.userAgent())
+        return service.resendRequestEmails(resourceGroupName, certificateOrderName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), nameIdentifier, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -1965,10 +2007,12 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-08-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         NameIdentifierInner nameIdentifier = new NameIdentifierInner();
         nameIdentifier.withName(name);
-        return service.resendRequestEmails(resourceGroupName, certificateOrderName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), nameIdentifier, this.client.userAgent())
+        return service.resendRequestEmails(resourceGroupName, certificateOrderName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), nameIdentifier, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -1997,11 +2041,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @param certificateOrderName Name of the certificate order.
      * @param siteSealRequest Site seal request.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the SiteSealInner object if successful.
      */
-    public SiteSealInner retrieveSiteSeal(String resourceGroupName, String certificateOrderName, SiteSealRequestInner siteSealRequest) {
+    public SiteSealInner retrieveSiteSeal(String resourceGroupName, String certificateOrderName, SiteSealRequest siteSealRequest) {
         return retrieveSiteSealWithServiceResponseAsync(resourceGroupName, certificateOrderName, siteSealRequest).toBlocking().single().body();
     }
 
@@ -2016,7 +2060,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<SiteSealInner> retrieveSiteSealAsync(String resourceGroupName, String certificateOrderName, SiteSealRequestInner siteSealRequest, final ServiceCallback<SiteSealInner> serviceCallback) {
+    public ServiceFuture<SiteSealInner> retrieveSiteSealAsync(String resourceGroupName, String certificateOrderName, SiteSealRequest siteSealRequest, final ServiceCallback<SiteSealInner> serviceCallback) {
         return ServiceFuture.fromResponse(retrieveSiteSealWithServiceResponseAsync(resourceGroupName, certificateOrderName, siteSealRequest), serviceCallback);
     }
 
@@ -2030,7 +2074,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the SiteSealInner object
      */
-    public Observable<SiteSealInner> retrieveSiteSealAsync(String resourceGroupName, String certificateOrderName, SiteSealRequestInner siteSealRequest) {
+    public Observable<SiteSealInner> retrieveSiteSealAsync(String resourceGroupName, String certificateOrderName, SiteSealRequest siteSealRequest) {
         return retrieveSiteSealWithServiceResponseAsync(resourceGroupName, certificateOrderName, siteSealRequest).map(new Func1<ServiceResponse<SiteSealInner>, SiteSealInner>() {
             @Override
             public SiteSealInner call(ServiceResponse<SiteSealInner> response) {
@@ -2049,7 +2093,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the SiteSealInner object
      */
-    public Observable<ServiceResponse<SiteSealInner>> retrieveSiteSealWithServiceResponseAsync(String resourceGroupName, String certificateOrderName, SiteSealRequestInner siteSealRequest) {
+    public Observable<ServiceResponse<SiteSealInner>> retrieveSiteSealWithServiceResponseAsync(String resourceGroupName, String certificateOrderName, SiteSealRequest siteSealRequest) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -2062,9 +2106,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (siteSealRequest == null) {
             throw new IllegalArgumentException("Parameter siteSealRequest is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(siteSealRequest);
-        final String apiVersion = "2015-08-01";
-        return service.retrieveSiteSeal(resourceGroupName, certificateOrderName, this.client.subscriptionId(), siteSealRequest, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.retrieveSiteSeal(resourceGroupName, certificateOrderName, this.client.subscriptionId(), siteSealRequest, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SiteSealInner>>>() {
                 @Override
                 public Observable<ServiceResponse<SiteSealInner>> call(Response<ResponseBody> response) {
@@ -2078,10 +2124,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<SiteSealInner> retrieveSiteSealDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<SiteSealInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<SiteSealInner> retrieveSiteSealDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<SiteSealInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<SiteSealInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2150,8 +2196,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-08-01";
-        return service.verifyDomainOwnership(resourceGroupName, certificateOrderName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.verifyDomainOwnership(resourceGroupName, certificateOrderName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -2179,7 +2227,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate order.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the List&lt;CertificateOrderActionInner&gt; object if successful.
      */
@@ -2238,8 +2286,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-08-01";
-        return service.retrieveCertificateActions(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.retrieveCertificateActions(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<CertificateOrderActionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<CertificateOrderActionInner>>> call(Response<ResponseBody> response) {
@@ -2253,10 +2303,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<List<CertificateOrderActionInner>> retrieveCertificateActionsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<List<CertificateOrderActionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<List<CertificateOrderActionInner>> retrieveCertificateActionsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<List<CertificateOrderActionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<List<CertificateOrderActionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2267,7 +2317,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate order.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the List&lt;CertificateEmailInner&gt; object if successful.
      */
@@ -2326,8 +2376,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-08-01";
-        return service.retrieveCertificateEmailHistory(resourceGroupName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.retrieveCertificateEmailHistory(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<CertificateEmailInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<CertificateEmailInner>>> call(Response<ResponseBody> response) {
@@ -2341,10 +2393,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<List<CertificateEmailInner>> retrieveCertificateEmailHistoryDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<List<CertificateEmailInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<List<CertificateEmailInner>> retrieveCertificateEmailHistoryDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<List<CertificateEmailInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<List<CertificateEmailInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2354,7 +2406,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AppServiceCertificateOrderInner&gt; object if successful.
      */
@@ -2457,10 +2509,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<PageImpl<AppServiceCertificateOrderInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceCertificateOrderInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AppServiceCertificateOrderInner>> listNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceCertificateOrderInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AppServiceCertificateOrderInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2470,7 +2522,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AppServiceCertificateOrderInner&gt; object if successful.
      */
@@ -2573,10 +2625,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<PageImpl<AppServiceCertificateOrderInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceCertificateOrderInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AppServiceCertificateOrderInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceCertificateOrderInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AppServiceCertificateOrderInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2586,7 +2638,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AppServiceCertificateResourceInner&gt; object if successful.
      */
@@ -2689,10 +2741,10 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<PageImpl<AppServiceCertificateResourceInner>> listCertificatesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceCertificateResourceInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AppServiceCertificateResourceInner>> listCertificatesNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AppServiceCertificateResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AppServiceCertificateResourceInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 

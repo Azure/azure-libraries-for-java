@@ -8,7 +8,6 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -37,24 +36,6 @@ public class PremierAddOnInner extends Resource {
     private String vendor;
 
     /**
-     * Premier add on Name.
-     */
-    @JsonProperty(value = "properties.name")
-    private String premierAddOnName;
-
-    /**
-     * Premier add on Location.
-     */
-    @JsonProperty(value = "properties.location")
-    private String premierAddOnLocation;
-
-    /**
-     * Premier add on Tags.
-     */
-    @JsonProperty(value = "properties.tags")
-    private Map<String, String> premierAddOnTags;
-
-    /**
      * Premier add on Marketplace publisher.
      */
     @JsonProperty(value = "properties.marketplacePublisher")
@@ -67,7 +48,13 @@ public class PremierAddOnInner extends Resource {
     private String marketplaceOffer;
 
     /**
-     * Get the sku value.
+     * Kind of resource.
+     */
+    @JsonProperty(value = "kind")
+    private String kind;
+
+    /**
+     * Get premier add on SKU.
      *
      * @return the sku value
      */
@@ -76,7 +63,7 @@ public class PremierAddOnInner extends Resource {
     }
 
     /**
-     * Set the sku value.
+     * Set premier add on SKU.
      *
      * @param sku the sku value to set
      * @return the PremierAddOnInner object itself.
@@ -87,7 +74,7 @@ public class PremierAddOnInner extends Resource {
     }
 
     /**
-     * Get the product value.
+     * Get premier add on Product.
      *
      * @return the product value
      */
@@ -96,7 +83,7 @@ public class PremierAddOnInner extends Resource {
     }
 
     /**
-     * Set the product value.
+     * Set premier add on Product.
      *
      * @param product the product value to set
      * @return the PremierAddOnInner object itself.
@@ -107,7 +94,7 @@ public class PremierAddOnInner extends Resource {
     }
 
     /**
-     * Get the vendor value.
+     * Get premier add on Vendor.
      *
      * @return the vendor value
      */
@@ -116,7 +103,7 @@ public class PremierAddOnInner extends Resource {
     }
 
     /**
-     * Set the vendor value.
+     * Set premier add on Vendor.
      *
      * @param vendor the vendor value to set
      * @return the PremierAddOnInner object itself.
@@ -127,67 +114,7 @@ public class PremierAddOnInner extends Resource {
     }
 
     /**
-     * Get the premierAddOnName value.
-     *
-     * @return the premierAddOnName value
-     */
-    public String premierAddOnName() {
-        return this.premierAddOnName;
-    }
-
-    /**
-     * Set the premierAddOnName value.
-     *
-     * @param premierAddOnName the premierAddOnName value to set
-     * @return the PremierAddOnInner object itself.
-     */
-    public PremierAddOnInner withPremierAddOnName(String premierAddOnName) {
-        this.premierAddOnName = premierAddOnName;
-        return this;
-    }
-
-    /**
-     * Get the premierAddOnLocation value.
-     *
-     * @return the premierAddOnLocation value
-     */
-    public String premierAddOnLocation() {
-        return this.premierAddOnLocation;
-    }
-
-    /**
-     * Set the premierAddOnLocation value.
-     *
-     * @param premierAddOnLocation the premierAddOnLocation value to set
-     * @return the PremierAddOnInner object itself.
-     */
-    public PremierAddOnInner withPremierAddOnLocation(String premierAddOnLocation) {
-        this.premierAddOnLocation = premierAddOnLocation;
-        return this;
-    }
-
-    /**
-     * Get the premierAddOnTags value.
-     *
-     * @return the premierAddOnTags value
-     */
-    public Map<String, String> premierAddOnTags() {
-        return this.premierAddOnTags;
-    }
-
-    /**
-     * Set the premierAddOnTags value.
-     *
-     * @param premierAddOnTags the premierAddOnTags value to set
-     * @return the PremierAddOnInner object itself.
-     */
-    public PremierAddOnInner withPremierAddOnTags(Map<String, String> premierAddOnTags) {
-        this.premierAddOnTags = premierAddOnTags;
-        return this;
-    }
-
-    /**
-     * Get the marketplacePublisher value.
+     * Get premier add on Marketplace publisher.
      *
      * @return the marketplacePublisher value
      */
@@ -196,7 +123,7 @@ public class PremierAddOnInner extends Resource {
     }
 
     /**
-     * Set the marketplacePublisher value.
+     * Set premier add on Marketplace publisher.
      *
      * @param marketplacePublisher the marketplacePublisher value to set
      * @return the PremierAddOnInner object itself.
@@ -207,7 +134,7 @@ public class PremierAddOnInner extends Resource {
     }
 
     /**
-     * Get the marketplaceOffer value.
+     * Get premier add on Marketplace offer.
      *
      * @return the marketplaceOffer value
      */
@@ -216,13 +143,33 @@ public class PremierAddOnInner extends Resource {
     }
 
     /**
-     * Set the marketplaceOffer value.
+     * Set premier add on Marketplace offer.
      *
      * @param marketplaceOffer the marketplaceOffer value to set
      * @return the PremierAddOnInner object itself.
      */
     public PremierAddOnInner withMarketplaceOffer(String marketplaceOffer) {
         this.marketplaceOffer = marketplaceOffer;
+        return this;
+    }
+
+    /**
+     * Get kind of resource.
+     *
+     * @return the kind value
+     */
+    public String kind() {
+        return this.kind;
+    }
+
+    /**
+     * Set kind of resource.
+     *
+     * @param kind the kind value to set
+     * @return the PremierAddOnInner object itself.
+     */
+    public PremierAddOnInner withKind(String kind) {
+        this.kind = kind;
         return this;
     }
 

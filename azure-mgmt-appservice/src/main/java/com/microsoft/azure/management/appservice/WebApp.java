@@ -98,6 +98,36 @@ public interface WebApp extends
     @Beta(SinceVersion.V1_7_0)
     Completable warDeployAsync(InputStream warFile, String appName);
 
+    /**
+     * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     * @param zipFile the ZIP file to upload
+     */
+    @Beta(SinceVersion.V1_13_0)
+    void zipDeploy(File zipFile);
+
+    /**
+     * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     * @param zipFile the ZIP file to upload
+     * @return a completable of the operation
+     */
+    @Beta(SinceVersion.V1_13_0)
+    Completable zipDeployAsync(File zipFile);
+
+    /**
+     * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     * @param zipFile the ZIP file to upload
+     */
+    @Beta(SinceVersion.V1_13_0)
+    void zipDeploy(InputStream zipFile);
+
+    /**
+     * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     * @param zipFile the ZIP file to upload
+     * @return a completable of the operation
+     */
+    @Beta(SinceVersion.V1_13_0)
+    Completable zipDeployAsync(InputStream zipFile);
+
     /**************************************************************
      * Fluent interfaces to provision a Web App
      **************************************************************/

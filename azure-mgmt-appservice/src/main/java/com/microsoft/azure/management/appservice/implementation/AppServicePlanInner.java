@@ -10,6 +10,7 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.microsoft.azure.management.appservice.StatusOptions;
 import com.microsoft.azure.management.appservice.HostingEnvironmentProfile;
+import org.joda.time.DateTime;
 import com.microsoft.azure.management.appservice.ProvisioningState;
 import com.microsoft.azure.management.appservice.SkuDescription;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,24 +23,14 @@ import com.microsoft.azure.Resource;
 @JsonFlatten
 public class AppServicePlanInner extends Resource {
     /**
-     * Kind of resource.
-     */
-    private String kind;
-
-    /**
-     * Name for the App Service plan.
-     */
-    @JsonProperty(value = "properties.name")
-    private String appServicePlanName;
-
-    /**
      * Target worker tier assigned to the App Service plan.
      */
     @JsonProperty(value = "properties.workerTierName")
     private String workerTierName;
 
     /**
-     * App Service plan status. Possible values include: 'Ready', 'Pending'.
+     * App Service plan status. Possible values include: 'Ready', 'Pending',
+     * 'Creating'.
      */
     @JsonProperty(value = "properties.status", access = JsonProperty.Access.WRITE_ONLY)
     private StatusOptions status;
@@ -92,16 +83,38 @@ public class AppServicePlanInner extends Resource {
     private Integer numberOfSites;
 
     /**
+     * If &lt;code&gt;true&lt;/code&gt;, this App Service Plan owns spot
+     * instances.
+     */
+    @JsonProperty(value = "properties.isSpot")
+    private Boolean isSpot;
+
+    /**
+     * The time when the server farm expires. Valid only if it is a spot server
+     * farm.
+     */
+    @JsonProperty(value = "properties.spotExpirationTime")
+    private DateTime spotExpirationTime;
+
+    /**
      * Resource group of the App Service plan.
      */
     @JsonProperty(value = "properties.resourceGroup", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGroup;
 
     /**
-     * Reserved.
+     * If Linux app service plan &lt;code&gt;true&lt;/code&gt;,
+     * &lt;code&gt;false&lt;/code&gt; otherwise.
      */
     @JsonProperty(value = "properties.reserved")
     private Boolean reserved;
+
+    /**
+     * If Hyper-V container app service plan &lt;code&gt;true&lt;/code&gt;,
+     * &lt;code&gt;false&lt;/code&gt; otherwise.
+     */
+    @JsonProperty(value = "properties.isXenon")
+    private Boolean isXenon;
 
     /**
      * Scaling worker count.
@@ -129,47 +142,13 @@ public class AppServicePlanInner extends Resource {
     private SkuDescription sku;
 
     /**
-     * Get the kind value.
-     *
-     * @return the kind value
+     * Kind of resource.
      */
-    public String kind() {
-        return kind;
-    }
+    @JsonProperty(value = "kind")
+    private String kind;
 
     /**
-     * Set the kind value.
-     *
-     * @param kind the kind value to set
-     * @return the AppServicePlanInner object itself
-     */
-    public AppServicePlanInner withKind(String kind) {
-        this.kind = kind;
-        return this;
-    }
-
-    /**
-     * Get the appServicePlanName value.
-     *
-     * @return the appServicePlanName value
-     */
-    public String appServicePlanName() {
-        return this.appServicePlanName;
-    }
-
-    /**
-     * Set the appServicePlanName value.
-     *
-     * @param appServicePlanName the appServicePlanName value to set
-     * @return the AppServicePlanInner object itself.
-     */
-    public AppServicePlanInner withAppServicePlanName(String appServicePlanName) {
-        this.appServicePlanName = appServicePlanName;
-        return this;
-    }
-
-    /**
-     * Get the workerTierName value.
+     * Get target worker tier assigned to the App Service plan.
      *
      * @return the workerTierName value
      */
@@ -178,7 +157,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Set the workerTierName value.
+     * Set target worker tier assigned to the App Service plan.
      *
      * @param workerTierName the workerTierName value to set
      * @return the AppServicePlanInner object itself.
@@ -189,7 +168,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Get the status value.
+     * Get app Service plan status. Possible values include: 'Ready', 'Pending', 'Creating'.
      *
      * @return the status value
      */
@@ -198,7 +177,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Get the subscription value.
+     * Get app Service plan subscription.
      *
      * @return the subscription value
      */
@@ -207,7 +186,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Get the adminSiteName value.
+     * Get app Service plan administration site.
      *
      * @return the adminSiteName value
      */
@@ -216,7 +195,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Set the adminSiteName value.
+     * Set app Service plan administration site.
      *
      * @param adminSiteName the adminSiteName value to set
      * @return the AppServicePlanInner object itself.
@@ -227,7 +206,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Get the hostingEnvironmentProfile value.
+     * Get specification for the App Service Environment to use for the App Service plan.
      *
      * @return the hostingEnvironmentProfile value
      */
@@ -236,7 +215,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Set the hostingEnvironmentProfile value.
+     * Set specification for the App Service Environment to use for the App Service plan.
      *
      * @param hostingEnvironmentProfile the hostingEnvironmentProfile value to set
      * @return the AppServicePlanInner object itself.
@@ -247,7 +226,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Get the maximumNumberOfWorkers value.
+     * Get maximum number of instances that can be assigned to this App Service plan.
      *
      * @return the maximumNumberOfWorkers value
      */
@@ -256,7 +235,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Get the geoRegion value.
+     * Get geographical location for the App Service plan.
      *
      * @return the geoRegion value
      */
@@ -265,7 +244,8 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Get the perSiteScaling value.
+     * Get if &lt;code&gt;true&lt;/code&gt;, apps assigned to this App Service plan can be scaled independently.
+     If &lt;code&gt;false&lt;/code&gt;, apps assigned to this App Service plan will scale to all instances of the plan.
      *
      * @return the perSiteScaling value
      */
@@ -274,7 +254,8 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Set the perSiteScaling value.
+     * Set if &lt;code&gt;true&lt;/code&gt;, apps assigned to this App Service plan can be scaled independently.
+     If &lt;code&gt;false&lt;/code&gt;, apps assigned to this App Service plan will scale to all instances of the plan.
      *
      * @param perSiteScaling the perSiteScaling value to set
      * @return the AppServicePlanInner object itself.
@@ -285,7 +266,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Get the numberOfSites value.
+     * Get number of apps assigned to this App Service plan.
      *
      * @return the numberOfSites value
      */
@@ -294,7 +275,47 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Get the resourceGroup value.
+     * Get if &lt;code&gt;true&lt;/code&gt;, this App Service Plan owns spot instances.
+     *
+     * @return the isSpot value
+     */
+    public Boolean isSpot() {
+        return this.isSpot;
+    }
+
+    /**
+     * Set if &lt;code&gt;true&lt;/code&gt;, this App Service Plan owns spot instances.
+     *
+     * @param isSpot the isSpot value to set
+     * @return the AppServicePlanInner object itself.
+     */
+    public AppServicePlanInner withIsSpot(Boolean isSpot) {
+        this.isSpot = isSpot;
+        return this;
+    }
+
+    /**
+     * Get the time when the server farm expires. Valid only if it is a spot server farm.
+     *
+     * @return the spotExpirationTime value
+     */
+    public DateTime spotExpirationTime() {
+        return this.spotExpirationTime;
+    }
+
+    /**
+     * Set the time when the server farm expires. Valid only if it is a spot server farm.
+     *
+     * @param spotExpirationTime the spotExpirationTime value to set
+     * @return the AppServicePlanInner object itself.
+     */
+    public AppServicePlanInner withSpotExpirationTime(DateTime spotExpirationTime) {
+        this.spotExpirationTime = spotExpirationTime;
+        return this;
+    }
+
+    /**
+     * Get resource group of the App Service plan.
      *
      * @return the resourceGroup value
      */
@@ -303,7 +324,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Get the reserved value.
+     * Get if Linux app service plan &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;false&lt;/code&gt; otherwise.
      *
      * @return the reserved value
      */
@@ -312,7 +333,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Set the reserved value.
+     * Set if Linux app service plan &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;false&lt;/code&gt; otherwise.
      *
      * @param reserved the reserved value to set
      * @return the AppServicePlanInner object itself.
@@ -323,7 +344,27 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Get the targetWorkerCount value.
+     * Get if Hyper-V container app service plan &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;false&lt;/code&gt; otherwise.
+     *
+     * @return the isXenon value
+     */
+    public Boolean isXenon() {
+        return this.isXenon;
+    }
+
+    /**
+     * Set if Hyper-V container app service plan &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;false&lt;/code&gt; otherwise.
+     *
+     * @param isXenon the isXenon value to set
+     * @return the AppServicePlanInner object itself.
+     */
+    public AppServicePlanInner withIsXenon(Boolean isXenon) {
+        this.isXenon = isXenon;
+        return this;
+    }
+
+    /**
+     * Get scaling worker count.
      *
      * @return the targetWorkerCount value
      */
@@ -332,7 +373,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Set the targetWorkerCount value.
+     * Set scaling worker count.
      *
      * @param targetWorkerCount the targetWorkerCount value to set
      * @return the AppServicePlanInner object itself.
@@ -343,7 +384,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Get the targetWorkerSizeId value.
+     * Get scaling worker size ID.
      *
      * @return the targetWorkerSizeId value
      */
@@ -352,7 +393,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Set the targetWorkerSizeId value.
+     * Set scaling worker size ID.
      *
      * @param targetWorkerSizeId the targetWorkerSizeId value to set
      * @return the AppServicePlanInner object itself.
@@ -363,7 +404,7 @@ public class AppServicePlanInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get provisioning state of the App Service Environment. Possible values include: 'Succeeded', 'Failed', 'Canceled', 'InProgress', 'Deleting'.
      *
      * @return the provisioningState value
      */
@@ -388,6 +429,26 @@ public class AppServicePlanInner extends Resource {
      */
     public AppServicePlanInner withSku(SkuDescription sku) {
         this.sku = sku;
+        return this;
+    }
+
+    /**
+     * Get kind of resource.
+     *
+     * @return the kind value
+     */
+    public String kind() {
+        return this.kind;
+    }
+
+    /**
+     * Set kind of resource.
+     *
+     * @param kind the kind value to set
+     * @return the AppServicePlanInner object itself.
+     */
+    public AppServicePlanInner withKind(String kind) {
+        this.kind = kind;
         return this;
     }
 

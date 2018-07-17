@@ -17,8 +17,8 @@ public class DeletedSiteInner {
     /**
      * Numeric id for the deleted site.
      */
-    @JsonProperty(value = "id")
-    private Integer id;
+    @JsonProperty(value = "deletedSiteId")
+    private Integer deletedSiteId;
 
     /**
      * Time in UTC when the app was deleted.
@@ -41,8 +41,8 @@ public class DeletedSiteInner {
     /**
      * Name of the deleted site.
      */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
+    @JsonProperty(value = "deletedSiteName", access = JsonProperty.Access.WRITE_ONLY)
+    private String deletedSiteName;
 
     /**
      * Slot of the deleted site.
@@ -51,27 +51,27 @@ public class DeletedSiteInner {
     private String slot;
 
     /**
-     * Get the id value.
+     * Get numeric id for the deleted site.
      *
-     * @return the id value
+     * @return the deletedSiteId value
      */
-    public Integer id() {
-        return this.id;
+    public Integer deletedSiteId() {
+        return this.deletedSiteId;
     }
 
     /**
-     * Set the id value.
+     * Set numeric id for the deleted site.
      *
-     * @param id the id value to set
+     * @param deletedSiteId the deletedSiteId value to set
      * @return the DeletedSiteInner object itself.
      */
-    public DeletedSiteInner withId(Integer id) {
-        this.id = id;
+    public DeletedSiteInner withDeletedSiteId(Integer deletedSiteId) {
+        this.deletedSiteId = deletedSiteId;
         return this;
     }
 
     /**
-     * Get the deletedTimestamp value.
+     * Get time in UTC when the app was deleted.
      *
      * @return the deletedTimestamp value
      */
@@ -80,7 +80,7 @@ public class DeletedSiteInner {
     }
 
     /**
-     * Get the subscription value.
+     * Get subscription containing the deleted site.
      *
      * @return the subscription value
      */
@@ -89,7 +89,7 @@ public class DeletedSiteInner {
     }
 
     /**
-     * Get the resourceGroup value.
+     * Get resourceGroup that contained the deleted site.
      *
      * @return the resourceGroup value
      */
@@ -98,16 +98,16 @@ public class DeletedSiteInner {
     }
 
     /**
-     * Get the name value.
+     * Get name of the deleted site.
      *
-     * @return the name value
+     * @return the deletedSiteName value
      */
-    public String name() {
-        return this.name;
+    public String deletedSiteName() {
+        return this.deletedSiteName;
     }
 
     /**
-     * Get the slot value.
+     * Get slot of the deleted site.
      *
      * @return the slot value
      */

@@ -18,12 +18,6 @@ import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 @JsonFlatten
 public class GeoRegionInner extends ProxyOnlyResource {
     /**
-     * Region name.
-     */
-    @JsonProperty(value = "properties.name", access = JsonProperty.Access.WRITE_ONLY)
-    private String geoRegionName;
-
-    /**
      * Region description.
      */
     @JsonProperty(value = "properties.description", access = JsonProperty.Access.WRITE_ONLY)
@@ -36,16 +30,7 @@ public class GeoRegionInner extends ProxyOnlyResource {
     private String displayName;
 
     /**
-     * Get the geoRegionName value.
-     *
-     * @return the geoRegionName value
-     */
-    public String geoRegionName() {
-        return this.geoRegionName;
-    }
-
-    /**
-     * Get the description value.
+     * Get region description.
      *
      * @return the description value
      */
@@ -54,7 +39,7 @@ public class GeoRegionInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the displayName value.
+     * Get display name for region.
      *
      * @return the displayName value
      */

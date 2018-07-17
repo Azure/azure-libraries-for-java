@@ -217,6 +217,41 @@ public interface WebAppBase extends
     String autoSwapSlotName();
 
     /**
+     * @return true if the web app is configured to accept only HTTPS requests. HTTP requests will be redirected.
+     */
+    boolean httpsOnly();
+
+    /**
+     * @return the state of FTP / FTPS service
+     */
+    FtpsState ftpsState();
+
+    /**
+     * @return the virtual applications and their virtual directories in this web app
+     */
+    List<VirtualApplication> virtualApplications();
+
+    /**
+     * @return whether to allow clients to connect over http2.0
+     */
+    boolean http20Enabled();
+
+    /**
+     * @return whether local MySQL is enabled
+     */
+    boolean localMySqlEnabled();
+
+    /**
+     * @return the SCM configuration for the web app
+     */
+    ScmType scmType();
+
+    /**
+     * @return the root directory for the web app
+     */
+    String documentRoot();
+
+    /**
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID assigned
      * to the web app.
      */
@@ -683,6 +718,34 @@ public interface WebAppBase extends
              * @return the next stage of the definition
              */
             WithCreate<FluentT> withoutDefaultDocument(String document);
+
+            /**
+             * Sets whether the web app only accepts HTTPS traffic.
+             * @param httpsOnly true if the web app only accepts HTTPS traffic
+             * @return the next stage of web app definition
+             */
+            WithCreate<FluentT> withHttpsOnly(boolean httpsOnly);
+
+            /**
+             * Sets whether the web app accepts HTTP 2.0 traffic.
+             * @param http20Enabled true if the web app accepts HTTP 2.0 traffic
+             * @return the next stage of web app definition
+             */
+            WithCreate<FluentT> withHttp20Enabled(boolean http20Enabled);
+
+            /**
+             * Sets whether the web app supports certain type of FTP(S).
+             * @param ftpsState the FTP(S) configuration
+             * @return the next stage of web app definition
+             */
+            WithCreate<FluentT> withFtpsState(FtpsState ftpsState);
+
+            /**
+             * Sets the virtual applications in the web app.
+             * @param virtualApplications the list of virtual applications in the web app
+             * @return the next stage of web app definition
+             */
+            WithCreate<FluentT> withVirtualApplications(List<VirtualApplication> virtualApplications);
         }
 
         /**
@@ -1141,6 +1204,34 @@ public interface WebAppBase extends
              * @return the next stage of web app update
              */
             Update<FluentT> withoutDefaultDocument(String document);
+
+            /**
+             * Sets whether the web app only accepts HTTPS traffic.
+             * @param httpsOnly true if the web app only accepts HTTPS traffic
+             * @return the next stage of web app update
+             */
+            Update<FluentT> withHttpsOnly(boolean httpsOnly);
+
+            /**
+             * Sets whether the web app accepts HTTP 2.0 traffic.
+             * @param http20Enabled true if the web app accepts HTTP 2.0 traffic
+             * @return the next stage of web app update
+             */
+            Update<FluentT> withHttp20Enabled(boolean http20Enabled);
+
+            /**
+             * Sets whether the web app supports certain type of FTP(S).
+             * @param ftpsState the FTP(S) configuration
+             * @return the next stage of web app update
+             */
+            Update<FluentT> withFtpsState(FtpsState ftpsState);
+
+            /**
+             * Sets the virtual applications in the web app.
+             * @param virtualApplications the list of virtual applications in the web app
+             * @return the next stage of web app update
+             */
+            Update<FluentT> withVirtualApplications(List<VirtualApplication> virtualApplications);
         }
 
         /**

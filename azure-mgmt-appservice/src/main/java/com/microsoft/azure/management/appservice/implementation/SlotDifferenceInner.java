@@ -18,10 +18,10 @@ import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 @JsonFlatten
 public class SlotDifferenceInner extends ProxyOnlyResource {
     /**
-     * Type of the difference: Information, Warning or Error.
+     * Level of the difference: Information, Warning or Error.
      */
-    @JsonProperty(value = "properties.type", access = JsonProperty.Access.WRITE_ONLY)
-    private String slotDifferenceType;
+    @JsonProperty(value = "properties.level", access = JsonProperty.Access.WRITE_ONLY)
+    private String level;
 
     /**
      * The type of the setting: General, AppSetting or ConnectionString.
@@ -61,16 +61,16 @@ public class SlotDifferenceInner extends ProxyOnlyResource {
     private String description;
 
     /**
-     * Get the slotDifferenceType value.
+     * Get level of the difference: Information, Warning or Error.
      *
-     * @return the slotDifferenceType value
+     * @return the level value
      */
-    public String slotDifferenceType() {
-        return this.slotDifferenceType;
+    public String level() {
+        return this.level;
     }
 
     /**
-     * Get the settingType value.
+     * Get the type of the setting: General, AppSetting or ConnectionString.
      *
      * @return the settingType value
      */
@@ -79,7 +79,7 @@ public class SlotDifferenceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the diffRule value.
+     * Get rule that describes how to process the setting difference during a slot swap.
      *
      * @return the diffRule value
      */
@@ -88,7 +88,7 @@ public class SlotDifferenceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the settingName value.
+     * Get name of the setting.
      *
      * @return the settingName value
      */
@@ -97,7 +97,7 @@ public class SlotDifferenceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the valueInCurrentSlot value.
+     * Get value of the setting in the current slot.
      *
      * @return the valueInCurrentSlot value
      */
@@ -106,7 +106,7 @@ public class SlotDifferenceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the valueInTargetSlot value.
+     * Get value of the setting in the target slot.
      *
      * @return the valueInTargetSlot value
      */
@@ -115,7 +115,7 @@ public class SlotDifferenceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the description value.
+     * Get description of the setting difference.
      *
      * @return the description value
      */

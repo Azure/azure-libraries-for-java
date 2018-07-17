@@ -67,7 +67,7 @@ public class TestTrafficManager extends TestTemplate<TrafficManagerProfile, Traf
                 .withNewResourceGroup(rgCreatable)
                 .withLeafDomainLabel(nestedTmProfileDnsLabel)
                 .withPriorityBasedRouting()
-                .defineExternalTargetEndpoint("external-ep-1")
+                .defineExternalTargetEndpoint(externalEndpointName21)
                     .toFqdn("www.gitbook.com")
                     .fromRegion(Region.INDIA_CENTRAL)
                     .attach()
@@ -108,15 +108,29 @@ public class TestTrafficManager extends TestTemplate<TrafficManagerProfile, Traf
 
         Assert.assertEquals(1, updatedProfile.azureEndpoints().size());
         Assert.assertTrue(updatedProfile.azureEndpoints().containsKey(azureEndpointName));
+        Assert.assertEquals(1, updatedProfile.externalEndpoints().size());
+        Assert.assertTrue(updatedProfile.externalEndpoints().containsKey(externalEndpointName21));
 
         TrafficManagerProfile updatedProfileFromGet = profiles.getById(updatedProfile.id());
 
         Assert.assertEquals(1, updatedProfileFromGet.azureEndpoints().size());
         Assert.assertTrue(updatedProfileFromGet.azureEndpoints().containsKey(azureEndpointName));
+        Assert.assertEquals(1, updatedProfileFromGet.externalEndpoints().size());
+        Assert.assertTrue(updatedProfileFromGet.externalEndpoints().containsKey(externalEndpointName21));
 
         nestedProfile.update()
                 .withoutEndpoint(azureEndpointName)
                 .apply();
+
+        Assert.assertEquals(0, nestedProfile.azureEndpoints().size());
+        Assert.assertEquals(1, nestedProfile.externalEndpoints().size());
+        Assert.assertTrue(nestedProfile.externalEndpoints().containsKey(externalEndpointName21));
+
+        updatedProfileFromGet = profiles.getById(updatedProfile.id());
+        Assert.assertEquals(0, updatedProfileFromGet.azureEndpoints().size());
+        Assert.assertEquals(nestedProfile.azureEndpoints().size(), updatedProfileFromGet.azureEndpoints().size());
+        Assert.assertEquals(1, updatedProfileFromGet.externalEndpoints().size());
+        Assert.assertTrue(updatedProfileFromGet.externalEndpoints().containsKey(externalEndpointName21));
         // end of bugfix
 
         TrafficManagerProfile profile = profiles.define(tmProfileName)

@@ -259,11 +259,7 @@ class TrafficManagerProfileImpl
         return self.endpoints.commitAndGetAllAsync()
                 .flatMap(new Func1<List<TrafficManagerEndpointImpl>, Observable<? extends TrafficManagerProfile>>() {
                     public Observable<? extends TrafficManagerProfile> call(List<TrafficManagerEndpointImpl> endpoints) {
-                        List<EndpointInner> innerEndpoints = new ArrayList<>();
-                        for (TrafficManagerEndpointImpl ei : endpoints) {
-                            innerEndpoints.add(ei.inner());
-                        }
-                        inner().withEndpoints(innerEndpoints);
+                        inner().withEndpoints(self.endpoints.allEndpointInners());
                         return innerCollection.createOrUpdateAsync(resourceGroupName(), name(), inner())
                             .map(new Func1<ProfileInner, TrafficManagerProfile>() {
                                     @Override

@@ -20,7 +20,6 @@ import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -259,7 +258,7 @@ class TrafficManagerProfileImpl
         return self.endpoints.commitAndGetAllAsync()
                 .flatMap(new Func1<List<TrafficManagerEndpointImpl>, Observable<? extends TrafficManagerProfile>>() {
                     public Observable<? extends TrafficManagerProfile> call(List<TrafficManagerEndpointImpl> endpoints) {
-                        inner().withEndpoints(self.endpoints.allEndpointInners());
+                        inner().withEndpoints(self.endpoints.allEndpointsInners());
                         return innerCollection.createOrUpdateAsync(resourceGroupName(), name(), inner())
                             .map(new Func1<ProfileInner, TrafficManagerProfile>() {
                                     @Override

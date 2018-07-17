@@ -44,8 +44,7 @@ class TrafficManagerEndpointsImpl extends
         this.cacheCollection();
     }
 
-    List<EndpointInner> allEndpointsInners()
-    {
+    List<EndpointInner> allEndpointsInners() {
         List<EndpointInner> allEndpoints = new ArrayList<>();
         for (TrafficManagerEndpointImpl epImpl : this.collection().values()) {
             allEndpoints.add(epImpl.inner());

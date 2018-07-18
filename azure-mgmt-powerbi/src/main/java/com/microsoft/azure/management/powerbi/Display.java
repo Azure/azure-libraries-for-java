@@ -17,7 +17,7 @@ public class Display {
     /**
      * The localized friendly form of the resource provider name. This form is
      * also expected to include the publisher/company responsible. Use Title
-     * Casing. Begin with “Microsoft” for 1st party services.
+     * Casing. Begin with "Microsoft" for 1st party services.
      */
     @JsonProperty(value = "provider")
     private String provider;
@@ -26,7 +26,7 @@ public class Display {
      * The localized friendly form of the resource type related to this
      * action/operation. This form should match the public documentation for
      * the resource provider. Use Title Casing. For examples, refer to the
-     * “name” section.
+     * "name" section.
      */
     @JsonProperty(value = "resource")
     private String resource;

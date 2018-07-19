@@ -21,6 +21,8 @@ import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -481,6 +483,36 @@ public interface WebAppBase extends
      */
     @Method
     Completable resetSlotConfigurationsAsync();
+
+    /**
+     * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     * @param zipFile the ZIP file to upload
+     */
+    @Beta(SinceVersion.V1_14_0)
+    void zipDeploy(File zipFile);
+
+    /**
+     * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     * @param zipFile the ZIP file to upload
+     * @return a completable of the operation
+     */
+    @Beta(SinceVersion.V1_14_0)
+    Completable zipDeployAsync(File zipFile);
+
+    /**
+     * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     * @param zipFile the ZIP file to upload
+     */
+    @Beta(SinceVersion.V1_14_0)
+    void zipDeploy(InputStream zipFile);
+
+    /**
+     * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     * @param zipFile the ZIP file to upload
+     * @return a completable of the operation
+     */
+    @Beta(SinceVersion.V1_14_0)
+    Completable zipDeployAsync(InputStream zipFile);
 
     /**************************************************************
      * Fluent interfaces to provision a Web App or deployment slot.

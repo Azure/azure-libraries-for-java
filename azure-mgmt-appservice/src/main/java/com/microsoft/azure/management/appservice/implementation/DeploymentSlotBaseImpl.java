@@ -37,7 +37,7 @@ import java.util.Map;
  * The implementation for DeploymentSlot.
  */
 @LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-class DeploymentSlotBaseImpl<
+abstract class DeploymentSlotBaseImpl<
         FluentT extends WebAppBase,
         FluentImplT extends DeploymentSlotBaseImpl<FluentT, FluentImplT, ParentImplT, FluentWithCreateT, FluentUpdateT>,
         ParentImplT extends AppServiceBaseImpl<?, ?, ?, ?>,

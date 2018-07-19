@@ -44,6 +44,8 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedInputStream;
@@ -340,6 +342,30 @@ class FunctionAppImpl
                         return kuduClient.streamApplicationLogsAsync();
                     }
                 });
+    }
+
+    @Override
+    public Completable zipDeployAsync(File zipFile) {
+        try {
+            return zipDeployAsync(new FileInputStream(zipFile));
+        } catch (IOException e) {
+            return Completable.error(e);
+        }
+    }
+
+    @Override
+    public void zipDeploy(File zipFile) {
+        zipDeployAsync(zipFile).await();
+    }
+
+    @Override
+    public Completable zipDeployAsync(InputStream zipFile) {
+        return kuduClient.zipDeployAsync(zipFile);
+    }
+
+    @Override
+    public void zipDeploy(InputStream zipFile) {
+        zipDeployAsync(zipFile).await();
     }
 
     @Override

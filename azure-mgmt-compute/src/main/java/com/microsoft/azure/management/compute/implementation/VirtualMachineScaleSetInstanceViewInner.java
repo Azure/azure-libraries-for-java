@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
+import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetInstanceViewStatusesSummary;
 import java.util.List;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMExtensionsSummary;
-import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -37,7 +37,7 @@ public class VirtualMachineScaleSetInstanceViewInner {
     private List<InstanceViewStatus> statuses;
 
     /**
-     * Get the virtualMachine value.
+     * Get the instance view status summary for the virtual machine scale set.
      *
      * @return the virtualMachine value
      */
@@ -46,7 +46,7 @@ public class VirtualMachineScaleSetInstanceViewInner {
     }
 
     /**
-     * Get the extensions value.
+     * Get the extensions information.
      *
      * @return the extensions value
      */
@@ -55,7 +55,7 @@ public class VirtualMachineScaleSetInstanceViewInner {
     }
 
     /**
-     * Get the statuses value.
+     * Get the resource status information.
      *
      * @return the statuses value
      */
@@ -64,7 +64,7 @@ public class VirtualMachineScaleSetInstanceViewInner {
     }
 
     /**
-     * Set the statuses value.
+     * Set the resource status information.
      *
      * @param statuses the statuses value to set
      * @return the VirtualMachineScaleSetInstanceViewInner object itself.

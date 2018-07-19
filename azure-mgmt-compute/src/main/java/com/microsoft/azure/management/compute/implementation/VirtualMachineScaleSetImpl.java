@@ -20,6 +20,9 @@ import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
 import com.microsoft.azure.management.compute.LinuxConfiguration;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.ResourceIdentityType;
+import com.microsoft.azure.management.compute.RunCommandInput;
+import com.microsoft.azure.management.compute.RunCommandInputParameter;
+import com.microsoft.azure.management.compute.RunCommandResult;
 import com.microsoft.azure.management.compute.SshConfiguration;
 import com.microsoft.azure.management.compute.SshPublicKey;
 import com.microsoft.azure.management.compute.StorageAccountTypes;
@@ -32,14 +35,18 @@ import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetExtension;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetExtensionProfile;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetIPConfiguration;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetManagedDiskParameters;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetNetworkConfiguration;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetNetworkProfile;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetOSDisk;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetOSProfile;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetPublicIPAddressConfiguration;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetSku;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetSkuTypes;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetStorageProfile;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMProfile;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetUpdate;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMs;
 import com.microsoft.azure.management.compute.WinRMConfiguration;
 import com.microsoft.azure.management.compute.WinRMListener;
@@ -48,11 +55,13 @@ import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.microsoft.azure.management.msi.Identity;
+import com.microsoft.azure.management.network.ApplicationSecurityGroup;
 import com.microsoft.azure.management.network.LoadBalancerBackend;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
 import com.microsoft.azure.management.network.LoadBalancerPrivateFrontend;
 import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.Network;
+import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
@@ -196,7 +205,7 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public Completable deallocateAsync() {
-        Observable<OperationStatusResponseInner> d = this.manager().inner().virtualMachineScaleSets().deallocateAsync(this.resourceGroupName(), this.name());
+        Observable<Void> d = this.manager().inner().virtualMachineScaleSets().deallocateAsync(this.resourceGroupName(), this.name());
         Observable<VirtualMachineScaleSet> r = this.refreshAsync();
         return Observable.concat(d, r).toCompletable();
     }
@@ -264,6 +273,36 @@ public class VirtualMachineScaleSetImpl
     @Override
     public ServiceFuture<Void> reimageAsync(ServiceCallback<Void> callback) {
         return ServiceFuture.fromBody(this.reimageAsync(), callback);
+    }
+
+    @Override
+    public RunCommandResult runPowerShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        return this.manager().virtualMachineScaleSets().runPowerShellScriptInVMInstance(this.resourceGroupName(), this.name(), vmId, scriptLines, scriptParameters);
+    }
+
+    @Override
+    public Observable<RunCommandResult> runPowerShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        return this.manager().virtualMachineScaleSets().runPowerShellScriptInVMInstanceAsync(this.resourceGroupName(), this.name(), vmId, scriptLines, scriptParameters);
+    }
+
+    @Override
+    public RunCommandResult runShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        return this.manager().virtualMachineScaleSets().runShellScriptInVMInstance(this.resourceGroupName(), this.name(), vmId, scriptLines, scriptParameters);
+    }
+
+    @Override
+    public Observable<RunCommandResult> runShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        return this.manager().virtualMachineScaleSets().runShellScriptInVMInstanceAsync(this.resourceGroupName(), this.name(), vmId, scriptLines, scriptParameters);
+    }
+
+    @Override
+    public RunCommandResult runCommandInVMInstance(String vmId, RunCommandInput inputCommand) {
+        return this.manager().virtualMachineScaleSets().runCommandInVMInstance(this.resourceGroupName(), this.name(), vmId, inputCommand);
+    }
+
+    @Override
+    public Observable<RunCommandResult> runCommandVMInstanceAsync(String vmId, RunCommandInput inputCommand) {
+        return this.manager().virtualMachineScaleSets().runCommandVMInstanceAsync(this.resourceGroupName(), this.name(), vmId, inputCommand);
     }
 
     @Override
@@ -412,12 +451,87 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
+    public VirtualMachineScaleSetPublicIPAddressConfiguration virtualMachinePublicIpConfig() {
+        VirtualMachineScaleSetIPConfiguration nicConfig = this.primaryNicDefaultIPConfiguration();
+        if (nicConfig != null) {
+            return nicConfig.publicIPAddressConfiguration();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public VirtualMachineEvictionPolicyTypes virtualMachineEvictionPolicy() {
         if (this.inner().virtualMachineProfile() != null) {
             return this.inner().virtualMachineProfile().evictionPolicy();
         } else {
             return null;
         }
+    }
+
+
+    @Override
+    public boolean isIpForwardingEnabled() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = primaryNicConfiguration();
+        if (nicConfig.enableIPForwarding() != null) {
+            return nicConfig.enableIPForwarding();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isAcceleratedNetworkingEnabled() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = primaryNicConfiguration();
+        if (nicConfig.enableAcceleratedNetworking() != null) {
+            return nicConfig.enableAcceleratedNetworking();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public String networkSecurityGroupId() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = primaryNicConfiguration();
+        if (nicConfig.networkSecurityGroup() != null) {
+            return nicConfig.networkSecurityGroup().id();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean isSinglePlacementGroupEnabled() {
+        if (this.inner().singlePlacementGroup() != null) {
+            return this.inner().singlePlacementGroup();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public List<String> applicationGatewayBackendAddressPoolsIds() {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = this.primaryNicDefaultIPConfiguration();
+        List<SubResource> backendPools = nicIpConfig.applicationGatewayBackendAddressPools();
+        List<String> result = new ArrayList<>();
+        if (backendPools != null) {
+            for (SubResource backendPool : backendPools) {
+                result.add(backendPool.id());
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<String> applicationSecurityGroupIds() {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = this.primaryNicDefaultIPConfiguration();
+        List<String> asgIds = new ArrayList<>();
+        if (nicIpConfig.applicationSecurityGroups() != null) {
+            for (SubResource asg : nicIpConfig.applicationSecurityGroups()) {
+                asgIds.add(asg.id());
+            }
+        }
+        return asgIds;
     }
 
     @Override
@@ -481,7 +595,7 @@ public class VirtualMachineScaleSetImpl
     @Override
     public VirtualMachineScaleSetImpl withPrimaryInternetFacingLoadBalancerBackends(String... backendNames) {
         if (this.isInCreateMode()) {
-            VirtualMachineScaleSetIPConfigurationInner defaultPrimaryIpConfig = this.primaryNicDefaultIPConfiguration();
+            VirtualMachineScaleSetIPConfiguration defaultPrimaryIpConfig = this.primaryNicDefaultIPConfiguration();
             removeAllBackendAssociationFromIpConfiguration(this.primaryInternetFacingLoadBalancer, defaultPrimaryIpConfig);
             associateBackEndsToIpConfiguration(this.primaryInternetFacingLoadBalancer.id(),
                     defaultPrimaryIpConfig,
@@ -495,7 +609,7 @@ public class VirtualMachineScaleSetImpl
     @Override
     public VirtualMachineScaleSetImpl withPrimaryInternetFacingLoadBalancerInboundNatPools(String... natPoolNames) {
         if (this.isInCreateMode()) {
-            VirtualMachineScaleSetIPConfigurationInner defaultPrimaryIpConfig = this.primaryNicDefaultIPConfiguration();
+            VirtualMachineScaleSetIPConfiguration defaultPrimaryIpConfig = this.primaryNicDefaultIPConfiguration();
             removeAllInboundNatPoolAssociationFromIpConfiguration(this.primaryInternetFacingLoadBalancer,
                     defaultPrimaryIpConfig);
             associateInboundNATPoolsToIpConfiguration(this.primaryInternetFacingLoadBalancer.id(),
@@ -554,7 +668,7 @@ public class VirtualMachineScaleSetImpl
     @Override
     public VirtualMachineScaleSetImpl withPrimaryInternalLoadBalancerBackends(String... backendNames) {
         if (this.isInCreateMode()) {
-            VirtualMachineScaleSetIPConfigurationInner defaultPrimaryIpConfig = primaryNicDefaultIPConfiguration();
+            VirtualMachineScaleSetIPConfiguration defaultPrimaryIpConfig = primaryNicDefaultIPConfiguration();
             removeAllBackendAssociationFromIpConfiguration(this.primaryInternalLoadBalancer,
                     defaultPrimaryIpConfig);
             associateBackEndsToIpConfiguration(this.primaryInternalLoadBalancer.id(),
@@ -569,7 +683,7 @@ public class VirtualMachineScaleSetImpl
     @Override
     public VirtualMachineScaleSetImpl withPrimaryInternalLoadBalancerInboundNatPools(String... natPoolNames) {
         if (this.isInCreateMode()) {
-            VirtualMachineScaleSetIPConfigurationInner defaultPrimaryIpConfig = this.primaryNicDefaultIPConfiguration();
+            VirtualMachineScaleSetIPConfiguration defaultPrimaryIpConfig = this.primaryNicDefaultIPConfiguration();
             removeAllInboundNatPoolAssociationFromIpConfiguration(this.primaryInternalLoadBalancer,
                     defaultPrimaryIpConfig);
             associateInboundNATPoolsToIpConfiguration(this.primaryInternalLoadBalancer.id(),
@@ -643,7 +757,7 @@ public class VirtualMachineScaleSetImpl
                 .storageProfile().osDisk().withCreateOption(DiskCreateOptionTypes.FROM_IMAGE);
         this.inner()
                 .virtualMachineProfile()
-                .storageProfile().withImageReference(imageReference.inner());
+                .storageProfile().withImageReference(imageReference);
         this.inner()
                 .virtualMachineProfile()
                 .osProfile().withWindowsConfiguration(new WindowsConfiguration());
@@ -660,7 +774,7 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public VirtualMachineScaleSetImpl withWindowsCustomImage(String customImageId) {
-        ImageReferenceInner imageReferenceInner = new ImageReferenceInner();
+        ImageReference imageReferenceInner = new ImageReference();
         imageReferenceInner.withId(customImageId);
         this.inner()
                 .virtualMachineProfile()
@@ -730,7 +844,7 @@ public class VirtualMachineScaleSetImpl
                 .storageProfile().osDisk().withCreateOption(DiskCreateOptionTypes.FROM_IMAGE);
         this.inner()
                 .virtualMachineProfile()
-                .storageProfile().withImageReference(imageReference.inner());
+                .storageProfile().withImageReference(imageReference);
         this.inner()
                 .virtualMachineProfile()
                 .osProfile().withLinuxConfiguration(new LinuxConfiguration());
@@ -740,7 +854,7 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public VirtualMachineScaleSetImpl withLinuxCustomImage(String customImageId) {
-        ImageReferenceInner imageReferenceInner = new ImageReferenceInner();
+        ImageReference imageReferenceInner = new ImageReference();
         imageReferenceInner.withId(customImageId);
         this.inner()
                 .virtualMachineProfile()
@@ -1062,9 +1176,8 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public Set<String> userAssignedManagedServiceIdentityIds() {
-        if (this.inner().identity() != null && this.inner().identity().identityIds() != null) {
-            return Collections.unmodifiableSet(new HashSet<String>(this.inner().identity().identityIds()));
-
+        if (this.inner().identity() != null && this.inner().identity().userAssignedIdentities() != null) {
+            return Collections.unmodifiableSet(new HashSet<String>(this.inner().identity().userAssignedIdentities().keySet()));
         }
         return Collections.unmodifiableSet(new HashSet<String>());
     }
@@ -1281,8 +1394,8 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withSystemAssignedManagedServiceIdentity(int tokenPort) {
-        this.virtualMachineScaleSetMsiHandler.withLocalManagedServiceIdentity(tokenPort);
+    public VirtualMachineScaleSetImpl withoutSystemAssignedManagedServiceIdentity() {
+        this.virtualMachineScaleSetMsiHandler.withoutLocalManagedServiceIdentity();
         return this;
     }
 
@@ -1332,7 +1445,6 @@ public class VirtualMachineScaleSetImpl
     //
     @Override
     protected void beforeCreating() {
-        this.virtualMachineScaleSetMsiHandler.addOrUpdateMSIExtension(this);
         if (this.extensions.size() > 0) {
             this.inner()
                     .virtualMachineProfile()
@@ -1361,7 +1473,8 @@ public class VirtualMachineScaleSetImpl
         }
         this.handleUnManagedOSDiskContainers();
         this.bootDiagnosticsHandler.handleDiagnosticsSettings();
-        this.virtualMachineScaleSetMsiHandler.handleExternalIdentitySettings();
+        this.virtualMachineScaleSetMsiHandler.processCreatedExternalIdentities();
+        this.virtualMachineScaleSetMsiHandler.handleExternalIdentities();
         return this.manager().inner().virtualMachineScaleSets()
                 .createOrUpdateAsync(resourceGroupName(), name(), inner());
     }
@@ -1370,6 +1483,50 @@ public class VirtualMachineScaleSetImpl
     protected void afterCreating() {
         this.clearCachedProperties();
         this.initializeChildrenFromInner();
+        this.virtualMachineScaleSetMsiHandler.clear();
+    }
+
+    @Override
+    public Observable<VirtualMachineScaleSet> updateResourceAsync() {
+        if (this.extensions.size() > 0) {
+            this.inner()
+                    .virtualMachineProfile()
+                    .withExtensionProfile(new VirtualMachineScaleSetExtensionProfile())
+                    .extensionProfile()
+                    .withExtensions(innersFromWrappers(this.extensions.values()));
+        }
+        this.setPrimaryIpConfigurationSubnet();
+        this.setPrimaryIpConfigurationBackendsAndInboundNatPools();
+        if (isManagedDiskEnabled()) {
+            this.managedDataDisks.setDataDisksDefaults();
+        } else {
+            List<VirtualMachineScaleSetDataDisk> dataDisks = this.inner()
+                    .virtualMachineProfile()
+                    .storageProfile()
+                    .dataDisks();
+            VirtualMachineScaleSetUnmanagedDataDiskImpl.setDataDisksDefaults(dataDisks, this.name());
+        }
+        this.handleUnManagedOSDiskContainers();
+        this.bootDiagnosticsHandler.handleDiagnosticsSettings();
+        this.virtualMachineScaleSetMsiHandler.processCreatedExternalIdentities();
+        //
+        VirtualMachineScaleSetUpdate updateParameter = VMSSPatchPayload.preparePatchPayload(this);
+        //
+        this.virtualMachineScaleSetMsiHandler.handleExternalIdentities(updateParameter);
+        //
+        final VirtualMachineScaleSetImpl self = this;
+        return this.manager().inner().virtualMachineScaleSets()
+                .updateAsync(resourceGroupName(), name(), updateParameter)
+                .map(new Func1<VirtualMachineScaleSetInner, VirtualMachineScaleSet>() {
+                    @Override
+                    public VirtualMachineScaleSet call(VirtualMachineScaleSetInner vmssInner) {
+                        setInner(vmssInner);
+                        self.clearCachedProperties();
+                        self.initializeChildrenFromInner();
+                        self.virtualMachineScaleSetMsiHandler.clear();
+                        return self;
+                    }
+                });
     }
 
     @Override
@@ -1584,7 +1741,7 @@ public class VirtualMachineScaleSetImpl
             return;
         }
 
-        VirtualMachineScaleSetIPConfigurationInner ipConfig = this.primaryNicDefaultIPConfiguration();
+        VirtualMachineScaleSetIPConfiguration ipConfig = this.primaryNicDefaultIPConfiguration();
         ipConfig.withSubnet(new ApiEntityReference().withId(this.existingPrimaryNetworkSubnetNameToAssociate));
         this.existingPrimaryNetworkSubnetNameToAssociate = null;
     }
@@ -1600,7 +1757,7 @@ public class VirtualMachineScaleSetImpl
             throw new RuntimeException(ioException);
         }
 
-        VirtualMachineScaleSetIPConfigurationInner primaryIpConfig = primaryNicDefaultIPConfiguration();
+        VirtualMachineScaleSetIPConfiguration primaryIpConfig = primaryNicDefaultIPConfiguration();
         if (this.primaryInternetFacingLoadBalancer != null) {
             removeBackendsFromIpConfiguration(this.primaryInternetFacingLoadBalancer.id(),
                     primaryIpConfig,
@@ -1713,7 +1870,7 @@ public class VirtualMachineScaleSetImpl
         }
 
         String firstLoadBalancerId = null;
-        VirtualMachineScaleSetIPConfigurationInner ipConfig = primaryNicDefaultIPConfiguration();
+        VirtualMachineScaleSetIPConfiguration ipConfig = primaryNicDefaultIPConfiguration();
         if (!ipConfig.loadBalancerBackendAddressPools().isEmpty()) {
             firstLoadBalancerId = ResourceUtils
                     .parentResourceIdFromResourceId(ipConfig.loadBalancerBackendAddressPools().get(0).id());
@@ -1770,16 +1927,16 @@ public class VirtualMachineScaleSetImpl
         }
     }
 
-    private VirtualMachineScaleSetIPConfigurationInner primaryNicDefaultIPConfiguration() {
-        List<VirtualMachineScaleSetNetworkConfigurationInner> nicConfigurations = this.inner()
+    private VirtualMachineScaleSetIPConfiguration primaryNicDefaultIPConfiguration() {
+        List<VirtualMachineScaleSetNetworkConfiguration> nicConfigurations = this.inner()
                 .virtualMachineProfile()
                 .networkProfile()
                 .networkInterfaceConfigurations();
 
-        for (VirtualMachineScaleSetNetworkConfigurationInner nicConfiguration : nicConfigurations) {
+        for (VirtualMachineScaleSetNetworkConfiguration nicConfiguration : nicConfigurations) {
             if (nicConfiguration.primary()) {
                 if (nicConfiguration.ipConfigurations().size() > 0) {
-                    VirtualMachineScaleSetIPConfigurationInner ipConfig = nicConfiguration.ipConfigurations().get(0);
+                    VirtualMachineScaleSetIPConfiguration ipConfig = nicConfiguration.ipConfigurations().get(0);
                     if (ipConfig.loadBalancerBackendAddressPools() == null) {
                         ipConfig.withLoadBalancerBackendAddressPools(new ArrayList<SubResource>());
                     }
@@ -1793,8 +1950,22 @@ public class VirtualMachineScaleSetImpl
         throw new RuntimeException("Could not find the primary nic configuration or an IP configuration in it");
     }
 
+    private VirtualMachineScaleSetNetworkConfiguration primaryNicConfiguration() {
+        List<VirtualMachineScaleSetNetworkConfiguration> nicConfigurations = this.inner()
+                .virtualMachineProfile()
+                .networkProfile()
+                .networkInterfaceConfigurations();
+
+        for (VirtualMachineScaleSetNetworkConfiguration nicConfiguration : nicConfigurations) {
+            if (nicConfiguration.primary()) {
+                return nicConfiguration;
+            }
+        }
+        throw new RuntimeException("Could not find the primary nic configuration");
+    }
+
     private static void associateBackEndsToIpConfiguration(String loadBalancerId,
-                                                           VirtualMachineScaleSetIPConfigurationInner ipConfig,
+                                                           VirtualMachineScaleSetIPConfiguration ipConfig,
                                                            String... backendNames) {
         List<SubResource> backendSubResourcesToAssociate = new ArrayList<>();
         for (String backendName : backendNames) {
@@ -1817,7 +1988,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     private static void associateInboundNATPoolsToIpConfiguration(String loadBalancerId,
-                                                                  VirtualMachineScaleSetIPConfigurationInner ipConfig,
+                                                                  VirtualMachineScaleSetIPConfiguration ipConfig,
                                                                   String... inboundNatPools) {
         List<SubResource> inboundNatPoolSubResourcesToAssociate = new ArrayList<>();
         for (String inboundNatPool : inboundNatPools) {
@@ -1840,7 +2011,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     private static Map<String, LoadBalancerBackend> getBackendsAssociatedWithIpConfiguration(LoadBalancer loadBalancer,
-                                                                                             VirtualMachineScaleSetIPConfigurationInner ipConfig) {
+                                                                                             VirtualMachineScaleSetIPConfiguration ipConfig) {
         String loadBalancerId = loadBalancer.id();
         Map<String, LoadBalancerBackend> attachedBackends = new HashMap<>();
         Map<String, LoadBalancerBackend> lbBackends = loadBalancer.backends();
@@ -1856,7 +2027,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     private static Map<String, LoadBalancerInboundNatPool> getInboundNatPoolsAssociatedWithIpConfiguration(LoadBalancer loadBalancer,
-                                                                                                           VirtualMachineScaleSetIPConfigurationInner ipConfig) {
+                                                                                                           VirtualMachineScaleSetIPConfiguration ipConfig) {
         String loadBalancerId = loadBalancer.id();
         Map<String, LoadBalancerInboundNatPool> attachedInboundNatPools = new HashMap<>();
         Map<String, LoadBalancerInboundNatPool> lbInboundNatPools = loadBalancer.inboundNatPools();
@@ -1872,7 +2043,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     private static void associateLoadBalancerToIpConfiguration(LoadBalancer loadBalancer,
-                                                               VirtualMachineScaleSetIPConfigurationInner ipConfig) {
+                                                               VirtualMachineScaleSetIPConfiguration ipConfig) {
         Collection<LoadBalancerBackend> backends = loadBalancer.backends().values();
         String[] backendNames = new String[backends.size()];
         int i = 0;
@@ -1899,13 +2070,13 @@ public class VirtualMachineScaleSetImpl
     }
 
     private static void removeLoadBalancerAssociationFromIpConfiguration(LoadBalancer loadBalancer,
-                                                                         VirtualMachineScaleSetIPConfigurationInner ipConfig) {
+                                                                         VirtualMachineScaleSetIPConfiguration ipConfig) {
         removeAllBackendAssociationFromIpConfiguration(loadBalancer, ipConfig);
         removeAllInboundNatPoolAssociationFromIpConfiguration(loadBalancer, ipConfig);
     }
 
     private static void removeAllBackendAssociationFromIpConfiguration(LoadBalancer loadBalancer,
-                                                                       VirtualMachineScaleSetIPConfigurationInner ipConfig) {
+                                                                       VirtualMachineScaleSetIPConfiguration ipConfig) {
         List<SubResource> toRemove = new ArrayList<>();
         for (SubResource subResource : ipConfig.loadBalancerBackendAddressPools()) {
             if (subResource.id().toLowerCase().startsWith(loadBalancer.id().toLowerCase() + "/")) {
@@ -1919,7 +2090,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     private static void removeAllInboundNatPoolAssociationFromIpConfiguration(LoadBalancer loadBalancer,
-                                                                              VirtualMachineScaleSetIPConfigurationInner ipConfig) {
+                                                                              VirtualMachineScaleSetIPConfiguration ipConfig) {
         List<SubResource> toRemove = new ArrayList<>();
         for (SubResource subResource : ipConfig.loadBalancerInboundNatPools()) {
             if (subResource.id().toLowerCase().startsWith(loadBalancer.id().toLowerCase() + "/")) {
@@ -1933,7 +2104,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     private static void removeBackendsFromIpConfiguration(String loadBalancerId,
-                                                          VirtualMachineScaleSetIPConfigurationInner ipConfig,
+                                                          VirtualMachineScaleSetIPConfiguration ipConfig,
                                                           String... backendNames) {
         List<SubResource> toRemove = new ArrayList<>();
         for (String backendName : backendNames) {
@@ -1952,7 +2123,7 @@ public class VirtualMachineScaleSetImpl
     }
 
     private static void removeInboundNatPoolsFromIpConfiguration(String loadBalancerId,
-                                                                 VirtualMachineScaleSetIPConfigurationInner ipConfig,
+                                                                 VirtualMachineScaleSetIPConfiguration ipConfig,
                                                                  String... inboundNatPoolNames) {
         List<SubResource> toRemove = new ArrayList<>();
         for (String natPoolName : inboundNatPoolNames) {
@@ -2068,7 +2239,7 @@ public class VirtualMachineScaleSetImpl
      * @return true if the OS disk is configured to be based on custom image.
      */
     private boolean isOsDiskFromCustomImage(VirtualMachineScaleSetStorageProfile storageProfile) {
-        ImageReferenceInner imageReference  = storageProfile.imageReference();
+        ImageReference imageReference  = storageProfile.imageReference();
         return isOSDiskFromImage(storageProfile.osDisk())
                 && imageReference != null
                 && imageReference.id() != null;
@@ -2081,7 +2252,7 @@ public class VirtualMachineScaleSetImpl
      * @return true if the OS disk is configured to be based on platform image.
      */
     private boolean isOSDiskFromPlatformImage(VirtualMachineScaleSetStorageProfile storageProfile) {
-        ImageReferenceInner imageReference  = storageProfile.imageReference();
+        ImageReference imageReference  = storageProfile.imageReference();
         return isOSDiskFromImage(storageProfile.osDisk())
                 && imageReference != null
                 && imageReference.publisher() != null
@@ -2103,40 +2274,10 @@ public class VirtualMachineScaleSetImpl
                 && osDisk.image().uri() != null;
     }
 
-    /* TODO Unused
-      private void throwIfManagedDiskEnabled(String message) {
-        if (this.isManagedDiskEnabled()) {
-            throw new UnsupportedOperationException(message);
-        }
-    }*/
-
     private void throwIfManagedDiskDisabled(String message) {
         if (!this.isManagedDiskEnabled()) {
             throw new UnsupportedOperationException(message);
         }
-    }
-
-
-    OperatingSystemTypes osTypeIntern() {
-        VirtualMachineScaleSetVMProfile vmProfile = this.inner().virtualMachineProfile();
-        if (vmProfile != null
-                && vmProfile.storageProfile() != null
-                && vmProfile.storageProfile().osDisk() != null
-                && vmProfile.storageProfile().osDisk().osType() != null) {
-            return vmProfile.storageProfile().osDisk().osType();
-        }
-        if (vmProfile != null
-                && vmProfile.osProfile() != null) {
-            if (vmProfile.osProfile().linuxConfiguration() != null) {
-                return OperatingSystemTypes.LINUX;
-            }
-            if (vmProfile.osProfile().windowsConfiguration() != null) {
-                return OperatingSystemTypes.WINDOWS;
-            }
-        }
-        // This should never hit
-        //
-        throw new RuntimeException("Unable to resolve the operating system type");
     }
 
     @Override
@@ -2186,6 +2327,197 @@ public class VirtualMachineScaleSetImpl
         this.withLowPriorityVirtualMachine();
         this.inner().virtualMachineProfile().withEvictionPolicy(policy);
         return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withVirtualMachinePublicIp() {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = this.primaryNicDefaultIPConfiguration();
+        if (nicIpConfig.publicIPAddressConfiguration() != null) {
+            return this;
+        } else {
+            VirtualMachineScaleSetPublicIPAddressConfiguration pipConfig = new VirtualMachineScaleSetPublicIPAddressConfiguration();
+            pipConfig.withName("pip1");
+            pipConfig.withIdleTimeoutInMinutes(15);
+            //
+            nicIpConfig.withPublicIPAddressConfiguration(pipConfig);
+            return this;
+        }
+    }
+
+    @Override
+    public  VirtualMachineScaleSetImpl withVirtualMachinePublicIp(String leafDomainLabel) {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = this.primaryNicDefaultIPConfiguration();
+        if (nicIpConfig.publicIPAddressConfiguration() != null) {
+            if (nicIpConfig.publicIPAddressConfiguration().dnsSettings() != null) {
+                nicIpConfig.publicIPAddressConfiguration().dnsSettings().withDomainNameLabel(leafDomainLabel);
+            } else {
+                nicIpConfig.publicIPAddressConfiguration().withDnsSettings(new VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings());
+                nicIpConfig.publicIPAddressConfiguration().dnsSettings().withDomainNameLabel(leafDomainLabel);
+            }
+        } else {
+            VirtualMachineScaleSetPublicIPAddressConfiguration pipConfig = new VirtualMachineScaleSetPublicIPAddressConfiguration();
+            pipConfig.withName("pip1");
+            pipConfig.withIdleTimeoutInMinutes(15);
+            pipConfig.withDnsSettings(new VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings());
+            pipConfig.dnsSettings().withDomainNameLabel(leafDomainLabel);
+            nicIpConfig.withPublicIPAddressConfiguration(pipConfig);
+        }
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withVirtualMachinePublicIp(VirtualMachineScaleSetPublicIPAddressConfiguration pipConfig) {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = this.primaryNicDefaultIPConfiguration();
+        nicIpConfig.withPublicIPAddressConfiguration(pipConfig);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withAcceleratedNetworking() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = this.primaryNicConfiguration();
+        nicConfig.withEnableAcceleratedNetworking(true);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutAcceleratedNetworking() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = this.primaryNicConfiguration();
+        nicConfig.withEnableAcceleratedNetworking(false);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withIpForwarding() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = this.primaryNicConfiguration();
+        nicConfig.withEnableIPForwarding(true);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutIpForwarding() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = this.primaryNicConfiguration();
+        nicConfig.withEnableIPForwarding(false);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withExistingNetworkSecurityGroup(NetworkSecurityGroup networkSecurityGroup) {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = this.primaryNicConfiguration();
+        nicConfig.withNetworkSecurityGroup(new SubResource().withId(networkSecurityGroup.id()));
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withExistingNetworkSecurityGroupId(String networkSecurityGroupId) {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = this.primaryNicConfiguration();
+        nicConfig.withNetworkSecurityGroup(new SubResource().withId(networkSecurityGroupId));
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutNetworkSecurityGroup() {
+        VirtualMachineScaleSetNetworkConfiguration nicConfig = this.primaryNicConfiguration();
+        nicConfig.withNetworkSecurityGroup(null);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withSinglePlacementGroup() {
+        this.inner().withSinglePlacementGroup(true);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutSinglePlacementGroup() {
+        this.inner().withSinglePlacementGroup(false);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withExistingApplicationGatewayBackendPool(String backendPoolId) {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = primaryNicDefaultIPConfiguration();
+        if (nicIpConfig.applicationGatewayBackendAddressPools() == null) {
+            nicIpConfig.withApplicationGatewayBackendAddressPools(new ArrayList<SubResource>());
+        }
+        boolean found = false;
+        for (SubResource backendPool : nicIpConfig.applicationGatewayBackendAddressPools()) {
+            if (backendPool.id().equalsIgnoreCase(backendPoolId)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            nicIpConfig.applicationGatewayBackendAddressPools().add(new SubResource().withId(backendPoolId));
+        }
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutApplicationGatewayBackendPool(String backendPoolId) {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = primaryNicDefaultIPConfiguration();
+        if (nicIpConfig.applicationGatewayBackendAddressPools() == null) {
+            return this;
+        } else {
+            int foundIndex = -1;
+            int index = -1;
+            for (SubResource backendPool : nicIpConfig.applicationGatewayBackendAddressPools()) {
+                index = index + 1;
+                if (backendPool.id().equalsIgnoreCase(backendPoolId)) {
+                    foundIndex = index;
+                    break;
+                }
+            }
+            if (foundIndex != -1) {
+                nicIpConfig.applicationGatewayBackendAddressPools().remove(foundIndex);
+            }
+            return this;
+        }
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withExistingApplicationSecurityGroup(ApplicationSecurityGroup applicationSecurityGroup) {
+        return withExistingApplicationSecurityGroupId(applicationSecurityGroup.id());
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withExistingApplicationSecurityGroupId(String applicationSecurityGroupId) {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = primaryNicDefaultIPConfiguration();
+        if (nicIpConfig.applicationSecurityGroups() == null) {
+            nicIpConfig.withApplicationSecurityGroups(new ArrayList<SubResource>());
+        }
+        boolean found = false;
+        for (SubResource asg : nicIpConfig.applicationSecurityGroups()) {
+            if (asg.id().equalsIgnoreCase(applicationSecurityGroupId)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            nicIpConfig.applicationSecurityGroups().add(new SubResource().withId(applicationSecurityGroupId));
+        }
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutApplicationSecurityGroup(String applicationSecurityGroupId) {
+        VirtualMachineScaleSetIPConfiguration nicIpConfig = primaryNicDefaultIPConfiguration();
+        if (nicIpConfig.applicationSecurityGroups() == null) {
+            return this;
+        } else {
+            int foundIndex = -1;
+            int index = -1;
+            for (SubResource asg : nicIpConfig.applicationSecurityGroups()) {
+                index = index + 1;
+                if (asg.id().equalsIgnoreCase(applicationSecurityGroupId)) {
+                    foundIndex = index;
+                    break;
+                }
+            }
+            if (foundIndex != -1) {
+                nicIpConfig.applicationSecurityGroups().remove(foundIndex);
+            }
+            return this;
+        }
     }
 
     /**

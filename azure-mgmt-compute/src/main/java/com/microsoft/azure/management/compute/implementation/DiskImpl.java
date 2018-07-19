@@ -14,6 +14,7 @@ import com.microsoft.azure.management.compute.DiskCreateOption;
 import com.microsoft.azure.management.compute.CreationSource;
 import com.microsoft.azure.management.compute.DiskSku;
 import com.microsoft.azure.management.compute.DiskSkuTypes;
+import com.microsoft.azure.management.compute.GrantAccessData;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.Snapshot;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
@@ -102,7 +103,7 @@ class DiskImpl
 
     @Override
     public Observable<String> grantAccessAsync(int accessDurationInSeconds) {
-        GrantAccessDataInner grantAccessDataInner = new GrantAccessDataInner();
+        GrantAccessData grantAccessDataInner = new GrantAccessData();
         grantAccessDataInner.withAccess(AccessLevel.READ)
                 .withDurationInSeconds(accessDurationInSeconds);
 

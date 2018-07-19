@@ -17,7 +17,7 @@ import java.util.List;
 public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
     @Test
     public void canListEventsAndMetrics() throws Exception {
-        DateTime recordDateTime = DateTime.parse("2018-03-26T00:07:40.350Z");
+        DateTime recordDateTime = DateTime.parse("2018-07-17T00:07:40.350Z");
         VirtualMachine vm = computeManager.virtualMachines().list().get(0);
 
         // Metric Definition
@@ -56,7 +56,7 @@ public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
 
         Assert.assertNotNull(retVal);
         for (EventData event : retVal) {
-            Assert.assertEquals(vm.id().toLowerCase(), event.resourceId().toLowerCase());
+            Assert.assertTrue(event.resourceId().toLowerCase().startsWith(vm.id().toLowerCase()));
             Assert.assertNotNull(event.eventName().localizedValue());
             Assert.assertNotNull(event.operationName().localizedValue());
             Assert.assertNotNull(event.eventTimestamp());

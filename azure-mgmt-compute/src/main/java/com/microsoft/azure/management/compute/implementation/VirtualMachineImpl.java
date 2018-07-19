@@ -81,7 +81,6 @@ import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
 import rx.Observable;
-import rx.exceptions.Exceptions;
 import rx.functions.Func0;
 import rx.functions.Func1;
 import java.net.MalformedURLException;

@@ -208,7 +208,7 @@ public interface VirtualMachineScaleSets extends
      * @param scriptParameters script parameters
      * @return result of PowerShell script execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runPowerShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -221,7 +221,7 @@ public interface VirtualMachineScaleSets extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runPowerShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -234,7 +234,7 @@ public interface VirtualMachineScaleSets extends
      * @param scriptParameters script parameters
      * @return result of shell script execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
 
@@ -248,7 +248,7 @@ public interface VirtualMachineScaleSets extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -260,7 +260,7 @@ public interface VirtualMachineScaleSets extends
      * @param inputCommand command input
      * @return result of execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runCommandInVMInstance(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand);
 
     /**
@@ -272,6 +272,6 @@ public interface VirtualMachineScaleSets extends
      * @param inputCommand command input
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runCommandVMInstanceAsync(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand);
 }

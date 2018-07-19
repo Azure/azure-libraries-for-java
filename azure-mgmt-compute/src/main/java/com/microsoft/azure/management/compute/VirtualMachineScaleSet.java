@@ -167,7 +167,7 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return result of PowerShell script execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runPowerShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -178,7 +178,7 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runPowerShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -189,7 +189,7 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return result of shell script execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
 
@@ -201,7 +201,7 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -211,7 +211,7 @@ public interface VirtualMachineScaleSet extends
      * @param inputCommand command input
      * @return result of execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runCommandInVMInstance(String vmId, RunCommandInput inputCommand);
 
     /**
@@ -221,7 +221,7 @@ public interface VirtualMachineScaleSet extends
      * @param inputCommand command input
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runCommandVMInstanceAsync(String vmId, RunCommandInput inputCommand);
 
     // Getters
@@ -453,31 +453,31 @@ public interface VirtualMachineScaleSet extends
     /**
      * @return the public ip configuration of virtual machines in the scale set.
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     VirtualMachineScaleSetPublicIPAddressConfiguration virtualMachinePublicIpConfig();
 
     /**
      * @return true if ip forwarding is enabled for the virtual machine scale set.
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     boolean isIpForwardingEnabled();
 
     /**
      * @return true if accelerated networking is enabled for the virtual machine scale set.
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     boolean isAcceleratedNetworkingEnabled();
 
     /**
      * @return the network security group ARM id.
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     String networkSecurityGroupId();
 
     /**
      * @return true if single placement group is enabled for the virtual machine scale set.
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     boolean isSinglePlacementGroupEnabled();
 
     /**
@@ -1638,14 +1638,14 @@ public interface VirtualMachineScaleSet extends
          * The stage of the virtual machine scale set definition allowing to enable public ip
          * for vm instances.
          */
-        @Beta(Beta.SinceVersion.V1_13_0)
+        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithVirtualMachinePublicIp {
             /**
              * Specify that virtual machines in the scale set should have public ip address.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withVirtualMachinePublicIp();
 
             /**
@@ -1655,7 +1655,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withVirtualMachinePublicIp(String leafDomainLabel);
 
             /**
@@ -1665,21 +1665,21 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withVirtualMachinePublicIp(VirtualMachineScaleSetPublicIPAddressConfiguration ipConfig);
         }
 
         /**
          * The stage of the virtual machine scale set definition allowing to configure accelerated networking.
          */
-        @Beta(Beta.SinceVersion.V1_13_0)
+        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithAcceleratedNetworking {
             /**
              * Specify that accelerated networking should be enabled for the virtual machine scale set.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withAcceleratedNetworking();
 
             /**
@@ -1687,21 +1687,21 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withoutAcceleratedNetworking();
         }
 
         /**
          * The stage of the virtual machine scale set definition allowing to configure ip forwarding.
          */
-        @Beta(Beta.SinceVersion.V1_13_0)
+        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithIpForwarding {
             /**
              * Specify that ip forwarding should be enabled for the virtual machine scale set.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withIpForwarding();
 
             /**
@@ -1709,14 +1709,14 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withoutIpForwarding();
         }
 
         /**
          * The stage of the virtual machine scale set definition allowing to configure network security group.
          */
-        @Beta(Beta.SinceVersion.V1_13_0)
+        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithNetworkSecurityGroup {
             /**
              * Specifies the network security group for the virtual machine scale set.
@@ -1725,7 +1725,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withExistingNetworkSecurityGroup(NetworkSecurityGroup networkSecurityGroup);
 
             /**
@@ -1735,21 +1735,21 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withExistingNetworkSecurityGroupId(String networkSecurityGroupId);
         }
 
         /**
          * The stage of the virtual machine scale set definition allowing to configure single placement group.
          */
-        @Beta(Beta.SinceVersion.V1_13_0)
+        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithSinglePlacementGroup {
             /**
              * Specify that single placement group should be enabled for the virtual machine scale set.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withSinglePlacementGroup();
 
             /**
@@ -1757,14 +1757,14 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withoutSinglePlacementGroup();
         }
 
         /**
          * The stage of the virtual machine scale set definition allowing to configure application gateway.
          */
-        @Beta(Beta.SinceVersion.V1_13_0)
+        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithApplicationGateway {
             /**
              * Specify that an application gateway backend pool should be associated with virtual machine scale set.
@@ -1773,14 +1773,14 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withExistingApplicationGatewayBackendPool(String backendPoolId);
         }
 
         /**
          * The stage of the virtual machine scale set definition allowing to configure application security group.
          */
-        @Beta(Beta.SinceVersion.V1_13_0)
+        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithApplicationSecurityGroup {
             /**
              * Specifies that provided application security group should be associated with the virtual machine scale set.
@@ -1789,7 +1789,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withExistingApplicationSecurityGroup(ApplicationSecurityGroup applicationSecurityGroup);
 
             /**
@@ -1799,7 +1799,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withExistingApplicationSecurityGroupId(String applicationSecurityGroupId);
         }
 
@@ -2098,7 +2098,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithSystemAssignedIdentityBasedAccessOrApply withoutSystemAssignedManagedServiceIdentity();
         }
 
@@ -2346,14 +2346,14 @@ public interface VirtualMachineScaleSet extends
          * The stage of the virtual machine scale set update allowing to enable public ip
          * for vm instances.
          */
-        @Beta(Beta.SinceVersion.V1_13_0)
+        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithVirtualMachinePublicIp {
             /**
              * Specify that virtual machines in the scale set should have public ip address.
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withVirtualMachinePublicIp();
 
                         /**
@@ -2363,7 +2363,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withVirtualMachinePublicIp(String leafDomainLabel);
 
             /**
@@ -2373,21 +2373,21 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withVirtualMachinePublicIp(VirtualMachineScaleSetPublicIPAddressConfiguration ipConfig);
         }
 
         /**
          * The stage of the virtual machine scale set update allowing to configure accelerated networking.
          */
-        @Beta(Beta.SinceVersion.V1_13_0)
+        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithAcceleratedNetworking {
             /**
              * Specify that accelerated networking should be enabled for the virtual machine scale set.
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withAcceleratedNetworking();
 
             /**
@@ -2395,21 +2395,21 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withoutAcceleratedNetworking();
         }
 
         /**
          * The stage of the virtual machine scale set update allowing to configure ip forwarding.
          */
-        @Beta(Beta.SinceVersion.V1_13_0)
+        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithIpForwarding {
             /**
              * Specify that ip forwarding should be enabled for the virtual machine scale set.
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withIpForwarding();
 
             /**
@@ -2417,14 +2417,14 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withoutIpForwarding();
         }
 
         /**
          * The stage of the virtual machine scale set update allowing to configure network security group.
          */
-        @Beta(Beta.SinceVersion.V1_13_0)
+        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithNetworkSecurityGroup {
             /**
              * Specifies the network security group for the virtual machine scale set.
@@ -2433,7 +2433,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withExistingNetworkSecurityGroup(NetworkSecurityGroup networkSecurityGroup);
 
             /**
@@ -2443,7 +2443,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withExistingNetworkSecurityGroupId(String networkSecurityGroupId);
 
             /**
@@ -2451,21 +2451,21 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withoutNetworkSecurityGroup();
         }
 
         /**
          * The stage of the virtual machine scale set update allowing to configure single placement group.
          */
-        @Beta(Beta.SinceVersion.V1_13_0)
+        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithSinglePlacementGroup {
             /**
              * Specify that single placement group should be enabled for the virtual machine scale set.
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withSinglePlacementGroup();
 
             /**
@@ -2473,14 +2473,14 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withoutSinglePlacementGroup();
         }
 
         /**
          * The stage of the virtual machine scale set update allowing to configure application gateway.
          */
-        @Beta(Beta.SinceVersion.V1_13_0)
+        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithApplicationGateway {
             /**
              * Specify that an application gateway backend pool should be associated with virtual machine scale set.
@@ -2489,7 +2489,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withExistingApplicationGatewayBackendPool(String backendPoolId);
 
             /**
@@ -2499,14 +2499,14 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withoutApplicationGatewayBackendPool(String backendPoolId);
         }
 
         /**
          * The stage of the virtual machine scale set update allowing to configure application security group.
          */
-        @Beta(Beta.SinceVersion.V1_13_0)
+        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithApplicationSecurityGroup {
             /**
              * Specifies that provided application security group should be associated with the virtual machine scale set.
@@ -2515,7 +2515,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withExistingApplicationSecurityGroup(ApplicationSecurityGroup applicationSecurityGroup);
 
             /**
@@ -2525,7 +2525,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withExistingApplicationSecurityGroupId(String applicationSecurityGroupId);
 
             /**
@@ -2535,7 +2535,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             WithApply withoutApplicationSecurityGroup(String applicationSecurityGroupId);
 
         }

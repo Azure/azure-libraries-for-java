@@ -256,7 +256,7 @@ public interface VirtualMachine extends
      * @param scriptParameters script parameters
      * @return result of PowerShell script execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -266,7 +266,7 @@ public interface VirtualMachine extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runPowerShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -276,7 +276,7 @@ public interface VirtualMachine extends
      * @param scriptParameters script parameters
      * @return result of shell script execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runShellScript(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
 
@@ -287,7 +287,7 @@ public interface VirtualMachine extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -296,7 +296,7 @@ public interface VirtualMachine extends
      * @param inputCommand command input
      * @return result of execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runCommand(RunCommandInput inputCommand);
 
     /**
@@ -305,7 +305,7 @@ public interface VirtualMachine extends
      * @param inputCommand command input
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_13_0)
+    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runCommandAsync(RunCommandInput inputCommand);
 
     // Getters
@@ -2076,7 +2076,7 @@ public interface VirtualMachine extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_13_0)
+            @Beta(Beta.SinceVersion.V1_14_0)
             Update withoutSystemAssignedManagedServiceIdentity();
         }
 

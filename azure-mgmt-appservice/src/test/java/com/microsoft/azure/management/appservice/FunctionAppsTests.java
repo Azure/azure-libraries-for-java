@@ -13,6 +13,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -20,9 +21,11 @@ import java.util.List;
 public class FunctionAppsTests extends AppServiceTest {
     private static String RG_NAME_1 = "";
     private static String RG_NAME_2 = "";
+    private static String RG_NAME_3 = "";
     private static String WEBAPP_NAME_1 = "";
     private static String WEBAPP_NAME_2 = "";
     private static String WEBAPP_NAME_3 = "";
+    private static String WEBAPP_NAME_4 = "";
     private static String APP_SERVICE_PLAN_NAME_1 = "";
     private static String APP_SERVICE_PLAN_NAME_2 = "";
     private static String STORAGE_ACCOUNT_NAME_1 = "";
@@ -32,19 +35,25 @@ public class FunctionAppsTests extends AppServiceTest {
         WEBAPP_NAME_1 = generateRandomResourceName("java-func-", 20);
         WEBAPP_NAME_2 = generateRandomResourceName("java-func-", 20);
         WEBAPP_NAME_3 = generateRandomResourceName("java-func-", 20);
+        WEBAPP_NAME_4 = generateRandomResourceName("java-func-", 20);
         APP_SERVICE_PLAN_NAME_1 = generateRandomResourceName("java-asp-", 20);
         APP_SERVICE_PLAN_NAME_2 = generateRandomResourceName("java-asp-", 20);
         STORAGE_ACCOUNT_NAME_1 = generateRandomResourceName("javastore", 20);
         RG_NAME_1 = generateRandomResourceName("javacsmrg", 20);
         RG_NAME_2 = generateRandomResourceName("javacsmrg", 20);
+        RG_NAME_3 = generateRandomResourceName("javacsmrg", 20);
 
         super.initializeClients(restClient, defaultSubscription, domain);
     }
 
     @Override
     protected void cleanUpResources() {
-        resourceManager.resourceGroups().beginDeleteByName(RG_NAME_2);
         resourceManager.resourceGroups().beginDeleteByName(RG_NAME_1);
+        try {
+            resourceManager.resourceGroups().beginDeleteByName(RG_NAME_2);
+        } catch (Exception ex) {
+            // ignore as resource group might not be created
+        }
     }
 
     @Test
@@ -103,6 +112,24 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withNewAppServicePlan(PricingTier.STANDARD_S2)
                 .apply();
         Assert.assertNotEquals(functionApp3.appServicePlanId(), functionApp1.appServicePlanId());
+    }
+
+    @Test
+    public void canZipDeployFunction() {
+        // Create function app
+        FunctionApp functionApp = appServiceManager.functionApps().define(WEBAPP_NAME_4)
+                .withRegion(Region.US_WEST)
+                .withNewResourceGroup(RG_NAME_1)
+                .create();
+        Assert.assertNotNull(functionApp);
+
+        functionApp.zipDeploy(new File(FunctionAppsTests.class.getResource("/square-function-app.zip").getPath()));
+
+        if (!isPlaybackMode()) {
+            String response = post("http://" + WEBAPP_NAME_4 + ".azurewebsites.net" + "/api/square", "25");
+            Assert.assertNotNull(response);
+            Assert.assertEquals("625", response);
+        }
     }
 
     private static String readLine(InputStream in) throws IOException {

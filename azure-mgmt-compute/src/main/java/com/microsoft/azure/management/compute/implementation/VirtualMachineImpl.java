@@ -5,8 +5,7 @@
  */
 package com.microsoft.azure.management.compute.implementation;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
@@ -366,13 +365,7 @@ class VirtualMachineImpl
                         if (innerResult == null) {
                             return null;
                         }
-                        ObjectMapper mapper = new ObjectMapper();
-                        //Object to JSON string
-                        try {
-                            return mapper.writeValueAsString(innerResult);
-                        } catch (JsonProcessingException e) {
-                            throw Exceptions.propagate(e);
-                        }
+                        return new Gson().toJson(innerResult);
                     }
                 });
     }
